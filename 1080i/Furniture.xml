@@ -44,26 +44,52 @@
     <include name="Furniture_Top_Right">
         <param name="minimal" default="false" />
         <definition>
-            <include content="Furniture_Topbar_Group">
+            <control type="group">
                 <visible>!Window.IsVisible(DialogBusy.xml)</visible>
                 <visible>!Window.IsVisible(DialogExtendedProgressBar.xml)</visible>
                 <visible>!Window.IsVisible(DialogNotification.xml)</visible>
                 <visible>!Window.IsVisible(DialogVolumeBar.xml) | Player.Muted</visible>
-                <include content="Furniture_Gutters">
-                    <include content="Furniture_Clock_Small" condition="$PARAM[minimal]">
-                        <param name="align" value="right" />
-                        <right>0</right>
-                    </include>
-                    <include content="Object_MenuButton" condition="!$PARAM[minimal]">
-                        <param name="icon" value="$PARAM[icon]" />
-                        <right>0</right>
-                    </include>
-                    <include content="Furniture_Clock_Big" condition="!$PARAM[minimal]">
-                        <param name="align" value="right" />
-                        <right>80</right>
+                <visible>!ControlGroup(9000).HasFocus()</visible>
+                <include content="Furniture_Topbar_Group">
+                    <include content="Furniture_Gutters">
+                        <visible>!Player.HasMedia | [VideoPlayer.IsFullscreen | Window.IsVisible(MusicVisualisation.xml)]</visible>
+                        <include content="Furniture_Clock_Small" condition="$PARAM[minimal]">
+                            <param name="align" value="right" />
+                            <right>0</right>
+                        </include>
+                        <include content="Object_MenuButton" condition="!$PARAM[minimal]">
+                            <param name="icon" value="$PARAM[icon]" />
+                            <right>0</right>
+                        </include>
+                        <include content="Furniture_Clock_Big" condition="!$PARAM[minimal]">
+                            <param name="align" value="right" />
+                            <right>80</right>
+                        </include>
                     </include>
                 </include>
-            </include>
+                <include content="Furniture_Busy">
+                    <param name="hasspinner" value="false" />
+                    <param name="hasprogress" value="true" />
+                    <param name="progress" value="Player.Progress" />
+                    <param name="progress_id" value="933" />
+                    <param name="mainlabel" value="$INFO[Player.Title]" />
+                    <param name="minilabel" value="$INFO[System.Time,$LOCALIZE[555] ,]$INFO[Player.FinishTime,  •  $LOCALIZE[31072] ,]" />
+                    <param name="icon" value="$VAR[Image_NowPlaying_Icon]" />
+                    <visible>Player.HasMedia</visible>
+                    <visible>![VideoPlayer.IsFullscreen | Window.IsVisible(MusicVisualisation.xml)]</visible>
+                    <control type="progress" id="933">
+                        <height>1</height>
+                        <width>1</width>
+                        <left>-1000</left>
+                        <texturebg></texturebg>
+                        <lefttexture></lefttexture>
+                        <midtexture></midtexture>
+                        <righttexture></righttexture>
+                        <info>Player.Progress</info>
+                        <visible>false</visible>
+                    </control>
+                </include>
+            </control>
         </definition>
     </include>
 
