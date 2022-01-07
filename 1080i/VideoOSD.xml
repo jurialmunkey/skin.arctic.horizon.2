@@ -55,7 +55,8 @@
                 <param name="groupid" value="6499" />
                 <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Next)</onclick>
                 <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Stop)</onclick>
-                <onup>6401</onup>
+                <onup condition="!Integer.IsEqual(Container(6401).NumItems,0)">6401</onup>
+                <onup condition="Integer.IsEqual(Container(6401).NumItems,0) + !Container(6401).IsUpdating">ActivateWindow(125)</onup>
             </include>
         </control>
 
@@ -123,7 +124,6 @@
             <visible>Control.HasFocus(6400) | Control.HasFocus(6401)</visible>
             <include>Animation_SlideIn_Dialog</include>
             <left>40</left>
-            <!-- <width>1020</width> -->
             <width>1390</width>
             <height>500</height>
             <include content="Object_MenuHeader">
@@ -135,6 +135,7 @@
                 <param name="textcolor" value="dialog_fg" />
                 <param name="offset_x" value="40" />
                 <param name="offset_y" value="40" />
+                <param name="shadow_colordiffuse" value="shadow_soft" />
                 <content>$VAR[Path_OSD_Episodes]</content>
                 <height>400</height>
                 <bottom>0</bottom>
@@ -553,6 +554,8 @@
         <!-- Settings -->
         <include content="OSD_Menu_Back">
             <param name="arrow_pos" value="70" />
+            <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+            <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
             <visible>!Window.IsVisible(DialogSettings.xml)</visible>
             <visible>Control.HasFocus(6800) | ControlGroup(6801).HasFocus() | Control.HasFocus(7800)</visible>
             <include>Animation_SlideIn_Dialog</include>

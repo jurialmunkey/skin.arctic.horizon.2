@@ -395,51 +395,6 @@
         </definition>
     </include>
 
-    <include name="Layout_Tags">
-        <param name="selected" default="false" />
-        <definition>
-            <control type="group">
-                <width>$PARAM[item_w]</width>
-                <height>$PARAM[item_h]</height>
-                <include content="Object_Control" condition="!$PARAM[selected]">
-                    <param name="control" value="image" />
-                    <include>Texture_Shadow_20</include>
-                    <include>Texture_Poster_Back</include>
-                </include>
-                <include content="Object_Control" condition="$PARAM[selected]">
-                    <param name="control" value="image" />
-                    <include>Texture_Box_Highlight_V</include>
-                    <bordersize>-1</bordersize>
-                </include>
-                <control type="group">
-                    <width>$PARAM[item_h]</width>
-                    <control type="image">
-                        <texture colordiffuse="main_bg_30" border="10">common/box.png</texture>
-                        <bordersize>20</bordersize>
-                    </control>
-                    <control type="image">
-                        <texture background="true" colordiffuse="$VAR[ColorSelected]">$INFO[ListItem.Icon]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <bordersize>20</bordersize>
-                    </control>
-                </control>
-                <control type="group">
-                    <left>$PARAM[item_h]</left>
-                    <control type="label">
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.Label]</label>
-                        <textcolor>main_fg_70</textcolor>
-                        <font>font_small_bold</font>
-                    </control>
-                </control>
-                <include content="Object_SelectBox" condition="$PARAM[selected]">
-                    <param name="indicator" value="false" />
-                    <param name="focusbounce" value="true" />
-                </include>
-            </control>
-        </definition>
-    </include>
-
     <include name="Layout_Poster">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
@@ -453,10 +408,9 @@
                 <height>$PARAM[item_h]</height>
                 <include content="Object_Control" condition="$PARAM[bg_layer]">
                     <param name="control" value="group" />
-                    <include content="Object_Control">
-                        <param name="control" value="image" />
-                        <include>Texture_Shadow_40</include>
-                        <include>Texture_Poster_Back</include>
+                    <include content="Object_ItemBack">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
                     </include>
                     <control type="image">
                         <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
@@ -550,6 +504,7 @@
                 <height>$PARAM[item_h]</height>
                 <include content="Object_ItemBack">
                     <param name="selected" value="$PARAM[selected]" />
+                    <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
                 </include>
                 <control type="group">
                     <height>$PARAM[item_w]</height>
@@ -584,58 +539,6 @@
         </definition>
     </include>
 
-    <include name="Layout_Landscape_NoBack">
-        <param name="artwork_h" default="230.625" />
-        <param name="selected" default="false" />
-        <definition>
-            <control type="group">
-                <width>$PARAM[item_w]</width>
-                <height>$PARAM[item_h]</height>
-
-                <control type="group">
-                    <height>$PARAM[artwork_h]</height>
-                    <include content="Object_ItemBack">
-                    <param name="selected" value="$PARAM[selected]" />
-                </include>
-                    <control type="image">
-                        <texture background="true" diffuse="diffuse/landscape-std.png" fallback="diffuse/poster-fb.png">$VAR[Image_Landscape]</texture>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                    </control>
-                    <include content="Object_Indicator">
-                        <param name="selected" value="$PARAM[selected]" />
-                        <param name="shadow" value="false" />
-                        <param name="gradient_fade" value="23" />
-                    </include>
-                    <include content="Object_SelectBox" condition="$PARAM[selected]">
-                        <param name="indicator" value="true" />
-                        <param name="focusbounce" value="true" />
-                    </include>
-                </control>
-                <control type="group">
-                    <top>$PARAM[artwork_h]</top>
-                    <control type="label">
-                        <top>30</top>
-                        <height>25</height>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.Label]</label>
-                        <textcolor>main_fg_70</textcolor>
-                        <font>font_minilabel_bold</font>
-                        <align>left</align>
-                    </control>
-                    <control type="label">
-                        <bottom>0</bottom>
-                        <height>25</height>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.Label2]</label>
-                        <textcolor>main_fg_70</textcolor>
-                        <font>font_minilabel</font>
-                        <align>left</align>
-                    </control>
-                </control>
-            </control>
-        </definition>
-    </include>
-
     <include name="Layout_Landscape">
         <param name="artwork_h" default="230.625" />
         <param name="selected" default="false" />
@@ -647,6 +550,7 @@
                 <height>$PARAM[item_h]</height>
                 <include content="Object_ItemBack">
                     <param name="selected" value="$PARAM[selected]" />
+                    <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
                 </include>
                 <control type="group">
                     <height>$PARAM[artwork_h]</height>
