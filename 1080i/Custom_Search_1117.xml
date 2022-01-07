@@ -1,83 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="window" id="1117">
-    <defaultcontrol>9000</defaultcontrol>
+    <defaultcontrol always="true">9099</defaultcontrol>
     <onload>SetProperty(TMDbType,movie)</onload>
+    <onload>SetProperty(TMDbHelper.WidgetContainer,5001,Home)</onload>
+    <onunload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onunload>
+
+    <onload>SetFocus(9099)</onload>
+    <onload>Action(Select)</onload>
     <controls>
         <include>Background_Main</include>
-        <include>Object_Overlay</include>
 
-        <include content="Dialog_Background">
-            <include>Animation_SlideIn_Dialog</include>
-            <centerleft>50%</centerleft>
-            <centertop>560</centertop>
-            <width>1760</width>
-            <height>880</height>
-            <include content="Dialog_Header">
-                <param name="id" value="4000" />
-                <label>$VAR[Label_SearchHeader]</label>
-            </include>
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+            <include>Animation_Common</include>
             <control type="group">
-                <left>546.68</left>
-                <include content="List_DialogInfo">
-                    <param name="orientation" value="vertical" />
-                    <param name="controltype" value="panel" />
-                    <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
-                    <param name="id" value="5001" />
-                    <onleft>9000</onleft>
-                    <onright>61</onright>
-                    <pagecontrol>61</pagecontrol>
-                    <content>$VAR[Dialog_Search_List_Content]$VAR[Dialog_Search_Filter]</content>
-                    <content>$VAR[Dialog_Search_List_Content,,&amp;page=2]$VAR[Dialog_Search_Filter]</content>
-                    <content>$VAR[Dialog_Search_List_Content,,&amp;page=3]$VAR[Dialog_Search_Filter]</content>
-                    <visible allowhiddenfocus="true">!Container(5001).IsUpdating</visible>
-                </include>
-                <include content="Object_BusySpinner">
-                    <param name="colordiffuse" value="dialog_fg" />
-                    <visible>Container(5001).IsUpdating</visible>
-                </include>
-                <include content="Dialog_Scrollbar">
-                    <param name="id" value="61" />
-                    <onleft>5001</onleft>
-                    <right>0</right>
-                </include>
-            </control>
-            <control type="group">
-                <left>0</left>
-                <width>546.68</width>
-                <include content="Dialog_Overlay">
-                    <param name="flipx" value="true" />
-                </include>
+                <include>Dimension_View</include>
                 <control type="grouplist" id="9000">
-                    <top>dialog_pad</top>
-                    <bottom>dialog_pad</bottom>
+                    <width>434.3</width>
                     <onright>5001</onright>
-                    <itemgap>0</itemgap>
-
+                    <itemgap>20</itemgap>
                     <control type="label" id="9999">
-                        <left>40</left>
-                        <right>40</right>
-                        <top>0</top>
                         <font>font_hintlabel</font>
                         <height>40</height>
-                        <label>Search String</label>
+                        <label>$LOCALIZE[137]</label>
+                        <textcolor>main_fg_100</textcolor>
                     </control>
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9099" />
                         <param name="control" value="edit" />
                         <description>Search</description>
+                        <include>Defs_Search_Button</include>
                     </include>
                     <control type="label" id="9998">
-                        <left>40</left>
-                        <right>40</right>
                         <top>40</top>
                         <font>font_hintlabel</font>
+                        <textcolor>main_fg_100</textcolor>
                         <height>40</height>
-                        <label>Search by</label>
+                        <label>$LOCALIZE[31076]</label>
                     </control>
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9001" />
                         <param name="control" value="button" />
                         <description>Content Type</description>
+                        <include>Defs_Search_Button</include>
                         <label>[CAPITALIZE]$VAR[Label_SearchContent][/CAPITALIZE]</label>
                         <onclick condition="String.IsEmpty(Window.Property(FakeSpinner_9001)) + String.IsEqual(Window.Property(TMDbType),movie)">SetProperty(TMDbType,tv)</onclick>
                         <onclick condition="String.IsEmpty(Window.Property(FakeSpinner_9001)) + String.IsEqual(Window.Property(TMDbType),tv)">SetProperty(TMDbType,person)</onclick>
@@ -100,35 +66,97 @@
                     <include content="Object_FakeSpinner">
                         <param name="id" value="9001" />
                         <param name="groupid" value="9002" />
+                        <param name="colordiffuse" value="main_fg" />
+                        <top>-100</top>
                     </include>
                     <control type="label" id="9997">
-                        <left>40</left>
-                        <right>40</right>
                         <top>40</top>
                         <font>font_hintlabel</font>
+                        <textcolor>main_fg_100</textcolor>
                         <height>40</height>
                         <label>$LOCALIZE[587]</label>
                         <visible>!String.IsEmpty(Control.GetLabel(9099).index(1))</visible>
                     </control>
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9003" />
                         <param name="control" value="edit" />
+                        <include>Defs_Search_Button</include>
                         <description>Year Filter</description>
                         <label>$LOCALIZE[345]</label>
                         <visible>!String.IsEmpty(Control.GetLabel(9099).index(1))</visible>
                     </include>
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9004" />
                         <param name="control" value="edit" />
+                        <include>Defs_Search_Button</include>
                         <description>Genre Filter</description>
                         <label>$LOCALIZE[515]</label>
                         <visible>!String.IsEmpty(Control.GetLabel(9099).index(1))</visible>
                     </include>
                 </control>
-                <include content="Object_Separator">
+            </control>
+
+            <control type="group">
+                <right>40</right>
+                <width>1365.7</width>
+                <include content="List_Poster_Wall">
+                    <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
+                    <param name="id" value="5001" />
+                    <bottom>1</bottom>
+                    <onleft>9000</onleft>
+                    <onright>61</onright>
+                    <pagecontrol>61</pagecontrol>
+                    <content>$VAR[Path_Search_List_Content]$VAR[Path_Search_Filter]</content>
+                    <content>$VAR[Path_Search_List_Content,,&amp;page=2]$VAR[Path_Search_Filter]</content>
+                    <content>$VAR[Path_Search_List_Content,,&amp;page=3]$VAR[Path_Search_Filter]</content>
+                    <visible allowhiddenfocus="true">!Container(5001).IsUpdating</visible>
+                </include>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse" value="main_fg" />
+                    <visible>Container(5001).IsUpdating</visible>
+                </include>
+                <include content="Dialog_Scrollbar">
+                    <param name="id" value="61" />
+                    <onleft>5001</onleft>
                     <right>0</right>
                 </include>
             </control>
-        </include>
+
+            <control type="image">
+                <height>200</height>
+                <texture>common/dim-top.png</texture>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="2000" delay="1000"/>
+                </animation>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="2000"/>
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" end="0" start="100" time="2000"/>
+                </animation>
+                <visible>Container(5001).HasPrevious</visible>
+            </control>
+            <control type="image">
+                <bottom>0</bottom>
+                <height>200</height>
+                <texture flipy="true">common/dim-top.png</texture>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="2000" delay="1000"/>
+                </animation>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="2000"/>
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" end="0" start="100" time="2000"/>
+                </animation>
+                <visible>Container(5001).HasNext</visible>
+            </control>
+        </control>
+
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Furniture_Top</include>
+            <include>Furniture_Bottom</include>
+        </control>
     </controls>
 </window>
