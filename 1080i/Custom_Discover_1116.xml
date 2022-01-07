@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="window" id="1116">
+    <defaultcontrol>9000</defaultcontrol>
+    <onload>SetProperty(TMDbType,movie)</onload>
+    <onload>SetProperty(SortMethod,popularity.desc)</onload>
+    <controls>
+        <include>Background_Main</include>
+        <include>Object_Overlay</include>
+
+        <include content="Dialog_Background">
+            <include>Animation_Common</include>
+            <include>Animation_Up_Delay</include>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Dimension_Info</include>
+            <include content="Dialog_Header">
+                <param name="id" value="4000" />
+                <label>$VAR[Label_SearchHeader]</label>
+                <visible>!$EXP[Exp_OverlayDialogs]</visible>
+            </include>
+            <control type="group">
+                <left>420</left>
+                <include content="List_DialogInfo">
+                    <param name="orientation" value="vertical" />
+                    <param name="controltype" value="panel" />
+                    <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
+                    <param name="id" value="5001" />
+                    <param name="item_w" value="204" />
+                    <param name="item_h" value="300" />
+                    <param name="itemlayout_w" value="244" />
+                    <param name="itemlayout_h" value="340" />
+                    <onleft>9000</onleft>
+                    <onright>61</onright>
+                    <pagecontrol>61</pagecontrol>
+                    <content>plugin://plugin.video.themoviedb.helper/?info=discover&amp;nextpage=false&amp;with_id=True$INFO[Window.Property(TMDbType),&amp;tmdb_type=,]$INFO[Window.Property(with_cast_id),&amp;with_cast=,]$INFO[Window.Property(with_crew_id),&amp;with_crew=,]$INFO[Window.Property(with_keyword_id),&amp;with_keywords=,]$INFO[Window.Property(with_company_id),&amp;with_companies=,]$VAR[Dialog_Discover_Year_Content]$INFO[Window.Property(SortMethod),&amp;sort_by=,]$INFO[Window.Property(GenreID),&amp;with_genres=,]</content>
+                    <content>plugin://plugin.video.themoviedb.helper/?info=discover&amp;nextpage=false&amp;page=2&amp;with_id=True$INFO[Window.Property(TMDbType),&amp;tmdb_type=,]$INFO[Window.Property(with_cast_id),&amp;with_cast=,]$INFO[Window.Property(with_crew_id),&amp;with_crew=,]$INFO[Window.Property(with_keyword_id),&amp;with_keywords=,]$INFO[Window.Property(with_company_id),&amp;with_companies=,]$VAR[Dialog_Discover_Year_Content]$INFO[Window.Property(SortMethod),&amp;sort_by=,]$INFO[Window.Property(GenreID),&amp;with_genres=,]</content>
+                    <content>plugin://plugin.video.themoviedb.helper/?info=discover&amp;nextpage=false&amp;page=3&amp;with_id=True$INFO[Window.Property(TMDbType),&amp;tmdb_type=,]$INFO[Window.Property(with_cast_id),&amp;with_cast=,]$INFO[Window.Property(with_crew_id),&amp;with_crew=,]$INFO[Window.Property(with_keyword_id),&amp;with_keywords=,]$INFO[Window.Property(with_company_id),&amp;with_companies=,]$VAR[Dialog_Discover_Year_Content]$INFO[Window.Property(SortMethod),&amp;sort_by=,]$INFO[Window.Property(GenreID),&amp;with_genres=,]</content>
+                    <visible allowhiddenfocus="true">!Container(5001).IsUpdating</visible>
+                </include>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse" value="dialog_fg" />
+                    <visible>Container(5001).IsUpdating</visible>
+                </include>
+                <include content="Dialog_Scrollbar">
+                    <param name="id" value="61" />
+                    <onleft>5001</onleft>
+                    <right>0</right>
+                </include>
+            </control>
+            <control type="group">
+                <left>0</left>
+                <width>420</width>
+                <include content="Dialog_Overlay">
+                    <param name="flipx" value="true" />
+                </include>
+                <control type="grouplist" id="9000">
+                    <top>dialog_pad</top>
+                    <bottom>dialog_pad</bottom>
+                    <onright>5001</onright>
+                    <itemgap>0</itemgap>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9001" />
+                        <param name="control" value="button" />
+                        <description>Content Type</description>
+                        <label>[CAPITALIZE]$VAR[Label_SearchContent][/CAPITALIZE]</label>
+                        <onclick condition="String.IsEqual(Window.Property(TMDbType),movie)">SetProperty(TMDbType,tv)</onclick>
+                        <onclick condition="String.IsEqual(Window.Property(TMDbType),tv)">SetProperty(TMDbType,movie)</onclick>
+
+                        <onright condition="String.IsEmpty(Window.Property(FakeSpinner_9001))">5001</onright>
+                        <onright condition="!String.IsEmpty(Window.Property(FakeSpinner_9001))">ClearProperty(FakeSpinner_9001)</onright>
+                        <onleft>SetProperty(FakeSpinner_9001,1)</onleft>
+                    </include>
+                    <include content="Object_FakeSpinner">
+                        <param name="id" value="9001" />
+                        <param name="groupid" value="9002" />
+                    </include>
+                    <control type="label" id="9997">
+                        <left>40</left>
+                        <right>40</right>
+                        <top>40</top>
+                        <font>font_hintlabel</font>
+                        <height>40</height>
+                        <label>$LOCALIZE[587]</label>
+                    </control>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9006" />
+                        <param name="control" value="button" />
+                        <label>sort_by</label>
+                        <label2>$INFO[Window.Property(SortMethod)]</label2>
+                        <onclick>SetProperty(Dialog.1.Label,popularity.asc)</onclick>
+                        <onclick>SetProperty(Dialog.1.BuiltIn,"SetProperty(SortMethod,popularity.asc)")</onclick>
+                        <onclick>SetProperty(Dialog.2.Label,popularity.desc)</onclick>
+                        <onclick>SetProperty(Dialog.2.BuiltIn,"SetProperty(SortMethod,popularity.desc)")</onclick>
+                        <onclick>SetProperty(Dialog.3.Label,release_date.asc)</onclick>
+                        <onclick>SetProperty(Dialog.3.BuiltIn,"SetProperty(SortMethod,release_date.asc)")</onclick>
+                        <onclick>SetProperty(Dialog.4.Label,release_date.desc)</onclick>
+                        <onclick>SetProperty(Dialog.4.BuiltIn,"SetProperty(SortMethod,release_date.desc)")</onclick>
+                        <onclick>SetProperty(Dialog.5.Label,revenue.asc)</onclick>
+                        <onclick>SetProperty(Dialog.5.BuiltIn,"SetProperty(SortMethod,revenue.asc)")</onclick>
+                        <onclick>SetProperty(Dialog.6.Label,revenue.desc)</onclick>
+                        <onclick>SetProperty(Dialog.6.BuiltIn,"SetProperty(SortMethod,revenue.desc)")</onclick>
+                        <onclick>SetProperty(Dialog.7.Label,primary_release_date.asc)</onclick>
+                        <onclick>SetProperty(Dialog.7.BuiltIn,"SetProperty(SortMethod,primary_release_date.asc)")</onclick>
+                        <onclick>SetProperty(Dialog.8.Label,primary_release_date.desc)</onclick>
+                        <onclick>SetProperty(Dialog.8.BuiltIn,"SetProperty(SortMethod,primary_release_date.desc)")</onclick>
+                        <onclick>SetProperty(Dialog.9.Label,original_title.asc)</onclick>
+                        <onclick>SetProperty(Dialog.9.BuiltIn,"SetProperty(SortMethod,original_title.asc)")</onclick>
+                        <onclick>SetProperty(Dialog.10.Label,original_title.desc)</onclick>
+                        <onclick>SetProperty(Dialog.10.BuiltIn,"SetProperty(SortMethod,original_title.desc)")</onclick>
+                        <onclick>SetProperty(Dialog.11.Label,vote_average.asc)</onclick>
+                        <onclick>SetProperty(Dialog.11.BuiltIn,"SetProperty(SortMethod,vote_average.asc)")</onclick>
+                        <onclick>SetProperty(Dialog.12.Label,vote_average.desc)</onclick>
+                        <onclick>SetProperty(Dialog.12.BuiltIn,"SetProperty(SortMethod,vote_average.desc)")</onclick>
+                        <onclick>SetProperty(Dialog.13.Label,vote_count.asc)</onclick>
+                        <onclick>SetProperty(Dialog.13.BuiltIn,"SetProperty(SortMethod,vote_count.asc)")</onclick>
+                        <onclick>SetProperty(Dialog.14.Label,vote_count.desc)</onclick>
+                        <onclick>SetProperty(Dialog.14.BuiltIn,"SetProperty(SortMethod,vote_count.desc)")</onclick>
+                        <onclick>RunScript(script.toolbox,info=selectdialog,header=$LOCALIZE[31016])</onclick>
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9005" />
+                        <param name="control" value="edit" />
+                        <label>year</label>
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9003" />
+                        <param name="control" value="button" />
+                        <label>with_cast</label>
+                        <label2>$INFO[Window.Property(with_cast_label)]</label2>
+                        <onclick condition="!String.IsEmpty(Window.Property(with_cast_label))">ClearProperty(with_cast_label)</onclick>
+                        <onclick condition="!String.IsEmpty(Window.Property(with_cast_label))">ClearProperty(with_cast_id)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_cast_label))">SetProperty(affix,with_cast,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_cast_label))">SetProperty(TMDbType,person,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_cast_label))">ActivateWindow(1118)</onclick>
+                        <visible>String.IsEqual(Window.Property(TMDbType),movie)</visible>
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9004" />
+                        <param name="control" value="button" />
+                        <label>with_crew</label>
+                        <label2>$INFO[Window.Property(with_crew_label)]</label2>
+                        <onclick condition="!String.IsEmpty(Window.Property(with_crew_label))">ClearProperty(with_crew_label)</onclick>
+                        <onclick condition="!String.IsEmpty(Window.Property(with_crew_label))">ClearProperty(with_crew_id)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_crew_label))">SetProperty(affix,with_crew,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_crew_label))">SetProperty(TMDbType,person,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_crew_label))">ActivateWindow(1118)</onclick>
+                        <visible>String.IsEqual(Window.Property(TMDbType),movie)</visible>
+                    </include>
+
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9007" />
+                        <param name="control" value="button" />
+                        <label>with_genre</label>
+                        <label2>$INFO[Window.Property(GenreID)]</label2>
+                        <onclick>SetProperty(Dialog.1.Label,None)</onclick>
+                        <onclick>SetProperty(Dialog.1.BuiltIn,"ClearProperty(GenreID)")</onclick>
+                        <onclick>SetProperty(Dialog.2.Label,Action)</onclick>
+                        <onclick>SetProperty(Dialog.2.BuiltIn,"SetProperty(GenreID,28)")</onclick>
+                        <onclick>SetProperty(Dialog.3.Label,Adventure)</onclick>
+                        <onclick>SetProperty(Dialog.3.BuiltIn,"SetProperty(GenreID,12)")</onclick>
+                        <onclick>SetProperty(Dialog.4.Label,Action and Adventure)</onclick>
+                        <onclick>SetProperty(Dialog.4.BuiltIn,"SetProperty(GenreID,10759)")</onclick>
+                        <onclick>SetProperty(Dialog.5.Label,Animation)</onclick>
+                        <onclick>SetProperty(Dialog.5.BuiltIn,"SetProperty(GenreID,16)")</onclick>
+                        <onclick>SetProperty(Dialog.6.Label,Comedy)</onclick>
+                        <onclick>SetProperty(Dialog.6.BuiltIn,"SetProperty(GenreID,35)")</onclick>
+                        <onclick>SetProperty(Dialog.7.Label,Crime)</onclick>
+                        <onclick>SetProperty(Dialog.7.BuiltIn,"SetProperty(GenreID,80)")</onclick>
+                        <onclick>SetProperty(Dialog.8.Label,Documentary)</onclick>
+                        <onclick>SetProperty(Dialog.8.BuiltIn,"SetProperty(GenreID,99)")</onclick>
+                        <onclick>SetProperty(Dialog.9.Label,Drama)</onclick>
+                        <onclick>SetProperty(Dialog.9.BuiltIn,"SetProperty(GenreID,18)")</onclick>
+                        <onclick>SetProperty(Dialog.10.Label,Family)</onclick>
+                        <onclick>SetProperty(Dialog.10.BuiltIn,"SetProperty(GenreID,10751)")</onclick>
+                        <onclick>SetProperty(Dialog.11.Label,Fantasy)</onclick>
+                        <onclick>SetProperty(Dialog.11.BuiltIn,"SetProperty(GenreID,14)")</onclick>
+                        <onclick>SetProperty(Dialog.12.Label,History)</onclick>
+                        <onclick>SetProperty(Dialog.12.BuiltIn,"SetProperty(GenreID,36)")</onclick>
+                        <onclick>SetProperty(Dialog.13.Label,Horror)</onclick>
+                        <onclick>SetProperty(Dialog.13.BuiltIn,"SetProperty(GenreID,27)")</onclick>
+                        <onclick>SetProperty(Dialog.14.Label,Kids)</onclick>
+                        <onclick>SetProperty(Dialog.14.BuiltIn,"SetProperty(GenreID,10762)")</onclick>
+                        <onclick>SetProperty(Dialog.15.Label,Music)</onclick>
+                        <onclick>SetProperty(Dialog.15.BuiltIn,"SetProperty(GenreID,10402)")</onclick>
+                        <onclick>SetProperty(Dialog.16.Label,Mystery)</onclick>
+                        <onclick>SetProperty(Dialog.16.BuiltIn,"SetProperty(GenreID,9648)")</onclick>
+                        <onclick>SetProperty(Dialog.17.Label,News)</onclick>
+                        <onclick>SetProperty(Dialog.17.BuiltIn,"SetProperty(GenreID,10763)")</onclick>
+                        <onclick>SetProperty(Dialog.18.Label,Reality)</onclick>
+                        <onclick>SetProperty(Dialog.18.BuiltIn,"SetProperty(GenreID,10764)")</onclick>
+                        <onclick>SetProperty(Dialog.19.Label,Romance)</onclick>
+                        <onclick>SetProperty(Dialog.19.BuiltIn,"SetProperty(GenreID,10749)")</onclick>
+                        <onclick>SetProperty(Dialog.20.Label,Science Fiction)</onclick>
+                        <onclick>SetProperty(Dialog.20.BuiltIn,"SetProperty(GenreID,878)")</onclick>
+                        <onclick>SetProperty(Dialog.21.Label,Sci-Fi and Fantasy)</onclick>
+                        <onclick>SetProperty(Dialog.21.BuiltIn,"SetProperty(GenreID,10765)")</onclick>
+                        <onclick>SetProperty(Dialog.22.Label,Soap)</onclick>
+                        <onclick>SetProperty(Dialog.22.BuiltIn,"SetProperty(GenreID,10766)")</onclick>
+                        <onclick>SetProperty(Dialog.23.Label,Talk)</onclick>
+                        <onclick>SetProperty(Dialog.23.BuiltIn,"SetProperty(GenreID,10767)")</onclick>
+                        <onclick>SetProperty(Dialog.24.Label,TV Movie)</onclick>
+                        <onclick>SetProperty(Dialog.24.BuiltIn,"SetProperty(GenreID,10770)")</onclick>
+                        <onclick>SetProperty(Dialog.25.Label,Thriller)</onclick>
+                        <onclick>SetProperty(Dialog.25.BuiltIn,"SetProperty(GenreID,53)")</onclick>
+                        <onclick>SetProperty(Dialog.26.Label,War)</onclick>
+                        <onclick>SetProperty(Dialog.26.BuiltIn,"SetProperty(GenreID,10752)")</onclick>
+                        <onclick>SetProperty(Dialog.27.Label,War and Politics)</onclick>
+                        <onclick>SetProperty(Dialog.27.BuiltIn,"SetProperty(GenreID,10768)")</onclick>
+                        <onclick>SetProperty(Dialog.28.Label,Western)</onclick>
+                        <onclick>SetProperty(Dialog.28.BuiltIn,"SetProperty(GenreID,37)")</onclick>
+                        <onclick>RunScript(script.toolbox,info=selectdialog,header=$LOCALIZE[515])</onclick>
+                    </include>
+
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9008" />
+                        <param name="control" value="button" />
+                        <label>with_keyword</label>
+                        <label2>$INFO[Window.Property(with_keyword_label)]</label2>
+                        <onclick condition="!String.IsEmpty(Window.Property(with_keyword_label))">ClearProperty(with_keyword_label)</onclick>
+                        <onclick condition="!String.IsEmpty(Window.Property(with_keyword_label))">ClearProperty(with_keyword_id)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_keyword_label))">SetProperty(affix,with_keyword,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_keyword_label))">SetProperty(TMDbType,keyword,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_company_label))">SetProperty(Detailed,1,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_keyword_label))">ActivateWindow(1118)</onclick>
+                        <visible>String.IsEqual(Window.Property(TMDbType),movie)</visible>
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9009" />
+                        <param name="control" value="button" />
+                        <label>with_company</label>
+                        <label2>$INFO[Window.Property(with_company_label)]</label2>
+                        <onclick condition="!String.IsEmpty(Window.Property(with_company_label))">ClearProperty(with_company_label)</onclick>
+                        <onclick condition="!String.IsEmpty(Window.Property(with_company_label))">ClearProperty(with_company_id)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_company_label))">SetProperty(affix,with_company,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_company_label))">SetProperty(TMDbType,company,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_company_label))">SetProperty(Detailed,1,1118)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(with_company_label))">ActivateWindow(1118)</onclick>
+                        <visible>String.IsEqual(Window.Property(TMDbType),movie)</visible>
+                    </include>
+
+                </control>
+                <include content="Object_Separator">
+                    <right>0</right>
+                </include>
+            </control>
+        </include>
+
+        <include>Furniture_Top</include>
+    </controls>
+</window>

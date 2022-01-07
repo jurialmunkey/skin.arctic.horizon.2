@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="Background_Blur">
+        <include content="Object_Control" condition="![Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)]">
+            <param name="control" value="image" />
+            <fadetime>2000</fadetime>
+            <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
+        </include>
+
+        <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)">
+            <param name="control" value="image" />
+            <fadetime>1000</fadetime>
+            <width>200%</width>
+            <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
+            <animation effect="fade" end="0" start="100" time="1000">Hidden</animation>
+            <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(tvshow.fanart))</visible>
+            <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
+        </include>
+
+        <include content="Object_Control">
+            <param name="control" value="image" />
+            <texture colordiffuse="main_bg_45">common/bg.jpg</texture>
+        </include>
+    </include>
+
+    <variable name="Background_Fanart_Var">
+        <value condition="!String.IsEmpty(ListItem.Art(fanart)) + !String.IsEqual(ListItem.Property(item.type),person)">$INFO[ListItem.Art(fanart)]</value>
+        <value>special://skin/fanart.jpg</value>
+    </variable>
+
+    <include name="Background_Fanart">
+        <control type="group">
+            <control type="image">
+                <fadetime>600</fadetime>
+                <texture background="true">$VAR[Background_Fanart_Var]</texture>
+            </control>
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <texture colordiffuse="main_bg_70">common/bg.jpg</texture>
+            </include>
+        </control>
+    </include>
+
+    <include name="Background_Image">
+        <include content="Object_Control">
+            <param name="control" value="image" />
+            <texture background="true" colordiffuse="main_back">special://skin/fanart.jpg</texture>
+        </include>
+    </include>
+
+    <include name="Background_None">
+        <include content="Object_Control" condition="![Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)]">
+            <param name="control" value="image" />
+            <texture colordiffuse="main_back">common/bg.jpg</texture>
+        </include>
+        <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)">
+            <param name="control" value="image" />
+            <texture colordiffuse="main_bg_100">common/bg.jpg</texture>
+        </include>
+    </include>
+
+    <include name="Background_Main">
+        <include condition="Skin.String(BackgroundStyle,None)">Background_None</include>
+        <include condition="Skin.String(BackgroundStyle,Image)">Background_Image</include>
+        <include condition="Skin.String(BackgroundStyle,Fanart)">Background_Fanart</include>
+        <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
+        <nested />
+        <include content="Object_Control" condition="Skin.String(DividerStyle,Fade)" >
+            <param name="control" value="image" />
+            <texture colordiffuse="main_bg_90">common/floor.png</texture>
+        </include>
+    </include>
+
+</includes>

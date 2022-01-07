@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="Action_ClearContext_OnUnload">
+        <onunload>ClearProperty(ContextMenu.Label,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.Fanart,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.Poster,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.TVShowPoster,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.Icon,Home)</onunload>
+    </include>
+
+    <include name="Action_Widget_Click">
+        <onclick>SetProperty(TMDbHelper.HideView,1,Home)</onclick>
+        <onclick>Close</onclick>
+        <onclick>AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190),00:01,silent)</onclick>
+    </include>
+
+    <include name="Action_Plotbox_OnUp">
+        <param name="fanart" default="$ESCINFO[ListItem.Art(fanart)]" />
+        <param name="poster" default="$ESCINFO[ListItem.Art(poster)]" />
+        <definition>
+            <onup>SetProperty(Fanart,$PARAM[fanart],1113)</onup>
+            <onup>SetProperty(Poster,$PARAM[poster],1113)</onup>
+            <onup>SetProperty(Title,"$VAR[Label_Title]",1113)</onup>
+            <onup>SetProperty(Year,$ESCINFO[ListItem.Year],1113)</onup>
+            <onup>SetProperty(ClearLogo,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)],1113)</onup>
+            <onup>SetProperty(Tagline,$ESCINFO[ListItem.Tagline],1113)</onup>
+            <onup>SetProperty(Plot,$VAR[Label_Plot_ESC],1113)</onup>
+            <onup>ActivateWindow(1113)</onup>
+        </definition>
+    </include>
+
+    <include name="ACtion_Plotbox_OnUnload">
+        <onunload>ClearProperty(Fanart,1113)</onunload>
+        <onunload>ClearProperty(Poster,1113)</onunload>
+        <onunload>ClearProperty(Title,1113)</onunload>
+        <onunload>ClearProperty(Year,1113)</onunload>
+        <onunload>ClearProperty(ClearLogo,1113)</onunload>
+        <onunload>ClearProperty(Tagline,1113)</onunload>
+        <onunload>ClearProperty(Plot,1113)</onunload>
+    </include>
+
+    <include name="Action_Recommendations_OnDown">
+        <ondown>SetProperty(Path.Cast,"$VAR[Path_Cast]",1120)</ondown>
+        <ondown>SetProperty(Path.Crew,"$VAR[Path_Crew]",1120)</ondown>
+        <ondown>SetProperty(Path.Recommendations,"$VAR[Path_Recommendations]",1120)</ondown>
+        <ondown>SetProperty(Path.Similar,"$VAR[Path_Similar]",1120)</ondown>
+        <ondown>SetProperty(Path.FromYear,"$VAR[Path_FromYear]",1120)</ondown>
+        <ondown>SetProperty(Path.FromGenre,"$VAR[Path_FromGenre]",1120)</ondown>
+        <ondown>SetProperty(Path.FromStudio,"$VAR[Path_FromStudio]",1120)</ondown>
+        <ondown>SetProperty(Path.FromDirector,"$VAR[Path_FromDirector]",1120)</ondown>
+        <ondown>SetProperty(Path.CastInMovies,"$VAR[Path_CastInMovies]",1120)</ondown>
+        <ondown>SetProperty(Path.CastInShows,"$VAR[Path_CastInShows]",1120)</ondown>
+        <ondown>SetProperty(Path.CrewInMovies,"$VAR[Path_CrewInMovies]",1120)</ondown>
+        <ondown>SetProperty(Path.CrewInShows,"$VAR[Path_CrewInShows]",1120)</ondown>
+
+        <ondown>SetProperty(Path.Posters,"$VAR[Path_Posters]",1120)</ondown>
+        <ondown>SetProperty(Path.Fanart,"$VAR[Path_Fanart]",1120)</ondown>
+
+        <ondown>SetProperty(Director,$ESCINFO[ListItem.Director],1120)</ondown>
+        <ondown>SetProperty(Genre,$ESCINFO[ListItem.Genre],1120)</ondown>
+        <ondown>SetProperty(Year,$ESCINFO[ListItem.Year],1120)</ondown>
+        <ondown>SetProperty(Fanart,$ESCINFO[ListItem.Art(fanart)],1120)</ondown>
+        <ondown>SetProperty(Title,"$VAR[Label_Title]",1120)</ondown>
+        <ondown>ActivateWindow(1120)</ondown>
+    </include>
+
+    <include name="Action_Settings_Onload">
+        <onload condition="Window.IsActive(skinsettings)">SetFocus(30000,0)</onload>
+        <onload condition="Window.IsActive(interfacesettings)">SetFocus(30000,1)</onload>
+        <onload condition="Window.IsActive(mediasettings)">SetFocus(30000,2)</onload>
+        <onload condition="Window.IsActive(playersettings)">SetFocus(30000,3)</onload>
+        <onload condition="Window.IsActive(systemsettings)">SetFocus(30000,4)</onload>
+        <onload condition="Window.IsActive(servicesettings)">SetFocus(30000,5)</onload>
+        <onload condition="Window.IsActive(pvrsettings)">SetFocus(30000,6)</onload>
+        <onload condition="Window.IsActive(systeminfo)">SetFocus(30000,7)</onload>
+        <onload condition="Window.IsActive(profiles)">SetFocus(30000,8)</onload>
+    </include>
+
+
+    <include name="Action_Blur_Onload">
+        <param name="sourceimage" default="poster" />
+        <definition>
+            <onload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onload>
+            <onload>SetProperty(TMDbHelper.Blur.SourceImage,$PARAM[sourceimage],Home)</onload>
+            <onload>SetProperty(TMDbHelper.Blur.Fallback,special://skin/fanart.jpg,Home)</onload>
+        </definition>
+    </include>
+
+    <include name="Action_BuildTextures_Onload">
+        <onload>runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,button+multiply=special://skin/extras/textures/button.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,main=special://skin/extras/textures/main.png)</onload>
+    </include>
+    <include name="Action_BuildTextures_Onclick">
+        <onclick condition="!String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,button+multiply=special://skin/extras/textures/button.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,main=special://skin/extras/textures/main.png,reload=1111)</onclick>
+    </include>
+</includes>

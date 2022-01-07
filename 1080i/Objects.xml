@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="Object_Include">
+        <nested />
+    </include>
+
+    <include name="Object_Control">
+        <param name="padding" default="false" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <include content="Dimension_Padding" condition="$PARAM[padding]">
+                    <param name="pad" value="$PARAM[pad]" />
+                </include>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Hidden_Button">
+        <param name="control" default="button" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <top>-1000</top>
+                <left>-1000</left>
+                <width>1</width>
+                <height>1</height>
+                <texturefocus />
+                <texturenofocus />
+                <font />
+                <visible allowhiddenfocus="true">False</visible>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Shadow_20">
+        <param name="colordiffuse" default="shadow_hard" />
+        <param name="pad" default="-20" />
+        <definition>
+            <control type="image">
+                <include content="Dimension_Padding"><param name="pad" value="$PARAM[pad]" /></include>
+                <texture border="32" colordiffuse="$PARAM[colordiffuse]">shadows/shadow-20.png</texture>
+                <nested />
+            </control>
+        </definition>
+    </include>
+    <include name="Object_Shadow_40">
+        <param name="colordiffuse" default="shadow_hard" />
+        <param name="pad" default="-40" />
+        <definition>
+            <control type="image">
+                <include content="Dimension_Padding"><param name="pad" value="$PARAM[pad]" /></include>
+                <texture border="52" colordiffuse="$PARAM[colordiffuse]">shadows/shadow-40.png</texture>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_ItemBack">
+        <param name="selected" default="false" />
+        <definition>
+            <include content="Object_Control" condition="!$PARAM[selected]">
+                <param name="control" value="image" />
+                <include>Texture_Shadow_40</include>
+                <include>Texture_Poster_Back</include>
+            </include>
+            <include content="Object_Control" condition="$PARAM[selected]">
+                <param name="control" value="image" />
+                <param name="padding" value="true" />
+                <param name="pad" value="-1" />
+                <include>Texture_Box_Highlight_V</include>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Object_BusySpinner">
+        <param name="colordiffuse" default="main_fg" />
+        <param name="label" default="$LOCALIZE[31023]" />
+        <param name="haslabel" default="true" />
+        <param name="hasspinner" default="true" />
+        <param name="hasprogress" default="false" />
+        <param name="texture" default="dialog/loading-back.png" />
+        <param name="size" default="100" />
+        <param name="icon" default="special://skin/extras/icons/kodi.png" />
+        <param name="progress" default="Control.GetLabel(32)" />
+        <param name="progress_id" default="32" />
+        <definition>
+            <control type="group">
+                <nested />
+                <centerleft>50%</centerleft>
+                <centertop>50%</centertop>
+                <width>$PARAM[size]</width>
+                <height>$PARAM[size]</height>
+                <control type="image" description="Back">
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <texture>$PARAM[texture]</texture>
+                    <colordiffuse>$PARAM[colordiffuse]_90</colordiffuse>
+                </control>
+                <control type="image" description="Icon">
+                    <bordersize>30</bordersize>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <texture>$PARAM[icon]</texture>
+                    <colordiffuse>$PARAM[colordiffuse]_70</colordiffuse>
+                </control>
+                <include content="Object_Control" condition="$PARAM[hasspinner]">
+                    <param name="control" value="group" />
+                    <description>Busy animation</description>
+                    <animation effect="rotate" condition="true" start="0" end="360" loop="true" time="1000" center="auto">Conditional</animation>
+                    <control type="image">
+                        <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+                        <aspectratio>keep</aspectratio>
+                    </control>
+                    <control type="image">
+                        <texture colordiffuse="$VAR[ColorGradient]">dialog/loading-spinner.png</texture>
+                        <aspectratio>keep</aspectratio>
+                        <animation effect="fade" condition="true" start="0" end="75" pulse="true" time="1000">Conditional</animation>
+                    </control>
+                </include>
+
+                <include content="Object_Control" condition="$PARAM[hasprogress]">
+                    <param name="control" value="group" />
+                    <description>Busy animation</description>
+                    <control type="image">
+                        <texture colordiffuse="$VAR[ColorHighlight]">$INFO[$PARAM[progress],progress/circle/p,.png]</texture>
+                        <aspectratio align="center" aligny="center">keep</aspectratio>
+                    </control>
+                    <control type="image">
+                        <texture colordiffuse="$VAR[ColorGradient]">$INFO[$PARAM[progress],progress/circle/p,.png]</texture>
+                        <animation effect="fade" end="66" condition="true">Conditional</animation>
+                        <aspectratio align="center" aligny="center">keep</aspectratio>
+                        <include content="Defs_Progress_Colorfade">
+                            <param name="id" value="$PARAM[progress_id]" />
+                        </include>
+                    </control>
+                </include>
+
+                <include content="Object_Control" condition="$PARAM[haslabel]">
+                    <param name="control" value="label" />
+                    <bottom>-40</bottom>
+                    <height>40</height>
+                    <width>400</width>
+                    <centerleft>50%</centerleft>
+                    <align>center</align>
+                    <label>$PARAM[label]</label>
+                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_BigPoster">
+        <param name="icon" default="$VAR[Image_Poster]" />
+        <param name="fadetime" default="600" />
+        <definition>
+            <control type="group">
+                <nested />
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <include>Texture_Shadow_40</include>
+                    <include>Texture_Poster_Back</include>
+                </include>
+                <control type="image">
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <fadetime>$PARAM[fadetime]</fadetime>
+                    <texture diffuse="diffuse/poster-info.png">$PARAM[icon]</texture>
+                </control>
+                <include content="Object_Control" condition="[Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="main_fg_12" border="10">common/box-outline.png</texture>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_GlassPanel">
+        <include content="Object_Control">
+            <param name="control" value="group" />
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <include>Texture_Shadow_20</include>
+                <texture colordiffuse="main_fg_12" border="10">common/panel-256-box.png</texture>
+            </include>
+            <nested />
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <!-- <bordersize>-1</bordersize> -->
+                <texture colordiffuse="main_fg_12" border="10">common/box-outline.png</texture>
+            </include>
+        </include>
+    </include>
+
+    <include name="Object_RecessedPanel">
+        <include content="Object_Control">
+            <param name="control" value="group" />
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <texture colordiffuse="main_bg_70" border="10">common/panel-256-box.png</texture>
+            </include>
+            <nested />
+            <include content="Object_Control" condition="Skin.HasSetting(DividerShadows)">
+                <param name="control" value="image" />
+                <texture colordiffuse="shadow_hard" border="24">shadows/inner-glow.png</texture>
+            </include>
+            <include content="Object_Control" condition="Skin.HasSetting(DividerShadows)">
+                <param name="control" value="image" />
+                <bordersize>-1</bordersize>
+                <texture colordiffuse="main_fg_12" border="10">common/box-outline.png</texture>
+            </include>
+        </include>
+    </include>
+
+    <include name="Object_InfoCircle">
+        <definition>
+            <control type="group">
+                <nested />
+                <height>60</height>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <width>60</width>
+                    <bordersize>2</bordersize>
+                    <bordertexture colordiffuse="main_flix">common/circle.png</bordertexture>
+                    <texture colordiffuse="main_back">common/circle.png</texture>
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <width>60</width>
+                    <bordersize>2</bordersize>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="common/circle.png" colordiffuse="main_fg_90">$PARAM[icon]</texture>
+                </include>
+                <control type="label">
+                    <left>80</left>
+                    <font>font_minilabel_bold</font>
+                    <label>$PARAM[role]</label>
+                    <textcolor>main_fg_90</textcolor>
+                    <height>30</height>
+                </control>
+                <control type="label">
+                    <left>80</left>
+                    <font>font_minilabel</font>
+                    <label>$PARAM[name]</label>
+                    <textcolor>main_fg_70</textcolor>
+                    <height>30</height>
+                    <bottom>0</bottom>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_DividerPanel">
+        <param name="shadow_left" default="false" />
+        <param name="shadow_right" default="false" />
+        <param name="shadow_top" default="false" />
+        <param name="shadow_bottom" default="false" />
+        <param name="flipy" default="false" />
+        <definition>
+            <control type="group">
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="main_bg_70" flipy="$PARAM[flipy]" diffuse="$PARAM[diffuse]">common/panel-256.png</texture>
+                </include>
+                <nested />
+                <include content="Object_Control" condition="$PARAM[shadow_top] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <height>24</height>
+                    <texture colordiffuse="shadow_hard">shadows/shadow-line-24.png</texture>
+                </include>
+                <include content="Object_Control" condition="$PARAM[shadow_bottom] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <height>24</height>
+                    <bottom>0</bottom>
+                    <texture flipy="true" colordiffuse="shadow_hard">shadows/shadow-line-24.png</texture>
+                </include>
+                <include content="Object_Control" condition="$PARAM[shadow_left] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <width>24</width>
+                    <texture colordiffuse="shadow_hard">shadows/shadow-line-24-v.png</texture>
+                </include>
+                <include content="Object_Control" condition="$PARAM[shadow_right] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <width>24</width>
+                    <right>0</right>
+                    <texture flipx="true" colordiffuse="shadow_hard">shadows/shadow-line-24-v.png</texture>
+                </include>
+
+                <include content="Object_Control" condition="$PARAM[shadow_top] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <height>1</height>
+                    <top>-1</top>
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                </include>
+                <include content="Object_Control" condition="$PARAM[shadow_bottom] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <height>1</height>
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                    <bottom>-1</bottom>
+                </include>
+                <include content="Object_Control" condition="$PARAM[shadow_left] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <width>1</width>
+                    <left>-1</left>
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                </include>
+                <include content="Object_Control" condition="$PARAM[shadow_right] + Skin.HasSetting(DividerShadows)">
+                    <param name="control" value="image" />
+                    <width>1</width>
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                    <right>-1</right>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_MenuButton">
+        <param name="icon" default="$VAR[Image_MuteBug]" />
+        <param name="overlay" default="true" />
+        <param name="bordersize" default="0" />
+        <definition>
+            <control type="group">
+                <width>60</width>
+                <nested />
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                    <texture colordiffuse="shadow_hard" border="54">shadows/circle_shadow.png</texture>
+                </control>
+                <control type="button">
+                    <texturefocus colordiffuse="dialog_bg_100" border="30">common/circle.png</texturefocus>
+                    <texturenofocus colordiffuse="dialog_bg_100" border="30">common/circle.png</texturenofocus>
+                    <onclick>Action(menu)</onclick>
+                </control>
+                <include content="Object_Control" condition="$PARAM[overlay]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_soft" border="30">common/circle.png</texture>
+                </include>
+                <control type="image">
+                    <aspectratio>keep</aspectratio>
+                    <bordersize>$PARAM[bordersize]</bordersize>
+                    <texture colordiffuse="dialog_fg_70">$PARAM[icon]</texture>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Indicator">
+        <param name="affix" default="" />
+        <param name="listitem" default="ListItem" />
+        <param name="selected" default="false" />
+        <param name="shadow" default="true" />
+        <param name="gradient_fade" default="0" />
+        <definition>
+            <control type="group">
+                <nested />
+                <centerbottom>0</centerbottom>
+                <right>25</right>
+                <width>64</width>
+                <height>64</height>
+                <include content="Object_Control" condition="$PARAM[selected]">
+                    <param name="control" value="group" />
+                    <control type="image">
+                        <include content="Dimension_Padding"><param name="pad" value="-32" /></include>
+                        <texture colordiffuse="shadow_hard">$VAR[Image_Overlay_Backing$PARAM[affix],,-fo-shadow.png]</texture>
+                        <visible>$PARAM[shadow]</visible>
+                    </control>
+                    <control type="image">
+                        <texture colordiffuse="$VAR[ColorHighlight]">$VAR[Image_Overlay_Backing$PARAM[affix],,-fo.png]</texture>
+                    </control>
+                    <control type="image">
+                        <animation effect="fade" end="$PARAM[gradient_fade]" condition="true">Conditional</animation>
+                        <texture colordiffuse="$VAR[ColorGradient]">$VAR[Image_Overlay_Backing$PARAM[affix],,-fo.png]</texture>
+                    </control>
+                </include>
+                <control type="image">
+                    <texture colordiffuse="ff333333">$VAR[Image_Overlay_Backing$PARAM[affix],,-bg.png]</texture>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="0" /></include>
+                    <texture colordiffuse="$VAR[ColorWatchedProgress]">$VAR[Defs_PercentPlayed$PARAM[affix],progress/circle/p,.png]</texture>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                </control>
+                <control type="image">
+                    <texture>$VAR[Image_Overlay_Backing$PARAM[affix],,-fg.png]</texture>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="20" /></include>
+                    <texture>$VAR[Image_Overlay$PARAM[affix]]</texture>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="20" /></include>
+                    <texture colordiffuse="$VAR[ColorWatchedProgress]">indicator/checkmark.png</texture>
+                    <visible>!Skin.HasSetting(DisableIndicator.Watched)</visible>
+                    <visible>String.IsEqual($PARAM[listitem].Overlay,OverlayWatched.png) | [!String.IsEmpty($PARAM[listitem].PlayCount) + !Integer.IsEqual($PARAM[listitem].PlayCount,0) + !String.IsEqual($PARAM[listitem].DBType,song) + !String.IsEqual($PARAM[listitem].DBType,album) + !String.IsEqual($PARAM[listitem].DBType,artist) + !String.IsEqual($PARAM[listitem].DBType,image) + !String.IsEqual($PARAM[listitem].DBType,addon)]</visible>
+                    <visible>Integer.IsEqual($PARAM[listitem].Property(UnWatchedEpisodes),0) | Skin.HasSetting(DisableIndicator.Episodes)</visible>
+                    <visible>!$PARAM[listitem].IsRecording + !$PARAM[listitem].HasTimer</visible>
+                    <visible>!$PARAM[listitem].IsResumable | Skin.HasSetting(DisableIndicator.Progress)</visible>
+                </control>
+                <control type="label">
+                    <font>font_unwatched</font>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <textcolor>panel_fg_100</textcolor>
+                    <label>$INFO[$PARAM[listitem].Property(UnWatchedEpisodes)]</label>
+                    <visible>Integer.IsGreater($PARAM[listitem].Property(UnWatchedEpisodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(DisableIndicator.Episodes)</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Indicator_Preview">
+        <param name="affix" default="" />
+        <param name="listitem" default="ListItem" />
+        <param name="selected" default="false" />
+        <param name="shadow" default="true" />
+        <param name="checkmark" default="true" />
+        <definition>
+            <control type="group">
+                <nested />
+                <width>64</width>
+                <height>64</height>
+                <include content="Object_Control" condition="$PARAM[selected]">
+                    <param name="control" value="group" />
+                    <control type="image">
+                        <include content="Dimension_Padding"><param name="pad" value="-32" /></include>
+                        <texture colordiffuse="shadow_hard">indicator/circle-fo-shadow.png</texture>
+                        <visible>$PARAM[shadow]</visible>
+                    </control>
+                    <control type="image">
+                        <aspectratio>center</aspectratio>
+                        <texture colordiffuse="$VAR[ColorHighlight]">indicator/circle-fo.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight) | !Control.HasFocus(3000)</visible>
+                    </control>
+                    <control type="image">
+                        <aspectratio>center</aspectratio>
+                        <texture colordiffuse="$INFO[Container(3000).ListItem.Label]">indicator/circle-fo.png</texture>
+                        <visible>String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight) + Control.HasFocus(3000)</visible>
+                    </control>
+                </include>
+                <control type="image">
+                    <texture colordiffuse="ff333333">indicator/circle-bg.png</texture>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="0" /></include>
+                    <texture colordiffuse="$VAR[ColorWatchedProgress]">progress/circle/p$PARAM[progress].png</texture>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <visible>!String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator) | !Control.HasFocus(3000)</visible>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="0" /></include>
+                    <texture colordiffuse="$INFO[Container(3000).ListItem.Label]">progress/circle/p$PARAM[progress].png</texture>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <visible>String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator) + Control.HasFocus(3000)</visible>
+                </control>
+                <control type="image">
+                    <texture>indicator/circle-fg.png</texture>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="20" /></include>
+                    <texture colordiffuse="$VAR[ColorWatchedProgress]">indicator/checkmark.png</texture>
+                    <visible>$PARAM[checkmark]</visible>
+                    <visible>!String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator) | !Control.HasFocus(3000)</visible>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="20" /></include>
+                    <texture colordiffuse="$INFO[Container(3000).ListItem.Label]">indicator/checkmark.png</texture>
+                    <visible>$PARAM[checkmark]</visible>
+                    <visible>String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator) + Control.HasFocus(3000)</visible>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="20" /></include>
+                    <texture>indicator/timer.png</texture>
+                    <visible>!$PARAM[checkmark]</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Info_Button_Left">
+        <control type="group">
+            <visible>$PARAM[visible]</visible>
+            <control type="image">
+                <texture colordiffuse="$PARAM[colordiffuse-texture]" border="50,50,0,50">$PARAM[texture]</texture>
+                <right>24</right>
+            </control>
+            <control type="image">
+                <left>24</left>
+                <centertop>50%</centertop>
+                <width>60</width>
+                <height>60</height>
+                <texture colordiffuse="$PARAM[colordiffuse-icon]">$PARAM[icon]</texture>
+            </control>
+        </control>
+    </include>
+
+    <include name="Object_Info_Button">
+        <param name="visible" default="true" />
+        <param name="control-type" default="button" />
+        <param name="width" default="auto" />
+        <param name="focused" default="false" />
+        <definition>
+            <control type="group" id="$PARAM[groupid]">
+                <left>0</left>
+                <width>100</width>
+                <height>100</height>
+                <visible>$PARAM[visible]</visible>
+                <include content="Object_Info_Button_Left">
+                    <param name="visible" value="Control.HasFocus($PARAM[id]) | $PARAM[focused]" />
+                    <param name="texture" value="common/button-view-fo.png" />
+                    <param name="icon" value="$PARAM[icon]" />
+                    <param name="colordiffuse-icon" value="panel_bg" />
+                    <param name="colordiffuse-texture" value="$VAR[ColorSelected]" />
+                </include>
+                <include content="Object_Info_Button_Left">
+                    <param name="visible" value="![Control.HasFocus($PARAM[id]) | $PARAM[focused]]" />
+                    <param name="texture" value="common/button-view-nf.png" />
+                    <param name="icon" value="$PARAM[icon]" />
+                    <param name="colordiffuse-icon" value="dialog_fg_70" />
+                    <param name="colordiffuse-texture" value="dialog_fg_12" />
+                </include>
+            </control>
+            <control type="$PARAM[control-type]" id="$PARAM[id]">
+                <left>-14</left>
+                <width>$PARAM[width]</width>
+                <visible>$PARAM[visible]</visible>
+                <height>100</height>
+                <texturenofocus border="0,50,50,50" flipx="true" colordiffuse="dialog_fg_12">common/button-view-nf.png</texturenofocus>
+                <texturefocus border="0,50,50,50" flipx="true" colordiffuse="$VAR[ColorSelected]">common/button-view-fo.png</texturefocus>
+                <font>font_info_buttons</font>
+                <label>$PARAM[label][COLOR=00ffffff]------[/COLOR]</label>
+                <align>left</align>
+                <textoffsetx>10</textoffsetx>
+                <textcolor>dialog_fg_70</textcolor>
+                <focusedcolor>panel_bg</focusedcolor>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Options_Menu_Popup">
+        <param name="icon" default="special://skin/extras/icons/kodi.png" />
+        <param name="header" default="Options" />
+        <param name="id" default="9000" />
+        <param name="onback" default="50" />
+        <param name="width" default="dialog_menu_width" />
+        <param name="usegrouplist" default="true" />
+        <param name="visible" default="true" />
+        <param name="iscontextmenu" default="false" />
+        <param name="isbuttonmenu" default="false" />
+        <param name="nib_pos" default="70" />
+        <definition>
+            <control type="group">
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <bottom>row_height_x800</bottom>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,1)</visible>
+                </include>
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <bottom>row_height_x700</bottom>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,2)</visible>
+                </include>
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <bottom>row_height_x600</bottom>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,3)</visible>
+                </include>
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <bottom>row_height_x500</bottom>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,4)</visible>
+                </include>
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <bottom>row_height_x400</bottom>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,5)</visible>
+                </include>
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <bottom>row_height_x300</bottom>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,6)</visible>
+                </include>
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <bottom>row_height_x200</bottom>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,7)</visible>
+                </include>
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <bottom>row_height</bottom>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,8)</visible>
+                </include>
+                <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
+                    <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,8)</visible>
+                </include>
+                <include content="Object_Control" condition="$PARAM[iscontextmenu]">
+                    <param name="control" value="image" />
+                    <param name="id" value="999" />
+                    <include>Texture_Shadow_20</include>
+                    <include>Texture_Dialog</include>
+                </include>
+                <control type="image">
+                    <top>-16</top>
+                    <centerright>$PARAM[nib_pos]</centerright>
+                    <height>16</height>
+                    <width>16</width>
+                    <texture colordiffuse="dialog_bg_100">common/arrow-menu-up.png</texture>
+                </control>
+                <control type="image">
+                    <bottom>-24</bottom>
+                    <centerright>50%</centerright>
+                    <height>16</height>
+                    <width>16</width>
+                    <texture colordiffuse="$VAR[ColorSelected]">common/arrow-small.png</texture>
+                    <visible>Container($PARAM[id]).HasNext</visible>
+                    <animation effect="slide" end="12" condition="Container($PARAM[id]).HasPrevious">Conditional</animation>
+                </control>
+                <control type="image">
+                    <bottom>-24</bottom>
+                    <centerright>50%</centerright>
+                    <height>16</height>
+                    <width>16</width>
+                    <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-small.png</texture>
+                    <visible>Container($PARAM[id]).HasPrevious</visible>
+                    <animation effect="slide" end="-12" condition="Container($PARAM[id]).HasNext">Conditional</animation>
+                </control>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$PARAM[header]" />
+                    <param name="icon" value="$PARAM[icon]" />
+                </include>
+                <include content="Object_Control" condition="$PARAM[usegrouplist]">
+                    <param name="control" value="grouplist" />
+                    <param name="id" value="$PARAM[id]" />
+                    <onleft condition="!$PARAM[iscontextmenu] + !$PARAM[isbuttonmenu]">SetFocus($PARAM[onback],9999,absolute)</onleft>
+                    <onright condition="!$PARAM[iscontextmenu] + !$PARAM[isbuttonmenu]">SetFocus($PARAM[onback],0,absolute)</onright>
+                    <onback condition="!$PARAM[iscontextmenu] + !$PARAM[isbuttonmenu]">$PARAM[onback]</onback>
+                    <onleft condition="$PARAM[iscontextmenu] | $PARAM[isbuttonmenu]">Close</onleft>
+                    <onright condition="$PARAM[iscontextmenu] | $PARAM[isbuttonmenu]">Close</onright>
+                    <top>row_height_x150</top>
+                    <bottom>row_height_x25</bottom>
+                    <orientation>vertical</orientation>
+                    <itemgap>0</itemgap>
+                    <include>$PARAM[grouplist_items]</include>
+                </include>
+                <nested />
+                <include>Animation_SlideIn_Dialog</include>
+                <include condition="!$PARAM[isbuttonmenu]">Animation_FadeOut</include>
+                <visible>$PARAM[visible]</visible>
+                <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]]</visible>
+                <width>$PARAM[width]</width>
+                <height>860</height>
+                <right>row_height_x50</right>
+                <top>row_height_x200</top>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Options_Menu">
+        <param name="icon" default="special://skin/extras/icons/kodi.png" />
+        <param name="header" default="Options" />
+        <param name="id" default="9000" />
+        <param name="onback" default="50" />
+        <param name="width" default="dialog_menu_width" />
+        <param name="usegrouplist" default="true" />
+        <param name="visible" default="true" />
+        <param name="iscontextmenu" default="false" />
+        <param name="isbuttonmenu" default="false" />
+        <definition>
+            <include content="Object_Control">
+                <param name="control" value="group" />
+                <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]]</visible>
+                <include>Animation_FadeIn</include>
+                <include condition="!$PARAM[isbuttonmenu]">Animation_FadeOut</include>
+                <include content="Object_Overlay">
+                    <param name="windowanimation" value="false" />
+                </include>
+                <include content="Furniture_MenuButton">
+                    <param name="icon" value="$PARAM[menuicon]" />
+                </include>
+                <visible>$PARAM[visible]</visible>
+            </include>
+            <include content="Object_Options_Menu_Popup">
+                <param name="icon" value="$PARAM[icon]" />
+                <param name="header" value="$PARAM[header]" />
+                <param name="id" value="$PARAM[id]" />
+                <param name="onback" value="$PARAM[onback]" />
+                <param name="width" value="$PARAM[width]" />
+                <param name="usegrouplist" value="$PARAM[usegrouplist]" />
+                <param name="visible" value="$PARAM[visible]" />
+                <param name="iscontextmenu" value="$PARAM[iscontextmenu]" />
+                <param name="isbuttonmenu" value="$PARAM[isbuttonmenu]" />
+                <param name="grouplist_items" value="$PARAM[grouplist_items]" />
+                <nested />
+            </include>
+        </definition>
+    </include>
+
+    <include name="Object_InfoBar_List">
+        <param name="control" default="list" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <left>-20</left>
+                <centertop>50%</centertop>
+                <height>120</height>
+                <orientation>horizontal</orientation>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <itemlayout height="120" width="100">
+                    <control type="group">
+                        <left>40</left>
+                        <right>-40</right>
+                        <control type="image">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <width>80</width>
+                            <aspectratio>keep</aspectratio>
+                            <texture colordiffuse="dialog_fg_70">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="120" width="100" condition="!Control.HasFocus($PARAM[id])">
+                    <control type="group">
+                        <left>40</left>
+                        <right>-40</right>
+                        <control type="image">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <width>80</width>
+                            <aspectratio>keep</aspectratio>
+                            <texture colordiffuse="dialog_fg_70">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </control>
+                </focusedlayout>
+                <focusedlayout height="120" width="240" condition="Control.HasFocus($PARAM[id])">
+                    <control type="group">
+                        <left>40</left>
+                        <right>-20</right>
+                        <control type="group">
+                            <control type="group">
+                                <centertop>50%</centertop>
+                                <height>60</height>
+                                <control type="image">
+                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                                    <texture border="54" colordiffuse="shadow_hard">shadows/circle_shadow.png</texture>
+                                </control>
+                                <control type="image">
+                                    <texture border="0">special://profile/addon_data/script.texturemaker/ArcticHorizon/menu_h.png</texture>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <centertop>50%</centertop>
+                                <height>60</height>
+                                <width>80</width>
+                                <aspectratio>keep</aspectratio>
+                                <texture colordiffuse="$VAR[ColorSelected]">$INFO[ListItem.Icon]</texture>
+                            </control>
+                            <control type="label">
+                                <centertop>50%</centertop>
+                                <height>60</height>
+                                <aligny>center</aligny>
+                                <left>40</left>
+                                <right>20</right>
+                                <align>center</align>
+                                <font>font_statusbar_bold</font>
+                                <textcolor>$VAR[ColorSelected]</textcolor>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                        </control>
+                    </control>
+                </focusedlayout>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_MenuBar_List">
+        <param name="control" default="list" />
+        <param name="detailed" default="true" />
+        <param name="focus_w" default="300" />
+        <param name="font" default="font_menulabel" />
+        <param name="color" default="dialog_fg" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <left>-20</left>
+                <centertop>50%</centertop>
+                <height>120</height>
+                <orientation>horizontal</orientation>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <itemlayout height="120" width="100">
+                    <control type="group">
+                        <left>40</left>
+                        <right>-40</right>
+                        <control type="image">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <width>80</width>
+                            <aspectratio>keep</aspectratio>
+                            <texture colordiffuse="$PARAM[color]_70">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="120" width="100" condition="!Control.HasFocus($PARAM[id]) + !$PARAM[detailed]">
+                    <control type="group">
+                        <left>40</left>
+                        <right>-40</right>
+                        <control type="image">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <width>80</width>
+                            <aspectratio>keep</aspectratio>
+                            <texture colordiffuse="$PARAM[color]_70">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </control>
+                </focusedlayout>
+                <focusedlayout height="120" width="$PARAM[focus_w]" condition="!Control.HasFocus($PARAM[id]) + $PARAM[detailed]">
+                    <control type="group">
+                        <left>40</left>
+                        <right>-20</right>
+                        <control type="group">
+                            <control type="group">
+                                <centertop>50%</centertop>
+                                <height>70</height>
+                                <include content="Object_Control">
+                                    <param name="control" value="image" />
+                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                                    <texture border="59" colordiffuse="shadow_hard">shadows/menu_shadow.png</texture>
+                                </include>
+                                <control type="image">
+                                    <texture border="35" colordiffuse="dialog_bg_100">common/menu.png</texture>
+                                </control>
+                                <control type="image">
+                                    <texture border="35" colordiffuse="overlay_soft">common/menu.png</texture>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <centertop>50%</centertop>
+                                <height>60</height>
+                                <width>80</width>
+                                <aspectratio>keep</aspectratio>
+                                <texture colordiffuse="$PARAM[color]_70">$INFO[ListItem.Icon]</texture>
+                            </control>
+                            <control type="label">
+                                <centertop>50%</centertop>
+                                <height>60</height>
+                                <aligny>center</aligny>
+                                <left>40</left>
+                                <right>20</right>
+                                <align>center</align>
+                                <font>$PARAM[font]</font>
+                                <textcolor>$PARAM[color]_70</textcolor>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                        </control>
+                    </control>
+                </focusedlayout>
+                <focusedlayout height="120" width="$PARAM[focus_w]" condition="Control.HasFocus($PARAM[id])">
+                    <control type="group">
+                        <left>40</left>
+                        <right>-20</right>
+                        <control type="group">
+                            <control type="group">
+                                <centertop>50%</centertop>
+                                <height>70</height>
+                                <include content="Object_Control" condition="$PARAM[detailed]">
+                                    <param name="control" value="image" />
+                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                                    <texture border="59" colordiffuse="shadow_hard">shadows/menu_shadow.png</texture>
+                                </include>
+                                <include content="Object_Control" condition="!$PARAM[detailed]">
+                                    <param name="control" value="image" />
+                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                                    <texture border="59" colordiffuse="shadow_soft">shadows/menu_shadow.png</texture>
+                                </include>
+                                <control type="image">
+                                    <include>Texture_Circle_Highlight_H</include>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <centertop>50%</centertop>
+                                <height>60</height>
+                                <width>80</width>
+                                <aspectratio>keep</aspectratio>
+                                <texture colordiffuse="$VAR[ColorSelected]">$INFO[ListItem.Icon]</texture>
+                            </control>
+                            <control type="label">
+                                <centertop>50%</centertop>
+                                <height>60</height>
+                                <aligny>center</aligny>
+                                <left>40</left>
+                                <right>20</right>
+                                <align>center</align>
+                                <font>$PARAM[font]</font>
+                                <textcolor>$VAR[ColorSelected]</textcolor>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                        </control>
+                    </control>
+                </focusedlayout>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_MenuBar_Group_Texture">
+        <param name="overlay" default="true" />
+        <definition>
+            <control type="group">
+                <nested />
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                    <texture colordiffuse="shadow_hard" border="54">shadows/circle_shadow.png</texture>
+                </control>
+                <control type="image">
+                    <texture colordiffuse="dialog_bg_100" border="30">common/circle.png</texture>
+                </control>
+                <include content="Object_Control" condition="$PARAM[overlay]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_soft" border="30">common/circle.png</texture>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_MenuBar_Group">
+        <param name="id" default="300" />
+        <param name="overlay" default="true" />
+        <definition>
+            <include content="Furniture_Topbar_Group">
+                <include content="Animation_SlideIn_Dialog">
+                    <param name="visible_delay" value="$PARAM[visible_delay]" />
+                    <param name="windowopen_delay" value="$PARAM[windowopen_delay]" />
+                </include>
+                <include>Animation_FadeOut</include>
+                <width>1020</width>
+                <control type="group">
+                    <left>0</left>
+                    <height>60</height>
+                    <centertop>50%</centertop>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="overlay" value="$PARAM[overlay]" />
+                        <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,7)</visible>
+                        <right>0</right>
+                    </include>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="overlay" value="$PARAM[overlay]" />
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,7)</visible>
+                        <right>100</right>
+                    </include>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="overlay" value="$PARAM[overlay]" />
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,6)</visible>
+                        <right>200</right>
+                    </include>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="overlay" value="$PARAM[overlay]" />
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,5)</visible>
+                        <right>300</right>
+                    </include>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="overlay" value="$PARAM[overlay]" />
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,4)</visible>
+                        <right>400</right>
+                    </include>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="overlay" value="$PARAM[overlay]" />
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,3)</visible>
+                        <right>500</right>
+                    </include>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="overlay" value="$PARAM[overlay]" />
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,2)</visible>
+                        <right>600</right>
+                    </include>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="overlay" value="$PARAM[overlay]" />
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,1)</visible>
+                        <right>700</right>
+                    </include>
+                </control>
+                <nested />
+            </include>
+        </definition>
+    </include>
+
+    <include name="Object_MenuHeader">
+        <param name="icon" default="special://skin/extras/icons/kodi.png" />
+        <param name="label" default="$LOCALIZE[33063]" />
+        <param name="has_icon" default="true" />
+        <param name="colordiffuse" default="$VAR[ColorHighlight]" />
+        <param name="textcolor" default="dialog_fg" />
+        <definition>
+            <control type="group" id="$PARAM[id]">
+                <nested />
+                <height>120</height>
+                <control type="label">
+                    <label>$PARAM[label]</label>
+                    <textoffsetx>row_height_x50</textoffsetx>
+                    <font>font_small_bold</font>
+                    <aligny>center</aligny>
+                    <textcolor>$PARAM[textcolor]_70</textcolor>
+                </control>
+                <include content="Object_Control" condition="$PARAM[has_icon]">
+                    <param name="control" value="group" />
+                    <right>row_height_x25</right>
+                    <centertop>50%</centertop>
+                    <height>row_height</height>
+                    <width>row_height</width>
+                    <control type="image">
+                        <bordersize>$PARAM[bordersize]</bordersize>
+                        <texture colordiffuse="$PARAM[colordiffuse]">$PARAM[icon]</texture>
+                    </control>
+                </include>
+                <control type="image">
+                    <bottom>20</bottom>
+                    <height>1</height>
+                    <left>row_height_x50</left>
+                    <right>row_height_x50</right>
+                    <texture colordiffuse="$PARAM[textcolor]_12">common/white.png</texture>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Vignette_Standard">
+        <param name="colordiffuse" default="main_bg_80" />
+        <param name="flipx" default="false" />
+        <definition>
+            <control type="image">
+                <nested />
+                <texture background="true" colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]">common/vignette-home.png</texture>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Vignette_Bottom">
+        <control type="image">
+            <nested />
+            <texture colordiffuse="main_bg_80">common/vignette-home-bottom.png</texture>
+        </control>
+    </include>
+
+    <include name="Object_Vignette_Showcase">
+        <include content="Object_Vignette_Standard">
+            <bottom>divider_bottom</bottom>
+        </include>
+        <include content="Object_Vignette_Bottom">
+            <bottom>0</bottom>
+            <height>divider_bottom</height>
+        </include>
+    </include>
+
+    <include name="Object_Keyboard_Button">
+        <param name="control" default="button" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <width>row_height</width>
+                <font>font_small</font>
+                <textoffsetx>0</textoffsetx>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_ColorSwatch">
+        <control type="label">
+            <align>center</align>
+            <font>font_hintlabel</font>
+            <height>40</height>
+            <label>$PARAM[label]</label>
+        </control>
+        <control type="group">
+            <top>40</top>
+            <control type="image">
+                <texture colordiffuse="$PARAM[colordiffuse]" border="20">common/box.png</texture>
+                <visible>!$PARAM[condition] | !Control.HasFocus(3000)</visible>
+            </control>
+            <control type="image">
+                <texture colordiffuse="$INFO[Container(3000).ListItem.Label]" border="20">common/box.png</texture>
+                <visible>$PARAM[condition]</visible>
+                <visible>Control.HasFocus(3000)</visible>
+            </control>
+            <control type="image">
+                <centerleft>50%</centerleft>
+                <centertop>50%</centertop>
+                <width>16</width>
+                <height>16</height>
+                <texture>buttons/check-on.png</texture>
+                <visible>$PARAM[condition]</visible>
+            </control>
+        </control>
+    </include>
+
+    <include name="Object_Overlay">
+        <param name="windowanimation" default="true" />
+        <definition>
+            <control type="image">
+                <nested />
+                <include content="Animation_Overlay_FadeIn" condition="$PARAM[windowanimation]">
+                    <param name="delay" value="$PARAM[delay]" />
+                </include>
+                <include content="Texture_Control">
+                    <param name="texture" value="common/dim-overlay.png" />
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Separator">
+        <param name="colordiffuse" default="dialog_fg_12" />
+        <param name="horizontal" default="false" />
+        <definition>
+            <include content="Object_Control" condition="!$PARAM[horizontal]">
+                <param name="control" value="image" />
+                <nested />
+                <width>1</width>
+                <texture colordiffuse="$PARAM[colordiffuse]">common/white.png</texture>
+            </include>
+            <include content="Object_Control" condition="$PARAM[horizontal]">
+                <param name="control" value="image" />
+                <nested />
+                <height>1</height>
+                <texture colordiffuse="$PARAM[colordiffuse]">common/white.png</texture>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Object_Separator_V">
+        <include content="Object_Separator">
+            <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+            <param name="horizontal" value="true" />
+            <nested />
+        </include>
+    </include>
+
+    <include name="Object_FakeSpinner">
+        <control type="group" id="$PARAM[groupid]">
+            <top>-row_height</top>
+            <height>row_height</height>
+            <control type="group">
+                <right>40</right>
+                <height>30</height>
+                <centertop>50%</centertop>
+                <control type="image">
+                    <right>0</right>
+                    <width>30</width>
+                    <texture flipy="true" colordiffuse="dialog_fg_30">buttons/triangle-down.png</texture>
+                    <visible>!Control.HasFocus($PARAM[id]) | !String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
+                </control>
+                <control type="image">
+                    <right>30</right>
+                    <width>30</width>
+                    <texture flipy="false" colordiffuse="dialog_fg_30">buttons/triangle-down.png</texture>
+                    <visible>!Control.HasFocus($PARAM[id]) | String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
+                </control>
+                <control type="image">
+                    <right>0</right>
+                    <width>30</width>
+                    <texture flipy="true" colordiffuse="$VAR[ColorSelected]">buttons/triangle-down.png</texture>
+                    <visible>Control.HasFocus($PARAM[id])</visible>
+                    <visible>String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
+                </control>
+                <control type="image">
+                    <right>30</right>
+                    <width>30</width>
+                    <texture flipy="false" colordiffuse="$VAR[ColorSelected]">buttons/triangle-down.png</texture>
+                    <visible>Control.HasFocus($PARAM[id])</visible>
+                    <visible>!String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
+                </control>
+            </control>
+        </control>
+    </include>
+
+    <include name="Object_DoubleArrow">
+        <param name="colordiffuse" default="dialog_fg_30" />
+        <param name="flipy" default="false" />
+        <definition>
+            <control type="group">
+                <nested />
+                <control type="group">
+                    <centertop>50%</centertop>
+                    <height>26</height>
+                    <control type="image">
+                        <width>16</width>
+                        <height>16</height>
+                        <texture colordiffuse="$PARAM[colordiffuse]" flipy="$PARAM[flipy]">common/arrow-small.png</texture>
+                        <centerleft>50%</centerleft>
+                        <top>10</top>
+                    </control>
+                    <control type="image">
+                        <width>16</width>
+                        <height>16</height>
+                        <texture colordiffuse="$PARAM[colordiffuse]" flipy="$PARAM[flipy]">common/arrow-small.png</texture>
+                        <centerleft>50%</centerleft>
+                        <top>0</top>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_SelectBox">
+        <param name="pad" default="-10" />
+        <param name="indicator" default="false" />
+        <param name="focusbounce" default="false" />
+        <param name="shadow" default="true" />
+        <definition>
+            <control type="group">
+                <include condition="$PARAM[focusbounce]">Animation_FocusBounce</include>
+                <include content="Object_Control">
+                    <param name="control" value="group" />
+                    <param name="padding" value="true" />
+                    <param name="pad" value="$PARAM[pad]" />
+                    <include condition="$PARAM[shadow]">Object_Shadow_40</include>
+                    <include content="Object_Control">
+                        <param name="control" value="image" />
+                        <include>Texture_SelectBox</include>
+                    </include>
+                </include>
+                <include content="Object_Indicator" condition="$PARAM[indicator]">
+                    <param name="selected" value="true" />
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_IsSelected_Checkmark">
+        <param name="color_off" default="dialog_fg_30" />
+        <param name="color_on" default="dialog_fg_70" />
+        <definition>
+            <control type="image">
+                <centertop>50%</centertop>
+                <texture colordiffuse="$PARAM[color_off]">buttons/check-off.png</texture>
+                <width>24</width>
+                <height>24</height>
+                <visible>!ListItem.IsSelected</visible>
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <texture colordiffuse="$PARAM[color_on]">buttons/check-on.png</texture>
+                <width>24</width>
+                <height>24</height>
+                <visible>ListItem.IsSelected</visible>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_IsSelected_Checkmark_Focus">
+        <include content="Object_IsSelected_Checkmark">
+            <param name="color_off" value="$VAR[ColorSelected]" />
+            <param name="color_on" value="$VAR[ColorSelected]" />
+        </include>
+    </include>
+
+    <include name="Object_ListItem_Iconic">
+        <param name="color" default="dialog_fg_70" />
+        <definition>
+            <control type="group">
+                <width>row_height_x200</width>
+                <control type="image">
+                    <left>0</left>
+                    <right>40</right>
+                    <top>20</top>
+                    <bottom>20</bottom>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture background="true" fallback="$PARAM[fallback]" colordiffuse="$PARAM[color]">$INFO[ListItem.Icon]</texture>
+                    <visible>String.StartsWith(ListItem.Icon,Default)</visible>
+                </control>
+                <control type="image">
+                    <left>0</left>
+                    <right>40</right>
+                    <top>20</top>
+                    <bottom>20</bottom>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture background="true" fallback="$PARAM[fallback]">$INFO[ListItem.Icon]</texture>
+                    <visible>!String.StartsWith(ListItem.Icon,Default)</visible>
+                </control>
+            </control>
+            <control type="group">
+                <left>row_height_x200</left>
+                <right>dialog_pad</right>
+                <control type="label">
+                    <textcolor>$PARAM[color]</textcolor>
+                    <selectedcolor>$PARAM[color]</selectedcolor>
+                    <font>font_small_bold</font>
+                    <label>$INFO[ListItem.Label]</label>
+                    <visible>String.IsEmpty(ListItem.Label2)</visible>
+                </control>
+                <control type="label">
+                    <height>50%</height>
+                    <centertop>37.5%</centertop>
+                    <textcolor>$PARAM[color]</textcolor>
+                    <selectedcolor>$PARAM[color]</selectedcolor>
+                    <font>font_small_bold</font>
+                    <label>$INFO[ListItem.Label]</label>
+                    <visible>!String.IsEmpty(ListItem.Label2)</visible>
+                </control>
+                <control type="label">
+                    <height>50%</height>
+                    <font>font_minilabel</font>
+                    <centerbottom>37.5%</centerbottom>
+                    <textcolor>$PARAM[color]</textcolor>
+                    <selectedcolor>$PARAM[color]</selectedcolor>
+                    <label>$INFO[ListItem.Label2]</label>
+                    <visible>!String.IsEmpty(ListItem.Label2)</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+</includes>

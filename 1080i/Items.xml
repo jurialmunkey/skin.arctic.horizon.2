@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="Items_Null">
+        <description>Empty include to pass to params</description>
+    </include>
+
+    <include name="Items_Weather_Screenshots">
+        <content sortby="random" target="images">resource://resource.images.weatherfanart.multi/$INFO[Weather.FanartCode]/</content>
+    </include>
+
+    <include name="Items_AddonInfo_Details_Left">
+        <content>
+
+            <item>
+                <icon>special://skin/extras/icons/sysinfo.png</icon>
+                <label>$INFO[ListItem.Property(Addon.ID)]</label>
+                <visible>!String.IsEmpty(ListItem.Property(Addon.ID))</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/tags.png</icon>
+                <label>$INFO[ListItem.AddonVersion,v,]</label>
+                <visible>!String.IsEmpty(ListItem.AddonVersion)</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/person.png</icon>
+                <label>$INFO[ListItem.AddonCreator]</label>
+                <visible>!String.IsEmpty(ListItem.AddonCreator)</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/shipping.png</icon>
+                <label>$INFO[ListItem.AddonType]</label>
+                <visible>!String.IsEmpty(ListItem.AddonType)</visible>
+            </item>
+            <item>
+                <icon>$VAR[Image_AddonsOrigin]</icon>
+                <label>$INFO[ListItem.AddonOrigin]</label>
+                <visible>!String.IsEmpty(ListItem.AddonOrigin)</visible>
+                <property name="padded">True</property>
+            </item>
+        </content>
+    </include>
+
+    <include name="Items_AddonInfo_Details_Right">
+        <content>
+            <item>
+                <icon>special://skin/extras/icons/download.png</icon>
+                <label2>$INFO[ListItem.AddonInstallDate]</label2>
+                <label>$LOCALIZE[31030]</label>
+                <visible>!String.IsEmpty(ListItem.AddonInstallDate) + !String.IsEqual(Control.GetLabel(6),$LOCALIZE[24038])</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/recent.png</icon>
+                <label>$LOCALIZE[31029]</label>
+                <label2>$INFO[ListItem.AddonLastUpdated]</label2>
+                <visible>!String.IsEmpty(ListItem.AddonLastUpdated)</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/year.png</icon>
+                <label>$LOCALIZE[12012]</label>
+                <label2>$INFO[ListItem.AddonLastUsed]</label2>
+                <visible>!String.IsEmpty(ListItem.AddonLastUsed)</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/megaphone.png</icon>
+                <label>$INFO[ListItem.AddonLifecycleType]</label>
+                <visible>!String.IsEmpty(ListItem.AddonLifecycleType) + !String.IsEqual(ListItem.AddonLifecycleType,$LOCALIZE[24169])</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/warning.png</icon>
+                <label>$INFO[ListItem.AddonLifecycleDesc]</label>
+                <visible>!String.IsEmpty(ListItem.AddonLifecycleDesc)</visible>
+            </item>
+        </content>
+    </include>
+
+    <include name="Items_VideoInfo_Details_Left">
+        <content>
+
+            <item>
+                <icon>special://skin/extras/icons/calendar.png</icon>
+                <label>$INFO[ListItem.Premiered]</label>
+                <visible>!String.IsEmpty(ListItem.Premiered)</visible>
+            </item>
+
+            <!-- <item>
+                <icon>special://skin/extras/icons/certificate.png</icon>
+                <label>$INFO[ListItem.MPAA]</label>
+                <visible>!String.IsEmpty(ListItem.MPAA)</visible>
+            </item> -->
+            <item>
+                <icon>special://skin/extras/icons/clock.png</icon>
+                <label>$INFO[ListItem.Duration(h),,hr ]$INFO[ListItem.Duration(mm),,mins ]</label>
+                <visible>!String.IsEmpty(ListItem.Duration)</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/world.png</icon>
+                <label>$INFO[ListItem.Country]</label>
+                <visible>!String.IsEmpty(ListItem.Country)</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/director.png</icon>
+                <label>$INFO[ListItem.Studio]</label>
+                <visible>!String.IsEmpty(ListItem.Studio)</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/genre.png</icon>
+                <label>$INFO[ListItem.Genre]</label>
+                <visible>!String.IsEmpty(ListItem.Genre)</visible>
+            </item>
+        </content>
+    </include>
+    <include name="Items_VideoInfo_Details_Right">
+        <content>
+
+            <item>
+                <icon>special://skin/extras/icons/video-addons.png</icon>
+                <icon>special://skin/extras/icons/director.png</icon>
+                <label>$INFO[ListItem.Director]</label>
+                <visible>!String.IsEmpty(ListItem.Director)</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/write.png</icon>
+                <label>$INFO[ListItem.Writer]</label>
+                <visible>!String.IsEmpty(ListItem.Writer)</visible>
+            </item>
+            <!-- <item>
+                <icon>special://skin/extras/icons/director.png</icon>
+                <label>$INFO[ListItem.Studio]</label>
+                <visible>!String.IsEmpty(ListItem.Studio)</visible>
+            </item> -->
+            <item>
+                <icon>special://skin/extras/icons/trophy.png</icon>
+                <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]</label>
+                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))</visible>
+            </item>
+            <item>
+                <icon>special://skin/extras/icons/coins.png</icon>
+                <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Revenue),, from ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Budget)]</label>
+                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Revenue)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Revenue),$0)</visible>
+            </item>
+        </content>
+    </include>
+
+    <include name="Items_HomeMenu_Temp">
+        <include content="Dialog_Menu_Button" description="Favourites">
+            <param name="id" value="9005" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/favourites.png" />
+            <label>Favourites</label>
+            <onclick>ActivateWindow(favourites)</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Add-ons">
+            <param name="id" value="9004" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/filebox.png" />
+            <label>File manager</label>
+            <onclick>ActivateWindow(filemanager)</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Add-ons">
+            <param name="id" value="9001" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/addon.png" />
+            <label>$LOCALIZE[24001]</label>
+            <onclick>ActivateWindow(addonbrowser)</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Settings">
+            <param name="id" value="9002" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/settings.png" />
+            <label>$LOCALIZE[5]</label>
+            <onclick>ActivateWindow(interfacesettings)</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Power">
+            <param name="id" value="9003" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/power.png" />
+            <label>$LOCALIZE[13009]</label>
+            <onclick>Quit()</onclick>
+        </include>
+    </include>
+
+    <include name="Items_HomeBar_Temp">
+        <content>
+            <item>
+                <label>Movies</label>
+                <onclick>ActivateWindow(videos,videodb://movies/titles/,return)</onclick>
+                <icon>special://skin/extras/icons/film.png</icon>
+            </item>
+            <item>
+                <label>TV Shows</label>
+                <onclick>ActivateWindow(videos,videodb://tvshows/titles/,return)</onclick>
+                <icon>special://skin/extras/icons/tv.png</icon>
+            </item>
+            <item>
+                <label>Music</label>
+                <onclick>ActivateWindow(videos)</onclick>
+                <icon>special://skin/extras/icons/songs.png</icon>
+            </item>
+            <item>
+                <label>Weather</label>
+                <onclick>ActivateWindow(weather)</onclick>
+                <icon>special://skin/extras/icons/sun.png</icon>
+            </item>
+        </content>
+    </include>
+
+
+    <include name="Items_DialogVideoInfo_MenuBar">
+        <content>
+            <item>
+                <label>$LOCALIZE[208]</label>
+                <icon>special://skin/extras/icons/play3.png</icon>
+            </item>
+            <item>
+                <label>$LOCALIZE[20410]</label>
+                <icon>special://skin/extras/icons/videoplay.png</icon>
+            </item>
+            <item>
+                <label>$LOCALIZE[137]</label>
+                <icon>special://skin/extras/icons/search.png</icon>
+            </item>
+            <item>
+                <label>Trakt</label>
+                <icon>special://skin/extras/icons/watchlist.png</icon>
+            </item>
+        </content>
+    </include>
+
+    <include name="Items_Settings">
+        <content>
+            <item id="4">
+                <label>[CAPITALIZE]$LOCALIZE[20077][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/paintbrush.png</icon>
+                <onclick>ReplaceWindow(SkinSettings)</onclick>
+                <property name="path">ReplaceWindow(SkinSettings)</property>
+                <property name="altpath">ActivateWindow(SkinSettings)</property>
+            </item>
+            <item id="1">
+                <label>[CAPITALIZE]$LOCALIZE[14207][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/skinsettings.png</icon>
+                <onclick>ReplaceWindow(InterfaceSettings)</onclick>
+                <property name="path">ReplaceWindow(InterfaceSettings)</property>
+                <property name="altpath">ActivateWindow(InterfaceSettings)</property>
+            </item>
+            <item id="2">
+                <label>[CAPITALIZE]$LOCALIZE[14212][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/tags.png</icon>
+                <onclick>ReplaceWindow(MediaSettings)</onclick>
+                <property name="path">ReplaceWindow(MediaSettings)</property>
+                <property name="altpath">ActivateWindow(MediaSettings)</property>
+            </item>
+            <item id="3">
+                <label>[CAPITALIZE]$LOCALIZE[14201][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/equalizer.png</icon>
+                <onclick>ReplaceWindow(PlayerSettings)</onclick>
+                <property name="path">ReplaceWindow(PlayerSettings)</property>
+                <property name="altpath">ActivateWindow(PlayerSettings)</property>
+            </item>
+            <item id="5">
+                <label>[CAPITALIZE]$LOCALIZE[14209][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/configure.png</icon>
+                <onclick>ReplaceWindow(SystemSettings)</onclick>
+                <property name="path">ReplaceWindow(SystemSettings)</property>
+                <property name="altpath">ActivateWindow(SystemSettings)</property>
+            </item>
+            <item id="6">
+                <label>[CAPITALIZE]$LOCALIZE[14208][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/network.png</icon>
+                <onclick>ReplaceWindow(servicesettings)</onclick>
+                <property name="path">ReplaceWindow(servicesettings)</property>
+                <property name="altpath">ActivateWindow(servicesettings)</property>
+            </item>
+            <item id="10">
+                <label>[CAPITALIZE]$LOCALIZE[14205][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/livetv.png</icon>
+                <onclick>ReplaceWindow(pvrsettings)</onclick>
+                <property name="path">ReplaceWindow(pvrsettings)</property>
+                <property name="altpath">ActivateWindow(pvrsettings)</property>
+            </item>
+            <item id="9">
+                <label>[CAPITALIZE]$LOCALIZE[10007][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/sysinfo.png</icon>
+                <onclick>ReplaceWindow(systeminfo)</onclick>
+                <property name="path">ReplaceWindow(systeminfo)</property>
+                <property name="altpath">ActivateWindow(systeminfo)</property>
+            </item>
+            <item id="7">
+                <label>[CAPITALIZE]$LOCALIZE[14210][/CAPITALIZE]</label>
+                <icon>special://skin/extras/icons/actor.png</icon>
+                <onclick>ReplaceWindow(Profiles)</onclick>
+                <property name="path">ReplaceWindow(Profiles)</property>
+                <property name="altpath">ActivateWindow(Profiles)</property>
+            </item>
+        </content>
+    </include>
+
+    <variable name="Items_AddonBrowser_Submenu">
+        <value condition="!String.IsEmpty(Container(6000).ListItem.FolderPath)">$INFO[Container(6000).ListItem.FolderPath]</value>
+        <value condition="!String.IsEmpty(Container(6000).ListItem.Property(FolderPath))">$INFO[Container(6000).ListItem.Property(FolderPath)]</value>
+    </variable>
+
+    <include name="Items_AddonBrowser_Settings">
+        <include content="Dialog_Settings_Button" description="Settings">
+            <param name="id" value="5" />
+            <param name="control" value="button" />
+            <label>$LOCALIZE[5]</label>
+        </include>
+        <include content="Dialog_Settings_Button" description="Install from Zip">
+            <param name="id" value="9002" />
+            <param name="control" value="button" />
+            <label>$LOCALIZE[24041]</label>
+            <onclick>SetFocus(50)</onclick>
+            <onclick>Container.Update(addons://install/,replace)</onclick>
+            <onclick>Action(Select)</onclick>
+        </include>
+        <include content="Dialog_Settings_Button" description="CheckUpdates">
+            <param name="id" value="9" />
+            <param name="control" value="button" />
+            <label>$LOCALIZE[24034]</label>
+        </include>
+        <include content="Dialog_Settings_Button" description="HideForeign">
+            <param name="id" value="7" />
+            <param name="control" value="radiobutton" />
+            <label>$LOCALIZE[25001]</label>
+            <visible>Control.IsEnabled(7)</visible>
+        </include>
+        <include content="Dialog_Settings_Button" description="HideIncompat">
+            <param name="id" value="8" />
+            <param name="control" value="radiobutton" />
+            <label>$LOCALIZE[24999]</label>
+            <visible>Control.IsEnabled(8)</visible>
+        </include>
+    </include>
+
+
+    <include name="Items_Weather_Settings">
+        <include content="Dialog_Menu_Button" description="Refresh">
+            <param name="id" value="2" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/update.png" />
+            <label>$LOCALIZE[184]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Next Location">
+            <param name="id" value="9002" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/antenna.png" />
+            <label>$LOCALIZE[31006]</label>
+            <onclick>Weather.LocationNext</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Weather Plugin Settings">
+            <param name="id" value="9003" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/configure.png" />
+            <label>$LOCALIZE[10140]</label>
+            <onclick>SetFocus(50)</onclick>
+            <onclick>Addon.OpenSettings($INFO[Weather.Plugin])</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Weather Settings">
+            <param name="id" value="9004" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/settings.png" />
+            <label>$LOCALIZE[5]</label>
+            <onclick>ActivateWindow(ServiceSettings,weather)</onclick>
+        </include>
+    </include>
+
+    <include name="Items_Default_MyNav">
+        <include content="Dialog_Menu_Button" description="View Switcher">
+            <param name="id" value="2" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/viewmode.png" />
+        </include>
+        <include content="Dialog_Menu_Button" description="Sort method">
+            <param name="id" value="9003" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/sort.png" />
+            <label>$INFO[Container.SortMethod,$LOCALIZE[31016]: ,]</label>
+            <!-- <onclick>SetFocus(50)</onclick> -->
+            <onclick>SetProperty(DialogSelectType,Menu,Home)</onclick>
+            <onclick>SendClick(3)</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Sort direction">
+            <param name="id" value="4" />
+            <param name="control" value="togglebutton" />
+            <param name="icon" value="special://skin/extras/icons/sort2.png" />
+            <label>$LOCALIZE[31015]: $LOCALIZE[584]</label>
+            <altlabel>$LOCALIZE[31015]: $LOCALIZE[585]</altlabel>
+            <usealttexture>Container.SortDirection(Descending)</usealttexture>
+        </include>
+    </include>
+
+    <include name="Items_MyVideoNav">
+        <include>Items_Default_MyNav</include>
+        <include content="Dialog_Menu_Button" description="Search">
+            <param name="id" value="8" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/search.png" />
+            <label>$LOCALIZE[137]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Watched">
+            <param name="id" value="14" />
+            <param name="control" value="radiobutton" />
+            <param name="icon" value="$VAR[Image_Watched]" />
+            <label>$LOCALIZE[20367]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Filter">
+            <param name="id" value="19" />
+            <param name="control" value="edit" />
+            <param name="icon" value="$VAR[Image_Filtered]" />
+            <label>$LOCALIZE[587]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Background Customisation">
+            <param name="id" value="9001" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/paintbrush2.png" />
+            <onclick>SetFocus(50)</onclick>
+            <onclick>ActivateWindow(1112)</onclick>
+            <label>$LOCALIZE[31007]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Update Library">
+            <param name="id" value="20" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/update.png" />
+            <label>$LOCALIZE[653]</label>
+        </include>
+    </include>
+    <include name="Items_DialogVideoInfo_Options">
+        <include content="Dialog_Menu_Button" description="Play">
+            <param name="id" value="8" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/play3.png" />
+            <label>$LOCALIZE[208]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Refresh">
+            <param name="id" value="6" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/update.png" />
+            <label>$LOCALIZE[184]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Refresh">
+            <param name="id" value="9001" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/userrating.png" />
+            <label>$LOCALIZE[38018]</label>
+            <label2>$INFO[ListItem.UserRating,,       ]</label2>
+            <onclick>SendClick(7)</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Artwork">
+            <param name="id" value="10" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/paintbrush.png" />
+            <label>$LOCALIZE[39123]</label>
+        </include>
+    </include>
+    <include name="Items_DialogAddonInfo_Options">
+        <include content="Dialog_Menu_Button" description="Open">
+            <param name="id" value="12" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/play3.png" />
+        </include>
+        <include content="Dialog_Menu_Button" description="Install">
+            <param name="id" value="9006" />
+            <param name="control" value="button" />
+            <param name="icon" value="$VAR[Image_AddonInfo_Install]" />
+            <label>$INFO[Control.GetLabel(6)]</label>
+            <onclick>SendClick(6)</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Enable">
+            <param name="id" value="7" />
+            <param name="control" value="button" />
+            <param name="icon" value="$VAR[Image_AddonInfo_Enable]" />
+        </include>
+        <include content="Dialog_Menu_Button" description="Update">
+            <param name="id" value="8" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/update.png" />
+            <label>$LOCALIZE[24138]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Auto-Update">
+            <param name="id" value="13" />
+            <param name="control" value="radiobutton" />
+            <param name="icon" value="special://skin/extras/icons/update.png" />
+            <label>$LOCALIZE[21340]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Versions">
+            <param name="id" value="14" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/network.png" />
+            <label>$LOCALIZE[24069]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Dependencies">
+            <param name="id" value="10" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/dependencies.png" />
+            <label>$LOCALIZE[39024]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Settings">
+            <param name="id" value="9" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/settings.png" />
+            <label>$LOCALIZE[5]</label>
+        </include>
+
+
+    </include>
+
+</includes>

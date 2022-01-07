@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog" id="1111">
+    <defaultcontrol always="true">9002</defaultcontrol>
+    <onload condition="String.IsEmpty(Window(Home).Property(ColorPicker_Type))">SetProperty(ColorPicker_Type,Highlight,Home)</onload>
+    <controls>
+        <include>Object_Overlay</include>
+        <include content="Dialog_Background">
+            <include>Animation_SlideIn_Dialog</include>
+            <include>Dimension_DialogColors</include>
+            <include>Dialog_Overlay_Buttons</include>
+            <include content="Dialog_Header">
+                <label>$INFO[Window(Home).Property(ColorPicker_Type)]</label>
+            </include>
+            <include content="Dialog_Group">
+                <control type="group">
+                    <right>dialog_button_width</right>
+                    <control type="group">
+                        <right>dialog_pad</right>
+                        <control type="panel" id="3000">
+                            <pagecontrol>61</pagecontrol>
+                            <onright>9000</onright>
+                            <onback>9000</onback>
+                            <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight)">Skin.SetString(focuscolor.name,$INFO[ListItem.Label])</onclick>
+                            <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient)">Skin.SetString(gradientcolor.name,$INFO[ListItem.Label])</onclick>
+                            <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">Skin.SetString(watchedprogresscolor.name,$INFO[ListItem.Label])</onclick>
+                            <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">SetFocus(9002)</onclick>
+                            <include>Action_BuildTextures_Onclick</include>
+                            <itemlayout height="row_height" width="row_height">
+                                <include content="Object_Control">
+                                    <param name="control" value="image" />
+                                    <param name="pad" value="1" />
+                                    <param name="padding" value="true" />
+                                    <texture>$INFO[ListItem.Icon]</texture>
+                                </include>
+                            </itemlayout>
+                            <focusedlayout height="row_height" width="row_height">
+                                <include content="Object_Control">
+                                    <param name="control" value="image" />
+                                    <param name="pad" value="1" />
+                                    <param name="padding" value="true" />
+                                    <texture>$INFO[ListItem.Icon]</texture>
+                                </include>
+                            </focusedlayout>
+                            <content>plugin://script.texturemaker/</content>
+                        </control>
+
+                        <!-- Selection Box -->
+                        <control type="group">
+                            <left>-30</left>
+                            <top>-30</top>
+                            <width>140</width>
+                            <height>140</height>
+                            <visible>Control.Hasfocus(3000)</visible>
+                            <animation effect="slide" end="0,80" condition="Container(3000).Row(1)">Conditional</animation>
+                            <animation effect="slide" end="0,160" condition="Container(3000).Row(2)">Conditional</animation>
+                            <animation effect="slide" end="0,240" condition="Container(3000).Row(3)">Conditional</animation>
+                            <animation effect="slide" end="0,320" condition="Container(3000).Row(4)">Conditional</animation>
+                            <animation effect="slide" end="0,400" condition="Container(3000).Row(5)">Conditional</animation>
+                            <animation effect="slide" end="0,480" condition="Container(3000).Row(6)">Conditional</animation>
+                            <animation effect="slide" end="0,560" condition="Container(3000).Row(7)">Conditional</animation>
+                            <animation effect="slide" end="0,640" condition="Container(3000).Row(8)">Conditional</animation>
+                            <animation effect="slide" end="0,720" condition="Container(3000).Row(9)">Conditional</animation>
+                            <animation effect="slide" end="80" condition="Container(3000).Column(1)">Conditional</animation>
+                            <animation effect="slide" end="160" condition="Container(3000).Column(2)">Conditional</animation>
+                            <animation effect="slide" end="240" condition="Container(3000).Column(3)">Conditional</animation>
+                            <animation effect="slide" end="320" condition="Container(3000).Column(4)">Conditional</animation>
+                            <animation effect="slide" end="400" condition="Container(3000).Column(5)">Conditional</animation>
+                            <animation effect="slide" end="480" condition="Container(3000).Column(6)">Conditional</animation>
+                            <animation effect="slide" end="560" condition="Container(3000).Column(7)">Conditional</animation>
+                            <animation effect="slide" end="640" condition="Container(3000).Column(8)">Conditional</animation>
+                            <animation effect="slide" end="720" condition="Container(3000).Column(9)">Conditional</animation>
+                            <animation effect="slide" end="800" condition="Container(3000).Column(10)">Conditional</animation>
+                            <animation effect="slide" end="880" condition="Container(3000).Column(11)">Conditional</animation>
+                            <animation effect="slide" end="960" condition="Container(3000).Column(12)">Conditional</animation>
+                            <animation effect="slide" end="1040" condition="Container(3000).Column(13)">Conditional</animation>
+                            <include content="Object_Control">
+                                <param name="control" value="group" />
+                                <param name="pad" value="10"/>
+                                <param name="padding" value="true" />
+                                <control type="image">
+                                    <include>Texture_Shadow_20</include>
+                                    <texture border="20" colordiffuse="ccffffff">common/box.png</texture>
+                                </control>
+                            </include>
+                            <control type="image">
+                                <bordersize>20</bordersize>
+                                <texture colordiffuse="$INFO[Container(3000).ListItem.Label]" border="10">common/box.png</texture>
+                            </control>
+
+                        </control>
+
+                        <include content="Dialog_Scrollbar">
+                            <onright>9000</onright>
+                            <onleft>3000</onleft>
+                        </include>
+                    </control>
+                </control>
+
+                <control type="grouplist" id="9000">
+                    <onleft>3000</onleft>
+                    <right>-40</right>
+                    <width>dialog_button_width_padded</width>
+                    <itemgap>0</itemgap>
+                    <control type="group">
+                        <left>40</left>
+                        <right>40</right>
+                        <height>row_height</height>
+                        <control type="label">
+                            <font>font_hintlabel</font>
+                            <height>40</height>
+                            <label>Preview</label>
+                        </control>
+                        <control type="group">
+                            <top>40</top>
+                            <control type="image">
+                                <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/box.png</texture>
+                                <visible>!String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight) | !Control.HasFocus(3000)</visible>
+                            </control>
+                            <control type="image">
+                                <texture colordiffuse="$INFO[Container(3000).ListItem.Label]" border="20">common/box.png</texture>
+                                <visible>String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight) + Control.HasFocus(3000)</visible>
+                            </control>
+                            <control type="image">
+                                <texture colordiffuse="$VAR[ColorGradient]" border="20">common/gradient-box.png</texture>
+                                <visible>!String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient) | !Control.HasFocus(3000)</visible>
+                            </control>
+                            <control type="image">
+                                <texture colordiffuse="$INFO[Container(3000).ListItem.Label]" border="20">common/gradient-box.png</texture>
+                                <visible>String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient) + Control.HasFocus(3000)</visible>
+                            </control>
+                            <control type="group">
+                                <width>30%</width>
+                                <visible>String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight)</visible>
+                                <control type="image">
+                                    <centerleft>50%</centerleft>
+                                    <centertop>50%</centertop>
+                                    <width>16</width>
+                                    <height>16</height>
+                                    <texture>buttons/check-on.png</texture>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <right>0</right>
+                                <width>30%</width>
+                                <visible>String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient)</visible>
+                                <control type="image">
+                                    <centerleft>50%</centerleft>
+                                    <centertop>50%</centertop>
+                                    <width>16</width>
+                                    <height>16</height>
+                                    <texture>buttons/check-on.png</texture>
+                                </control>
+                            </control>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <top>20</top>
+                        <left>40</left>
+                        <right>40</right>
+                        <height>row_height</height>
+                        <control type="group">
+                            <width>30%</width>
+                            <include content="Object_ColorSwatch">
+                                <param name="label" value="Highlight" />
+                                <param name="colordiffuse" value="$VAR[ColorHighlight]" />
+                                <param name="condition" value="String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight)" />
+                            </include>
+                        </control>
+
+                        <control type="group">
+                            <centerleft>50%</centerleft>
+                            <width>30%</width>
+                            <include content="Object_ColorSwatch">
+                                <param name="label" value="Gradient" />
+                                <param name="colordiffuse" value="$VAR[ColorGradient]" />
+                                <param name="condition" value="String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient)" />
+                            </include>
+                        </control>
+
+                        <control type="group">
+                            <right>0</right>
+                            <width>30%</width>
+                            <include content="Object_ColorSwatch">
+                                <param name="label" value="Indicator" />
+                                <param name="colordiffuse" value="$VAR[ColorWatchedProgress]" />
+                                <param name="condition" value="String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)" />
+                            </include>
+                        </control>
+                    </control>
+                    <control type="label">
+                        <left>40</left>
+                        <right>40</right>
+                        <top>20</top>
+                        <align>center</align>
+                        <font>font_hintlabel</font>
+                        <height>40</height>
+                        <label>Indicator</label>
+                    </control>
+                    <control type="grouplist">
+                        <top>0</top>
+                        <left>40</left>
+                        <right>40</right>
+                        <height>row_height</height>
+                        <orientation>horizontal</orientation>
+                        <align>center</align>
+                        <itemgap>10</itemgap>
+                        <include content="Object_Indicator_Preview">
+                            <param name="progress" value="100" />
+                            <param name="selected" value="true" />
+                            <param name="shadow" value="false" />
+                        </include>
+                        <include content="Object_Indicator_Preview">
+                            <param name="progress" value="60" />
+                            <param name="checkmark" value="false" />
+                            <param name="selected" value="true" />
+                            <param name="shadow" value="false" />
+                        </include>
+                        <include content="Object_Indicator_Preview">
+                            <param name="progress" value="100" />
+                        </include>
+                        <include content="Object_Indicator_Preview">
+                            <param name="progress" value="60" />
+                            <param name="checkmark" value="false" />
+                        </include>
+                    </control>
+                    <control type="label">
+                        <left>40</left>
+                        <right>40</right>
+                        <top>40</top>
+                        <font>font_hintlabel</font>
+                        <height>40</height>
+                        <label>$LOCALIZE[33063]</label>
+                    </control>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9002" />
+                        <param name="control" value="button" />
+                        <description>Default Setting Button</description>
+                        <label>$INFO[Window(Home).Property(ColorPicker_Type)]</label>
+                        <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight) + !Skin.HasSetting(EnableMonochromeHighlight)">SetProperty(ColorPicker_Type,Gradient,Home)</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight) + Skin.HasSetting(EnableMonochromeHighlight)">SetProperty(ColorPicker_Type,Indicator,Home)</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient)">SetProperty(ColorPicker_Type,Indicator,Home)</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">SetProperty(ColorPicker_Type,Highlight,Home)</onclick>
+                        <onleft condition="!String.IsEmpty(Window.Property(FakeSpinner_9002))">3000</onleft>
+                        <onleft condition="String.IsEmpty(Window.Property(FakeSpinner_9002))">SetProperty(FakeSpinner_9002,1)</onleft>
+                        <onright>ClearProperty(FakeSpinner_9002)</onright>
+                    </include>
+                    <include content="Object_FakeSpinner">
+                        <param name="id" value="9002" />
+                        <param name="groupid" value="9102" />
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9005" />
+                        <param name="control" value="button" />
+                        <description>Default Setting Button</description>
+                        <label>AARRGGBB</label>
+                        <label2>$VAR[ColorPickerHex]</label2>
+                        <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight)">Skin.SetString(focuscolor.name)</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient)">Skin.SetString(gradientcolor.name)</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">Skin.SetString(watchedprogresscolor.name)</onclick>
+                        <include>Action_BuildTextures_Onclick</include>
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9008" />
+                        <param name="control" value="radiobutton" />
+                        <description>Default Setting Button</description>
+                        <label>$LOCALIZE[31043]</label>
+                        <selected>Skin.HasSetting(EnableMonochromeHighlight)</selected>
+                        <onclick>Skin.ToggleSetting(EnableMonochromeHighlight)</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient)">SetProperty(ColorPicker_Type,Highlight,Home)</onclick>
+                        <include>Action_BuildTextures_Onclick</include>
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9009" />
+                        <param name="control" value="radiobutton" />
+                        <description>Default Setting Button</description>
+                        <label>Invert Text Colour</label>
+                        <selected>Skin.HasSetting(InvertSelectedText)</selected>
+                        <onclick>Skin.ToggleSetting(InvertSelectedText)</onclick>
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="9010" />
+                        <param name="control" value="button" />
+                        <description>Default Setting Button</description>
+                        <label>$LOCALIZE[15067]</label>
+                        <onclick>Close</onclick>
+                    </include>
+                </control>
+            </include>
+        </include>
+    </controls>
+</window>

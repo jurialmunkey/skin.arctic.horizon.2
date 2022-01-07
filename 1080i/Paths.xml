@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <variable name="Path_Param_Widget">
+        <value>&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</value>
+    </variable>
+
+    <variable name="Path_Param_Query">
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Property(imdb_id))">&amp;imdb_id=$INFO[ListItem.Property(imdb_id)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.IMDBNumber) + String.StartsWith(ListItem.IMDBNumber,tt)">&amp;imdb_id=$INFO[ListItem.IMDBNumber]</value>
+        <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.TvShowTitle)">&amp;query=$INFO[ListItem.TvShowTitle]$INFO[ListItem.Year,&amp;episode_year=,]</value>
+        <value condition="String.IsEqual(ListItem.Property(item.type),person) + !String.IsEmpty(ListItem.Property(tmdb_id))">&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">&amp;query=$INFO[ListItem.Title]$INFO[ListItem.Year,&amp;year=,]</value>
+        <value>$INFO[ListItem.Label,&amp;query=,]</value>
+    </variable>
+
+    <variable name="Path_Param_Type">
+        <value condition="String.IsEqual(ListItem.DBType,movie) | ListItem.IsCollection | String.IsEqual(ListItem.DBType,set)">&amp;type=movie</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">&amp;type=tv</value>
+        <value condition="String.IsEqual(ListItem.Property(item.type),person)">&amp;type=person</value>
+    </variable>
+
+    <variable name="Path_OSD_Episodes">
+        <value condition="VideoPlayer.Content(episodes) + !String.IsEmpty(VideoPlayer.TvShowDBID) + !String.IsEmpty(VideoPlayer.Season)">videodb://tvshows/titles/$INFO[VideoPlayer.TvShowDBID]/$INFO[VideoPlayer.Season]/?tvshowid=$INFO[VideoPlayer.TvShowDBID]</value>
+        <value condition="VideoPlayer.Content(episodes)">plugin://plugin.video.themoviedb.helper/?info=episodes&amp;type=tv$INFO[VideoPlayer.TVShowTitle,&amp;query=,]$INFO[VideoPlayer.Season,&amp;season=,]$VAR[Path_Param_Widget]</value>
+        <value condition="!Integer.IsEqual(VideoPlayer.PlaylistLength,1)">playlistvideo://</value>
+    </variable>
+    <variable name="Path_OSD_Cast">
+        <value condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + String.StartsWith(VideoPlayer.IMDBNumber,tt)">plugin://plugin.video.themoviedb.helper/?info=cast&amp;type=movie$INFO[VideoPlayer.IMDBNumber,&amp;imdb_id=,]$VAR[Path_Param_Widget]</value>
+        <value condition="VideoPlayer.Content(movies)">plugin://plugin.video.themoviedb.helper/?info=cast&amp;type=movie$INFO[Player.Title,&amp;query=,]$INFO[Player.Year,&amp;year=,]$VAR[Path_Param_Widget]</value>
+        <value condition="VideoPlayer.Content(episodes)">plugin://plugin.video.themoviedb.helper/?info=cast&amp;type=tv$INFO[VideoPlayer.TVShowTitle,&amp;query=,]$INFO[VideoPlayer.Season,&amp;season=,]$INFO[VideoPlayer.Episode,&amp;episode=,]$VAR[Path_Param_Widget]</value>
+    </variable>
+
+    <variable name="Path_Cast">
+        <value>plugin://plugin.video.themoviedb.helper?info=cast$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+    <variable name="Path_Crew">
+        <value>plugin://plugin.video.themoviedb.helper?info=crew$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+    <variable name="Path_Recommendations">
+        <value>plugin://plugin.video.themoviedb.helper?info=recommendations$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+    <variable name="Path_Similar">
+        <value>plugin://plugin.video.themoviedb.helper?info=similar$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+    <variable name="Path_Posters">
+        <value condition="!String.IsEqual(ListItem.Property(item.type),person)">plugin://plugin.video.themoviedb.helper?info=posters$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+        <value condition="String.IsEqual(ListItem.Property(item.type),person)">plugin://plugin.video.themoviedb.helper?info=images$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+    <variable name="Path_Fanart">
+        <value>plugin://plugin.video.themoviedb.helper?info=fanart$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+
+    <variable name="Path_CastInMovies">
+        <value>plugin://plugin.video.themoviedb.helper?info=stars_in_movies$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+    <variable name="Path_CastInShows">
+        <value>plugin://plugin.video.themoviedb.helper?info=stars_in_tvshows$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+    <variable name="Path_CrewInMovies">
+        <value>plugin://plugin.video.themoviedb.helper?info=crew_in_movies$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+    <variable name="Path_CrewInShows">
+        <value>plugin://plugin.video.themoviedb.helper?info=crew_in_tvshows$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+
+
+    <variable name="Path_FromYear">
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Year)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;primary_release_year=$INFO[ListItem.Year]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]$VAR[Path_Param_Query]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Year)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=tv&amp;first_air_date_year=$INFO[ListItem.Year]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]$VAR[Path_Param_Query]</value>
+    </variable>
+
+
+    <variable name="Path_FromGenre">
+        <value condition="!String.IsEmpty(ListItem.Genre)">plugin://plugin.video.themoviedb.helper?info=discover&amp;with_genres=$INFO[ListItem.Genre]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]$VAR[Path_Param_Type]$VAR[Path_Param_Query]</value>
+    </variable>
+
+
+    <variable name="Path_FromStudio">
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID))">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;with_companies=$INFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]$VAR[Path_Param_Query]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID))">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=tv&amp;with_networks=$INFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]$VAR[Path_Param_Query]</value>
+    </variable>
+
+
+    <variable name="Path_FromDirector">
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Director)">plugin://plugin.video.themoviedb.helper?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;query=$INFO[ListItem.Director]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</value>
+    </variable>
+
+</includes>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <defaultcontrol always="false">300</defaultcontrol>
+    <onload>SetProperty(TMDbHelper.WidgetContainer,8000,Home)</onload>
+    <onload>ClearProperty(TMDbHelper.HideView,Home)</onload>
+    <controls>
+
+
+        <control type="group">
+            <include>Animation_FadeIn</include>
+            <include>Animation_FadeOut</include>
+            <!-- TODO: Replace with background -->
+
+            <!-- <control type="image">
+                <texture>special://skin/fanart.jpg</texture>
+            </control> -->
+            <control type="panel" id="8000">
+                <onup>300</onup>
+                <ondown>300</ondown>
+                <orientation>horizontal</orientation>
+                <itemlayout width="1920" height="1080">
+                    <control type="image">
+                        <texture background="true">$INFO[ListItem.ARt(fanart)]</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="1920" height="1080">
+                    <control type="image">
+                        <texture background="true">$INFO[ListItem.ARt(fanart)]</texture>
+                    </control>
+                </focusedlayout>
+                <content sortby="random">plugin://plugin.video.themoviedb.helper?info=popular&amp;tmdb_type=movie</content>
+            </control>
+
+            <!-- TODO: Modify according to home placement -->
+            <include>Object_Vignette_Standard</include>
+            <!-- <include>Object_Vignette_Showcase</include> -->
+        </control>
+
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Furniture_Top_Right</include>
+        </control>
+        <include content="Object_MenuBar_Group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include content="Object_MenuBar_List">
+                <param name="id" value="300" />
+                <ondown>8000</ondown>
+                <onright>SetFocus(9000)</onright>
+                <onleft>SetFocus(9000)</onleft>
+                <include>Items_HomeBar_Temp</include>
+            </include>
+        </include>
+
+        <include content="Object_Options_Menu">
+            <param name="grouplist_items" value="Items_HomeMenu_Temp" />
+            <param name="visible" value="!Window.IsVisible(DialogSelect.xml)" />
+            <param name="onback" value="300" />
+        </include>
+
+
+    </controls>
+</window>

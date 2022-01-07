@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <defaultcontrol always="true">30000</defaultcontrol>
+    <include>Action_Settings_Onload</include>
+    <controls>
+        <include content="Object_Control">
+            <param name="control" value="image" />
+            <texture colordiffuse="main_bg_100">common/bg.jpg</texture>
+        </include>
+        <include content="Dialog_SettingsCategory_Background">
+            <include content="Dialog_SettingsCategory_ChangerGroup">
+                <include content="Dialog_SettingsCategory_LeftGroup">
+                    <control type="list" id="3">
+                        <top>row_height</top>
+                        <width>dialog_category_width</width>
+                        <onleft>30000</onleft>
+                        <onup>-</onup>
+                        <onright>5</onright>
+                        <ondown>20</ondown>
+                        <pagecontrol>61</pagecontrol>
+                        <itemlayout height="row_height">
+                            <control type="label">
+                                <textoffsetx>dialog_pad</textoffsetx>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout height="row_height">
+                            <control type="label">
+                                <visible>Control.HasFocus(30000)</visible>
+                                <textoffsetx>dialog_pad</textoffsetx>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                            <control type="group">
+                                <visible>!Control.HasFocus(30000)</visible>
+                                <control type="image">
+                                    <include>Texture_Highlight</include>
+                                </control>
+                                <control type="label">
+                                    <textcolor>$VAR[ColorSelected]</textcolor>
+                                    <textoffsetx>dialog_pad</textoffsetx>
+                                    <label>$INFO[ListItem.Label]</label>
+                                </control>
+                            </control>
+                        </focusedlayout>
+                        <content>
+                            <item id="1">
+                                <label>$LOCALIZE[10000]</label>
+                            </item>
+                            <item id="2">
+                                <label>$LOCALIZE[480]</label>
+                            </item>
+                        </content>
+                    </control>
+
+                    <!-- Right Settings -->
+                    <include content="Dialog_SettingsCategory_RightGroup">
+                        <param name="info_label" value="$INFO[Container(30000).ListItem.Label]" />
+                        <control type="grouplist" id="5">
+                            <onleft>3</onleft>
+                            <pagecontrol>61</pagecontrol>
+                            <bottom>row_height</bottom>
+                            <!-- Home -->
+                            <include content="Dialog_Settings_Label" description="Home Label">
+                                <param name="id" value="1000" />
+                                <label>$LOCALIZE[10000]</label>
+                                <visible>Container(3).HasFocus(1)</visible>
+                            </include>
+                            <!-- Appearance -->
+                            <include content="Dialog_Settings_Label" description="LooknFeel Label">
+                                <param name="id" value="2000" />
+                                <label>$LOCALIZE[24997]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                            </include>
+                            <include content="Dialog_Settings_Button" description="Color Selector">
+                                <param name="id" value="2001" />
+                                <label>$LOCALIZE[31001]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                                <onclick>ActivateWindow(1111)</onclick>
+                            </include>
+                        </control>
+                    </include>
+
+                </include>
+            </include>
+        </include>
+        <include>Furniture_Top</include>
+    </controls>
+
+</window>

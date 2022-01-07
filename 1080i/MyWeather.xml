@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="2600">
+    <defaultcontrol always="true">7000</defaultcontrol>
+    <menucontrol>9000</menucontrol>
+    <onload>SetProperty(TMDbHelper.WidgetContainer,7000,Home)</onload>
+    <onload>SetProperty(TMDbHelper.Blur.SourceImage,PicturePath,Home)</onload>
+    <onunload>ClearProperty(TMDbHelper.Blur.SourceImage,Home)</onunload>
+    <controls>
+
+        <include>Background_Main</include>
+        <include>Object_Overlay</include>
+
+        <include content="Dialog_Background">
+            <param name="overlay" value="true" />
+            <param name="overlay_texture" value="$INFO[Container(8000).ListItem.PicturePath]" />
+            <include>Animation_Up_Delay</include>
+            <include>Dimension_Info</include>
+            <visible>Weather.IsFetched</visible>
+            <!-- <include content="Dialog_Header">
+                <param name="id" value="4000" />
+                <label>$INFO[Weather.Location]</label>
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+                <visible>!$EXP[Exp_OverlayDialogs] + !Control.HasFocus(5000)</visible>
+            </include> -->
+            <!-- Left Side Today -->
+            <control type="group">
+                <width>weather_conditions_width</width>
+                <include content="Dialog_Group">
+                    <control type="label">
+                        <textcolor>dialog_fg_70</textcolor>
+                        <label>$LOCALIZE[33006]</label>
+                        <height>40</height>
+                        <font>font_medium_bold</font>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                    </control>
+                    <control type="label">
+                        <top>40</top>
+                        <height>40</height>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <font>font_minilabel</font>
+                        <textcolor>dialog_fg_70</textcolor>
+                        <label>$INFO[Weather.Conditions]</label>
+                    </control>
+                    <control type="group">
+                        <top>120</top>
+                        <height>80</height>
+                        <control type="image">
+                            <centertop>50%</centertop>
+                            <centerleft>30%</centerleft>
+                            <width>128</width>
+                            <height>128</height>
+                            <aspectratio>keep</aspectratio>
+                            <texture colordiffuse="dialog_fg_70">resource://resource.images.weathericons.white/$INFO[Weather.FanartCode].png</texture>
+                        </control>
+                        <control type="label">
+                            <top>-2</top>
+                            <label>$INFO[Window(Weather).Property(Current.Temperature), [B],[/B]°]</label>
+                            <centerright>30%</centerright>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <font>font_weather_large</font>
+                            <textcolor>dialog_fg_70</textcolor>
+                        </control>
+                    </control>
+
+                    <control type="grouplist">
+                        <centertop>322</centertop>
+                        <height>80</height>
+                        <orientation>horizontal</orientation>
+                        <align>center</align>
+
+                        <control type="group">
+                            <width>140</width>
+                            <visible>!String.IsEmpty(Window(Weather).Property(Current.UVIndex))</visible>
+                            <control type="label">
+                                <label>UV</label>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <height>40</height>
+                                <font>font_weather_small</font>
+                                <textcolor>dialog_fg_70</textcolor>
+                            </control>
+                            <control type="label">
+                                <label>$INFO[Window(Weather).Property(Current.UVIndex)]</label>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <height>40</height>
+                                <bottom>0</bottom>
+                                <font>font_minilabel</font>
+                                <textcolor>dialog_fg_70</textcolor>
+                            </control>
+                        </control>
+
+                        <control type="group">
+                            <width>140</width>
+                            <visible>!String.IsEmpty(Window(Weather).Property(Current.FeelsLike))</visible>
+                            <control type="label">
+                                <label>$INFO[Window(Weather).Property(Current.FeelsLike), ,°]</label>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <height>40</height>
+                                <font>font_weather_small</font>
+                                <textcolor>dialog_fg_70</textcolor>
+                            </control>
+                            <control type="label">
+                                <label>$LOCALIZE[402]</label>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <height>40</height>
+                                <bottom>0</bottom>
+                                <font>font_minilabel</font>
+                                <textcolor>dialog_fg_70</textcolor>
+                            </control>
+                        </control>
+
+                        <control type="group">
+                            <width>140</width>
+                            <visible>!String.IsEmpty(Window(Weather).Property(Current.ChancePrecipitation))</visible>
+                            <control type="label">
+                                <label>$INFO[Window(Weather).Property(Current.ChancePrecipitation), ,]</label>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <height>40</height>
+                                <font>font_weather_small</font>
+                                <textcolor>dialog_fg_70</textcolor>
+                            </control>
+                            <control type="label">
+                                <label>$LOCALIZE[31005]</label>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <height>40</height>
+                                <bottom>0</bottom>
+                                <font>font_minilabel</font>
+                                <textcolor>dialog_fg_70</textcolor>
+                            </control>
+                        </control>
+                    </control>
+
+                    <include content="Object_Separator">
+                        <param name="horizontal" value="true" />
+                        <top>240</top>
+                        <width>75%</width>
+                        <centerleft>50%</centerleft>
+                    </include>
+
+                    <control type="group">
+                        <bottom>0</bottom>
+                        <height>320</height>
+                        <include>Dialog_Outline_Box</include>
+                        <control type="group">
+                            <bottom>80</bottom>
+                            <height>240</height>
+                            <control type="list" id="8000">
+                                <orientation>horizontal</orientation>
+                                <autoscroll delay="0" time="15000" repeat="0">true</autoscroll>
+                                <itemlayout />
+                                <focusedlayout />
+                                <include>Items_Weather_Screenshots</include>
+                            </control>
+                            <control type="image">
+                                <fadetime>1000</fadetime>
+                                <texture background="true" diffuse="diffuse/weather-fanart.png">$INFO[Container(8000).ListItem.FileNameAndPath]</texture>
+                            </control>
+                        </control>
+                        <include content="Object_Separator">
+                            <param name="horizontal" value="true" />
+                            <param name="colordiffuse" value="dialog_fg_12" />
+                            <bottom>79</bottom>
+                        </include>
+                        <control type="group">
+                            <bottom>0</bottom>
+                            <height>80</height>
+                            <control type="label">
+                                <left>0</left>
+                                <label>$INFO[Window(Weather).Property(Day0.HighTemp),$LOCALIZE[393] ,°]</label>
+                                <width>50%</width>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <font>font_weather_mini</font>
+                                <textcolor>dialog_fg_70</textcolor>
+                            </control>
+                            <include content="Object_Separator">
+                                <param name="colordiffuse" value="dialog_fg_30" />
+                                <centerleft>50%</centerleft>
+                                <height>40</height>
+                                <centertop>50%</centertop>
+                            </include>
+                            <control type="label">
+                                <right>0</right>
+                                <label>$INFO[Window(Weather).Property(Day0.LowTemp),$LOCALIZE[391] ,°]</label>
+                                <width>50%</width>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <font>font_minilabel</font>
+                                <textcolor>dialog_fg_100</textcolor>
+                            </control>
+                        </control>
+
+                    </control>
+
+                </include>
+            </control>
+
+            <!-- Right Side -->
+            <control type="group">
+                <left>weather_conditions_width</left>
+
+                <!-- Forecast Top Section -->
+                <include>Dialog_Overlay</include>
+                <include>Object_Separator</include>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$INFO[Window(Weather).Property(WeatherProvider)]" />
+                    <param name="icon" value="special://skin/extras/icons/_none.png" />
+                    <param name="colordiffuse" value="dialog_fg_70" />
+                    <param name="bordersize" value="10" />
+                </include>
+                <include content="Dialog_Group">
+                    <control type="group">
+                        <top>100</top>
+                        <height>weather_forecast_height</height>
+                        <control type="list">
+                            <include content="Dimension_Padding">
+                                <param name="pad" value="-40" />
+                            </include>
+                            <orientation>horizontal</orientation>
+                            <itemlayout width="weather_forecast_item_width" height="weather_forecast_height">
+                                <control type="group">
+                                    <left>40</left>
+                                    <right>-40</right>
+                                    <top>40</top>
+                                    <bottom>-40</bottom>
+                                    <include>Weather_Forecast_Itemlayout</include>
+                                </control>
+                            </itemlayout>
+                            <focusedlayout width="weather_forecast_item_width" height="weather_forecast_height">
+                                <control type="group">
+                                    <left>40</left>
+                                    <right>-40</right>
+                                    <top>40</top>
+                                    <bottom>-40</bottom>
+                                    <include>Weather_Forecast_Itemlayout</include>
+                                </control>
+                            </focusedlayout>
+                            <content>
+                                <include>Weather_Forecast_Items</include>
+                            </content>
+                        </control>
+                    </control>
+
+                    <include content="Object_Separator_V">
+                        <top>360</top>
+                    </include>
+
+                    <control type="grouplist">
+                        <top>360</top>
+                        <bottom>-40</bottom>
+                        <left>-40</left>
+                        <right>-40</right>
+                        <orientation>horizontal</orientation>
+                        <itemgap>0</itemgap>
+                        <include content="Weather_Details_Group">
+                            <param name="width" value="440" />
+                            <param name="hi_label_a" value="$INFO[Window(Weather).Property(Current.Wind)]" />
+                            <param name="hi_label_b" value="$LOCALIZE[383]" />
+                            <param name="hi_icon" value="$INFO[Window(Weather).Property(Current.WindDirection),weather/wind/,.png]" />
+                            <param name="hi_icon_fallback" value="weather/wind/NE.png" />
+                            <param name="lo_label_a" value="$LOCALIZE[1448]" />
+                            <param name="lo_label_b" value="$INFO[Window(Weather).Property(Current.Precipitation)]" />
+                            <param name="lo_icon" value="weather/rainfall.png" />
+                        </include>
+                        <include content="Weather_Details_Group">
+                            <param name="width" value="200" />
+                            <param name="hi_label_a" value="Dew Point" />
+                            <param name="hi_label_b" value="$INFO[Window(Weather).Property(Current.DewPoint)]" />
+                            <param name="lo_label_a" value="Humidity" />
+                            <param name="lo_label_b" value="$INFO[Window(Weather).Property(Current.Humidity)]" />
+                            <param name="center_text" value="true" />
+                        </include>
+                        <include content="Weather_Details_Group">
+                            <param name="width" value="440" />
+                            <param name="hi_label_a" value="$LOCALIZE[33027]" />
+                            <param name="hi_label_b" value="$VAR[Weather_Sunrise]" />
+                            <param name="hi_icon" value="weather/sunrise.png" />
+                            <param name="lo_label_a" value="$LOCALIZE[33028]" />
+                            <param name="lo_label_b" value="$VAR[Weather_Sunset]" />
+                            <param name="lo_icon" value="weather/sunset.png" />
+                        </include>
+                    </control>
+                </include>
+            </control>
+        </include>
+
+        <include>Furniture_Top_Left</include>
+
+        <control type="group">
+            <visible>Weather.IsFetched</visible>
+            <include>Furniture_Top_Right</include>
+        </control>
+
+        <control type="group">
+            <visible>!Weather.IsFetched</visible>
+            <include>Furniture_Busy</include>
+        </control>
+
+        <control type="button" id="7000">
+            <texturefocus />
+            <texturenofocus />
+            <font />
+            <onclick>Weather.LocationNext</onclick>
+            <onup>SetFocus(9000)</onup>
+            <ondown>SetFocus(5000)</ondown>
+            <onright>SetFocus(9000)</onright>
+            <onleft>SetFocus(9000)</onleft>
+        </control>
+
+        <include content="Object_Options_Menu">
+            <param name="grouplist_items" value="Items_Weather_Settings" />
+            <param name="onback" value="7000" />
+        </include>
+
+        <include content="Object_Overlay">
+            <visible>Control.HasFocus(5000)</visible>
+            <include>Animation_FadeIn</include>
+            <include>Animation_FadeOut</include>
+        </include>
+        <include content="Dialog_Info_Screenshots">
+            <param name="id" value="5000" />
+            <param name="header_id" value="5100" />
+            <param name="header" value="$INFO[Weather.Conditions]" />
+            <param name="content" value="Items_Weather_Screenshots" />
+        </include>
+
+    </controls>
+
+</window>

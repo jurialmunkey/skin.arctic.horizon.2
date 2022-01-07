@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="OSD_PlaySpeed_Label">
+        <control type="group">
+            <width>52</width>
+            <control type="label">
+                <width>52</width>
+                <font>font_statusbar</font>
+                <label>$PARAM[label]</label>
+                <textcolor>dialog_fg_70</textcolor>
+                <align>center</align>
+                <visible>!Control.HasFocus(7800)</visible>
+            </control>
+            <control type="label">
+                <width>52</width>
+                <font>font_statusbar</font>
+                <label>$PARAM[label]</label>
+                <textcolor>white</textcolor>
+                <align>center</align>
+                <visible>Control.HasFocus(7800)</visible>
+            </control>
+        </control>
+    </include>
+
+    <include name="OSD_Menu_Back">
+        <control type="group">
+            <bottom>200</bottom>
+            <include content="Dialog_Background">
+                <!-- <param name="overlay" value="true" />
+                <param name="overlay_texture" value="$INFO[Player.Art(fanart)]" /> -->
+            </include>
+            <control type="image">
+                <bottom>-16</bottom>
+                <centerright>$PARAM[arrow_pos]</centerright>
+                <height>16</height>
+                <width>16</width>
+                <texture colordiffuse="dialog_bg_100" flipy="true">common/arrow-menu-up.png</texture>
+            </control>
+            <nested />
+        </control>
+    </include>
+
+    <include name="OSD_Button">
+        <param name="size" default="60" />
+        <param name="bordersize" default="6" />
+        <param name="itemgap" default="30" />
+        <param name="visible" default="true" />
+        <param name="icon_colordiffuse" default="dialog_fg_70" />
+        <param name="back_colordiffuse" default="dialog_bg_100" />
+        <definition>
+            <control type="button" id="$PARAM[id]">
+                <height>$PARAM[size]</height>
+                <width>$PARAM[size]</width>
+                <texturefocus flipy="true">special://profile/addon_data/script.texturemaker/ArcticHorizon/circle_v.png</texturefocus>
+                <texturenofocus colordiffuse="$PARAM[back_colordiffuse]">common/circle.png</texturenofocus>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="group" id="$PARAM[groupid]">
+                <left>-$PARAM[itemgap]</left>
+                <width>0</width>
+                <control type="group">
+                    <left>-$PARAM[size]</left>
+                    <visible>$PARAM[visible]</visible>
+                    <control type="image">
+                        <bordersize>$PARAM[bordersize]</bordersize>
+                        <height>$PARAM[size]</height>
+                        <width>$PARAM[size]</width>
+                        <texture colordiffuse="$PARAM[icon_colordiffuse]">$PARAM[icon]</texture>
+                        <visible>!Control.HasFocus($PARAM[id])</visible>
+                    </control>
+                    <control type="image">
+                        <bordersize>$PARAM[bordersize]</bordersize>
+                        <height>$PARAM[size]</height>
+                        <width>$PARAM[size]</width>
+                        <texture colordiffuse="Selected">$PARAM[icon]</texture>
+                        <visible>Control.HasFocus($PARAM[id])</visible>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="OSD_Progress_Details">
+        <control type="grouplist">
+            <align>bottom</align>
+            <left>view_pad</left>
+            <right>view_pad</right>
+            <bottom>200</bottom>
+            <orientation>vertical</orientation>
+            <control type="group">
+                <height>80</height>
+                <control type="label">
+                    <aligny>center</aligny>
+                    <height>80</height>
+                    <label>$VAR[Label_OSD_Title]</label>
+                    <textcolor>panel_fg_100</textcolor>
+                    <font>font_overlay_title</font>
+                </control>
+            </control>
+            <control type="group">
+                <height>40</height>
+                <include content="Info_Line">
+                    <param name="player" value="true" />
+                    <param name="colordiffuse" value="panel_fg" />
+                    <centertop>50%</centertop>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <include name="OSD_Progress_Labels">
+        <control type="label">
+            <height>40</height>
+            <left>view_pad</left>
+            <right>view_pad</right>
+            <bottom>200</bottom>
+            <align>right</align>
+            <aligny>center</aligny>
+            <label>$VAR[Label_OSD_Time][COLOR=$VAR[ColorHighlight]]  |  [/COLOR]$VAR[Label_OSD_Duration]</label>
+            <textcolor>panel_fg_100</textcolor>
+            <font>font_small</font>
+        </control>
+    </include>
+    <include name="OSD_Progress_Bar">
+        <control type="group">
+            <nested />
+            <left>view_pad</left>
+            <right>view_pad</right>
+            <bottom>120</bottom>
+            <height>80</height>
+            <control type="group">
+                <bottom>39</bottom>
+                <!-- <centertop>50%</centertop> -->
+                <height>12</height>
+                <control type="progress" description="cache">
+                    <width>100%</width>
+                    <height>12</height>
+                    <info>Player.ProgressCache</info>
+                    <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
+                    <lefttexture colordiffuse="panel_fg_12" border="6">progress/progress-left.png</lefttexture>
+                    <midtexture colordiffuse="panel_fg_12" border="6">progress/progress-end.png</midtexture>
+                    <righttexture colordiffuse="panel_fg_12" border="6">progress/progress-right.png</righttexture>
+                    <visible>Player.Playing | Player.Paused | Player.Caching</visible>
+                    <visible>!Player.Seeking</visible>
+                    <visible>Player.HasMedia</visible>
+                </control>
+
+                <control type="progress" id="499">
+                    <width>100%</width>
+                    <height>12</height>
+                    <info>Player.Progress</info>
+                    <visible>Player.HasMedia + !Pvr.IsPlayingTv</visible>
+                    <texturebg colordiffuse="panel_fg_20" border="4">progress/progress-bg.png</texturebg>
+                </control>
+
+                <control type="progress">
+                    <description>Progressbar</description>
+                    <width>100%</width>
+                    <height>12</height>
+                    <info>Player.Progress</info>
+                    <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
+                    <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
+                    <midtexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
+                    <righttexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
+                    <include content="Defs_Progress_Colorfade">
+                        <param name="id" value="499" />
+                    </include>
+                    <visible>Player.HasMedia + !Pvr.IsPlayingTv</visible>
+                </control>
+
+                <control type="progress" id="498">
+                    <width>100%</width>
+                    <height>12</height>
+                    <info>PVR.EpgEventProgress</info>
+                    <visible>Pvr.IsPlayingTv</visible>
+                    <texturebg colordiffuse="panel_fg_20" border="4">progress/progress-bg.png</texturebg>
+                </control>
+                <control type="progress">
+                    <description>Progressbar</description>
+                    <width>100%</width>
+                    <height>12</height>
+                    <info>PVR.EpgEventProgress</info>
+                    <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
+                    <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
+                    <midtexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
+                    <righttexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
+                    <include content="Defs_Progress_Colorfade">
+                        <param name="id" value="498" />
+                    </include>
+                    <visible>Pvr.IsPlayingTv</visible>
+                </control>
+
+                <control type="progress" id="401">
+                    <width>100%</width>
+                    <height>12</height>
+                    <visible>Player.HasMedia</visible>
+                    <animation effect="fade" start="100" end="0" condition="!Player.Seeking" reversible="false" delay="300" time="0">Conditional</animation>
+                    <animation effect="fade" start="0" end="100" condition="Player.Seeking" reversible="false" time="0">Conditional</animation>
+                    <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
+                    <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
+                    <midtexture colordiffuse="00ffffff" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
+                    <righttexture colordiffuse="panel_fg_100" border="6" diffuse="progress/diffuse-end.png">progress/progress-nib.png</righttexture>
+                    <visible>Player.SeekEnabled + !Pvr.IsPlayingTv + !Player.ChannelPreviewActive</visible>
+                </control>
+
+                <control type="slider" id="402">
+                    <width>100%</width>
+                    <height>12</height>
+                    <visible>Player.HasMedia</visible>
+                    <animation effect="fade" start="100" end="0" condition="!Player.Seeking" reversible="false" delay="300" time="0">Conditional</animation>
+                    <animation effect="fade" start="0" end="100" condition="Player.Seeking" reversible="false" time="0">Conditional</animation>
+                    <texturesliderbar colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturesliderbar>
+                    <textureslidernib colordiffuse="panel_fg_100" border="6" diffuse="progress/diffuse-end.png">progress/progress-nib.png</textureslidernib>
+                    <textureslidernibfocus colordiffuse="panel_fg_100" border="6" diffuse="progress/diffuse-end.png">progress/progress-nib.png</textureslidernibfocus>
+                    <visible>Player.SeekEnabled + Pvr.IsPlayingTv + !Player.ChannelPreviewActive</visible>
+                </control>
+            </control>
+        </control>
+    </include>
+
+
+    <include name="OSD_Codecs">
+        <param name="infohide" default="true" />
+        <param name="align" default="left" />
+        <param name="directory" default="$VAR[Texture_ColorMode_Dir]" />
+        <definition>
+            <control type="grouplist">
+                <nested />
+                <orientation>horizontal</orientation>
+                <align>$PARAM[align]</align>
+                <itemgap>20</itemgap>
+                <usecontrolcoords>true</usecontrolcoords>
+                <left>-8</left>
+                <right>-8</right>
+
+                <control type="image">
+                    <fadetime>100</fadetime>
+                    <centertop>50%</centertop>
+                    <width>64</width>
+                    <height>42</height>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture fallback="flags/generic.png">flags/$PARAM[directory]/resolution/$INFO[VideoPlayer.VideoResolution].png</texture>
+                    <visible>!String.IsEmpty(VideoPlayer.VideoResolution)</visible>
+                </control>
+                <control type="image">
+                    <fadetime>100</fadetime>
+                    <centertop>50%</centertop>
+                    <width>71</width>
+                    <height>48</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture fallback="flags/generic.png">flags/$PARAM[directory]/source/$INFO[VideoPlayer.VideoCodec].png</texture>
+                    <visible>!String.IsEmpty(VideoPlayer.VideoCodec)</visible>
+                </control>
+                <control type="image">
+                    <fadetime>100</fadetime>
+                    <centertop>50%</centertop>
+                    <width>71</width>
+                    <height>48</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture fallback="flags/generic.png">flags/$PARAM[directory]/aspectratio/$INFO[VideoPlayer.VideoAspect].png</texture>
+                    <visible>!String.IsEmpty(VideoPlayer.VideoAspect)</visible>
+                </control>
+                <control type="group">
+                    <width>71</width>
+                    <height>48</height>
+                    <centertop>50%</centertop>
+                    <visible>!String.IsEmpty(Player.Process(VideoFPS)) + Integer.IsGreater(Player.Process(VideoFPS),0)</visible>
+                    <control type="image">
+                        <texture colordiffuse="panel_fg_100">flags/$PARAM[directory]/other/fps.png</texture>
+                        <aspectratio align="center">keep</aspectratio>
+                    </control>
+                    <control type="label">
+                        <height>24</height>
+                        <bottom>2</bottom>
+                        <textcolor>panel_fg_100</textcolor>
+                        <font>font_fps</font>
+                        <label>$INFO[Player.Process(VideoFPS)]</label>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                    </control>
+                </control>
+                <control type="image">
+                    <fadetime>100</fadetime>
+                    <centertop>50%</centertop>
+                    <width>71</width>
+                    <height>48</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture fallback="flags/generic.png">$VAR[Image_OSD_AudioCodec]</texture>
+                    <visible>!String.IsEmpty(VideoPlayer.AudioCodec)</visible>
+                </control>
+                <control type="image">
+                    <fadetime>100</fadetime>
+                    <centertop>50%</centertop>
+                    <width>71</width>
+                    <height>32</height>
+                    <aspectratio>center</aspectratio>
+                    <texture fallback="flags/generic.png">flags/$PARAM[directory]/channels/$INFO[VideoPlayer.AudioChannels].png</texture>
+                    <visible>!String.IsEmpty(VideoPlayer.AudioChannels)</visible>
+                </control>
+                <control type="image">
+                    <fadetime>100</fadetime>
+                    <centertop>50%</centertop>
+                    <width>64</width>
+                    <height>56</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>flags/$PARAM[directory]/other/3D.png</texture>
+                    <visible>VideoPlayer.IsStereoscopic</visible>
+                </control>
+                <control type="image">
+                    <fadetime>100</fadetime>
+                    <centertop>50%</centertop>
+                    <width>71</width>
+                    <height>56</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>flags/$PARAM[directory]/other/HDR.png</texture>
+                    <visible>String.Contains(Player.FileNameAndPath,HDR)</visible>
+                </control>
+                <control type="image">
+                    <fadetime>100</fadetime>
+                    <centertop>50%</centertop>
+                    <width>71</width>
+                    <height>56</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>$VAR[Image_OSD_RipSource]</texture>
+                    <visible>[String.Contains(Player.FileNameAndPath,2160p) | String.Contains(Player.FileNameAndPath,UHD) | String.Contains(Player.FileNameAndPath,UltraHD) | String.Contains(Player.FileNameAndPath,Ultra-HD) | String.Contains(Player.FileNameAndPath,4K) | String.Contains(Player.FileNameAndPath,blu-ray) | String.Contains(Player.FileNameAndPath,bluray) | String.Contains(Player.FileNameAndPath,bdrip) | String.Contains(Player.FileNameAndPath,bd25) | String.Contains(Player.FileNameAndPath,bd50) | String.Contains(Player.FileNameAndPath,hddvd) | String.Contains(Player.FileNameAndPath,hd-dvd) | String.Contains(Player.FileNameAndPath,dvd) | String.Contains(Player.FileNameAndPath,hdtv) | String.Contains(Player.FileNameAndPath,pdtv) | String.Contains(Player.FileNameAndPath,dsr) | String.Contains(Player.FileNameAndPath,sdtv) | String.Contains(Player.FileNameAndPath,web-dl) | String.Contains(Player.FileNameAndPath,webdl) | String.Contains(Player.FileNameAndPath,WEBRip) | String.EndsWith(Player.FileNameAndPath,.strm) | [String.IsEmpty(VideoPlayer.VideoCodec) + String.IsEmpty(VideoPlayer.AudioCodec)]]</visible>
+                </control>
+
+            </control>
+        </definition>
+    </include>
+</includes>

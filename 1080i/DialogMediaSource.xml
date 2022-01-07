@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <defaultcontrol>10</defaultcontrol>
+    <controls>
+
+        <include>Object_Overlay</include>
+        <include content="Dialog_Background">
+            <include>Animation_SlideIn_Dialog</include>
+            <include>Dimension_DialogSource</include>
+            <include content="Dialog_Header">
+                <param name="id" value="2" />
+                <visible>!$EXP[Exp_OverlayDialogs]</visible>
+            </include>
+            <control type="group">
+                <height>row_height_x200</height>
+                <include content="Dialog_Group">
+                    <include content="Object_Keyboard_Button" description="Text Entry">
+                        <param name="id" value="12" />
+                        <param name="control" value="edit" />
+                        <width>100%</width>
+                        <onup>SetFocus(10,9999,absolute)</onup>
+                        <ondown>SetFocus(10,0,absolute)</ondown>
+                        <textoffsetx>dialog_pad</textoffsetx>
+                    </include>
+                </include>
+            </control>
+            <control type="group">
+                <top>row_height_x200</top>
+                <include>Dialog_Overlay_V</include>
+                <include>Object_Separator_V</include>
+
+                <control type="group">
+                    <right>0</right>
+                    <width>dialog_button_width_padded</width>
+                    <include content="Dialog_Overlay">
+                        <param name="texture" value="common/dialog_overlay_c.png" />
+                        <param name="flipx" value="true" />
+                    </include>
+                    <include content="Object_Separator">
+                        <top>1</top>
+                        <left>0</left>
+                    </include>
+                    <include content="Dialog_Group">
+                        <control type="grouplist" id="9000">
+                            <onleft>61</onleft>
+                            <itemgap>20</itemgap>
+                            <control type="button" id="18" description="OK">
+                                <height>row_height</height>
+                                <label>$LOCALIZE[186]</label>
+                            </control>
+                            <control type="button" id="19" description="Cancel">
+                                <height>row_height</height>
+                                <label>$LOCALIZE[222]</label>
+                            </control>
+                        </control>
+                    </include>
+                </control>
+                <control type="group">
+                    <right>dialog_button_width_padded</right>
+                    <include content="List_DialogSelect">
+                        <param name="id" value="10" />
+                        <param name="altfocus" value="Control.HasFocus(10) | Control.HasFocus(11) | Control.HasFocus(13) | Control.HasFocus(14)" />
+                        <param name="itemlayout_include" value="Layout_DialogBasic" />
+                        <pagecontrol>61</pagecontrol>
+                        <onleft>11</onleft>
+                        <onright>61</onright>
+                        <onup>12</onup>
+                        <ondown>12</ondown>
+                    </include>
+
+                    <control type="grouplist">
+                        <orientation>horizontal</orientation>
+                        <height>row_height</height>
+                        <align>right</align>
+                        <right>row_height_x50</right>
+                        <itemgap>48</itemgap>
+                        <onleft>14</onleft>
+                        <onright>10</onright>
+                        <onup condition="Container(10).Position(0)">12</onup>
+                        <onup condition="!Container(10).Position(0)">Control.Move(10,-1)</onup>
+                        <ondown condition="!String.IsEmpty(Container(10).ListItemNoWrap(1).Label)">Control.Move(10,1)</ondown>
+                        <ondown condition="String.IsEmpty(Container(10).ListItemNoWrap(1).Label)">12</ondown>
+                        <animation effect="slide" start="0" end="0,row_height" condition="Container(10).Position(1)">Conditional</animation>
+                        <animation effect="slide" start="0" end="0,row_height_x200" condition="Container(10).Position(2)">Conditional</animation>
+                        <animation effect="slide" start="0" end="0,row_height_x300" condition="Container(10).Position(3)">Conditional</animation>
+                        <animation effect="slide" start="0" end="0,row_height_x400" condition="Container(10).Position(4)">Conditional</animation>
+                        <animation effect="slide" start="0" end="0,row_height_x500" condition="Container(10).Position(5)">Conditional</animation>
+                        <animation effect="slide" start="0" end="0,row_height_x600" condition="Container(10).Position(6)">Conditional</animation>
+                        <animation effect="slide" start="0" end="0,row_height_x700" condition="Container(10).Position(7)">Conditional</animation>
+                        <animation effect="slide" start="0" end="0,row_height_x800" condition="Container(10).Position(8)">Conditional</animation>
+                        <visible allowhiddenfocus="true">Control.HasFocus(10) | Control.HasFocus(11) | Control.HasFocus(13) | Control.HasFocus(14)</visible>
+                        <control type="button" id="14">
+                            <width>32</width>
+                            <height>32</height>
+                            <centertop>50%</centertop>
+                            <hitrect x="-24" y="-24" w="80" h="80" />
+                            <texturenofocus colordiffuse="80ffffff">buttons/cross.png</texturenofocus>
+                            <texturefocus colordiffuse="$VAR[ColorSelected]">buttons/cross.png</texturefocus>
+                            <font />
+                            <textcolor>00ffffff</textcolor>
+                            <selectedcolor>00ffffff</selectedcolor>
+                            <focusedcolor>00ffffff</focusedcolor>
+                            <visible>Control.IsEnabled(14)</visible>
+                        </control>
+                        <control type="button" id="13">
+                            <width>32</width>
+                            <height>32</height>
+                            <centertop>50%</centertop>
+                            <hitrect x="-24" y="-24" w="80" h="80" />
+                            <texturenofocus colordiffuse="80ffffff">buttons/plus.png</texturenofocus>
+                            <texturefocus colordiffuse="$VAR[ColorSelected]">buttons/plus.png</texturefocus>
+                            <font />
+                            <textcolor>00ffffff</textcolor>
+                            <selectedcolor>00ffffff</selectedcolor>
+                            <focusedcolor>00ffffff</focusedcolor>
+                            <visible>Control.IsEnabled(13)</visible>
+                        </control>
+                        <control type="button" id="11">
+                            <width>32</width>
+                            <height>32</height>
+                            <centertop>50%</centertop>
+                            <hitrect x="-24" y="-24" w="80" h="80" />
+                            <texturenofocus colordiffuse="80ffffff">buttons/browse.png</texturenofocus>
+                            <texturefocus colordiffuse="$VAR[ColorSelected]">buttons/browse.png</texturefocus>
+                            <font />
+                            <textcolor>00ffffff</textcolor>
+                            <selectedcolor>00ffffff</selectedcolor>
+                            <focusedcolor>00ffffff</focusedcolor>
+                            <visible>Control.IsEnabled(11)</visible>
+                        </control>
+                        <control type="group" id="1000">
+                            <width>32</width>
+                            <height>32</height>
+                            <centertop>50%</centertop>
+                            <control type="image">
+                                <texture colordiffuse="80ffffff">buttons/editname.png</texture>
+                                <visible>!Control.HasFocus(10)</visible>
+                            </control>
+                            <control type="image">
+                                <texture colordiffuse="$VAR[ColorSelected]">buttons/editname.png</texture>
+                                <visible>Control.HasFocus(10)</visible>
+                            </control>
+                        </control>
+                    </control>
+
+                    <include content="Dialog_Scrollbar">
+                        <onright>9000</onright>
+                        <onleft>10</onleft>
+                    </include>
+                </control>
+            </control>
+
+
+
+
+        </include>
+    </controls>
+</window>

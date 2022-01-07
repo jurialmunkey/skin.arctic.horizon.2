@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <include name="View_Furniture_Combined_Foreground">
+        <control type="group">
+            <visible>$EXP[Exp_CombinedViews]</visible>
+            <include>View_Combined_Divider</include>
+            <include content="Object_Control">
+                <param name="control" value="group" />
+                <top>view_top</top>
+                <right>view_pad</right>
+                <height>240</height>
+                <width>240</width>
+                <visible>Container.Content(actors) | Container.Content(directors)</visible>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="-40" /></include>
+                    <bordertexture colordiffuse="shadow_hard">diffuse/actor-circle-big-shadow.png</bordertexture>
+                    <bordersize>40</bordersize>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture background="true" diffuse="diffuse/actor-circle-big.png">$INFO[Window(Home).Property(TMDbHelper.ListItem.Poster)]</texture>
+                    <fadetime>600</fadetime>
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Gender)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Age))</visible>
+                </control>
+            </include>
+            <control type="image">
+                <bottom>60</bottom>
+                <right>view_pad</right>
+                <height>80</height>
+                <aspectratio scalediffuse="false" align="right">keep</aspectratio>
+                <texture background="true">$VAR[Image_CombinedStudio]</texture>
+            </control>
+        </control>
+        <include>View_502_Square_Combined</include>
+        <include>View_512_Landscape_Combined</include>
+        <include>View_522_Poster_Combined</include>
+    </include>
+
+    <include name="View_Combined_Divider">
+        <include content="Object_Control" condition="Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)">
+            <param name="control" value="group" />
+            <nested />
+            <height>divider_bottom</height>
+            <bottom>0</bottom>
+            <include content="Object_DividerPanel">
+                <param name="shadow_top" value="true" />
+                <param name="shadow_bottom" value="true" />
+                <top>0</top>
+                <include content="Object_Include" condition="Skin.String(DividerStyle,Solid)">
+                    <bottom>-200</bottom>
+                </include>
+                <bottom>40</bottom>
+                <left>-200</left>
+                <right>-200</right>
+            </include>
+        </include>
+    </include>
+
+    <include name="View_Combined">
+        <include content="$PARAM[include]">
+            <param name="id" value="$PARAM[id]3" />
+            <height>divider_bottom</height>
+            <bottom>40</bottom>
+            <ondown>$PARAM[id]2</ondown>
+            <onup>menu</onup>
+            <visible>Container($PARAM[id]2).ListItem.IsFolder</visible>
+            <content target="videos">$INFO[Container($PARAM[id]2).ListItem.FolderPath]</content>
+            <visible>Control.IsVisible($PARAM[id]2)</visible>
+            <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id]3,Home)</onfocus>
+        </include>
+        <include content="List_Button_Row">
+            <param name="id" value="$PARAM[id]2" />
+            <height>divider_bottom</height>
+            <right>360</right>
+            <movement>4</movement>
+            <bottom>-360</bottom>
+            <onup>$PARAM[id]3</onup>
+            <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
+        </include>
+        <control type="image">
+            <bottom>view_pad</bottom>
+            <right>344</right>
+            <height>80</height>
+            <width>16</width>
+            <aspectratio>keep</aspectratio>
+            <visible>Container($PARAM[id]2).HasNext</visible>
+            <texture colordiffuse="main_fg_70">common/arrow-small-right.png</texture>
+        </control>
+        <include content="Info_Panel">
+            <param name="plotwidth" value="880" />
+            <param name="plotheight" value="80" />
+            <param name="plotheight_nr" value="120" />
+            <param name="line_id" value="99$PARAM[id]2" />
+            <top>view_top</top>
+            <width>1080</width>
+            <left>view_pad</left>
+            <visible>Control.IsVisible($PARAM[id]2)</visible>
+            <visible>!Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PARAM[id]3)</visible>
+        </include>
+        <include content="Info_Panel">
+            <param name="plotwidth" value="880" />
+            <param name="plotheight" value="80" />
+            <param name="plotheight_nr" value="120" />
+            <param name="container" value="Container($PARAM[id]3)." />
+            <param name="line_id" value="99$PARAM[id]3" />
+            <top>view_top</top>
+            <width>1080</width>
+            <left>view_pad</left>
+            <visible>Control.IsVisible($PARAM[id]2)</visible>
+            <visible>Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PARAM[id]3)</visible>
+        </include>
+    </include>
+
+    <include name="View_502_Square_Combined">
+        <include content="View_Combined">
+            <param name="id" value="50" />
+            <param name="include" value="List_Square_Row" />
+        </include>
+    </include>
+
+    <include name="View_512_Landscape_Combined">
+        <include content="View_Combined">
+            <param name="id" value="51" />
+            <param name="include" value="List_Landscape_Row" />
+        </include>
+    </include>
+
+    <include name="View_522_Poster_Combined">
+        <include content="View_Combined">
+            <param name="id" value="52" />
+            <param name="include" value="List_Poster_Row" />
+        </include>
+    </include>
+</includes>
