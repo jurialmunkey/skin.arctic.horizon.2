@@ -216,6 +216,12 @@
             <item>
                 <label>$LOCALIZE[20410]</label>
                 <icon>special://skin/extras/icons/videoplay.png</icon>
+                <onclick condition="String.IsEmpty(ListItem.Trailer)">PlayMedia($INFO[Window(Home).Property(TMDbHelper.ListItem.Trailer)],False,1)</onclick>
+                <onclick condition="!String.IsEmpty(ListItem.Trailer)">PlayMedia($INFO[ListItem.Trailer],False,1)</onclick>
+                <onclick condition="String.IsEmpty(ListItem.Trailer)">SetProperty(HasTrailer,$INFO[Window(Home).Property(TMDbHelper.ListItem.Trailer)],Home)</onclick>
+                <onclick condition="!String.IsEmpty(ListItem.Trailer)">SetProperty(HasTrailer,$INFO[ListItem.Trailer],Home)</onclick>
+                <onclick>SetFocus(7001)</onclick>
+                <visible>!String.IsEmpty(ListItem.Trailer) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer))</visible>
             </item>
             <item>
                 <label>$LOCALIZE[137]</label>
@@ -224,6 +230,9 @@
             <item>
                 <label>Trakt</label>
                 <icon>special://skin/extras/icons/watchlist.png</icon>
+                <visible>[!String.IsEmpty(ListItem.Property(tmdb_id)) | !String.IsEmpty(window(home).property(tmdbhelper.listitem.tmdb_id))] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth))</visible>
+                <onclick condition="!String.IsEmpty(ListItem.Property(tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
+                <onclick condition="String.IsEmpty(ListItem.Property(tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[window(home).property(tmdbhelper.listitem.tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
             </item>
             <item>
                 <label>$LOCALIZE[31002]</label>
