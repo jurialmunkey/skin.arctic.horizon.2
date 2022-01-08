@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog">
-    <defaultcontrol always="true">5000</defaultcontrol>
+    <defaultcontrol>8001</defaultcontrol>
     <menucontrol>9000</menucontrol>
     <controls>
         <include>Object_Overlay</include>
@@ -8,58 +8,103 @@
         <include content="Dialog_Background">
             <param name="overlay" value="true" />
             <param name="overlay_texture" value="$INFO[ListItem.Art(fanart)]" />
-            <param name="overlay_visible" value="!$EXP[Exp_OverlayDialogs] + !Control.HasFocus(50)" />
             <include>Animation_Up_Delay</include>
-            <include>Dimension_Info</include>
-            <include content="Dialog_Info_MainGroup">
-                <include>Dialog_Info_Artwork</include>
-                <include content="Dialog_Info_Details">
-                    <param name="details_left" value="Items_AddonInfo_Details_Left" />
-                    <param name="details_right" value="Items_AddonInfo_Details_Right" />
-                    <include content="Object_MenuBar_List">
-                        <param name="id" value="5000" />
-                        <param name="detailed" value="false" />
-                        <param name="font" value="font_button_bold" />
-                        <param name="focus_w" value="240" />
-                        <ondown>SetFocus(50)</ondown>
-                        <onright>SetFocus(9000)</onright>
-                        <onleft>SetFocus(9000)</onleft>
-                        <include>Items_DialogVideoInfo_MenuBar</include>
-                    </include>
+            <top>240</top>
+            <bottom>120</bottom>
+            <left>120</left>
+            <right>120</right>
+            <!-- <include>Dimension_Info</include> -->
+            <include content="Dialog_Header">
+                <param name="id" value="4000" />
+                <label>$INFO[ListItem.Label]</label>
+            </include>
+            <include>Dialog_Overlay_Buttons</include>
+            <control type="group">
+                <right>dialog_button_width_padded</right>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$LOCALIZE[21821]" />
+                    <param name="icon" value="$VAR[Image_AddonsOrigin]" />
+                    <param name="bordersize" value="24" />
+                    <param name="colordiffuse" value="dialog_fg_70" />
                 </include>
-                <include content="Dialog_Info_Codecs">
-                    <control type="group">
-                        <left>dialog_pad</left>
-                        <right>dialog_pad</right>
-                        <control type="textbox">
-                            <label>$INFO[ListItem.AddonDisclaimer,[B]$LOCALIZE[24052][/B]  ,]</label>
-                            <font>font_plotbox_mini</font>
-                            <aligny>center</aligny>
-                            <align>left</align>
-                            <height>80</height>
-                            <centertop>50%</centertop>
-                            <right>224</right>
+                <control type="textbox">
+                    <left>40</left>
+                    <right>40</right>
+                    <top>120</top>
+                    <height>160</height>
+                    <font>font_plotbox</font>
+                    <label>$VAR[Label_Plot,,[CR][CR]]$INFO[ListItem.AddonDisclaimer,[B]$LOCALIZE[24052][/B] ~ ,]</label>
+                </control>
+
+                <include content="Object_Separator_V">
+                    <top>320</top>
+                    <left>40</left>
+                    <right>40</right>
+                </include>
+
+                <control type="grouplist">
+                    <height>400</height>
+                    <bottom>0</bottom>
+                    <orientation>horizontal</orientation>
+                    <itemgap>0</itemgap>
+                    <include content="Weather_Details_Group">
+                        <param name="width" value="580" />
+                        <param name="icon_pad" value="-20" />
+                        <param name="hi_label_a" value="$INFO[ListItem.Property(Addon.ID)]" />
+                        <param name="hi_label_b" value="$INFO[ListItem.AddonVersion]" />
+                        <param name="hi_icon" value="special://skin/extras/icons/tags.png" />
+                        <param name="lo_label_a" value="$INFO[ListItem.AddonCreator]" />
+                        <param name="lo_label_b" value="$INFO[ListItem.AddonType,[CAPITALIZE],[/CAPITALIZE]]" />
+                        <param name="lo_icon" value="special://skin/extras/icons/shipping.png" />
+                    </include>
+                    <include content="Weather_Details_Group">
+                        <param name="width" value="580" />
+                        <param name="icon_pad" value="-20" />
+                        <param name="hi_label_a" value="$VAR[Label_AddonInfo_LastUpdated]" />
+                        <param name="hi_label_b" value="$LOCALIZE[12014]" />
+                        <param name="hi_icon" value="special://skin/extras/icons/recent.png" />
+                        <param name="lo_label_a" value="$INFO[ListItem.AddonOrigin]" />
+                        <param name="lo_label_b" value="$VAR[Label_AddonInfo_Status]" />
+                        <param name="lo_icon" value="$VAR[Image_AddonInfo_Enable]" />
+                    </include>
+                </control>
+            </control>
+
+            <control type="group">
+                <right>0</right>
+                <width>dialog_button_width_padded</width>
+                <include content="Dialog_Group">
+                    <control type="grouplist" id="8000">
+                        <onright>SetFocus(9000)</onright>
+                        <onleft>SetFocus(50)</onleft>
+                        <itemgap>20</itemgap>
+                        <control type="button" id="8001" description="Close">
+                            <label>$LOCALIZE[15067]</label>
+                            <height>row_height</height>
+                            <onclick>Close</onclick>
                         </control>
-                        <control type="label">
-                            <label>$VAR[Label_AddonInfo_Status]</label>
-                            <font>font_minilabel_bold</font>
-                            <aligny>center</aligny>
-                            <align>right</align>
-                            <height>80</height>
-                            <centertop>50%</centertop>
-                            <right>48</right>
+                        <control type="button" id="12" description="Open">
+                            <height>row_height</height>
+                            <visible>Control.IsEnabled(12)</visible>
                         </control>
-                        <control type="image">
-                            <right>-12</right>
-                            <centertop>50%</centertop>
-                            <width>48</width>
-                            <height>48</height>
-                            <aspectratio align="right">keep</aspectratio>
-                            <texture colordiffuse="dialog_fg_70">$VAR[Image_AddonInfo_Enable]</texture>
+                        <control type="button" id="8002" description="Manage">
+                            <label>$LOCALIZE[31002]</label>
+                            <height>row_height</height>
+                            <onclick>SetFocus(9000)</onclick>
                         </control>
                     </control>
+                    <control type="group">
+                        <height>dialog_button_width</height>
+                        <bottom>0</bottom>
+                        <include content="Dialog_Outline_Box">
+                            <control type="image">
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <texture background="true" diffuse="diffuse/poster-info.png">$INFO[ListItem.Icon]</texture>
+                            </control>
+                        </include>
+                    </control>
                 </include>
-            </include>
+            </control>
         </include>
 
         <include>Furniture_Top</include>
@@ -67,7 +112,7 @@
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_DialogAddonInfo_Options" />
             <param name="visible" value="!$EXP[Exp_OverlayDialogs]" />
-            <param name="onback" value="5000" />
+            <param name="onback" value="8000" />
         </include>
 
         <!-- <control type="button" id="7000">
@@ -82,11 +127,11 @@
         </control> -->
         <include content="Object_Hidden_Button">
             <param name="id" value="6" />
-            <onfocus>SetFocus(7000)</onfocus>
+            <onfocus>SetFocus(8001)</onfocus>
         </include>
         <include content="Object_Hidden_Button">
             <param name="id" value="9" />
-            <onfocus>SetFocus(7000)</onfocus>
+            <onfocus>SetFocus(8001)</onfocus>
         </include>
 
         <include content="Object_Overlay">
@@ -95,7 +140,9 @@
             <include>Animation_FadeIn</include>
         </include>
 
-        <include>Dialog_Info_Screenshots</include>
+        <include content="Dialog_Info_Screenshots">
+            <param name="onback" value="8001" />
+        </include>
 
     </controls>
 </window>

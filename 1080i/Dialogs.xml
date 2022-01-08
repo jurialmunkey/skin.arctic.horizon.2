@@ -207,6 +207,7 @@
         <param name="header_id" default="5000" />
         <param name="id" default="50" />
         <param name="content" default="Items_Null" />
+        <param name="onback" default="7000" />
         <definition>
             <include content="Dialog_Background">
                 <param name="overlay" value="false" />
@@ -227,18 +228,18 @@
                 <include content="Dialog_Group">
                     <include content="Dialog_Outline_Box">
                         <control type="list" id="$PARAM[id]">
-                            <onback>7000</onback>
-                            <onup>7000</onup>
-                            <ondown>7000</ondown>
+                            <onback>$PARAM[onback]</onback>
+                            <onup>$PARAM[onback]</onup>
+                            <ondown>$PARAM[onback]</ondown>
                             <orientation>horizontal</orientation>
                             <itemlayout width="1493.33">
                                 <control type="image">
-                                    <texture background="true">$INFO[ListItem.PicturePath]</texture>
+                                    <texture background="true">$INFO[ListItem.Icon]</texture>
                                 </control>
                             </itemlayout>
                             <focusedlayout width="1493.33">
                                 <control type="image">
-                                    <texture background="true">$INFO[ListItem.PicturePath]</texture>
+                                    <texture background="true">$INFO[ListItem.Icon]</texture>
                                 </control>
                             </focusedlayout>
                             <include>$PARAM[content]</include>
@@ -250,93 +251,6 @@
                     </control>
                 </include>
             </include>
-        </definition>
-    </include>
-
-    <include name="Dialog_Info_Details">
-        <param name="left" default="560" />
-        <param name="details_left" default="Items_VideoInfo_Details_Left" />
-        <param name="details_right" default="Items_VideoInfo_Details_Right" />
-        <param name="plot" default="$VAR[Label_Plot]" />
-        <definition>
-            <control type="group">
-                <left>$PARAM[left]</left>
-                <bottom>row_height_x150</bottom>
-                <!-- <include content="Dialog_Overlay">
-                    <param name="flipy" value="true" />
-                    <param name="flipx" value="true" />
-                    <param name="texture" value="common/dialog_overlay_c.png" />
-                </include> -->
-                <!-- <include content="Object_Separator">
-                    <left>0</left>
-                    <top>40</top>
-                    <bottom>40</bottom>
-                </include> -->
-                <include content="Object_MenuHeader">
-                    <param name="label" value="$LOCALIZE[31028]" />
-                    <param name="icon" value="special://skin/extras/icons/_none.png" />
-                    <param name="colordiffuse" value="dialog_fg_70" />
-                    <param name="bordersize" value="10" />
-                </include>
-                <include content="Dialog_Group">
-                    <top>120</top>
-                    <height>120</height>
-                    <control type="textbox">
-                        <font>font_plotbox</font>
-                        <label>$PARAM[plot]</label>
-                    </control>
-                </include>
-            </control>
-            <control type="group">
-                <top>170</top>
-                <left>$PARAM[left]</left>
-                <include content="Object_MenuHeader">
-                    <param name="label" value=" " />
-                    <param name="label" value="$LOCALIZE[33029]" />
-                    <param name="has_icon" value="false" />
-                </include>
-            </control>
-            <control type="group">
-                <top>270</top>
-                <left>$PARAM[left]</left>
-                <bottom>row_height_x150</bottom>
-                <include content="Object_MenuHeader">
-                    <param name="label" value=" " />
-                    <param name="label" value="$LOCALIZE[33029]" />
-                    <param name="has_icon" value="false" />
-                </include>
-                <control type="group">
-                    <top>120</top>
-                    <bottom>40</bottom>
-                    <control type="group">
-                        <width>500</width>
-                        <include content="List_AddonCategories">
-                            <param name="id" value="8000" />
-                            <param name="itemlayout_include" value="Layout_InfoDetails" />
-                            <param name="width" value="500" />
-                            <param name="height" value="50" />
-                            <include>$PARAM[details_left]</include>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <left>500</left>
-                        <include>Object_Separator</include>
-                        <include content="List_AddonCategories">
-                            <param name="id" value="8001" />
-                            <param name="itemlayout_include" value="Layout_InfoDetails" />
-                            <param name="width" value="690" />
-                            <param name="height" value="50" />
-                            <include>$PARAM[details_right]</include>
-                        </include>
-                    </control>
-                </control>
-            </control>
-            <control type="group">
-                <left>$PARAM[left]</left>
-                <top>280</top>
-                <height>80</height>
-                <nested />
-            </control>
         </definition>
     </include>
 
