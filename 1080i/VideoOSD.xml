@@ -6,727 +6,729 @@
     <onload>RunScript(plugin.video.themoviedb.helper,get_player_audiostreams)</onload>
     <controls>
 
-
-        <!-- Left Side Buttons -->
-        <control type="grouplist" id="6000">
-            <centerbottom>100</centerbottom>
-            <height>60</height>
-            <left>view_pad</left>
-            <right>view_pad</right>
-            <orientation>horizontal</orientation>
-            <itemgap>30</itemgap>
-            <onleft>6800</onleft>
-            <onright>6500</onright>
-            <include content="OSD_Button">
-                <param name="visible" value="true" />
-                <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
-                <param name="visible" value="true" />
-                <param name="id" value="6100" />
-                <param name="groupid" value="6199" />
-                <onclick>PlayerControl(Play)</onclick>
-                <onup condition="Player.Paused">PlayerControl(Play)</onup>
-                <ondown condition="Player.Paused">PlayerControl(Play)</ondown>
-
-                <onup condition="!Player.Forwarding32x">PlayerControl(Forward)</onup>
-                <ondown condition="!Player.Rewinding32x">PlayerControl(Rewind)</ondown>
-            </include>
-            <include content="OSD_Button">
-                <param name="visible" value="true" />
-                <param name="icon" value="osd/jump-back.png" />
-                <param name="id" value="6200" />
-                <param name="groupid" value="6299" />
-                <onclick>PlayerControl(BigSkipBackward)</onclick>
-                <onup>Action(StepForward)</onup>
-                <ondown>Action(StepBack)</ondown>
-            </include>
-            <include content="OSD_Button">
-                <param name="visible" value="true" />
-                <param name="icon" value="osd/jump-forward.png" />
-                <param name="id" value="6300" />
-                <param name="groupid" value="6399" />
-                <onclick>PlayerControl(BigSkipForward)</onclick>
-                <onup>Action(StepForward)</onup>
-                <ondown>Action(StepBack)</ondown>
-            </include>
-            <include content="OSD_Button">
-                <param name="visible" value="true" />
-                <param name="icon" value="$VAR[Image_OSD_NextStop]" />
-                <param name="id" value="6400" />
-                <param name="groupid" value="6499" />
-                <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Next)</onclick>
-                <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Stop)</onclick>
-                <onup condition="!Integer.IsEqual(Container(6401).NumItems,0)">6401</onup>
-                <onup condition="Integer.IsEqual(Container(6401).NumItems,0) + !Container(6401).IsUpdating">ActivateWindow(125)</onup>
-            </include>
-        </control>
-
-        <!-- Right Side Buttons -->
-        <control type="grouplist" id="6001">
-            <centerbottom>100</centerbottom>
-            <height>60</height>
-            <left>view_pad</left>
-            <right>view_pad</right>
-            <orientation>horizontal</orientation>
-            <itemgap>30</itemgap>
-            <align>right</align>
-            <onleft>6400</onleft>
-            <onright>6100</onright>
-            <include content="OSD_Button">
-                <param name="visible" value="true" />
-                <param name="icon" value="osd/info.png" />
-                <param name="visible" value="true" />
-                <param name="id" value="6500" />
-                <param name="groupid" value="6599" />
-                <onup>6501</onup>
-                <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
-                <onclick condition="!Player.Paused + !Skin.HasSetting(DontPauseOSD)">Pause</onclick>
-                <onclick>Action(Close)</onclick>
-                <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.DBID)">RunScript(plugin.video.themoviedb.helper,add_path='"$INFO[Player.Title,videodb://movies/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D]"',call_auto=1190,return)</onclick>
-                <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)] + !String.IsEmpty(VideoPlayer.DBID)">RunScript(plugin.video.themoviedb.helper,add_path='"$INFO[VideoPlayer.TvShowTitle,videodb://tvshows/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22tvshows%22%7D]"',call_auto=1190,return)</onclick>
-                <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.DBID) + !String.IsEmpty(VideoPlayer.IMDBNumber) + String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;imdb_id=$INFO[VideoPlayer.IMDBNumber],call_auto=1190,return)</onclick>
-                <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.DBID) + !String.IsEmpty(VideoPlayer.IMDBNumber) + !String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;tmdb_id=$INFO[VideoPlayer.IMDBNumber],call_auto=1190,return)</onclick>
-                <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.DBID) + String.IsEmpty(VideoPlayer.IMDBNumber)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;query='"$INFO[Player.Title]"',call_auto=1190,return)</onclick>
-                <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)] + String.IsEmpty(VideoPlayer.DBID)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=tv&amp;query='"$INFO[VideoPlayer.TvShowTitle]"',call_auto=1190,return)</onclick>
-            </include>
-            <include content="OSD_Button">
-                <param name="visible" value="true" />
-                <param name="icon" value="osd/audio-settings.png" />
-                <param name="visible" value="true" />
-                <param name="id" value="6600" />
-                <param name="groupid" value="6699" />
-                <onclick>ActivateWindow(osdaudiosettings)</onclick>
-                <onup>6601</onup>
-            </include>
-            <include content="OSD_Button">
-                <param name="visible" value="true" />
-                <param name="icon" value="osd/subs.png" />
-                <param name="visible" value="true" />
-                <param name="id" value="6700" />
-                <param name="groupid" value="6799" />
-                <onclick>ActivateWindow(osdsubtitlesettings)</onclick>
-                <onup>6701</onup>
-            </include>
-            <include content="OSD_Button">
-                <param name="visible" value="true" />
-                <param name="icon" value="osd/settings.png" />
-                <param name="visible" value="true" />
-                <param name="id" value="6800" />
-                <param name="groupid" value="6899" />
-                <onup>7800</onup>
-                <onclick>ActivateWindow(osdvideosettings)</onclick>
-            </include>
-        </control>
-
-        <!-- Episodes Pop-up -->
-        <include content="OSD_Menu_Back">
-            <param name="arrow_pos" value="1050" />
-            <visible>VideoPlayer.Content(episodes)</visible>
-            <visible>Control.HasFocus(6400) | Control.HasFocus(6401)</visible>
-            <include>Animation_SlideIn_Dialog</include>
-            <left>40</left>
-            <width>1390</width>
-            <height>500</height>
-            <include content="Object_MenuHeader">
-                <param name="label" value="$INFO[VideoPlayer.TvShowTitle,,: ]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]" />
-            </include>
-            <include content="List_Landscape_Row">
-                <param name="id" value="6401" />
-                <param name="movement" value="2" />
-                <param name="textcolor" value="dialog_fg" />
-                <param name="offset_x" value="40" />
-                <param name="offset_y" value="40" />
-                <param name="shadow_colordiffuse" value="shadow_soft" />
-                <content>$VAR[Path_OSD_Episodes]</content>
-                <height>400</height>
-                <bottom>0</bottom>
-                <ondown>6400</ondown>
-            </include>
-        </include>
-
-        <!-- Cast Pop-up -->
-        <include content="OSD_Menu_Back">
-            <param name="arrow_pos" value="340" />
-            <visible>Control.HasFocus(6500) | Control.HasFocus(6501)</visible>
-            <include>Animation_SlideIn_Dialog</include>
-            <right>40</right>
-            <width>960</width>
-            <height>680</height>
-            <include content="Object_MenuHeader">
-                <param name="label" value="$LOCALIZE[31028]" />
-            </include>
-            <control type="textbox">
-                <top>120</top>
-                <left>40</left>
-                <right>40</right>
-                <label>$INFO[VideoPlayer.Plot]</label>
-                <height>120</height>
-                <font>font_plotbox</font>
-            </control>
-            <include content="Object_MenuHeader">
-                <param name="label" value="$LOCALIZE[31075] $INFO[VideoPlayer.TvShowTitle,,: ]$INFO[Player.Title,,]" />
-                <param name="has_icon" value="false" />
-                <bottom>340</bottom>
-            </include>
-            <include content="List_Core">
-                <param name="orientation" value="horizontal" />
-                <param name="controltype" value="fixedlist" />
-                <param name="id" value="6501" />
-                <param name="item_w" value="190" />
-                <param name="item_h" value="280" />
-                <param name="itemlayout_w" value="230" />
-                <param name="itemlayout_h" value="320" />
-                <param name="itemlayout_include" value="Layout_Poster" />
-                <param name="offset_x" value="40" />
-                <param name="offset_y" value="40" />
-                <movement>3</movement>
-                <content>$VAR[Path_OSD_Cast]</content>
-                <height>360</height>
-                <bottom>0</bottom>
-                <ondown>6500</ondown>
-                <include content="Action_Widget_Click"><param name="id" value="7201" /></include>
-            </include>
-        </include>
-
-        <!-- Audio Tracks -->
-        <include content="OSD_Menu_Back">
-            <param name="arrow_pos" value="250" />
-            <visible>!Window.IsVisible(DialogSettings.xml)</visible>
-            <visible>Integer.IsGreater(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),0)</visible>
-            <visible>Control.HasFocus(6600) | ControlGroup(6601).HasFocus()</visible>
-            <include>Animation_SlideIn_Dialog</include>
-            <right>40</right>
-            <width>1040</width>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),1)">
-                <height>220</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),2)">
-                <height>300</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),3)">
-                <height>380</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),4)">
-                <height>460</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),5)">
-                <height>540</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),6)">
-                <height>620</height>
-            </include>
-            <height>700</height>
-            <include content="Object_MenuHeader">
-                <param name="label" value="Audio" />
-            </include>
-            <control type="grouplist" id="6601">
-                <top>120</top>
-                <bottom>20</bottom>
-                <ondown>6600</ondown>
-                <onleft>6600</onleft>
-                <onright>6600</onright>
-                <onup>noop</onup>
-                <orientation>vertical</orientation>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7601" />
-                    <param name="groupid" value="8601" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.1" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7462" />
-                    <param name="groupid" value="8462" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.2" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7603" />
-                    <param name="groupid" value="8603" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.3" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7604" />
-                    <param name="groupid" value="8604" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.4" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7605" />
-                    <param name="groupid" value="8605" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.5" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7606" />
-                    <param name="groupid" value="8606" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.6" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7607" />
-                    <param name="groupid" value="8607" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.7" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7608" />
-                    <param name="groupid" value="8608" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.8" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7609" />
-                    <param name="groupid" value="8609" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.9" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7610" />
-                    <param name="groupid" value="8610" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.10" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7611" />
-                    <param name="groupid" value="8611" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.11" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7612" />
-                    <param name="groupid" value="8612" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.12" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7613" />
-                    <param name="groupid" value="8613" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.13" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7614" />
-                    <param name="groupid" value="8614" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.14" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7615" />
-                    <param name="groupid" value="8615" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.15" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7616" />
-                    <param name="groupid" value="8616" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.16" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7617" />
-                    <param name="groupid" value="8617" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.17" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7618" />
-                    <param name="groupid" value="8618" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.18" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7619" />
-                    <param name="groupid" value="8619" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.19" />
-                    <param name="issubtitle" value="false" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7620" />
-                    <param name="groupid" value="8620" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.AudioStreams.20" />
-                    <param name="issubtitle" value="false" />
-                </include>
-            </control>
-        </include>
-
-        <!-- Subtitles -->
-        <include content="OSD_Menu_Back">
-            <param name="arrow_pos" value="160" />
-            <visible>!Window.IsVisible(DialogSettings.xml)</visible>
-            <visible>Integer.IsGreater(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),0)</visible>
-            <visible>Control.HasFocus(6700) | ControlGroup(6701).HasFocus()</visible>
-            <include>Animation_SlideIn_Dialog</include>
-            <right>40</right>
-            <width>640</width>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),1)">
-                <height>220</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),2)">
-                <height>300</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),3)">
-                <height>380</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),4)">
-                <height>460</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),5)">
-                <height>540</height>
-            </include>
-            <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),6)">
-                <height>620</height>
-            </include>
-            <height>700</height>
-            <include content="Object_MenuHeader">
-                <param name="label" value="$LOCALIZE[287]" />
-            </include>
-            <control type="grouplist" id="6701">
-                <top>120</top>
-                <bottom>20</bottom>
-                <ondown>6700</ondown>
-                <onleft>6700</onleft>
-                <onright>6700</onright>
-                <onup>noop</onup>
-                <orientation>vertical</orientation>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7701" />
-                    <param name="groupid" value="8701" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.1" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7702" />
-                    <param name="groupid" value="8702" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.2" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7703" />
-                    <param name="groupid" value="8703" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.3" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7704" />
-                    <param name="groupid" value="8704" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.4" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7705" />
-                    <param name="groupid" value="8705" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.5" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7706" />
-                    <param name="groupid" value="8706" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.6" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7707" />
-                    <param name="groupid" value="8707" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.7" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7708" />
-                    <param name="groupid" value="8708" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.8" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7709" />
-                    <param name="groupid" value="8709" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.9" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7710" />
-                    <param name="groupid" value="8710" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.10" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7711" />
-                    <param name="groupid" value="8711" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.11" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7712" />
-                    <param name="groupid" value="8712" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.12" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7713" />
-                    <param name="groupid" value="8713" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.13" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7714" />
-                    <param name="groupid" value="8714" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.14" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7715" />
-                    <param name="groupid" value="8715" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.15" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7716" />
-                    <param name="groupid" value="8716" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.16" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7717" />
-                    <param name="groupid" value="8717" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.17" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7718" />
-                    <param name="groupid" value="8718" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.18" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7719" />
-                    <param name="groupid" value="8719" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.19" />
-                    <param name="issubtitle" value="true" />
-                </include>
-                <include content="Dialog_Lang_Button">
-                    <param name="id" value="7720" />
-                    <param name="groupid" value="8720" />
-                    <param name="control" value="button" />
-                    <param name="language" value="TMDbHelper.Player.Subtitles.20" />
-                    <param name="issubtitle" value="true" />
-                </include>
-            </control>
-        </include>
-
-        <!-- Settings -->
-        <include content="OSD_Menu_Back">
-            <param name="arrow_pos" value="70" />
+        <control type="group">
             <visible>!Window.IsVisible(DialogSlider.xml)</visible>
-            <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
-            <visible>!Window.IsVisible(DialogSettings.xml)</visible>
-            <visible>Control.HasFocus(6800) | ControlGroup(6801).HasFocus() | Control.HasFocus(7800)</visible>
-            <include>Animation_SlideIn_Dialog</include>
-            <right>40</right>
-            <width>480</width>
-            <height>660</height>
-            <include content="Object_MenuHeader">
-                <param name="label" value="$LOCALIZE[33063]" />
-            </include>
-            <control type="grouplist" id="6801">
-                <top>120</top>
-                <bottom>20</bottom>
-                <ondown>7800</ondown>
+            <!-- Left Side Buttons -->
+            <control type="grouplist" id="6000">
+                <centerbottom>100</centerbottom>
+                <height>60</height>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                <orientation>horizontal</orientation>
+                <itemgap>30</itemgap>
                 <onleft>6800</onleft>
-                <onright>6800</onright>
-                <onup>noop</onup>
-                <orientation>vertical</orientation>
-                <include content="Dialog_Menu_Button">
-                    <param name="id" value="6802" />
-                    <param name="control" value="button" />
-                    <param name="icon" value="special://skin/extras/icons/videoplay.png" />
-                    <label>$LOCALIZE[13395]</label>
+                <onright>6500</onright>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6100" />
+                    <param name="groupid" value="6199" />
+                    <onclick>PlayerControl(Play)</onclick>
+                    <onup condition="Player.Paused">PlayerControl(Play)</onup>
+                    <ondown condition="Player.Paused">PlayerControl(Play)</ondown>
+
+                    <onup condition="!Player.Forwarding32x">PlayerControl(Forward)</onup>
+                    <ondown condition="!Player.Rewinding32x">PlayerControl(Rewind)</ondown>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/jump-back.png" />
+                    <param name="id" value="6200" />
+                    <param name="groupid" value="6299" />
+                    <onclick>PlayerControl(BigSkipBackward)</onclick>
+                    <onup>Action(StepForward)</onup>
+                    <ondown>Action(StepBack)</ondown>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/jump-forward.png" />
+                    <param name="id" value="6300" />
+                    <param name="groupid" value="6399" />
+                    <onclick>PlayerControl(BigSkipForward)</onclick>
+                    <onup>Action(StepForward)</onup>
+                    <ondown>Action(StepBack)</ondown>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="$VAR[Image_OSD_NextStop]" />
+                    <param name="id" value="6400" />
+                    <param name="groupid" value="6499" />
+                    <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Next)</onclick>
+                    <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Stop)</onclick>
+                    <onup condition="!Integer.IsEqual(Container(6401).NumItems,0)">6401</onup>
+                    <onup condition="Integer.IsEqual(Container(6401).NumItems,0) + !Container(6401).IsUpdating">ActivateWindow(125)</onup>
+                </include>
+            </control>
+
+            <!-- Right Side Buttons -->
+            <control type="grouplist" id="6001">
+                <centerbottom>100</centerbottom>
+                <height>60</height>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                <orientation>horizontal</orientation>
+                <itemgap>30</itemgap>
+                <align>right</align>
+                <onleft>6400</onleft>
+                <onright>6100</onright>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/info.png" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6500" />
+                    <param name="groupid" value="6599" />
+                    <onup>6501</onup>
+                    <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                    <onclick condition="!Player.Paused + !Skin.HasSetting(DontPauseOSD)">Pause</onclick>
+                    <onclick>Action(Close)</onclick>
+                    <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.DBID)">RunScript(plugin.video.themoviedb.helper,add_path='"$INFO[Player.Title,videodb://movies/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D]"',call_auto=1190,return)</onclick>
+                    <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)] + !String.IsEmpty(VideoPlayer.DBID)">RunScript(plugin.video.themoviedb.helper,add_path='"$INFO[VideoPlayer.TvShowTitle,videodb://tvshows/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22tvshows%22%7D]"',call_auto=1190,return)</onclick>
+                    <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.DBID) + !String.IsEmpty(VideoPlayer.IMDBNumber) + String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;imdb_id=$INFO[VideoPlayer.IMDBNumber],call_auto=1190,return)</onclick>
+                    <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.DBID) + !String.IsEmpty(VideoPlayer.IMDBNumber) + !String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;tmdb_id=$INFO[VideoPlayer.IMDBNumber],call_auto=1190,return)</onclick>
+                    <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.DBID) + String.IsEmpty(VideoPlayer.IMDBNumber)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;query='"$INFO[Player.Title]"',call_auto=1190,return)</onclick>
+                    <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)] + String.IsEmpty(VideoPlayer.DBID)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=tv&amp;query='"$INFO[VideoPlayer.TvShowTitle]"',call_auto=1190,return)</onclick>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/audio-settings.png" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6600" />
+                    <param name="groupid" value="6699" />
+                    <onclick>ActivateWindow(osdaudiosettings)</onclick>
+                    <onup>6601</onup>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/subs.png" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6700" />
+                    <param name="groupid" value="6799" />
+                    <onclick>ActivateWindow(osdsubtitlesettings)</onclick>
+                    <onup>6701</onup>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/settings.png" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6800" />
+                    <param name="groupid" value="6899" />
+                    <onup>7800</onup>
                     <onclick>ActivateWindow(osdvideosettings)</onclick>
                 </include>
-                <include content="Dialog_Menu_Button">
-                    <param name="id" value="6803" />
-                    <param name="control" value="button" />
-                    <param name="icon" value="special://skin/extras/icons/bookmark.png" />
-                    <label>$LOCALIZE[298]</label>
-                    <onclick>ActivateWindow(125)</onclick>
-                </include>
-                <include content="Dialog_Menu_Button">
-                    <param name="id" value="6804" />
-                    <param name="control" value="button" />
-                    <param name="icon" value="special://skin/extras/icons/volume.png" />
-                    <label>$LOCALIZE[297]</label>
-                    <onclick>audiodelay</onclick>
-                </include>
-                <include content="Dialog_Menu_Button">
-                    <param name="id" value="6805" />
-                    <param name="control" value="button" />
-                    <param name="icon" value="special://skin/extras/icons/quote.png" />
-                    <label>$LOCALIZE[22006]</label>
-                    <onclick>subtitledelay</onclick>
-                </include>
             </control>
-            <control type="group">
-                <bottom>20</bottom>
-                <height>160</height>
-                <control type="image">
-                    <centertop>-20</centertop>
-                    <height>1</height>
-                    <left>row_height_x50</left>
-                    <right>row_height_x50</right>
-                    <texture colordiffuse="dialog_fg_12">common/white.png</texture>
-                </control>
-                <include content="Dialog_Menu_Button">
-                    <param name="id" value="7800" />
-                    <param name="control" value="button" />
-                    <param name="icon" value="" />
-                    <onup>6805</onup>
-                    <ondown>6800</ondown>
-                    <height>160</height>
-                    <onleft>PlayerControl(TempoDown)</onleft>
-                    <onright>PlayerControl(TempoUp)</onright>
+
+            <!-- Episodes Pop-up -->
+            <include content="OSD_Menu_Back">
+                <param name="arrow_pos" value="1050" />
+                <visible>VideoPlayer.Content(episodes)</visible>
+                <visible>Control.HasFocus(6400) | Control.HasFocus(6401)</visible>
+                <include>Animation_SlideIn_Dialog</include>
+                <left>40</left>
+                <width>1390</width>
+                <height>500</height>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$INFO[VideoPlayer.TvShowTitle,,: ]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]" />
                 </include>
-                <control type="group">
+                <include content="List_Landscape_Row">
+                    <param name="id" value="6401" />
+                    <param name="movement" value="2" />
+                    <param name="textcolor" value="dialog_fg" />
+                    <param name="offset_x" value="40" />
+                    <param name="offset_y" value="40" />
+                    <param name="shadow_colordiffuse" value="shadow_soft" />
+                    <content>$VAR[Path_OSD_Episodes]</content>
+                    <height>400</height>
+                    <bottom>0</bottom>
+                    <ondown>6400</ondown>
+                </include>
+            </include>
+
+            <!-- Cast Pop-up -->
+            <include content="OSD_Menu_Back">
+                <param name="arrow_pos" value="340" />
+                <visible>Control.HasFocus(6500) | Control.HasFocus(6501)</visible>
+                <include>Animation_SlideIn_Dialog</include>
+                <right>40</right>
+                <width>960</width>
+                <height>680</height>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$LOCALIZE[31028]" />
+                </include>
+                <control type="textbox">
+                    <top>120</top>
                     <left>40</left>
                     <right>40</right>
-                    <control type="group">
-                        <height>70</height>
-                        <top>0</top>
-                        <control type="label">
-                            <font>font_statusbar_bold</font>
-                            <label>$LOCALIZE[31071]</label>
-                            <textcolor>dialog_fg_70</textcolor>
-                            <align>left</align>
-                            <visible>!Control.HasFocus(7800)</visible>
-                        </control>
-                        <control type="label">
-                            <font>font_statusbar_bold</font>
-                            <label>$LOCALIZE[31071]</label>
-                            <textcolor>white</textcolor>
-                            <align>left</align>
-                            <visible>Control.HasFocus(7800)</visible>
-                        </control>
+                    <label>$INFO[VideoPlayer.Plot]</label>
+                    <height>120</height>
+                    <font>font_plotbox</font>
+                </control>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$LOCALIZE[31075] $INFO[VideoPlayer.TvShowTitle,,: ]$INFO[Player.Title,,]" />
+                    <param name="has_icon" value="false" />
+                    <bottom>340</bottom>
+                </include>
+                <include content="List_Core">
+                    <param name="orientation" value="horizontal" />
+                    <param name="controltype" value="fixedlist" />
+                    <param name="id" value="6501" />
+                    <param name="item_w" value="190" />
+                    <param name="item_h" value="280" />
+                    <param name="itemlayout_w" value="230" />
+                    <param name="itemlayout_h" value="320" />
+                    <param name="itemlayout_include" value="Layout_Poster" />
+                    <param name="offset_x" value="40" />
+                    <param name="offset_y" value="40" />
+                    <movement>3</movement>
+                    <content>$VAR[Path_OSD_Cast]</content>
+                    <height>360</height>
+                    <bottom>0</bottom>
+                    <ondown>6500</ondown>
+                    <include content="Action_Widget_Click"><param name="id" value="7201" /></include>
+                </include>
+            </include>
+
+            <!-- Audio Tracks -->
+            <include content="OSD_Menu_Back">
+                <param name="arrow_pos" value="250" />
+                <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                <visible>Integer.IsGreater(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),0)</visible>
+                <visible>Control.HasFocus(6600) | ControlGroup(6601).HasFocus()</visible>
+                <include>Animation_SlideIn_Dialog</include>
+                <right>40</right>
+                <width>1040</width>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),1)">
+                    <height>220</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),2)">
+                    <height>300</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),3)">
+                    <height>380</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),4)">
+                    <height>460</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),5)">
+                    <height>540</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.AudioStreams.Total),6)">
+                    <height>620</height>
+                </include>
+                <height>700</height>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="Audio" />
+                </include>
+                <control type="grouplist" id="6601">
+                    <top>120</top>
+                    <bottom>20</bottom>
+                    <ondown>6600</ondown>
+                    <onleft>6600</onleft>
+                    <onright>6600</onright>
+                    <onup>noop</onup>
+                    <orientation>vertical</orientation>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7601" />
+                        <param name="groupid" value="8601" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.1" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7462" />
+                        <param name="groupid" value="8462" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.2" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7603" />
+                        <param name="groupid" value="8603" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.3" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7604" />
+                        <param name="groupid" value="8604" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.4" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7605" />
+                        <param name="groupid" value="8605" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.5" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7606" />
+                        <param name="groupid" value="8606" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.6" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7607" />
+                        <param name="groupid" value="8607" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.7" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7608" />
+                        <param name="groupid" value="8608" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.8" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7609" />
+                        <param name="groupid" value="8609" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.9" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7610" />
+                        <param name="groupid" value="8610" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.10" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7611" />
+                        <param name="groupid" value="8611" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.11" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7612" />
+                        <param name="groupid" value="8612" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.12" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7613" />
+                        <param name="groupid" value="8613" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.13" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7614" />
+                        <param name="groupid" value="8614" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.14" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7615" />
+                        <param name="groupid" value="8615" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.15" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7616" />
+                        <param name="groupid" value="8616" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.16" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7617" />
+                        <param name="groupid" value="8617" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.17" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7618" />
+                        <param name="groupid" value="8618" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.18" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7619" />
+                        <param name="groupid" value="8619" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.19" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7620" />
+                        <param name="groupid" value="8620" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.AudioStreams.20" />
+                        <param name="issubtitle" value="false" />
+                    </include>
+                </control>
+            </include>
+
+            <!-- Subtitles -->
+            <include content="OSD_Menu_Back">
+                <param name="arrow_pos" value="160" />
+                <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                <visible>Integer.IsGreater(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),0)</visible>
+                <visible>Control.HasFocus(6700) | ControlGroup(6701).HasFocus()</visible>
+                <include>Animation_SlideIn_Dialog</include>
+                <right>40</right>
+                <width>640</width>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),1)">
+                    <height>220</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),2)">
+                    <height>300</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),3)">
+                    <height>380</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),4)">
+                    <height>460</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),5)">
+                    <height>540</height>
+                </include>
+                <include content="Object_Include" condition="Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Subtitles.Total),6)">
+                    <height>620</height>
+                </include>
+                <height>700</height>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$LOCALIZE[287]" />
+                </include>
+                <control type="grouplist" id="6701">
+                    <top>120</top>
+                    <bottom>20</bottom>
+                    <ondown>6700</ondown>
+                    <onleft>6700</onleft>
+                    <onright>6700</onright>
+                    <onup>noop</onup>
+                    <orientation>vertical</orientation>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7701" />
+                        <param name="groupid" value="8701" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.1" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7702" />
+                        <param name="groupid" value="8702" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.2" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7703" />
+                        <param name="groupid" value="8703" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.3" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7704" />
+                        <param name="groupid" value="8704" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.4" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7705" />
+                        <param name="groupid" value="8705" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.5" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7706" />
+                        <param name="groupid" value="8706" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.6" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7707" />
+                        <param name="groupid" value="8707" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.7" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7708" />
+                        <param name="groupid" value="8708" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.8" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7709" />
+                        <param name="groupid" value="8709" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.9" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7710" />
+                        <param name="groupid" value="8710" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.10" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7711" />
+                        <param name="groupid" value="8711" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.11" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7712" />
+                        <param name="groupid" value="8712" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.12" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7713" />
+                        <param name="groupid" value="8713" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.13" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7714" />
+                        <param name="groupid" value="8714" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.14" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7715" />
+                        <param name="groupid" value="8715" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.15" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7716" />
+                        <param name="groupid" value="8716" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.16" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7717" />
+                        <param name="groupid" value="8717" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.17" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7718" />
+                        <param name="groupid" value="8718" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.18" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7719" />
+                        <param name="groupid" value="8719" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.19" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                    <include content="Dialog_Lang_Button">
+                        <param name="id" value="7720" />
+                        <param name="groupid" value="8720" />
+                        <param name="control" value="button" />
+                        <param name="language" value="TMDbHelper.Player.Subtitles.20" />
+                        <param name="issubtitle" value="true" />
+                    </include>
+                </control>
+            </include>
+
+            <!-- Settings -->
+            <include content="OSD_Menu_Back">
+                <param name="arrow_pos" value="70" />
+                <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+                <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
+                <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                <visible>Control.HasFocus(6800) | ControlGroup(6801).HasFocus() | Control.HasFocus(7800)</visible>
+                <include>Animation_SlideIn_Dialog</include>
+                <right>40</right>
+                <width>480</width>
+                <height>660</height>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$LOCALIZE[33063]" />
+                </include>
+                <control type="grouplist" id="6801">
+                    <top>120</top>
+                    <bottom>20</bottom>
+                    <ondown>7800</ondown>
+                    <onleft>6800</onleft>
+                    <onright>6800</onright>
+                    <onup>noop</onup>
+                    <orientation>vertical</orientation>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id" value="6802" />
+                        <param name="control" value="button" />
+                        <param name="icon" value="special://skin/extras/icons/videoplay.png" />
+                        <label>$LOCALIZE[13395]</label>
+                        <onclick>ActivateWindow(osdvideosettings)</onclick>
+                    </include>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id" value="6803" />
+                        <param name="control" value="button" />
+                        <param name="icon" value="special://skin/extras/icons/bookmark.png" />
+                        <label>$LOCALIZE[298]</label>
+                        <onclick>ActivateWindow(125)</onclick>
+                    </include>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id" value="6804" />
+                        <param name="control" value="button" />
+                        <param name="icon" value="special://skin/extras/icons/volume.png" />
+                        <label>$LOCALIZE[297]</label>
+                        <onclick>audiodelay</onclick>
+                    </include>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id" value="6805" />
+                        <param name="control" value="button" />
+                        <param name="icon" value="special://skin/extras/icons/quote.png" />
+                        <label>$LOCALIZE[22006]</label>
+                        <onclick>subtitledelay</onclick>
+                    </include>
+                </control>
+                <control type="group">
+                    <bottom>20</bottom>
+                    <height>160</height>
+                    <control type="image">
+                        <centertop>-20</centertop>
+                        <height>1</height>
+                        <left>row_height_x50</left>
+                        <right>row_height_x50</right>
+                        <texture colordiffuse="dialog_fg_12">common/white.png</texture>
                     </control>
-                    <control type="grouplist">
-                        <left>-8</left>
-                        <right>-8</right>
-                        <height>70</height>
-                        <bottom>0</bottom>
-                        <orientation>horizontal</orientation>
-                        <include content="OSD_PlaySpeed_Label">
-                            <param name="label" value="0.80" />
-                        </include>
-                        <include content="OSD_PlaySpeed_Label">
-                            <param name="label" value="0.90" />
-                        </include>
-                        <include content="OSD_PlaySpeed_Label">
-                            <param name="label" value="1.00" />
-                        </include>
-                        <include content="OSD_PlaySpeed_Label">
-                            <param name="label" value="1.10" />
-                        </include>
-                        <include content="OSD_PlaySpeed_Label">
-                            <param name="label" value="1.20" />
-                        </include>
-                        <include content="OSD_PlaySpeed_Label">
-                            <param name="label" value="1.30" />
-                        </include>
-                        <include content="OSD_PlaySpeed_Label">
-                            <param name="label" value="1.40" />
-                        </include>
-                        <include content="OSD_PlaySpeed_Label">
-                            <param name="label" value="1.50" />
-                        </include>
-                    </control>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id" value="7800" />
+                        <param name="control" value="button" />
+                        <param name="icon" value="" />
+                        <onup>6805</onup>
+                        <ondown>6800</ondown>
+                        <height>160</height>
+                        <onleft>PlayerControl(TempoDown)</onleft>
+                        <onright>PlayerControl(TempoUp)</onright>
+                    </include>
                     <control type="group">
-                        <centertop>50%</centertop>
-                        <height>12</height>
-                        <control type="image">
-                            <texture colordiffuse="dialog_fg_12" border="4">progress/progress-bg.png</texture>
-                            <visible>!Control.HasFocus(7800)</visible>
-                        </control>
-                        <control type="image">
-                            <texture colordiffuse="panel_fg_30" border="4">progress/progress-bg.png</texture>
-                            <visible>Control.HasFocus(7800)</visible>
-                        </control>
-                    </control>
-                    <control type="group">
-                        <left>6</left>
-                        <centertop>50%</centertop>
-                        <height>24</height>
-                        <width>24</width>
-                        <animation effect="slide" end="52" condition="String.IsEqual(Player.PlaySpeed,0.90)">Conditional</animation>
-                        <animation effect="slide" end="104" condition="String.IsEqual(Player.PlaySpeed,1.00) | String.IsEqual(Player.PlaySpeed,0.00)">Conditional</animation>
-                        <animation effect="slide" end="156" condition="String.IsEqual(Player.PlaySpeed,1.10)">Conditional</animation>
-                        <animation effect="slide" end="208" condition="String.IsEqual(Player.PlaySpeed,1.20)">Conditional</animation>
-                        <animation effect="slide" end="260" condition="String.IsEqual(Player.PlaySpeed,1.30)">Conditional</animation>
-                        <animation effect="slide" end="312" condition="String.IsEqual(Player.PlaySpeed,1.40)">Conditional</animation>
-                        <animation effect="slide" end="364" condition="String.IsEqual(Player.PlaySpeed,1.50)">Conditional</animation>
+                        <left>40</left>
+                        <right>40</right>
                         <control type="group">
-                            <visible>!Control.HasFocus(7800)</visible>
+                            <height>70</height>
+                            <top>0</top>
+                            <control type="label">
+                                <font>font_statusbar_bold</font>
+                                <label>$LOCALIZE[31071]</label>
+                                <textcolor>dialog_fg_70</textcolor>
+                                <align>left</align>
+                                <visible>!Control.HasFocus(7800)</visible>
+                            </control>
+                            <control type="label">
+                                <font>font_statusbar_bold</font>
+                                <label>$LOCALIZE[31071]</label>
+                                <textcolor>white</textcolor>
+                                <align>left</align>
+                                <visible>Control.HasFocus(7800)</visible>
+                            </control>
+                        </control>
+                        <control type="grouplist">
+                            <left>-8</left>
+                            <right>-8</right>
+                            <height>70</height>
+                            <bottom>0</bottom>
+                            <orientation>horizontal</orientation>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="label" value="0.80" />
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="label" value="0.90" />
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="label" value="1.00" />
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="label" value="1.10" />
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="label" value="1.20" />
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="label" value="1.30" />
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="label" value="1.40" />
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="label" value="1.50" />
+                            </include>
+                        </control>
+                        <control type="group">
+                            <centertop>50%</centertop>
+                            <height>12</height>
                             <control type="image">
-                                <texture colordiffuse="dialog_fg_100">common/circle.png</texture>
+                                <texture colordiffuse="dialog_fg_12" border="4">progress/progress-bg.png</texture>
+                                <visible>!Control.HasFocus(7800)</visible>
                             </control>
                             <control type="image">
-                                <centerleft>50%</centerleft>
-                                <bottom>-12</bottom>
-                                <height>16</height>
-                                <width>16</width>
-                                <texture colordiffuse="dialog_fg_100" flipy="true">common/arrow-menu-up.png</texture>
+                                <texture colordiffuse="panel_fg_30" border="4">progress/progress-bg.png</texture>
+                                <visible>Control.HasFocus(7800)</visible>
                             </control>
                         </control>
                         <control type="group">
-                            <visible>Control.HasFocus(7800)</visible>
-                            <control type="image">
-                                <texture colordiffuse="white">common/circle.png</texture>
+                            <left>6</left>
+                            <centertop>50%</centertop>
+                            <height>24</height>
+                            <width>24</width>
+                            <animation effect="slide" end="52" condition="String.IsEqual(Player.PlaySpeed,0.90)">Conditional</animation>
+                            <animation effect="slide" end="104" condition="String.IsEqual(Player.PlaySpeed,1.00) | String.IsEqual(Player.PlaySpeed,0.00)">Conditional</animation>
+                            <animation effect="slide" end="156" condition="String.IsEqual(Player.PlaySpeed,1.10)">Conditional</animation>
+                            <animation effect="slide" end="208" condition="String.IsEqual(Player.PlaySpeed,1.20)">Conditional</animation>
+                            <animation effect="slide" end="260" condition="String.IsEqual(Player.PlaySpeed,1.30)">Conditional</animation>
+                            <animation effect="slide" end="312" condition="String.IsEqual(Player.PlaySpeed,1.40)">Conditional</animation>
+                            <animation effect="slide" end="364" condition="String.IsEqual(Player.PlaySpeed,1.50)">Conditional</animation>
+                            <control type="group">
+                                <visible>!Control.HasFocus(7800)</visible>
+                                <control type="image">
+                                    <texture colordiffuse="dialog_fg_100">common/circle.png</texture>
+                                </control>
+                                <control type="image">
+                                    <centerleft>50%</centerleft>
+                                    <bottom>-12</bottom>
+                                    <height>16</height>
+                                    <width>16</width>
+                                    <texture colordiffuse="dialog_fg_100" flipy="true">common/arrow-menu-up.png</texture>
+                                </control>
                             </control>
-                            <control type="image">
-                                <centerleft>50%</centerleft>
-                                <bottom>-12</bottom>
-                                <height>16</height>
-                                <width>16</width>
-                                <texture colordiffuse="white" flipy="true">common/arrow-menu-up.png</texture>
+                            <control type="group">
+                                <visible>Control.HasFocus(7800)</visible>
+                                <control type="image">
+                                    <texture colordiffuse="white">common/circle.png</texture>
+                                </control>
+                                <control type="image">
+                                    <centerleft>50%</centerleft>
+                                    <bottom>-12</bottom>
+                                    <height>16</height>
+                                    <width>16</width>
+                                    <texture colordiffuse="white" flipy="true">common/arrow-menu-up.png</texture>
+                                </control>
                             </control>
                         </control>
                     </control>
                 </control>
-            </control>
-        </include>
+            </include>
+        </control>
     </controls>
 </window>
