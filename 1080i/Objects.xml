@@ -532,58 +532,61 @@
         <control type="group">
             <visible>$PARAM[visible]</visible>
             <control type="image">
-                <texture colordiffuse="$PARAM[colordiffuse-texture]" border="50,50,0,50">$PARAM[texture]</texture>
-                <right>24</right>
+                <texture colordiffuse="$PARAM[colordiffuse_back]">$PARAM[texture]</texture>
             </control>
             <control type="image">
-                <left>24</left>
+                <left>80</left>
                 <centertop>50%</centertop>
-                <width>60</width>
-                <height>60</height>
-                <texture colordiffuse="$PARAM[colordiffuse-icon]">$PARAM[icon]</texture>
+                <width>64</width>
+                <height>64</height>
+                <texture colordiffuse="$PARAM[colordiffuse_icon]">$PARAM[icon]</texture>
             </control>
         </control>
     </include>
-
     <include name="Object_Info_Button">
         <param name="visible" default="true" />
-        <param name="control-type" default="button" />
+        <param name="control" default="button" />
         <param name="width" default="auto" />
         <param name="focused" default="false" />
+        <param name="itemgap" default="20" />
         <definition>
             <control type="group" id="$PARAM[groupid]">
-                <left>0</left>
-                <width>100</width>
-                <height>100</height>
+                <left>-68</left>
+                <width>128</width>
+                <height>256</height>
                 <visible>$PARAM[visible]</visible>
                 <include content="Object_Info_Button_Left">
                     <param name="visible" value="Control.HasFocus($PARAM[id]) | $PARAM[focused]" />
-                    <param name="texture" value="common/button-view-fo.png" />
+                    <param name="texture" value="common/menuleft.png" />
                     <param name="icon" value="$PARAM[icon]" />
-                    <param name="colordiffuse-icon" value="panel_bg" />
-                    <param name="colordiffuse-texture" value="$VAR[ColorSelected]" />
+                    <param name="colordiffuse_icon" value="$VAR[ColorSelected]" />
+                    <param name="colordiffuse_back" value="$VAR[ColorHighlight]" />
+                    <!-- <param name="colordiffuse_icon" value="panel_bg" />
+                    <param name="colordiffuse_back" value="$VAR[ColorSelected]" /> -->
                 </include>
                 <include content="Object_Info_Button_Left">
                     <param name="visible" value="![Control.HasFocus($PARAM[id]) | $PARAM[focused]]" />
-                    <param name="texture" value="common/button-view-nf.png" />
+                    <param name="texture" value="common/menuleft.png" />
                     <param name="icon" value="$PARAM[icon]" />
-                    <param name="colordiffuse-icon" value="dialog_fg_70" />
-                    <param name="colordiffuse-texture" value="dialog_fg_12" />
+                    <param name="colordiffuse_icon" value="main_fg_70" />
+                    <param name="colordiffuse_back" value="main_fg_12" />
                 </include>
             </control>
-            <control type="$PARAM[control-type]" id="$PARAM[id]">
-                <left>-14</left>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <left>$PARAM[itemgap]</left>
                 <width>$PARAM[width]</width>
                 <visible>$PARAM[visible]</visible>
-                <height>100</height>
-                <texturenofocus border="0,50,50,50" flipx="true" colordiffuse="dialog_fg_12">common/button-view-nf.png</texturenofocus>
-                <texturefocus border="0,50,50,50" flipx="true" colordiffuse="$VAR[ColorSelected]">common/button-view-fo.png</texturefocus>
-                <font>font_info_buttons</font>
-                <label>$PARAM[label][COLOR=00ffffff]------[/COLOR]</label>
+                <height>256</height>
+                <texturenofocus border="0,93,74,93" colordiffuse="main_fg_12">common/menuright.png</texturenofocus>
+                <!-- <texturefocus border="0,93,74,93" colordiffuse="$VAR[ColorSelected]">common/menuright.png</texturefocus> -->
+                <texturefocus border="0,93,74,93">special://profile/addon_data/script.texturemaker/ArcticHorizon/menuright_h.png</texturefocus>
+                <font>font_minilabel_bold</font>
+                <label>$PARAM[label][COLOR=00ffffff]______[/COLOR]</label>
                 <align>left</align>
-                <textoffsetx>10</textoffsetx>
-                <textcolor>dialog_fg_70</textcolor>
-                <focusedcolor>panel_bg</focusedcolor>
+                <textoffsetx>24</textoffsetx>
+                <textcolor>main_fg_70</textcolor>
+                <focusedcolor>$VAR[ColorSelected]</focusedcolor>
+                <!-- <focusedcolor>panel_bg</focusedcolor> -->
                 <nested />
             </control>
         </definition>
