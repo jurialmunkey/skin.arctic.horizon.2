@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
-    <include name="View_Furniture_Combined_Foreground">
+    <include name="View_Furniture_Combined_Foreground_Top">
         <control type="group">
             <visible>$EXP[Exp_CombinedViews]</visible>
-            <include>View_Combined_Divider</include>
             <include content="Object_Control">
                 <param name="control" value="group" />
                 <top>view_top</top>
@@ -21,6 +20,21 @@
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Gender)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Age))</visible>
                 </control>
             </include>
+            <include content="View_Combined_Info">
+                <param name="id" value="50" />
+            </include>
+            <include content="View_Combined_Info">
+                <param name="id" value="51" />
+            </include>
+            <include content="View_Combined_Info">
+                <param name="id" value="52" />
+            </include>
+        </control>
+    </include>
+    <include name="View_Furniture_Combined_Foreground_Bottom">
+        <control type="group">
+            <visible>$EXP[Exp_CombinedViews]</visible>
+            <include>View_Combined_Divider</include>
             <control type="image">
                 <bottom>60</bottom>
                 <right>view_pad</right>
@@ -54,6 +68,32 @@
         </include>
     </include>
 
+    <include name="View_Combined_Info">
+        <include content="Info_Panel">
+            <param name="plotwidth" value="880" />
+            <param name="plotheight" value="80" />
+            <param name="plotheight_nr" value="120" />
+            <param name="line_id" value="99$PARAM[id]2" />
+            <top>view_top</top>
+            <width>1080</width>
+            <left>view_pad</left>
+            <visible>Control.IsVisible($PARAM[id]2)</visible>
+            <visible>!Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PARAM[id]3)</visible>
+        </include>
+        <include content="Info_Panel">
+            <param name="plotwidth" value="880" />
+            <param name="plotheight" value="80" />
+            <param name="plotheight_nr" value="120" />
+            <param name="container" value="Container($PARAM[id]3)." />
+            <param name="line_id" value="99$PARAM[id]3" />
+            <top>view_top</top>
+            <width>1080</width>
+            <left>view_pad</left>
+            <visible>Control.IsVisible($PARAM[id]2)</visible>
+            <visible>Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PARAM[id]3)</visible>
+        </include>
+    </include>
+
     <include name="View_Combined">
         <include content="$PARAM[include]">
             <param name="id" value="$PARAM[id]3" />
@@ -84,29 +124,6 @@
             <visible>Container($PARAM[id]2).HasNext</visible>
             <texture colordiffuse="main_fg_70">common/arrow-small-right.png</texture>
         </control>
-        <include content="Info_Panel">
-            <param name="plotwidth" value="880" />
-            <param name="plotheight" value="80" />
-            <param name="plotheight_nr" value="120" />
-            <param name="line_id" value="99$PARAM[id]2" />
-            <top>view_top</top>
-            <width>1080</width>
-            <left>view_pad</left>
-            <visible>Control.IsVisible($PARAM[id]2)</visible>
-            <visible>!Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PARAM[id]3)</visible>
-        </include>
-        <include content="Info_Panel">
-            <param name="plotwidth" value="880" />
-            <param name="plotheight" value="80" />
-            <param name="plotheight_nr" value="120" />
-            <param name="container" value="Container($PARAM[id]3)." />
-            <param name="line_id" value="99$PARAM[id]3" />
-            <top>view_top</top>
-            <width>1080</width>
-            <left>view_pad</left>
-            <visible>Control.IsVisible($PARAM[id]2)</visible>
-            <visible>Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PARAM[id]3)</visible>
-        </include>
     </include>
 
     <include name="View_502_Square_Combined">
