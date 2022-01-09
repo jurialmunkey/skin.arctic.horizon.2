@@ -8,9 +8,14 @@
         <include>Background_Main</include>
 
         <control type="group">
-            <visible>Control.Hasfocus(300) | ControlGroup(8000).HasFocus()</visible>
-            <include>Animation_FadeIn</include>
-            <include>Animation_FadeOut</include>
+            <visible>Control.Hasfocus(300) | ControlGroup(8000).HasFocus() | Control.HasFocus(8100)</visible>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <animation type="Visible" reversible="false">
+                <effect type="fade" start="0" end="100" time="400" delay="0"/>
+            </animation>
+            <animation type="Hidden" reversible="false">
+                <effect type="fade" end="0" start="100" time="400" delay="0"/>
+            </animation>
             <control type="list" id="8100">
                 <ondown>8000</ondown>
                 <onup>300</onup>
@@ -27,7 +32,9 @@
                 </focusedlayout>
                 <content sortby="random">videodb://movies/titles</content>
             </control>
-            <include>Object_Vignette_Showcase</include>
+            <control type="image">
+                <texture>common/vignetted.png</texture>
+            </control>
         </control>
 
         <control type="grouplist" id="6000">
@@ -109,17 +116,13 @@
 
         <include content="Object_WallFade">
             <param name="id" value="6000" />
-            <visible>!Control.Hasfocus(300) + !ControlGroup(8000).HasFocus()</visible>
+            <visible>!Control.Hasfocus(300) + !ControlGroup(8000).HasFocus() + !Control.HasFocus(8100)</visible>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
         </include>
 
         <control type="group">
-            <!-- <visible>!Control.HasFocus(300) + !ControlGroup(9000).HasFocus()</visible> -->
             <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <include>Furniture_Top_Left</include>
-        </control>
-        <control type="group">
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <include>Furniture_Top_Right</include>
+            <include>Furniture_Top</include>
         </control>
         <include content="Object_MenuBar_Group">
             <param name="overlay" value="false" />
