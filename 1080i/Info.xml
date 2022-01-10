@@ -10,7 +10,7 @@
                 <control type="label">
                     <aligny>center</aligny>
                     <height>80</height>
-                    <label>$VAR[Label_Title_Parent]</label>
+                    <label>$VAR[Label_Title_Main]</label>
                     <textcolor>$PARAM[colordiffuse]_100</textcolor>
                     <font>font_overlay_title</font>
                     <visible>![!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + Skin.HasSetting(TMDbHelper.EnableCrop) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120)]]</visible>
@@ -942,25 +942,13 @@
                         <centertop>50%</centertop>
                     </include>
                 </control>
-
-                <!-- No Ratings + Plot -->
+                <!-- No Ratings Buffer -->
                 <include content="Object_Control">
                     <param name="control" value="group" />
                     <height>27</height>
                     <visible>![Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $PARAM[container]ListItem.IsCollection]</visible>
                 </include>
-                <include content="Object_Control" condition="$PARAM[plotbox]">
-                    <param name="control" value="textbox" />
-                    <height max="$PARAM[plotheight_nr]">auto</height>
-                    <width>$PARAM[plotwidth]</width>
-                    <label>$VAR[Label_Plot_Parent]</label>
-                    <aligny>top</aligny>
-                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                    <font>font_plotbox</font>
-                    <visible>![Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $PARAM[container]ListItem.IsCollection]</visible>
-                </include>
-
-                <!-- Ratings + Plot -->
+                <!-- Ratings -->
                 <include content="Object_Control">
                     <param name="control" value="group" />
                     <height>70</height>
@@ -972,15 +960,27 @@
                         <centertop>50%</centertop>
                     </include>
                 </include>
+                <!-- Ratings + Plot -->
                 <include content="Object_Control" condition="$PARAM[plotbox]">
                     <param name="control" value="textbox" />
                     <height max="$PARAM[plotheight]">auto</height>
                     <width>$PARAM[plotwidth]</width>
-                    <label>$VAR[Label_Plot_Parent]</label>
+                    <label>$VAR[Label_Plot_Main]</label>
                     <aligny>top</aligny>
                     <textcolor>$PARAM[colordiffuse]_70</textcolor>
                     <font>font_plotbox</font>
                     <visible>[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $PARAM[container]ListItem.IsCollection]</visible>
+                </include>
+                <!-- No Ratings + Plot -->
+                <include content="Object_Control" condition="$PARAM[plotbox]">
+                    <param name="control" value="textbox" />
+                    <height max="$PARAM[plotheight_nr]">auto</height>
+                    <width>$PARAM[plotwidth]</width>
+                    <label>$VAR[Label_Plot_Main]</label>
+                    <aligny>top</aligny>
+                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                    <font>font_plotbox</font>
+                    <visible>![Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $PARAM[container]ListItem.IsCollection]</visible>
                 </include>
             </control>
         </definition>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-    <defaultcontrol always="false">8000</defaultcontrol>
-    <onload>SetProperty(TMDbHelper.WidgetContainer,8100,Home)</onload>
+    <defaultcontrol always="false">300</defaultcontrol>
+    <onload>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onload>
     <onload>ClearProperty(TMDbHelper.HideView,Home)</onload>
     <controls>
 
         <include>Background_Main</include>
 
         <control type="group">
-            <visible>Control.Hasfocus(300) | ControlGroup(8000).HasFocus() | Control.HasFocus(8100)</visible>
+            <visible>Control.Hasfocus(300) | ControlGroup(311).HasFocus() | Control.HasFocus(301)</visible>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <animation type="Visible" reversible="false">
                 <effect type="fade" start="0" end="100" time="400" delay="0"/>
@@ -16,8 +16,21 @@
             <animation type="Hidden" reversible="false">
                 <effect type="fade" end="0" start="100" time="400" delay="0"/>
             </animation>
-            <control type="list" id="8100">
-                <ondown>8000</ondown>
+            <animation type="WindowOpen" reversible="false">
+                <effect type="fade" start="0" end="100" time="400" delay="0"/>
+            </animation>
+            <animation type="WindowClose" reversible="false">
+                <effect type="fade" end="0" start="100" time="400" delay="0"/>
+            </animation>
+            <control type="list" id="301">
+                <visible>Container(300).Position(0)</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400" delay="0"/>
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" end="0" start="100" time="400" delay="0"/>
+                </animation>
+                <ondown>311</ondown>
                 <onup>300</onup>
                 <orientation>horizontal</orientation>
                 <itemlayout width="1920" height="1080">
@@ -32,28 +45,52 @@
                 </focusedlayout>
                 <content sortby="random">videodb://movies/titles</content>
             </control>
+            <control type="list" id="301">
+                <visible>Container(300).Position(1)</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400" delay="0"/>
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" end="0" start="100" time="400" delay="0"/>
+                </animation>
+                <ondown>311</ondown>
+                <onup>300</onup>
+                <orientation>horizontal</orientation>
+                <itemlayout width="1920" height="1080">
+                    <control type="image">
+                        <texture background="true">$INFO[ListItem.Art(fanart)]</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="1920" height="1080">
+                    <control type="image">
+                        <texture background="true">$INFO[ListItem.Art(fanart)]</texture>
+                    </control>
+                </focusedlayout>
+                <content sortby="random">videodb://tvshows/titles</content>
+            </control>
             <control type="image">
                 <texture>common/vignetted.png</texture>
             </control>
         </control>
 
-        <control type="grouplist" id="6000">
+        <control type="grouplist" id="310">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Animation_Common</include>
             <include>Animation_Foreground_FadeInOut</include>
             <orientation>vertical</orientation>
             <onup>SetFocus(300)</onup>
-            <control type="group" id="6100">
+            <control type="group" id="312">
                 <height>1260</height>
                 <left>view_pad</left>
-                <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Control.Hasfocus(300) | ControlGroup(8000).HasFocus() | Control.HasFocus(8100)">Conditional</animation>
-                <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="![Control.Hasfocus(300) | ControlGroup(8000).HasFocus() | Control.HasFocus(8100)]">Conditional</animation>
+                <visible>Container(300).Position(0) | Container(300).Position(1)</visible>
+                <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Control.Hasfocus(300) | ControlGroup(311).HasFocus() | Control.HasFocus(301)">Conditional</animation>
+                <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="![Control.Hasfocus(300) | ControlGroup(311).HasFocus() | Control.HasFocus(301)]">Conditional</animation>
                 <include content="Info_Panel">
                     <param name="plotwidth" value="880" />
                     <param name="plotheight" value="80" />
                     <param name="plotheight_nr" value="120" />
-                    <param name="line_id" value="99081" />
-                    <param name="container" value="Container(8100)." />
+                    <param name="line_id" value="308" />
+                    <param name="container" value="Container(301)." />
                     <height>280</height>
                     <width>1080</width>
                     <bottom>480</bottom>
@@ -61,7 +98,7 @@
                 <control type="group">
                     <height>70</height>
                     <bottom>380</bottom>
-                    <control type="grouplist" id="8000">
+                    <control type="grouplist" id="311">
                         <left>-40</left>
                         <orientation>horizontal</orientation>
                         <height>256</height>
@@ -69,28 +106,29 @@
                         <itemgap>-60</itemgap>
                         <onup>300</onup>
                         <ondown>5001</ondown>
-                        <onleft>Control.Move(8100,-1)</onleft>
-                        <onright>Control.Move(8100,1)</onright>
+                        <onleft>Control.Move(301,-1)</onleft>
+                        <onright>Control.Move(301,1)</onright>
                         <include content="Object_Info_Button">
-                            <param name="id" value="7001" />
-                            <param name="groupid" value="7101" />
+                            <param name="id" value="303" />
+                            <param name="groupid" value="313" />
                             <param name="label" value="$LOCALIZE[208]" />
                             <param name="icon" value="special://skin/extras/icons/play3.png" />
                         </include>
                         <include content="Object_Info_Button">
-                            <param name="id" value="7002" />
-                            <param name="groupid" value="7102" />
+                            <param name="id" value="304" />
+                            <param name="groupid" value="314" />
                             <param name="label" value="More Information" />
                             <param name="icon" value="special://skin/extras/icons/info2.png" />
-                            <onclick>SetFocus(8100)</onclick>
+                            <onclick>SetFocus(301)</onclick>
                             <onclick>Action(Info)</onclick>
                         </include>
                     </control>
                 </control>
             </control>
-            <!-- <control type="group" id="6100">
+            <control type="group" id="315">
                 <height>600</height>
-            </control> -->
+                <visible>![Container(300).Position(0) | Container(300).Position(1)]</visible>
+            </control>
             <include content="Widget_Poster">
                 <param name="groupid" value="5101" />
                 <param name="id" value="5001" />
@@ -115,8 +153,8 @@
         </control>
 
         <include content="Object_WallFade">
-            <param name="id" value="6000" />
-            <visible>!Control.Hasfocus(300) + !ControlGroup(8000).HasFocus() + !Control.HasFocus(8100)</visible>
+            <param name="id" value="310" />
+            <visible>!Control.Hasfocus(300) + !ControlGroup(311).HasFocus() + !Control.HasFocus(301)</visible>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
         </include>
 
@@ -133,11 +171,11 @@
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <!-- <visible>!ControlGroup(9000).HasFocus()</visible> -->
             <!-- <visible>Control.HasFocus(300) | ControlGroup(9000).HasFocus()</visible> -->
-            <!-- <visible>!Container(6000).HasPrevious</visible> -->
+            <!-- <visible>!Container(310).HasPrevious</visible> -->
             <include content="Object_MenuBar_List">
                 <param name="id" value="300" />
                 <param name="color_nf" value="main_fg" />
-                <ondown>8000</ondown>
+                <ondown>311</ondown>
                 <onright>SetFocus(9000)</onright>
                 <onleft>SetFocus(9000)</onleft>
                 <include>Items_HomeBar_Temp</include>
