@@ -435,8 +435,9 @@
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control" value="button" />
                 <visible allowhiddenfocus="true">false</visible>
-                <onfocus condition="String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">AlarmClock(UpdateContainer,Container.Update($INFO[Container($PARAM[id]).ListItem.FolderPath],replace),00:00,silent)</onfocus>
-                <onfocus condition="!String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">AlarmClock(UpdateContainer,Container.Update($INFO[Container($PARAM[id]).ListItem.Property(folderpath)],replace),00:00,silent)</onfocus>
+                <animation effect="fade" start="0" end="0" time="500" reversible="false">Focus</animation>
+                <onfocus condition="String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.FolderPath],replace)</onfocus>
+                <onfocus condition="!String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.Property(folderpath)],replace)</onfocus>
             </include>
             <control type="group">
                 <visible>Control.HasFocus($PARAM[id]) | [$PARAM[detailed] + !Control.HasFocus(6000)]</visible>
