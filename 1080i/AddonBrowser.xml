@@ -1,151 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-    <defaultcontrol always="true">50</defaultcontrol>
+    <defaultcontrol always="true">6000</defaultcontrol>
     <views>50</views>
     <menucontrol>9000</menucontrol>
     <include>Action_Blur_Onload</include>
     <include>Action_ClearContext_OnUnload</include>
     <controls>
         <include>Background_Main</include>
-        <include>Object_Overlay</include>
-        <include content="Dialog_Background">
-            <include>Dimension_Info</include>
 
-            <include content="Animation_WindowTransition_Settings">
-                <param name="windowopen" value="!Window.Previous(AddonBrowser.xml)" />
-                <param name="windowclose" value="!Window.Next(AddonBrowser.xml)" />
-            </include>
-            <include>Animation_Common</include>
-            <control type="group">
-                <width>addonbrowser_menu_width</width>
-                <top>row_height_x50</top>
-                <bottom>row_height_x50</bottom>
-                <include content="List_AddonCategories">
-                    <param name="id" value="6000" />
-                    <param name="altfocus" value="true" />
-                    <onback>Action(PreviousMenu)</onback>
-                    <onright condition="!String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">7000</onright>
-                    <onright condition="String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">SetFocus(50)</onright>
-                    <onright condition="String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">Container.Update(addons://install/,replace)</onright>
-                    <onright condition="String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">Action(Select)</onright>
-                    <onright condition="String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">SetFocus(6000)</onright>
 
-                    <onclick condition="!String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">ActivateWindow(addonbrowser,$INFO[Container(6000).ListItem.FolderPath],return)</onclick>
-                    <onclick condition="!String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">SetFocus(6000)</onclick>
-
-                    <onclick condition="String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">SetFocus(50)</onclick>
-                    <onclick condition="String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">Container.Update(addons://install/,replace)</onclick>
-                    <onclick condition="String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">Action(Select)</onclick>
-                    <onclick condition="String.IsEqual(Container(6000).ListItem.Label,$LOCALIZE[24041])">SetFocus(6000)</onclick>
-                    <content>
-                        <item>
-                            <label>$LOCALIZE[24998]</label>
-                            <property name="folderpath">addons://user/</property>
-                            <icon>DefaultAddonsInstalled.png</icon>
-                        </item>
-                    </content>
-
-                    <content sortby="label">addons://repos/</content>
-
-                    <!-- <content>
-                        <item>
-                            <label>$LOCALIZE[24041]</label>
-                            <property name="folderpath">addons://user/</property>
-                            <icon>DefaultAddonsZip.png</icon>
-                        </item>
-                    </content> -->
-
-                </include>
-            </control>
-
-            <control type="group">
-                <left>row_height</left>
-                <animation effect="slide" end="addonbrowser_menu_slide" time="200" condition="Control.HasFocus(6000)">Conditional</animation>
-                <control type="group">
-                    <width>addonbrowser_menu_width</width>
-                    <control type="image">
-                        <texture colordiffuse="dialog_bg_100" border="20">common/dialog_overlay.png</texture>
-                    </control>
-                    <include>Dialog_Overlay</include>
-                    <include>Object_Separator</include>
-                    <control type="group">
-                        <top>row_height_x50</top>
-                        <bottom>row_height_x50</bottom>
-                        <include content="List_AddonCategories">
-                            <param name="id" value="7000" />
-                            <param name="altfocus" value="!Control.HasFocus(6000)" />
-                            <onleft>SetFocus(7000,0,absolute)</onleft>
-                            <onleft>6000</onleft>
-                            <onright>50</onright>
-                            <onback>6000</onback>
-                            <onclick condition="!String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[24041]) + String.IsEmpty(Container(7000).ListItem.Property(folderpath))">Container.Update($INFO[Container(7000).ListItem.FolderPath],replace)</onclick>
-                            <onclick condition="!String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[24041]) + !String.IsEmpty(Container(7000).ListItem.Property(containerupdate))">Container.Update($INFO[Container(7000).ListItem.Property(containerupdate)],replace)</onclick>
-                            <onclick condition="!String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[24041])">SetFocus(7000)</onclick>
-
-                            <onclick condition="String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[24041])">SetFocus(50)</onclick>
-                            <onclick condition="String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[24041])">Container.Update(addons://install/,replace)</onclick>
-                            <onclick condition="String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[24041])">Action(Select)</onclick>
-                            <onclick condition="String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[24041])">SetFocus(7000)</onclick>
-                            <content>
-                                <item>
-                                    <label>$LOCALIZE[24004]</label>
-                                    <icon>DefaultAddonsRecentlyUpdated.png</icon>
-                                    <property name="folderpath">addons://recently_updated/</property>
-                                    <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
-                                </item>
-                                <item>
-                                    <label>$LOCALIZE[24041]</label>
-                                    <property name="folderpath">addons://user/noop</property>
-                                    <icon>DefaultAddonsZip.png</icon>
-                                    <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
-                                </item>
-                                <item>
-                                    <label>$LOCALIZE[137]</label>
-                                    <property name="folderpath">addons://user/all/</property>
-                                    <property name="containerupdate">addons://search/</property>
-                                    <icon>DefaultAddonsSearch.png</icon>
-                                    <visible>String.IsEqual(Container(6000).ListItem.FolderPath,addons://all/)</visible>
-                                </item>
-                            </content>
-                            <content sortby="label">$VAR[Items_AddonBrowser_Submenu]</content>
-                        </include>
-                    </control>
-                </control>
-
-                <control type="group">
-
-                    <animation effect="slide" end="-addonbrowser_menu_slide" time="200" condition="Control.HasFocus(6000)">Conditional</animation>
-                    <left>addonbrowser_menu_width</left>
-                    <control type="image">
-                        <texture colordiffuse="dialog_bg_100" border="20">common/dialog_overlay.png</texture>
-                    </control>
-                    <include>Dialog_Overlay</include>
-                    <include>Dialog_Overlay</include>
-                    <include>Object_Separator</include>
-                    <control type="group">
-                        <include content="List_AddonBrowser">
-                            <param name="id" value="50" />
-                            <param name="context_button" value="true" />
-                            <onback>7000</onback>
-                            <onleft>7000</onleft>
-                            <onright>60</onright>
-                            <pagecontrol>60</pagecontrol>
-                        </include>
-                        <include content="Dialog_Scrollbar">
-                            <param name="id" value="60" />
-                            <right>0</right>
-                            <onleft>50</onleft>
-                            <onright>Setfocus(9000)</onright>
-                        </include>
-                    </control>
-                </control>
-
-            </control>
-
+        <include content="List_Square_Row">
+            <param name="id" value="50" />
+            <param name="orientation" value="vertical" />
+            <param name="controltype" value="panel" />
+            <param name="offset_y" value="40" />
+            <left>600</left>
+            <onleft>7000</onleft>
+            <onright>menu</onright>
+            <top>160</top>
+            <preloaditems>0</preloaditems>
+            <bottom>180</bottom>
         </include>
+        <include content="List_Button_Row">
+            <param name="id" value="7000" />
+            <param name="orientation" value="vertical" />
+            <param name="controltype" value="list" />
+            <param name="itemlayout_w" value="456" />
+            <param name="item_w" value="416" />
+            <param name="itemlayout_h" value="144" />
+            <param name="item_h" value="104" />
+            <param name="itemlayout_include" value="Layout_IconButton" />
+            <param name="detailed" value="true" />
+            <param name="altfocus" value="!Control.HasFocus(6000)" />
+            <preloaditems>0</preloaditems>
+            <onleft>6000</onleft>
+            <onright>50</onright>
+            <movement>4</movement>
+            <bottom>180</bottom>
+            <top>160</top>
+            <width>536</width>
+            <left>144</left>
+            <content>
+                <item>
+                    <label>$LOCALIZE[24004]</label>
+                    <icon>DefaultAddonsRecentlyUpdated.png</icon>
+                    <property name="folderpath">addons://recently_updated/</property>
+                    <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
+                </item>
+                <!-- <item>
+                    <label>$LOCALIZE[24041]</label>
+                    <property name="folderpath">addons://user/noop</property>
+                    <icon>DefaultAddonsZip.png</icon>
+                    <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
+                </item> -->
+                <!-- <item>
+                    <label>$LOCALIZE[137]</label>
+                    <property name="folderpath">addons://user/all/</property>
+                    <property name="containerupdate">addons://search/</property>
+                    <icon>DefaultAddonsSearch.png</icon>
+                    <visible>String.IsEqual(Container(6000).ListItem.FolderPath,addons://all/)</visible>
+                </item> -->
+            </content>
+            <content sortby="label">$VAR[Items_AddonBrowser_Submenu]</content>
+        </include>
+
+        <include content="List_Button_Row">
+            <param name="id" value="6000" />
+            <param name="orientation" value="vertical" />
+            <param name="controltype" value="list" />
+            <param name="itemlayout_w" value="456" />
+            <param name="item_w" value="416" />
+            <param name="itemlayout_h" value="144" />
+            <param name="item_h" value="104" />
+            <param name="itemlayout_include" value="Layout_IconButton" />
+            <param name="altfocus" value="true" />
+            <preloaditems>0</preloaditems>
+            <onright>7000</onright>
+            <onleft>menu</onleft>
+            <movement>4</movement>
+            <bottom>180</bottom>
+            <top>160</top>
+            <width>536</width>
+            <onfocus>ClearProperty(BaseCategory)</onfocus>
+            <onunfocus>SetProperty(BaseCategory,$INFO[Container(6000).ListItem.Label])</onunfocus>
+            <content>
+                <item>
+                    <label>$LOCALIZE[24998]</label>
+                    <property name="folderpath">addons://user/</property>
+                    <icon>DefaultAddonsInstalled.png</icon>
+                </item>
+            </content>
+            <content sortby="label">addons://repos/</content>
+        </include>
+
+
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Furniture_Top</include>
+            <include>Furniture_Bottom</include>
         </control>
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_AddonBrowser_Settings" />

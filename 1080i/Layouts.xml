@@ -1,68 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
-    <include name="Layout_InfoDetails">
-        <param name="selected" default="false" />
-        <param name="color" default="dialog_fg" />
-        <definition>
-            <include content="Object_Control" condition="$PARAM[selected]">
-                <param name="control" value="image" />
-                <include>Texture_Highlight</include>
-            </include>
-            <control type="label">
-                <left>70</left>
-                <include condition="$PARAM[selected]">Color_SelectedText</include>
-                <textcolor>$PARAM[color]_70</textcolor>
-                <selectedcolor>$PARAM[color]_70</selectedcolor>
-                <label>$INFO[ListItem.Label]</label>
-                <textoffsetx>40</textoffsetx>
-                <align>left</align>
-                <font>font_small</font>
-            </control>
-            <control type="label">
-                <left>70</left>
-                <include condition="$PARAM[selected]">Color_SelectedText</include>
-                <textcolor>$PARAM[color]_70</textcolor>
-                <selectedcolor>$PARAM[color]_70</selectedcolor>
-                <label>$INFO[ListItem.Label2]</label>
-                <textoffsetx>40</textoffsetx>
-                <align>right</align>
-                <font>font_small</font>
-            </control>
-            <control type="group">
-                <centertop>50%</centertop>
-                <height>40</height>
-                <width>40</width>
-                <left>40</left>
-                <control type="group">
-                    <centerleft>50%</centerleft>
-                    <centertop>50%</centertop>
-                    <height>64</height>
-                    <width>64</width>
-                    <control type="image">
-                        <visible>!String.IsEmpty(ListItem.Property(padded))</visible>
-                        <include content="Dimension_Padding"><param name="pad" value="16" /></include>
-                        <include content="Texture_Control" condition="$PARAM[selected]">
-                            <param name="texture" value="$INFO[ListItem.Icon]" />
-                            <param name="colordiffuse" value="$VAR[ColorSelected]" />
-                        </include>
-                        <texture background="true" colordiffuse="$PARAM[color]_70">$INFO[ListItem.Icon]</texture>
-                        <aspectratio>keep</aspectratio>
-                    </control>
-                    <control type="image">
-                        <visible>String.IsEmpty(ListItem.Property(padded))</visible>
-                        <include content="Texture_Control" condition="$PARAM[selected]">
-                            <param name="texture" value="$INFO[ListItem.Icon]" />
-                            <param name="colordiffuse" value="$VAR[ColorSelected]" />
-                        </include>
-                        <texture background="true" colordiffuse="$PARAM[color]_70">$INFO[ListItem.Icon]</texture>
-                        <aspectratio>keep</aspectratio>
-                    </control>
-                </control>
-            </control>
-        </definition>
-    </include>
-
     <include name="Layout_DialogBasic">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
@@ -220,7 +158,7 @@
                 </include>
                 <include condition="!$PARAM[selected]">Dialog_Box</include>
                 <control type="image">
-                    <texture background="true" diffuse="$PARAM[diffuse]" fallback="diffuse/poster-fb.png">$VAR[Image_InfoPoster]</texture>
+                    <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_InfoPoster]</texture>
                     <aspectratio scalediffuse="false">scale</aspectratio>
                 </control>
                 <include content="Object_Control">
@@ -332,12 +270,6 @@
         <definition>
             <control type="group">
                 <height>$PARAM[item_h]</height>
-                <include content="Object_Control" condition="$PARAM[selected] + !$PARAM[detailed]">
-                    <param name="control" value="button" />
-                    <visible allowhiddenfocus="true">false</visible>
-                    <onfocus condition="String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.FolderPath],replace)</onfocus>
-                    <onfocus condition="!String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.Property(folderpath)],replace)</onfocus>
-                </include>
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control" value="image" />
                     <include>Texture_Highlight</include>
@@ -496,6 +428,88 @@
         </definition>
     </include>
 
+    <include name="Layout_IconButton">
+        <param name="selected" default="false" />
+        <param name="detailed" default="false" />
+        <definition>
+            <include content="Object_Control" condition="$PARAM[selected]">
+                <param name="control" value="button" />
+                <visible allowhiddenfocus="true">false</visible>
+                <onfocus condition="String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">AlarmClock(UpdateContainer,Container.Update($INFO[Container($PARAM[id]).ListItem.FolderPath],replace),00:00,silent)</onfocus>
+                <onfocus condition="!String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">AlarmClock(UpdateContainer,Container.Update($INFO[Container($PARAM[id]).ListItem.Property(folderpath)],replace),00:00,silent)</onfocus>
+            </include>
+            <control type="group">
+                <visible>Control.HasFocus($PARAM[id]) | [$PARAM[detailed] + !Control.HasFocus(6000)]</visible>
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_ItemBack">
+                    <param name="selected" value="$PARAM[selected]" />
+                </include>
+                <control type="group">
+                    <width>$PARAM[item_h]</width>
+                    <control type="image">
+                        <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                        <visible>String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)</visible>
+                    </control>
+                    <control type="image">
+                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                        <visible>![String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)]</visible>
+                        <bordersize>20</bordersize>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>$PARAM[item_h]</left>
+                    <control type="label">
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Label]</label>
+                        <textcolor>main_fg_70</textcolor>
+                        <font>font_minilabel_bold</font>
+                        <textoffsetx>20</textoffsetx>
+                        <left>-15</left>
+                        <align>left</align>
+                    </control>
+                </control>
+                <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <param name="indicator" value="false" />
+                    <param name="focusbounce" value="true" />
+                    <param name="pad" value="-5" />
+                </include>
+            </control>
+            <control type="group">
+                <visible>![Control.HasFocus($PARAM[id]) | [$PARAM[detailed] + !Control.HasFocus(6000)]]</visible>
+                <include content="Object_Include" condition="$PARAM[detailed]">
+                    <right>40</right>
+                </include>
+                <width>$PARAM[item_h]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_ItemBack">
+                    <param name="selected" value="$PARAM[selected]" />
+                </include>
+                <control type="group">
+                    <width>$PARAM[item_h]</width>
+                    <control type="image">
+                        <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                        <visible>String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)</visible>
+                    </control>
+                    <control type="image">
+                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                        <visible>![String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)]</visible>
+                        <bordersize>20</bordersize>
+                    </control>
+                </control>
+                <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <param name="indicator" value="false" />
+                    <param name="focusbounce" value="true" />
+                    <param name="pad" value="-5" />
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_Square">
         <param name="selected" default="false" />
         <definition>
@@ -509,7 +523,7 @@
                 <control type="group">
                     <height>$PARAM[item_w]</height>
                     <control type="image">
-                        <texture background="true" diffuse="diffuse/landscape-std.png" fallback="diffuse/poster-fb.png">$INFO[ListItem.Icon]</texture>
+                        <texture background="true" diffuse="diffuse/landscape-std.png">$INFO[ListItem.Icon]</texture>
                         <aspectratio scalediffuse="false">scale</aspectratio>
                     </control>
                     <include content="Object_Indicator">
@@ -555,7 +569,7 @@
                 <control type="group">
                     <height>$PARAM[artwork_h]</height>
                     <control type="image">
-                        <texture background="true" diffuse="diffuse/landscape-std.png" fallback="diffuse/poster-fb.png">$PARAM[icon]</texture>
+                        <texture background="true" diffuse="diffuse/landscape-std.png">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">scale</aspectratio>
                     </control>
                     <include content="Object_Indicator">
