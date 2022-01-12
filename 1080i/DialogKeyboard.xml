@@ -3,7 +3,9 @@
     <defaultcontrol always="true">300</defaultcontrol>
     <controls>
         <include>Object_Overlay</include>
+
         <include content="Dialog_Background">
+            <animation effect="slide" end="0,-60" time="0" condition="System.HasAddon(plugin.program.autocompletion) + System.AddonIsEnabled(plugin.program.autocompletion)">Conditional</animation>
             <include>Animation_SlideIn_Dialog</include>
             <include>Dimension_DialogKeyboard</include>
             <include content="Dialog_Header">
@@ -372,7 +374,7 @@
                         </include>
                     </control>
 
-                    <control type="grouplist" description="Option Row">
+                    <control type="grouplist" description="Option Row" id="8001">
                         <orientation>horizontal</orientation>
                         <itemgap>keyboard_buttonpad</itemgap>
                         <height>row_height</height>
@@ -381,12 +383,14 @@
                             <label>20177</label>
                             <width>keyboard_done</width>
                             <onup>307</onup>
+                            <ondown>8000</ondown>
                         </include>
                         <include content="Object_Keyboard_Button" description="Cancel">
                             <param name="id" value="301" />
                             <font>font_small_iconic</font>
                             <label>&#xe08d;</label>
                             <onup>304</onup>
+                            <ondown>8000</ondown>
                         </include>
                         <control type="group" id="9906">
                             <width>row_height_x50</width>
@@ -396,29 +400,99 @@
                             <label>20182</label>
                             <width>keyboard_space</width>
                             <onup>163</onup>
+                            <ondown>8000</ondown>
                         </include>
                         <include content="Object_Keyboard_Button" description="Backspace">
                             <param name="id" value="8" />
                             <label>20181</label>
                             <width>keyboard_backspace</width>
                             <onup>168</onup>
+                            <ondown>8000</ondown>
                         </include>
                         <include content="Object_Keyboard_Button" description="Left">
                             <param name="id" value="305" />
                             <font>font_small_iconic</font>
                             <label>&#xe006;</label>
                             <onup>170</onup>
+                            <ondown>8000</ondown>
                         </include>
                         <include content="Object_Keyboard_Button" description="Right">
                             <param name="id" value="306" />
                             <font>font_small_iconic</font>
                             <label>&#xe005;</label>
                             <onup>171</onup>
+                            <ondown>8000</ondown>
                         </include>
                     </control>
                 </control>
 
             </include>
         </include>
+
+        <control type="fixedlist" id="8000">
+            <visible>System.HasAddon(plugin.program.autocompletion) + System.AddonIsEnabled(plugin.program.autocompletion)</visible>
+            <focusposition>2</focusposition>
+            <movement>2</movement>
+            <height>80</height>
+            <bottom>80</bottom>
+            <left>view_pad</left>
+            <right>60</right>
+            <onup>8001</onup>
+            <ondown>312</ondown>
+            <orientation>horizontal</orientation>
+            <include>Animation_SlideIn_Dialog</include>
+            <itemlayout height="80" width="356">
+                <control type="group">
+                    <left>0</left>
+                    <right>20</right>
+                    <include>Dialog_Background</include>
+                    <control type="image">
+                        <texture colordiffuse="dialog_fg_12" border="10">common/box.png</texture>
+                    </control>
+                    <control type="label">
+                        <textoffsetx>20</textoffsetx>
+                        <aligny>center</aligny>
+                        <align>center</align>
+                        <textcolor>dialog_fg_70</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </control>
+            </itemlayout>
+            <focusedlayout height="80" width="356" condition="!Control.Hasfocus(8000)">
+                <control type="group">
+                    <left>0</left>
+                    <right>20</right>
+                    <include>Dialog_Background</include>
+                    <control type="image">
+                        <texture colordiffuse="dialog_fg_12" border="10">common/box.png</texture>
+                    </control>
+                    <control type="label">
+                        <textoffsetx>20</textoffsetx>
+                        <aligny>center</aligny>
+                        <align>center</align>
+                        <textcolor>dialog_fg_70</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </control>
+            </focusedlayout>
+            <focusedlayout height="80" width="356" condition="Control.Hasfocus(8000)">
+                <control type="group">
+                    <left>0</left>
+                    <right>20</right>
+                    <include>Dialog_Background</include>
+                    <control type="image">
+                        <include>Texture_Button_Highlight_H</include>
+                    </control>
+                    <control type="label">
+                        <textoffsetx>20</textoffsetx>
+                        <aligny>center</aligny>
+                        <align>center</align>
+                        <textcolor>$VAR[ColorSelected]</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </control>
+            </focusedlayout>
+            <content>plugin://plugin.program.autocompletion?info=autocomplete&amp;&amp;id=$INFO[Control.GetLabel(312).index(1)]&amp;&amp;limit=9</content>
+        </control>
     </controls>
 </window>
