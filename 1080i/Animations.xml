@@ -12,7 +12,7 @@
 
     <include name="Animation_Foreground_FadeInOut">
         <animation type="WindowOpen" reversible="false">
-            <effect type="fade" start="0" end="100" time="400" delay="400" tween="sine" easing="out"/>
+            <effect type="fade" start="0" end="100" time="800" delay="0" tween="sine" easing="out"/>
         </animation>
         <animation type="WindowClose" reversible="false">
             <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
@@ -37,6 +37,28 @@
         <animation type="Focus">
             <effect type="zoom" start="96.5" end="100" time="150" tween="sine" easing="inout" center="auto"/>
             <effect type="fade" start="20" end="100" time="150" tween="back" easing="out"/>
+        </animation>
+    </include>
+
+    <include name="Animation_LeftRight">
+        <animation type="Visible" reversible="false">
+            <effect type="fade" start="0" end="100" delay="0" time="300" tween="sine" easing="out"/>
+        </animation>
+        <animation type="Conditional" reversible="false" condition="$PARAM[visible] + String.IsEqual(Window(Home).Property(AnimationDirection),Left)">
+            <effect type="slide" start="-320" end="0" delay="0" time="400" tween="cubic" easing="out" />
+        </animation>
+        <animation type="Conditional" reversible="false" condition="$PARAM[visible] + String.IsEqual(Window(Home).Property(AnimationDirection),Right)">
+            <effect type="slide" start="320" end="0" delay="0" time="400" tween="cubic" easing="out" />
+        </animation>
+
+        <animation type="Hidden" reversible="false">
+            <effect type="fade" start="100" end="0" time="300" tween="sine" easing="out" />
+        </animation>
+        <animation type="Conditional" reversible="false" condition="!$PARAM[visible] + String.IsEqual(Window(Home).Property(AnimationDirection),Left)">
+            <effect type="slide" end="320" start="0" time="400" tween="cubic" easing="out" />
+        </animation>
+        <animation type="Conditional" reversible="false" condition="!$PARAM[visible] + String.IsEqual(Window(Home).Property(AnimationDirection),Right)">
+            <effect type="slide" end="-320" start="0" time="400" tween="cubic" easing="out" />
         </animation>
     </include>
 

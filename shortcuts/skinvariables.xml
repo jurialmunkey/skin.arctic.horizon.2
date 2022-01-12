@@ -14,6 +14,15 @@
     </variable>
 
 
+    <variable name="Image_CropLogo" containers="301" parent="Control.HasFocus({id})">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.CropImage.Original),{listitem}.Art(clearlogo)) + !String.IsEmpty({listitem}.Art(clearlogo))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.CropImage.Original),{listitem}.Art(tvshow.clearlogo)) + !String.IsEmpty({listitem}.Art(tvshow.clearlogo))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+        <value condition="!String.IsEmpty({listitem}.Art(clearlogo)) + !Window.IsVisible(1120)">$INFO[{listitem}.Art(clearlogo)]</value>
+        <value condition="!String.IsEmpty({listitem}.Art(tvshow.clearlogo)) + !Window.IsVisible(1120)">$INFO[Container(301).ListItem.Art(tvshow.clearlogo)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+    </variable>
+
+
     <variable name="Label_Title" containers="50,503,513,523,301" parent="Control.HasFocus({id})">
         <value condition="!String.IsEmpty({listitem}.TvShowTitle)">$INFO[{listitem}.TvShowTitle]</value>
         <value condition="!String.IsEmpty({listitem}.Title)">$INFO[{listitem}.Title]</value>
@@ -37,7 +46,7 @@
         <value>indicator/install-pinned.png</value>
     </variable>
 
-    <variable name="Image_VideoQuality" containers="50,503,513,523" parent="Control.HasFocus({id})">
+    <variable name="Image_VideoQuality" containers="50,503,513,523,301" parent="Control.HasFocus({id})">
         <value condition="{listitem}.IsCollection">flags/quality/sets.png</value>
         <value condition="Integer.IsGreater({listitem}.VideoResolution,1080) | String.IsEqual({listitem}.VideoResolution,4K)">flags/quality/4k.png</value>
         <value condition="Integer.IsGreater({listitem}.VideoResolution,719)">flags/quality/hd.png</value>

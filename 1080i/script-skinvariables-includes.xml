@@ -21,6 +21,24 @@
         <value condition="!String.IsEmpty(ListItem.PercentPlayed) + !Integer.IsEqual(ListItem.PercentPlayed,0)">$INFO[ListItem.PercentPlayed]</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(DisableIndicator.Watched)">100</value>
     </variable>
+    <variable name="Image_CropLogo_C301">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.CropImage.Original),Container(301).ListItem.Art(clearlogo)) + !String.IsEmpty(Container(301).ListItem.Art(clearlogo))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.CropImage.Original),Container(301).ListItem.Art(tvshow.clearlogo)) + !String.IsEmpty(Container(301).ListItem.Art(tvshow.clearlogo))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+        <value condition="!String.IsEmpty(Container(301).ListItem.Art(clearlogo)) + !Window.IsVisible(1120)">$INFO[Container(301).ListItem.Art(clearlogo)]</value>
+        <value condition="!String.IsEmpty(Container(301).ListItem.Art(tvshow.clearlogo)) + !Window.IsVisible(1120)">$INFO[Container(301).ListItem.Art(tvshow.clearlogo)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+    </variable>
+    <variable name="Image_CropLogo">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.CropImage.Original),ListItem.Art(clearlogo)) + !String.IsEmpty(ListItem.Art(clearlogo))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.CropImage.Original),ListItem.Art(tvshow.clearlogo)) + !String.IsEmpty(ListItem.Art(tvshow.clearlogo))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+        <value condition="!String.IsEmpty(ListItem.Art(clearlogo)) + !Window.IsVisible(1120)">$INFO[ListItem.Art(clearlogo)]</value>
+        <value condition="!String.IsEmpty(ListItem.Art(tvshow.clearlogo)) + !Window.IsVisible(1120)">$INFO[Container(301).ListItem.Art(tvshow.clearlogo)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+    </variable>
+    <variable name="Image_CropLogo_Parent">
+        <value condition="Control.HasFocus(301)">$VAR[Image_CropLogo_C301]</value>
+        <value condition="True">$VAR[Image_CropLogo]</value>
+    </variable>
     <variable name="Label_Title_C50">
         <value condition="!String.IsEmpty(Container(50).ListItem.TvShowTitle)">$INFO[Container(50).ListItem.TvShowTitle]</value>
         <value condition="!String.IsEmpty(Container(50).ListItem.Title)">$INFO[Container(50).ListItem.Title]</value>
@@ -157,6 +175,14 @@
         <value condition="[String.IsEqual(Container(523).ListItem.DBType,movie) | String.IsEqual(Container(523).ListItem.DBType,episode) | String.IsEqual(Container(523).ListItem.DBType,video)] + !String.IsEqual(Container(523).ListItem.Property(item.type),person)">flags/quality/web.png</value>
         <value condition="True">flags/quality/info.png</value>
     </variable>
+    <variable name="Image_VideoQuality_C301">
+        <value condition="Container(301).ListItem.IsCollection">flags/quality/sets.png</value>
+        <value condition="Integer.IsGreater(Container(301).ListItem.VideoResolution,1080) | String.IsEqual(Container(301).ListItem.VideoResolution,4K)">flags/quality/4k.png</value>
+        <value condition="Integer.IsGreater(Container(301).ListItem.VideoResolution,719)">flags/quality/hd.png</value>
+        <value condition="!String.IsEmpty(Container(301).ListItem.VideoResolution)">flags/quality/sd.png</value>
+        <value condition="[String.IsEqual(Container(301).ListItem.DBType,movie) | String.IsEqual(Container(301).ListItem.DBType,episode) | String.IsEqual(Container(301).ListItem.DBType,video)] + !String.IsEqual(Container(301).ListItem.Property(item.type),person)">flags/quality/web.png</value>
+        <value condition="True">flags/quality/info.png</value>
+    </variable>
     <variable name="Image_VideoQuality">
         <value condition="ListItem.IsCollection">flags/quality/sets.png</value>
         <value condition="Integer.IsGreater(ListItem.VideoResolution,1080) | String.IsEqual(ListItem.VideoResolution,4K)">flags/quality/4k.png</value>
@@ -170,6 +196,7 @@
         <value condition="Control.HasFocus(503)">$VAR[Image_VideoQuality_C503]</value>
         <value condition="Control.HasFocus(513)">$VAR[Image_VideoQuality_C513]</value>
         <value condition="Control.HasFocus(523)">$VAR[Image_VideoQuality_C523]</value>
+        <value condition="Control.HasFocus(301)">$VAR[Image_VideoQuality_C301]</value>
         <value condition="True">$VAR[Image_VideoQuality]</value>
     </variable>
     <variable name="Image_Landscape_C50">
