@@ -8,90 +8,92 @@
     <controls>
         <include>Background_Main</include>
 
-
-        <include content="List_Square_Row">
-            <param name="id" value="50" />
-            <param name="orientation" value="vertical" />
-            <param name="controltype" value="panel" />
-            <param name="offset_y" value="40" />
-            <left>600</left>
-            <onleft>7000</onleft>
-            <onright>menu</onright>
-            <top>160</top>
-            <preloaditems>0</preloaditems>
-            <bottom>180</bottom>
-        </include>
-        <include content="List_Button_Row">
-            <param name="id" value="7000" />
-            <param name="orientation" value="vertical" />
-            <param name="controltype" value="list" />
-            <param name="itemlayout_w" value="456" />
-            <param name="item_w" value="416" />
-            <param name="itemlayout_h" value="144" />
-            <param name="item_h" value="104" />
-            <param name="itemlayout_include" value="Layout_IconButton" />
-            <param name="detailed" value="true" />
-            <param name="altfocus" value="!Control.HasFocus(6000)" />
-            <preloaditems>0</preloaditems>
-            <onleft>6000</onleft>
-            <onright>50</onright>
-            <movement>4</movement>
-            <bottom>180</bottom>
-            <top>160</top>
-            <width>536</width>
-            <left>144</left>
-            <content>
-                <item>
-                    <label>$LOCALIZE[24004]</label>
-                    <icon>DefaultAddonsRecentlyUpdated.png</icon>
-                    <property name="folderpath">addons://recently_updated/</property>
-                    <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
-                </item>
-                <!-- <item>
-                    <label>$LOCALIZE[24041]</label>
-                    <property name="folderpath">addons://user/noop</property>
-                    <icon>DefaultAddonsZip.png</icon>
-                    <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
-                </item> -->
-                <!-- <item>
-                    <label>$LOCALIZE[137]</label>
-                    <property name="folderpath">addons://user/all/</property>
-                    <property name="containerupdate">addons://search/</property>
-                    <icon>DefaultAddonsSearch.png</icon>
-                    <visible>String.IsEqual(Container(6000).ListItem.FolderPath,addons://all/)</visible>
-                </item> -->
-            </content>
-            <content sortby="label">$VAR[Items_AddonBrowser_Submenu]</content>
-        </include>
-
-        <include content="List_Button_Row">
-            <param name="id" value="6000" />
-            <param name="orientation" value="vertical" />
-            <param name="controltype" value="list" />
-            <param name="itemlayout_w" value="456" />
-            <param name="item_w" value="416" />
-            <param name="itemlayout_h" value="144" />
-            <param name="item_h" value="104" />
-            <param name="itemlayout_include" value="Layout_IconButton" />
-            <param name="altfocus" value="true" />
-            <preloaditems>0</preloaditems>
-            <onright>7000</onright>
-            <onleft>menu</onleft>
-            <movement>4</movement>
-            <bottom>180</bottom>
-            <top>160</top>
-            <width>536</width>
-            <onfocus>ClearProperty(BaseCategory)</onfocus>
-            <onunfocus>SetProperty(BaseCategory,$INFO[Container(6000).ListItem.Label])</onunfocus>
-            <content>
-                <item>
-                    <label>$LOCALIZE[24998]</label>
-                    <property name="folderpath">addons://user/</property>
-                    <icon>DefaultAddonsInstalled.png</icon>
-                </item>
-            </content>
-            <content sortby="label">addons://repos/</content>
-        </include>
+        <control type="group">
+            <include>Animation_Common</include>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include content="List_Square_Row">
+                <param name="id" value="50" />
+                <param name="orientation" value="vertical" />
+                <param name="controltype" value="panel" />
+                <param name="offset_y" value="40" />
+                <left>600</left>
+                <onleft>7000</onleft>
+                <onright>menu</onright>
+                <top>160</top>
+                <preloaditems>0</preloaditems>
+                <bottom>180</bottom>
+            </include>
+            <include content="List_Button_Row">
+                <param name="id" value="7000" />
+                <param name="orientation" value="vertical" />
+                <param name="controltype" value="list" />
+                <param name="itemlayout_w" value="456" />
+                <param name="item_w" value="416" />
+                <param name="itemlayout_h" value="144" />
+                <param name="item_h" value="104" />
+                <param name="itemlayout_include" value="Layout_IconButton" />
+                <param name="detailed" value="true" />
+                <param name="altfocus" value="!Control.HasFocus(6000)" />
+                <preloaditems>0</preloaditems>
+                <onleft>6000</onleft>
+                <onright>50</onright>
+                <movement>4</movement>
+                <bottom>180</bottom>
+                <top>160</top>
+                <width>536</width>
+                <left>144</left>
+                <content>
+                    <item>
+                        <label>$LOCALIZE[24004]</label>
+                        <icon>DefaultAddonsRecentlyUpdated.png</icon>
+                        <property name="folderpath">addons://recently_updated/</property>
+                        <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
+                    </item>
+                    <!-- <item>
+                        <label>$LOCALIZE[24041]</label>
+                        <property name="folderpath">addons://user/noop</property>
+                        <icon>DefaultAddonsZip.png</icon>
+                        <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
+                    </item> -->
+                    <!-- <item>
+                        <label>$LOCALIZE[137]</label>
+                        <property name="folderpath">addons://user/all/</property>
+                        <property name="containerupdate">addons://search/</property>
+                        <icon>DefaultAddonsSearch.png</icon>
+                        <visible>String.IsEqual(Container(6000).ListItem.FolderPath,addons://all/)</visible>
+                    </item> -->
+                </content>
+                <content sortby="label">$VAR[Items_AddonBrowser_Submenu]</content>
+            </include>
+            <include content="List_Button_Row">
+                <param name="id" value="6000" />
+                <param name="orientation" value="vertical" />
+                <param name="controltype" value="list" />
+                <param name="itemlayout_w" value="456" />
+                <param name="item_w" value="416" />
+                <param name="itemlayout_h" value="144" />
+                <param name="item_h" value="104" />
+                <param name="itemlayout_include" value="Layout_IconButton" />
+                <param name="altfocus" value="true" />
+                <preloaditems>0</preloaditems>
+                <onright>7000</onright>
+                <onleft>menu</onleft>
+                <movement>4</movement>
+                <bottom>180</bottom>
+                <top>160</top>
+                <width>536</width>
+                <onfocus>ClearProperty(BaseCategory)</onfocus>
+                <onunfocus>SetProperty(BaseCategory,$INFO[Container(6000).ListItem.Label])</onunfocus>
+                <content>
+                    <item>
+                        <label>$LOCALIZE[24998]</label>
+                        <property name="folderpath">addons://user/</property>
+                        <icon>DefaultAddonsInstalled.png</icon>
+                    </item>
+                </content>
+                <content sortby="label">addons://repos/</content>
+            </include>
+        </control>
 
 
         <control type="group">
