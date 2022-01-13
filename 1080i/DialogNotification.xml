@@ -6,22 +6,25 @@
             <include content="Furniture_Gutters">
                 <control type="group">
                     <width>60</width>
+                    <height>60</height>
                     <right>0</right>
                     <control type="group">
-                        <width>100</width>
-                        <height>100</height>
-                        <centertop>50%</centertop>
-                        <centerleft>50%</centerleft>
-                        <control type="image" description="Back">
-                            <aspectratio align="center" aligny="center">keep</aspectratio>
-                            <texture>dialog/loading-back.png</texture>
-                            <colordiffuse>main_fg_70</colordiffuse>
-                        </control>
-                        <control type="image" description="Icon">
-                            <bordersize>30</bordersize>
-                            <aspectratio align="center" aligny="center">keep</aspectratio>
-                            <texture>special://skin/extras/icons/info2.png</texture>
-                            <colordiffuse>main_fg_70</colordiffuse>
+                        <visible>String.StartsWith(Control.GetLabel(400),Default)</visible>
+                        <include content="Object_MenuButton">
+                            <param name="icon" value="special://skin/extras/icons/info2.png" />
+                        </include>
+                    </control>
+                    <control type="group">
+                        <visible>!String.StartsWith(Control.GetLabel(400),Default)</visible>
+                        <include content="Object_MenuButton">
+                            <param name="icon" value="special://skin/extras/icons/_none.png" />
+                        </include>
+                        <control type="image">
+                            <width>48</width>
+                            <height>48</height>
+                            <centertop>50%</centertop>
+                            <centerleft>50%</centerleft>
+                            <texture diffuse="common/circle.png">$INFO[Control.GetLabel(400)]</texture>
                         </control>
                     </control>
                 </control>
@@ -42,5 +45,10 @@
                 </control>
             </include>
         </include>
+        <control type="image" id="400">
+            <visible>false</visible>
+            <height>1</height>
+            <width>1</width>
+        </control>
     </controls>
 </window>

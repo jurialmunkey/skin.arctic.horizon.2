@@ -36,6 +36,8 @@
                 <param name="altfocus" value="!Control.HasFocus(6000)" />
                 <preloaditems>0</preloaditems>
                 <onleft>6000</onleft>
+                <onright condition="String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.FolderPath],replace)</onright>
+                <onright condition="!String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.Property(folderpath)],replace)</onright>
                 <onright>50</onright>
                 <movement>4</movement>
                 <bottom>180</bottom>
@@ -93,13 +95,28 @@
                 </content>
                 <content sortby="label">addons://repos/</content>
             </include>
+            <include content="Furniture_Bottombar_Group">
+                <include content="Furniture_Gutters">
+                    <control type="grouplist">
+                        <orientation>horizontal</orientation>
+                        <itemgap>20</itemgap>
+                        <usecontrolcoords>true</usecontrolcoords>
+                        <left>-8</left>
+                        <right>-8</right>
+                        <include content="Info_Codec_Label">
+                            <param name="icon" value="special://skin/extras/icons/recent.png" />
+                            <param name="label" value="$INFO[System.AddonUpdateCount,, $LOCALIZE[31083]]$INFO[Window(AddonBrowser).Property(Updated),  -  $LOCALIZE[31084] ,]" />
+                            <visible>!String.IsEmpty(System.AddonUpdateCount)</visible>
+                        </include>
+                    </control>
+                </include>
+            </include>
         </control>
 
 
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Furniture_Top</include>
-            <include>Furniture_Bottom</include>
         </control>
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_AddonBrowser_Settings" />

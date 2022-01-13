@@ -2,6 +2,7 @@
 <window>
     <defaultcontrol always="true">30000</defaultcontrol>
     <include>Action_Settings_Onload</include>
+    <onunload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onunload>
     <controls>
         <include content="Object_Control">
             <param name="control" value="image" />
@@ -65,6 +66,18 @@
                                 <label>$LOCALIZE[10000]</label>
                                 <visible>Container(3).HasFocus(1)</visible>
                             </include>
+                            <include content="Dialog_Settings_Button" description="SkinShortcuts HomeMenu">
+                                <param name="id" value="1001" />
+                                <label>$LOCALIZE[31080]</label>
+                                <visible>Container(3).HasFocus(1)</visible>
+                                <onclick>RunScript(script.skinshortcuts,type=manage&amp;group=mainmenu)</onclick>
+                            </include>
+                            <include content="Dialog_Settings_Button" description="SkinShortcuts PowerMenu">
+                                <param name="id" value="1002" />
+                                <label>$LOCALIZE[31086]</label>
+                                <visible>Container(3).HasFocus(1)</visible>
+                                <onclick>RunScript(script.skinshortcuts,type=manage&amp;group=powermenu)</onclick>
+                            </include>
                             <!-- Appearance -->
                             <include content="Dialog_Settings_Label" description="LooknFeel Label">
                                 <param name="id" value="2000" />
@@ -83,7 +96,10 @@
                 </include>
             </include>
         </include>
-        <include>Furniture_Top</include>
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs] + !Window.IsVisible(script-skinshortcuts.xml)</visible>
+            <include>Furniture_Top</include>
+        </control>
     </controls>
 
 </window>

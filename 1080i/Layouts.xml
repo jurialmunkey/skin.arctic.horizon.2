@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="Layout_SkinShortcuts">
+        <param name="selected" default="false" />
+        <definition>
+            <include content="Object_Control" condition="$PARAM[selected]">
+                <param name="control" value="image" />
+                <include>Texture_Highlight</include>
+            </include>
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <width>80</width>
+                <bordersize>10</bordersize>
+                <include content="Object_Include" condition="$PARAM[selected]">
+                    <texture background="true" colordiffuse="$VAR[ColorSelected]">$INFO[ListItem.Icon]</texture>
+                </include>
+                <texture background="true" colordiffuse="dialog_fg_70">$INFO[ListItem.Icon]</texture>
+                <aspectratio>keep</aspectratio>
+            </include>
+            <include content="Object_Separator" condition="$PARAM[selected]">
+                <left>80</left>
+            </include>
+            <include content="Object_Control">
+                <param name="control" value="label" />
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <left>60</left>
+                <textoffsetx>40</textoffsetx>
+                <textcolor>dialog_fg_70</textcolor>
+                <selectedcolor>dialog_fg_70</selectedcolor>
+                <label>$INFO[ListItem.Label]</label>
+            </include>
+        </definition>
+    </include>
+
     <include name="Layout_DialogBasic">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
@@ -435,7 +467,7 @@
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control" value="button" />
                 <visible allowhiddenfocus="true">false</visible>
-                <animation effect="fade" start="0" end="0" time="350" reversible="false">Focus</animation>
+                <animation effect="fade" start="0" end="0" time="500" reversible="false">Focus</animation>
                 <onfocus condition="String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.FolderPath],replace)</onfocus>
                 <onfocus condition="!String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.Property(folderpath)],replace)</onfocus>
             </include>

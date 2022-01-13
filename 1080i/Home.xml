@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <defaultcontrol always="false">300</defaultcontrol>
-    <onload>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onload>
+    <include>Action_Blur_Onload</include>
     <onload>ClearProperty(TMDbHelper.HideView,Home)</onload>
+    <onload>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onload>
     <onunload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onunload>
     <onunload>ClearProperty(MenuSelect,Home)</onunload>
     <onunload>ClearProperty(AnimationDirection,Home)</onunload>
@@ -69,210 +70,226 @@
         </control>
 
 
+        <!-- All Widgets Group -->
+        <control type="group" id="320">
+            <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                <effect type="slide" end="0,-20" time="60" tween="sine" />
+                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+            </animation>
+            <!-- Movies Widget Group -->
+            <control type="group">
+                <visible>Container(300).Position(0)</visible>
+                <include content="Animation_LeftRight">
+                    <param name="visible" value="Container(300).Position(0)" />
+                </include>
+                <!-- Widget Grouping -->
+                <control type="grouplist" id="1400">
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                    <include>Animation_Common</include>
+                    <include>Animation_Foreground_FadeInOut</include>
+                    <orientation>vertical</orientation>
+                    <onup>SetFocus(300)</onup>
+                    <ondown>SetFocus(330)</ondown>
 
-        <!-- Movies Widget Group -->
-        <control type="group">
-            <visible>Container(300).Position(0)</visible>
-            <include content="Animation_LeftRight">
-                <param name="visible" value="Container(300).Position(0)" />
-            </include>
-            <!-- Widget Grouping -->
-            <control type="grouplist" id="1400">
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <include>Animation_Common</include>
-                <include>Animation_Foreground_FadeInOut</include>
-                <orientation>vertical</orientation>
-                <onup>SetFocus(300)</onup>
+                    <!-- Fullscreen Widget Info and Buttons -->
+                    <control type="group" id="1500">
+                        <height>1260</height>
+                        <left>view_pad</left>
+                        <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
+                        <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
 
-                <!-- Fullscreen Widget Info and Buttons -->
-                <control type="group" id="1500">
-                    <height>1260</height>
-                    <left>view_pad</left>
-                    <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
-                    <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
+                        <include content="Info_Panel">
+                            <param name="plotwidth" value="880" />
+                            <param name="plotheight" value="80" />
+                            <param name="plotheight_nr" value="120" />
+                            <param name="line_id" value="1598" />
+                            <param name="container" value="Container(301)." />
+                            <height>280</height>
+                            <width>1080</width>
+                            <bottom>480</bottom>
+                        </include>
 
-                    <include content="Info_Panel">
-                        <param name="plotwidth" value="880" />
-                        <param name="plotheight" value="80" />
-                        <param name="plotheight_nr" value="120" />
-                        <param name="line_id" value="1598" />
-                        <param name="container" value="Container(301)." />
-                        <height>280</height>
-                        <width>1080</width>
-                        <bottom>480</bottom>
-                    </include>
-
-                    <control type="group">
-                        <height>70</height>
-                        <bottom>380</bottom>
-                        <control type="grouplist" id="1599">
-                            <left>-40</left>
-                            <orientation>horizontal</orientation>
-                            <height>256</height>
-                            <centertop>50%</centertop>
-                            <itemgap>-60</itemgap>
-                            <onup>300</onup>
-                            <ondown>1601</ondown>
-                            <onleft>Control.Move(301,-1)</onleft>
-                            <onright>Control.Move(301,1)</onright>
-                            <include content="Object_Info_Button">
-                                <param name="id" value="1501" />
-                                <param name="groupid" value="1511" />
-                                <param name="label" value="$LOCALIZE[208]" />
-                                <param name="icon" value="special://skin/extras/icons/play3.png" />
-                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                            </include>
-                            <include content="Object_Info_Button">
-                                <param name="id" value="1502" />
-                                <param name="groupid" value="1512" />
-                                <param name="label" value="$LOCALIZE[31077]" />
-                                <param name="icon" value="special://skin/extras/icons/info2.png" />
-                                <onclick>SetFocus(301)</onclick>
-                                <onclick>Action(Info)</onclick>
-                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                            </include>
+                        <control type="group">
+                            <height>70</height>
+                            <bottom>380</bottom>
+                            <control type="grouplist" id="1599">
+                                <left>-40</left>
+                                <orientation>horizontal</orientation>
+                                <height>256</height>
+                                <centertop>50%</centertop>
+                                <itemgap>-60</itemgap>
+                                <onup>300</onup>
+                                <ondown>1601</ondown>
+                                <onleft>Control.Move(301,-1)</onleft>
+                                <onright>Control.Move(301,1)</onright>
+                                <include content="Object_Info_Button">
+                                    <param name="id" value="1501" />
+                                    <param name="groupid" value="1511" />
+                                    <param name="label" value="$LOCALIZE[208]" />
+                                    <param name="icon" value="special://skin/extras/icons/play3.png" />
+                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                </include>
+                                <include content="Object_Info_Button">
+                                    <param name="id" value="1502" />
+                                    <param name="groupid" value="1512" />
+                                    <param name="label" value="$LOCALIZE[31077]" />
+                                    <param name="icon" value="special://skin/extras/icons/info2.png" />
+                                    <onclick>SetFocus(301)</onclick>
+                                    <onclick>Action(Info)</onclick>
+                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                </include>
+                            </control>
                         </control>
                     </control>
-                </control>
 
-                <!-- Widget spacer when no fullscreen widget -->
-                <!-- <control type="group" id="1600">
-                    <height>600</height>
-                </control> -->
+                    <!-- Widget spacer when no fullscreen widget -->
+                    <!-- <control type="group" id="1600">
+                        <height>600</height>
+                    </control> -->
 
-                <!-- Standard Widgets -->
-                <include content="Widget_Poster">
-                    <param name="groupid" value="1701" />
-                    <param name="id" value="1601" />
-                    <param name="label" value="Random" />
-                    <content sortby="random">videodb://movies/titles</content>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,1601,Home)</onfocus>
-                </include>
-                <include content="Widget_Poster">
-                    <param name="groupid" value="1702" />
-                    <param name="id" value="1602" />
-                    <param name="label" value="Recommendations" />
-                    <content sortby="random">videodb://movies/titles</content>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,1602,Home)</onfocus>
-                </include>
-                <include content="Widget_Poster">
-                    <param name="groupid" value="1703" />
-                    <param name="id" value="1603" />
-                    <param name="label" value="Recently Added" />
-                    <content sortby="random">videodb://movies/titles</content>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,1603,Home)</onfocus>
-                </include>
-
-            </control>
-
-            <include content="Object_WallFade">
-                <param name="id" value="1400" />
-                <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
-            </include>
-        </control>
-
-
-        <!-- Tv Shows Widget Group -->
-        <control type="group">
-            <visible>Container(300).Position(1)</visible>
-            <include content="Animation_LeftRight">
-                <param name="visible" value="Container(300).Position(1)" />
-            </include>
-            <!-- Widget Grouping -->
-            <control type="grouplist" id="2400">
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <include>Animation_Common</include>
-                <include>Animation_Foreground_FadeInOut</include>
-                <orientation>vertical</orientation>
-                <onup>SetFocus(300)</onup>
-
-                <!-- Fullscreen Widget Info and Buttons -->
-                <control type="group" id="2500">
-                    <height>1260</height>
-                    <left>view_pad</left>
-                    <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
-                    <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
-
-                    <include content="Info_Panel">
-                        <param name="plotwidth" value="880" />
-                        <param name="plotheight" value="80" />
-                        <param name="plotheight_nr" value="120" />
-                        <param name="line_id" value="2598" />
-                        <param name="container" value="Container(301)." />
-                        <height>280</height>
-                        <width>1080</width>
-                        <bottom>480</bottom>
+                    <!-- Standard Widgets -->
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="1701" />
+                        <param name="id" value="1601" />
+                        <param name="label" value="Random" />
+                        <content sortby="random">videodb://movies/titles</content>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,1601,Home)</onfocus>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="1702" />
+                        <param name="id" value="1602" />
+                        <param name="label" value="Recommendations" />
+                        <content sortby="random">videodb://movies/titles</content>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,1602,Home)</onfocus>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="1703" />
+                        <param name="id" value="1603" />
+                        <param name="label" value="Recently Added" />
+                        <content sortby="random">videodb://movies/titles</content>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,1603,Home)</onfocus>
                     </include>
 
-                    <control type="group">
-                        <height>70</height>
-                        <bottom>380</bottom>
-                        <control type="grouplist" id="2599">
-                            <left>-40</left>
-                            <orientation>horizontal</orientation>
-                            <height>256</height>
-                            <centertop>50%</centertop>
-                            <itemgap>-60</itemgap>
-                            <onup>300</onup>
-                            <ondown>2601</ondown>
-                            <onleft>Control.Move(301,-1)</onleft>
-                            <onright>Control.Move(301,1)</onright>
-                            <include content="Object_Info_Button">
-                                <param name="id" value="2501" />
-                                <param name="groupid" value="2511" />
-                                <param name="label" value="$LOCALIZE[208]" />
-                                <param name="icon" value="special://skin/extras/icons/play3.png" />
-                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                            </include>
-                            <include content="Object_Info_Button">
-                                <param name="id" value="2502" />
-                                <param name="groupid" value="2512" />
-                                <param name="label" value="$LOCALIZE[31077]" />
-                                <param name="icon" value="special://skin/extras/icons/info2.png" />
-                                <onclick>SetFocus(301)</onclick>
-                                <onclick>Action(Info)</onclick>
-                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                            </include>
-                        </control>
-                    </control>
                 </control>
 
-                <!-- Widget spacer when no fullscreen widget -->
-                <!-- <control type="group" id="2600">
-                    <height>600</height>
-                </control> -->
-
-                <!-- Standard Widgets -->
-                <include content="Widget_Poster">
-                    <param name="groupid" value="2701" />
-                    <param name="id" value="2601" />
-                    <param name="label" value="Random" />
-                    <content sortby="random">videodb://tvshows/titles</content>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,2601,Home)</onfocus>
+                <include content="Object_WallFade">
+                    <param name="id" value="1400" />
+                    <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
                 </include>
-                <include content="Widget_Poster">
-                    <param name="groupid" value="2702" />
-                    <param name="id" value="2602" />
-                    <param name="label" value="Recommendations" />
-                    <content sortby="random">videodb://tvshows/titles</content>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,2602,Home)</onfocus>
-                </include>
-                <include content="Widget_Poster">
-                    <param name="groupid" value="2703" />
-                    <param name="id" value="2603" />
-                    <param name="label" value="Recently Added" />
-                    <content sortby="random">videodb://tvshows/titles</content>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,2603,Home)</onfocus>
-                </include>
-
             </control>
 
-            <include content="Object_WallFade">
-                <param name="id" value="2400" />
-                <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
-            </include>
+            <!-- Tv Shows Widget Group -->
+            <control type="group">
+                <visible>Container(300).Position(1)</visible>
+                <include content="Animation_LeftRight">
+                    <param name="visible" value="Container(300).Position(1)" />
+                </include>
+                <!-- Widget Grouping -->
+                <control type="grouplist" id="2400">
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                    <include>Animation_Common</include>
+                    <include>Animation_Foreground_FadeInOut</include>
+                    <orientation>vertical</orientation>
+                    <onup>SetFocus(300)</onup>
+                    <ondown>SetFocus(330)</ondown>
+                    <!-- Fullscreen Widget Info and Buttons -->
+                    <control type="group" id="2500">
+                        <height>1260</height>
+                        <left>view_pad</left>
+                        <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
+                        <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
+
+                        <include content="Info_Panel">
+                            <param name="plotwidth" value="880" />
+                            <param name="plotheight" value="80" />
+                            <param name="plotheight_nr" value="120" />
+                            <param name="line_id" value="2598" />
+                            <param name="container" value="Container(301)." />
+                            <height>280</height>
+                            <width>1080</width>
+                            <bottom>480</bottom>
+                        </include>
+
+                        <control type="group">
+                            <height>70</height>
+                            <bottom>380</bottom>
+                            <control type="grouplist" id="2599">
+                                <left>-40</left>
+                                <orientation>horizontal</orientation>
+                                <height>256</height>
+                                <centertop>50%</centertop>
+                                <itemgap>-60</itemgap>
+                                <onup>300</onup>
+                                <ondown>2601</ondown>
+                                <onleft>Control.Move(301,-1)</onleft>
+                                <onright>Control.Move(301,1)</onright>
+                                <include content="Object_Info_Button">
+                                    <param name="id" value="2501" />
+                                    <param name="groupid" value="2511" />
+                                    <param name="label" value="$LOCALIZE[208]" />
+                                    <param name="icon" value="special://skin/extras/icons/play3.png" />
+                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                </include>
+                                <include content="Object_Info_Button">
+                                    <param name="id" value="2502" />
+                                    <param name="groupid" value="2512" />
+                                    <param name="label" value="$LOCALIZE[31077]" />
+                                    <param name="icon" value="special://skin/extras/icons/info2.png" />
+                                    <onclick>SetFocus(301)</onclick>
+                                    <onclick>Action(Info)</onclick>
+                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                </include>
+                            </control>
+                        </control>
+                    </control>
+
+                    <!-- Widget spacer when no fullscreen widget -->
+                    <!-- <control type="group" id="2600">
+                        <height>600</height>
+                    </control> -->
+
+                    <!-- Standard Widgets -->
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="2701" />
+                        <param name="id" value="2601" />
+                        <param name="label" value="Random" />
+                        <content sortby="random">videodb://tvshows/titles</content>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,2601,Home)</onfocus>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="2702" />
+                        <param name="id" value="2602" />
+                        <param name="label" value="Recommendations" />
+                        <content sortby="random">videodb://tvshows/titles</content>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,2602,Home)</onfocus>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="2703" />
+                        <param name="id" value="2603" />
+                        <param name="label" value="Recently Added" />
+                        <content sortby="random">videodb://tvshows/titles</content>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,2603,Home)</onfocus>
+                    </include>
+
+                </control>
+
+                <include content="Object_WallFade">
+                    <param name="id" value="2400" />
+                    <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+            </control>
+
+
+            <!-- Weather Widget -->
+            <!-- <control type="group">
+                <visible>Container(300).Position(4)</visible>
+                <include content="Animation_LeftRight">
+                    <param name="visible" value="Container(300).Position(4)" />
+                </include>
+                <include>Weather</include>
+            </control> -->
         </control>
 
         <control type="group">
@@ -309,12 +326,23 @@
                 <ondown>1599</ondown>
                 <onright>SetFocus(303)</onright>
                 <onleft>SetFocus(303)</onleft>
-                <include>Items_HomeBar_Temp</include>
+                <content><include>skinshortcuts-mainmenu</include></content>
             </include>
         </include>
 
+
+        <control type="button" id="330">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(320)</onfocus>
+            <onclick>SetFocus(320)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(330)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+
         <include content="Object_Options_Menu">
-            <param name="grouplist_items" value="Items_HomeMenu_Temp" />
+            <param name="grouplist_items" value="skinshortcuts-template-powermenu" />
             <param name="visible" value="!Window.IsVisible(DialogSelect.xml)" />
             <param name="onback" value="300" />
             <param name="id" value="303" />

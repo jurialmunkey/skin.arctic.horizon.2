@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <defaultcontrol always="true">9100</defaultcontrol>
+    <controls>
+        <include>Object_Overlay</include>
+        <include content="Dialog_Background">
+            <include>Animation_SlideIn_Dialog</include>
+            <left>80</left>
+            <right>80</right>
+            <height>800</height>
+            <centertop>dialog_tall_centertop</centertop>
+
+            <control type="group">
+                <left>80</left>
+                <include>Dialog_Overlay</include>
+                <include>Object_Separator</include>
+            </control>
+
+
+            <control type="group">
+                <width>560</width>
+                <control type="group">
+                    <top>dialog_pad</top>
+                    <bottom>dialog_pad</bottom>
+                    <control type="list" id="211">
+                        <orientation>vertical</orientation>
+                        <itemlayout width="560" height="row_height">
+                            <include content="Layout_SkinShortcuts">
+                                <param name="selected" value="false" />
+                            </include>
+                        </itemlayout>
+                        <focusedlayout width="560" height="row_height">
+                            <include content="Layout_SkinShortcuts">
+                                <param name="selected" value="true" />
+                            </include>
+                        </focusedlayout>
+                    </control>
+                    <control type="group">
+                        <right>40</right>
+                        <height>row_height</height>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,0)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,1)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,2)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,3)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,4)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,5)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,6)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,7)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,8)">Conditional</animation>
+                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,9)">Conditional</animation>
+                        <control type="grouplist" id="9200">
+                            <centertop>50%</centertop>
+                            <height>32</height>
+                            <align>right</align>
+                            <orientation>horizontal</orientation>
+                            <itemgap>10</itemgap>
+                            <onup>Control.Move(211,-1)</onup>
+                            <ondown>Control.Move(211,1)</ondown>
+                            <onright>9100</onright>
+                            <control type="button" id="302" description="Delete">
+                                <width>32</width>
+                                <height>32</height>
+                                <font/>
+                                <texturenofocus colordiffuse="dialog_fg_30">buttons/cross.png</texturenofocus>
+                                <texturefocus colordiffuse="$VAR[ColorSelected]">buttons/cross.png</texturefocus>
+                            </control>
+                            <control type="button" id="301" description="Add">
+                                <width>32</width>
+                                <height>32</height>
+                                <font/>
+                                <texturenofocus colordiffuse="dialog_fg_30">buttons/plus.png</texturenofocus>
+                                <texturefocus colordiffuse="$VAR[ColorSelected]">buttons/plus.png</texturefocus>
+                            </control>
+                            <control type="button" id="303" description="Up">
+                                <width>32</width>
+                                <height>32</height>
+                                <font/>
+                                <texturenofocus colordiffuse="dialog_fg_30" flipy="true">buttons/down.png</texturenofocus>
+                                <texturefocus colordiffuse="$VAR[ColorSelected]" flipy="true">buttons/down.png</texturefocus>
+                            </control>
+                            <control type="button" id="304" description="Down">
+                                <width>32</width>
+                                <height>32</height>
+                                <font/>
+                                <texturenofocus colordiffuse="dialog_fg_30">buttons/down.png</texturenofocus>
+                                <texturefocus colordiffuse="$VAR[ColorSelected]">buttons/down.png</texturefocus>
+                            </control>
+                        </control>
+                    </control>
+                </control>
+            </control>
+
+
+
+            <control type="group">
+                <left>560</left>
+                <include>Dialog_Overlay</include>
+                <include>Object_Separator</include>
+                <control type="group">
+                    <top>dialog_pad</top>
+                    <bottom>dialog_pad</bottom>
+                    <control type="grouplist" id="9100">
+                        <onleft>304</onleft>
+                        <orientation>vertical</orientation>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="313" />
+                            <param name="control" value="togglebutton" />
+                            <description>EnableDisable</description>
+                            <label>$LOCALIZE[24022]</label>
+                            <altlabel>$LOCALIZE[24021]</altlabel>
+                            <usealttexture>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</usealttexture>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="401" />
+                            <param name="control" value="button" />
+                            <description>Choose Shortcut</description>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="307" />
+                            <param name="control" value="button" />
+                            <description>Action</description>
+                            <label>$LOCALIZE[31081]</label>
+                            <label2>$INFO[Container(211).ListItem.Property(Path)]</label2>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="305" />
+                            <param name="control" value="button" />
+                            <description>Label</description>
+                            <label>$LOCALIZE[21899]</label>
+                            <label2>$INFO[Container(211).ListItem.Label]</label2>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="306" />
+                            <param name="control" value="button" />
+                            <description>Icon</description>
+                            <label>$LOCALIZE[31082]</label>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="308" />
+                            <param name="control" value="button" />
+                            <description>Reset</description>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                        </include>
+                    </control>
+                </control>
+            </control>
+        </include>
+
+        <control type="group">
+            <include>Furniture_Top</include>
+        </control>
+
+        <!-- Hidden Buttons -->
+        <control type="label" id="500"><visible>false</visible><width>1</width><height>1</height></control>
+        <control type="button" id="404"><visible allowhiddenfocus="true">false</visible><width>1</width><height>1</height></control>
+    </controls>
+</window>

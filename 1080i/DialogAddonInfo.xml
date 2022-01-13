@@ -6,10 +6,12 @@
         <control type="group">
             <width>704</width>
             <include>Animation_Left_Delay</include>
-            <include content="Object_BigPoster">
-                <height>544</height>
+            <control type="group">
                 <include>Dimension_Info</include>
-            </include>
+                <include content="Object_BigPoster">
+                    <height>544</height>
+                </include>
+            </control>
         </control>
 
         <include content="Dialog_Info_RightSide">
@@ -37,33 +39,45 @@
                             <height>256</height>
                             <centertop>50%</centertop>
                             <include>Action_Plotbox_OnUp</include>
-                            <!-- <include>Action_Recommendations_OnDown</include> -->
+                            <ondown>SetFocus(50)</ondown>
                             <include>Items_DialogAddonInfo_MenuBar</include>
                         </include>
                     </control>
+                    <control type="group">
+                        <top>480</top>
+                        <control type="grouplist">
+                            <height>240</height>
+                            <orientation>horizontal</orientation>
+                            <itemgap>20</itemgap>
+                            <include content="Object_InfoCircle">
+                                <param name="icon" value="special://skin/extras/icons/recent.png" />
+                                <param name="role" value="$LOCALIZE[12014]" />
+                                <param name="name" value="$VAR[Label_AddonInfo_LastUpdated]" />
+                                <visible>!String.IsEmpty(ListItem.AddonInstallDate)</visible>
+                                <width>480</width>
+                            </include>
+                            <include content="Object_InfoCircle">
+                                <param name="icon" value="special://skin/extras/icons/userrating.png" />
+                                <param name="role" value="$LOCALIZE[12012]" />
+                                <param name="name" value="$INFO[ListItem.AddonLastUsed]" />
+                                <visible>!String.IsEmpty(ListItem.AddonLastUsed)</visible>
+                                <width>480</width>
+                            </include>
+                        </control>
+                    </control>
                 </control>
+                <include>Furniture_Bottom</include>
             </control>
         </include>
 
         <include>Furniture_Top</include>
-        <include>Furniture_Bottom</include>
 
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_DialogAddonInfo_Options" />
             <param name="visible" value="!$EXP[Exp_OverlayDialogs]" />
-            <param name="onback" value="8000" />
+            <param name="onback" value="5000" />
         </include>
 
-        <!-- <control type="button" id="7000">
-            <texturefocus />
-            <texturenofocus />
-            <font />
-            <onclick>SetFocus(9000)</onclick>
-            <include>Action_Plotbox_OnUp</include>
-            <ondown>SetFocus(50)</ondown>
-            <onright>SetFocus(9000)</onright>
-            <onleft>SetFocus(9000)</onleft>
-        </control> -->
         <include content="Object_Hidden_Button">
             <param name="id" value="6" />
             <onfocus>SetFocus(5002)</onfocus>
@@ -89,6 +103,7 @@
 
         <include content="Dialog_Info_Screenshots">
             <param name="onback" value="5000" />
+            <param name="header_id" value="6000" />
         </include>
 
     </controls>
