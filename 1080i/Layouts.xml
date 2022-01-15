@@ -25,6 +25,7 @@
                 <param name="control" value="label" />
                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                 <left>60</left>
+                <width>400</width>
                 <textoffsetx>40</textoffsetx>
                 <textcolor>dialog_fg_70</textcolor>
                 <selectedcolor>dialog_fg_70</selectedcolor>
@@ -55,6 +56,41 @@
         </definition>
     </include>
 
+    <include name="Layout_Submenu">
+        <param name="detailed" default="false" />
+        <param name="selected" default="false" />
+        <definition>
+            <include content="Object_Control" condition="$PARAM[selected]">
+                <param name="control" value="image" />
+                <include>Texture_Highlight</include>
+            </include>
+            <control type="group">
+                <right>$PARAM[item_h]</right>
+                <include content="Object_Control">
+                    <param name="control" value="label" />
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <right>dialog_pad</right>
+                    <left>dialog_pad</left>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <selectedcolor>dialog_fg_70</selectedcolor>
+                    <label>$INFO[ListItem.Label]</label>
+                </include>
+            </control>
+            <control type="group">
+                <width>$PARAM[item_h]</width>
+                <right>row_height_x25</right>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <include content="Object_Include" condition="$PARAM[selected]">
+                        <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                    </include>
+                    <colordiffuse>dialog_fg_70</colordiffuse>
+                    <texture>$INFO[ListItem.Icon]</texture>
+                    <bordersize>10</bordersize>
+                </include>
+            </control>
+        </definition>
+    </include>
 
     <include name="Layout_MediaList">
         <param name="detailed" default="false" />
@@ -300,6 +336,13 @@
     <include name="Layout_Iconic">
         <param name="selected" default="false" />
         <definition>
+            <include content="Object_Control" condition="$PARAM[selected] + !$PARAM[detailed]">
+                <param name="control" value="button" />
+                <visible allowhiddenfocus="true">false</visible>
+                <animation effect="fade" start="0" end="0" time="500" reversible="false">Focus</animation>
+                <onfocus condition="String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.FolderPath],replace)</onfocus>
+                <onfocus condition="!String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.Property(folderpath)],replace)</onfocus>
+            </include>
             <control type="group">
                 <height>$PARAM[item_h]</height>
                 <include content="Object_Control" condition="$PARAM[selected]">
