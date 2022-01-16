@@ -31,7 +31,8 @@
                     <right>0</right>
                     <width>dialog_button_width</width>
                     <control type="grouplist" id="9000">
-                        <onleft>61</onleft>
+                        <onleft condition="Control.IsVisible(3)">61</onleft>
+                        <onleft condition="Control.IsVisible(6)">62</onleft>
                         <itemgap>20</itemgap>
                         <control type="button" id="5" description="OK">
                             <height>row_height</height>
@@ -48,13 +49,13 @@
                         <bottom>0</bottom>
                         <aspectratio aligny="bottom">keep</aspectratio>
                         <texture background="true">$INFO[Container(6).ListITem.Icon]</texture>
-                        <visible>!String.StartsWith(Container(6).ListITem.Icon,Default)</visible>
+                        <visible>![String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/)]</visible>
                     </control>
                     <control type="image">
                         <bottom>0</bottom>
                         <aspectratio aligny="bottom">keep</aspectratio>
                         <texture background="true" colordiffuse="dialog_fg_70">$INFO[Container(6).ListITem.Icon]</texture>
-                        <visible>String.StartsWith(Container(6).ListITem.Icon,Default)</visible>
+                        <visible>String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/))</visible>
                     </control>
                 </control>
 
@@ -73,13 +74,20 @@
                             <param name="detailed" value="True" />
                             <param name="item_height" value="row_height_x200" />
                             <left>-dialog_pad</left>
-                            <pagecontrol>61</pagecontrol>
-                            <onright>61</onright>
+                            <pagecontrol>62</pagecontrol>
+                            <onright>62</onright>
                         </include>
 
                         <include content="Dialog_Scrollbar">
                             <onright>9000</onright>
                             <onleft>3</onleft>
+                            <visible>Control.IsVisible(3)</visible>
+                        </include>
+                        <include content="Dialog_Scrollbar">
+                            <param name="id" value="62" />
+                            <onright>9000</onright>
+                            <onleft>6</onleft>
+                            <visible>Control.IsVisible(6)</visible>
                         </include>
                     </control>
                 </control>

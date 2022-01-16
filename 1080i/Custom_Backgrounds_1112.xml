@@ -7,13 +7,7 @@
         <include content="Dialog_Background">
             <include>Animation_SlideIn_Dialog</include>
             <include>Dimension_Info</include>
-            <!-- <include>Dimension_DialogBackgrounds</include> -->
             <include>Dialog_Overlay_Buttons</include>
-            <!-- <include content="Dialog_Header">
-                <label>[CAPITALIZE]$LOCALIZE[31007][/CAPITALIZE]</label>
-            </include> -->
-
-
             <!-- Left Options -->
             <control type="group">
                 <top>0</top>
@@ -24,7 +18,7 @@
                     <include content="Dialog_Settings_Label">
                         <param name="id" value="7900" />
                         <param name="control" value="label" />
-                        <label>$LOCALIZE[33068] / $LOCALIZE[31040]</label>
+                        <label>$LOCALIZE[33068] / $LOCALIZE[31040] $LOCALIZE[39123]</label>
                     </include>
                     <include content="Dialog_Settings_Button">
                         <param name="id" value="7001" />
@@ -141,10 +135,20 @@
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="8001" />
                             <param name="control" value="radiobutton" />
-                            <label>$LOCALIZE[31013]</label>
+                            <label>Light Font</label>
                             <label2>$LOCALIZE[31038]        </label2>
                             <onclick>Skin.Reset(TMDbHelper.EnableCrop)</onclick>
-                            <selected>!Skin.HasSetting(TMDbHelper.EnableCrop)</selected>
+                            <onclick>Skin.Reset(UseHeavyFont)</onclick>
+                            <selected>!Skin.HasSetting(TMDbHelper.EnableCrop) + !Skin.HasSetting(UseHeavyFont)</selected>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="8003" />
+                            <param name="control" value="radiobutton" />
+                            <label>Heavy Font</label>
+                            <label2>$LOCALIZE[31038]        </label2>
+                            <onclick>Skin.Reset(TMDbHelper.EnableCrop)</onclick>
+                            <onclick>Skin.SetBool(UseHeavyFont)</onclick>
+                            <selected>!Skin.HasSetting(TMDbHelper.EnableCrop) + Skin.HasSetting(UseHeavyFont)</selected>
                         </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="8002" />
@@ -154,13 +158,16 @@
                             <onclick>Skin.SetBool(TMDbHelper.EnableCrop)</onclick>
                             <selected>Skin.HasSetting(TMDbHelper.EnableCrop)</selected>
                         </include>
-                        <include content="Dialog_Settings_Label">
-                            <param name="id" value="8902" />
-                            <param name="control" value="label" />
-                            <label>$LOCALIZE[31049]</label>
-                            <!-- <top>80</top> -->
-                            <!-- <top>20</top> -->
-                        </include>
+                        <control type="group" id="8902">
+                            <height>40</height>
+                            <control type="image">
+                                <height>1</height>
+                                <centertop>50%</centertop>
+                                <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                                <left>40</left>
+                                <right>40</right>
+                            </control>
+                        </control>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="8011" />
                             <param name="control" value="radiobutton" />
@@ -189,7 +196,7 @@
                             <onclick>Skin.SetString(DividerStyle,Solid)</onclick>
                             <selected>Skin.String(DividerStyle,Solid)</selected>
                         </include>
-                        <control type="group" id="8903">
+                        <!-- <control type="group" id="8903">
                             <height>40</height>
                             <control type="image">
                                 <height>1</height>
@@ -198,7 +205,7 @@
                                 <left>40</left>
                                 <right>40</right>
                             </control>
-                        </control>
+                        </control> -->
                         <!-- <include content="Dialog_Settings_Label">
                             <param name="id" value="8903" />
                             <param name="control" value="label" />
