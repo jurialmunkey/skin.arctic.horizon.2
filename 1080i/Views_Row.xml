@@ -11,7 +11,6 @@
     <include name="View_Furniture_Row_Foreground_Top">
         <control type="group">
             <visible>$EXP[Exp_RowViews]</visible>
-            <include>View_Row_Divider</include>
             <include content="Info_Panel">
                 <param name="plotwidth" value="880" />
                 <param name="plotheight" value="80" />
@@ -23,6 +22,23 @@
         </control>
     </include>
     <include name="View_Furniture_Row_Foreground_Bottom">
+        <control type="group">
+            <visible>$EXP[Exp_RowViews]</visible>
+            <include>View_Row_Divider</include>
+            <include content="Furniture_Bottombar_Group">
+                <control type="scrollbar" id="60">
+                    <onup>50</onup>
+                    <orientation>horizontal</orientation>
+                    <height>8</height>
+                    <centertop>50%</centertop>
+                    <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollh.png</texturesliderbackground>
+                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbar>
+                    <include>Texture_Scrollbar_H</include>
+                    <visible allowhiddenfocus="true">Control.HasFocus(60)</visible>
+                </control>
+            </include>
+        </control>
+
         <include>View_050_Square_Row</include>
         <include>View_051_Landscape_Row</include>
         <include>View_052_Poster_Row</include>
@@ -103,28 +119,91 @@
         </include>
     </include>
 
+    <include name="View_Row_WallSwitch">
+        <control type="group">
+            <include>Animation_View_Switch</include>
+            <visible>Control.IsVisible($PARAM[id]4)</visible>
+            <include content="$PARAM[include]">
+                <param name="id" value="$PARAM[id]4" />
+                <preloaditems>2</preloaditems>
+                <bottom>1</bottom>
+                <onback>ClearProperty(WallMode)</onback>
+                <onback>Container.SetViewMode($PARAM[id])</onback>
+                <onback>$PARAM[id]5</onback>
+                <visible>String.IsEqual(Window.Property(WallMode),Container.FolderPath)</visible>
+            </include>
+        </control>
+        <control type="group">
+            <visible>Control.IsVisible($PARAM[id]4)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include content="Object_Hidden_Button">
+                <param name="id" value="$PARAM[id]5" />
+                <onfocus>SetFocus($PARAM[id])</onfocus>
+            </include>
+            <include content="Object_Hidden_Button">
+                <param name="id" value="$PARAM[id]6" />
+                <onfocus>Container.SetViewMode($PARAM[id]4)</onfocus>
+                <onfocus>SetFocus($PARAM[id]4)</onfocus>
+            </include>
+            <include content="Object_WallFade">
+                <param name="id" value="$PARAM[id]4" />
+            </include>
+        </control>
+    </include>
+
     <include name="View_050_Square_Row">
-        <include content="List_Square_Row">
+        <include content="View_Row_Include">
             <param name="id" value="50" />
-            <height>divider_bottom</height>
-            <bottom>40</bottom>
-            <onup>menu</onup>
+            <param name="include" value="List_Square_Row" />
+            <param name="wall_include" value="List_Square_Wall" />
         </include>
     </include>
     <include name="View_051_Landscape_Row">
-        <include content="List_Landscape_Row">
+        <include content="View_Row_Include">
             <param name="id" value="51" />
-            <height>divider_bottom</height>
-            <bottom>40</bottom>
-            <onup>menu</onup>
+            <param name="include" value="List_Landscape_Row" />
+            <param name="wall_include" value="List_Landscape_Wall" />
         </include>
     </include>
     <include name="View_052_Poster_Row">
-        <include content="List_Poster_Row">
+        <include content="View_Row_Include">
             <param name="id" value="52" />
-            <height>divider_bottom</height>
-            <bottom>40</bottom>
-            <onup>menu</onup>
+            <param name="include" value="List_Poster_Row" />
+            <param name="wall_include" value="List_Poster_Wall" />
+        </include>
+    </include>
+
+    <include name="View_Row_Include">
+        <control type="group">
+            <visible>!Control.IsVisible($PARAM[id]4)</visible>
+            <include>Animation_View_Switch</include>
+            <control type="group">
+                <visible>Control.IsVisible($PARAM[id])</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="0" delay="50" tween="sine" easing="out"/>
+                </animation>
+                <include content="$PARAM[include]">
+                    <param name="id" value="$PARAM[id]" />
+                    <height>divider_bottom</height>
+                    <bottom>40</bottom>
+                    <onup>menu</onup>
+                    <pagecontrol>60</pagecontrol>
+                    <include content="Action_Recommendations_OnDown">
+                        <ondown>SetProperty(Path.Cast,-,1120)</ondown>
+                        <ondown>SetProperty(Path.Crew,-,1120)</ondown>
+                        <ondown>SetProperty(Path.Posters,-,1120)</ondown>
+                        <ondown>SetProperty(Path.Fanart,-,1120)</ondown>
+                    </include>
+
+                    <!-- <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">SetProperty(WallMode,$INFO[Container.FolderPath])</ondown>
+                    <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">Container.SetViewMode($PARAM[id]4)</ondown>
+                    <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">SetFocus($PARAM[id]6)</ondown> -->
+                </include>
+            </control>
+        </control>
+        <include content="View_Row_WallSwitch">
+            <param name="id" value="$PARAM[id]" />
+            <param name="include" value="$PARAM[wall_include]" />
         </include>
     </include>
 </includes>

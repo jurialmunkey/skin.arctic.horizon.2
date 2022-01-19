@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_MediaWindows_ID">
-        <views>50,51,52,502,512,522</views>
+        <views>50,51,52,502,504,512,514,522,524</views>
     </include>
 
     <include name="View_Main">
-
         <include content="Background_Main">
             <control type="group">
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>!Window.IsVisible(1120)</visible>
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
                 <include>Animation_Common</include>
                 <include>View_Furniture_Row_Background</include>
@@ -17,6 +17,7 @@
 
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
             <include>Animation_Common</include>
             <control type="group">
@@ -27,18 +28,26 @@
             <control type="group">
                 <include>Animation_Foreground_SlideUp</include>
                 <control type="group">
+                    <!-- <include>View_Furniture_List_Foreground_Bottom</include> -->
+                    <!-- <include>View_Furniture_Wall_Foreground_Bottom</include> -->
                     <include>View_Furniture_Row_Foreground_Bottom</include>
                     <include>View_Furniture_Combined_Foreground_Bottom</include>
                 </control>
                 <control type="group">
                     <visible>!$EXP[Exp_CombinedViews]</visible>
-                    <include>Furniture_Bottom</include>
+                    <visible>!Control.HasFocus(60)</visible>
+                    <include>Furniture_Bottom_Left</include>
+                    <control type="group">
+                        <visible>!Control.IsVisible(53)</visible>
+                        <include>Furniture_Bottom_Right</include>
+                    </control>
                 </control>
             </control>
         </control>
 
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>!Window.IsVisible(1120)</visible>
             <include>Furniture_Top</include>
         </control>
     </include>

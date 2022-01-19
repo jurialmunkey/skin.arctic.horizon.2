@@ -1,89 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="window" id="1116">
-    <defaultcontrol>9000</defaultcontrol>
+    <defaultcontrol always="true">9001</defaultcontrol>
     <onload>SetProperty(TMDbType,movie)</onload>
     <onload>SetProperty(SortMethod,popularity.desc)</onload>
+    <onload>SetProperty(TMDbHelper.WidgetContainer,5001,Home)</onload>
+    <onunload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onunload>
     <controls>
         <include>Background_Main</include>
-        <include>Object_Overlay</include>
 
-        <include content="Dialog_Background">
-            <include>Animation_Common</include>
-            <include>Animation_Up_Delay</include>
+        <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <include>Dimension_Info</include>
-            <include content="Dialog_Header">
-                <param name="id" value="4000" />
-                <label>$VAR[Label_SearchHeader]</label>
-                <visible>!$EXP[Exp_OverlayDialogs]</visible>
-            </include>
+            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+            <include>Animation_Common</include>
             <control type="group">
-                <left>420</left>
-                <include content="List_DialogInfo">
-                    <param name="orientation" value="vertical" />
-                    <param name="controltype" value="panel" />
-                    <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
-                    <param name="id" value="5001" />
-                    <param name="item_w" value="204" />
-                    <param name="item_h" value="300" />
-                    <param name="itemlayout_w" value="244" />
-                    <param name="itemlayout_h" value="340" />
-                    <onleft>9000</onleft>
-                    <onright>61</onright>
-                    <pagecontrol>61</pagecontrol>
-                    <content>plugin://plugin.video.themoviedb.helper/?info=discover&amp;nextpage=false&amp;with_id=True$INFO[Window.Property(TMDbType),&amp;tmdb_type=,]$INFO[Window.Property(with_cast_id),&amp;with_cast=,]$INFO[Window.Property(with_crew_id),&amp;with_crew=,]$INFO[Window.Property(with_keyword_id),&amp;with_keywords=,]$INFO[Window.Property(with_company_id),&amp;with_companies=,]$VAR[Dialog_Discover_Year_Content]$INFO[Window.Property(SortMethod),&amp;sort_by=,]$INFO[Window.Property(GenreID),&amp;with_genres=,]</content>
-                    <content>plugin://plugin.video.themoviedb.helper/?info=discover&amp;nextpage=false&amp;page=2&amp;with_id=True$INFO[Window.Property(TMDbType),&amp;tmdb_type=,]$INFO[Window.Property(with_cast_id),&amp;with_cast=,]$INFO[Window.Property(with_crew_id),&amp;with_crew=,]$INFO[Window.Property(with_keyword_id),&amp;with_keywords=,]$INFO[Window.Property(with_company_id),&amp;with_companies=,]$VAR[Dialog_Discover_Year_Content]$INFO[Window.Property(SortMethod),&amp;sort_by=,]$INFO[Window.Property(GenreID),&amp;with_genres=,]</content>
-                    <content>plugin://plugin.video.themoviedb.helper/?info=discover&amp;nextpage=false&amp;page=3&amp;with_id=True$INFO[Window.Property(TMDbType),&amp;tmdb_type=,]$INFO[Window.Property(with_cast_id),&amp;with_cast=,]$INFO[Window.Property(with_crew_id),&amp;with_crew=,]$INFO[Window.Property(with_keyword_id),&amp;with_keywords=,]$INFO[Window.Property(with_company_id),&amp;with_companies=,]$VAR[Dialog_Discover_Year_Content]$INFO[Window.Property(SortMethod),&amp;sort_by=,]$INFO[Window.Property(GenreID),&amp;with_genres=,]</content>
-                    <visible allowhiddenfocus="true">!Container(5001).IsUpdating</visible>
-                </include>
-                <include content="Object_BusySpinner">
-                    <param name="colordiffuse" value="dialog_fg" />
-                    <visible>Container(5001).IsUpdating</visible>
-                </include>
-                <include content="Dialog_Scrollbar">
-                    <param name="id" value="61" />
-                    <onleft>5001</onleft>
-                    <right>0</right>
-                </include>
-            </control>
-            <control type="group">
-                <left>0</left>
-                <width>420</width>
-                <include content="Dialog_Overlay">
-                    <param name="flipx" value="true" />
-                </include>
+                <include>Dimension_View</include>
                 <control type="grouplist" id="9000">
-                    <top>dialog_pad</top>
-                    <bottom>dialog_pad</bottom>
+                    <width>434.3</width>
                     <onright>5001</onright>
-                    <itemgap>0</itemgap>
-                    <include content="Dialog_Settings_Button">
+                    <itemgap>20</itemgap>
+                    <!-- <control type="label" id="9998">
+                        <font>font_hintlabel</font>
+                        <textcolor>main_fg_100</textcolor>
+                        <height>40</height>
+                        <label>$LOCALIZE[31076]</label>
+                    </control> -->
+                    <include content="Object_Control">
                         <param name="id" value="9001" />
                         <param name="control" value="button" />
                         <description>Content Type</description>
+                        <include>Defs_Search_Button</include>
                         <label>[CAPITALIZE]$VAR[Label_SearchContent][/CAPITALIZE]</label>
                         <onclick condition="String.IsEqual(Window.Property(TMDbType),movie)">SetProperty(TMDbType,tv)</onclick>
                         <onclick condition="String.IsEqual(Window.Property(TMDbType),tv)">SetProperty(TMDbType,movie)</onclick>
 
                         <onright condition="String.IsEmpty(Window.Property(FakeSpinner_9001))">5001</onright>
                         <onright condition="!String.IsEmpty(Window.Property(FakeSpinner_9001))">ClearProperty(FakeSpinner_9001)</onright>
+
                         <onleft>SetProperty(FakeSpinner_9001,1)</onleft>
                     </include>
                     <include content="Object_FakeSpinner">
                         <param name="id" value="9001" />
                         <param name="groupid" value="9002" />
+                        <param name="colordiffuse" value="main_fg" />
+                        <top>-100</top>
                     </include>
-                    <control type="label" id="9997">
-                        <left>40</left>
-                        <right>40</right>
-                        <top>40</top>
+                    <!-- <control type="label" id="9997">
+                        <top>80</top>
                         <font>font_hintlabel</font>
+                        <textcolor>main_fg_100</textcolor>
                         <height>40</height>
                         <label>$LOCALIZE[587]</label>
-                    </control>
-                    <include content="Dialog_Settings_Button">
+                    </control> -->
+                    <include content="Object_Control">
                         <param name="id" value="9006" />
                         <param name="control" value="button" />
+                        <include>Defs_Search_Button</include>
+                        <description>Sort Method</description>
                         <label>sort_by</label>
                         <label2>$INFO[Window.Property(SortMethod)]</label2>
                         <onclick>SetProperty(Dialog.1.Label,popularity.asc)</onclick>
@@ -116,14 +88,17 @@
                         <onclick>SetProperty(Dialog.14.BuiltIn,"SetProperty(SortMethod,vote_count.desc)")</onclick>
                         <onclick>RunScript(script.toolbox,info=selectdialog,header=$LOCALIZE[31016])</onclick>
                     </include>
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9005" />
                         <param name="control" value="edit" />
+                        <include>Defs_Search_Button</include>
+                        <description>Year Filter</description>
                         <label>year</label>
                     </include>
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9003" />
                         <param name="control" value="button" />
+                        <include>Defs_Search_Button</include>
                         <label>with_cast</label>
                         <label2>$INFO[Window.Property(with_cast_label)]</label2>
                         <onclick condition="!String.IsEmpty(Window.Property(with_cast_label))">ClearProperty(with_cast_label)</onclick>
@@ -133,9 +108,10 @@
                         <onclick condition="String.IsEmpty(Window.Property(with_cast_label))">ActivateWindow(1118)</onclick>
                         <visible>String.IsEqual(Window.Property(TMDbType),movie)</visible>
                     </include>
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9004" />
                         <param name="control" value="button" />
+                        <include>Defs_Search_Button</include>
                         <label>with_crew</label>
                         <label2>$INFO[Window.Property(with_crew_label)]</label2>
                         <onclick condition="!String.IsEmpty(Window.Property(with_crew_label))">ClearProperty(with_crew_label)</onclick>
@@ -146,9 +122,10 @@
                         <visible>String.IsEqual(Window.Property(TMDbType),movie)</visible>
                     </include>
 
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9007" />
                         <param name="control" value="button" />
+                        <include>Defs_Search_Button</include>
                         <label>with_genre</label>
                         <label2>$INFO[Window.Property(GenreID)]</label2>
                         <onclick>SetProperty(Dialog.1.Label,None)</onclick>
@@ -210,9 +187,10 @@
                         <onclick>RunScript(script.toolbox,info=selectdialog,header=$LOCALIZE[515])</onclick>
                     </include>
 
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9008" />
                         <param name="control" value="button" />
+                        <include>Defs_Search_Button</include>
                         <label>with_keyword</label>
                         <label2>$INFO[Window.Property(with_keyword_label)]</label2>
                         <onclick condition="!String.IsEmpty(Window.Property(with_keyword_label))">ClearProperty(with_keyword_label)</onclick>
@@ -223,9 +201,10 @@
                         <onclick condition="String.IsEmpty(Window.Property(with_keyword_label))">ActivateWindow(1118)</onclick>
                         <visible>String.IsEqual(Window.Property(TMDbType),movie)</visible>
                     </include>
-                    <include content="Dialog_Settings_Button">
+                    <include content="Object_Control">
                         <param name="id" value="9009" />
                         <param name="control" value="button" />
+                        <include>Defs_Search_Button</include>
                         <label>with_company</label>
                         <label2>$INFO[Window.Property(with_company_label)]</label2>
                         <onclick condition="!String.IsEmpty(Window.Property(with_company_label))">ClearProperty(with_company_label)</onclick>
@@ -236,14 +215,72 @@
                         <onclick condition="String.IsEmpty(Window.Property(with_company_label))">ActivateWindow(1118)</onclick>
                         <visible>String.IsEqual(Window.Property(TMDbType),movie)</visible>
                     </include>
-
                 </control>
-                <include content="Object_Separator">
-                    <right>0</right>
-                </include>
             </control>
-        </include>
 
-        <include>Furniture_Top</include>
+            <control type="group">
+                <right>40</right>
+                <width>1365.7</width>
+                <include content="List_Poster_Wall">
+                    <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
+                    <param name="id" value="5001" />
+                    <bottom>1</bottom>
+                    <onleft>9000</onleft>
+                    <onright>61</onright>
+                    <pagecontrol>61</pagecontrol>
+                    <content>$VAR[Path_Discover_List_Content]</content>
+                    <content>$VAR[Path_Discover_List_Content,,&amp;page=2]</content>
+                    <content>$VAR[Path_Discover_List_Content,,&amp;page=2]</content>
+                    <visible allowhiddenfocus="true">!Container(5001).IsUpdating</visible>
+                </include>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse" value="main_fg" />
+                    <visible>Container(5001).IsUpdating</visible>
+                </include>
+                <control type="scrollbar" id="61">
+                    <onleft>5001</onleft>
+                    <width>8</width>
+                    <centerright>0</centerright>
+                    <top>view_top</top>
+                    <bottom>view_top</bottom>
+                </control>
+            </control>
+
+            <control type="image">
+                <height>200</height>
+                <texture>common/dim-top.png</texture>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="2000" delay="1000"/>
+                </animation>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="2000"/>
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" end="0" start="100" time="2000"/>
+                </animation>
+                <visible>Container(5001).HasPrevious</visible>
+            </control>
+            <control type="image">
+                <bottom>0</bottom>
+                <height>200</height>
+                <texture flipy="true">common/dim-top.png</texture>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="2000" delay="1000"/>
+                </animation>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="2000"/>
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" end="0" start="100" time="2000"/>
+                </animation>
+                <visible>Container(5001).HasNext</visible>
+            </control>
+        </control>
+
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Furniture_Top</include>
+            <include>Furniture_Bottom</include>
+        </control>
     </controls>
 </window>
