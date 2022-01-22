@@ -42,6 +42,9 @@
         <include>View_050_Square_Row</include>
         <include>View_051_Landscape_Row</include>
         <include>View_052_Poster_Row</include>
+        <!-- <include>View_054_BigPoster_Row</include> -->
+
+
     </include>
 
     <include name="View_Row_Divider">
@@ -172,6 +175,24 @@
             <param name="wall_include" value="List_Poster_Wall" />
         </include>
     </include>
+    <include name="View_054_BigPoster_Row">
+        <control type="group">
+            <visible>Control.IsVisible(54)</visible>
+            <include content="List_BigPoster">
+                <param name="id" value="54" />
+                <focusposition>2</focusposition>
+                <onup>menu</onup>
+                <pagecontrol>60</pagecontrol>
+                <include content="Action_Recommendations_OnDown">
+                    <ondown>ClearProperty(Path.Cast,1120)</ondown>
+                    <ondown>ClearProperty(Path.Crew,1120)</ondown>
+                    <ondown>ClearProperty(Path.Posters,1120)</ondown>
+                    <ondown>ClearProperty(Path.Fanart,1120)</ondown>
+                </include>
+            </include>
+        </control>
+    </include>
+
 
     <include name="View_Row_Include">
         <control type="group">
@@ -189,10 +210,10 @@
                     <onup>menu</onup>
                     <pagecontrol>60</pagecontrol>
                     <include content="Action_Recommendations_OnDown">
-                        <ondown>SetProperty(Path.Cast,-,1120)</ondown>
-                        <ondown>SetProperty(Path.Crew,-,1120)</ondown>
-                        <ondown>SetProperty(Path.Posters,-,1120)</ondown>
-                        <ondown>SetProperty(Path.Fanart,-,1120)</ondown>
+                        <ondown>ClearProperty(Path.Cast,1120)</ondown>
+                        <ondown>ClearProperty(Path.Crew,1120)</ondown>
+                        <ondown>ClearProperty(Path.Posters,1120)</ondown>
+                        <ondown>ClearProperty(Path.Fanart,1120)</ondown>
                     </include>
 
                     <!-- <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">SetProperty(WallMode,$INFO[Container.FolderPath])</ondown>

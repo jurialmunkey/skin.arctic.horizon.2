@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="window" id="1115">
+    <defaultcontrol always="true">6000</defaultcontrol>
+    <onload>SetProperty(Header,$LOCALIZE[135])</onload>
+    <onload>SetProperty(Path,videodb://movies/genres)</onload>
+    <onload>SetProperty(TMDbHelper.WidgetContainer,50,Home)</onload>
+    <onunload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onunload>
+    <controls>
+        <include>Background_Main</include>
+        <control type="group">
+            <include>Animation_Common</include>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include content="List_Button_Row">
+                <param name="id" value="6000" />
+                <param name="orientation" value="vertical" />
+                <param name="controltype" value="fixedlist" />
+                <param name="itemlayout_w" value="450" />
+                <param name="item_w" value="410" />
+                <param name="itemlayout_h" value="144" />
+                <param name="item_h" value="104" />
+                <param name="itemlayout_include" value="Layout_IconButton" />
+                <param name="altfocus" value="!Control.HasFocus(6000)" />
+                <param name="detailed" value="true" />
+                <param name="offset_y" value="40" />
+                <preloaditems>0</preloaditems>
+                <focusposition>2</focusposition>
+                <onleft>menu</onleft>
+                <onright>50</onright>
+                <movement>2</movement>
+                <bottom>180</bottom>
+                <top>160</top>
+                <width>530</width>
+                <content sortby="label">$INFO[Window.Property(Path)]</content>
+            </include>
+            <include content="List_Landscape_Wall">
+                <param name="id" value="50" />
+                <left>450</left>
+                <onleft>6000</onleft>
+                <onright>menu</onright>
+                <bottom>1</bottom>
+                <content>$INFO[Container(6000).ListItem.FolderPath]</content>
+            </include>
+        </control>
+
+        <include content="Object_WallFade">
+            <param name="id" value="50" />
+            <param name="altvisible_top" value="true" />
+            <param name="altvisible_bottom" value="true" />
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+        </include>
+
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Furniture_Top</include>
+            <include>Furniture_Bottom</include>
+        </control>
+    </controls>
+</window>

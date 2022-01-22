@@ -39,13 +39,14 @@
     </include>
 
     <include name="Widget_Poster">
+        <param name="visible" default="true" />
         <param name="include" default="List_Poster_Row" />
         <definition>
             <include content="Widget_Label">
                 <param name="groupid" value="$PARAM[groupid]" />
                 <param name="label" value="$PARAM[label]" />
                 <param name="id" value="$PARAM[id]" />
-                <param name="visible" value="Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0)" />
+                <param name="visible" value="[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0)] + $PARAM[visible]" />
             </include>
             <include content="$PARAM[include]">
                 <param name="id" value="$PARAM[id]" />
@@ -58,7 +59,7 @@
                 <top>300</top>
                 <height>780</height>
                 <animation effect="fade" start="100" end="0" time="0" condition="Container($PARAM[id]).IsUpdating">Conditional</animation>
-                <visible>Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+                <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0)] + $PARAM[visible]</visible>
             </include>
         </definition>
     </include>
