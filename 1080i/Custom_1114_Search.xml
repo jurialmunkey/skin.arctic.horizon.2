@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog" id="1114">
+    <defaultcontrol>9099</defaultcontrol>
+    <!-- <onload>SetFocus(340)</onload> -->
+    <controls>
+
+        <control type="group">
+            <animation type="WindowOpen" reversible="false">
+                <effect type="fade" start="0" end="100" time="400" delay="00" tween="sine" easing="out"/>
+            </animation>
+            <include>Background_Main</include>
+            <control type="group">
+                <include>Animation_Up_Delay</include>
+                <control type="grouplist" id="6000">
+                    <onup>9099</onup>
+                    <ondown>330</ondown>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+                    <include>Animation_Common</include>
+                    <animation type="Conditional" condition="Control.IsVisible(340)" reversible="false">
+                        <effect type="slide" end="0,20" time="60" tween="sine" />
+                        <effect type="slide" end="0,-20" time="180" tween="sine" delay="80" />
+                    </animation>
+                    <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                        <effect type="slide" end="0,-20" time="60" tween="sine" />
+                        <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+                    </animation>
+                    <orientation>vertical</orientation>
+                    <control type="group" id="6100">
+                        <height>600</height>
+                    </control>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="5100" />
+                        <param name="id" value="5000" />
+                        <param name="label" value="$LOCALIZE[342]" />
+                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
+                        <param name="altvisible" value="Control.HasFocus(340) | Control.HasFocus(330)" />
+                        <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=movie]$VAR[Path_Param_Widget]</content>
+                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5000" /></include>
+                        <onback>SetFocus(5000)</onback>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="5101" />
+                        <param name="id" value="5001" />
+                        <param name="label" value="$LOCALIZE[20343]" />
+                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
+                        <param name="altvisible" value="Control.HasFocus(340) | Control.HasFocus(330)" />
+                        <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=tv]$VAR[Path_Param_Widget]</content>
+                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5001" /></include>
+                        <!-- <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=seasons&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Container(5001).ListItem.Property(tmdb_id)],return)</onclick> -->
+                        <onback>SetFocus(5001)</onback>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="5102" />
+                        <param name="id" value="5002" />
+                        <param name="label" value="$LOCALIZE[31108]" />
+                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
+                        <param name="altvisible" value="Control.HasFocus(340) | Control.HasFocus(330)" />
+                        <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=collection]$VAR[Path_Param_Widget]</content>
+                        <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=collection&amp;tmdb_type=collection&amp;tmdb_id=$INFO[Container(5002).ListItem.Property(tmdb_id)],return)</onclick>
+                        <onback>SetFocus(5002)</onback>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="5103" />
+                        <param name="id" value="5003" />
+                        <param name="label" value="$LOCALIZE[31033]" />
+                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
+                        <param name="altvisible" value="Control.HasFocus(340) | Control.HasFocus(330)" />
+                        <content>$VAR[Path_Adaptive_Search,,&amp;tmdb_type=person]$VAR[Path_Param_Widget]</content>
+                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5003" /></include>
+                        <onback>SetFocus(5003)</onback>
+                    </include>
+                </control>
+            </control>
+            <include content="Object_WallFade">
+                <param name="id" value="6000" />
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+            </include>
+            <control type="group">
+                <include>Animation_Foreground_FadeInOut</include>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+                <left>view_pad</left>
+                <top>60</top>
+                <height>view_pad</height>
+                <control type="group">
+                    <left>0</left>
+                    <width>620</width>
+                    <include content="Object_MenuBar_Group_Texture">
+                        <param name="colordiffuse" value="main_fg_12" />
+                        <left>-20</left>
+                        <right>-20</right>
+                        <height>60</height>
+                        <centertop>50%</centertop>
+                    </include>
+                    <control type="group">
+                        <height>70</height>
+                        <centertop>50%</centertop>
+                        <include content="Object_Control">
+                            <param name="control" value="image" />
+                            <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                            <texture border="59" colordiffuse="shadow_hard">shadows/menu_shadow.png</texture>
+                        </include>
+                        <control type="image">
+                            <visible>Control.HasFocus(9099)</visible>
+                            <include>Texture_Circle_Highlight_H</include>
+                        </control>
+                        <control type="image">
+                            <visible>!Control.HasFocus(9099)</visible>
+                            <texture border="35" colordiffuse="dialog_bg_100">common/menu.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>10</left>
+                            <width>60</width>
+                            <aspectratio>keep</aspectratio>
+                            <visible>Control.HasFocus(9099)</visible>
+                            <texture colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/search.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>10</left>
+                            <width>60</width>
+                            <aspectratio>keep</aspectratio>
+                            <visible>!Control.HasFocus(9099)</visible>
+                            <texture colordiffuse="dialog_fg_70">special://skin/extras/icons/search.png</texture>
+                        </control>
+                    </control>
+                    <include content="Object_Control">
+                        <param name="id" value="9099" />
+                        <param name="control" value="edit" />
+                        <description>Search</description>
+                        <texturefocus />
+                        <texturenofocus />
+                        <font>font_small_bold</font>
+                        <textoffsetx>80</textoffsetx>
+                        <align>left</align>
+                        <onright>Close</onright>
+                        <onleft>Close</onleft>
+                        <ondown condition="!Integer.IsEqual(Container(6000).NumItems,0)">6000</ondown>
+                        <ondown condition="Integer.IsEqual(Container(6000).NumItems,0)">340</ondown>
+                        <onup>340</onup>
+                    </include>
+                </control>
+            </control>
+        </control>
+
+
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Furniture_Top_Right</include>
+        </control>
+
+        <control type="button" id="330">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(6000)</onfocus>
+            <onclick>SetFocus(6000)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(330)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+        <control type="button" id="340">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(9099)</onfocus>
+            <onclick>SetFocus(9099)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(340)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+    </controls>
+</window>

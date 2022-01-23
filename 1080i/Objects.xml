@@ -849,6 +849,7 @@
         <param name="font" default="font_small_bold" />
         <param name="color" default="dialog_fg" />
         <param name="color_nf" default="dialog_fg" />
+        <param name="color_bg" default="dialog_bg_100" />
         <param name="altfocus" default="false" />
         <definition>
             <control type="$PARAM[control]" id="$PARAM[id]">
@@ -898,7 +899,7 @@
                                     <texture border="59" colordiffuse="shadow_hard">shadows/menu_shadow.png</texture>
                                 </include>
                                 <control type="image">
-                                    <texture border="35" colordiffuse="dialog_bg_100">common/menu.png</texture>
+                                    <texture border="35" colordiffuse="$PARAM[color_bg]">common/menu.png</texture>
                                 </control>
                                 <control type="image">
                                     <texture border="35" colordiffuse="overlay_soft">common/menu.png</texture>
@@ -1005,60 +1006,62 @@
                 </include>
                 <include>Animation_FadeOut</include>
                 <width>1060</width>
-                <control type="group">
+                <!-- <width>1160</width> -->
+                <include content="Object_Control" condition="$PARAM[backing]">
+                    <param name="control" value="group" />
                     <left>0</left>
                     <right>0</right>
                     <height>60</height>
                     <centertop>50%</centertop>
-                    <include content="Object_MenuBar_Group_Texture" condition="$PARAM[backing]">
+                    <include content="Object_MenuBar_Group_Texture">
                         <param name="overlay" value="$PARAM[overlay]" />
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,7)</visible>
                         <right>0</right>
                     </include>
-                    <include content="Object_MenuBar_Group_Texture" condition="$PARAM[backing]">
+                    <include content="Object_MenuBar_Group_Texture">
                         <param name="overlay" value="$PARAM[overlay]" />
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,7)</visible>
                         <right>100</right>
                     </include>
-                    <include content="Object_MenuBar_Group_Texture" condition="$PARAM[backing]">
+                    <include content="Object_MenuBar_Group_Texture">
                         <param name="overlay" value="$PARAM[overlay]" />
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,6)</visible>
                         <right>200</right>
                     </include>
-                    <include content="Object_MenuBar_Group_Texture" condition="$PARAM[backing]">
+                    <include content="Object_MenuBar_Group_Texture">
                         <param name="overlay" value="$PARAM[overlay]" />
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,5)</visible>
                         <right>300</right>
                     </include>
-                    <include content="Object_MenuBar_Group_Texture" condition="$PARAM[backing]">
+                    <include content="Object_MenuBar_Group_Texture">
                         <param name="overlay" value="$PARAM[overlay]" />
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,4)</visible>
                         <right>400</right>
                     </include>
-                    <include content="Object_MenuBar_Group_Texture" condition="$PARAM[backing]">
+                    <include content="Object_MenuBar_Group_Texture">
                         <param name="overlay" value="$PARAM[overlay]" />
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,3)</visible>
                         <right>500</right>
                     </include>
-                    <include content="Object_MenuBar_Group_Texture" condition="$PARAM[backing]">
+                    <include content="Object_MenuBar_Group_Texture">
                         <param name="overlay" value="$PARAM[overlay]" />
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,2)</visible>
                         <right>600</right>
                     </include>
-                    <include content="Object_MenuBar_Group_Texture" condition="$PARAM[backing]">
+                    <include content="Object_MenuBar_Group_Texture">
                         <param name="overlay" value="$PARAM[overlay]" />
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,1)</visible>
                         <right>700</right>
                     </include>
-                </control>
+                </include>
                 <nested />
             </include>
         </definition>

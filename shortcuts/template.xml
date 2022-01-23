@@ -109,11 +109,12 @@
         <property name="mainmenuLabel" tag="label" />
         <controls>
             <control type="group">
-                <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + !Window.IsVisible(1114)</visible>
                 <include content="Animation_LeftRight">
-                    <param name="visible" value="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])" />
+                    <param name="visible" value="[String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + !Window.IsVisible(1114)]" />
                 </include>
                 <control type="grouplist" id="$PYTHON[int(mainmenuid) * 1000 + 400]">
+                    <animation effect="slide" end="0,120" condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 400]).NumItems,1) + $SKINSHORTCUTS[isFullscreenWidget]">Conditional</animation>
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
                     <include>Animation_Common</include>
                     <include>Animation_Foreground_FadeInOut</include>
@@ -148,6 +149,7 @@
                                 <centertop>50%</centertop>
                                 <itemgap>-60</itemgap>
                                 <onup>SetFocus(300)</onup>
+                                <onback>SetFocus(300)</onback>
                                 <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
                                 <onleft>Control.Move(301,-1)</onleft>
                                 <onright>Control.Move(301,1)</onright>
@@ -321,7 +323,7 @@
 
             <!-- IsSubmenu -->
             <property name="isSubmenu" tag="property" attribute="name|list" value="Submenu">True</property>
-            <property name="isSubmenu">Falses</property>
+            <property name="isSubmenu">False</property>
             <controls>
                 <include content="$SKINSHORTCUTS[widgetInclude]">
                     <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 700 + int(id)]" />
@@ -344,6 +346,9 @@
                         <content><include>skinshortcuts-submenu</include></content>
                     </include>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
+                    <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
+                    <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
+                    <onback>SetFocus(300)</onback>
                 </include>
             </controls>
         </items>
@@ -592,6 +597,7 @@
                 <animation effect="fade" start="0" end="100" delay="0" time="600" reversible="false" condition="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + !$EXP[Exp_InfoDialogs]">Conditional</animation>
                 <animation effect="fade" start="100" end="0" delay="100" time="500" reversible="false" condition="![String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + !$EXP[Exp_InfoDialogs]]">Conditional</animation>
                 <control type="list" id="301">
+                    <preloaditems>2</preloaditems>
                     <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
                     <animation effect="fade" start="100" end="0" time="300" reversible="false">Hidden</animation>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
