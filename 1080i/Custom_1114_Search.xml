@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1114">
-    <defaultcontrol>9099</defaultcontrol>
-    <!-- <onload>SetFocus(340)</onload> -->
+    <defaultcontrol always="true">9099</defaultcontrol>
     <controls>
 
         <control type="group">
@@ -34,41 +33,67 @@
                         <param name="id" value="5000" />
                         <param name="label" value="$LOCALIZE[342]" />
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                        <param name="altvisible" value="Control.HasFocus(340) | Control.HasFocus(330)" />
+                        <param name="altvisible" value="Control.HasFocus(340)" />
                         <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=movie]$VAR[Path_Param_Widget]</content>
                         <include content="Action_Widget_Click_NoClose"><param name="id" value="5000" /></include>
                         <onback>SetFocus(5000)</onback>
+                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
                     </include>
                     <include content="Widget_Poster">
                         <param name="groupid" value="5101" />
                         <param name="id" value="5001" />
                         <param name="label" value="$LOCALIZE[20343]" />
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                        <param name="altvisible" value="Control.HasFocus(340) | Control.HasFocus(330)" />
+                        <param name="altvisible" value="Control.HasFocus(340)" />
                         <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=tv]$VAR[Path_Param_Widget]</content>
                         <include content="Action_Widget_Click_NoClose"><param name="id" value="5001" /></include>
                         <!-- <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=seasons&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Container(5001).ListItem.Property(tmdb_id)],return)</onclick> -->
                         <onback>SetFocus(5001)</onback>
+                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
                     </include>
                     <include content="Widget_Poster">
                         <param name="groupid" value="5102" />
                         <param name="id" value="5002" />
                         <param name="label" value="$LOCALIZE[31108]" />
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                        <param name="altvisible" value="Control.HasFocus(340) | Control.HasFocus(330)" />
+                        <param name="altvisible" value="Control.HasFocus(340)" />
                         <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=collection]$VAR[Path_Param_Widget]</content>
                         <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=collection&amp;tmdb_type=collection&amp;tmdb_id=$INFO[Container(5002).ListItem.Property(tmdb_id)],return)</onclick>
                         <onback>SetFocus(5002)</onback>
+                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="5104" />
+                        <param name="id" value="5004" />
+                        <param name="label" value="$LOCALIZE[31109] $LOCALIZE[342]" />
+                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1)) + !String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))" />
+                        <param name="altvisible" value="Control.HasFocus(340)" />
+                        <content>$INFO[Container(4000).ListItemAbsolute(0).Property(tmdb_id),plugin://plugin.video.themoviedb.helper/?info=discover&amp;tmdb_type=movie&amp;with_id=True&amp;with_keywords=,]$VAR[Path_Param_Widget]</content>
+                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5004" /></include>
+                        <onback>SetFocus(5004)</onback>
+                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
+                    </include>
+                    <include content="Widget_Poster">
+                        <param name="groupid" value="5105" />
+                        <param name="id" value="5005" />
+                        <param name="label" value="$LOCALIZE[31109] $LOCALIZE[20343]" />
+                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1)) + !String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))" />
+                        <param name="altvisible" value="Control.HasFocus(340)" />
+                        <content>$INFO[Container(4000).ListItemAbsolute(0).Property(tmdb_id),plugin://plugin.video.themoviedb.helper/?info=discover&amp;tmdb_type=tv&amp;with_id=True&amp;with_keywords=,]$VAR[Path_Param_Widget]</content>
+                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5005" /></include>
+                        <onback>SetFocus(5005)</onback>
+                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
                     </include>
                     <include content="Widget_Poster">
                         <param name="groupid" value="5103" />
                         <param name="id" value="5003" />
                         <param name="label" value="$LOCALIZE[31033]" />
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                        <param name="altvisible" value="Control.HasFocus(340) | Control.HasFocus(330)" />
+                        <param name="altvisible" value="Control.HasFocus(340)" />
                         <content>$VAR[Path_Adaptive_Search,,&amp;tmdb_type=person]$VAR[Path_Param_Widget]</content>
                         <include content="Action_Widget_Click_NoClose"><param name="id" value="5003" /></include>
                         <onback>SetFocus(5003)</onback>
+                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
                     </include>
                 </control>
             </control>
@@ -149,6 +174,18 @@
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Furniture_Top_Right</include>
         </control>
+
+        <!-- Keyword Finder -->
+        <control type="list" id="4000">
+            <top>-1000</top>
+            <left>-1000</left>
+            <width>1</width>
+            <height>1</height>
+            <itemlayout />
+            <focusedlayout />
+            <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=keyword]$VAR[Path_Param_Widget]</content>
+        </control>
+
 
         <control type="button" id="330">
             <width>1</width>
