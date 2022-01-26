@@ -25,8 +25,11 @@
 
     <variable name="Label_Title" containers="50,503,513,523,301" parent="Control.HasFocus({id})">
         <value condition="!String.IsEmpty({listitem}.TvShowTitle)">$INFO[{listitem}.TvShowTitle]</value>
+        <value condition="!String.IsEmpty({listitem}.AlbumArtist) + String.IsEqual({listitem}.DBType,song)">$INFO[{listitem}.AlbumArtist]</value>
         <value condition="!String.IsEmpty({listitem}.Title)">$INFO[{listitem}.Title]</value>
-        <value condition="!String.IsEmpty({listitem}.Label)">$INFO[{listitem}.Label]</value>
+        <value condition="!String.IsEmpty({listitem}.Label) + [!String.IsEmpty({listitem}.DBType) | !String.IsEmpty({listitem}.ChannelNumberLabel) | !String.IsEmpty({listitem}.ChannelName) | !String.IsEmpty({listitem}.AddonVersion)]">$INFO[{listitem}.Label]</value>
+        <value condition="!String.IsEmpty(Container.PluginName)">$LOCALIZE[24000]</value>
+        <value condition="Window.IsMedia">$LOCALIZE[14022]</value>
     </variable>
 
     <variable name="Label_Plot" containers="50,503,513,523,301" parent="Control.HasFocus({id})">
@@ -35,6 +38,7 @@
         <value condition="!String.IsEmpty({listitem}.AddonDescription)">$INFO[{listitem}.AddonDescription]</value>
         <value condition="String.IsEqual({listitem}.DBType,episode) + !String.IsEmpty({listitem}.Plot)">[B]$INFO[{listitem}.Title,, ~ ][/B]$INFO[{listitem}.Plot]</value>
         <value condition="!String.IsEmpty({listitem}.Plot)">$INFO[{listitem}.Plot]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot)]</value>
     </variable>
 
     <variable name="Image_AddonsOrigin" containers="50">

@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
-    <include name="View_Furniture_Row_Background">
+    <include name="View_Furniture_Row_Top">
         <control type="group">
-            <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
-            <include condition="Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
-            <include condition="Skin.String(ForegroundStyle,FlixArt)">View_FlixArt</include>
-            <include condition="Skin.String(ForegroundStyle,KeyArt)">View_KeyArt</include>
-        </control>
-    </include>
-    <include name="View_Furniture_Row_Foreground_Top">
-        <control type="group">
-            <visible>$EXP[Exp_RowViews]</visible>
+            <visible>$EXP[Exp_RowViews] | $EXP[Exp_ListViews]</visible>
             <include content="Info_Panel">
                 <param name="plotwidth" value="880" />
                 <param name="plotheight" value="80" />
                 <param name="plotheight_nr" value="120" />
+                <param name="details" value="!$EXP[Exp_ListViews]" />
+                <!-- <param name="plotbox" value="!ControlGroup(300).HasFocus()" /> -->
                 <top>view_top</top>
                 <width>1080</width>
                 <left>view_pad</left>
             </include>
         </control>
     </include>
-    <include name="View_Furniture_Row_Foreground_Bottom">
+    <include name="View_Furniture_Row_Bottom">
         <control type="group">
             <visible>$EXP[Exp_RowViews]</visible>
             <include>View_Row_Divider</include>
@@ -181,7 +175,7 @@
             <include content="List_BigPoster">
                 <param name="id" value="54" />
                 <focusposition>2</focusposition>
-                <onup>menu</onup>
+                <onup>SetFocus(300)</onup>
                 <pagecontrol>60</pagecontrol>
                 <include content="Action_Recommendations_OnDown">
                     <ondown>ClearProperty(Path.Cast,1120)</ondown>
@@ -207,18 +201,9 @@
                     <param name="id" value="$PARAM[id]" />
                     <height>divider_bottom</height>
                     <bottom>40</bottom>
-                    <onup>menu</onup>
+                    <onup>SetFocus(300)</onup>
                     <pagecontrol>60</pagecontrol>
-                    <include content="Action_Recommendations_OnDown">
-                        <ondown>ClearProperty(Path.Cast,1120)</ondown>
-                        <ondown>ClearProperty(Path.Crew,1120)</ondown>
-                        <ondown>ClearProperty(Path.Posters,1120)</ondown>
-                        <ondown>ClearProperty(Path.Fanart,1120)</ondown>
-                    </include>
-
-                    <!-- <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">SetProperty(WallMode,$INFO[Container.FolderPath])</ondown>
-                    <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">Container.SetViewMode($PARAM[id]4)</ondown>
-                    <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">SetFocus($PARAM[id]6)</ondown> -->
+                    <include>Action_Row_OnDown</include>
                 </include>
             </control>
         </control>

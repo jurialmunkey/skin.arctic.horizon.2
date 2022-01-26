@@ -1,54 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_MediaWindows_ID">
-        <views>50,51,52,54,502,504,512,514,522,524,507</views>
+        <views>50,51,52,53,54,502,504,512,514,522,524,507</views>
     </include>
 
     <include name="View_Main">
         <include content="Background_Main">
             <control type="group">
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <visible>!Window.IsVisible(1120)</visible>
+                <visible>!Window.IsVisible(1113)</visible>
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
                 <include>Animation_Common</include>
-                <include>View_Furniture_Row_Background</include>
+                <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
+                <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,ClearArt)">
+                    <param name="control" value="group" />
+                    <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
+                    <include condition="Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
+                    <include condition="Skin.String(ForegroundStyle,FlixArt)">View_FlixArt</include>
+                </include>
+                <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt)">
+                    <param name="control" value="group" />
+                    <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews] | $EXP[Exp_ListViews]</visible>
+                    <include>View_KeyArt</include>
+                </include>
             </control>
         </include>
 
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>!Window.IsVisible(1113)</visible>
+            <visible>!Window.IsVisible(1114)</visible>
             <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
             <include>Animation_Common</include>
             <control type="group">
                 <include>Animation_Foreground_FadeInOut</include>
-                <include>View_Furniture_Row_Foreground_Top</include>
-                <include>View_Furniture_Combined_Foreground_Top</include>
+                <include>View_Furniture_Row_Top</include>
+                <include>View_Furniture_Combined_Top</include>
             </control>
             <control type="group">
                 <include>Animation_Foreground_SlideUp</include>
-                <control type="group">
-                    <!-- <include>View_Furniture_List_Foreground_Bottom</include> -->
-                    <include>View_Furniture_Wall_Foreground_Bottom</include>
-                    <include>View_Furniture_Row_Foreground_Bottom</include>
-                    <include>View_Furniture_Combined_Foreground_Bottom</include>
-                </control>
+                <include>View_Furniture_List_Bottom</include>
+                <include>View_Furniture_Wall_Bottom</include>
+                <include>View_Furniture_Row_Bottom</include>
+                <include>View_Furniture_Combined_Bottom</include>
                 <control type="group">
                     <visible>!$EXP[Exp_CombinedViews]</visible>
                     <visible>!Control.HasFocus(60)</visible>
                     <include>Furniture_Bottom_Left</include>
-                    <control type="group">
-                        <visible>!Control.IsVisible(53)</visible>
-                        <include>Furniture_Bottom_Right</include>
-                    </control>
+                    <include>Furniture_Bottom_Right</include>
                 </control>
             </control>
+        </control>
+
+        <!-- Dim for Menu Bar -->
+        <control type="image">
+            <height>view_top</height>
+            <texture>common/dim-top.png</texture>
+            <animation type="Visible" reversible="false">
+                <effect type="fade" start="0" end="100" time="400"/>
+            </animation>
+            <animation type="Hidden" reversible="false">
+                <effect type="fade" end="0" start="100" time="400"/>
+            </animation>
+            <visible>$EXP[Exp_QuickBar]</visible>
         </control>
 
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <visible>!Window.IsVisible(1120)</visible>
-            <include>Furniture_Top</include>
+            <visible>!Window.IsVisible(1113)</visible>
+            <visible>!Window.IsVisible(1114)</visible>
+            <include>Furniture_Top_Right</include>
+            <control type="group">
+                <visible>!$EXP[Exp_QuickBar]</visible>
+                <include>Furniture_Top_Left</include>
+            </control>
         </control>
+
+        <include content="Object_MenuBar_Group">
+            <param name="overlay" value="false" />
+            <param name="colordiffuse" value="main_fg_12" />
+            <param name="width" value="1000" />
+            <left>60</left>
+            <visible>$EXP[Exp_QuickBar]</visible>
+            <include content="Object_MenuBar_List">
+                <param name="id" value="300" />
+                <param name="color_nf" value="main_fg" />
+                <param name="focus_w" value="280" />
+                <onleft>ActivateWindow(1114)</onleft>
+                <onright>menu</onright>
+                <ondown>50</ondown>
+                <include>Action_Plotbox_OnUp</include>
+                <content>
+                    <item>
+                        <icon>special://skin/extras/icons/info2.png</icon>
+                        <label>Info</label>
+                    </item>
+                    <item>
+                        <icon>special://skin/extras/icons/quote.png</icon>
+                        <label>Plot</label>
+                    </item>
+                    <item>
+                        <icon>special://skin/extras/icons/videoplay.png</icon>
+                        <label>Trailer</label>
+                    </item>
+                    <item>
+                        <icon>special://skin/extras/icons/fire2.png</icon>
+                        <label>Similar</label>
+                    </item>
+                </content>
+            </include>
+        </include>
     </include>
 </includes>

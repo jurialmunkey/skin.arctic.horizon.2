@@ -3,7 +3,7 @@
 
     <variable name="Label_Title_Main">
         <value condition="Window.IsVisible(1120) + !String.IsEmpty(Window(1120).Property(Title))">$INFO[Window(1120).Property(Title)]</value>
-        <value condition="!$EXP[Exp_InfoDialogs] + Window.IsVisible(Home) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">$VAR[Label_Title_C301]</value>
+        <value condition="Window.IsVisible(Home) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + !$EXP[Exp_InfoDialogs]">$VAR[Label_Title_C301]</value>
         <value>$VAR[Label_Title_Parent]</value>
     </variable>
 
@@ -64,19 +64,23 @@
     </variable>
 
     <variable name="Label_Header_Main">
+        <value condition="$EXP[Exp_InfoDialogs] | Window.IsVisible(1190) | !String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))">$LOCALIZE[19033]</value>
+        <value condition="$EXP[Exp_SettingsDialogs] | Window.IsVisible(AddonBrowser.xml) | Window.Isvisible(script-skinshortcuts.xml)">$VAR[Label_Header_Mini]</value>
+
         <value condition="Window.IsVisible(weather) + !String.IsEmpty(Weather.Location)">$INFO[Weather.Location]</value>
         <value condition="Window.IsVisible(weather)">$LOCALIZE[8]</value>
         <value condition="Window.IsVisible(filemanager)">$LOCALIZE[7]</value>
         <value condition="Window.IsVisible(1116)">$LOCALIZE[31042]</value>
         <value condition="Window.IsVisible(1117)">$LOCALIZE[137]</value>
         <value condition="Window.IsVisible(1112)">[CAPITALIZE]$LOCALIZE[31007][/CAPITALIZE]</value>
-        <value condition="$EXP[Exp_InfoDialogs] | Window.IsVisible(1190) | !String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))">$LOCALIZE[19033]</value>
-        <value condition="$EXP[Exp_SettingsDialogs] | Window.IsVisible(AddonBrowser.xml) | Window.Isvisible(script-skinshortcuts.xml)">$VAR[Label_Header_Mini]</value>
+        <value condition="Window.IsVisible(1115)">$INFO[Window.Property(Header)]$INFO[Container(6000).ListItem.Label, [COLOR=main_fg_70] &gt; [/COLOR] ,]</value>
+
         <value condition="Container.Content(seasons)">$LOCALIZE[33054]</value>
+        <value condition="Container.Content(episodes) + !String.IsEmpty(Container.FolderName) + String.IsEqual(Container.FolderName,Container.ShowTitle)">$LOCALIZE[20360]</value>
+
         <value condition="!String.IsEmpty(Container.PluginCategory)">$INFO[Container.PluginCategory]</value>
         <value condition="!String.IsEmpty(Container.FolderName)">$INFO[Container.FolderName]</value>
         <value condition="Window.IsVisible(Home)">$INFO[Container(300).ListItem.Label]</value>
-        <value condition="Window.IsVisible(1115)">$INFO[Window.Property(Header)]$INFO[Container(6000).ListItem.Label, [COLOR=main_fg_70] &gt; [/COLOR] ,]</value>
         <value>Fallback</value>
     </variable>
 

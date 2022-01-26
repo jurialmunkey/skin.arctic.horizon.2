@@ -103,11 +103,11 @@
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control" value="group" />
                     <control type="image">
-                        <include>Texture_Shadow_40</include>
+                        <!-- <include>Texture_Shadow_40</include> -->
                         <include>Texture_Box_Highlight_H</include>
                     </control>
-                    <!-- <control type="image">
-                        <visible>!Container.Position(7)</visible>
+                    <control type="image">
+                        <visible>!Container.Position(5)</visible>
                         <include>Texture_Highlight</include>
                         <height>50%</height>
                         <bottom>0</bottom>
@@ -116,7 +116,7 @@
                         <include>Texture_Highlight</include>
                         <height>50%</height>
                         <visible>!Container.Position(0)</visible>
-                    </control> -->
+                    </control>
                 </include>
 
                 <!-- Videos -->
@@ -677,6 +677,31 @@
                         <font>font_minilabel_bold</font>
                         <align>center</align>
                         <textoffsetx>30</textoffsetx>
+                        <visible>!String.IsEqual(ListItem.DBType,episode) | String.IsEmpty(ListItem.TVShowTitle) | !String.IsEmpty(Container.ShowTitle)</visible>
+                    </control>
+                    <control type="label">
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Season,,x]$INFO[ListItem.Episode,,. ]$INFO[ListItem.Title]</label>
+                        <textcolor>$PARAM[textcolor]_70</textcolor>
+                        <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
+                        <font>font_minilabel_bold</font>
+                        <align>center</align>
+                        <textoffsetx>30</textoffsetx>
+                        <height>40</height>
+                        <centertop>33%</centertop>
+                        <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
+                    </control>
+                    <control type="label">
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.TVShowTitle]</label>
+                        <textcolor>$PARAM[textcolor]_70</textcolor>
+                        <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
+                        <font>font_statusbar</font>
+                        <align>center</align>
+                        <textoffsetx>30</textoffsetx>
+                        <height>40</height>
+                        <centerbottom>33%</centerbottom>
+                        <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
                     </control>
                 </control>
                 <include content="Object_SelectBox" condition="$PARAM[selected]">

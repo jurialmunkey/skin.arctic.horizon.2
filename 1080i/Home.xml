@@ -17,12 +17,15 @@
 
         <!-- Fullscreen Widget -->
         <control type="group">
+            <visible>!Window.IsVisible(1114)</visible>
+            <visible>Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
+            <visible>!String.IsEmpty(Container(300).ListItem.Property(widgetPath))</visible>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
             <include>Animation_Background_FadeInOut</include>
             <include>skinshortcuts-template-fullscreen-widget</include>
             <control type="image">
-                <visible>!String.IsEmpty(Container(300).ListItem.Property(widgetPath))</visible>
-                <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
-                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
                 <texture>common/vignetted.png</texture>
             </control>
         </control>
@@ -104,16 +107,12 @@
         <include content="Object_MenuBar_Group">
             <param name="overlay" value="false" />
             <param name="colordiffuse" value="main_fg_12" />
-            <!-- <param name="backing" value="false" /> -->
-            <!-- <left>40</left> -->
             <left>60</left>
-            <!-- <visible>Control.HasFocus(300) | Control.HasFocus(399) | Control.HasFocus(302) | ControlGroup(303).HasFocus()</visible> -->
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
-                <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Down)</onleft>
+                <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
                 <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
-                <!-- <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetFocus(303)</onleft> -->
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">Control.Move(300,-1)</onleft>
                 <onright condition="String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetFocus(303)</onright>
