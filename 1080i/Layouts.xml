@@ -479,6 +479,102 @@
         </definition>
     </include>
 
+    <include name="Layout_Episode">
+        <param name="selected" default="false" />
+        <param name="detailed" default="false" />
+        <definition>
+            <control type="group">
+                <right>120</right>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_Control" condition="$PARAM[selected]">
+                    <param name="control" value="group" />
+                    <control type="image">
+                        <include>Texture_Box_Highlight_H</include>
+                    </control>
+                    <control type="image">
+                        <visible>!Container.Position(2)</visible>
+                        <include>Texture_Highlight</include>
+                        <height>50%</height>
+                        <bottom>0</bottom>
+                    </control>
+                    <control type="image">
+                        <include>Texture_Highlight</include>
+                        <height>50%</height>
+                        <visible>!Container.Position(0)</visible>
+                    </control>
+                    <control type="image">
+                        <left>20</left>
+                        <right>20</right>
+                        <height>1</height>
+                        <bottom>-$PARAM[item_h]</bottom>
+                        <visible>Container.Position(0)</visible>
+                        <texture colordiffuse="main_fg_12">common/white.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>20</left>
+                        <right>20</right>
+                        <height>1</height>
+                        <top>-$PARAM[item_h]</top>
+                        <visible>Container.Position(2)</visible>
+                        <texture colordiffuse="main_fg_12">common/white.png</texture>
+                    </control>
+                </include>
+                <control type="image">
+                    <bordersize>20</bordersize>
+                    <width>253</width>
+                    <texture background="true">$VAR[Image_Landscape]</texture>
+                    <aspectratio>scale</aspectratio>
+                </control>
+                <include content="Object_Indicator">
+                    <param name="shadow" value="false" />
+                    <left>170</left>
+                    <centerbottom>26</centerbottom>
+                </include>
+                <control type="group">
+                    <left>253</left>
+                    <top>20</top>
+                    <bottom>20</bottom>
+                    <right>20</right>
+                    <control type="image">
+                        <width>1</width>
+                        <include content="Object_Include" condition="$PARAM[selected]">
+                            <texture colordiffuse="panel_fg_30">common/white.png</texture>
+                        </include>
+                        <texture colordiffuse="main_fg_12">common/white.png</texture>
+                    </control>
+                    <control type="label">
+                        <left>20</left>
+                        <height>40</height>
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Label]</label>
+                        <textcolor>main_fg_90</textcolor>
+                        <font>font_small_bold</font>
+                        <align>left</align>
+                    </control>
+                    <control type="label">
+                        <left>20</left>
+                        <height>40</height>
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Label2]</label>
+                        <textcolor>main_fg_90</textcolor>
+                        <font>font_minilabel</font>
+                        <align>right</align>
+                    </control>
+                    <control type="textbox">
+                        <left>20</left>
+                        <top>45</top>
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Plot]</label>
+                        <textcolor>main_fg_70</textcolor>
+                        <font>font_plotbox_mini</font>
+                        <align>left</align>
+                        <autoscroll>false</autoscroll>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_Button">
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
@@ -520,16 +616,7 @@
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
         <definition>
-            <!-- <include content="Object_Control" condition="$PARAM[selected]">
-                <param name="control" value="button" />
-                <visible allowhiddenfocus="true">false</visible>
-                <animation effect="fade" start="0" end="0" time="500" reversible="false">Focus</animation>
-                <onfocus condition="String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.FolderPath],replace)</onfocus>
-                <onfocus condition="!String.IsEmpty(Container($PARAM[id]).ListItem.Property(folderpath))">Container.Update($INFO[Container($PARAM[id]).ListItem.Property(folderpath)],replace)</onfocus>
-            </include> -->
             <control type="group">
-                <visible>$PARAM[detailed]</visible>
-                <!-- <visible>Control.HasFocus($PARAM[id]) | [$PARAM[detailed] + !Control.HasFocus(6000)]</visible> -->
                 <width>$PARAM[item_w]</width>
                 <height>$PARAM[item_h]</height>
                 <include content="Object_ItemBack">
@@ -537,58 +624,57 @@
                 </include>
                 <control type="group">
                     <width>$PARAM[item_h]</width>
+                    <!-- Genre Icons -->
                     <control type="image">
-                        <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
+                        <texture colordiffuse="main_fg_90" fallback="resource://resource.images.moviegenreicons.transparent/Drama.png">resource://resource.images.moviegenreicons.transparent/$INFO[ListItem.Label,,.png]</texture>
                         <aspectratio scalediffuse="false">keep</aspectratio>
-                        <visible>String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)</visible>
+                        <bordersize>32</bordersize>
+                        <visible>Container.Content(genres)</visible>
                     </control>
+                    <!-- Studio Icons -->
                     <control type="image">
-                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                        <texture colordiffuse="main_fg_90" fallback="special://skin/extras/icons/folder.png">resource://resource.images.studios.white/$INFO[ListItem.Label,,.png]</texture>
                         <aspectratio scalediffuse="false">keep</aspectratio>
-                        <visible>![String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)]</visible>
                         <bordersize>20</bordersize>
+                        <visible>Container.Content(studios)</visible>
+                    </control>
+                    <!-- Country Icons -->
+                    <control type="image">
+                        <texture colordiffuse="main_fg_90" fallback="special://skin/extras/icons/folder.png">resource://resource.images.moviecountryicons.maps/$INFO[ListItem.Label,,.png]</texture>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                        <bordersize>20</bordersize>
+                        <visible>Container.Content(countries)</visible>
+                    </control>
+                    <!-- Default Icons -->
+                    <control type="group">
+                        <visible>!Container.Content(genres)</visible>
+                        <visible>!Container.Content(studios)</visible>
+                        <visible>!Container.Content(countries)</visible>
+                        <!-- Default Icon -->
+                        <control type="image">
+                            <texture fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                            <visible>String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)</visible>
+                        </control>
+                        <!-- Colour Icon -->
+                        <control type="image">
+                            <texture background="true">$INFO[ListItem.Icon]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                            <visible>![String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)]</visible>
+                            <bordersize>20</bordersize>
+                        </control>
                     </control>
                 </control>
                 <control type="group">
                     <left>$PARAM[item_h]</left>
-                    <control type="label">
+                    <control type="textbox">
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <label>$INFO[ListItem.Label]</label>
                         <textcolor>main_fg_70</textcolor>
                         <font>font_minilabel_bold</font>
-                        <textoffsetx>20</textoffsetx>
-                        <left>-15</left>
                         <align>left</align>
-                    </control>
-                </control>
-                <include content="Object_SelectBox" condition="$PARAM[selected]">
-                    <param name="indicator" value="false" />
-                    <param name="focusbounce" value="true" />
-                </include>
-            </control>
-            <control type="group">
-                <visible>!$PARAM[detailed]</visible>
-                <!-- <visible>![Control.HasFocus($PARAM[id]) | [$PARAM[detailed] + !Control.HasFocus(6000)]]</visible> -->
-                <include content="Object_Include" condition="$PARAM[detailed]">
-                    <right>40</right>
-                </include>
-                <width>$PARAM[item_h]</width>
-                <height>$PARAM[item_h]</height>
-                <include content="Object_ItemBack">
-                    <param name="selected" value="$PARAM[selected]" />
-                </include>
-                <control type="group">
-                    <width>$PARAM[item_h]</width>
-                    <control type="image">
-                        <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <visible>String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)</visible>
-                    </control>
-                    <control type="image">
-                        <texture background="true">$INFO[ListItem.Icon]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <visible>![String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)]</visible>
-                        <bordersize>20</bordersize>
+                        <aligny>center</aligny>
+                        <right>40</right>
                     </control>
                 </control>
                 <include content="Object_SelectBox" condition="$PARAM[selected]">
