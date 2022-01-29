@@ -95,6 +95,7 @@
     <include name="Layout_MediaList">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
+        <param name="misc" default="5" />
         <definition>
             <control type="group">
                 <height>row_height</height>
@@ -103,11 +104,10 @@
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control" value="group" />
                     <control type="image">
-                        <!-- <include>Texture_Shadow_40</include> -->
                         <include>Texture_Box_Highlight_H</include>
                     </control>
                     <control type="image">
-                        <visible>!Container.Position(5)</visible>
+                        <visible>!Container.Position($PARAM[misc])</visible>
                         <include>Texture_Highlight</include>
                         <height>50%</height>
                         <bottom>0</bottom>
@@ -121,7 +121,7 @@
 
                 <!-- Videos -->
                 <control type="group">
-                    <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set)</visible>
+                    <visible>$PARAM[detailed]</visible>
                     <left>dialog_pad</left>
                     <right>dialog_pad</right>
                     <include content="Object_Control">
@@ -129,17 +129,26 @@
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
                         <selectedcolor>main_fg_70</selectedcolor>
-                        <label>$INFO[ListItem.Year]</label>
+                        <label>$VAR[Label_MediaList_Year]</label>
+                        <align>right</align>
                         <font>font_small</font>
+                        <bottom>3</bottom>
+                        <width>80</width>
+                        <left>-20</left>
+                    </include>
+                    <include content="Object_Indicator_List">
+                        <centertop>50%</centertop>
+                        <centerleft>100</centerleft>
                     </include>
                     <include content="Object_Control">
                         <param name="control" value="label" />
-                        <left>100</left>
+                        <left>140</left>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
                         <selectedcolor>main_fg_70</selectedcolor>
-                        <label>$INFO[ListItem.Label]</label>
+                        <label>$INFO[ListItem.Title]</label>
                         <font>font_small_bold</font>
+                        <bottom>3</bottom>
                     </include>
                     <include content="Object_Control">
                         <param name="control" value="label" />
@@ -149,12 +158,13 @@
                         <label>$INFO[ListItem.Rating]</label>
                         <font>font_small</font>
                         <align>right</align>
+                        <bottom>3</bottom>
                     </include>
                 </control>
 
                 <!-- Basic -->
                 <control type="group">
-                    <visible>![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set)]</visible>
+                    <visible>![$PARAM[detailed]]</visible>
                     <left>dialog_pad</left>
                     <right>dialog_pad</right>
                     <include content="Object_Control">
@@ -411,8 +421,13 @@
         <param name="bg_layer" default="true" />
         <param name="diffuse" default="diffuse/poster-std.png" />
         <param name="icon" default="$VAR[Image_Poster]" />
+        <param name="listitem_dbtype" default="ListItem.DBType" />
+        <param name="listitem_label" default="ListItem.Label" />
+        <param name="listitem_label2" default="ListItem.Label2" />
+        <param name="misc" default="0" />
         <definition>
             <control type="group">
+                <nested />
                 <width>$PARAM[item_w]</width>
                 <height>$PARAM[item_h]</height>
                 <include content="Object_Control" condition="$PARAM[bg_layer]">
@@ -428,7 +443,7 @@
                 </include>
                 <include content="Object_Control">
                     <param name="control" value="group" />
-                    <visible>String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,video) | $PARAM[detailed]</visible>
+                    <visible>String.IsEqual($PARAM[listitem_dbtype],actor) | String.IsEqual($PARAM[listitem_dbtype],video) | $PARAM[detailed]</visible>
                     <include content="Object_Control" condition="$PARAM[bg_layer]">
                         <param name="control" value="image" />
                         <texture border="10" colordiffuse="bbffffff">diffuse/poster-sml-fade.png</texture>
@@ -438,7 +453,7 @@
                         <top>$PARAM[item_w]</top>
                         <control type="textbox">
                             <textcolor>ffdedede</textcolor>
-                            <label>$INFO[ListItem.Label]</label>
+                            <label>$INFO[$PARAM[listitem_label]]</label>
                             <left>15</left>
                             <right>15</right>
                             <align>center</align>
@@ -446,35 +461,43 @@
                             <font>font_statusbar_bold</font>
                             <height>60</height>
                             <bottom>20</bottom>
-                            <visible>String.IsEmpty(ListItem.Label2)</visible>
+                            <visible>String.IsEmpty($PARAM[listitem_label2])</visible>
                         </control>
                         <control type="label">
                             <textcolor>ffdedede</textcolor>
-                            <label>$INFO[ListItem.Label]</label>
+                            <label>$INFO[$PARAM[listitem_label]]</label>
                             <textoffsetx>15</textoffsetx>
                             <align>center</align>
                             <font>font_statusbar_bold</font>
                             <height>40</height>
                             <bottom>40</bottom>
-                            <visible>!String.IsEmpty(ListItem.Label2)</visible>
+                            <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
                         </control>
                         <control type="label">
                             <textcolor>b3dedede</textcolor>
-                            <label>$INFO[ListItem.Label2]</label>
+                            <label>$INFO[$PARAM[listitem_label2]]</label>
                             <textoffsetx>15</textoffsetx>
                             <align>center</align>
                             <font>font_statusbar</font>
                             <height>20</height>
                             <bottom>20</bottom>
-                            <visible>!String.IsEmpty(ListItem.Label2)</visible>
+                            <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
                         </control>
                     </include>
                 </include>
-                <include condition="$PARAM[fg_layer] + !$PARAM[selected]">Object_Indicator</include>
-                <include content="Object_SelectBox" condition="$PARAM[fg_layer] + $PARAM[selected]">
-                    <param name="indicator" value="true" />
-                    <param name="focusbounce" value="true" />
-                </include>
+                <control type="group">
+                    <top>-$PARAM[misc]</top>
+                    <bottom>$PARAM[misc]</bottom>
+                    <animation effect="slide" end="0,$PARAM[misc]" condition="true">Conditional</animation>
+                    <include condition="$PARAM[fg_layer] + !$PARAM[selected]" content="Object_Indicator">
+                        <param name="affix" value="$PARAM[affix]" />
+                        <param name="listitem" value="$PARAM[listitem]" />
+                    </include>
+                    <include content="Object_SelectBox" condition="$PARAM[fg_layer] + $PARAM[selected]">
+                        <param name="indicator" value="true" />
+                        <param name="focusbounce" value="true" />
+                    </include>
+                </control>
             </control>
         </definition>
     </include>
@@ -519,17 +542,19 @@
                         <texture colordiffuse="main_fg_12">common/white.png</texture>
                     </control>
                 </include>
-                <control type="image">
-                    <bordersize>20</bordersize>
+                <control type="group">
                     <width>253</width>
-                    <texture background="true">$VAR[Image_Landscape]</texture>
-                    <aspectratio>scale</aspectratio>
+                    <control type="image">
+                        <bordersize>20</bordersize>
+                        <texture background="true">$VAR[Image_Landscape]</texture>
+                        <aspectratio>scale</aspectratio>
+                    </control>
+                    <include content="Object_Indicator">
+                        <param name="shadow" value="false" />
+                        <right>30</right>
+                        <centerbottom>26</centerbottom>
+                    </include>
                 </control>
-                <include content="Object_Indicator">
-                    <param name="shadow" value="false" />
-                    <left>170</left>
-                    <centerbottom>26</centerbottom>
-                </include>
                 <control type="group">
                     <left>253</left>
                     <top>20</top>

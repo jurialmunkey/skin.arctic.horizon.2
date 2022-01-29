@@ -59,10 +59,11 @@
 
     <include name="Object_ItemBack">
         <param name="selected" default="false" />
+        <param name="shadow_include" default="Texture_Shadow_40" />
         <definition>
             <include content="Object_Control" condition="!$PARAM[selected]">
                 <param name="control" value="image" />
-                <include content="Texture_Shadow_40">
+                <include content="$PARAM[shadow_include]">
                     <param name="colordiffuse" value="$PARAM[shadow_colordiffuse]" />
                 </include>
                 <include>Texture_Poster_Back</include>
@@ -461,6 +462,33 @@
                     <textcolor>panel_fg_100</textcolor>
                     <label>$INFO[$PARAM[listitem].Property(UnWatchedEpisodes)]</label>
                     <visible>Integer.IsGreater($PARAM[listitem].Property(UnWatchedEpisodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(DisableIndicator.Episodes)</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Indicator_List">
+        <param name="affix" default="" />
+        <param name="listitem" default="ListItem" />
+        <definition>
+            <control type="group">
+                <nested />
+                <width>64</width>
+                <height>64</height>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="10" /></include>
+                    <texture colordiffuse="main_fg_30">progress/circle/p100.png</texture>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <visible>ListItem.IsResumable + !Skin.HasSetting(DisableIndicator.Progress) + !Integer.IsEqual(ListItem.PercentPlayed,0)</visible>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="10" /></include>
+                    <texture colordiffuse="main_fg_90">$INFO[ListItem.PercentPlayed,progress/circle/p,.png]</texture>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="16" /></include>
+                    <texture>$VAR[Image_Overlay_List]</texture>
                 </control>
             </control>
         </definition>
@@ -1307,6 +1335,8 @@
                 </include>
                 <include content="Object_Indicator" condition="$PARAM[indicator]">
                     <param name="selected" value="true" />
+                    <param name="affix" value="$PARAM[affix]" />
+                    <param name="listitem" value="$PARAM[listitem]" />
                 </include>
             </control>
         </definition>

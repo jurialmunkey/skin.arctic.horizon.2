@@ -77,7 +77,7 @@
                     <centertop>52%</centertop>
                     <width>37</width>
                     <height>24</height>
-                    <visible>!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Window.IsMedia + $EXP[Exp_CombinedViews]]</visible>
+                    <visible>!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Window.IsMedia + [$EXP[Exp_CombinedViews] | Control.IsVisible(99999) | !String.IsEmpty(ListItem.Property(Addon.ID)) | !String.IsEmpty(Container.PluginName)]]</visible>
                 </control>
                 <control type="grouplist">
                     <left>47</left>
@@ -85,6 +85,11 @@
                     <height>80</height>
                     <itemgap>10</itemgap>
                     <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+                    <include content="Info_Line_Label">
+                        <param name="label" value="$LOCALIZE[14022]" />
+                        <param name="visible" value="Control.IsVisible(99999) | $EXP[Exp_CombinedViews]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
                     <include content="Info_Line_Label">
                         <param name="label" value="$INFO[Container(503).NumItems,, ][CAPITALIZE]$INFO[Container(503).ListItemAbsolute(0).DBType,, ]$LOCALIZE[31022][/CAPITALIZE]" />
                         <param name="visible" value="Control.IsVisible(502)" />
@@ -98,6 +103,26 @@
                     <include content="Info_Line_Label">
                         <param name="label" value="$INFO[Container(523).NumItems,, ][CAPITALIZE]$INFO[Container(523).ListItemAbsolute(0).DBType,, ]$LOCALIZE[31022][/CAPITALIZE]" />
                         <param name="visible" value="Control.IsVisible(522)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="label" value="$INFO[Container(99999).NumItems,, ][CAPITALIZE]$INFO[Container(99999).ListItemAbsolute(0).DBType,, ]$LOCALIZE[31022][/CAPITALIZE]" />
+                        <param name="visible" value="Control.IsVisible(99999) + !$EXP[Exp_CombinedViews]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <!-- <include content="Info_Line_Label">
+                        <param name="label" value="$INFO[System.AddonTitle(Container.PluginName)]" />
+                        <param name="visible" value="!Control.IsVisible(99999) + !$EXP[Exp_CombinedViews] + !String.IsEmpty(Container.PluginName)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include> -->
+                    <include content="Info_Line_Label">
+                        <param name="label" value="$LOCALIZE[20094]" />
+                        <param name="visible" value="!Control.IsVisible(99999) + !$EXP[Exp_CombinedViews] + !String.IsEmpty(Container.PluginName)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="label" value="$INFO[System.AddonVersion(Container.PluginName),v,]" />
+                        <param name="visible" value="!Control.IsVisible(99999) + !$EXP[Exp_CombinedViews] + !String.IsEmpty(Container.PluginName)" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                 </control>
@@ -733,6 +758,42 @@
                 <usecontrolcoords>true</usecontrolcoords>
                 <left>-8</left>
                 <right>-8</right>
+
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/grid.png" />
+                    <param name="label" value="$INFO[Container.CurrentPage,, $LOCALIZE[1443] ]$INFO[Container.NumPages,, $LOCALIZE[31110]]" />
+                    <visible>!String.IsEmpty(Container.NumPages)</visible>
+                    <visible>!Container.Content(addons)</visible>
+                    <visible>!String.IsEqual(ListItem.Property(item.type),person)</visible>
+                    <visible>[String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                    <visible>![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set)]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))</visible>
+                </include>
+
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/playlist.png" />
+                    <param name="label" value="$INFO[Container.NumItems,, $LOCALIZE[31022]]" />
+                    <visible>!String.IsEmpty(Container.NumItems)</visible>
+                    <visible>!Container.Content(addons)</visible>
+                    <visible>!String.IsEqual(ListItem.Property(item.type),person)</visible>
+                    <visible>[String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                    <visible>![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set)]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))</visible>
+                </include>
+
+                <!-- <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/sort2.png" />
+                    <param name="label" value="$INFO[Container.SortMethod,$LOCALIZE[31016] ,]$INFO[Container.SortDirection, ,]" />
+                    <visible>!String.IsEmpty(Container.SortMethod)</visible>
+                    <visible>!Container.Content(addons)</visible>
+                    <visible>!String.IsEqual(ListItem.Property(item.type),person)</visible>
+                    <visible>[String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                    <visible>![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set)]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))</visible>
+                </include> -->
 
                 <!-- Birthday Actor -->
                 <include content="Info_Codec_Label">

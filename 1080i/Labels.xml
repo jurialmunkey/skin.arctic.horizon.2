@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Label_MediaList_Year">
+        <value condition="String.IsEqual(ListItem.DBType,episode) + Integer.IsLess(ListItem.Episode,10)">$INFO[ListItem.Season,,x]$INFO[ListItem.Episode,0,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,episode)">$INFO[ListItem.Season,,x]$INFO[ListItem.Episode]</value>
+        <value>$INFO[ListItem.Year]</value>
+    </variable>
+
     <variable name="Label_Title_Main">
         <value condition="Window.IsVisible(1120) + !String.IsEmpty(Window(1120).Property(Title))">$INFO[Window(1120).Property(Title)]</value>
         <value condition="Window.IsVisible(Home) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + !$EXP[Exp_InfoDialogs]">$VAR[Label_Title_C301]</value>

@@ -3,24 +3,178 @@
     <include name="View_Furniture_Wall_Bottom">
         <control type="group">
             <visible>$EXP[Exp_WallViews]</visible>
-            <!-- View -->
+
+            <!-- Other Wall Views -->
             <control type="group">
-                <visible>Control.IsVisible(57)</visible>
-                <include content="List_Button_Row">
-                    <param name="id" value="57" />
-                    <param name="orientation" value="vertical" />
-                    <param name="controltype" value="panel" />
-                    <param name="itemlayout_w" value="450" />
-                    <param name="item_w" value="410" />
-                    <param name="itemlayout_h" value="168" />
-                    <param name="item_h" value="128" />
-                    <param name="itemlayout_include" value="Layout_IconButton" />
-                    <param name="offset_y" value="40" />
-                    <preloaditems>0</preloaditems>
-                    <top>160</top>
-                    <bottom>60</bottom>
-                </include>
+                <visible>!Control.IsVisible(57)</visible>
+                <include content="View_Row_Divider"><height>920</height></include>
             </control>
+            <!-- <include>View_52_Wall_Poster_Horizontal</include> -->
+
+            <include>View_50_Wall_Square_Vertical</include>
+            <include>View_51_Wall_Landscape_Vertical</include>
+            <include>View_52_Wall_Poster_Vertical</include>
+
+
+        </control>
+    </include>
+
+    <include name="View_Wall_Poster_Item">
+        <include content="Layout_Poster">
+            <param name="item_w" value="view_poster_item_w" />
+            <param name="item_h" value="view_poster_item_h" />
+            <param name="icon" value="$VAR[Image_Poster_$PARAM[pos]]" />
+            <param name="affix" value="_$PARAM[pos]" />
+            <param name="listitem" value="ListItemPosition($PARAM[pos])" />
+            <visible>!String.IsEqual(ListItemPosition($PARAM[pos]).FolderPath,ListItem.FolderPath)</visible>
+            <animation effect="fade" start="100" end="0" condition="String.IsEmpty(ListItemPosition($PARAM[pos]).FolderPath)">Conditional</animation>
+            <left>40</left>
+            <top>40</top>
+        </include>
+        <include content="Layout_Poster">
+            <param name="item_w" value="view_poster_item_w" />
+            <param name="item_h" value="view_poster_item_h" />
+            <param name="selected" value="true" />
+            <param name="icon" value="$VAR[Image_Poster_$PARAM[pos]]" />
+            <param name="affix" value="_$PARAM[pos]" />
+            <param name="listitem" value="ListItemPosition($PARAM[pos])" />
+            <visible>String.IsEqual(ListItemPosition($PARAM[pos]).FolderPath,ListItem.FolderPath)</visible>
+            <animation effect="fade" start="100" end="0" condition="String.IsEmpty(ListItemPosition($PARAM[pos]).FolderPath)">Conditional</animation>
+            <left>40</left>
+            <top>40</top>
+        </include>
+    </include>
+
+    <include name="View_52_Wall_Poster_Horizontal">
+        <control type="group">
+            <visible>Control.IsVisible(520)</visible>
+            <control type="panel" id="520">
+                <width>1</width>
+                <height>2</height>
+                <orientation>horizontal</orientation>
+                <scrolltime>0</scrolltime>
+                <itemlayout width="1" height="1" />
+                <focusedlayout width="1" height="1" />
+            </control>
+            <control type="group">
+                <top>160</top>
+                <left>40</left>
+                <right>-500</right>
+                <animation effect="slide" tween="quadratic" easing="out" end="0" start="-view_poster_itemlayout_w" time="400" condition="!Container(520).OnScrollPrevious" reversible="false">Conditional</animation>
+                <animation effect="slide" tween="quadratic" easing="out" end="0" start="view_poster_itemlayout_w" time="400" condition="!Container(520).OnScrollNext" reversible="false">Conditional</animation>
+                <control type="grouplist">
+                    <left>-view_poster_itemlayout_w</left>
+                    <top>360</top>
+                    <orientation>horizontal</orientation>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="-1" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="1" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="3" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="5" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="7" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="9" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="11" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="13" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="15" />
+                    </include>
+                </control>
+                <control type="grouplist">
+                    <left>-view_poster_itemlayout_w</left>
+                    <orientation>horizontal</orientation>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="-2" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="0" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="2" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="4" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="6" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="8" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="10" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="12" />
+                    </include>
+                    <include content="View_Wall_Poster_Item">
+                        <param name="pos" value="14" />
+                    </include>
+                </control>
+            </control>
+        </control>
+    </include>
+
+    <include name="View_52_Wall_Poster_Vertical">
+        <control type="group">
+            <visible>Control.IsVisible(520)</visible>
+            <include content="List_Poster_Wall">
+                <param name="id" value="520" />
+                <param name="offset_y" value="40" />
+                <param name="misc" value="20" />
+                <top>160</top>
+                <bottom>180</bottom>
+                <preloaditems>0</preloaditems>
+            </include>
+            <!-- <include content="Object_WallFade">
+                <param name="id" value="520" />
+            </include> -->
+        </control>
+    </include>
+
+    <include name="View_51_Wall_Landscape_Vertical">
+        <control type="group">
+            <visible>Control.IsVisible(510)</visible>
+            <include content="List_Landscape_Wall">
+                <param name="id" value="510" />
+                <param name="offset_y" value="40" />
+                <top>160</top>
+                <bottom>180</bottom>
+                <preloaditems>0</preloaditems>
+            </include>
+            <!-- <include content="Object_WallFade">
+                <param name="id" value="510" />
+            </include> -->
+        </control>
+    </include>
+
+    <include name="View_50_Wall_Square_Vertical">
+        <control type="group">
+            <visible>Control.IsVisible(500)</visible>
+            <include content="List_Square_Wall">
+                <param name="id" value="500" />
+                <param name="offset_y" value="40" />
+                <top>160</top>
+                <bottom>180</bottom>
+                <preloaditems>0</preloaditems>
+            </include>
+            <!-- <include content="Object_WallFade">
+                <param name="id" value="500" />
+            </include> -->
         </control>
     </include>
 
