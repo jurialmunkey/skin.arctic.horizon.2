@@ -1,16 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_Furniture_List_Bottom">
-        <control type="group">
+        <include content="Object_Control" condition="$EXP[Exp_View_53_Include] | $EXP[Exp_View_54_Include] | $EXP[Exp_View_55_Include] | $EXP[Exp_View_57_Include]">
+            <param name="control" value="group" />
             <visible>$EXP[Exp_ListViews]</visible>
-            <include content="View_Row_Divider">
-                <height>720</height>
-            </include>
-        </control>
-        <include>View_053_Square_List</include>
-        <include>View_054_Landscape_List</include>
-        <include>View_055_Episode_List</include>
-        <!-- Default Tags View -->
+            <include content="View_Row_Divider"><height>720</height></include>
+            <include condition="$EXP[Exp_View_53_Include]">View_053_Square_List</include>
+            <include condition="$EXP[Exp_View_54_Include]">View_054_Landscape_List</include>
+            <include condition="$EXP[Exp_View_55_Include]">View_055_Episode_List</include>
+            <include condition="$EXP[Exp_View_57_Include]">View_057_Tags_List</include>
+        </include>
+    </include>
+
+
+    <include name="View_List_Template">
+        <param name="height" default="480" />
+        <param name="include" default="List_MediaList" />
+        <definition>
+            <control type="group">
+                <visible>Control.IsVisible($PARAM[id])</visible>
+                <include>Dimension_View</include>
+                <include content="Object_BigPoster">
+                    <param name="icon" value="$PARAM[icon]" />
+                    <bottom>0</bottom>
+                    <right>0</right>
+                    <width>$PARAM[width]</width>
+                    <height>$PARAM[height]</height>
+                </include>
+                <control type="group">
+                    <right>$PARAM[width]</right>
+                    <height>$PARAM[height]</height>
+                    <bottom>0</bottom>
+                    <include content="Object_GlassPanel">
+                        <right>40</right>
+                        <include content="$PARAM[include]">
+                            <param name="id" value="$PARAM[id]" />
+                            <left>-40</left>
+                            <right>-40</right>
+                            <visible>$EXP[Exp_View_$PARAM[id]]</visible>
+                            <viewtype label="$PARAM[viewtype_label]">list</viewtype>
+                        </include>
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="View_053_Square_List">
+        <include content="View_List_Template">
+            <param name="id" value="53" />
+            <param name="icon" value="$INFO[ListItem.Icon]" />
+            <param name="width" value="480" />
+            <param name="viewtype_label" value="$LOCALIZE[31121]" />
+        </include>
+    </include>
+    <include name="View_054_Landscape_List">
+        <include content="View_List_Template">
+            <param name="id" value="54" />
+            <param name="icon" value="$VAR[Image_Landscape]" />
+            <param name="width" value="853" />
+            <param name="viewtype_label" value="$LOCALIZE[31122]" />
+        </include>
+    </include>
+
+    <include name="View_055_Episode_List">
+        <include content="View_List_Template">
+            <param name="id" value="55" />
+            <param name="icon" value="$VAR[Image_Landscape]" />
+            <param name="width" value="853" />
+            <param name="include" value="List_EpisodeList" />
+            <param name="viewtype_label" value="$LOCALIZE[31123]" />
+        </include>
+    </include>
+
+    <include name="View_057_Tags_List">
         <control type="group">
             <visible>Control.IsVisible(57)</visible>
             <include content="List_Button_Row">
@@ -28,96 +91,9 @@
                 <preloaditems>0</preloaditems>
                 <height>540</height>
                 <bottom>180</bottom>
+                <visible>$EXP[Exp_View_57]</visible>
+                <viewtype label="$LOCALIZE[20459]">list</viewtype>
             </include>
         </control>
-    </include>
-
-    <include name="View_053_Square_List">
-        <definition>
-            <control type="group">
-                <visible>Control.IsVisible(53)</visible>
-                <include>Dimension_View</include>
-                <include content="Object_BigPoster">
-                    <param name="icon" value="$INFO[ListItem.Icon]" />
-                    <bottom>0</bottom>
-                    <right>0</right>
-                    <width>480</width>
-                    <height>480</height>
-                </include>
-                <control type="group">
-                    <right>480</right>
-                    <height>480</height>
-                    <bottom>0</bottom>
-                    <include content="Object_GlassPanel">
-                        <right>40</right>
-                        <include content="List_MediaList">
-                            <param name="id" value="53" />
-                            <param name="itemlayout_h" value="80" />
-                            <left>-40</left>
-                            <right>-40</right>
-                        </include>
-                    </include>
-                </control>
-            </control>
-        </definition>
-    </include>
-    <include name="View_054_Landscape_List">
-        <definition>
-            <control type="group">
-                <visible>Control.IsVisible(54)</visible>
-                <include>Dimension_View</include>
-                <include content="Object_BigPoster">
-                    <param name="icon" value="$VAR[Image_Landscape]" />
-                    <bottom>0</bottom>
-                    <right>0</right>
-                    <width>853</width>
-                    <height>480</height>
-                </include>
-                <control type="group">
-                    <right>853</right>
-                    <height>480</height>
-                    <bottom>0</bottom>
-                    <include content="Object_GlassPanel">
-                        <right>40</right>
-                        <include content="List_MediaList">
-                            <param name="id" value="54" />
-                            <param name="itemlayout_h" value="80" />
-                            <left>-40</left>
-                            <right>-40</right>
-                        </include>
-                    </include>
-                </control>
-            </control>
-        </definition>
-    </include>
-
-    <include name="View_055_Episode_List">
-        <definition>
-            <control type="group">
-                <visible>Control.IsVisible(55)</visible>
-                <include>Dimension_View</include>
-                <include content="Object_BigPoster">
-                    <param name="icon" value="$VAR[Image_Landscape]" />
-                    <bottom>0</bottom>
-                    <right>0</right>
-                    <width>853</width>
-                    <height>480</height>
-                </include>
-                <control type="group">
-                    <right>853</right>
-                    <height>480</height>
-                    <bottom>0</bottom>
-                    <include content="Object_GlassPanel">
-                        <right>40</right>
-                        <include content="List_EpisodeList">
-                            <param name="id" value="55" />
-                            <preloaditems>0</preloaditems>
-                            <left>-80</left>
-                            <right>-40</right>
-                        </include>
-                    </include>
-                </control>
-            </control>
-        </definition>
     </include>
 </includes>

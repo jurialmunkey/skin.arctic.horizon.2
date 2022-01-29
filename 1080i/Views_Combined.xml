@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_Furniture_Combined_Top">
-        <control type="group">
+        <include content="Object_Control" condition="$EXP[Exp_View_502_Include] | $EXP[Exp_View_512_Include] | $EXP[Exp_View_522_Include]">
+            <param name="control" value="group" />
             <visible>$EXP[Exp_CombinedViews]</visible>
             <include content="Object_Control">
                 <param name="control" value="group" />
@@ -20,19 +21,20 @@
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Gender)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Age))</visible>
                 </control>
             </include>
-            <include content="View_Combined_Info">
+            <include content="View_Combined_Info" condition="$EXP[Exp_View_502_Include]">
                 <param name="id" value="50" />
             </include>
-            <include content="View_Combined_Info">
+            <include content="View_Combined_Info" condition="$EXP[Exp_View_512_Include]">
                 <param name="id" value="51" />
             </include>
-            <include content="View_Combined_Info">
+            <include content="View_Combined_Info" condition="$EXP[Exp_View_522_Include]">
                 <param name="id" value="52" />
             </include>
-        </control>
+        </include>
     </include>
     <include name="View_Furniture_Combined_Bottom">
-        <control type="group">
+        <include content="Object_Control" condition="$EXP[Exp_View_502_Include] | $EXP[Exp_View_512_Include] | $EXP[Exp_View_522_Include]">
+            <param name="control" value="group" />
             <visible>$EXP[Exp_CombinedViews]</visible>
             <include>View_Combined_Divider</include>
             <control type="image">
@@ -42,10 +44,10 @@
                 <aspectratio scalediffuse="false" align="right">keep</aspectratio>
                 <texture background="true">$VAR[Image_CombinedStudio]</texture>
             </control>
-        </control>
-        <include>View_50_Square_Combined</include>
-        <include>View_51_Landscape_Combined</include>
-        <include>View_52_Poster_Combined</include>
+            <include condition="$EXP[Exp_View_502_Include]">View_502_Square_Combined</include>
+            <include condition="$EXP[Exp_View_512_Include]">View_512_Landscape_Combined</include>
+            <include condition="$EXP[Exp_View_522_Include]">View_522_Poster_Combined</include>
+        </include>
     </include>
 
     <include name="View_Combined_Divider">
@@ -94,46 +96,6 @@
         </include>
     </include>
 
-    <include name="View_Combined_List">
-        <param name="left" default="490" />
-        <definition>
-            <include content="$PARAM[include]">
-                <param name="id" value="$PARAM[id]3" />
-                <param name="offset_x" value="40" />
-                <movement>$PARAM[movement]</movement>
-                <height>divider_bottom</height>
-                <bottom>40</bottom>
-                <onleft>$PARAM[id]2</onleft>
-                <onup>$PARAM[id]2</onup>
-                <ondown>$PARAM[id]2</ondown>
-                <left>$PARAM[left]</left>
-                <visible>Container($PARAM[id]2).ListItem.IsFolder</visible>
-                <content>$INFO[Container($PARAM[id]2).ListItem.FolderPath]</content>
-                <visible>Control.IsVisible($PARAM[id]2)</visible>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id]3,Home)</onfocus>
-            </include>
-            <control type="group">
-                <visible>Control.Isvisible($PARAM[id]2)</visible>
-                <width>$PARAM[left]</width>
-                <height>320</height>
-                <bottom>view_top</bottom>
-                <left>view_pad</left>
-                <include content="Object_GlassPanel">
-                    <right>80</right>
-                    <include content="List_MediaList">
-                        <param name="id" value="$PARAM[id]2" />
-                        <param name="detailed" value="false" />
-                        <param name="misc" value="3" />
-                        <left>-40</left>
-                        <right>-40</right>
-                        <onleft>menu</onleft>
-                        <onright>$PARAM[id]3</onright>
-                    </include>
-                </include>
-            </control>
-        </definition>
-    </include>
-
     <include name="View_Combined_Row">
         <include content="$PARAM[include]">
             <param name="id" value="$PARAM[id]3" />
@@ -155,6 +117,8 @@
             <bottom>-360</bottom>
             <onup>$PARAM[id]3</onup>
             <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
+            <visible>$EXP[Exp_View_$PARAM[id]2]</visible>
+            <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
         </include>
         <control type="image">
             <bottom>view_pad</bottom>
@@ -167,30 +131,27 @@
         </control>
     </include>
 
-    <include name="View_50_Square_Combined">
+    <include name="View_502_Square_Combined">
         <include content="View_Combined_Row">
             <param name="id" value="50" />
             <param name="include" value="List_Square_Row" />
+            <param name="viewtype_label" value="$LOCALIZE[31120]" />
         </include>
     </include>
 
-    <include name="View_51_Landscape_Combined">
+    <include name="View_512_Landscape_Combined">
         <include content="View_Combined_Row">
             <param name="id" value="51" />
             <param name="include" value="List_Landscape_Row" />
+            <param name="viewtype_label" value="$LOCALIZE[31119]" />
         </include>
-        <!-- <include content="View_Combined_List">
-            <param name="id" value="51" />
-            <param name="include" value="List_Landscape_Row" />
-            <param name="left" value="490" />
-            <param name="movement" value="2" />
-        </include> -->
     </include>
 
-    <include name="View_52_Poster_Combined">
+    <include name="View_522_Poster_Combined">
         <include content="View_Combined_Row">
             <param name="id" value="52" />
             <param name="include" value="List_Poster_Row" />
+            <param name="viewtype_label" value="$LOCALIZE[31118]" />
         </include>
     </include>
 </includes>

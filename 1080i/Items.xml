@@ -5,6 +5,16 @@
         <description>Empty include to pass to params</description>
     </include>
 
+    <variable name="Items_ViewMode_Switch">
+        <value condition="String.IsEqual(Container.Content,genres) + Window.IsVisible(MyMusicNav.xml)">genres-music</value>
+        <value condition="String.IsEqual(Container.Content,years) + Window.IsVisible(MyMusicNav.xml)">years-music</value>
+        <value condition="!String.IsEmpty(Container.Content)">$INFO[Container.Content]</value>
+        <value condition="Window.IsVisible(MyPVRRecordings.xml)">pvr-recordings</value>
+        <value condition="Window.IsVisible(MyPVRTimers.xml)">pvr-timers</value>
+        <value condition="Window.IsVisible(MyPVRSearch.xml)">pvr-search</value>
+        <value>none</value>
+    </variable>
+
     <include name="Items_Navigate_Categories">
         <item>
             <icon>DefaultGenre.png</icon>
@@ -262,16 +272,17 @@
 
     <include name="Items_Default_MyNav">
         <include content="Dialog_Menu_Button" description="View Switcher">
-            <param name="id" value="2" />
+            <param name="id" value="9002" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/viewmode.png" />
+            <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
+            <onclick>Runscript(script.skinvariables,action=buildviews,contentid=$VAR[Items_ViewMode_Switch],pluginname=$INFO[Container.PluginName])</onclick>
         </include>
         <include content="Dialog_Menu_Button" description="Sort method">
             <param name="id" value="9003" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/sort.png" />
             <label>$INFO[Container.SortMethod,$LOCALIZE[31016]: ,]</label>
-            <!-- <onclick>SetFocus(50)</onclick> -->
             <onclick>SetProperty(DialogSelectType,Menu,Home)</onclick>
             <onclick>SendClick(3)</onclick>
         </include>

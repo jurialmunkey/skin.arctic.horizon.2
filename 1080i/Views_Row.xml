@@ -8,7 +8,6 @@
                 <param name="plotheight" value="80" />
                 <param name="plotheight_nr" value="120" />
                 <param name="details" value="!$EXP[Exp_ListViews] + !Control.IsVisible(57)" />
-                <!-- <param name="plotbox" value="!ControlGroup(300).HasFocus()" /> -->
                 <top>view_top</top>
                 <width>1080</width>
                 <left>view_pad</left>
@@ -16,7 +15,8 @@
         </control>
     </include>
     <include name="View_Furniture_Row_Bottom">
-        <control type="group">
+        <include content="Object_Control" condition="$EXP[Exp_View_50_Include] | $EXP[Exp_View_51_Include] | $EXP[Exp_View_52_Include]">
+            <param name="control" value="group" />
             <visible>$EXP[Exp_RowViews]</visible>
             <include>View_Row_Divider</include>
             <include content="Furniture_Bottombar_Group">
@@ -31,14 +31,10 @@
                     <visible allowhiddenfocus="true">Control.HasFocus(60)</visible>
                 </control>
             </include>
-        </control>
-
-        <include>View_050_Square_Row</include>
-        <include>View_051_Landscape_Row</include>
-        <include>View_052_Poster_Row</include>
-        <!-- <include>View_054_BigPoster_Row</include> -->
-
-
+            <include condition="$EXP[Exp_View_50_Include]">View_050_Square_Row</include>
+            <include condition="$EXP[Exp_View_51_Include]">View_051_Landscape_Row</include>
+            <include condition="$EXP[Exp_View_52_Include]">View_052_Poster_Row</include>
+        </include>
     </include>
 
     <include name="View_Row_Divider">
@@ -128,6 +124,7 @@
                 <onback>Container.SetViewMode($PARAM[id])</onback>
                 <onback>$PARAM[id]5</onback>
                 <visible>String.IsEqual(Window.Property(WallMode),Container.FolderPath)</visible>
+                <visible>$EXP[Exp_View_$PARAM[id]]</visible>
             </include>
         </control>
         <control type="group">
@@ -153,6 +150,7 @@
             <param name="id" value="50" />
             <param name="include" value="List_Square_Row" />
             <param name="wall_include" value="List_Square_Wall" />
+            <param name="viewtype_label" value="$LOCALIZE[31113]" />
         </include>
     </include>
     <include name="View_051_Landscape_Row">
@@ -160,6 +158,7 @@
             <param name="id" value="51" />
             <param name="include" value="List_Landscape_Row" />
             <param name="wall_include" value="List_Landscape_Wall" />
+            <param name="viewtype_label" value="$LOCALIZE[31112]" />
         </include>
     </include>
     <include name="View_052_Poster_Row">
@@ -167,6 +166,7 @@
             <param name="id" value="52" />
             <param name="include" value="List_Poster_Row" />
             <param name="wall_include" value="List_Poster_Wall" />
+            <param name="viewtype_label" value="$LOCALIZE[31111]" />
         </include>
     </include>
     <include name="View_054_BigPoster_Row">
@@ -204,6 +204,8 @@
                     <onup>SetFocus(300)</onup>
                     <pagecontrol>60</pagecontrol>
                     <include>Action_Row_OnDown</include>
+                    <visible>$EXP[Exp_View_$PARAM[id]]</visible>
+                    <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
                 </include>
             </control>
         </control>
