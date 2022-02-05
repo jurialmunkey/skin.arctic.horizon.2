@@ -5,12 +5,9 @@
     <controls>
 
         <control type="group">
-            <animation type="WindowOpen" reversible="false">
-                <effect type="fade" start="0" end="100" time="400" delay="00" tween="sine" easing="out"/>
-            </animation>
-            <!-- <include>Background_Main</include> -->
+            <include condition="!Window.IsVisible(Home)">Animation_Foreground_FadeInOut_Delay</include>
             <control type="group">
-                <include>Animation_Left_Delay</include>
+                <include condition="Window.IsVisible(Home)">Animation_Left_Delay</include>
                 <control type="grouplist" id="6000">
                     <onup>9099</onup>
                     <ondown>330</ondown>
@@ -36,7 +33,7 @@
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
                         <param name="altvisible" value="Control.HasFocus(340)" />
                         <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=movie]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5000" /></include>
+                        <include content="Action_Widget_Click"><param name="id" value="5000" /></include>
                         <onback>SetFocus(5000)</onback>
                         <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
                     </include>
@@ -47,7 +44,7 @@
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
                         <param name="altvisible" value="Control.HasFocus(340)" />
                         <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=tv]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5001" /></include>
+                        <include content="Action_Widget_Click"><param name="id" value="5001" /></include>
                         <!-- <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=seasons&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Container(5001).ListItem.Property(tmdb_id)],return)</onclick> -->
                         <onback>SetFocus(5001)</onback>
                         <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
@@ -70,7 +67,7 @@
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1)) + !String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))" />
                         <param name="altvisible" value="Control.HasFocus(340)" />
                         <content>$INFO[Container(4000).ListItemAbsolute(0).Property(tmdb_id),plugin://plugin.video.themoviedb.helper/?info=discover&amp;tmdb_type=movie&amp;with_id=True&amp;with_keywords=,]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5004" /></include>
+                        <include content="Action_Widget_Click"><param name="id" value="5004" /></include>
                         <onback>SetFocus(5004)</onback>
                         <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
                     </include>
@@ -81,7 +78,7 @@
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1)) + !String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))" />
                         <param name="altvisible" value="Control.HasFocus(340)" />
                         <content>$INFO[Container(4000).ListItemAbsolute(0).Property(tmdb_id),plugin://plugin.video.themoviedb.helper/?info=discover&amp;tmdb_type=tv&amp;with_id=True&amp;with_keywords=,]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5005" /></include>
+                        <include content="Action_Widget_Click"><param name="id" value="5005" /></include>
                         <onback>SetFocus(5005)</onback>
                         <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
                     </include>
@@ -92,7 +89,7 @@
                         <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
                         <param name="altvisible" value="Control.HasFocus(340)" />
                         <content>$VAR[Path_Adaptive_Search,,&amp;tmdb_type=person]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click_NoClose"><param name="id" value="5003" /></include>
+                        <include content="Action_Widget_Click"><param name="id" value="5003" /></include>
                         <onback>SetFocus(5003)</onback>
                         <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
                     </include>
@@ -104,15 +101,14 @@
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
             </include>
             <control type="group">
-                <include>Animation_Foreground_FadeInOut</include>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
                 <left>view_pad</left>
                 <top>60</top>
                 <height>view_pad</height>
                 <control type="group">
-                    <left>0</left>
-                    <width>620</width>
+                    <left>20</left>
+                    <width>740</width>
                     <include content="Object_MenuBar_Group_Texture">
                         <param name="colordiffuse" value="main_fg_12" />
                         <left>-20</left>

@@ -49,7 +49,22 @@
         </definition>
     </include>
 
-    <include name="ACtion_Plotbox_OnUnload">
+    <include name="Action_Plotbox_OnClick">
+        <param name="fanart" default="$ESCINFO[ListItem.Art(fanart)]" />
+        <param name="poster" default="$ESCINFO[ListItem.Art(poster)]" />
+        <definition>
+            <onclick>SetProperty(Fanart,$PARAM[fanart],1113)</onclick>
+            <onclick>SetProperty(Poster,$PARAM[poster],1113)</onclick>
+            <onclick>SetProperty(Title,"$VAR[Label_Title]",1113)</onclick>
+            <onclick>SetProperty(Year,$ESCINFO[ListItem.Year],1113)</onclick>
+            <onclick>SetProperty(ClearLogo,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)],1113)</onclick>
+            <onclick>SetProperty(Tagline,$ESCINFO[ListItem.Tagline],1113)</onclick>
+            <onclick>SetProperty(Plot,$VAR[Label_Plot_ESC],1113)</onclick>
+            <onclick>ActivateWindow(1113)</onclick>
+        </definition>
+    </include>
+
+    <include name="Action_Plotbox_OnUnload">
         <onunload>ClearProperty(Fanart,1113)</onunload>
         <onunload>ClearProperty(Poster,1113)</onunload>
         <onunload>ClearProperty(Title,1113)</onunload>
@@ -70,6 +85,7 @@
         <ondown>SetProperty(Path.FromDirector,"$VAR[Path_FromDirector]",1120)</ondown>
         <ondown>SetProperty(Path.FromWriter,"$VAR[Path_FromWriter]",1120)</ondown>
         <ondown>SetProperty(Path.FromCollection,"$VAR[Path_FromCollection]",1120)</ondown>
+        <ondown>SetProperty(Path.UpNext,"$VAR[Path_UpNext]",1120)</ondown>
 
         <ondown>SetProperty(Path.CastInMovies,"$VAR[Path_CastInMovies]",1120)</ondown>
         <ondown>SetProperty(Path.CastInShows,"$VAR[Path_CastInShows]",1120)</ondown>

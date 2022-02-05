@@ -309,7 +309,8 @@
             <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].Language))</visible>
             <textoffsetx>dialog_pad</textoffsetx>
             <label>$INFO[Window(Home).Property($PARAM[language].Language),[UPPERCASE],[/UPPERCASE]]$INFO[Window(Home).Property($PARAM[language].Name), | ,]</label>
-            <onclick condition="$PARAM[issubtitle]">RunScript(plugin.video.themoviedb.helper,set_player_subtitle=$INFO[Window(Home).Property($PARAM[language].Index)])</onclick>
+            <onclick condition="$PARAM[issubtitle] + String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex))">Action(ShowSubtitles)</onclick>
+            <onclick condition="$PARAM[issubtitle] + !String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex))">RunScript(plugin.video.themoviedb.helper,set_player_subtitle=$INFO[Window(Home).Property($PARAM[language].Index)])</onclick>
             <onclick condition="!$PARAM[issubtitle]">RunScript(plugin.video.themoviedb.helper,set_player_audiostream=$INFO[Window(Home).Property($PARAM[language].Index)])</onclick>
             <onclick>Close</onclick>
             <!-- <onclick>Dialog.Close(videoosd,true)</onclick> -->
@@ -389,14 +390,14 @@
                 <bordersize>28</bordersize>
                 <aspectratio align="right">keep</aspectratio>
                 <texture colordiffuse="dialog_fg_70">buttons/check-on.png</texture>
-                <visible>[String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex)) + $PARAM[issubtitle]] | [String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.AudioStreams.CurrentIndex)) + !$PARAM[issubtitle]]</visible>
+                <visible>[String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex)) + $PARAM[issubtitle] + VideoPlayer.SubtitlesEnabled] | [String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.AudioStreams.CurrentIndex)) + !$PARAM[issubtitle]]</visible>
             </control>
             <control type="image">
                 <width>row_height</width>
                 <bordersize>28</bordersize>
                 <aspectratio align="right">keep</aspectratio>
                 <texture colordiffuse="dialog_fg_70">buttons/check-off.png</texture>
-                <visible>[!String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex)) + $PARAM[issubtitle]] | [!String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.AudioStreams.CurrentIndex)) + !$PARAM[issubtitle]]</visible>
+                <visible>[[!String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex)) | !VideoPlayer.SubtitlesEnabled] + $PARAM[issubtitle]] | [!String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.AudioStreams.CurrentIndex)) + !$PARAM[issubtitle]]</visible>
             </control>
             <control type="image">
                 <width>row_height</width>
@@ -693,8 +694,8 @@
     </include>
 
     <variable name="Dialog_Discover_Year_Content">
-        <value condition="String.IsEqual(Window.Property(TMDbType),movie)">$INFO[Control.GetLabel(9005).index(1),&amp;primary_release_year=,]</value>
-        <value condition="String.IsEqual(Window.Property(TMDbType),tv)">$INFO[Control.GetLabel(9005).index(1),&amp;first_air_date_year=,]</value>
+        <value condition="String.IsEqual(Window.Property(TMDbType),movie)">$INFO[Skin.String(Discover_MinYear),&amp;primary_release_date.gte=,-01-01]$INFO[Skin.String(Discover_MaxYear),&amp;primary_release_date.lte=,-01-01]</value>
+        <value condition="String.IsEqual(Window.Property(TMDbType),tv)">$INFO[Skin.String(Discover_MinYear),&amp;first_air_date.gte=,-01-01]$INFO[Skin.String(Discover_MaxYear),&amp;first_air_date.lte=,-01-01]</value>
     </variable>
 
 

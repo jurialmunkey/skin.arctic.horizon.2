@@ -296,15 +296,72 @@
         </include>
     </include>
 
+    <include name="Items_QuickNav_Button">
+        <include content="OSD_Button">
+            <param name="visible" value="true" />
+            <param name="icon" value="$PARAM[icon]" />
+            <param name="id" value="80$PARAM[id]" />
+            <param name="groupid" value="81$PARAM[id]" />
+            <param name="size" value="60" />
+            <param name="bordersize" value="4" />
+            <param name="itemgap" value="30" />
+            <param name="back_colordiffuse" value="00ffffff" />
+            <ondown>9002</ondown>
+            <onup>9001</onup>
+            <!-- <include>Action_Plotbox_OnUp</include> -->
+            <nested />
+        </include>
+    </include>
+
     <include name="Items_MyVideoNav">
+        <control type="grouplist" id="8000">
+            <left>30</left>
+            <right>30</right>
+            <align>center</align>
+            <height>80</height>
+            <orientation>horizontal</orientation>
+            <itemgap>30</itemgap>
+            <include content="Items_QuickNav_Button">
+                <param name="icon" value="special://skin/extras/icons/quote.png" />
+                <param name="id" value="01" />
+                <include>Action_Plotbox_OnClick</include>
+            </include>
+            <include content="Items_QuickNav_Button">
+                <param name="icon" value="special://skin/extras/icons/search.png" />
+                <param name="id" value="02" />
+                <onclick>ActivateWindow(1114)</onclick>
+            </include>
+            <include content="Items_QuickNav_Button">
+                <param name="icon" value="special://skin/extras/icons/fire2.png" />
+                <param name="id" value="03" />
+                <onclick>ActivateWindow(1114)</onclick>
+            </include>
+            <include content="Items_QuickNav_Button">
+                <param name="icon" value="special://skin/extras/icons/binoculars.png" />
+                <param name="id" value="04" />
+                <onclick>ActivateWindow(1116)</onclick>
+            </include>
+            <include content="Items_QuickNav_Button">
+                <param name="icon" value="special://skin/extras/icons/fullscreen.png" />
+                <param name="id" value="05" />
+                <onclick>fullscreen</onclick>
+            </include>
+        </control>
+        <control type="image" id="8200">
+            <top>-1</top>
+            <left>40</left>
+            <right>40</right>
+            <height>1</height>
+            <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+        </control>
         <include>Items_Default_MyNav</include>
-        <include content="Dialog_Menu_Button" description="Search">
+        <!-- <include content="Dialog_Menu_Button" description="Search">
             <param name="id" value="9008" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/search.png" />
             <label>$LOCALIZE[137]</label>
             <onclick>ActivateWindow(1117)</onclick>
-        </include>
+        </include> -->
         <include content="Dialog_Menu_Button" description="Watched">
             <param name="id" value="14" />
             <param name="control" value="radiobutton" />
@@ -317,6 +374,12 @@
             <param name="icon" value="$VAR[Image_Filtered]" />
             <label>$LOCALIZE[587]</label>
         </include>
+        <include content="Dialog_Menu_Button" description="Update Library">
+            <param name="id" value="20" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/update.png" />
+            <label>$LOCALIZE[653]</label>
+        </include>
         <include content="Dialog_Menu_Button" description="Background Customisation">
             <param name="id" value="9001" />
             <param name="control" value="button" />
@@ -325,12 +388,7 @@
             <onclick>ActivateWindow(1112)</onclick>
             <label>$LOCALIZE[31007]</label>
         </include>
-        <include content="Dialog_Menu_Button" description="Update Library">
-            <param name="id" value="20" />
-            <param name="control" value="button" />
-            <param name="icon" value="special://skin/extras/icons/update.png" />
-            <label>$LOCALIZE[653]</label>
-        </include>
+
     </include>
 
     <include name="Items_DialogVideoInfo_Options">

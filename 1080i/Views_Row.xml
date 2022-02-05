@@ -17,20 +17,22 @@
     <include name="View_Furniture_Row_Bottom">
         <include content="Object_Control" condition="$EXP[Exp_View_50_Include] | $EXP[Exp_View_51_Include] | $EXP[Exp_View_52_Include]">
             <param name="control" value="group" />
-            <visible>$EXP[Exp_RowViews]</visible>
-            <include>View_Row_Divider</include>
-            <include content="Furniture_Bottombar_Group">
-                <control type="scrollbar" id="60">
-                    <onup>50</onup>
-                    <orientation>horizontal</orientation>
-                    <height>8</height>
-                    <centertop>50%</centertop>
-                    <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollh.png</texturesliderbackground>
-                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbar>
-                    <include>Texture_Scrollbar_H</include>
-                    <visible allowhiddenfocus="true">Control.HasFocus(60)</visible>
-                </control>
-            </include>
+            <control type="group">
+                <visible>$EXP[Exp_RowViews]</visible>
+                <include>View_Row_Divider</include>
+                <include content="Furniture_Bottombar_Group">
+                    <control type="scrollbar" id="60">
+                        <onup>50</onup>
+                        <orientation>horizontal</orientation>
+                        <height>8</height>
+                        <centertop>50%</centertop>
+                        <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollh.png</texturesliderbackground>
+                        <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbar>
+                        <include>Texture_Scrollbar_H</include>
+                        <visible allowhiddenfocus="true">Control.HasFocus(60)</visible>
+                    </control>
+                </include>
+            </control>
             <include condition="$EXP[Exp_View_50_Include]">View_050_Square_Row</include>
             <include condition="$EXP[Exp_View_51_Include]">View_051_Landscape_Row</include>
             <include condition="$EXP[Exp_View_52_Include]">View_052_Poster_Row</include>
@@ -70,7 +72,7 @@
     </include>
 
     <include name="View_ClearArt">
-        <include content="Object_Control" condition="Skin.String(BackgroundStyle,Blur) | Skin.String(BackgroundStyle,None)">
+        <include content="Object_Control" condition="!Skin.String(BackgroundStyle,Fanart)">
             <param name="control" value="image" />
             <bottom>divider_bottom</bottom>
             <right>view_pad</right>
@@ -91,7 +93,7 @@
             <aspectratio scalediffuse="false">scale</aspectratio>
             <texture background="true" diffuse="diffuse/showcase-fanart.png" colordiffuse="main_flix">$INFO[ListItem.Art(fanart)]</texture>
             <visible>$EXP[Exp_ShowSideArt]</visible>
-            <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/fanart.jpg) | Skin.String(BackgroundStyle,None)</visible>
+            <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/fanart.jpg) | Skin.String(BackgroundStyle,None) | Skin.String(BackgroundStyle,Image)</visible>
             <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
             <animation effect="fade" start="100" end="0" time="150">Hidden</animation>
         </include>
@@ -106,7 +108,7 @@
             <aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
             <texture background="true" diffuse="diffuse/showcase-fanart.png" colordiffuse="main_flix">$INFO[ListItem.Art(fanart)]</texture>
             <visible>$EXP[Exp_ShowSideArt]</visible>
-            <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/fanart.jpg) | Skin.String(BackgroundStyle,None)</visible>
+            <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/fanart.jpg) | Skin.String(BackgroundStyle,None) | Skin.String(BackgroundStyle,Image)</visible>
             <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
             <animation effect="fade" start="100" end="0" time="150">Hidden</animation>
         </include>
@@ -175,7 +177,7 @@
             <include content="List_BigPoster">
                 <param name="id" value="54" />
                 <focusposition>2</focusposition>
-                <onup>SetFocus(300)</onup>
+                <onup>SetFocus(8001)</onup>
                 <pagecontrol>60</pagecontrol>
                 <include content="Action_Recommendations_OnDown">
                     <ondown>ClearProperty(Path.Cast,1120)</ondown>
@@ -201,9 +203,11 @@
                     <param name="id" value="$PARAM[id]" />
                     <height>divider_bottom</height>
                     <bottom>40</bottom>
-                    <onup>SetFocus(300)</onup>
+                    <onup>SetFocus(8001)</onup>
                     <pagecontrol>60</pagecontrol>
-                    <include>Action_Row_OnDown</include>
+                    <include content="Action_Row_OnDown">
+                        <param name="id" value="$PARAM[id]" />
+                    </include>
                     <visible>$EXP[Exp_View_$PARAM[id]]</visible>
                     <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
                 </include>
