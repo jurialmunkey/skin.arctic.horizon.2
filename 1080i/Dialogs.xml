@@ -17,7 +17,7 @@
                 <include content="Object_Control" condition="$PARAM[overlay]">
                     <param name="control" value="image" />
                     <aspectratio scalediffuse="false">scale</aspectratio>
-                    <texture background="true" colordiffuse="$PARAM[overlay_colordiffuse]" diffuse="diffuse/dialog-backing.png" fallback="$PARAM[overlay_fallback]">$PARAM[overlay_texture]</texture>
+                    <texture background="true" colordiffuse="$PARAM[overlay_colordiffuse]" diffuse="diffuse/dialog_w1760_h800.png" fallback="$PARAM[overlay_fallback]">$PARAM[overlay_texture]</texture>
                     <include condition="$PARAM[overlay_animation]">Animation_FadeIn_Delay</include>
                     <include condition="$PARAM[overlay_animation]">Animation_FadeOut</include>
                     <visible>$PARAM[overlay_visible]</visible>
@@ -40,7 +40,7 @@
                     <include content="Object_Include" condition="Skin.HasSetting(DividerShadows)">
                         <texture background="true" colordiffuse="main_flix">$VAR[Background_Fanart_Var]</texture>
                     </include>
-                    <texture background="true" diffuse="diffuse/showcase-fanart.png" colordiffuse="main_flix">$VAR[Background_Fanart_Var]</texture>
+                    <texture background="true" diffuse="diffuse/flixart.png" colordiffuse="main_flix">$VAR[Background_Fanart_Var]</texture>
                     <visible>!Window.IsActive(1120)</visible>
                     <animation effect="fade" start="0" end="100" time="400" delay="400">Visible</animation>
                     <animation effect="fade" start="100" end="0" time="400">Hidden</animation>
@@ -138,32 +138,6 @@
         </definition>
     </include>
 
-    <include name="Dialog_Info_Menu">
-        <param name="onback" default="7000" />
-        <definition>
-            <control type="group">
-                <visible>ControlGroup(9000).HasFocus()</visible>
-                <visible>!$EXP[Exp_OverlayDialogs]</visible>
-                <include>Animation_FadeIn</include>
-                <include>Animation_FadeOut</include>
-                <include>Object_Overlay</include>
-                <include content="Object_MenuButton">
-                    <right>150</right>
-                    <top>190</top>
-                    <height>60</height>
-                </include>
-            </control>
-            <include content="Object_Options_Menu_Popup">
-                <param name="grouplist_items" value="$PARAM[grouplist_items]" />
-                <param name="visible" value="!$EXP[Exp_OverlayDialogs]" />
-                <param name="onback" value="$PARAM[onback]" />
-                <param name="nib_pos" value="100" />
-                <top>280</top>
-                <right>80</right>
-            </include>
-        </definition>
-    </include>
-
     <include name="Dialog_Group">
         <control type="group">
             <nested />
@@ -171,15 +145,6 @@
             <right>dialog_pad</right>
             <bottom>dialog_pad</bottom>
             <top>dialog_pad</top>
-        </control>
-    </include>
-
-    <include name="Dialog_Info_MainGroup">
-        <control type="group">
-            <visible>!$EXP[Exp_OverlayDialogs]</visible>
-            <include>Animation_FadeIn_Delay</include>
-            <include>Animation_FadeOut</include>
-            <nested />
         </control>
     </include>
 
@@ -536,42 +501,6 @@
         </definition>
     </include>
 
-    <include name="Dialog_Info_LineLabel">
-        <control type="group">
-            <nested />
-            <control type="label">
-                <top>-5</top>
-                <height>row_height_x50</height>
-                <label>$PARAM[label]</label>
-                <aligny>center</aligny>
-                <font>font_small_bold</font>
-                <align>left</align>
-            </control>
-            <control type="label">
-                <top>-5</top>
-                <height>row_height_x50</height>
-                <label>$PARAM[label2]</label>
-                <aligny>center</aligny>
-                <font>font_minilabel</font>
-                <align>right</align>
-            </control>
-            <include content="Object_Separator_V">
-                <top>row_height_x50</top>
-            </include>
-        </control>
-    </include>
-
-    <include name="Dialog_Info_FileDetails">
-        <control type="label">
-            <nested />
-            <left>0</left>
-            <height>row_height_x50</height>
-            <aligny>center</aligny>
-            <font>font_minilabel</font>
-            <align>left</align>
-        </control>
-    </include>
-
     <include name="Dialog_Settings_Changer">
         <param name="id" default="30000" />
         <definition>
@@ -662,35 +591,6 @@
                 <animation effect="fade" condition="!Control.HasFocus($PARAM[id]) + !Skin.HasSetting(TouchMode)" start="100" end="0" time="200">Conditional</animation>
             </control>
         </definition>
-    </include>
-
-    <include name="Dialog_Recommendations_SwitcherButton">
-        <control type="group">
-            <height>row_height</height>
-            <width>row_height</width>
-            <include content="Layout_IconSwitcher">
-                <param name="icon" value="$PARAM[icon]" />
-                <visible>!Window.IsActive($PARAM[window_id])</visible>
-            </include>
-            <include content="Layout_IconSwitcher">
-                <param name="icon" value="$PARAM[icon]" />
-                <param name="colordiffuse" value="dialog_fg_70" />
-                <visible>Window.IsActive($PARAM[window_id])</visible>
-                <visible>!Control.HasFocus(5000)</visible>
-            </include>
-            <include content="Layout_IconSwitcher">
-                <param name="icon" value="$PARAM[icon]" />
-                <param name="selected" value="true" />
-                <param name="colordiffuse" value="$VAR[ColorSelected]" />
-                <visible>Window.IsActive($PARAM[window_id])</visible>
-                <visible>Control.HasFocus(5000)</visible>
-            </include>
-            <control type="button">
-                <visible allowhiddenfocus="true">False</visible>
-                <onclick>Dialog.Close($PARAM[current_window_id],true)</onclick>
-                <onclick>ActivateWindow($PARAM[window_id])</onclick>
-            </control>
-        </control>
     </include>
 
     <variable name="Dialog_Discover_Year_Content">

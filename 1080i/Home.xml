@@ -2,14 +2,14 @@
 <window>
     <defaultcontrol>300</defaultcontrol>
     <include>Action_Blur_Onload</include>
-    <onload>RunScript(script.skinvariables,action=buildviews)</onload>
     <onload>ClearProperty(TMDbHelper.HideView,Home)</onload>
     <onload>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onload>
     <onunload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onunload>
     <onunload>ClearProperty(MenuSelect,Home)</onunload>
     <onunload>ClearProperty(AnimationDirection,Home)</onunload>
     <include>Action_ClearContext_OnUnload</include>
-
+    <onload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=301&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onload>
+    <onload>RunScript(script.skinvariables,action=buildviews)</onload>
     <onload condition="Control.HasFocus(301)">SetFocus(300)</onload>
     <controls>
 
@@ -41,19 +41,19 @@
         </control>
 
         <!-- Header -->
-        <!-- <control type="group">
-            <visible>![Control.HasFocus(300) | Control.HasFocus(399) | Control.HasFocus(302) | ControlGroup(303).HasFocus()]</visible>
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <include>Furniture_Top_Left</include>
-            <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false">Visible</animation>
-            <animation effect="fade" start="100" end="0" time="200" delay="0" reversible="false">Hidden</animation>
-        </control> -->
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!Window.IsVisible(favourites)</visible>
             <visible>!Window.IsVisible(1114)</visible>
-            <include>Furniture_Top_Right</include>
-            <!-- <include>Furniture_Top_Left</include> -->
+            <control type="group">
+                <visible>!Window.IsVisible(favourites)</visible>
+                <include>Furniture_Top_Right</include>
+            </control>
+            <!-- <control type="group">
+                <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false">Visible</animation>
+                <animation effect="fade" start="100" end="0" time="200" delay="0" reversible="false">Hidden</animation>
+                <visible>![Control.HasFocus(300) | Control.HasFocus(399) | Control.HasFocus(302) | ControlGroup(303).HasFocus()]</visible>
+                <include>Furniture_Top_Left</include>
+            </control> -->
         </control>
 
         <!-- Submenu -->
@@ -65,6 +65,7 @@
             <param name="usegrouplist" value="false" />
             <param name="nib_pos" value="420" />
             <param name="useanimation" value="false" />
+            <!-- <left>140</left> -->
             <left>180</left>
             <animation effect="slide" start="0" end="100" condition="Container(300).Position(1)">Conditional</animation>
             <animation effect="slide" start="0" end="200" condition="Container(300).Position(2)">Conditional</animation>
@@ -109,10 +110,12 @@
         <include content="Object_MenuBar_Group">
             <param name="overlay" value="false" />
             <param name="colordiffuse" value="main_fg_12" />
-            <!-- <left>650</left> -->
+            <!-- <param name="backing" value="false" />
+            <left>40</left> -->
             <left>80</left>
             <animation effect="fade" start="100" end="0" condition="Window.IsVisible(1114)">Conditional</animation>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <!-- <visible>Control.HasFocus(300) | Control.HasFocus(399) | Control.HasFocus(302) | ControlGroup(303).HasFocus()</visible> -->
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
                 <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
@@ -146,8 +149,6 @@
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
                 <include>skinshortcuts-template-menubar</include>
                 <left>80</left>
-                <onright>SetFocus(303)</onright>
-                <onleft>SetFocus(303)</onleft>
                 <onup>SetFocus(302,0,absolute)</onup>
                 <oninfo>SetFocus(302,0,absolute)</oninfo>
                 <content><include>skinshortcuts-mainmenu</include></content>

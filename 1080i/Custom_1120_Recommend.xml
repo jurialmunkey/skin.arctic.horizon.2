@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1120">
     <defaultcontrol always="true">6000</defaultcontrol>
-    <!-- <onload>SetFocus(5000,0,absolute)</onload> -->
     <onload>SetProperty(TMDbHelper.ServicePause,1)</onload>
     <include>Action_ClearContext_OnUnload</include>
     <controls>
@@ -44,16 +43,16 @@
                     <onback>SetFocus(5000)</onback>
                 </include>
                 <include content="Widget_Poster" condition="!String.IsEqual(ListItem.Property(item.type),person)">
-                    <param name="groupid" value="5101" />
-                    <param name="id" value="5001" />
-                    <param name="label" value="Up Next" />
-                    <param name="include" value="List_Landscape_Row" />
-                    <param name="icon" value="$INFO[ListItem.Icon]" />
-                    <param name="visible" value="!String.IsEmpty(Window.Property(Path.UpNext))" />
-                    <content>$INFO[Window.Property(Path.UpNext)]</content>
-                    <include content="Action_Widget_Click"><param name="id" value="5001" /></include>
+                    <param name="groupid" value="5111" />
+                    <param name="id" value="5011" />
+                    <param name="label" value="$LOCALIZE[33054]" />
+                    <param name="visible" value="!String.IsEmpty(Window.Property(Path.Seasons))" />
+                    <content target="videos">$INFO[Window.Property(Path.Seasons)]</content>
+                    <onclick>Close</onclick>
+                    <onclick>Container.Update($INFO[Container(5011).ListItem.FolderPath])</onclick>
                     <onback>SetFocus(5000)</onback>
                 </include>
+
                 <include content="Widget_Poster" condition="!String.IsEqual(ListItem.Property(item.type),person)">
                     <param name="groupid" value="5109" />
                     <param name="id" value="5009" />
@@ -63,6 +62,7 @@
                     <include content="Action_Widget_Click"><param name="id" value="5009" /></include>
                     <onback>SetFocus(5000)</onback>
                 </include>
+
                 <include content="Widget_Poster" condition="!String.IsEqual(ListItem.Property(item.type),person)">
                     <param name="groupid" value="5102" />
                     <param name="id" value="5002" />
@@ -136,6 +136,18 @@
                     <onback>SetFocus(5000)</onback>
                 </include>
 
+                <include content="Widget_Poster" condition="!String.IsEqual(ListItem.Property(item.type),person)">
+                    <param name="groupid" value="5101" />
+                    <param name="id" value="5001" />
+                    <param name="label" value="Up Next" />
+                    <param name="include" value="List_Landscape_Row" />
+                    <param name="icon" value="$INFO[ListItem.Icon]" />
+                    <param name="visible" value="!String.IsEmpty(Window.Property(Path.UpNext))" />
+                    <content>$INFO[Window.Property(Path.UpNext)]</content>
+                    <include content="Action_Widget_Click"><param name="id" value="5001" /></include>
+                    <onback>SetFocus(5000)</onback>
+                </include>
+
                 <!-- People Widgets -->
                 <include content="Widget_Poster" condition="String.IsEqual(ListItem.Property(item.type),person)">
                     <param name="groupid" value="5100" />
@@ -202,6 +214,8 @@
                     <onclick>SetFocus(5299)</onclick>
                     <onback>SetFocus(5000)</onback>
                 </include>
+
+
             </control>
             <include content="Object_WallFade">
                 <param name="id" value="6000" />

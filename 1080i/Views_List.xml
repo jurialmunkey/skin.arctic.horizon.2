@@ -14,29 +14,46 @@
 
 
     <include name="View_List_Template">
-        <param name="height" default="480" />
+        <param name="height" default="row_height_x600" />
         <param name="include" default="List_MediaList" />
+        <param name="flipside" default="false" />
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <include>Dimension_View</include>
                 <include content="Object_BigPoster">
                     <param name="icon" value="$PARAM[icon]" />
+                    <param name="diffuse" value="$PARAM[diffuse]" />
                     <bottom>0</bottom>
-                    <right>0</right>
+                    <include content="Object_Include" condition="$PARAM[flipside]">
+                        <right>0</right>
+                    </include>
+                    <include content="Object_Include" condition="!$PARAM[flipside]">
+                        <left>0</left>
+                    </include>
                     <width>$PARAM[width]</width>
                     <height>$PARAM[height]</height>
                 </include>
                 <control type="group">
-                    <right>$PARAM[width]</right>
+                    <include content="Object_Include" condition="$PARAM[flipside]">
+                        <right>$PARAM[width]</right>
+                    </include>
+                    <include content="Object_Include" condition="!$PARAM[flipside]">
+                        <left>$PARAM[width]</left>
+                    </include>
                     <height>$PARAM[height]</height>
                     <bottom>0</bottom>
                     <include content="Object_GlassPanel">
-                        <right>40</right>
+                        <include content="Object_Include" condition="$PARAM[flipside]">
+                            <right>row_height_x50</right>
+                        </include>
+                        <include content="Object_Include" condition="!$PARAM[flipside]">
+                            <left>row_height_x50</left>
+                        </include>
                         <include content="$PARAM[include]">
                             <param name="id" value="$PARAM[id]" />
-                            <left>-40</left>
-                            <right>-40</right>
+                            <left>-row_height_x50</left>
+                            <right>-row_height_x50</right>
                             <visible>$EXP[Exp_View_$PARAM[id]]</visible>
                             <viewtype label="$PARAM[viewtype_label]">list</viewtype>
                         </include>
@@ -50,8 +67,10 @@
         <include content="View_List_Template">
             <param name="id" value="53" />
             <param name="icon" value="$INFO[ListItem.Icon]" />
-            <param name="width" value="480" />
+            <param name="width" value="row_height_x600" />
             <param name="viewtype_label" value="$LOCALIZE[31121]" />
+            <param name="diffuse" value="diffuse/square_w480_h480.png" />
+            <param name="flipside" value="true" />
         </include>
     </include>
     <include name="View_054_Landscape_List">
@@ -60,6 +79,8 @@
             <param name="icon" value="$VAR[Image_Landscape]" />
             <param name="width" value="853" />
             <param name="viewtype_label" value="$LOCALIZE[31122]" />
+            <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
+            <param name="flipside" value="true" />
         </include>
     </include>
 
@@ -70,6 +91,8 @@
             <param name="width" value="853" />
             <param name="include" value="List_EpisodeList" />
             <param name="viewtype_label" value="$LOCALIZE[31123]" />
+            <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
+            <param name="flipside" value="true" />
         </include>
     </include>
 

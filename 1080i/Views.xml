@@ -24,17 +24,22 @@
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
                 <include>Animation_Common</include>
                 <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
-                <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,ClearArt)">
-                    <param name="control" value="group" />
-                    <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
-                    <include condition="Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
-                    <include condition="Skin.String(ForegroundStyle,FlixArt)">View_FlixArt</include>
-                </include>
                 <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt)">
                     <param name="control" value="group" />
                     <include>View_KeyArt</include>
                 </include>
             </control>
+        </include>
+
+        <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,ClearArt)">
+            <param name="control" value="group" />
+            <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>!Window.IsVisible(1113)</visible>
+            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+            <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
+            <include condition="Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
+            <include condition="Skin.String(ForegroundStyle,FlixArt)">View_FlixArt</include>
         </include>
 
         <control type="group">

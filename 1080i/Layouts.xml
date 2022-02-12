@@ -220,78 +220,6 @@
         </definition>
     </include>
 
-    <include name="Layout_Info_Poster">
-        <param name="selected" default="false" />
-        <param name="detailed" default="false" />
-        <param name="diffuse" default="diffuse/poster-sml.png" />
-        <definition>
-            <control type="group">
-                <width>$PARAM[item_w]</width>
-                <height>$PARAM[item_h]</height>
-                <include content="Object_Control" condition="$PARAM[selected]">
-                    <param name="control" value="image" />
-                    <param name="padding" value="true" />
-                    <param name="pad" value="-1" />
-                    <include>Texture_Box_Highlight_V</include>
-                </include>
-                <include condition="!$PARAM[selected]">Dialog_Box</include>
-                <control type="image">
-                    <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_InfoPoster]</texture>
-                    <aspectratio scalediffuse="false">scale</aspectratio>
-                </control>
-                <include content="Object_Control">
-                    <param name="control" value="image" />
-                    <texture border="10" colordiffuse="bbffffff">diffuse/poster-sml-fade.png</texture>
-                    <visible>$PARAM[detailed]</visible>
-                </include>
-
-                <include content="Object_Control">
-                    <param name="control" value="group" />
-                    <top>$PARAM[item_w]</top>
-                    <visible>$PARAM[detailed]</visible>
-                    <control type="textbox">
-                        <textcolor>ffdedede</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
-                        <left>15</left>
-                        <right>15</right>
-                        <align>center</align>
-                        <aligny>center</aligny>
-                        <font>font_statusbar_bold</font>
-                        <height>60</height>
-                        <bottom>20</bottom>
-                        <visible>String.IsEmpty(ListItem.Label2)</visible>
-                    </control>
-                    <control type="label">
-                        <textcolor>ffdedede</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
-                        <textoffsetx>15</textoffsetx>
-                        <align>center</align>
-                        <font>font_statusbar_bold</font>
-                        <height>40</height>
-                        <bottom>40</bottom>
-                        <visible>!String.IsEmpty(ListItem.Label2)</visible>
-                    </control>
-                    <control type="label">
-                        <textcolor>ffdedede</textcolor>
-                        <label>$INFO[ListItem.Label2]</label>
-                        <textoffsetx>15</textoffsetx>
-                        <align>center</align>
-                        <font>font_statusbar</font>
-                        <height>20</height>
-                        <bottom>20</bottom>
-                        <visible>!String.IsEmpty(ListItem.Label2)</visible>
-                    </control>
-                </include>
-                <include condition="!$PARAM[selected]">Dialog_Outline</include>
-                <include>Object_Indicator</include>
-                <include content="Object_SelectBox" condition="$PARAM[selected]">
-                    <param name="indicator" value="true" />
-                    <param name="focusbounce" value="true" />
-                </include>
-            </control>
-        </definition>
-    </include>
-
     <include name="Layout_AddonBrowser">
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
@@ -419,7 +347,7 @@
         <param name="selected" default="false" />
         <param name="fg_layer" default="true" />
         <param name="bg_layer" default="true" />
-        <param name="diffuse" default="diffuse/poster-std.png" />
+        <param name="diffuse" default="diffuse/poster_w217_h320.png" />
         <param name="icon" default="$VAR[Image_Poster]" />
         <param name="listitem_dbtype" default="ListItem.DBType" />
         <param name="listitem_label" default="ListItem.Label" />
@@ -446,7 +374,7 @@
                     <visible>String.IsEqual($PARAM[listitem_dbtype],actor) | String.IsEqual($PARAM[listitem_dbtype],video) | $PARAM[detailed]</visible>
                     <include content="Object_Control" condition="$PARAM[bg_layer]">
                         <param name="control" value="image" />
-                        <texture border="10" colordiffuse="bbffffff">diffuse/poster-sml-fade.png</texture>
+                        <texture border="10" colordiffuse="bbffffff">diffuse/poster_fade.png</texture>
                     </include>
                     <include content="Object_Control" condition="$PARAM[fg_layer]">
                         <param name="control" value="group" />
@@ -484,6 +412,10 @@
                             <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
                         </control>
                     </include>
+                </include>
+                <include content="Object_Control" condition="!$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
                 </include>
                 <control type="group">
                     <top>-$PARAM[misc]</top>
@@ -705,6 +637,10 @@
                         <centertop>50%</centertop>
                     </control>
                 </control>
+                <include content="Object_Control" condition="!$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
                 <include content="Object_SelectBox" condition="$PARAM[selected]">
                     <param name="indicator" value="false" />
                     <param name="focusbounce" value="true" />
@@ -714,6 +650,7 @@
     </include>
 
     <include name="Layout_Square">
+        <param name="diffuse" default="diffuse/square_w260_h260.png" />
         <param name="selected" default="false" />
         <definition>
             <control type="group">
@@ -726,7 +663,7 @@
                 <control type="group">
                     <height>$PARAM[item_w]</height>
                     <control type="image">
-                        <texture background="true" diffuse="diffuse/landscape-std.png">$INFO[ListItem.Icon]</texture>
+                        <texture background="true" diffuse="$PARAM[diffuse]">$INFO[ListItem.Icon]</texture>
                         <aspectratio scalediffuse="false">scale</aspectratio>
                     </control>
                     <include content="Object_Indicator">
@@ -748,6 +685,11 @@
                     </control>
                 </control>
 
+                <include content="Object_Control" condition="!$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
+
                 <include content="Object_SelectBox" condition="$PARAM[selected]">
                     <param name="indicator" value="false" />
                     <param name="focusbounce" value="true" />
@@ -761,6 +703,7 @@
         <param name="selected" default="false" />
         <param name="icon" default="$VAR[Image_Landscape]" />
         <param name="textcolor" default="main_fg" />
+        <param name="diffuse" default="diffuse/landscape_w410_h231.png" />
         <definition>
             <control type="group">
                 <width>$PARAM[item_w]</width>
@@ -772,7 +715,7 @@
                 <control type="group">
                     <height>$PARAM[artwork_h]</height>
                     <control type="image">
-                        <texture background="true" diffuse="diffuse/landscape-std.png">$PARAM[icon]</texture>
+                        <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">scale</aspectratio>
                     </control>
                     <include content="Object_Indicator">
@@ -818,6 +761,10 @@
                         <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
                     </control>
                 </control>
+                <include content="Object_Control" condition="!$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
                 <include content="Object_SelectBox" condition="$PARAM[selected]">
                     <param name="indicator" value="false" />
                     <param name="focusbounce" value="true" />

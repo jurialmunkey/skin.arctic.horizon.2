@@ -34,17 +34,6 @@
         </definition>
     </include>
 
-    <include name="Object_Shadow_20">
-        <param name="colordiffuse" default="shadow_hard" />
-        <param name="pad" default="-20" />
-        <definition>
-            <control type="image">
-                <include content="Dimension_Padding"><param name="pad" value="$PARAM[pad]" /></include>
-                <texture border="32" colordiffuse="$PARAM[colordiffuse]">shadows/shadow-20.png</texture>
-                <nested />
-            </control>
-        </definition>
-    </include>
     <include name="Object_Shadow_40">
         <param name="colordiffuse" default="shadow_hard" />
         <param name="pad" default="-40" />
@@ -212,7 +201,6 @@
         <param name="icon" default="$VAR[Image_Poster]" />
         <param name="fadetime" default="600" />
         <param name="aspectratio" default="scale" />
-        <param name="diffuse" default="diffuse/poster-info.png" />
         <definition>
             <control type="group">
                 <nested />
@@ -226,9 +214,9 @@
                     <fadetime>$PARAM[fadetime]</fadetime>
                     <texture diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                 </control>
-                <include content="Object_Control" condition="[Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)] + Skin.HasSetting(DividerShadows)">
+                <include content="Object_Control">
                     <param name="control" value="image" />
-                    <texture colordiffuse="main_fg_12" border="10">common/box-outline.png</texture>
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
                 </include>
             </control>
         </definition>
@@ -240,33 +228,12 @@
             <include content="Object_Control">
                 <param name="control" value="image" />
                 <include>Texture_Shadow_40</include>
-                <texture colordiffuse="main_fg_12" border="10">common/panel-256-box.png</texture>
+                <texture colordiffuse="panel_fg_12" border="10">common/panel-256-box.png</texture>
             </include>
             <nested />
             <include content="Object_Control">
                 <param name="control" value="image" />
-                <!-- <bordersize>-1</bordersize> -->
-                <texture colordiffuse="main_fg_12" border="10">common/box-outline.png</texture>
-            </include>
-        </include>
-    </include>
-
-    <include name="Object_RecessedPanel">
-        <include content="Object_Control">
-            <param name="control" value="group" />
-            <include content="Object_Control">
-                <param name="control" value="image" />
-                <texture colordiffuse="main_bg_70" border="10">common/panel-256-box.png</texture>
-            </include>
-            <nested />
-            <include content="Object_Control" condition="Skin.HasSetting(DividerShadows)">
-                <param name="control" value="image" />
-                <texture colordiffuse="shadow_hard" border="24">shadows/inner-glow.png</texture>
-            </include>
-            <include content="Object_Control" condition="Skin.HasSetting(DividerShadows)">
-                <param name="control" value="image" />
-                <bordersize>-1</bordersize>
-                <texture colordiffuse="main_fg_12" border="10">common/box-outline.png</texture>
+                <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
             </include>
         </include>
     </include>
@@ -631,7 +598,7 @@
         <param name="focused" default="false" />
         <param name="itemgap" default="60" />
         <param name="texturename" default="menu" />
-        <param name="invertcolor" default="false" />
+        <param name="invertcolor" default="true" />
         <definition>
             <control type="group" id="$PARAM[groupid]">
                 <left>-28</left>
@@ -650,7 +617,7 @@
                     <param name="texture" value="common/$PARAM[texturename]left.png" />
                     <param name="icon" value="$PARAM[icon]" />
                     <param name="colordiffuse_icon" value="panel_bg" />
-                    <param name="colordiffuse_back" value="$VAR[ColorSelected]" />
+                    <param name="colordiffuse_back" value="panel_fg_100" />
                 </include>
                 <include content="Object_Info_Button_Left">
                     <param name="visible" value="![Control.HasFocus($PARAM[id]) | $PARAM[focused]]" />
@@ -666,7 +633,7 @@
                 <visible>$PARAM[visible]</visible>
                 <height>256</height>
                 <include content="Object_Include" condition="$PARAM[invertcolor]">
-                    <texturefocus border="0,93,74,93" colordiffuse="$VAR[ColorSelected]">common/$PARAM[texturename]right.png</texturefocus>
+                    <texturefocus border="0,93,74,93" colordiffuse="panel_fg_100">common/$PARAM[texturename]right.png</texturefocus>
                     <focusedcolor>panel_bg</focusedcolor>
                 </include>
                 <texturenofocus border="0,93,74,93" colordiffuse="main_fg_12">common/$PARAM[texturename]right.png</texturenofocus>
@@ -849,83 +816,6 @@
         </definition>
     </include>
 
-    <include name="Object_InfoBar_List">
-        <param name="control" default="list" />
-        <definition>
-            <control type="$PARAM[control]" id="$PARAM[id]">
-                <nested />
-                <left>-20</left>
-                <centertop>50%</centertop>
-                <height>120</height>
-                <orientation>horizontal</orientation>
-                <scrolltime tween="quadratic">400</scrolltime>
-                <itemlayout height="120" width="100">
-                    <control type="group">
-                        <left>40</left>
-                        <right>-40</right>
-                        <control type="image">
-                            <centertop>50%</centertop>
-                            <height>60</height>
-                            <width>80</width>
-                            <aspectratio>keep</aspectratio>
-                            <texture colordiffuse="dialog_fg_70">$INFO[ListItem.Icon]</texture>
-                        </control>
-                    </control>
-                </itemlayout>
-                <focusedlayout height="120" width="100" condition="!Control.HasFocus($PARAM[id])">
-                    <control type="group">
-                        <left>40</left>
-                        <right>-40</right>
-                        <control type="image">
-                            <centertop>50%</centertop>
-                            <height>60</height>
-                            <width>80</width>
-                            <aspectratio>keep</aspectratio>
-                            <texture colordiffuse="dialog_fg_70">$INFO[ListItem.Icon]</texture>
-                        </control>
-                    </control>
-                </focusedlayout>
-                <focusedlayout height="120" width="240" condition="Control.HasFocus($PARAM[id])">
-                    <control type="group">
-                        <left>40</left>
-                        <right>-20</right>
-                        <control type="group">
-                            <control type="group">
-                                <centertop>50%</centertop>
-                                <height>60</height>
-                                <control type="image">
-                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
-                                    <texture border="54" colordiffuse="shadow_hard">shadows/circle_shadow.png</texture>
-                                </control>
-                                <control type="image">
-                                    <texture border="0">special://profile/addon_data/script.texturemaker/ArcticHorizon/menu_h.png</texture>
-                                </control>
-                            </control>
-                            <control type="image">
-                                <centertop>50%</centertop>
-                                <height>60</height>
-                                <width>80</width>
-                                <aspectratio>keep</aspectratio>
-                                <texture colordiffuse="$VAR[ColorSelected]">$INFO[ListItem.Icon]</texture>
-                            </control>
-                            <control type="label">
-                                <centertop>50%</centertop>
-                                <height>60</height>
-                                <aligny>center</aligny>
-                                <left>40</left>
-                                <right>20</right>
-                                <align>center</align>
-                                <font>font_statusbar_bold</font>
-                                <textcolor>$VAR[ColorSelected]</textcolor>
-                                <label>$INFO[ListItem.Label]</label>
-                            </control>
-                        </control>
-                    </control>
-                </focusedlayout>
-            </control>
-        </definition>
-    </include>
-
     <include name="Object_MenuBar_List">
         <param name="control" default="list" />
         <param name="detailed" default="true" />
@@ -1064,8 +954,8 @@
             <control type="group">
                 <nested />
                 <control type="image">
-                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
-                    <texture colordiffuse="shadow_hard" border="54">shadows/circle_shadow.png</texture>
+                    <include content="Dimension_Padding"><param name="pad" value="-40" /></include>
+                    <texture colordiffuse="shadow_menu" border="70">shadows/circle_shadow-40.png</texture>
                 </control>
                 <control type="image">
                     <texture colordiffuse="$PARAM[colordiffuse]" border="30">common/circle.png</texture>
@@ -1190,34 +1080,6 @@
         </definition>
     </include>
 
-    <include name="Object_Vignette_Standard">
-        <param name="colordiffuse" default="main_bg_80" />
-        <param name="flipx" default="false" />
-        <definition>
-            <control type="image">
-                <nested />
-                <texture background="true" colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]">common/vignette-home.png</texture>
-            </control>
-        </definition>
-    </include>
-
-    <include name="Object_Vignette_Bottom">
-        <control type="image">
-            <nested />
-            <texture colordiffuse="main_bg_80">common/vignette-home-bottom.png</texture>
-        </control>
-    </include>
-
-    <include name="Object_Vignette_Showcase">
-        <include content="Object_Vignette_Standard">
-            <bottom>divider_bottom</bottom>
-        </include>
-        <include content="Object_Vignette_Bottom">
-            <bottom>0</bottom>
-            <height>divider_bottom</height>
-        </include>
-    </include>
-
     <include name="Object_Keyboard_Button">
         <param name="control" default="button" />
         <definition>
@@ -1337,34 +1199,6 @@
                         <texture flipy="false" colordiffuse="$VAR[ColorSelected]">buttons/triangle-down.png</texture>
                         <visible>Control.HasFocus($PARAM[id])</visible>
                         <visible>!String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
-                    </control>
-                </control>
-            </control>
-        </definition>
-    </include>
-
-    <include name="Object_DoubleArrow">
-        <param name="colordiffuse" default="dialog_fg_30" />
-        <param name="flipy" default="false" />
-        <definition>
-            <control type="group">
-                <nested />
-                <control type="group">
-                    <centertop>50%</centertop>
-                    <height>26</height>
-                    <control type="image">
-                        <width>16</width>
-                        <height>16</height>
-                        <texture colordiffuse="$PARAM[colordiffuse]" flipy="$PARAM[flipy]">common/arrow-small.png</texture>
-                        <centerleft>50%</centerleft>
-                        <top>10</top>
-                    </control>
-                    <control type="image">
-                        <width>16</width>
-                        <height>16</height>
-                        <texture colordiffuse="$PARAM[colordiffuse]" flipy="$PARAM[flipy]">common/arrow-small.png</texture>
-                        <centerleft>50%</centerleft>
-                        <top>0</top>
                     </control>
                 </control>
             </control>
