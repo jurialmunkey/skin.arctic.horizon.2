@@ -698,6 +698,62 @@
         </definition>
     </include>
 
+    <include name="Layout_Banner">
+        <param name="artwork_h" default="160" />
+        <param name="selected" default="false" />
+        <param name="icon" default="$VAR[Image_Banner]" />
+        <param name="textcolor" default="main_fg" />
+        <param name="diffuse" default="diffuse/landscape_w410_h231.png" />
+        <definition>
+            <control type="group">
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_ItemBack">
+                    <param name="selected" value="$PARAM[selected]" />
+                    <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
+                </include>
+                <control type="group">
+                    <height>$PARAM[artwork_h]</height>
+                    <control type="image">
+                        <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                    </control>
+                    <control type="image">
+                        <texture background="true">$VAR[Image_Clearlogo]</texture>
+                        <aspectratio align="left">keep</aspectratio>
+                        <bordersize>20</bordersize>
+                        <visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner)) + String.IsEmpty(ListItem.Art(season.banner))</visible>
+                    </control>
+                    <include content="Object_Indicator">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <param name="shadow" value="false" />
+                        <param name="gradient_fade" value="15" />
+                    </include>
+                </control>
+                <control type="group">
+                    <top>$PARAM[artwork_h]</top>
+                    <control type="label">
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Label]</label>
+                        <textcolor>$PARAM[textcolor]_70</textcolor>
+                        <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
+                        <font>font_statusbar_bold</font>
+                        <align>center</align>
+                        <textoffsetx>20</textoffsetx>
+                    </control>
+                </control>
+                <include content="Object_Control" condition="!$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
+                <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <param name="indicator" value="false" />
+                    <param name="focusbounce" value="true" />
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_Landscape">
         <param name="artwork_h" default="230.625" />
         <param name="selected" default="false" />

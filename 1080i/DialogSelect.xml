@@ -26,43 +26,19 @@
             <include>Dimension_DialogSelect</include>
             <include>Dialog_Overlay_Buttons</include>
             <include>Dialog_Header</include>
+            <include content="Dialog_Header">
+                <param name="id" value="9901" />
+                <visible>String.IsEmpty(Control.GetLabel(1))</visible>
+                <label>$LOCALIZE[424]</label>
+            </include>
+
+            <!-- Left Content -->
             <include content="Dialog_Group">
-                <control type="group">
-                    <right>0</right>
-                    <width>dialog_button_width</width>
-                    <control type="grouplist" id="9000">
-                        <onleft condition="Control.IsVisible(3)">61</onleft>
-                        <onleft condition="Control.IsVisible(6)">62</onleft>
-                        <itemgap>20</itemgap>
-                        <control type="button" id="5" description="OK">
-                            <height>row_height</height>
-                        </control>
-                        <control type="button" id="7" description="Cancel">
-                            <height>row_height</height>
-                        </control>
-                        <control type="button" id="8" description="GetMore">
-                            <height>row_height</height>
-                        </control>
-                    </control>
-
-                    <control type="image">
-                        <bottom>0</bottom>
-                        <aspectratio aligny="bottom">keep</aspectratio>
-                        <texture background="true">$INFO[Container(6).ListITem.Icon]</texture>
-                        <visible>![String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/)]</visible>
-                    </control>
-                    <control type="image">
-                        <bottom>0</bottom>
-                        <aspectratio aligny="bottom">keep</aspectratio>
-                        <texture background="true" colordiffuse="dialog_fg_70">$INFO[Container(6).ListITem.Icon]</texture>
-                        <visible>String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/))</visible>
-                    </control>
-                </control>
-
                 <control type="group">
                     <right>dialog_button_width</right>
                     <control type="group">
                         <right>dialog_pad</right>
+                        <include>Dialog_Header_Separator</include>
                         <include content="List_DialogSelect">
                             <param name="id" value="3" />
                             <left>-dialog_pad</left>
@@ -91,8 +67,44 @@
                         </include>
                     </control>
                 </control>
+            </include>
 
+            <!-- Right Buttons -->
+            <include content="Dialog_Group">
+                <control type="group">
+                    <right>0</right>
+                    <width>dialog_button_width</width>
+                    <control type="grouplist" id="9000">
+                        <onleft condition="Control.IsVisible(3)">61</onleft>
+                        <onleft condition="Control.IsVisible(6)">62</onleft>
+                        <itemgap>20</itemgap>
+                        <control type="button" id="5" description="OK">
+                            <height>row_height</height>
+                            <visible>Control.IsEnabled(5)</visible>
+                        </control>
+                        <control type="button" id="7" description="Cancel">
+                            <height>row_height</height>
+                            <visible>Control.IsEnabled(7)</visible>
+                        </control>
+                        <control type="button" id="8" description="GetMore">
+                            <height>row_height</height>
+                            <visible>Control.IsEnabled(8)</visible>
+                        </control>
+                    </control>
 
+                    <control type="image">
+                        <bottom>0</bottom>
+                        <aspectratio aligny="bottom">keep</aspectratio>
+                        <texture background="true">$INFO[Container(6).ListITem.Icon]</texture>
+                        <visible>![String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/)]</visible>
+                    </control>
+                    <control type="image">
+                        <bottom>0</bottom>
+                        <aspectratio aligny="bottom">keep</aspectratio>
+                        <texture background="true" colordiffuse="dialog_fg_70">$INFO[Container(6).ListITem.Icon]</texture>
+                        <visible>String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/))</visible>
+                    </control>
+                </control>
             </include>
         </include>
     </controls>

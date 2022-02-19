@@ -133,6 +133,7 @@
         <param name="icon" default="special://skin/extras/icons/kodi.png" />
         <param name="progress" default="Control.GetLabel(32)" />
         <param name="progress_id" default="32" />
+        <param name="spinprogress" default="false" />
         <definition>
             <control type="group">
                 <nested />
@@ -162,13 +163,14 @@
                     <control type="image">
                         <texture colordiffuse="$VAR[ColorGradient]">dialog/loading-spinner.png</texture>
                         <aspectratio>keep</aspectratio>
-                        <animation effect="fade" condition="true" start="0" end="75" pulse="true" time="1000">Conditional</animation>
+                        <animation effect="fade" condition="true" start="0" end="100" pulse="true" time="1000">Conditional</animation>
                     </control>
                 </include>
 
                 <include content="Object_Control" condition="$PARAM[hasprogress]">
                     <param name="control" value="group" />
                     <description>Busy animation</description>
+                    <animation effect="rotate" condition="$PARAM[spinprogress]" start="0" end="360" loop="true" time="2000" center="auto">Conditional</animation>
                     <control type="image">
                         <texture colordiffuse="$VAR[ColorHighlight]">$INFO[$PARAM[progress],progress/circle/p,.png]</texture>
                         <aspectratio align="center" aligny="center">keep</aspectratio>

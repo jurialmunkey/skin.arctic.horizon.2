@@ -20,14 +20,18 @@
     </include>
 
     <include name="Furniture_Top_Left">
-        <include content="Furniture_Topbar_Group">
-            <include content="Furniture_Gutters">
-                <include content="Furniture_MainLabel">
-                    <aligny>center</aligny>
-                    <label>$VAR[Label_Header_Main]</label>
+        <param name="label" default="$VAR[Label_Header_Main]" />
+        <definition>
+            <include content="Furniture_Topbar_Group">
+                <include content="Furniture_Gutters">
+                    <include content="Furniture_MainLabel">
+                        <param name="id" value="$PARAM[id]" />
+                        <aligny>center</aligny>
+                        <label>$PARAM[label]</label>
+                    </include>
                 </include>
             </include>
-        </include>
+        </definition>
     </include>
 
     <include name="Furniture_Top_Right">
@@ -223,7 +227,7 @@
     </include>
 
     <include name="Furniture_MainLabel">
-        <control type="label">
+        <control type="label" id="$PARAM[id]">
             <font>font_mainlabel</font>
             <textcolor>main_fg_100</textcolor>
             <nested />
@@ -254,6 +258,9 @@
         <param name="backing" default="true" />
         <param name="colordiffuse" default="dialog_fg" />
         <param name="groupinclude" default="Furniture_Topbar_Group" />
+        <param name="haslabel" default="true" />
+        <param name="texture" default="dialog/loading-back.png" />
+        <param name="size" default="104" />
         <definition>
             <include content="$PARAM[groupinclude]">
                 <nested />
@@ -269,23 +276,24 @@
                             <param name="hasspinner" value="$PARAM[hasspinner]" />
                             <param name="hasprogress" value="$PARAM[hasprogress]" />
                             <param name="colordiffuse" value="$PARAM[colordiffuse]" />
-                            <param name="texture" value="dialog/loading-back.png" />
-                            <param name="size" value="104" />
+                            <param name="texture" value="$PARAM[texture]" />
+                            <param name="size" value="$PARAM[size]" />
                             <param name="progress" value="$PARAM[progress]" />
                             <param name="progress_id" value="$PARAM[progress_id]" />
                             <param name="icon" value="$PARAM[icon]" />
+                            <param name="spinprogress" value="$PARAM[spinprogress]" />
                         </include>
                     </control>
                     <control type="group">
                         <right>row_height</right>
-                        <include content="Furniture_MenuLabel">
+                        <include content="Furniture_MenuLabel" condition="$PARAM[haslabel]">
                             <param name="id" value="$PARAM[mainlabel_id]" />
                             <label>$PARAM[mainlabel]</label>
                             <align>right</align>
                             <height>50%</height>
                             <top>0</top>
                         </include>
-                        <include content="Furniture_MiniLabel">
+                        <include content="Furniture_MiniLabel" condition="$PARAM[haslabel]">
                             <param name="id" value="$PARAM[minilabel_id]" />
                             <label>$PARAM[minilabel]</label>
                             <align>right</align>
