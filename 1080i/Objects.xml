@@ -208,7 +208,9 @@
                 <nested />
                 <include content="Object_Control">
                     <param name="control" value="image" />
-                    <include>Texture_Shadow_40</include>
+                    <include content="Texture_Shadow_40">
+                        <param name="colordiffuse" value="$PARAM[shadow_colordiffuse]" />
+                    </include>
                     <include>Texture_Poster_Back</include>
                 </include>
                 <control type="image">
@@ -600,7 +602,7 @@
         <param name="focused" default="false" />
         <param name="itemgap" default="60" />
         <param name="texturename" default="menu" />
-        <param name="invertcolor" default="true" />
+        <param name="invertcolor" default="false" />
         <definition>
             <control type="group" id="$PARAM[groupid]">
                 <left>-28</left>
@@ -818,9 +820,59 @@
         </definition>
     </include>
 
+    <include name="Object_MenuBar_Item">
+        <param name="selected" default="false" />
+        <param name="fo_texture" default="Texture_Circle_Highlight_H" />
+        <param name="nf_texture" default="common/menu.png" />
+        <param name="sh_texture" default="shadows/menu_shadow.png" />
+        <!-- <param name="fo_texture" default="Texture_Box_Highlight_H" />
+        <param name="nf_texture" default="common/box.png" />
+        <param name="sh_texture" default="shadows/shadow-24.png" /> -->
+        <param name="haslabel" default="true" />
+        <param name="visible" default="true" />
+        <definition>
+            <control type="group">
+                <visible>$PARAM[visible]</visible>
+                <centertop>50%</centertop>
+                <height>70</height>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                    <texture border="59" colordiffuse="shadow_hard">$PARAM[sh_texture]</texture>
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <include condition="$PARAM[selected]">$PARAM[fo_texture]</include>
+                    <texture border="35" colordiffuse="$PARAM[color_bg]">$PARAM[nf_texture]</texture>
+                </include>
+            </control>
+            <include content="Object_Control" condition="$PARAM[haslabel]">
+                <param name="control" value="group" />
+                <visible>$PARAM[visible]</visible>
+                <control type="image">
+                    <centertop>50%</centertop>
+                    <height>60</height>
+                    <width>80</width>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="$PARAM[color_fg]">$INFO[ListItem.Icon]</texture>
+                </control>
+                <control type="label">
+                    <centertop>50%</centertop>
+                    <height>60</height>
+                    <aligny>center</aligny>
+                    <left>70</left>
+                    <right>50</right>
+                    <align>center</align>
+                    <font>$PARAM[font]</font>
+                    <textcolor>$PARAM[color_fg]</textcolor>
+                    <label>$INFO[ListItem.Label]</label>
+                </control>
+            </include>
+        </definition>
+    </include>
+
     <include name="Object_MenuBar_List">
         <param name="control" default="list" />
-        <param name="detailed" default="true" />
         <param name="focus_w" default="360" />
         <param name="font" default="font_small_bold" />
         <param name="color" default="dialog_fg" />
@@ -848,101 +900,27 @@
                         </control>
                     </control>
                 </itemlayout>
-                <focusedlayout height="120" width="100" condition="![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]] + !$PARAM[detailed]">
-                    <control type="group">
-                        <left>40</left>
-                        <right>-40</right>
-                        <control type="image">
-                            <centertop>50%</centertop>
-                            <height>60</height>
-                            <width>80</width>
-                            <aspectratio>keep</aspectratio>
-                            <texture colordiffuse="$PARAM[color]_70">$INFO[ListItem.Icon]</texture>
-                        </control>
-                    </control>
-                </focusedlayout>
-                <focusedlayout height="120" width="$PARAM[focus_w]" condition="![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]] + $PARAM[detailed]">
+                <focusedlayout height="120" width="$PARAM[focus_w]" condition="![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
                     <control type="group">
                         <left>40</left>
                         <right>-20</right>
-                        <control type="group">
-                            <control type="group">
-                                <centertop>50%</centertop>
-                                <height>70</height>
-                                <include content="Object_Control">
-                                    <param name="control" value="image" />
-                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
-                                    <texture border="59" colordiffuse="shadow_hard">shadows/menu_shadow.png</texture>
-                                </include>
-                                <control type="image">
-                                    <texture border="35" colordiffuse="$PARAM[color_bg]">common/menu.png</texture>
-                                </control>
-                                <control type="image">
-                                    <texture border="35" colordiffuse="overlay_soft">common/menu.png</texture>
-                                </control>
-                            </control>
-                            <control type="image">
-                                <centertop>50%</centertop>
-                                <height>60</height>
-                                <width>80</width>
-                                <aspectratio>keep</aspectratio>
-                                <texture colordiffuse="$PARAM[color]_70">$INFO[ListItem.Icon]</texture>
-                            </control>
-                            <control type="label">
-                                <centertop>50%</centertop>
-                                <height>60</height>
-                                <aligny>center</aligny>
-                                <left>70</left>
-                                <right>50</right>
-                                <align>center</align>
-                                <font>$PARAM[font]</font>
-                                <textcolor>$PARAM[color]_70</textcolor>
-                                <label>$INFO[ListItem.Label]</label>
-                            </control>
-                        </control>
+                        <include content="Object_MenuBar_Item">
+                            <param name="color_bg" value="$PARAM[color_bg]" />
+                            <param name="color_fg" value="$PARAM[color]_70" />
+                            <param name="font" value="$PARAM[font]" />
+                        </include>
                     </control>
                 </focusedlayout>
                 <focusedlayout height="120" width="$PARAM[focus_w]" condition="[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
                     <control type="group">
                         <left>40</left>
                         <right>-20</right>
-                        <control type="group">
-                            <control type="group">
-                                <centertop>50%</centertop>
-                                <height>70</height>
-                                <include content="Object_Control" condition="$PARAM[detailed]">
-                                    <param name="control" value="image" />
-                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
-                                    <texture border="59" colordiffuse="shadow_hard">shadows/menu_shadow.png</texture>
-                                </include>
-                                <include content="Object_Control" condition="!$PARAM[detailed]">
-                                    <param name="control" value="image" />
-                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
-                                    <texture border="59" colordiffuse="shadow_soft">shadows/menu_shadow.png</texture>
-                                </include>
-                                <control type="image">
-                                    <include>Texture_Circle_Highlight_H</include>
-                                </control>
-                            </control>
-                            <control type="image">
-                                <centertop>50%</centertop>
-                                <height>60</height>
-                                <width>80</width>
-                                <aspectratio>keep</aspectratio>
-                                <texture colordiffuse="$VAR[ColorSelected]">$INFO[ListItem.Icon]</texture>
-                            </control>
-                            <control type="label">
-                                <centertop>50%</centertop>
-                                <height>60</height>
-                                <aligny>center</aligny>
-                                <left>70</left>
-                                <right>50</right>
-                                <align>center</align>
-                                <font>$PARAM[font]</font>
-                                <textcolor>$VAR[ColorSelected]</textcolor>
-                                <label>$INFO[ListItem.Label]</label>
-                            </control>
-                        </control>
+                        <include content="Object_MenuBar_Item">
+                            <param name="color_bg" value="$PARAM[color_bg]" />
+                            <param name="color_fg" value="$VAR[ColorSelected]" />
+                            <param name="font" value="$PARAM[font]" />
+                            <param name="selected" value="true" />
+                        </include>
                     </control>
                 </focusedlayout>
             </control>
@@ -952,19 +930,21 @@
     <include name="Object_MenuBar_Group_Texture">
         <param name="overlay" default="true" />
         <param name="colordiffuse" default="dialog_bg_100" />
+        <param name="sh_texture" default="shadows/circle_shadow-40.png" />
+        <param name="fo_texture" default="common/circle.png" />
         <definition>
             <control type="group">
                 <nested />
                 <control type="image">
                     <include content="Dimension_Padding"><param name="pad" value="-40" /></include>
-                    <texture colordiffuse="shadow_menu" border="70">shadows/circle_shadow-40.png</texture>
+                    <texture colordiffuse="shadow_menu" border="70">$PARAM[sh_texture]</texture>
                 </control>
                 <control type="image">
-                    <texture colordiffuse="$PARAM[colordiffuse]" border="30">common/circle.png</texture>
+                    <texture colordiffuse="$PARAM[colordiffuse]" border="30">$PARAM[fo_texture]</texture>
                 </control>
                 <include content="Object_Control" condition="$PARAM[overlay]">
                     <param name="control" value="image" />
-                    <texture colordiffuse="overlay_soft" border="30">common/circle.png</texture>
+                    <texture colordiffuse="overlay_soft" border="30">$PARAM[fo_texture]</texture>
                 </include>
             </control>
         </definition>
