@@ -822,12 +822,37 @@
 
     <include name="Object_MenuBar_Item">
         <param name="selected" default="false" />
-        <param name="fo_texture" default="Texture_Circle_Highlight_H" />
-        <param name="nf_texture" default="common/menu.png" />
-        <param name="sh_texture" default="shadows/menu_shadow.png" />
-        <!-- <param name="fo_texture" default="Texture_Box_Highlight_H" />
-        <param name="nf_texture" default="common/box.png" />
-        <param name="sh_texture" default="shadows/shadow-24.png" /> -->
+        <param name="haslabel" default="true" />
+        <param name="visible" default="true" />
+        <param name="squared" default="false" />
+        <definition>
+            <include content="_Object_MenuBar_Item" condition="!$PARAM[squared]">
+                <param name="fo_texture" value="Texture_Circle_Highlight_H" />
+                <param name="nf_texture" value="common/menu.png" />
+                <param name="sh_texture" value="shadows/menu_shadow.png" />
+                <param name="selected" value="$PARAM[selected]" />
+                <param name="haslabel" value="$PARAM[haslabel]" />
+                <param name="visible" value="$PARAM[visible]" />
+                <param name="color_bg" value="$PARAM[color_bg]" />
+                <param name="color_fg" value="$PARAM[color_fg]" />
+                <param name="font" value="$PARAM[font]" />
+            </include>
+            <include content="_Object_MenuBar_Item" condition="$PARAM[squared]">
+                <param name="fo_texture" value="Texture_Box_Highlight_H" />
+                <param name="nf_texture" value="common/box.png" />
+                <param name="sh_texture" value="shadows/shadow-24.png" />
+                <param name="selected" value="$PARAM[selected]" />
+                <param name="haslabel" value="$PARAM[haslabel]" />
+                <param name="visible" value="$PARAM[visible]" />
+                <param name="color_bg" value="$PARAM[color_bg]" />
+                <param name="color_fg" value="$PARAM[color_fg]" />
+                <param name="font" value="$PARAM[font]" />
+            </include>
+        </definition>
+    </include>
+
+    <include name="_Object_MenuBar_Item">
+        <param name="selected" default="false" />
         <param name="haslabel" default="true" />
         <param name="visible" default="true" />
         <definition>
@@ -927,7 +952,7 @@
         </definition>
     </include>
 
-    <include name="Object_MenuBar_Group_Texture">
+    <include name="_Object_MenuBar_Group_Texture">
         <param name="overlay" default="true" />
         <param name="colordiffuse" default="dialog_bg_100" />
         <param name="sh_texture" default="shadows/circle_shadow-40.png" />
@@ -947,6 +972,28 @@
                     <texture colordiffuse="overlay_soft" border="30">$PARAM[fo_texture]</texture>
                 </include>
             </control>
+        </definition>
+    </include>
+
+    <include name="Object_MenuBar_Group_Texture">
+        <param name="overlay" default="true" />
+        <param name="colordiffuse" default="dialog_bg_100" />
+        <param name="squared" default="false" />
+        <definition>
+            <include content="_Object_MenuBar_Group_Texture" condition="!$PARAM[squared]">
+                <param name="overlay" value="$PARAM[overlay]" />
+                <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                <param name="sh_texture" value="shadows/circle_shadow-40.png" />
+                <param name="fo_texture" value="common/circle.png" />
+                <nested />
+            </include>
+            <include content="_Object_MenuBar_Group_Texture" condition="$PARAM[squared]">
+                <param name="overlay" value="$PARAM[overlay]" />
+                <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                <param name="sh_texture" value="shadows/shadow-40.png" />
+                <param name="fo_texture" value="common/box.png" />
+                <nested />
+            </include>
         </definition>
     </include>
 

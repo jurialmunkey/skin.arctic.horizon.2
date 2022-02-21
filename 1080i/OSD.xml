@@ -44,6 +44,7 @@
     <include name="OSD_Stream_Selector_Layout">
         <param name="selected" default="false" />
         <param name="color_fg" default="dialog_fg_70" />
+        <param name="enabled" default="true" />
         <definition>
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control" value="image" />
@@ -72,7 +73,7 @@
                     <width>row_height</width>
                     <bordersize>22</bordersize>
                     <aspectratio align="right">keep</aspectratio>
-                    <texture colordiffuse="dialog_fg_70">flags/cc.png</texture>
+                    <texture colordiffuse="$PARAM[color_fg]">flags/cc.png</texture>
                     <animation effect="fade" end="33" condition="String.IsEmpty(ListItem.Property(isimpaired))">Conditional</animation>
                 </control>
 
@@ -82,6 +83,15 @@
                     <bordersize>28</bordersize>
                     <aspectratio align="right">keep</aspectratio>
                     <texture colordiffuse="$PARAM[color_fg]">$VAR[Image_IsCurrentStream]</texture>
+                    <visible>$PARAM[enabled]</visible>
+                </control>
+                <control type="image">
+                    <right>60</right>
+                    <width>row_height</width>
+                    <bordersize>28</bordersize>
+                    <aspectratio align="right">keep</aspectratio>
+                    <texture colordiffuse="$PARAM[color_fg]">buttons/check-off.png</texture>
+                    <visible>!$PARAM[enabled]</visible>
                 </control>
 
                 <control type="image">
@@ -97,6 +107,7 @@
 
     <include name="OSD_Stream_Selector">
         <param name="width" default="1040" />
+        <param name="enabled" default="true" />
         <definition>
             <control type="group">
                 <visible>!Window.IsVisible(DialogSettings.xml)</visible>
@@ -153,12 +164,15 @@
                         <onright>$PARAM[buttonid]</onright>
                         <onup>noop</onup>
                         <itemlayout height="row_height">
-                            <include>OSD_Stream_Selector_Layout</include>
+                            <include content="OSD_Stream_Selector_Layout">
+                                <param name="enabled" value="$PARAM[enabled]" />
+                            </include>
                         </itemlayout>
                         <focusedlayout height="row_height">
                             <include content="OSD_Stream_Selector_Layout">
                                 <param name="selected" value="true" />
                                 <param name="color_fg" value="$VAR[ColorSelected]" />
+                                <param name="enabled" value="$PARAM[enabled]" />
                             </include>
                         </focusedlayout>
                         <content>plugin://script.skinquicktools?info=get_player_streams&amp;stream_type=$PARAM[stream_type]&amp;reload=$INFO[Window.Property(UID)]</content>
