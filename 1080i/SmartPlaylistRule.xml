@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="window">
+    <defaultcontrol>7000</defaultcontrol>
+    <controls>
+        <include>Object_Overlay</include>
+        <include content="Dialog_Background">
+            <include>Animation_SlideIn_Dialog</include>
+            <include>Dimension_SmartPlaylist</include>
+            <include>Dialog_Overlay_Buttons</include>
+            <include content="Dialog_Header">
+                <param name="id" value="7900" />
+                <label>$LOCALIZE[21422]</label>
+            </include>
+
+            <!-- Left Options -->
+            <control type="group">
+                <top>dialog_pad</top>
+                <bottom>dialog_pad</bottom>
+                <right>dialog_button_width_padded</right>
+                <control type="grouplist" id="7000">
+                    <onup>noop</onup>
+                    <onright>9000</onright>
+                    <ondown condition="Control.IsEnabled(20)">20</ondown>
+                    <ondown condition="!Control.IsEnabled(20)">17</ondown>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="15" />
+                        <param name="control" value="button" />
+                    </include>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="16" />
+                        <param name="control" value="button" />
+                    </include>
+                </control>
+
+                <control type="group">
+                    <height>80</height>
+                    <bottom>0</bottom>
+                    <control type="image">
+                        <include>Texture_Highlight</include>
+                        <visible>Control.HasFocus(20)</visible>
+                    </control>
+                    <include content="Dialog_Settings_Button">
+                        <param name="id" value="17" />
+                        <param name="control" value="edit" />
+                        <onup>16</onup>
+                        <onright>20</onright>
+                    </include>
+                    <control type="button" id="20">
+                        <onleft>17</onleft>
+                        <onup>16</onup>
+                        <onright>9000</onright>
+                        <width>32</width>
+                        <height>32</height>
+                        <centertop>50%</centertop>
+                        <right>40</right>
+                        <hitrect x="-24" y="-24" w="80" h="80" />
+                        <texturenofocus colordiffuse="80ffffff">buttons/browse.png</texturenofocus>
+                        <texturefocus colordiffuse="$VAR[ColorSelected]">buttons/browse.png</texturefocus>
+                        <font />
+                        <textcolor>00ffffff</textcolor>
+                        <selectedcolor>00ffffff</selectedcolor>
+                        <focusedcolor>00ffffff</focusedcolor>
+                        <visible>Control.IsEnabled(20)</visible>
+                    </control>
+                    <control type="group" id="1000">
+                        <animation effect="slide" end="40" condition="!Control.IsEnabled(20)">Conditional</animation>
+                        <width>32</width>
+                        <height>32</height>
+                        <centertop>50%</centertop>
+                        <right>80</right>
+                        <control type="image">
+                            <texture colordiffuse="80ffffff">buttons/editname.png</texture>
+                            <visible>!Control.HasFocus(17)</visible>
+                        </control>
+                        <control type="image">
+                            <texture colordiffuse="$VAR[ColorSelected]">buttons/editname.png</texture>
+                            <visible>Control.HasFocus(17)</visible>
+                        </control>
+                    </control>
+                </control>
+            </control>
+
+            <!-- Right Buttons -->
+            <include content="Dialog_Group">
+                <control type="group">
+                    <right>0</right>
+                    <width>dialog_button_width</width>
+                    <control type="grouplist" id="9000">
+                        <onleft>7000</onleft>
+                        <itemgap>20</itemgap>
+                        <control type="button" id="18" description="OK">
+                            <height>row_height</height>
+                            <label>$LOCALIZE[186]</label>
+                        </control>
+                        <control type="button" id="19" description="Cancel">
+                            <height>row_height</height>
+                            <label>$LOCALIZE[222]</label>
+                        </control>
+                    </control>
+                </control>
+            </include>
+
+        </include>
+
+        <include>Furniture_Top</include>
+    </controls>
+</window>

@@ -12,8 +12,8 @@
                     <height>80</height>
                     <label>$VAR[Label_Title_Main]</label>
                     <textcolor>$PARAM[colordiffuse]_100</textcolor>
-                    <include content="Object_Include" condition="Skin.HasSetting(UseHeavyFont)">
-                        <font>font_overlay_title_alt</font>
+                    <include content="Object_Include" condition="Skin.HasSetting(UseLightFont)">
+                        <font>font_overlay_title_light</font>
                     </include>
                     <font>font_overlay_title</font>
                     <visible>![!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + Skin.HasSetting(TMDbHelper.EnableCrop) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120)]]</visible>
@@ -42,25 +42,28 @@
     </include>
 
     <include name="Info_Line_Label">
-        <control type="button">
-            <aligny>center</aligny>
-            <label>|</label>
-            <textcolor>$VAR[ColorHighlight]</textcolor>
-            <font>font_small_bold</font>
-            <width>auto</width>
-            <textoffsetx>0</textoffsetx>
-            <visible>$PARAM[visible]</visible>
-            <texturefocus />
-            <texturenofocus />
-        </control>
-        <control type="label">
-            <width>auto</width>
-            <aligny>center</aligny>
-            <label>$PARAM[label]</label>
-            <textcolor>$PARAM[textcolor]</textcolor>
-            <font>font_small_bold</font>
-            <visible>$PARAM[visible]</visible>
-        </control>
+        <param name="font" default="font_small_bold" />
+        <definition>
+            <control type="button">
+                <aligny>center</aligny>
+                <label>|</label>
+                <textcolor>$VAR[ColorHighlight]</textcolor>
+                <font>$PARAM[font]</font>
+                <width>auto</width>
+                <textoffsetx>0</textoffsetx>
+                <visible>$PARAM[visible]</visible>
+                <texturefocus />
+                <texturenofocus />
+            </control>
+            <control type="label">
+                <width>auto</width>
+                <aligny>center</aligny>
+                <label>$PARAM[label]</label>
+                <textcolor>$PARAM[textcolor]</textcolor>
+                <font>$PARAM[font]</font>
+                <visible>$PARAM[visible]</visible>
+            </control>
+        </definition>
     </include>
 
     <include name="Info_Line">
