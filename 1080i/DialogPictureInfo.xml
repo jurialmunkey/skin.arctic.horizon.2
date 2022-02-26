@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog">
+    <defaultcontrol always="true">5</defaultcontrol>
+    <controls>
+        <include content="Object_Overlay">
+            <param name="delay" value="300" />
+        </include>
+        <control type="group">
+            <include content="Animation_SlideIn_Dialog">
+                <param name="windowopen_delay" value="600" />
+            </include>
+            <include>Animation_FadeOut</include>
+            <width>1440</width>
+            <include>Dimension_Context</include>
+            <include content="Dialog_Header">
+                <param name="id" value="8001" />
+                <label>$VAR[Label_ContextMenu_Title]</label>
+            </include>
+
+            <!-- Square Image -->
+            <control type="group">
+                <include content="Dialog_Background">
+                    <param name="overlay" value="true" />
+                    <param name="overlay_texture" value="$INFO[ListItem.PicturePath]" />
+                    <include content="Dialog_Context_Image">
+                        <param name="diffuse" value="diffuse/square_w640_h640.png" />
+                        <param name="icon" value="$INFO[ListItem.PicturePath]" />
+                        <param name="right" value="720" />
+                    </include>
+                </include>
+            </control>
+
+            <!-- Menu -->
+            <control type="group">
+                <right>0</right>
+                <width>720</width>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$LOCALIZE[33029]" />
+                </include>
+                <include content="List_DialogSelect">
+                    <param name="id" value="5" />
+                    <param name="itemlayout_include" value="Layout_DialogBasic" />
+                    <top>row_height_x150</top>
+                    <bottom>dialog_pad</bottom>
+                    <orientation>vertical</orientation>
+                    <onleft>Close</onleft>
+                    <onright>Close</onright>
+                </include>
+                <control type="image">
+                    <top>-24</top>
+                    <centerright>100%</centerright>
+                    <height>16</height>
+                    <width>16</width>
+                    <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-small.png</texture>
+                    <visible>Container(5).HasPrevious</visible>
+                </control>
+                <control type="image">
+                    <bottom>-24</bottom>
+                    <centerright>100%</centerright>
+                    <height>16</height>
+                    <width>16</width>
+                    <texture colordiffuse="$VAR[ColorSelected]">common/arrow-small.png</texture>
+                    <visible>Container(5).HasNext</visible>
+                </control>
+            </control>
+        </control>
+
+    </controls>
+</window>

@@ -8,9 +8,9 @@
         <include content="Object_Overlay">
             <param name="delay" value="300" />
         </include>
-        <include content="Dialog_Background">
-            <param name="overlay" value="true" />
-            <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
+
+
+        <control type="group">
             <include content="Animation_SlideIn_Dialog">
                 <param name="windowopen_delay" value="600" />
             </include>
@@ -20,73 +20,73 @@
                 <param name="id" value="8001" />
                 <label>$VAR[Label_ContextMenu_Title]</label>
             </include>
-            <control type="group">
-                <right>0</right>
-                <width>context_icon_w</width>
-                <include content="Object_MenuHeader">
-                    <param name="label" value="$LOCALIZE[10106]" />
-                </include>
-                <include content="Object_Control">
-                    <param name="control" value="grouplist" />
-                    <param name="id" value="996" />
-                    <top>120</top>
-                    <bottom>40</bottom>
-                    <orientation>vertical</orientation>
-                    <itemgap>0</itemgap>
-                    <onleft>Close</onleft>
-                    <onright>Close</onright>
-                </include>
-                <control type="image">
-                    <top>-24</top>
-                    <centerright>100%</centerright>
-                    <height>16</height>
-                    <width>16</width>
-                    <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-small.png</texture>
-                    <visible>Container(996).HasPrevious</visible>
-                </control>
-                <control type="image">
-                    <bottom>-24</bottom>
-                    <centerright>100%</centerright>
-                    <height>16</height>
-                    <width>16</width>
-                    <texture colordiffuse="$VAR[ColorSelected]">common/arrow-small.png</texture>
-                    <visible>Container(996).HasNext</visible>
-                </control>
-            </control>
-            <control type="group">
-                <right>context_icon_w</right>
-                <include content="Dialog_Overlay">
-                    <param name="flipx" value="true" />
-                    <param name="colordiffuse" value="dialog_fg_12" />
-                </include>
-                <include content="Object_Separator">
-                    <right>0</right>
-                </include>
 
-                <!-- Square Image -->
+
+            <control type="group">
+                <!-- Slide Over if Square -->
+                <animation effect="slide" end="context_slide_sq" condition="[String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.TVShowPoster))]">Conditional</animation>
+
+                <!-- Poster Image -->
                 <control type="group">
-                    <height>context_icon_w</height>
-                    <visible>String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.TVShowPoster))</visible>
-                    <include content="Dialog_Group">
-                        <include content="Object_BigPoster">
-                            <param name="diffuse" value="diffuse/square_w435_h435.png" />
-                            <param name="icon" value="$VAR[Image_ContextPoster]" />
-                            <param name="colordiffuse" value="shadow_soft" />
+                    <visible>![String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.TVShowPoster))]</visible>
+                    <include content="Dialog_Background">
+                        <param name="overlay" value="true" />
+                        <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
+                        <include content="Dialog_Context_Image">
+                            <param name="diffuse" value="diffuse/poster_w435_h640.png" />
                         </include>
                     </include>
                 </control>
 
-                <!-- Poster Image -->
-                <include content="Dialog_Group">
-                    <visible>![String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.TVShowPoster))]</visible>
-                    <include content="Object_BigPoster">
-                        <param name="diffuse" value="diffuse/poster_w435_h640.png" />
-                        <param name="icon" value="$VAR[Image_ContextPoster]" />
-                        <param name="colordiffuse" value="shadow_soft" />
+                <!-- Square Image -->
+                <control type="group">
+                    <left>context_icon_sq_l</left>
+                    <visible>[String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.TVShowPoster))]</visible>
+                    <include content="Dialog_Background">
+                        <param name="overlay" value="true" />
+                        <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
+                        <include content="Dialog_Context_Image">
+                            <param name="diffuse" value="diffuse/square_w640_h640.png" />
+                        </include>
                     </include>
-                </include>
+                </control>
+
+                <!-- Menu -->
+                <control type="group">
+                    <right>0</right>
+                    <width>context_icon_w</width>
+                    <include content="Object_MenuHeader">
+                        <param name="label" value="$LOCALIZE[10106]" />
+                    </include>
+                    <include content="Object_Control">
+                        <param name="control" value="grouplist" />
+                        <param name="id" value="996" />
+                        <top>120</top>
+                        <bottom>40</bottom>
+                        <orientation>vertical</orientation>
+                        <itemgap>0</itemgap>
+                        <onleft>Close</onleft>
+                        <onright>Close</onright>
+                    </include>
+                    <control type="image">
+                        <top>-24</top>
+                        <centerright>100%</centerright>
+                        <height>16</height>
+                        <width>16</width>
+                        <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-small.png</texture>
+                        <visible>Container(996).HasPrevious</visible>
+                    </control>
+                    <control type="image">
+                        <bottom>-24</bottom>
+                        <centerright>100%</centerright>
+                        <height>16</height>
+                        <width>16</width>
+                        <texture colordiffuse="$VAR[ColorSelected]">common/arrow-small.png</texture>
+                        <visible>Container(996).HasNext</visible>
+                    </control>
+                </control>
             </control>
-        </include>
+        </control>
 
         <include content="Dialog_Settings_Button">
             <param name="id" value="1000" />
