@@ -16,7 +16,7 @@
                         <font>font_overlay_title_light</font>
                     </include>
                     <font>font_overlay_title</font>
-                    <visible>![!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + Skin.HasSetting(TMDbHelper.EnableCrop) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120)]]</visible>
+                    <visible>![Skin.HasSetting(TMDbHelper.EnableCrop) + [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120)]] | [[String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)] + [!String.IsEmpty($PARAM[container]ListItem.Art(clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo))]]]]</visible>
                     <animation type="Hidden" reversible="false">
                         <effect type="fade" end="0" start="100" time="300" delay="700"/>
                     </animation>
@@ -29,7 +29,33 @@
                     <aspectratio align="left">keep</aspectratio>
                     <fadetime>600</fadetime>
                     <texture background="true">$VAR[Image_CropLogo_Main]</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + Skin.HasSetting(TMDbHelper.EnableCrop) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120)]</visible>
+                    <visible>Skin.HasSetting(TMDbHelper.EnableCrop) + [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120)]]]</visible>
+                    <animation type="Visible" reversible="false">
+                        <effect type="fade" end="100" start="0" time="300" delay="1000"/>
+                    </animation>
+                    <animation type="Hidden" reversible="false">
+                        <effect type="fade" end="0" start="100" time="150" delay="0"/>
+                    </animation>
+                </control>
+                <control type="image">
+                    <height>80</height>
+                    <aspectratio align="left">keep</aspectratio>
+                    <fadetime>600</fadetime>
+                    <texture background="true">$INFO[$PARAM[container]ListItem.Art(artist.clearlogo)]</texture>
+                    <visible>Skin.HasSetting(TMDbHelper.EnableCrop) + [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)] + [String.IsEmpty($PARAM[container]ListItem.Art(clearlogo)) + !String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo))]</visible>
+                    <animation type="Visible" reversible="false">
+                        <effect type="fade" end="100" start="0" time="300" delay="1000"/>
+                    </animation>
+                    <animation type="Hidden" reversible="false">
+                        <effect type="fade" end="0" start="100" time="150" delay="0"/>
+                    </animation>
+                </control>
+                <control type="image">
+                    <height>80</height>
+                    <aspectratio align="left">keep</aspectratio>
+                    <fadetime>600</fadetime>
+                    <texture background="true">$INFO[$PARAM[container]ListItem.Art(clearlogo)]</texture>
+                    <visible>Skin.HasSetting(TMDbHelper.EnableCrop) + [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)] + [!String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]</visible>
                     <animation type="Visible" reversible="false">
                         <effect type="fade" end="100" start="0" time="300" delay="1000"/>
                     </animation>
@@ -177,6 +203,11 @@
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
+                    <param name="label" value="$INFO[$PARAM[container]ListItem.Album]" />
+                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Album) + [String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)]" />
+                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                </include>
+                <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="label" value="$INFO[$PARAM[container]ListItem.Year]" />
                     <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Year) + [!String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEmpty($PARAM[container]ListItem.Premiered)]" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
@@ -222,29 +253,10 @@
                     <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Style))" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
-                <include content="Info_Line_Label" condition="!$PARAM[player]">
-                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Album_Type)]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Album_Type))" />
-                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
-                </include>
+
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Album_Label)]" />
                     <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Album_Label))" />
-                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
-                </include>
-                <include content="Info_Line_Label" condition="!$PARAM[player]">
-                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Album_Mood)]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Album_Mood))" />
-                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
-                </include>
-                <include content="Info_Line_Label" condition="!$PARAM[player]">
-                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Album_Style)]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Album_Style))" />
-                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
-                </include>
-                <include content="Info_Line_Label" condition="!$PARAM[player]">
-                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Album_Theme)]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Album_Theme))" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
                 <include content="Info_Line_Label" condition="!$PARAM[player]">

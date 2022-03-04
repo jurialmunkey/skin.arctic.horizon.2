@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="window" id="1198">
+        <include condition="String.IsEmpty(Window(Home).Property(ReloadDone))">Action_BuildTextures_Onload</include>
+        <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">RunScript(script.skinvariables,action=buildviews)</onload>
+        <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">Skin.SetBool(TMDbHelper.Service)</onload>
+        <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=301&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onload>
+        <onload condition="!String.IsEmpty(Window(Home).Property(ReloadDone))">AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:01,silent)</onload>
+        <onload>SetProperty(ReloadDone,1,Home)</onload>
+    <controls>
+        <control type="image">
+            <texture background="true">special://skin/fanart.jpg</texture>
+        </control>
+        <control type="group">
+            <top>40</top>
+            <control type="label">
+                <height>120</height>
+                <top>480</top>
+                <aligny>center</aligny>
+                <align>center</align>
+                <font>font_overlay_title</font>
+                <textcolor>$VAR[ColorHighlight]</textcolor>
+                <label>[COLOR=panel_fg_70]Arctic[/COLOR] Horizon 2</label>
+            </control>
+            <control type="label">
+                <top>560</top>
+                <height>80</height>
+                <aligny>center</aligny>
+                <align>center</align>
+                <textcolor>panel_fg_70</textcolor>
+                <label>Initialising Skin...</label>
+            </control>
+            <control type="group">
+                <top>640</top>
+                <height>80</height>
+                <include>Animation_FadeIn_Delay</include>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse" value="main_fg" />
+                    <param name="haslabel" value="false" />
+                </include>
+            </control>
+        </control>
+    </controls>
+</window>
