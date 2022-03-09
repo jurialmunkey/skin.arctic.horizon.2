@@ -108,6 +108,7 @@
     <include name="OSD_Stream_Selector">
         <param name="width" default="1040" />
         <param name="enabled" default="true" />
+        <param name="toggle" default="false" />
         <definition>
             <control type="group">
                 <visible>!Window.IsVisible(DialogSettings.xml)</visible>
@@ -176,8 +177,9 @@
                             </include>
                         </focusedlayout>
                         <content>plugin://script.skinquicktools?info=get_player_streams&amp;stream_type=$PARAM[stream_type]&amp;reload=$INFO[Window.Property(UID)]</content>
-                        <onclick>Runscript(script.skinquicktools,$PARAM[method]=$INFO[ListItem.Property(index)])</onclick>
-                        <onclick>SetProperty(UID,$ESCINFO[Player.Title]$INFO[Player.Time(ss)])</onclick>
+                        <onclick condition="$PARAM[toggle] + !String.IsEmpty(ListItem.Property(iscurrent))">Action(ShowSubtitles)</onclick>
+                        <onclick condition="![$PARAM[toggle] + !String.IsEmpty(ListItem.Property(iscurrent))]">Runscript(script.skinquicktools,$PARAM[method]=$INFO[ListItem.Property(index)],reload_property=UID)</onclick>
+
                     </control>
                 </control>
                 <control type="image">
@@ -250,6 +252,14 @@
                         <font>font_overlay_title_light</font>
                     </include>
                     <font>font_overlay_title</font>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDBHelper.Player.CropImage))</visible>
+                </control>
+                <control type="image">
+                    <height>80</height>
+                    <aspectratio align="left">keep</aspectratio>
+                    <fadetime>600</fadetime>
+                    <texture background="true">$INFO[Window(Home).Property(TMDBHelper.Player.CropImage)]</texture>
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.CropImage))</visible>
                 </control>
             </control>
             <control type="group">
