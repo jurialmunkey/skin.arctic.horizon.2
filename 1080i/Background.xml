@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="Background_BusyLoader">
+        <control type="group">
+            <visible>Window.IsVisible(DialogBusy.xml) | [Window.IsVisible(1190) + !$EXP[Exp_InfoDialogs]]</visible>
+            <animation effect="fade" start="0" end="100" time="5000" tween="cubic" easing="inout" reversible="true">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="1000" tween="cubic" easing="inout" reversible="true">Hidden</animation>
+            <animation effect="fade" start="100" end="0" time="1000" tween="cubic" easing="inout" reversible="false" condition="![Window.IsVisible(DialogBusy.xml) | [Window.IsVisible(1190) + !$EXP[Exp_InfoDialogs]]]">Conditional</animation>
+            <include>Background_Image</include>
+            <control type="multiimage">
+                <animation effect="fade" start="100" end="15" condition="true">Conditional</animation>
+                <timeperimage>50</timeperimage>
+                <aspectratio align="center" aligny="center">stretch</aspectratio>
+                <fadetime>10</fadetime>
+                <imagepath>resource://resource.images.arctic.waves/</imagepath>
+                <randomize>false</randomize>
+            </control>
+        </control>
+    </include>
+
     <include name="Background_Blur">
         <include content="Object_Control">
             <param name="control" value="image" />
@@ -75,6 +93,7 @@
             <include condition="Skin.String(BackgroundStyle,Image)">Background_Image</include>
             <include condition="Skin.String(BackgroundStyle,Fanart)">Background_Fanart</include>
             <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
+            <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
             <nested />
             <include content="Object_Control" condition="Skin.String(DividerStyle,Fade)" >
                 <param name="control" value="image" />
