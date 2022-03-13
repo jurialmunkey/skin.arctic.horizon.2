@@ -7,7 +7,9 @@
             <animation effect="fade" start="0" end="100" time="5000" tween="cubic" easing="inout" reversible="true">Visible</animation>
             <animation effect="fade" start="100" end="0" time="1000" tween="cubic" easing="inout" reversible="true">Hidden</animation>
             <animation effect="fade" start="100" end="0" time="1000" tween="cubic" easing="inout" reversible="false" condition="![Window.IsVisible(DialogBusy.xml) | [Window.IsVisible(1190) + !$EXP[Exp_InfoDialogs]]]">Conditional</animation>
-            <include>Background_Image</include>
+            <include content="Background_Image">
+                <param name="texture" value="common/blur2.jpg" />
+            </include>
             <control type="multiimage">
                 <animation effect="fade" start="100" end="15" condition="true">Conditional</animation>
                 <timeperimage>50</timeperimage>
@@ -69,10 +71,13 @@
     </include>
 
     <include name="Background_Image">
-        <include content="Object_Control">
-            <param name="control" value="image" />
-            <texture background="true" colordiffuse="main_back">common/blur2.jpg</texture>
-        </include>
+        <param name="texture" default="common/blur2.jpg" />
+        <definition>
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <texture background="true" colordiffuse="main_back">$PARAM[texture]</texture>
+            </include>
+        </definition>
     </include>
 
     <include name="Background_None">
