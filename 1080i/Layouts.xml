@@ -351,6 +351,143 @@
         </definition>
     </include>
 
+    <include name="Layout_BigLandscape">
+        <param name="selected" default="false" />
+        <param name="fg_layer" default="true" />
+        <param name="bg_layer" default="true" />
+        <param name="diffuse" default="diffuse/landscape_w560_h320.png" />
+        <param name="listitem_dbtype" default="ListItem.DBType" />
+        <param name="listitem_label" default="ListItem.Label" />
+        <param name="listitem_label2" default="ListItem.TVShowTitle" />
+        <definition>
+            <control type="group">
+                <nested />
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_Control" condition="$PARAM[bg_layer]">
+                    <param name="control" value="group" />
+                    <include content="Object_ItemBack">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
+                    </include>
+                    <control type="image">
+                        <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Landscape]</texture>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                    </control>
+                    <control type="image">
+                        <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Clearlogo]</texture>
+                        <aspectratio scalediffuse="false" align="left">keep</aspectratio>
+                        <bordersize>20</bordersize>
+                        <visible>String.IsEmpty(ListItem.Art(landscape)) + String.IsEmpty(ListItem.Art(tvshow.landscape)) + String.IsEmpty(ListItem.Art(season.landscape))</visible>
+                    </control>
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="group" />
+                    <visible>String.IsEqual($PARAM[listitem_dbtype],actor) | String.IsEqual($PARAM[listitem_dbtype],video) | String.IsEqual($PARAM[listitem_dbtype],episode) | $PARAM[detailed]</visible>
+                    <include content="Object_Control" condition="$PARAM[bg_layer]">
+                        <param name="control" value="image" />
+                        <texture border="10" colordiffuse="bbffffff">diffuse/poster_fade.png</texture>
+                    </include>
+                    <include content="Object_Control" condition="$PARAM[fg_layer]">
+                        <param name="control" value="group" />
+                        <bottom>0</bottom>
+                        <height>120</height>
+                        <control type="textbox">
+                            <textcolor>ffdedede</textcolor>
+                            <label>$INFO[$PARAM[listitem_label]]</label>
+                            <textoffsetx>20</textoffsetx>
+                            <align>left</align>
+                            <aligny>center</aligny>
+                            <font>font_statusbar_bold</font>
+                            <height>60</height>
+                            <bottom>20</bottom>
+                            <visible>String.IsEmpty($PARAM[listitem_label2])</visible>
+                        </control>
+                        <control type="label">
+                            <textcolor>ffdedede</textcolor>
+                            <label>$INFO[$PARAM[listitem_label]]</label>
+                            <textoffsetx>20</textoffsetx>
+                            <align>left</align>
+                            <font>font_statusbar_bold</font>
+                            <height>40</height>
+                            <bottom>40</bottom>
+                            <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
+                        </control>
+                        <control type="label">
+                            <textcolor>b3dedede</textcolor>
+                            <label>$INFO[$PARAM[listitem_label2]]</label>
+                            <textoffsetx>20</textoffsetx>
+                            <align>left</align>
+                            <font>font_statusbar</font>
+                            <height>20</height>
+                            <bottom>20</bottom>
+                            <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
+                        </control>
+                    </include>
+                </include>
+                <include content="Object_Control" condition="!$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
+                <control type="group">
+                    <include condition="$PARAM[fg_layer] + !$PARAM[selected]" content="Object_Indicator">
+                        <param name="affix" value="$PARAM[affix]" />
+                        <param name="listitem" value="$PARAM[listitem]" />
+                    </include>
+                    <include content="Object_SelectBox" condition="$PARAM[fg_layer] + $PARAM[selected]">
+                        <param name="indicator" value="true" />
+                        <param name="focusbounce" value="true" />
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Layout_BigBanner">
+        <param name="selected" default="false" />
+        <param name="fg_layer" default="true" />
+        <param name="bg_layer" default="true" />
+        <param name="diffuse" default="diffuse/banner_w1760_h320.png" />
+        <definition>
+            <control type="group">
+                <nested />
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_Control" condition="$PARAM[bg_layer]">
+                    <param name="control" value="group" />
+                    <include content="Object_ItemBack">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
+                    </include>
+                    <control type="image">
+                        <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Banner]</texture>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                    </control>
+                    <control type="image">
+                        <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Clearlogo]</texture>
+                        <aspectratio scalediffuse="false" align="left">keep</aspectratio>
+                        <bordersize>20</bordersize>
+                        <visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner)) + String.IsEmpty(ListItem.Art(season.banner))</visible>
+                    </control>
+                </include>
+                <include content="Object_Control" condition="!$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
+                <control type="group">
+                    <include condition="$PARAM[fg_layer] + !$PARAM[selected]" content="Object_Indicator">
+                        <param name="affix" value="$PARAM[affix]" />
+                        <param name="listitem" value="$PARAM[listitem]" />
+                    </include>
+                    <include content="Object_SelectBox" condition="$PARAM[fg_layer] + $PARAM[selected]">
+                        <param name="indicator" value="true" />
+                        <param name="focusbounce" value="false" />
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_Poster">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
