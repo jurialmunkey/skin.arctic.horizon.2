@@ -359,6 +359,8 @@
         <param name="listitem_dbtype" default="ListItem.DBType" />
         <param name="listitem_label" default="ListItem.Label" />
         <param name="listitem_label2" default="ListItem.TVShowTitle" />
+        <param name="icon" default="$VAR[Image_Landscape]" />
+        <param name="misc" default="0" />
         <definition>
             <control type="group">
                 <nested />
@@ -371,7 +373,7 @@
                         <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
                     </include>
                     <control type="image">
-                        <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Landscape]</texture>
+                        <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">scale</aspectratio>
                     </control>
                     <control type="image">
@@ -392,36 +394,38 @@
                         <param name="control" value="group" />
                         <bottom>0</bottom>
                         <height>120</height>
-                        <control type="textbox">
+                        <control type="label">
                             <textcolor>ffdedede</textcolor>
                             <label>$INFO[$PARAM[listitem_label]]</label>
-                            <textoffsetx>20</textoffsetx>
+                            <textoffsetx>30</textoffsetx>
                             <align>left</align>
                             <aligny>center</aligny>
-                            <font>font_statusbar_bold</font>
-                            <height>60</height>
-                            <bottom>20</bottom>
-                            <visible>String.IsEmpty($PARAM[listitem_label2])</visible>
+                            <font>font_minilabel_bold</font>
+                            <height>20</height>
+                            <bottom>30</bottom>
+                            <visible>String.IsEmpty($PARAM[listitem_label2]) | ![String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)]</visible>
                         </control>
                         <control type="label">
                             <textcolor>ffdedede</textcolor>
                             <label>$INFO[$PARAM[listitem_label]]</label>
-                            <textoffsetx>20</textoffsetx>
+                            <textoffsetx>30</textoffsetx>
                             <align>left</align>
-                            <font>font_statusbar_bold</font>
+                            <font>font_minilabel_bold</font>
                             <height>40</height>
-                            <bottom>40</bottom>
+                            <bottom>50</bottom>
                             <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
+                            <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
                         </control>
                         <control type="label">
                             <textcolor>b3dedede</textcolor>
                             <label>$INFO[$PARAM[listitem_label2]]</label>
-                            <textoffsetx>20</textoffsetx>
+                            <textoffsetx>30</textoffsetx>
                             <align>left</align>
-                            <font>font_statusbar</font>
+                            <font>font_minilabel</font>
                             <height>20</height>
-                            <bottom>20</bottom>
+                            <bottom>30</bottom>
                             <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
+                            <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
                         </control>
                     </include>
                 </include>
@@ -430,6 +434,9 @@
                     <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
                 </include>
                 <control type="group">
+                    <top>-$PARAM[misc]</top>
+                    <bottom>$PARAM[misc]</bottom>
+                    <animation effect="slide" end="0,$PARAM[misc]" condition="true">Conditional</animation>
                     <include condition="$PARAM[fg_layer] + !$PARAM[selected]" content="Object_Indicator">
                         <param name="affix" value="$PARAM[affix]" />
                         <param name="listitem" value="$PARAM[listitem]" />
