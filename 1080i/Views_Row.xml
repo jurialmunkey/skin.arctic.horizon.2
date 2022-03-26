@@ -7,19 +7,33 @@
                 <param name="plotwidth" value="880" />
                 <param name="plotheight" value="80" />
                 <param name="plotheight_nr" value="120" />
-                <param name="details" value="!$EXP[Exp_ListViews] + !Control.IsVisible(57)" />
+                <param name="details" value="!$EXP[Exp_ListViews] + !Control.IsVisible(57) + !Control.IsVisible(58)" />
                 <top>view_top</top>
                 <width>1080</width>
                 <left>view_pad</left>
+                <!-- <animation effect="slide" end="515" condition="Control.IsVisible(58)">Conditional</animation> -->
+                <!-- <animation effect="fade" start="0" end="100" time="400" delay="1000" reversible="true" condition="!Container(58).OnNext + !Container(58).OnPrevious + Control.IsVisible(58)">Conditional</animation> -->
             </include>
         </control>
     </include>
     <include name="View_Furniture_Row_Bottom">
-        <include content="Object_Control" condition="$EXP[Exp_View_50_Include] | $EXP[Exp_View_51_Include] | $EXP[Exp_View_52_Include]">
+        <include content="Object_Control" condition="$EXP[Exp_View_50_Include] | $EXP[Exp_View_51_Include] | $EXP[Exp_View_52_Include] | $EXP[Exp_View_58_Include]">
             <param name="control" value="group" />
             <control type="group">
                 <visible>$EXP[Exp_RowViews]</visible>
                 <include>View_Row_Divider</include>
+            </control>
+            <include content="Object_Control" condition="$EXP[Exp_View_58_Include]" >
+                <param name="control" value="group" />
+                <visible>Control.IsVisible(58)</visible>
+                <include content="View_Row_Divider">
+                    <height>560</height>
+                    <bottom>180</bottom>
+                    <!-- <height>920</height> -->
+                </include>
+            </include>
+            <control type="group">
+                <visible>$EXP[Exp_RowViews] | Control.IsVisible(58)</visible>
                 <include content="Furniture_Bottombar_Group">
                     <control type="scrollbar" id="60">
                         <onup>50</onup>
@@ -37,6 +51,7 @@
             <include condition="$EXP[Exp_View_50_Include]">View_050_Square_Row</include>
             <include condition="$EXP[Exp_View_51_Include]">View_051_Landscape_Row</include>
             <include condition="$EXP[Exp_View_52_Include]">View_052_Poster_Row</include>
+            <include condition="$EXP[Exp_View_58_Include]">View_058_BigPoster_Row</include>
         </include>
     </include>
 
@@ -172,21 +187,30 @@
             <param name="viewtype_label" value="$LOCALIZE[31111]" />
         </include>
     </include>
-    <include name="View_054_BigPoster_Row">
+    <include name="View_058_BigPoster_Row">
         <control type="group">
-            <visible>Control.IsVisible(54)</visible>
+            <visible>Control.IsVisible(58)</visible>
+            <!-- <include content="Info_Panel">
+                <param name="plotwidth" value="880" />
+                <param name="plotheight" value="80" />
+                <param name="plotheight_nr" value="120" />
+                <param name="title" value="false" />
+                <top>730</top>
+                <width>1080</width>
+                <left>view_pad</left>
+                <animation effect="slide" end="515" condition="Control.IsVisible(58)">Conditional</animation>
+                <animation effect="fade" start="0" end="100" time="400" delay="1000" reversible="true" condition="!Container(58).OnNext + !Container(58).OnPrevious + Control.IsVisible(58)">Conditional</animation>
+            </include> -->
             <include content="List_BigPoster">
-                <param name="id" value="54" />
+                <param name="id" value="58" />
                 <focusposition>2</focusposition>
-                <onup>SetFocus(8001)</onup>
-                <pagecontrol>60</pagecontrol>
-                <include content="Action_Recommendations_OnDown">
-                    <ondown>ClearProperty(Path.Cast,1120)</ondown>
-                    <ondown>ClearProperty(Path.Crew,1120)</ondown>
-                    <ondown>ClearProperty(Path.Posters,1120)</ondown>
-                    <ondown>ClearProperty(Path.Fanart,1120)</ondown>
+                <onup>menu</onup>
+                <include content="Action_Row_OnDown">
+                    <param name="id" value="58" />
                 </include>
+                <pagecontrol>60</pagecontrol>
             </include>
+
         </control>
     </include>
 

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog">
+    <defaultcontrol always="true">1000</defaultcontrol>
+    <controls>
+        <include>Object_Overlay</include>
+        <control type="group">
+            <include>Animation_SlideIn_Dialog</include>
+            <include>Animation_FadeOut</include>
+            <width>1440</width>
+            <include>Dimension_Context</include>
+            <include content="Dialog_Header">
+                <param name="id" value="8001" />
+                <label>$INFO[ListItem.Label]</label>
+            </include>
+
+
+            <control type="group">
+                <!-- Square Image -->
+                <control type="group">
+                    <include content="Dialog_Background">
+                        <param name="overlay" value="true" />
+                        <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
+                        <include content="Dialog_Context_Image">
+                            <param name="diffuse" value="diffuse/square_w640_h640.png" />
+                            <param name="right" value="720" />
+                        </include>
+                    </include>
+                </control>
+
+                <!-- Menu -->
+                <control type="group">
+                    <right>0</right>
+                    <width>720</width>
+                    <include content="Object_MenuHeader">
+                        <param name="label" value="Information" />
+                    </include>
+
+                    <include content="Object_Control">
+                        <param name="control" value="grouplist" />
+                        <!-- <param name="id" value="996" /> -->
+                        <top>120</top>
+                        <bottom>40</bottom>
+                        <orientation>vertical</orientation>
+                        <itemgap>0</itemgap>
+                        <onleft>Close</onleft>
+                        <onright>Close</onright>
+                        <control type="textbox">
+                            <left>40</left>
+                            <right>40</right>
+                            <height>auto</height>
+                            <font>font_plotbox</font>
+                            <label>$INFO[ListItem.AddonDescription]</label>
+                        </control>
+                        <include content="Object_MenuHeader">
+                            <param name="label" value="Details" />
+                            <param name="has_icon" value="false" />
+                        </include>
+                        <include content="Dialog_AddonInfo_Details">
+                            <param name="icon" value="special://skin/extras/icons/person.png" />
+                            <param name="label" value="$INFO[ListItem.AddonCreator]" />
+                            <param name="visible" value="!String.IsEmpty(ListItem.AddonCreator)" />
+                        </include>
+                        <include content="Dialog_AddonInfo_Details">
+                            <param name="icon" value="special://skin/extras/icons/recent.png" />
+                            <param name="label" value="$VAR[Label_AddonInfo_LastUpdated]" />
+                            <param name="visible" value="!String.IsEmpty(ListItem.AddonInstallDate) + String.IsEqual(Control.GetLabel(6),$LOCALIZE[24037])" />
+                        </include>
+                        <include content="Dialog_AddonInfo_Details">
+                            <param name="icon" value="special://skin/extras/icons/userrating.png" />
+                            <param name="label" value="$INFO[ListItem.AddonLastUsed]" />
+                            <param name="visible" value="!String.IsEmpty(ListItem.AddonLastUsed)" />
+                        </include>
+                        <include content="Dialog_AddonInfo_Details">
+                            <param name="icon" value="special://skin/extras/icons/files.png" />
+                            <param name="label" value="$INFO[ListItem.AddonSize]" />
+                            <param name="visible" value="!String.IsEmpty(ListItem.AddonSize)" />
+                        </include>
+                    </include>
+                    <!-- <control type="image">
+                        <top>-24</top>
+                        <centerright>100%</centerright>
+                        <height>16</height>
+                        <width>16</width>
+                        <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-small.png</texture>
+                        <visible>Container(996).HasPrevious</visible>
+                    </control>
+                    <control type="image">
+                        <bottom>-24</bottom>
+                        <centerright>100%</centerright>
+                        <height>16</height>
+                        <width>16</width>
+                        <texture colordiffuse="$VAR[ColorSelected]">common/arrow-small.png</texture>
+                        <visible>Container(996).HasNext</visible>
+                    </control> -->
+                </control>
+            </control>
+        </control>
+
+
+    </controls>
+</window>
