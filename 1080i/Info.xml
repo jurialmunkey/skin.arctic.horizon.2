@@ -238,33 +238,20 @@
 
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="controltype" value="$PARAM[controltype]" />
-                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Artist_Genre)]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Genre))" />
+                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Artist_Gender)]" />
+                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Gender))" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="controltype" value="$PARAM[controltype]" />
-                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Artist_Mood)]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Mood))" />
+                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Artist_YearsActive)]" />
+                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Artist_YearsActive))" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
-                <include content="Info_Line_Label" condition="!$PARAM[player]">
-                    <param name="controltype" value="$PARAM[controltype]" />
-                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Artist_Style)]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Style))" />
-                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
-                </include>
-
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="controltype" value="$PARAM[controltype]" />
                     <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Album_Label)]" />
                     <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Album_Label))" />
-                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
-                </include>
-                <include content="Info_Line_Label" condition="!$PARAM[player]">
-                    <param name="controltype" value="$PARAM[controltype]" />
-                    <param name="label" value="$INFO[Container.TotalTime,Total Duration ,]" />
-                    <param name="visible" value="!String.IsEmpty(Container.TotalTime) + Container.Content(songs)" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
 
@@ -770,7 +757,7 @@
         </definition>
     </include>
 
-    <include name="Info_Codec_Label">
+    <include name="Info_Codec_LabelIcon">
         <control type="image">
             <centertop>50%</centertop>
             <width>64</width>
@@ -779,6 +766,9 @@
             <texture colordiffuse="main_fg_90">$PARAM[icon]</texture>
             <nested />
         </control>
+    </include>
+
+    <include name="Info_Codec_LabelLabel">
         <control type="label">
             <left>-10</left>
             <centertop>47%</centertop>
@@ -788,6 +778,17 @@
             <textcolor>main_fg_90</textcolor>
             <nested />
         </control>
+    </include>
+
+    <include name="Info_Codec_Label">
+        <include content="Info_Codec_LabelIcon">
+            <param name="icon" value="$PARAM[icon]" />
+            <nested />
+        </include>
+        <include content="Info_Codec_LabelLabel">
+            <param name="label" value="$PARAM[label]" />
+            <nested />
+        </include>
     </include>
 
     <include name="Info_Codecs">
@@ -804,7 +805,7 @@
                 <left>-8</left>
                 <right>-8</right>
 
-                <include content="Info_Codec_Label">
+                <!-- <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/grid.png" />
                     <param name="label" value="$INFO[Container.CurrentPage,, $LOCALIZE[1443] ]$INFO[Container.NumPages,, $LOCALIZE[31110]]" />
                     <visible>!String.IsEmpty(Container.NumPages)</visible>
@@ -826,7 +827,7 @@
                     <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
                     <visible>![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set)]</visible>
                     <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))</visible>
-                </include>
+                </include> -->
 
                 <!-- <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/sort2.png" />
@@ -840,23 +841,62 @@
                     <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))</visible>
                 </include> -->
 
-                <!-- Birthday Actor -->
+                <!-- Birthday Actor / Artist -->
                 <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/calendar.png" />
-                    <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Birthday)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Deathday), ($LOCALIZE[21897] ,)]" />
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))</visible>
+                    <param name="label" value="$VAR[Label_Birthday]" />
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday)) | !String.IsEmpty(ListItem.Property(Artist_Born)) | !String.IsEmpty(ListItem.Property(Artist_Formed))</visible>
                 </include>
-                <!-- Deathday Actor -->
-                <!-- <include content="Info_Codec_Label">
-                    <param name="icon" value="special://skin/extras/icons/skull.png" />
-                    <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Deathday)]" />
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Deathday))</visible>
-                </include> -->
+
                 <!-- Department Actor -->
                 <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/starring.png" />
                     <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Department)]" />
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Department))</visible>
+                </include>
+
+                <!-- Genre Artist / Album -->
+                <include content="Info_Codec_LabelIcon">
+                    <param name="icon" value="special://skin/extras/icons/genre.png" />
+                    <visible>!String.IsEmpty(ListItem.Property(Artist_Genre)) | !String.IsEmpty(ListItem.Property(Artist_Mood)) | !String.IsEmpty(ListItem.Property(Artist_Style)) | !String.IsEmpty(ListItem.Property(Album_Genre)) | !String.IsEmpty(ListItem.Property(Album_Mood)) | !String.IsEmpty(ListItem.Property(Album_Style))</visible>
+                </include>
+                <include content="Info_Codec_LabelLabel">
+                    <param name="label" value="$INFO[ListItem.Property(Artist_Genre)]" />
+                    <visible>!String.IsEmpty(ListItem.Property(Artist_Genre))</visible>
+                </include>
+                <include content="Info_Codec_LabelLabel">
+                    <param name="label" value="$INFO[ListItem.Property(Artist_Mood)]" />
+                    <visible>!String.IsEmpty(ListItem.Property(Artist_Mood))</visible>
+                </include>
+                <include content="Info_Codec_LabelLabel">
+                    <param name="label" value="$INFO[ListItem.Property(Artist_Style)]" />
+                    <visible>!String.IsEmpty(ListItem.Property(Artist_Style))</visible>
+                </include>
+                <include content="Info_Codec_LabelLabel">
+                    <param name="label" value="$INFO[ListItem.Property(Album_Genre)]" />
+                    <visible>!String.IsEmpty(ListItem.Property(Album_Genre))</visible>
+                </include>
+                <include content="Info_Codec_LabelLabel">
+                    <param name="label" value="$INFO[ListItem.Property(Album_Mood)]" />
+                    <visible>!String.IsEmpty(ListItem.Property(Album_Mood))</visible>
+                </include>
+                <include content="Info_Codec_LabelLabel">
+                    <param name="label" value="$INFO[ListItem.Property(Album_Style)]" />
+                    <visible>!String.IsEmpty(ListItem.Property(Album_Style))</visible>
+                </include>
+
+                <!-- Total Duration -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container.NumNonFolderItems,, $LOCALIZE[134]]" />
+                    <visible>!String.IsEmpty(Container.NumNonFolderItems) + Container.Content(songs)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/clock.png" />
+                    <param name="label" value="$INFO[Container.Totaltime,$LOCALIZE[180] ,]" />
+                    <visible>!String.IsEmpty(Container.Totaltime) + Container.Content(songs)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
                 </include>
 
                 <!-- Addon Origin -->

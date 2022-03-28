@@ -283,7 +283,6 @@
                 <top>-dialog_top</top>
                 <height>dialog_top</height>
                 <font>font_mainlabel</font>
-                <textoffsetx>dialog_pad</textoffsetx>
                 <align>center</align>
             </control>
         </definition>
@@ -581,55 +580,64 @@
     </include>
 
     <include name="Dialog_IconicButton">
-        <control type="button" id="$PARAM[id]">
-            <height>row_height</height>
-            <width>row_height</width>
-            <font />
-            <textcolor>00ffffff</textcolor>
-            <selectedcolor>00ffffff</selectedcolor>
-            <focusedcolor>00ffffff</focusedcolor>
-        </control>
-        <control type="group" id="$PARAM[groupid]">
-            <top>-100</top>
-            <width>row_height</width>
-            <height>row_height</height>
-            <control type="group">
-                <visible>!Control.HasFocus($PARAM[id])</visible>
-                <control type="image">
-                    <height>64</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture colordiffuse="dialog_fg_70">$PARAM[icon]</texture>
+        <param name="horizontal" default="false" />
+        <definition>
+            <control type="button" id="$PARAM[id]">
+                <height>row_height</height>
+                <width>row_height</width>
+                <font />
+                <textcolor>00ffffff</textcolor>
+                <selectedcolor>00ffffff</selectedcolor>
+                <focusedcolor>00ffffff</focusedcolor>
+            </control>
+            <control type="group" id="$PARAM[groupid]">
+                <include content="Object_Include" condition="!$PARAM[horizontal]">
+                    <top>-100</top>
+                </include>
+                <include content="Object_Include" condition="$PARAM[horizontal]">
+                    <left>-100</left>
+                </include>
+                <width>row_height</width>
+                <height>row_height</height>
+                <control type="group">
+                    <visible>!Control.HasFocus($PARAM[id])</visible>
+                    <animation effect="fade" start="100" end="40" condition="!Control.IsEnabled($PARAM[id])">Conditional</animation>
+                    <control type="image">
+                        <height>64</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture colordiffuse="dialog_fg_70">$PARAM[icon]</texture>
+                    </control>
+                    <control type="label">
+                        <font>font_minibutton</font>
+                        <textcolor>dialog_fg_70</textcolor>
+                        <label>$PARAM[label]</label>
+                        <bottom>0</bottom>
+                        <height>30</height>
+                        <aligny>center</aligny>
+                        <align>center</align>
+                        <textoffsetx>5</textoffsetx>
+                    </control>
                 </control>
-                <control type="label">
-                    <font>font_minibutton</font>
-                    <textcolor>dialog_fg_70</textcolor>
-                    <label>$PARAM[label]</label>
-                    <bottom>0</bottom>
-                    <height>30</height>
-                    <aligny>center</aligny>
-                    <align>center</align>
-                    <textoffsetx>5</textoffsetx>
+                <control type="group">
+                    <visible>Control.HasFocus($PARAM[id])</visible>
+                    <control type="image">
+                        <height>64</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                    </control>
+                    <control type="label">
+                        <font>font_minibutton</font>
+                        <textcolor>$VAR[ColorSelected]</textcolor>
+                        <label>$PARAM[label]</label>
+                        <bottom>0</bottom>
+                        <height>30</height>
+                        <aligny>center</aligny>
+                        <align>center</align>
+                        <textoffsetx>5</textoffsetx>
+                    </control>
                 </control>
             </control>
-            <control type="group">
-                <visible>Control.HasFocus($PARAM[id])</visible>
-                <control type="image">
-                    <height>64</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
-                </control>
-                <control type="label">
-                    <font>font_minibutton</font>
-                    <textcolor>$VAR[ColorSelected]</textcolor>
-                    <label>$PARAM[label]</label>
-                    <bottom>0</bottom>
-                    <height>30</height>
-                    <aligny>center</aligny>
-                    <align>center</align>
-                    <textoffsetx>5</textoffsetx>
-                </control>
-            </control>
-        </control>
+        </definition>
     </include>
 
     <include name="Dialog_Overlay">
