@@ -133,42 +133,99 @@
                     <visible>$PARAM[detailed]</visible>
                     <left>dialog_pad</left>
                     <right>dialog_pad</right>
-                    <include content="Object_Control">
-                        <param name="control" value="label" />
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <textcolor>main_fg_70</textcolor>
-                        <selectedcolor>main_fg_70</selectedcolor>
-                        <label>$VAR[Label_MediaList_Year]</label>
-                        <align>right</align>
-                        <font>font_small</font>
-                        <bottom>3</bottom>
-                        <width>80</width>
-                        <left>-20</left>
-                    </include>
-                    <include content="Object_Indicator_List">
-                        <centertop>50%</centertop>
-                        <centerleft>100</centerleft>
-                    </include>
-                    <include content="Object_Control">
-                        <param name="control" value="label" />
-                        <left>140</left>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <textcolor>main_fg_70</textcolor>
-                        <selectedcolor>main_fg_70</selectedcolor>
-                        <label>$INFO[ListItem.Title]</label>
-                        <font>font_small_bold</font>
-                        <bottom>3</bottom>
-                    </include>
-                    <include content="Object_Control">
-                        <param name="control" value="label" />
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <textcolor>main_fg_70</textcolor>
-                        <selectedcolor>main_fg_70</selectedcolor>
-                        <label>$INFO[ListItem.Rating]</label>
-                        <font>font_small</font>
-                        <align>right</align>
-                        <bottom>3</bottom>
-                    </include>
+                    <control type="group">
+                        <visible>!String.IsEqual(ListItem.DBType,song)</visible>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$VAR[Label_MediaList_Year]</label>
+                            <align>right</align>
+                            <font>font_small</font>
+                            <bottom>3</bottom>
+                            <width>80</width>
+                            <left>-20</left>
+                        </include>
+                        <include content="Object_Indicator_List">
+                            <centertop>50%</centertop>
+                            <centerleft>100</centerleft>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <left>140</left>
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$INFO[ListItem.Title]</label>
+                            <font>font_small_bold</font>
+                            <bottom>3</bottom>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$INFO[ListItem.Rating]</label>
+                            <font>font_small</font>
+                            <align>right</align>
+                            <bottom>3</bottom>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <visible>String.IsEqual(ListItem.DBType,song)</visible>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$VAR[Label_ListTrackNumber]</label>
+                            <align>center</align>
+                            <font>font_small</font>
+                            <bottom>3</bottom>
+                            <width>80</width>
+                            <left>-20</left>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <left>80</left>
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$INFO[ListItem.Title]</label>
+                            <font>font_small_bold</font>
+                            <bottom>3</bottom>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$VAR[Label_ListArtist]</label>
+                            <font>font_small</font>
+                            <align>right</align>
+                            <bottom>3</bottom>
+                            <right>200</right>
+                        </include>
+                        <control type="image">
+                            <right>100</right>
+                            <centertop>48%</centertop>
+                            <width>71</width>
+                            <height>48</height>
+                            <aspectratio>keep</aspectratio>
+                            <texture fallback="flags/generic.png">flags/$VAR[Texture_ColorMode_Dir]/audio/$INFO[ListItem.FileExtension].png</texture>
+                        </control>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$INFO[ListItem.Duration]</label>
+                            <font>font_small</font>
+                            <align>right</align>
+                            <bottom>3</bottom>
+                        </include>
+                    </control>
                 </control>
 
                 <!-- Basic -->
@@ -587,6 +644,50 @@
         </definition>
     </include>
 
+    <include name="Layout_EpisodeLabels">
+        <control type="group">
+            <left>$PARAM[left]</left>
+            <top>20</top>
+            <bottom>20</bottom>
+            <right>20</right>
+            <control type="image">
+                <width>1</width>
+                <include content="Object_Include" condition="$PARAM[selected]">
+                    <texture colordiffuse="panel_fg_30">common/white.png</texture>
+                </include>
+                <texture colordiffuse="main_fg_12">common/white.png</texture>
+            </control>
+            <control type="label">
+                <left>20</left>
+                <height>40</height>
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <label>$INFO[ListItem.Label]</label>
+                <textcolor>main_fg_90</textcolor>
+                <font>font_small_bold</font>
+                <align>left</align>
+            </control>
+            <control type="label">
+                <left>20</left>
+                <height>40</height>
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <label>$INFO[ListItem.Label2]</label>
+                <textcolor>main_fg_90</textcolor>
+                <font>font_minilabel</font>
+                <align>right</align>
+            </control>
+            <control type="textbox">
+                <left>20</left>
+                <top>45</top>
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <label>$VAR[Label_ListPlot]</label>
+                <textcolor>main_fg_70</textcolor>
+                <font>font_plotbox_mini</font>
+                <align>left</align>
+                <autoscroll>false</autoscroll>
+            </control>
+        </control>
+    </include>
+
     <include name="Layout_Episode">
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
@@ -629,58 +730,44 @@
                     </control>
                 </include>
                 <control type="group">
-                    <width>253</width>
-                    <control type="image">
-                        <bordersize>20</bordersize>
-                        <texture background="true">$VAR[Image_Landscape]</texture>
-                        <aspectratio>scale</aspectratio>
+                    <visible>!String.IsEqual(ListItem.DBTYpe,album)</visible>
+                    <control type="group">
+                        <width>253</width>
+                        <control type="image">
+                            <bordersize>20</bordersize>
+                            <texture background="true">$VAR[Image_Landscape]</texture>
+                            <aspectratio>scale</aspectratio>
+                        </control>
+                        <include content="Object_Indicator">
+                            <param name="shadow" value="false" />
+                            <right>30</right>
+                            <centerbottom>26</centerbottom>
+                        </include>
                     </control>
-                    <include content="Object_Indicator">
-                        <param name="shadow" value="false" />
-                        <right>30</right>
-                        <centerbottom>26</centerbottom>
+                    <include content="Layout_EpisodeLabels">
+                        <param name="left" value="253" />
+                        <param name="selected" value="$PARAM[selected]" />
                     </include>
                 </control>
                 <control type="group">
-                    <left>253</left>
-                    <top>20</top>
-                    <bottom>20</bottom>
-                    <right>20</right>
-                    <control type="image">
-                        <width>1</width>
-                        <include content="Object_Include" condition="$PARAM[selected]">
-                            <texture colordiffuse="panel_fg_30">common/white.png</texture>
+                    <visible>String.IsEqual(ListItem.DBType,album)</visible>
+                    <control type="group">
+                        <width>160</width>
+                        <control type="image">
+                            <bordersize>20</bordersize>
+                            <texture background="true">$INFO[ListItem.Icon]</texture>
+                            <aspectratio>scale</aspectratio>
+                        </control>
+                        <include content="Object_Indicator">
+                            <param name="shadow" value="false" />
+                            <right>30</right>
+                            <centerbottom>26</centerbottom>
                         </include>
-                        <texture colordiffuse="main_fg_12">common/white.png</texture>
                     </control>
-                    <control type="label">
-                        <left>20</left>
-                        <height>40</height>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.Label]</label>
-                        <textcolor>main_fg_90</textcolor>
-                        <font>font_small_bold</font>
-                        <align>left</align>
-                    </control>
-                    <control type="label">
-                        <left>20</left>
-                        <height>40</height>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.Label2]</label>
-                        <textcolor>main_fg_90</textcolor>
-                        <font>font_minilabel</font>
-                        <align>right</align>
-                    </control>
-                    <control type="textbox">
-                        <left>20</left>
-                        <top>45</top>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.Plot]</label>
-                        <textcolor>main_fg_70</textcolor>
-                        <font>font_plotbox_mini</font>
-                        <align>left</align>
-                        <autoscroll>false</autoscroll>
-                    </control>
+                    <include content="Layout_EpisodeLabels">
+                        <param name="left" value="160" />
+                        <param name="selected" value="$PARAM[selected]" />
+                    </include>
                 </control>
             </control>
         </definition>

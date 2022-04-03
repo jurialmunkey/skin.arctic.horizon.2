@@ -19,12 +19,15 @@
 
             <include content="Dialog_Info_RightSide">
                 <control type="group">
-                    <visible>!Window.IsActive(1113) + !Window.IsActive(1120)</visible>
+                    <visible>!Window.IsActive(1120)</visible>
                     <include>Animation_DialogInfo_Recommendations</include>
                     <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
                         <left>-80</left>
                     </include>
+
+                    <!-- Info -->
                     <control type="group">
+                        <visible>!Control.HasFocus(61)</visible>
                         <include>Dimension_Info</include>
                         <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
                         <include content="Info_Panel" condition="!String.IsEqual(ListItem.Property(item.type),person)">
@@ -47,13 +50,20 @@
                                 <centertop>50%</centertop>
                                 <onleft>noop</onleft>
                                 <onright>menu</onright>
-                                <include>Action_Plotbox_OnUp</include>
+
+                                <!-- Property to reset textbox scroll position -->
+                                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+                                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+                                <onup>61</onup>
+
                                 <include>Action_Recommendations_OnDown</include>
                                 <include>Items_DialogVideoInfo_MenuBar</include>
                             </include>
                             <include content="Object_Hidden_Button" condition="String.IsEqual(ListItem.Property(item.type),person)">
                                 <param name="id" value="5000" />
-                                <include>Action_Plotbox_OnUp</include>
+                                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+                                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+                                <onup>61</onup>
                                 <include>Action_Recommendations_OnDown</include>
                             </include>
                         </control>
@@ -116,6 +126,8 @@
                             </control>
                         </control>
                     </control>
+
+                    <!-- Trailer -->
                     <control type="group">
                         <visible>Control.HasFocus(7001)</visible>
                         <visible>Player.HasVideo</visible>
@@ -128,6 +140,37 @@
                         <control type="videowindow">
                         </control>
                     </control>
+
+                    <!-- Plot Box -->
+                    <control type="group">
+                        <include>Dimension_Info</include>
+                        <include>Info_Title</include>
+                        <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
+                        <include content="Object_Control">
+                            <param name="control" value="textbox" />
+                            <top>120</top>
+                            <bottom>80</bottom>
+                            <align>left</align>
+                            <textcolor>main_fg_70</textcolor>
+                            <font>font_overlay_plotbox</font>
+                            <label fallback="19055">$INFO[ListItem.Tagline,[B]$LOCALIZE[202][/B][CR],[CR][CR]]$INFO[ListItem.Plot,[B]$LOCALIZE[31028][/B][CR],]$VAR[Label_OverlayCritics]$INFO[Window(Home).Property(ResetScroll)]</label>
+                            <pagecontrol>61</pagecontrol>
+                            <autoscroll delay="8000" time="4000" repeat="12000">false</autoscroll>
+                        </include>
+                        <control type="scrollbar" id="61">
+                            <centerright>-40</centerright>
+                            <width>8</width>
+
+                            <onleft>SetFocus(5000)</onleft>
+                            <onright>SetFocus(5000)</onright>
+                            <ondown>SetFocus(5000)</ondown>
+                            <onup>SetFocus(5000)</onup>
+
+                            <visible allowhiddenfocus="true">false</visible>
+                        </control>
+                    </control>
+
+                    <!-- Codecs -->
                     <control type="group">
                         <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
                         <include>Furniture_Bottom</include>

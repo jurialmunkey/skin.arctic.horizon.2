@@ -4,73 +4,63 @@
     <include>Action_Plotbox_OnUnload</include>
     <onload>SetProperty(TMDbHelper.ServicePause,1)</onload>
     <controls>
-
+        <include content="Object_Overlay">
+            <param name="delay" value="300" />
+        </include>
         <control type="group">
-            <width>big_poster_w</width>
-            <include>Animation_Left_Delay</include>
-            <include content="Object_BigPoster" condition="!$EXP[Exp_InfoDialogs]">
-                <param name="icon" value="$INFO[Window.Property(Poster)]" />
-                <include>Dimension_Info</include>
+            <include content="Animation_SlideIn_Dialog">
+                <param name="windowopen_delay" value="600" />
             </include>
-        </control>
+            <include>Animation_FadeOut</include>
+            <width>1440</width>
+            <include>Dimension_Context</include>
+            <include content="Dialog_Header">
+                <param name="id" value="8001" />
+                <label>$INFO[Window.Property(Title)]</label>
+            </include>
 
-        <control type="group">
-            <left>big_poster_w</left>
-            <include>Animation_Right_Delay</include>
-            <include content="Object_Control" condition="[Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)] + Skin.String(BackgroundStyle,Blur) + !$EXP[Exp_InfoDialogs]">
-                <param name="control" value="image" />
-                <aspectratio scalediffuse="false">scale</aspectratio>
-                <texture background="true"  diffuse="diffuse/flixart.png" colordiffuse="main_flix">$INFO[Window.Property(Fanart)]</texture>
-            </include>
-            <include content="Object_DividerPanel" condition="[Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)] + !$EXP[Exp_InfoDialogs]">
-                <param name="shadow_left" value="true" />
-            </include>
+            <!-- Square Image -->
             <control type="group">
-                <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
-                    <left>0</left>
-                </include>
-                <include>Dimension_Info</include>
-                <control type="label">
-                    <aligny>center</aligny>
-                    <height>80</height>
-                    <label>$INFO[Window.Property(Title)]</label>
-                    <textcolor>main_fg_90</textcolor>
-                    <include content="Object_Include" condition="Skin.HasSetting(UseLightFont)">
-                        <font>font_overlay_title_light</font>
+                <include content="Dialog_Background">
+                    <param name="overlay" value="true" />
+                    <param name="overlay_texture" value="$INFO[Window.Property(Fanart)]" />
+                    <include content="Dialog_Context_Image">
+                        <param name="diffuse" value="diffuse/poster_w435_h640.png" />
+                        <param name="icon" value="$INFO[Window.Property(Poster)]" />
+                        <param name="right" value="925" />
                     </include>
-                    <font>font_overlay_title</font>
-                    <visible>String.IsEmpty(Window.Property(ClearLogo)) | !Skin.HasSetting(TMDbHelper.EnableCrop)</visible>
-                </control>
-                <control type="image">
-                    <height>80</height>
-                    <aspectratio align="left">keep</aspectratio>
-                    <texture background="true">$INFO[Window.Property(ClearLogo)]</texture>
-                    <visible>!String.IsEmpty(Window.Property(ClearLogo)) + Skin.HasSetting(TMDbHelper.EnableCrop)</visible>
-                </control>
+                </include>
+            </control>
+
+            <!-- Menu -->
+            <control type="group">
+                <right>0</right>
+                <width>925</width>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$LOCALIZE[33029]" />
+                </include>
                 <include content="Object_Control">
                     <param name="control" value="textbox" />
                     <top>120</top>
+                    <left>40</left>
+                    <bottom>40</bottom>
+                    <right>40</right>
                     <align>left</align>
-                    <textcolor>main_fg_70</textcolor>
-                    <font>font_overlay_plotbox</font>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <font>font_plotbox</font>
                     <label fallback="19055">$INFO[Window.Property(Tagline),[B]$LOCALIZE[202][/B][CR],[CR][CR]]$INFO[Window.Property(Plot),[B]$LOCALIZE[31028][/B][CR],]$VAR[Label_OverlayCritics]</label>
                     <pagecontrol>61</pagecontrol>
                     <autoscroll delay="8000" time="4000" repeat="12000">false</autoscroll>
                 </include>
-                <control type="scrollbar" id="61">
-                    <width>8</width>
-                    <centerright>-40</centerright>
-                    <showonepage>true</showonepage>
+                <include content="Dialog_Scrollbar">
+                    <right>0</right>
+                    <top>0</top>
                     <onright>Close</onright>
                     <onleft>Close</onleft>
-                    <onup>Close</onup>
-                    <ondown>Close</ondown>
-                    <animation effect="fade" condition="!Control.HasFocus(61)" start="100" end="0" time="200">Conditional</animation>
-                </control>
+                    <showonepage>true</showonepage>
+                    <visible allowhiddenfocus="true">false</visible>
+                </include>
             </control>
         </control>
-
-        <include condition="!$EXP[Exp_InfoDialogs]">Furniture_Top</include>
-
     </controls>
 </window>

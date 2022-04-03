@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <defaultcontrol always="true">6100</defaultcontrol>
+    <animation effect="fade" start="0" end="100" time="300">WindowOpen</animation>
+    <animation effect="fade" end="0" start="100" time="300">WindowClose</animation>
+    <controls>
+        <!-- Left Side Buttons -->
+        <control type="group">
+            <top>view_top</top>
+            <centerleft>50%</centerleft>
+            <width>640</width>
+            <height>640</height>
+            <control type="grouplist" id="6000">
+                <left>-90</left>
+                <width>90</width>
+                <height>640</height>
+                <orientation>vertical</orientation>
+                <itemgap>30</itemgap>
+                <onleft>6800</onleft>
+                <onright>6500</onright>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6100" />
+                    <param name="groupid" value="6199" />
+                    <param name="vertical" value="true" />
+                    <onclick>PlayerControl(Play)</onclick>
+                    <onright condition="Player.Paused">PlayerControl(Play)</onright>
+                    <onleft condition="Player.Paused">PlayerControl(Play)</onleft>
+                    <onright condition="!Player.Forwarding32x">PlayerControl(Forward)</onright>
+                    <onleft condition="!Player.Rewinding32x">PlayerControl(Rewind)</onleft>
+                </include>
+                <control type="group" id="6198">
+                    <top>-30</top>
+                    <height>0</height>
+                    <visible>Control.HasFocus(6100)</visible>
+                    <control type="image">
+                        <animation effect="slide" end="-90" condition="true">Conditional</animation>
+                        <centertop>-30</centertop>
+                        <right>0</right>
+                        <width>30</width>
+                        <height>30</height>
+                        <texture colordiffuse="panel_fg_30">osd/rw.png</texture>
+                    </control>
+                    <control type="image">
+                        <centertop>-30</centertop>
+                        <right>0</right>
+                        <width>30</width>
+                        <height>30</height>
+                        <texture colordiffuse="panel_fg_30">osd/ff.png</texture>
+                    </control>
+                    <control type="label">
+                        <right>30</right>
+                        <width>60</width>
+                        <height>30</height>
+                        <label>$VAR[Label_PlayerStatus]</label>
+                        <align>center</align>
+                        <font>font_osd_lang</font>
+                        <textcolor>panel_fg_70</textcolor>
+                        <focusedcolor>panel_fg_70</focusedcolor>
+                        <shadowcolor>shadow_hard</shadowcolor>
+                        <visible>Player.Rewinding | Player.Forwarding</visible>
+                    </control>
+                </control>
+                <!-- <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/next.png" />
+                    <param name="visible" value="true" />
+                    <param name="flipx" value="true" />
+                    <param name="id" value="6200" />
+                    <param name="groupid" value="6299" />
+                    <param name="vertical" value="true" />
+                    <onclick>PlayerControl(Previous)</onclick>
+                </include> -->
+
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/stop.png" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6400" />
+                    <param name="groupid" value="6499" />
+                    <param name="vertical" value="true" />
+                    <onclick>PlayerControl(Stop)</onclick>
+                    <onright>PlayerControl(Next)</onright>
+                    <onleft>PlayerControl(Previous)</onleft>
+                </include>
+                <control type="group" id="6498">
+                    <top>-30</top>
+                    <height>0</height>
+                    <visible>Control.HasFocus(6400)</visible>
+                    <control type="image">
+                        <animation effect="slide" end="-90" condition="true">Conditional</animation>
+                        <centertop>-30</centertop>
+                        <right>0</right>
+                        <width>30</width>
+                        <height>30</height>
+                        <texture colordiffuse="panel_fg_30" flipx="true">osd/next.png</texture>
+                    </control>
+                    <control type="image">
+                        <centertop>-30</centertop>
+                        <right>0</right>
+                        <width>30</width>
+                        <height>30</height>
+                        <texture colordiffuse="panel_fg_30">osd/next.png</texture>
+                    </control>
+                </control>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="$VAR[Image_OSD_Repeat]" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6500" />
+                    <param name="groupid" value="6599" />
+                    <param name="vertical" value="true" />
+                    <onclick>PlayerControl(Repeat)</onclick>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="$VAR[Image_OSD_Shuffle]" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6600" />
+                    <param name="groupid" value="6699" />
+                    <param name="vertical" value="true" />
+                    <onclick>PlayerControl(Random)</onclick>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/playlist.png" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6300" />
+                    <param name="groupid" value="6399" />
+                    <param name="vertical" value="true" />
+                    <onclick>Close</onclick>
+                    <onclick>ActivateWindow(musicplaylist)</onclick>
+                    <onright>PlayerControl(Next)</onright>
+                    <onleft>PlayerControl(Previous)</onleft>
+                </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="true" />
+                    <param name="icon" value="osd/settings.png" />
+                    <param name="visible" value="true" />
+                    <param name="id" value="6700" />
+                    <param name="groupid" value="6799" />
+                    <param name="vertical" value="true" />
+                </include>
+            </control>
+        </control>
+
+    </controls>
+</window>

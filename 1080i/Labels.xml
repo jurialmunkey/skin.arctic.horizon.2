@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Label_ListTrackNumber">
+        <value condition="!String.IsEqual(Container.FolderName,ListItem.Album) + Integer.IsLess(ListItem.CurrentItem,10)">$INFO[ListItem.CurrentItem,0,]</value>
+        <value condition="!String.IsEqual(Container.FolderName,ListItem.Album)">$INFO[ListItem.CurrentItem]</value>
+        <value>$INFO[ListItem.TrackNumber]</value>
+    </variable>
+
+    <variable name="Label_ListArtist">
+        <value condition="String.IsEqual(Container.FolderName,$LOCALIZE[15102])">$INFO[ListItem.Album]</value>
+        <value condition="!String.IsEqual(Container.FolderName,ListItem.Album) | !String.IsEqual(ListItem.AlbumArtist,ListItem.Artist)">$INFO[ListItem.Artist]</value>
+    </variable>
+
+    <variable name="Label_ListPlot">
+        <value condition="!String.IsEmpty(ListItem.Property(Artist_Description))">$INFO[ListItem.Property(Artist_Description)]</value>
+        <value condition="!String.IsEmpty(ListItem.Property(Album_Description))">$INFO[ListItem.Property(Album_Description)]</value>
+        <value condition="!String.IsEmpty(ListItem.AddonDescription)">$INFO[ListItem.AddonDescription]</value>
+        <value condition="String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Plot)">[B]$INFO[ListItem.Title,, ~ ][/B]$INFO[ListItem.Plot]</value>
+        <value condition="!String.IsEmpty(ListItem.Plot)">$INFO[ListItem.Plot]</value>
+    </variable>
+
     <variable name="Label_Birthday">
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Formed))">$INFO[ListItem.Property(Artist_Formed)]$INFO[ListItem.Property(Artist_Disbanded), ($LOCALIZE[21896] ,)]</value>
-        <value condition="!String.IsEmpty(ListItem.Property(Artist_Born))">$INFO[ListItem.Property(Artist_Born)]$INFO[ListItem.Property(Artist_Died), ($LOCALIZE[21897] ,)]</value>
+        <value condition="!String.IsEmpty(ListItem.Property(Artist_Born))">$INFO[ListItem.Property(Artist_Born)]$INFO[ListItem.Property(Artist_Died), ($LOCALIZE[21896] ,)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Birthday)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Deathday), ($LOCALIZE[21897] ,)]</value>
     </variable>
 
