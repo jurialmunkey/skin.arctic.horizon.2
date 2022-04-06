@@ -227,19 +227,23 @@
     </include>
 
     <include name="Object_GlassPanel">
-        <include content="Object_Control">
-            <param name="control" value="group" />
+        <param name="colordiffuse" default="panel_fg_12" />
+        <param name="texture" default="common/panel-256-box.png" />
+        <definition>
             <include content="Object_Control">
-                <param name="control" value="image" />
-                <include>Texture_Shadow_40</include>
-                <texture colordiffuse="panel_fg_12" border="10">common/panel-256-box.png</texture>
+                <param name="control" value="group" />
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <include>Texture_Shadow_40</include>
+                    <texture colordiffuse="$PARAM[colordiffuse]" border="10">$PARAM[texture]</texture>
+                </include>
+                <nested />
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
             </include>
-            <nested />
-            <include content="Object_Control">
-                <param name="control" value="image" />
-                <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
-            </include>
-        </include>
+        </definition>
     </include>
 
     <include name="Object_InfoCircle">
@@ -968,6 +972,90 @@
                             <param name="font" value="$PARAM[font]" />
                             <param name="selected" value="true" />
                         </include>
+                    </control>
+                </focusedlayout>
+            </control>
+        </definition>
+    </include>
+
+
+    <include name="Object_MenuBar_TextList">
+        <param name="control" default="list" />
+        <param name="itemlayout_w" default="240" />
+        <param name="font" default="font_minilabel_bold" />
+        <param name="color" default="dialog_fg" />
+        <param name="color_nf" default="dialog_fg" />
+        <param name="color_bg" default="dialog_bg_100" />
+        <param name="altfocus" default="false" />
+        <param name="offset_x" default="40" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <centertop>50%</centertop>
+                <height>120</height>
+                <focusposition>1</focusposition>
+                <orientation>horizontal</orientation>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <itemlayout height="120" width="$PARAM[itemlayout_w]">
+                    <control type="group">
+                        <left>$PARAM[offset_x]</left>
+                        <right>-$PARAM[offset_x]</right>
+                        <control type="label">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <aligny>center</aligny>
+                            <left>40</left>
+                            <right>40</right>
+                            <align>center</align>
+                            <font>$PARAM[font]</font>
+                            <textcolor>$PARAM[color_nf]_70</textcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="120" width="$PARAM[itemlayout_w]" condition="![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
+                    <control type="group">
+                        <left>$PARAM[offset_x]</left>
+                        <right>-$PARAM[offset_x]</right>
+                        <include content="Object_MenuBar_Item">
+                            <param name="color_bg" value="$PARAM[color_bg]" />
+                            <param name="color_fg" value="$PARAM[color]_70" />
+                            <param name="haslabel" value="false" />
+                        </include>
+                        <control type="label">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <aligny>center</aligny>
+                            <left>40</left>
+                            <right>40</right>
+                            <align>center</align>
+                            <font>$PARAM[font]</font>
+                            <textcolor>$PARAM[color]_70</textcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </control>
+                </focusedlayout>
+                <focusedlayout height="120" width="$PARAM[itemlayout_w]" condition="[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
+                    <control type="group">
+                        <left>$PARAM[offset_x]</left>
+                        <right>-$PARAM[offset_x]</right>
+                        <include content="Object_MenuBar_Item">
+                            <param name="color_bg" value="$PARAM[color_bg]" />
+                            <param name="color_fg" value="$VAR[ColorSelected]" />
+                            <param name="haslabel" value="false" />
+                            <param name="selected" value="true" />
+                        </include>
+                        <control type="label">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <aligny>center</aligny>
+                            <left>40</left>
+                            <right>40</right>
+                            <align>center</align>
+                            <font>$PARAM[font]</font>
+                            <textcolor>$VAR[ColorSelected]</textcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
                     </control>
                 </focusedlayout>
             </control>

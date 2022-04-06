@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <views>10</views>
+    <defaultcontrol always="true">10</defaultcontrol>
+    <menucontrol>9000</menucontrol>
+    <include content="Action_Blur_Onload">
+        <param name="sourceimage" value="Art(fanart)" />
+    </include>
+    <controls>
+
+        <include>Background_Main</include>
+        <control type="group">
+            <include>Dimension_Info</include>
+            <include content="Info_Panel">
+                <param name="plotwidth" value="880" />
+                <param name="ratings" value="false" />
+                <param name="plotheight_nr" value="80" />
+            </include>
+            <include content="Object_GlassPanel">
+                <right>0</right>
+                <height>240</height>
+                <width>427</width>
+                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Fanart)) | Player.HasVideo</visible>
+                <animation type="Visible" reversible="true">
+                    <effect type="fade" start="0" end="100" time="300" delay="0"/>
+                </animation>
+                <animation type="Hidden" reversible="true">
+                    <effect type="fade" end="0" start="100" time="150" delay="300"/>
+                </animation>
+                <control type="image">
+                    <visible>!Player.HasVideo</visible>
+                    <fadetime>450</fadetime>
+                    <texture diffuse="diffuse/landscape_w560_h320.png">$INFO[Window(Home).Property(TMDbHelper.ListItem.Fanart)]</texture>
+                </control>
+                <control type="group">
+                    <visible>Player.HasVideo</visible>
+                    <control type="videowindow">
+                    </control>
+                </control>
+            </include>
+            <include content="Object_GlassPanel">
+                <top>340</top>
+                <include content="Object_GlassPanel">
+                    <width>480</width>
+                </include>
+                <control type="group">
+                    <height>30</height>
+                    <bottom>-1</bottom>
+                    <include content="Object_Control">
+                        <param name="control" value="image" />
+                        <texture colordiffuse="main_fg_12">common/white.png</texture>
+                        <height>1</height>
+                    </include>
+                </control>
+                <param name="overlay" value="true" />
+                <control type="epggrid" id="10">
+                    <onup>11</onup>
+                    <ondown>11</ondown>
+                    <viewtype label="19069">list</viewtype>
+                    <progresstexture border="5" colordiffuse="bf777777">pvr/progressline-half.png</progresstexture>
+                    <scrolltime tween="quadratic">300</scrolltime>
+                    <timeblocks>28</timeblocks>
+                    <rulerunit>6</rulerunit>
+                    <pagecontrol>8060</pagecontrol>
+                    <bottom>30</bottom>
+                    <top>-50</top>
+                    <rulerlayout height="row_height" width="480">
+                        <control type="label" id="2">
+                            <top>0</top>
+                            <height>row_height_x50</height>
+                            <width>480</width>
+                            <align>left</align>
+                            <aligny>top</aligny>
+                            <font>font_statusbar</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <textcolor>main_fg_70</textcolor>
+                            <!-- <visible>!Control.HasFocus(11)</visible> -->
+                        </control>
+                    </rulerlayout>
+                    <channellayout height="row_height" width="480">
+                        <include>Layout_PVRGuide_Channels</include>
+                    </channellayout>
+                    <focusedchannellayout height="row_height" width="480">
+                        <include content="Layout_PVRGuide_Channels">
+                            <param name="selected" value="false" />
+                            <visible>Control.HasFocus(11)</visible>
+                        </include>
+                        <include content="Layout_PVRGuide_Channels">
+                            <param name="selected" value="true" />
+                            <visible>!Control.HasFocus(11)</visible>
+                        </include>
+                    </focusedchannellayout>
+                    <itemlayout height="row_height" width="480">
+                        <include>Layout_PVRGuide_Programs</include>
+                    </itemlayout>
+                    <focusedlayout height="row_height" width="480">
+                        <include content="Layout_PVRGuide_Programs">
+                            <param name="selected" value="false" />
+                            <param name="visible" value="Control.HasFocus(11)" />
+                        </include>
+                        <include content="Layout_PVRGuide_Programs">
+                            <param name="selected" value="true" />
+                            <param name="visible" value="!Control.HasFocus(11)" />
+                        </include>
+                    </focusedlayout>
+
+                </control>
+            </include>
+        </control>
+
+        <!-- Menu bar -->
+        <include content="Furniture_Topbar_Group">
+            <control type="group">
+                <!-- <top>430</top> -->
+                <!-- <left>480</left> -->
+                <centerleft>50%</centerleft>
+                <include>Animation_SlideIn_Dialog</include>
+                <include>Animation_FadeOut</include>
+                <width>760</width>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible allowhiddenfocus="true">Control.HasFocus(11)</visible>
+                <include content="Object_MenuBar_Group_Texture">
+                    <param name="colordiffuse" value="main_fg_12" />
+                    <param name="overlay" value="false" />
+                    <left>0</left>
+                    <right>0</right>
+                    <height>60</height>
+                    <centertop>50%</centertop>
+                </include>
+                <include content="Object_MenuBar_TextList">
+                    <param name="id" value="11" />
+                    <param name="color_nf" value="main_fg" />
+                    <left>-20</left>
+                    <right>0</right>
+                    <ondown>10</ondown>
+                    <onup>10</onup>
+                </include>
+            </control>
+        </include>
+
+        <include>Furniture_Top</include>
+        <!-- <include content="Object_Options_Menu">
+            <param name="grouplist_items" value="Items_MyVideoNav" />
+            <param name="visible" value="!Window.IsVisible(DialogSelect.xml) + !Window.IsVisible(1114) + !Window.IsVisible(1113)" />
+        </include> -->
+
+
+    </controls>
+
+</window>
