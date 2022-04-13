@@ -4,48 +4,214 @@
     <menucontrol>9000</menucontrol>
     <controls>
         <control type="group">
-            <width>big_poster_w</width>
-            <include>Animation_Left_Delay</include>
+            <animation effect="slide" start="0" end="-big_poster_w" time="800" tween="cubic" easing="out" condition="ControlGroup(6000).HasFocus()" reversible="false">Conditional</animation>
+            <animation effect="slide" end="0" start="-big_poster_w" time="800" tween="cubic" easing="out" condition="!ControlGroup(6000).HasFocus()" reversible="false">Conditional</animation>
+
             <control type="group">
-                <include>Dimension_Info</include>
-                <include content="Object_BigPoster">
-                    <param name="diffuse" value="diffuse/square_w544_h544.png" />
-                    <height>544</height>
-                </include>
-                <control type="image">
-                    <top>544</top>
-                    <texture background="true">$VAR[Image_Clearlogo]</texture>
-                    <aspectratio>keep</aspectratio>
-                    <bordersize>40</bordersize>
+                <width>big_poster_w</width>
+                <include>Animation_Left_Delay</include>
+                <control type="group">
+                    <include>Dimension_Info</include>
+                    <control type="image">
+                        <top>272</top>
+                        <width>544</width>
+                        <height>544</height>
+                        <texture background="true">$INFO[ListItem.Art(discart)]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <bordersize>40</bordersize>
+                        <animation effect="rotate" condition="true" start="0" end="360" loop="true" time="50000" center="auto">Conditional</animation>
+                    </control>
+                    <include content="Object_BigPoster">
+                        <param name="diffuse" value="diffuse/square_w544_h544.png" />
+                        <height>544</height>
+                    </include>
+                    <control type="image">
+                        <top>544</top>
+                        <texture background="true">$VAR[Image_Clearlogo]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <bordersize>40</bordersize>
+                        <visible>String.IsEmpty(ListItem.Art(discart))</visible>
+                    </control>
                 </control>
+            </control>
+
+            <include content="Dialog_Info_RightSide">
+                <control type="group">
+                    <visible>!ControlGroup(6000).HasFocus()</visible>
+                    <include>Animation_DialogInfo_Recommendations</include>
+                    <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
+                        <left>-80</left>
+                    </include>
+                    <control type="group">
+                        <include>Dimension_Info</include>
+                        <visible>!Control.HasFocus(61)</visible>
+                        <include content="Info_Panel">
+                            <param name="plotheight_nr" value="160" />
+                        </include>
+                        <control type="group">
+                            <top>360</top>
+                            <height>80</height>
+                            <include content="Object_Control">
+                                <param name="control" value="grouplist" />
+                                <param name="id" value="5000" />
+                                <left>-40</left>
+                                <itemgap>-60</itemgap>
+                                <orientation>horizontal</orientation>
+                                <height>256</height>
+                                <centertop>50%</centertop>
+                                <onright>SetFocus(9000)</onright>
+                                <onleft>SetFocus(9000)</onleft>
+                                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+                                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+                                <onup>61</onup>
+                                <ondown condition="String.IsEqual(ListItem.DBType,artist)">SetFocus(6000)</ondown>
+                                <ondown condition="!String.IsEqual(ListItem.DBType,artist)">SendClick(12)</ondown>
+                                <include>Items_DialogVideoInfo_MenuBar</include>
+                            </include>
+                        </control>
+                        <include content="Object_Control"  condition="!String.IsEqual(ListItem.DBType,artist)">
+                            <param name="control" value="panel" />
+                            <param name="id" value="50" />
+                            <orientation>horizontal</orientation>
+                            <top>480</top>
+                            <height>240</height>
+                            <right>0</right>
+                            <itemlayout height="row_height" width="380">
+                                <include content="Object_InfoCircle">
+                                    <param name="role" value="$INFO[ListItem.Label]" />
+                                    <param name="name" value="$INFO[ListItem.Duration]" />
+                                    <param name="bordersize" value="4" />
+                                    <right>40</right>
+                                    <include content="Object_Control">
+                                        <param name="control" value="image" />
+                                        <width>60</width>
+                                        <bordersize>4</bordersize>
+                                        <texture colordiffuse="panel_bg">common/circle.png</texture>
+                                    </include>
+                                    <control type="label">
+                                        <width>60</width>
+                                        <height>60</height>
+                                        <font>font_small_bold</font>
+                                        <textcolor>panel_fg_70</textcolor>
+                                        <label>$INFO[ListItem.TrackNumber]</label>
+                                        <align>center</align>
+                                        <aligny>center</aligny>
+                                    </control>
+                                </include>
+                            </itemlayout>
+                            <focusedlayout height="row_height" width="380">
+                                <include content="Object_InfoCircle">
+                                    <param name="role" value="$INFO[ListItem.Label]" />
+                                    <param name="name" value="$INFO[ListItem.Duration]" />
+                                    <param name="bordersize" value="4" />
+                                    <right>40</right>
+                                    <include content="Object_Control">
+                                        <param name="control" value="image" />
+                                        <width>60</width>
+                                        <bordersize>4</bordersize>
+                                        <texture colordiffuse="panel_bg">common/circle.png</texture>
+                                    </include>
+                                    <control type="label">
+                                        <width>60</width>
+                                        <height>60</height>
+                                        <font>font_small_bold</font>
+                                        <textcolor>panel_fg_70</textcolor>
+                                        <label>$INFO[ListItem.TrackNumber]</label>
+                                        <align>center</align>
+                                        <aligny>center</aligny>
+                                    </control>
+                                </include>
+                            </focusedlayout>
+                        </include>
+                        <!-- <include content="Object_Hidden_Button">
+                            <param name="id" value="5000" />
+                            <onclick>SetFocus(9000)</onclick>
+                            <onright>SetFocus(9000)</onright>
+                            <onleft>SetFocus(9000)</onleft>
+                            <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+                            <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+                            <onup>61</onup>
+                            <ondown>SetFocus(6000)</ondown>
+                        </include> -->
+                    </control>
+
+                    <!-- Plot Box -->
+                    <control type="group">
+                        <include>Dimension_Info</include>
+                        <include>Info_Title</include>
+                        <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
+                        <include content="Object_Control">
+                            <param name="control" value="textbox" />
+                            <top>120</top>
+                            <bottom>80</bottom>
+                            <align>left</align>
+                            <textcolor>main_fg_70</textcolor>
+                            <font>font_overlay_plotbox</font>
+                            <label fallback="19055">$VAR[Label_Plot]$INFO[Window(Home).Property(ResetScroll)]</label>
+                            <pagecontrol>61</pagecontrol>
+                            <autoscroll delay="8000" time="4000" repeat="12000">false</autoscroll>
+                        </include>
+                        <control type="scrollbar" id="61">
+                            <centerright>-40</centerright>
+                            <width>8</width>
+
+                            <onleft>SetFocus(5000)</onleft>
+                            <onright>SetFocus(5000)</onright>
+                            <ondown>SetFocus(5000)</ondown>
+                            <onup>SetFocus(5000)</onup>
+
+                            <visible allowhiddenfocus="true">false</visible>
+                        </control>
+                    </control>
+                    <include>Furniture_Bottom</include>
+                </control>
+            </include>
+            <include>Furniture_Top_Left</include>
+        </control>
+
+        <control type="group">
+            <animation type="Conditional" condition="ControlGroup(6000).HasFocus()" reversible="false">
+                <effect type="fade" start="0" end="100" time="800" tween="sine" easing="out"/>
+                <effect type="slide" start="big_poster_w,200" end="0" time="800" tween="cubic" easing="out" />
+            </animation>
+            <animation type="Conditional" condition="!ControlGroup(6000).HasFocus()" reversible="false">
+                <effect type="fade" start="100" end="0" time="400" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="big_poster_w,200" time="800" tween="cubic" easing="out" />
+            </animation>
+            <control type="grouplist" id="6000">
+                <onup>5000</onup>
+                <ondown>330</ondown>
+                <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                    <effect type="slide" end="0,-20" time="60" tween="sine" />
+                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+                </animation>
+                <orientation>vertical</orientation>
+                <control type="group" id="6100">
+                    <height>600</height>
+                </control>
+                <include content="Widget_Poster" condition="String.IsEqual(ListItem.DBType,artist)">
+                    <param name="groupid" value="5100" />
+                    <param name="id" value="50" />
+                    <param name="label" value="Albums" />
+                    <param name="visible" value="true" />
+                    <param name="include" value="List_Square_Row" />
+                </include>
+            </control>
+            <include content="Object_WallFade">
+                <param name="id" value="6000" />
+            </include>
+            <control type="group">
+                <left>view_pad</left>
+                <top>60</top>
+                <height>view_pad</height>
+                <include content="Info_Title">
+                    <param name="colordiffuse" value="main_fg" />
+                </include>
             </control>
         </control>
 
-        <include content="Dialog_Info_RightSide">
-            <control type="group">
-                <visible>!Window.IsActive(1113) + !Window.IsActive(1120)</visible>
-                <include>Animation_DialogInfo_Recommendations</include>
-                <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
-                    <left>-80</left>
-                </include>
-                <control type="group">
-                    <include>Dimension_Info</include>
-                    <include content="Info_Panel">
-                        <param name="plotheight_nr" value="560" />
-                    </include>
-                    <include content="Object_Hidden_Button">
-                        <param name="id" value="5000" />
-                        <onclick>SetFocus(9000)</onclick>
-                        <onright>SetFocus(9000)</onright>
-                        <onleft>SetFocus(9000)</onleft>
-                        <include>Action_Plotbox_OnUp</include>
-                    </include>
-                </control>
-                <include>Furniture_Bottom</include>
-            </control>
-        </include>
 
-        <include>Furniture_Top</include>
+        <include>Furniture_Top_Right</include>
 
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_DialogMusicInfo_Options" />

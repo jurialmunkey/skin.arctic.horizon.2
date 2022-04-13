@@ -17,7 +17,7 @@
                     </include>
                     <font>font_overlay_title</font>
                     <visible>![Skin.HasSetting(TMDbHelper.EnableCrop) +
-                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120)]] |
+                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120) | Window.IsVisible(MyPVRGuide.xml)]] |
                         [!String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [String.IsEqual($PARAM[container]ListItem.DBType,artist) + !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]]]]</visible>
                     <animation type="Hidden" reversible="false">
                         <effect type="fade" end="0" start="100" time="300" delay="700"/>
@@ -32,7 +32,7 @@
                     <fadetime>600</fadetime>
                     <texture background="true">$VAR[Image_CropLogo_Main]</texture>
                     <visible>Skin.HasSetting(TMDbHelper.EnableCrop) +
-                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120)]] |
+                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120) | Window.IsVisible(MyPVRGuide.xml)]] |
                         [!String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [String.IsEqual($PARAM[container]ListItem.DBType,artist) + !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]]]</visible>
                     <animation type="Visible" reversible="false">
                         <effect type="fade" end="100" start="0" time="300" delay="1000"/>
@@ -186,10 +186,22 @@
 
 
                 <!-- Media Info -->
+                <!-- <include content="Info_Line_Label" condition="!$PARAM[player]">
+                    <param name="controltype" value="$PARAM[controltype]" />
+                    <param name="label" value="$INFO[$PARAM[container]ListItem.StartDate]" />
+                    <param name="visible" value="Window.IsVisible(MyPVRGuide.xml) + !String.IsEmpty($PARAM[container]ListItem.StartDate)" />
+                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                </include> -->
+                <include content="Info_Line_Label" condition="!$PARAM[player]">
+                    <param name="controltype" value="$PARAM[controltype]" />
+                    <param name="label" value="$INFO[$PARAM[container]ListItem.StartTime]$INFO[$PARAM[container]ListItem.EndTime, - ,]" />
+                    <param name="visible" value="Window.IsVisible(MyPVRGuide.xml) + !String.IsEmpty($PARAM[container]ListItem.StartTime)" />
+                    <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                </include>
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="controltype" value="$PARAM[controltype]" />
                     <param name="label" value="$LOCALIZE[20359] $INFO[$PARAM[container]ListItem.Season,S,E]$INFO[$PARAM[container]ListItem.Episode]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Episode) + String.IsEqual($PARAM[container]ListItem.DBType,episode)" />
+                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Episode) + [String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(MyPVRGuide.xml)]" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
@@ -207,7 +219,7 @@
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="controltype" value="$PARAM[controltype]" />
                     <param name="label" value="$INFO[$PARAM[container]ListItem.Premiered]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Premiered) + String.IsEqual($PARAM[container]ListItem.DBType,episode)" />
+                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Premiered) + [String.IsEqual($PARAM[container]ListItem.DBType,episode)]" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
@@ -216,16 +228,17 @@
                     <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.MPAA)" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
+
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="controltype" value="$PARAM[controltype]" />
                     <param name="label" value="$INFO[$PARAM[container]ListItem.Duration(h),, $LOCALIZE[31074] ]$INFO[$PARAM[container]ListItem.Duration(m),, $LOCALIZE[31073]]" />
-                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEqual(ListItem.DBType,artist) + !String.IsEqual(ListItem.DBType,album) + !String.IsEqual(ListItem.DBType,song)" />
+                    <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEqual(ListItem.DBType,artist) + !String.IsEqual(ListItem.DBType,album) + !String.IsEqual(ListItem.DBType,song) + !Window.IsVisible(MyPVRGuide.xml)" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
                 <include content="Info_Line_Label" condition="!$PARAM[player]">
                     <param name="controltype" value="$PARAM[controltype]" />
                     <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Duration_H),, $LOCALIZE[31074] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Duration_M),, $LOCALIZE[31073]]" />
-                    <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Duration)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration),0) + !String.IsEqual(ListItem.DBType,artist) + !String.IsEqual(ListItem.DBType,album) + !String.IsEqual(ListItem.DBType,song)" />
+                    <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Duration)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration),0) + !String.IsEqual(ListItem.DBType,artist) + !String.IsEqual(ListItem.DBType,album) + !String.IsEqual(ListItem.DBType,song) + !Window.IsVisible(MyPVRGuide.xml)" />
                     <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                 </include>
                 <include content="Info_Line_Label" condition="!$PARAM[player] + Skin.HasSetting(InfoLine.EndTime)">
@@ -829,23 +842,65 @@
                 <visible>!Control.IsVisible(98000) | Integer.IsEqual(Container(98000).NumItems,0)</visible>
                 <visible>!Control.IsVisible(98001) | Integer.IsEqual(Container(98001).NumItems,0)</visible>
                 <visible>!Control.IsVisible(98002) | Integer.IsEqual(Container(98002).NumItems,0)</visible>
-                <include content="Info_Codec_Label">
-                    <param name="icon" value="special://skin/extras/icons/database.png" />
-                    <param name="label" value="$LOCALIZE[14022]" />
+
+                <!-- Kodi Logi -->
+                <control type="image">
+                    <left>-10</left>
+                    <width>64</width>
+                    <height>64</height>
+                    <centertop>50%</centertop>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="$VAR[ColorHighlight]">special://skin/extras/icons/kodi.png</texture>
+                </control>
+                <control type="label">
+                    <left>-20</left>
+                    <height>32</height>
+                    <textcolor>main_fg_100</textcolor>
+                    <width>auto</width>
+                    <centertop>52%</centertop>
+                    <label>KODI</label>
+                    <font>font_logo</font>
+                </control>
+
+                <!-- Library -->
+                <control type="image">
+                    <width>64</width>
+                    <height>64</height>
+                    <centertop>50%</centertop>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="main_fg_90">special://skin/extras/icons/database.png</texture>
                     <visible>String.IsEmpty(Container.PluginName)</visible>
-                    <visible>!Control.IsVisible(99999) | Integer.IsEqual(Container(99999).NumItems,0)</visible>
-                </include>
-                <include content="Info_Codec_Label">
-                    <param name="icon" value="special://skin/extras/icons/database.png" />
-                    <param name="label" value="$INFO[System.AddonTitle(Container.PluginName)]" />
+                </control>
+                <control type="label">
+                    <left>-20</left>
+                    <height>32</height>
+                    <textcolor>main_fg_100</textcolor>
+                    <width>auto</width>
+                    <centertop>52%</centertop>
+                    <label>$LOCALIZE[14022]</label>
+                    <font>font_logo</font>
+                    <visible>String.IsEmpty(Container.PluginName)</visible>
+                </control>
+
+                <!-- Plugin -->
+                <control type="image">
+                    <width>64</width>
+                    <height>40</height>
+                    <centertop>50%</centertop>
+                    <aspectratio align="center">keep</aspectratio>
+                    <texture diffuse="diffuse/provider.png" fallback="flags/plugin.png">special://home/addons/$INFO[Container.PluginName]/icon.png</texture>
                     <visible>!String.IsEmpty(Container.PluginName)</visible>
-                    <visible>!Control.IsVisible(99999) | Integer.IsEqual(Container(99999).NumItems,0)</visible>
-                </include>
-                <include content="Info_Codec_Label">
-                    <param name="icon" value="special://skin/extras/icons/database.png" />
-                    <param name="label" value="$INFO[Container(99999).NumItems,[B],[/B]][CAPITALIZE] $LOCALIZE[31022][/CAPITALIZE]" />
-                    <visible>Control.IsVisible(99999) + !Integer.IsEqual(Container(99999).NumItems,0)</visible>
-                </include>
+                </control>
+                <control type="label">
+                    <left>-20</left>
+                    <height>32</height>
+                    <textcolor>main_fg_100</textcolor>
+                    <width>auto</width>
+                    <centertop>52%</centertop>
+                    <label>$INFO[System.AddonTitle(Container.PluginName)]</label>
+                    <font>font_logo</font>
+                    <visible>!String.IsEmpty(Container.PluginName)</visible>
+                </control>
 
             </control>
 

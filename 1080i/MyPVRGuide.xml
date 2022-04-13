@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-    <views>10</views>
+    <views>10,50</views>
     <defaultcontrol always="true">10</defaultcontrol>
     <menucontrol>9000</menucontrol>
     <include content="Action_Blur_Onload">
@@ -10,102 +10,92 @@
 
         <include>Background_Main</include>
         <control type="group">
+            <include>Animation_Common</include>
             <include>Dimension_Info</include>
-            <include content="Info_Panel">
-                <param name="plotwidth" value="880" />
-                <param name="ratings" value="false" />
-                <param name="plotheight_nr" value="80" />
-            </include>
-            <include content="Object_GlassPanel">
-                <right>0</right>
-                <height>240</height>
-                <width>427</width>
-                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Fanart)) | Player.HasVideo</visible>
-                <animation type="Visible" reversible="true">
-                    <effect type="fade" start="0" end="100" time="300" delay="0"/>
-                </animation>
-                <animation type="Hidden" reversible="true">
-                    <effect type="fade" end="0" start="100" time="150" delay="300"/>
-                </animation>
-                <control type="image">
-                    <visible>!Player.HasVideo</visible>
-                    <fadetime>450</fadetime>
-                    <texture diffuse="diffuse/landscape_w560_h320.png">$INFO[Window(Home).Property(TMDbHelper.ListItem.Fanart)]</texture>
-                </control>
-                <control type="group">
-                    <visible>Player.HasVideo</visible>
-                    <control type="videowindow">
-                    </control>
-                </control>
-            </include>
-            <include content="Object_GlassPanel">
-                <top>340</top>
-                <include content="Object_GlassPanel">
-                    <width>480</width>
+            <control type="group">
+                <visible>Control.IsVisible(10)</visible>
+                <include content="Info_Panel">
+                    <param name="plotwidth" value="1140" />
+                    <param name="ratings" value="false" />
+                    <param name="plotheight_nr" value="80" />
                 </include>
+
+                <!-- <control type="list" id="7010">
+                    <top>-40</top>
+                    <right>-80</right>
+                    <left>-80</left>
+                    <preloaditems>2</preloaditems>
+                    <orientation>horizontal</orientation>
+                    <itemlayout width="450" height="320">
+                        <control type="group">
+                            <top>40</top>
+                            <bottom>40</bottom>
+                            <left>80</left>
+                            <right>-80</right>
+                            <control type="group">
+                                <right>40</right>
+                                <include>Object_ItemBack</include>
+                                <control type="image">
+                                    <texture diffuse="diffuse/landscape_w560_h320.png">$INFO[ListItem.Icon]</texture>
+                                    <aspectratio scalediffuse="false">keep</aspectratio>
+                                    <bordersize>20</bordersize>
+                                </control>
+                            </control>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout width="450" height="320">
+                        <control type="group">
+                            <top>40</top>
+                            <bottom>40</bottom>
+                            <left>80</left>
+                            <right>-80</right>
+                            <control type="group">
+                                <right>40</right>
+                                <include content="Object_ItemBack">
+                                    <param name="selected" value="true" />
+                                </include>
+                                <control type="image">
+                                    <texture diffuse="diffuse/landscape_w560_h320.png">$INFO[ListItem.Icon]</texture>
+                                    <aspectratio scalediffuse="false">keep</aspectratio>
+                                    <bordersize>20</bordersize>
+                                </control>
+                                <include content="Object_SelectBox">
+                                    <param name="indicator" value="true" />
+                                    <param name="focusbounce" value="true" />
+                                </include>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                    <content>pvr://channels/tv/*</content>
+                </control> -->
+
                 <control type="group">
-                    <height>30</height>
-                    <bottom>-1</bottom>
-                    <include content="Object_Control">
-                        <param name="control" value="image" />
-                        <texture colordiffuse="main_fg_12">common/white.png</texture>
-                        <height>1</height>
+                    <right>0</right>
+                    <height>240</height>
+                    <width>480</width>
+                    <include content="Object_GlassPanel">
+                        <visible>Player.HasVideo</visible>
+                        <control type="image">
+                            <texture colordiffuse="black" border="10">common/box.png</texture>
+                        </control>
+                        <control type="videowindow" />
                     </include>
                 </control>
-                <param name="overlay" value="true" />
-                <control type="epggrid" id="10">
-                    <onup>11</onup>
-                    <ondown>11</ondown>
-                    <viewtype label="19069">list</viewtype>
-                    <progresstexture border="5" colordiffuse="bf777777">pvr/progressline-half.png</progresstexture>
-                    <scrolltime tween="quadratic">300</scrolltime>
-                    <timeblocks>28</timeblocks>
-                    <rulerunit>6</rulerunit>
-                    <pagecontrol>8060</pagecontrol>
-                    <bottom>30</bottom>
-                    <top>-50</top>
-                    <rulerlayout height="row_height" width="480">
-                        <control type="label" id="2">
-                            <top>0</top>
-                            <height>row_height_x50</height>
-                            <width>480</width>
-                            <align>left</align>
-                            <aligny>top</aligny>
-                            <font>font_statusbar</font>
-                            <label>$INFO[ListItem.Label]</label>
-                            <textcolor>main_fg_70</textcolor>
-                            <!-- <visible>!Control.HasFocus(11)</visible> -->
-                        </control>
-                    </rulerlayout>
-                    <channellayout height="row_height" width="480">
-                        <include>Layout_PVRGuide_Channels</include>
-                    </channellayout>
-                    <focusedchannellayout height="row_height" width="480">
-                        <include content="Layout_PVRGuide_Channels">
-                            <param name="selected" value="false" />
-                            <visible>Control.HasFocus(11)</visible>
-                        </include>
-                        <include content="Layout_PVRGuide_Channels">
-                            <param name="selected" value="true" />
-                            <visible>!Control.HasFocus(11)</visible>
-                        </include>
-                    </focusedchannellayout>
-                    <itemlayout height="row_height" width="480">
-                        <include>Layout_PVRGuide_Programs</include>
-                    </itemlayout>
-                    <focusedlayout height="row_height" width="480">
-                        <include content="Layout_PVRGuide_Programs">
-                            <param name="selected" value="false" />
-                            <param name="visible" value="Control.HasFocus(11)" />
-                        </include>
-                        <include content="Layout_PVRGuide_Programs">
-                            <param name="selected" value="true" />
-                            <param name="visible" value="!Control.HasFocus(11)" />
-                        </include>
-                    </focusedlayout>
+                <include content="View_Furniture_PVR_EpgGrid">
+                    <param name="id" value="10" />
+                    <param name="progresstexture" value="pvr/progressline-half.png" />
+                    <top>340</top>
+                </include>
+            </control>
 
-                </control>
-            </include>
+            <control type="group">
+                <visible>Control.IsVisible(50)</visible>
+                <include content="View_Furniture_PVR_EpgGrid">
+                    <param name="id" value="50" />
+                    <param name="progresstexture" value="pvr/progressline-full.png" />
+                    <top>20</top>
+                </include>
+            </control>
         </control>
 
         <!-- Menu bar -->
@@ -139,10 +129,10 @@
         </include>
 
         <include>Furniture_Top</include>
-        <!-- <include content="Object_Options_Menu">
-            <param name="grouplist_items" value="Items_MyVideoNav" />
+        <include content="Object_Options_Menu">
+            <param name="grouplist_items" value="Items_MyPVRNav" />
             <param name="visible" value="!Window.IsVisible(DialogSelect.xml) + !Window.IsVisible(1114) + !Window.IsVisible(1113)" />
-        </include> -->
+        </include>
 
 
     </controls>
