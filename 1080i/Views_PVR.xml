@@ -1,30 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
-    <include name="View_Furniture_PVR_EpgGrid">
-        <include content="Object_GlassPanel">
-            <nested />
+    <include name="View_PVRGuide_Standard">
+        <param name="channelwidth" default="480" />
+        <definition>
             <include content="Object_GlassPanel">
-                <width>480</width>
-            </include>
-            <control type="group">
-                <height>30</height>
-                <bottom>-1</bottom>
-                <include content="Object_Control">
-                    <param name="control" value="image" />
-                    <texture colordiffuse="main_fg_12">common/white.png</texture>
-                    <height>1</height>
+                <nested />
+                <include content="Object_GlassPanel">
+                    <width>$PARAM[channelwidth]</width>
                 </include>
-            </control>
-            <include content="List_EPGGrid">
-                <param name="id" value="$PARAM[id]" />
-                <onup>11</onup>
-                <ondown>11</ondown>
-                <viewtype label="19069">list</viewtype>
-                <progresstexture border="5" colordiffuse="main_bg_70">$PARAM[progresstexture]</progresstexture>
-                <pagecontrol>8060</pagecontrol>
-                <bottom>30</bottom>
-                <top>-50</top>
+                <control type="group">
+                    <height>30</height>
+                    <bottom>-1</bottom>
+                    <include content="Object_Control">
+                        <param name="control" value="image" />
+                        <texture colordiffuse="main_fg_12">common/white.png</texture>
+                        <height>1</height>
+                    </include>
+                </control>
+                <include content="List_EPGGrid">
+                    <param name="id" value="$PARAM[id]" />
+                    <param name="channelheight" value="$PARAM[channelheight]" />
+                    <param name="channelwidth" value="$PARAM[channelwidth]" />
+                    <param name="detailed" value="$PARAM[detailed]" />
+                    <onup>11</onup>
+                    <ondown>11</ondown>
+                    <viewtype label="19069">list</viewtype>
+                    <progresstexture border="5" colordiffuse="main_bg_70">$PARAM[progresstexture]</progresstexture>
+                    <pagecontrol>8060</pagecontrol>
+                    <bottom>30</bottom>
+                    <top>-50</top>
+                </include>
             </include>
-        </include>
+        </definition>
+    </include>
+
+    <include name="View_010_PVRGuide_Info_SmallRow">
+        <control type="group">
+            <visible>Control.IsVisible(10)</visible>
+            <include content="View_PVRGuide_Standard">
+                <param name="id" value="10" />
+                <param name="progresstexture" value="pvr/progressline-half.png" />
+                <top>340</top>
+            </include>
+        </control>
+    </include>
+
+    <include name="View_050_PVRGuide_Full_SmallRow">
+        <control type="group">
+            <visible>Control.IsVisible(50)</visible>
+            <include content="View_PVRGuide_Standard">
+                <param name="id" value="50" />
+                <param name="progresstexture" value="pvr/progressline-full.png" />
+                <top>20</top>
+            </include>
+        </control>
+    </include>
+
+    <include name="View_051_PVRGuide_Info_LargeRow">
+        <control type="group">
+            <visible>Control.IsVisible(51)</visible>
+            <include content="View_PVRGuide_Standard">
+                <param name="id" value="51" />
+                <param name="progresstexture" value="pvr/progressline-half.png" />
+                <param name="channelheight" value="100" />
+                <param name="channelwidth" value="100" />
+                <param name="detailed" value="true" />
+                <top>340</top>
+            </include>
+        </control>
+    </include>
+
+    <include name="View_052_PVRGuide_Full_LargeRow">
+        <control type="group">
+            <visible>Control.IsVisible(52)</visible>
+            <include content="View_PVRGuide_Standard">
+                <param name="id" value="52" />
+                <param name="progresstexture" value="pvr/progressline-full.png" />
+                <param name="channelheight" value="120" />
+                <param name="channelwidth" value="120" />
+                <param name="detailed" value="true" />
+                <top>20</top>
+            </include>
+        </control>
+    </include>
+
+    <include name="View_053_PVRGuide_Peek_SmallRow">
+        <control type="group">
+            <visible>Control.IsVisible(53)</visible>
+            <include content="View_PVRGuide_Standard">
+                <param name="id" value="53" />
+                <param name="progresstexture" value="pvr/progressline-peek.png" />
+                <top>180</top>
+            </include>
+        </control>
     </include>
 </includes>

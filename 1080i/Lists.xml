@@ -1,41 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
-
-    <!--
-        Add these params for submenu styles
-        <param name="item_h" value="140" />
-        <param name="itemlayout_h" value="180" />
-        <param name="detailed" value="true" />
-    -->
     <include name="List_Button_Row">
-        <param name="movement" default="5" />
-        <param name="orientation" default="horizontal" />
-        <param name="controltype" default="fixedlist" />
-        <param name="item_w" default="260" />
         <param name="item_h" default="80" />
-        <param name="itemlayout_w" default="300" />
         <param name="itemlayout_h" default="120" />
-        <param name="itemlayout_include" default="Layout_Button" />
+        <param name="detailed" default="false" />
         <definition>
             <include content="List_Core">
-                <param name="orientation" value="$PARAM[orientation]" />
-                <param name="controltype" value="$PARAM[controltype]" />
                 <param name="id" value="$PARAM[id]" />
-                <param name="item_w" value="$PARAM[item_w]" />
-                <param name="item_h" value="$PARAM[item_h]" />
-                <param name="itemlayout_w" value="$PARAM[itemlayout_w]" />
-                <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
-                <param name="itemlayout_include" value="$PARAM[itemlayout_include]" />
                 <param name="detailed" value="$PARAM[detailed]" />
-                <param name="altfocus" value="$PARAM[altfocus]" />
+                <param name="orientation" value="horizontal" />
+                <param name="controltype" value="fixedlist" />
+                <param name="item_w" value="260" />
+                <param name="item_h" value="$PARAM[item_h]" />
+                <param name="itemlayout_w" value="300" />
+                <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
+                <param name="itemlayout_include" value="Layout_Button" />
                 <param name="offset_y" value="$PARAM[offset_y]" />
                 <nested />
-                <movement>$PARAM[movement]</movement>
+                <movement>5</movement>
             </include>
         </definition>
     </include>
 
+    <include name="List_Tags_Wall">
+        <definition>
+            <include content="List_Core">
+                <param name="id" value="$PARAM[id]" />
+                <param name="orientation" value="vertical" />
+                <param name="controltype" value="panel" />
+                <param name="itemlayout_h" value="173.33" />
+                <param name="itemlayout_w" value="450" />
+                <param name="item_h" value="133.33" />
+                <param name="item_w" value="410" />
+                <param name="itemlayout_include" value="Layout_IconButton" />
+                <param name="offset_y" value="40" />
+                <nested />
+            </include>
+        </definition>
+    </include>
+
+    <!-- Unfixed -->
+
     <include name="List_EPGGrid">
+        <param name="channelheight" default="row_height" />
+        <param name="channelwidth" default="480" />
         <definition>
             <control type="epggrid" id="$PARAM[id]">
                 <nested />
@@ -54,30 +62,38 @@
                         <textcolor>main_fg_70</textcolor>
                     </control>
                 </rulerlayout>
-                <channellayout height="row_height" width="480">
-                    <include>Layout_PVRGuide_Channels</include>
+                <channellayout height="$PARAM[channelheight]" width="$PARAM[channelwidth]">
+                    <include content="Layout_PVRGuide_Channels">
+                        <param name="detailed" value="$PARAM[detailed]" />
+                    </include>
                 </channellayout>
-                <focusedchannellayout height="row_height" width="480">
+                <focusedchannellayout height="$PARAM[channelheight]" width="$PARAM[channelwidth]">
                     <include content="Layout_PVRGuide_Channels">
                         <param name="selected" value="false" />
+                        <param name="detailed" value="$PARAM[detailed]" />
                         <visible>Control.HasFocus(11)</visible>
                     </include>
                     <include content="Layout_PVRGuide_Channels">
                         <param name="selected" value="true" />
+                        <param name="detailed" value="$PARAM[detailed]" />
                         <visible>!Control.HasFocus(11)</visible>
                     </include>
                 </focusedchannellayout>
-                <itemlayout height="row_height" width="480">
-                    <include>Layout_PVRGuide_Programs</include>
+                <itemlayout height="$PARAM[channelheight]" width="480">
+                    <include content="Layout_PVRGuide_Programs">
+                        <param name="detailed" value="$PARAM[detailed]" />
+                    </include>
                 </itemlayout>
-                <focusedlayout height="row_height" width="480">
+                <focusedlayout height="$PARAM[channelheight]" width="480">
                     <include content="Layout_PVRGuide_Programs">
                         <param name="selected" value="false" />
                         <param name="visible" value="Control.HasFocus(11)" />
+                        <param name="detailed" value="$PARAM[detailed]" />
                     </include>
                     <include content="Layout_PVRGuide_Programs">
                         <param name="selected" value="true" />
                         <param name="visible" value="!Control.HasFocus(11)" />
+                        <param name="detailed" value="$PARAM[detailed]" />
                     </include>
                 </focusedlayout>
             </control>
@@ -229,7 +245,7 @@
         </definition>
     </include>
 
-    <include name="List_EpisodeList">
+    <include name="List_Infolist">
         <param name="orientation" default="vertical" />
         <param name="controltype" default="fixedlist" />
         <param name="item_h" default="160" />
