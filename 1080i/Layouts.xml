@@ -93,6 +93,11 @@
             </include>
             <include content="Object_Control" condition="!$PARAM[selected]">
                 <param name="control" value="image" />
+                <param name="id" value="1" />
+                <texture colordiffuse="40808080">$INFO[ListItem.Property(GenreType),pvr/genre/,.png]</texture>
+            </include>
+            <include content="Object_Control" condition="!$PARAM[selected]">
+                <param name="control" value="image" />
                 <texture colordiffuse="main_fg_12">common/white.png</texture>
                 <width>1</width>
                 <visible>$PARAM[visible]</visible>
@@ -469,7 +474,7 @@
                     <top>$PARAM[item_w]</top>
                     <textoffsetx>20</textoffsetx>
                     <align>center</align>
-                    <font>font_minilabel</font>
+                    <font>font_mini</font>
                     <visible>!$PARAM[detailed]</visible>
                 </control>
 
@@ -600,7 +605,7 @@
                             <textoffsetx>30</textoffsetx>
                             <align>left</align>
                             <aligny>center</aligny>
-                            <font>font_minilabel_bold</font>
+                            <font>font_mini_bold</font>
                             <height>20</height>
                             <bottom>30</bottom>
                             <visible>String.IsEmpty($PARAM[listitem_label2]) | ![String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)]</visible>
@@ -610,7 +615,7 @@
                             <label>$INFO[$PARAM[listitem_label]]</label>
                             <textoffsetx>30</textoffsetx>
                             <align>left</align>
-                            <font>font_minilabel_bold</font>
+                            <font>font_mini_bold</font>
                             <height>40</height>
                             <bottom>50</bottom>
                             <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
@@ -621,7 +626,7 @@
                             <label>$INFO[$PARAM[listitem_label2]]</label>
                             <textoffsetx>30</textoffsetx>
                             <align>left</align>
-                            <font>font_minilabel</font>
+                            <font>font_mini</font>
                             <height>20</height>
                             <bottom>30</bottom>
                             <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
@@ -815,7 +820,7 @@
                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                 <label>$INFO[ListItem.Label2]</label>
                 <textcolor>main_fg_90</textcolor>
-                <font>font_minilabel</font>
+                <font>font_mini</font>
                 <align>right</align>
             </control>
             <control type="textbox">
@@ -926,18 +931,29 @@
                 <include content="Object_ItemBack">
                     <param name="selected" value="$PARAM[selected]" />
                 </include>
-                <control type="label">
-                    <include content="Object_Include" condition="$PARAM[detailed]">
-                        <bottom>20</bottom>
-                        <height>20</height>
-                    </include>
+                <include content="Object_Control" condition="!$PARAM[detailed]">
+                    <param name="control" value="textbox" />
                     <include condition="$PARAM[selected]">Color_SelectedText</include>
                     <label>$INFO[ListItem.Label]</label>
                     <textcolor>main_fg_70</textcolor>
-                    <font>font_minilabel_bold</font>
-                    <textoffsetx>20</textoffsetx>
+                    <font>font_mini_bold</font>
+                    <left>20</left>
+                    <right>20</right>
                     <align>center</align>
-                </control>
+                    <aligny>center</aligny>
+                </include>
+                <include content="Object_Control" condition="$PARAM[detailed]">
+                    <param name="control" value="label" />
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <label>$INFO[ListItem.Label]</label>
+                    <textcolor>main_fg_70</textcolor>
+                    <font>font_mini_bold</font>
+                    <bottom>20</bottom>
+                    <height>20</height>
+                    <left>20</left>
+                    <right>20</right>
+                    <align>center</align>
+                </include>
                 <include content="Object_Control" condition="$PARAM[detailed]">
                     <param name="control" value="image" />
                     <texture background="true">$INFO[ListItem.Icon]</texture>
@@ -1012,7 +1028,7 @@
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <label>$INFO[ListItem.Label]</label>
                         <textcolor>main_fg_70</textcolor>
-                        <font>font_minilabel_bold</font>
+                        <font>font_mini_bold</font>
                         <align>left</align>
                         <aligny>center</aligny>
                         <right>30</right>
@@ -1062,7 +1078,7 @@
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <label>$INFO[ListItem.Label]</label>
                         <textcolor>main_fg_70</textcolor>
-                        <font>font_minilabel_bold</font>
+                        <font>font_mini_bold</font>
                         <textoffsetx>20</textoffsetx>
                         <align>center</align>
                     </control>
@@ -1170,7 +1186,7 @@
                         <label>$INFO[ListItem.Label]</label>
                         <textcolor>$PARAM[textcolor]_70</textcolor>
                         <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
-                        <font>font_minilabel_bold</font>
+                        <font>font_mini_bold</font>
                         <align>center</align>
                         <textoffsetx>30</textoffsetx>
                         <visible>!String.IsEqual(ListItem.DBType,episode) | String.IsEmpty(ListItem.TVShowTitle) | !String.IsEmpty(Container.ShowTitle)</visible>
@@ -1181,7 +1197,7 @@
                         <!-- <label>$INFO[ListItem.Season,,x]$INFO[ListItem.Episode,,. ]$INFO[ListItem.Title]</label> -->
                         <textcolor>$PARAM[textcolor]_70</textcolor>
                         <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
-                        <font>font_minilabel_bold</font>
+                        <font>font_mini_bold</font>
                         <align>center</align>
                         <textoffsetx>30</textoffsetx>
                         <height>40</height>

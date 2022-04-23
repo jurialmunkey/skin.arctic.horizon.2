@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Action_Query_Params">
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.UniqueID(tmdb))">tmdb_type=movie$COMMAtmdb_id=$INFO[ListItem.UniqueID(tmdb)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.UniqueID(imdb))">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.UniqueID(imdb)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Property(imdb_id))">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.Property(imdb_id)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.IMDBNumber) + String.StartsWith(ListItem.IMDBNumber,tt)">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.IMDBNumber]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Title)">tmdb_type=movie$COMMAquery=$INFO[ListItem.Title]$INFO[ListItem.Year,$COMMAyear=,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Label)">tmdb_type=movie$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.Year,$COMMAyear=,]</value>
+
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.UniqueID(tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[ListItem.UniqueID(tmdb)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Title)">tmdb_type=tv$COMMAquery=$INFO[ListItem.Title]$INFO[ListItem.Year,$COMMAyear=,]$INFO[ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Label)">tmdb_type=tv$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.Year,$COMMAyear=,]$INFO[ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
+
+        <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[ListItem.UniqueID(tvshow.tmdb)]</value>
+        <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[ListItem.TvShowTitle]$INFO[ListItem.Year,$COMMAepisode_year=,]</value>
+
+        <value condition="String.IsEqual(ListItem.Property(item.type),person) + !String.IsEmpty(ListItem.Property(tmdb_id))">tmdb_type=person$COMMAtmdb_id=$INFO[ListItem.Property(tmdb_id)]</value>
+        <value condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director)] + !String.IsEmpty(ListItem.Label)">tmdb_type=person$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.UniqueID(tmdb),$COMMAtmdb_id=,]</value>
+
+    </variable>
+
     <include name="Action_Row_OnDown">
         <ondown>60</ondown>
         <!-- <include>Action_Row_Recommendations_OnDown</include> -->
