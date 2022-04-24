@@ -27,16 +27,32 @@
                 <include content="List_AddonCategories">
                     <param name="id" value="6000" />
                     <param name="altfocus" value="true" />
+                    <param name="width" value="addonbrowser_menu_width" />
                     <onback>Action(PreviousMenu)</onback>
                     <onleft>menu</onleft>
-                    <onright>7000</onright>
+                    <onright condition="String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($INFO[Container(6000).ListItem.FolderPath],replace)</onright>
+                    <onright condition="!String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($INFO[Container(6000).ListItem.Property(folderpath)],replace)</onright>
+                    <onright>50</onright>
+                    <!-- <onright>7000</onright>
                     <onclick>ActivateWindow(addonbrowser,$INFO[Container(6000).ListItem.FolderPath],return)</onclick>
-                    <onclick>SetFocus(6000)</onclick>
+                    <onclick>SetFocus(6000)</onclick> -->
                     <content>
                         <item>
                             <label>$LOCALIZE[24998]</label>
                             <property name="folderpath">addons://user/</property>
                             <icon>DefaultAddonsInstalled.png</icon>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[24004]</label>
+                            <property name="folderpath">addons://recently_updated/</property>
+                            <icon>DefaultAddonsRecentlyUpdated.png</icon>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[137]</label>
+                            <property name="folderpath">addons://user/</property>
+                            <icon>DefaultAddonsSearch.png</icon>
+                            <onclick>SetFocus(50)</onclick>
+                            <onclick>Container.Update(addons://search/,replace)</onclick>
                         </item>
                     </content>
                     <content sortby="label">addons://repos/</content>
@@ -44,7 +60,7 @@
             </control>
 
             <control type="group">
-                <left>row_height</left>
+                <!-- <left>row_height</left>
                 <animation effect="slide" end="addonbrowser_menu_slide" time="200" condition="Control.HasFocus(6000)">Conditional</animation>
                 <control type="group">
                     <width>addonbrowser_menu_width</width>
@@ -82,24 +98,27 @@
                             <content sortby="label">$VAR[Items_AddonBrowser_Submenu]</content>
                         </include>
                     </control>
-                </control>
+                </control> -->
 
                 <control type="group">
-
-                    <animation effect="slide" end="-addonbrowser_menu_slide" time="200" condition="Control.HasFocus(6000)">Conditional</animation>
+                    <!-- <animation effect="slide" end="-addonbrowser_menu_slide" time="200" condition="Control.HasFocus(6000)">Conditional</animation> -->
                     <left>addonbrowser_menu_width</left>
-                    <control type="image">
+                    <!-- <control type="image">
                         <texture colordiffuse="dialog_bg_100" border="20">common/dialog_overlay.png</texture>
                     </control>
-                    <include>Dialog_Overlay</include>
+                    <include>Dialog_Overlay</include> -->
                     <include>Dialog_Overlay</include>
                     <include>Object_Separator</include>
                     <control type="group">
                         <include content="List_AddonBrowser">
                             <param name="id" value="50" />
                             <param name="context_button" value="true" />
-                            <onback>7000</onback>
-                            <onleft>7000</onleft>
+                            <onback condition="String.IsEqual(Container.FolderPath,Container(6000).ListItem.FolderPath) | String.IsEqual(Container.FolderPath,addons://user/) | String.IsEqual(Container.FolderPath,addons://)">6000</onback>
+                            <onleft>6000</onleft>
+                            <!-- <onback>7000</onback>
+                            <onleft>7000</onleft> -->
+                            <!-- <onleft condition="String.IsEqual(Container.FolderPath,Container(6000).ListItem.FolderPath) | String.IsEqual(Container.FolderPath,addons://user/) | String.IsEqual(Container.FolderPath,addons://)">6000</onleft> -->
+
                             <onright>60</onright>
                             <pagecontrol>60</pagecontrol>
                         </include>

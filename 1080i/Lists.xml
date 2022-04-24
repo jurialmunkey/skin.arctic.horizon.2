@@ -20,6 +20,7 @@
                 <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
                 <param name="itemlayout_include" value="Layout_Button" />
                 <param name="offset_y" value="$PARAM[offset_y]" />
+                <param name="context_button" value="$PARAM[context_button]" />
                 <nested />
                 <movement>5</movement>
             </include>
@@ -41,6 +42,7 @@
                 <param name="item_w" value="410" />
                 <param name="itemlayout_include" value="Layout_IconButton" />
                 <param name="offset_y" value="40" />
+                <param name="context_button" value="$PARAM[context_button]" />
                 <nested />
             </include>
         </definition>
@@ -266,6 +268,7 @@
                 <param name="item_h" value="$PARAM[item_h]" />
                 <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
                 <param name="itemlayout_include" value="$PARAM[itemlayout_include]" />
+                <param name="context_button" value="$PARAM[context_button]" />
                 <param name="offset_y" value="0" />
                 <param name="offset_x" value="0" />
                 <movement>1</movement>
@@ -338,6 +341,7 @@
                 <param name="itemlayout_w" value="$PARAM[itemlayout_w]" />
                 <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
                 <param name="itemlayout_include" value="Layout_Poster" />
+                <param name="context_button" value="$PARAM[context_button]" />
                 <param name="offset_y" value="$PARAM[offset_y]" />
                 <param name="detailed" value="$PARAM[detailed]" />
                 <param name="misc" value="$PARAM[misc]" />
@@ -410,6 +414,7 @@
                 <param name="itemlayout_w" value="$PARAM[itemlayout_w]" />
                 <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
                 <param name="itemlayout_include" value="Layout_Landscape" />
+                <param name="context_button" value="$PARAM[context_button]" />
                 <param name="offset_y" value="$PARAM[offset_y]" />
                 <param name="detailed" value="$PARAM[detailed]" />
                 <param name="misc" value="$PARAM[misc]" />
@@ -437,6 +442,7 @@
                 <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
                 <param name="offset_y" value="$PARAM[offset_y]" />
                 <param name="itemlayout_include" value="Layout_Square" />
+                <param name="context_button" value="$PARAM[context_button]" />
                 <nested />
                 <movement>$PARAM[movement]</movement>
             </include>
@@ -460,6 +466,7 @@
                 <param name="itemlayout_w" value="$PARAM[itemlayout_w]" />
                 <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
                 <param name="itemlayout_include" value="$PARAM[itemlayout_include]" />
+                <param name="context_button" value="$PARAM[context_button]" />
                 <param name="offset_y" value="$PARAM[offset_y]" />
                 <param name="detailed" value="$PARAM[detailed]" />
                 <nested />
@@ -483,6 +490,7 @@
                 <param name="itemlayout_w" value="$PARAM[itemlayout_w]" />
                 <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
                 <param name="itemlayout_include" value="Layout_Banner" />
+                <param name="context_button" value="$PARAM[context_button]" />
                 <param name="offset_y" value="$PARAM[offset_y]" />
                 <param name="detailed" value="$PARAM[detailed]" />
                 <nested />
@@ -539,11 +547,16 @@
                     <include content="Object_Control" condition="$PARAM[context_button]">
                         <param name="control" value="button" />
                         <visible allowhiddenfocus="true">false</visible>
-                        <onfocus>SetProperty(ContextMenu.Label,$INFO[Container($PARAM[id]).ListItem.Label],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Fanart,$INFO[Container($PARAM[id]).ListItem.Art(fanart)],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Poster,$INFO[Container($PARAM[id]).ListItem.Art(poster)],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.TVShowPoster,$INFO[Container($PARAM[id]).ListItem.Art(tvshow.poster)],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Icon,$INFO[Container($PARAM[id]).ListItem.Icon],Home)</onfocus>
+                        <animation effect="fade" start="0" end="0" delay="400">Focus</animation>
+                        <onfocus>SetProperty(ContextMenu.Label,$INFO[ListItem.Label],Home)</onfocus>
+                        <onfocus>SetProperty(ContextMenu.Fanart,$INFO[ListItem.Art(fanart)],Home)</onfocus>
+                        <onfocus>SetProperty(ContextMenu.Poster,$INFO[ListItem.Art(poster)],Home)</onfocus>
+                        <onfocus>SetProperty(ContextMenu.TVShowPoster,$INFO[ListItem.Art(tvshow.poster)],Home)</onfocus>
+                        <onfocus>SetProperty(ContextMenu.Icon,$INFO[ListItem.Icon],Home)</onfocus>
+                        <onfocus>SetProperty(ContextMenu.Title,"$VAR[Label_Title]",Home)</onfocus>
+                        <onfocus>SetProperty(ContextMenu.Year,$INFO[ListItem.Year],Home)</onfocus>
+                        <onfocus>SetProperty(ContextMenu.Tagline,$ESCINFO[ListItem.Tagline],Home)</onfocus>
+                        <onfocus>SetProperty(ContextMenu.Plot,$VAR[Label_Plot_ESC],Home)</onfocus>
                     </include>
                     <control type="group">
                         <left>$PARAM[offset_x]</left>

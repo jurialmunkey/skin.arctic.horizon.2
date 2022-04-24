@@ -138,7 +138,10 @@
 
     <variable name="Label_Header_Mini">
         <value condition="Window.Isvisible(script-skinshortcuts.xml) + !String.IsEmpty(Control.GetLabel(500))">$INFO[Control.GetLabel(500)]</value>
-        <value condition="Window.IsVisible(AddonBrowser)">$INFO[Window.Property(BaseCategory),, [COLOR=main_fg_70] &gt; [/COLOR] ]$INFO[Container.FolderName]</value>
+        <!-- <value condition="Window.IsVisible(AddonBrowser)">$INFO[Window.Property(BaseCategory),, [COLOR=main_fg_70] &gt; [/COLOR] ]$INFO[Container.FolderName]</value> -->
+        <value condition="Window.IsVisible(AddonBrowser) + Control.HasFocus(6000)">$INFO[Container(6000).ListItem.Label]</value>
+        <value condition="Window.IsVisible(AddonBrowser) + !String.IsEqual(Container(6000).ListItem.Label,Container.FolderName)">$INFO[Container(6000).ListItem.Label,, [COLOR=main_fg_70] &gt; [/COLOR] ]$INFO[Container.FolderName]</value>
+        <value condition="Window.IsVisible(AddonBrowser)">$INFO[Container.FolderName]</value>
         <value condition="Window.IsVisible(interfacesettings)">$LOCALIZE[14206] $LOCALIZE[5]</value>
         <value condition="Window.IsVisible(skinsettings)">$LOCALIZE[166] $LOCALIZE[5]</value>
         <value condition="Window.IsVisible(mediasettings)">$LOCALIZE[14211] $LOCALIZE[5]</value>
@@ -176,8 +179,8 @@
 
     <variable name="Label_ContextMenu_Title">
         <value condition="!String.IsEmpty(Window(Home).Property(ContextMenu.Label))">$INFO[Window(Home).Property(ContextMenu.Label)]</value>
-        <value condition="!String.IsEmpty(ListItem.Label)">$INFO[ListItem.Label]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Label))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Label)]</value>
+        <!-- <value condition="!String.IsEmpty(ListItem.Label)">$INFO[ListItem.Label]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Label))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Label)]</value> -->
     </variable>
 
     <variable name="Label_ListItem_TrophyWins">
