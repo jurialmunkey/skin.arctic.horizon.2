@@ -56,7 +56,8 @@
                     <param name="groupid" value="6499" />
                     <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Next)</onclick>
                     <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Stop)</onclick>
-                    <onup condition="!Integer.IsEqual(Container(6401).NumItems,0)">6401</onup>
+                    <onup condition="!Integer.IsEqual(Container(6401).NumItems,0)">SetFocus(6401,0,absolute)</onup>
+                    <ondown condition="!Integer.IsEqual(Container(6401).NumItems,0)">SetFocus(6401,0,absolute)</ondown>
                     <onup condition="Integer.IsEqual(Container(6401).NumItems,0) + !Container(6401).IsUpdating">ActivateWindow(125)</onup>
                 </include>
             </control>
@@ -136,28 +137,58 @@
 
             <!-- Episodes Pop-up -->
             <include content="OSD_Menu_Back">
-                <param name="arrow_pos" value="1050" />
+                <param name="arrow_pos" value="700" />
                 <visible>VideoPlayer.Content(episodes)</visible>
                 <visible>Control.HasFocus(6400) | Control.HasFocus(6401)</visible>
                 <include>Animation_SlideIn_Dialog</include>
                 <left>40</left>
-                <width>1390</width>
-                <height>500</height>
+                <width>1040</width>
+                <height>740</height>
                 <include content="Object_MenuHeader">
                     <param name="label" value="$INFO[VideoPlayer.TvShowTitle,,: ]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]" />
                 </include>
-                <include content="List_Landscape_Row">
+                <control type="fixedlist" id="6401">
+                    <top>120</top>
+                    <bottom>20</bottom>
+                    <onback>SetFocus(6401,0,absolute)</onback>
+                    <onback>6400</onback>
+                    <onleft>SetFocus(6401,0,absolute)</onleft>
+                    <onleft>6400</onleft>
+                    <onright>SetFocus(6401,0,absolute)</onright>
+                    <onright>6400</onright>
+                    <focusposition>1</focusposition>
+                    <movement>1</movement>
+                    <orientation>vertical</orientation>
+                    <itemlayout height="200">
+                        <include>Layout_OSDEpisodes</include>
+                    </itemlayout>
+                    <focusedlayout height="200">
+                        <control type="group">
+                            <visible>!Control.HasFocus(6401)</visible>
+                            <include content="Layout_OSDEpisodes">
+                                <param name="selected" value="false" />
+                            </include>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(6401)</visible>
+                            <include content="Layout_OSDEpisodes">
+                                <param name="selected" value="true" />
+                            </include>
+                        </control>
+                    </focusedlayout>
+                    <content sortorder="ascending" sortby="episode">$VAR[Path_OSD_Episodes]</content>
+                </control>
+                <!-- <include content="List_Landscape_Row">
                     <param name="id" value="6401" />
                     <param name="movement" value="2" />
                     <param name="textcolor" value="dialog_fg" />
                     <param name="offset_x" value="40" />
                     <param name="offset_y" value="40" />
-                    <!-- <param name="shadow_colordiffuse" value="shadow_soft" /> -->
                     <content>$VAR[Path_OSD_Episodes]</content>
                     <height>400</height>
                     <bottom>0</bottom>
                     <ondown>6400</ondown>
-                </include>
+                </include> -->
             </include>
 
             <!-- Cast Pop-up -->

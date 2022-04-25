@@ -319,7 +319,8 @@
                     <param name="onup" value="$PARAM[onup]" />
                     <param name="ondown" value="$PARAM[ondown]" />
                     <onclick>SetFocus(50)</onclick>
-                    <onclick>AlarmClock(doit,RunScript(plugin.video.themoviedb.helper,related_lists,$VAR[Action_Query_Params]),00:01,silent)</onclick>
+                    <onclick>AlarmClock(DelayCommand,RunScript(plugin.video.themoviedb.helper,related_lists,$INFO[Window(Home).Property(ContextMenu.Params)]),00:01,silent)</onclick>
+                    <!-- <onclick>AlarmClock(doit,RunScript(plugin.video.themoviedb.helper,related_lists,$VAR[Action_Query_Params]),00:01,silent)</onclick> -->
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
@@ -389,7 +390,7 @@
 
     </include>
 
-    <include name="Items_MyPVRNav">
+    <include name="Items_MyEPGNav">
         <!-- <include>Items_QuickNav</include> -->
         <include content="Dialog_Menu_Button" description="Sort method">
             <param name="id" value="9002" />
@@ -398,6 +399,18 @@
             <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
             <onclick>SendClick(2)</onclick>
         </include>
+    </include>
+
+    <include name="Items_MyPVRNav">
+        <!-- <include>Items_QuickNav</include> -->
+        <include>Items_Default_MyNav</include>
+        <!-- <include content="Dialog_Menu_Button" description="Sort method">
+            <param name="id" value="9002" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/viewmode.png" />
+            <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
+            <onclick>SendClick(2)</onclick>
+        </include> -->
     </include>
 
     <include name="Items_DialogVideoInfo_Options">

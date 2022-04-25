@@ -16,10 +16,7 @@
             </include>
             <include>Animation_FadeOut</include>
             <include>Dimension_Context</include>
-            <include content="Dialog_Header">
-                <param name="id" value="8001" />
-                <label>$VAR[Label_ContextMenu_Title]</label>
-            </include>
+            <include>Dialog_ContextMenu_Header</include>
 
 
             <control type="group">
@@ -81,7 +78,10 @@
                         <onfocus condition="Control.IsVisible(1019)">SetFocus(1019)</onfocus>
                         <onfocus condition="Control.IsVisible(1020)">SetFocus(1020)</onfocus>
                     </control>
-                    <control type="grouplist">
+
+                    <!-- Quick Nav -->
+                    <include content="Object_Control" condition="$EXP[Exp_ContextMenu_QuickBar]">
+                        <param name="control" value="grouplist" />
                         <top>120</top>
                         <height>80</height>
                         <orientation>vertical</orientation>
@@ -92,19 +92,26 @@
                             <left>0</left>
                             <right>0</right>
                         </include>
-                    </control>
+                    </include>
+
+                    <!-- Main Menu -->
                     <include content="Object_Control">
                         <param name="control" value="grouplist" />
                         <param name="id" value="996" />
-                        <top>200</top>
+                        <include content="Object_Include" condition="$EXP[Exp_ContextMenu_QuickBar]">
+                            <top>200</top>
+                        </include>
+                        <top>120</top>
                         <bottom>40</bottom>
                         <orientation>vertical</orientation>
                         <itemgap>0</itemgap>
                         <onleft>Close</onleft>
                         <onright>Close</onright>
-                        <onup>8000</onup>
-                        <ondown>SetFocus(1001)</ondown>
-                        <ondown>SetFocus(8000)</ondown>
+                        <include content="Object_Include" condition="$EXP[Exp_ContextMenu_QuickBar]">
+                            <onup>8000</onup>
+                            <ondown>SetFocus(1001)</ondown>
+                            <ondown>SetFocus(8000)</ondown>
+                        </include>
                     </include>
                     <control type="image">
                         <top>-24</top>

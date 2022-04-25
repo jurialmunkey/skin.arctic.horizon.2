@@ -182,37 +182,6 @@
         </definition>
     </include>
 
-    <include name="Layout_DialogMusicList">
-        <param name="detailed" default="false" />
-        <param name="selected" default="false" />
-        <definition>
-            <include content="Object_Control" condition="$PARAM[selected]">
-                <param name="control" value="image" />
-                <include>Texture_Highlight</include>
-            </include>
-            <control type="group">
-                <left>dialog_pad</left>
-                <include content="Object_Control">
-                    <param name="control" value="label" />
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <right>dialog_pad</right>
-                    <textcolor>dialog_fg_70</textcolor>
-                    <selectedcolor>dialog_fg_70</selectedcolor>
-                    <label>$INFO[ListItem.Label]</label>
-                </include>
-                <include content="Object_Control">
-                    <param name="control" value="label" />
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <right>dialog_pad</right>
-                    <align>right</align>
-                    <textcolor>dialog_fg_70</textcolor>
-                    <selectedcolor>dialog_fg_70</selectedcolor>
-                    <label>$INFO[ListItem.Duration]</label>
-                </include>
-            </control>
-        </definition>
-    </include>
-
     <include name="Layout_Submenu">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
@@ -792,6 +761,71 @@
         </definition>
     </include>
 
+    <include name="Layout_OSDEpisodes">
+        <param name="detailed" default="false" />
+        <param name="selected" default="false" />
+        <definition>
+            <include content="Object_Control" condition="$PARAM[selected]">
+                <param name="control" value="image" />
+                <include>Texture_Highlight</include>
+            </include>
+            <include content="Object_Control">
+                <param name="control" value="group" />
+                <param name="padding" value="true" />
+                <param name="pad" value="20" />
+                <control type="image">
+                    <left>20</left>
+                    <texture background="true">$VAR[Image_Landscape]</texture>
+                    <width>284</width>
+                    <aspectratio>scale</aspectratio>
+                </control>
+                <control type="group">
+                    <left>284</left>
+                    <control type="group">
+                        <left>60</left>
+                        <right>20</right>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>dialog_fg_70</textcolor>
+                            <selectedcolor>dialog_fg_70</selectedcolor>
+                            <label>$INFO[ListItem.Title]</label>
+                            <font>font_small_bold</font>
+                            <height>30</height>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="textbox" />
+                            <autoscroll>false</autoscroll>
+                            <include content="Object_Include" condition="$PARAM[selected]">
+                                <textcolor>panel_fg_90</textcolor>
+                                <selectedcolor>panel_fg_90</selectedcolor>
+                            </include>
+                            <include content="Object_Include" condition="!$PARAM[selected]">
+                                <textcolor>dialog_fg_70</textcolor>
+                                <selectedcolor>dialog_fg_70</selectedcolor>
+                            </include>
+                            <label fallback="No plot information available[CR] ">$INFO[ListItem.Plot]</label>
+                            <font>font_plotbox_mini</font>
+                            <top>40</top>
+                            <bottom>40</bottom>
+                            <aligny>center</aligny>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>dialog_fg_70</textcolor>
+                            <selectedcolor>dialog_fg_70</selectedcolor>
+                            <label>$INFO[ListItem.Season,$LOCALIZE[20373] ,  |  ]$INFO[ListItem.Episode,$LOCALIZE[20359] ,]$INFO[ListItem.Premiered,  |  ,]$INFO[ListItem.Duration,  |  ,]</label>
+                            <font>font_statusbar_bold</font>
+                            <height>30</height>
+                            <bottom>0</bottom>
+                        </include>
+                    </control>
+                </control>
+            </include>
+        </definition>
+    </include>
+
     <include name="Layout_EpisodeLabels">
         <control type="group">
             <left>$PARAM[left]</left>
@@ -921,6 +955,34 @@
         </definition>
     </include>
 
+    <include name="Layout_DiscoverButton">
+        <param name="selected" default="false" />
+        <param name="detailed" default="false" />
+        <definition>
+            <control type="group">
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_ItemBack">
+                    <param name="selected" value="$PARAM[selected]" />
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="label" />
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <label>$INFO[ListItem.Label]</label>
+                    <textcolor>main_fg_70</textcolor>
+                    <left>30</left>
+                    <right>30</right>
+                    <align>left</align>
+                </include>
+                <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <param name="indicator" value="false" />
+                    <param name="focusbounce" value="true" />
+                    <param name="pad" value="-10" />
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_Button">
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
@@ -937,9 +999,9 @@
                     <label>$INFO[ListItem.Label]</label>
                     <textcolor>main_fg_70</textcolor>
                     <font>font_mini_bold</font>
-                    <left>20</left>
-                    <right>20</right>
-                    <align>center</align>
+                    <left>40</left>
+                    <right>40</right>
+                    <align>left</align>
                     <aligny>center</aligny>
                 </include>
                 <include content="Object_Control" condition="$PARAM[detailed]">
