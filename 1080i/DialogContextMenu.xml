@@ -21,11 +21,12 @@
 
             <control type="group">
                 <!-- Slide Over if Square -->
-                <animation effect="slide" end="context_slide_sq" condition="[String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.TVShowPoster))]">Conditional</animation>
+                <animation effect="slide" end="context_slide_sq" condition="String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + !String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
+                <animation effect="slide" end="-257.6" condition="String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
 
                 <!-- Poster Image -->
                 <control type="group">
-                    <visible>![String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.TVShowPoster))]</visible>
+                    <visible>!String.IsEmpty(Window(Home).Property(ContextMenu.Poster))</visible>
                     <include content="Dialog_Background">
                         <param name="overlay" value="true" />
                         <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
@@ -38,13 +39,22 @@
                 <!-- Square Image -->
                 <control type="group">
                     <left>context_icon_sq_l</left>
-                    <visible>[String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.TVShowPoster))]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + !String.IsEmpty(Window(Home).Property(ContextMenu.Icon))</visible>
                     <include content="Dialog_Background">
                         <param name="overlay" value="true" />
                         <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
                         <include content="Dialog_Context_Image">
                             <param name="diffuse" value="diffuse/square_w640_h640.png" />
                         </include>
+                    </include>
+                </control>
+
+                <!-- Plain No Image -->
+                <control type="group">
+                    <left>context_icon_w</left>
+                    <visible>String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))</visible>
+                    <include content="Dialog_Background">
+                        <param name="overlay" value="false" />
                     </include>
                 </control>
 

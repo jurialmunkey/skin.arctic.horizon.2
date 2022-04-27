@@ -9,7 +9,7 @@
                     <width>$PARAM[channelwidth]</width>
                 </include>
                 <control type="group">
-                    <height>30</height>
+                    <height>20</height>
                     <bottom>-1</bottom>
                     <include content="Object_Control">
                         <param name="control" value="image" />
@@ -27,8 +27,8 @@
                     <viewtype label="19069">list</viewtype>
                     <progresstexture border="5" colordiffuse="main_bg_70">$PARAM[progresstexture]</progresstexture>
                     <pagecontrol>8060</pagecontrol>
-                    <bottom>30</bottom>
-                    <top>-50</top>
+                    <bottom>20</bottom>
+                    <top>-60</top>
                 </include>
             </include>
         </definition>
@@ -40,7 +40,7 @@
             <include content="View_PVRGuide_Standard">
                 <param name="id" value="10" />
                 <param name="progresstexture" value="pvr/progressline-half.png" />
-                <top>340</top>
+                <top>360</top>
             </include>
         </control>
     </include>
@@ -51,7 +51,7 @@
             <include content="View_PVRGuide_Standard">
                 <param name="id" value="50" />
                 <param name="progresstexture" value="pvr/progressline-full.png" />
-                <top>20</top>
+                <top>40</top>
             </include>
         </control>
     </include>
@@ -65,7 +65,7 @@
                 <param name="channelheight" value="100" />
                 <param name="channelwidth" value="100" />
                 <param name="detailed" value="true" />
-                <top>340</top>
+                <top>360</top>
             </include>
         </control>
     </include>
@@ -79,7 +79,7 @@
                 <param name="channelheight" value="120" />
                 <param name="channelwidth" value="120" />
                 <param name="detailed" value="true" />
-                <top>20</top>
+                <top>40</top>
             </include>
         </control>
     </include>
@@ -90,8 +90,120 @@
             <include content="View_PVRGuide_Standard">
                 <param name="id" value="53" />
                 <param name="progresstexture" value="pvr/progressline-peek.png" />
-                <top>180</top>
+                <top>200</top>
             </include>
+        </control>
+    </include>
+
+    <include name="View_050_PVRRecordings">
+        <control type="group">
+            <top>360</top>
+            <control type="label">
+                <top>-40</top>
+                <height>row_height_x50</height>
+                <width>480</width>
+                <align>left</align>
+                <aligny>top</aligny>
+                <font>font_statusbar</font>
+                <label>$INFO[Container.FolderName,[CAPITALIZE],[/CAPITALIZE]]</label>
+                <textcolor>main_fg_70</textcolor>
+            </control>
+            <include content="Object_GlassPanel">
+                <control type="group">
+                    <right>782</right>
+                    <include content="Object_GlassPanel">
+                        <width>100</width>
+                    </include>
+                    <control type="group">
+                        <bottom>19</bottom>
+                        <include content="Object_Control">
+                            <param name="control" value="image" />
+                            <texture colordiffuse="main_fg_12">common/white.png</texture>
+                            <height>1</height>
+                            <bottom>0</bottom>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="image" />
+                            <texture colordiffuse="main_fg_12">common/white.png</texture>
+                            <height>1</height>
+                            <bottom>100</bottom>
+                            <visible>Integer.IsEqual(Container.NumItems,3)</visible>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="image" />
+                            <texture colordiffuse="main_fg_12">common/white.png</texture>
+                            <height>1</height>
+                            <bottom>200</bottom>
+                            <visible>Integer.IsEqual(Container.NumItems,2)</visible>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="image" />
+                            <texture colordiffuse="main_fg_12">common/white.png</texture>
+                            <height>1</height>
+                            <bottom>300</bottom>
+                            <visible>Integer.IsEqual(Container.NumItems,1)</visible>
+                        </include>
+                    </control>
+                    <control type="list" id="50">
+                        <bottom>20</bottom>
+                        <top>20</top>
+                        <orientation>vertical</orientation>
+                        <itemlayout height="100">
+                            <include content="Layout_PVRRecordings">
+                                <param name="detailed" value="true" />
+                            </include>
+                        </itemlayout>
+                        <focusedlayout height="100">
+                            <include content="Layout_PVRRecordings">
+                                <param name="selected" value="true" />
+                                <param name="detailed" value="true" />
+                            </include>
+                        </focusedlayout>
+                    </control>
+                </control>
+
+            </include>
+
+            <control type="group">
+                <width>782</width>
+                <right>0</right>
+                <control type="label">
+                    <top>-40</top>
+                    <height>row_height_x50</height>
+                    <align>left</align>
+                    <aligny>top</aligny>
+                    <font>font_statusbar</font>
+                    <label>$INFO[Container(50).Listitem.Label,[CAPITALIZE],[/CAPITALIZE]]</label>
+                    <textcolor>main_fg_70</textcolor>
+                </control>
+                <include content="Object_GlassPanel">
+                    <control type="group">
+                        <top>20</top>
+                        <bottom>20</bottom>
+                        <control type="list" id="5050">
+                            <orientation>vertical</orientation>
+                            <itemlayout height="100">
+                                <include content="Layout_PVRRecordings">
+                                    <param name="detailed" value="false" />
+                                </include>
+                            </itemlayout>
+                            <focusedlayout height="100">
+                                <include content="Layout_PVRRecordings">
+                                    <param name="selected" value="false" />
+                                    <param name="detailed" value="false" />
+                                </include>
+                            </focusedlayout>
+                            <visible>Container(50).ListItem.IsFolder</visible>
+                            <content>$INFO[Container(50).ListItem.FolderPath]</content>
+                        </control>
+                        <control type="image">
+                            <aspectratio scalediffuse="false">scale</aspectratio>
+                            <texture fallback="special://skin/fanart.jpg">$INFO[ListItem.Art(thumb)]</texture>
+                            <visible>!Container(50).ListItem.IsFolder</visible>
+                        </control>
+                    </control>
+                </include>
+            </control>
         </control>
     </include>
 </includes>

@@ -151,6 +151,73 @@
         </definition>
     </include>
 
+    <include name="Layout_PVRRecordings">
+        <param name="detailed" default="false" />
+        <param name="selected" default="false" />
+        <definition>
+            <include content="Object_Control" condition="!$PARAM[selected] + $PARAM[detailed]">
+                <param name="control" value="image" />
+                <texture colordiffuse="main_fg_12">common/white.png</texture>
+                <height>1</height>
+            </include>
+            <include content="Object_Control" condition="$PARAM[detailed]">
+                <param name="control" value="group" />
+                <width>100</width>
+                <include content="Object_Control" condition="$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <include>Texture_Highlight</include>
+                </include>
+                <control type="image">
+                    <texture>$INFO[ListItem.Icon]</texture>
+                    <bordersize>10</bordersize>
+                </control>
+            </include>
+            <control type="group">
+                <include content="Object_Include" condition="$PARAM[detailed]">
+                    <left>100</left>
+                </include>
+                <include content="Object_Control" condition="$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <include>Texture_Highlight</include>
+                </include>
+                <control type="group">
+                    <left>30</left>
+                    <right>30</right>
+                    <include content="Object_Control">
+                        <param name="control" value="label" />
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <top>30</top>
+                        <bottom>60</bottom>
+                        <textcolor>main_fg_70</textcolor>
+                        <selectedcolor>main_fg_70</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </include>
+                    <include content="Object_Control">
+                        <param name="control" value="label" />
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <bottom>20</bottom>
+                        <top>60</top>
+                        <font>font_genrelabel</font>
+                        <textcolor>main_fg_30</textcolor>
+                        <selectedcolor>main_fg_30</selectedcolor>
+                        <label>$VAR[Label_PVRRecordings_Sublabel]</label>
+                    </include>
+                    <include content="Object_Control">
+                        <param name="control" value="label" />
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <bottom>20</bottom>
+                        <top>60</top>
+                        <align>right</align>
+                        <font>font_genrelabel</font>
+                        <textcolor>main_fg_30</textcolor>
+                        <selectedcolor>main_fg_30</selectedcolor>
+                        <label>$INFO[ListItem.Label2]</label>
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_DialogBasic">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
@@ -1001,7 +1068,7 @@
                     <font>font_mini_bold</font>
                     <left>40</left>
                     <right>40</right>
-                    <align>left</align>
+                    <align>center</align>
                     <aligny>center</aligny>
                 </include>
                 <include content="Object_Control" condition="$PARAM[detailed]">

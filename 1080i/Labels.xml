@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Label_PVRRecordings_Sublabel">
+        <value condition="!String.IsEmpty(ListItem.EpisodeName)">$INFO[ListItem.EpisodeName]</value>
+        <value condition="!String.IsEmpty(ListItem.Genre)">$INFO[ListItem.Genre]</value>
+        <value condition="ListItem.IsFolder">$LOCALIZE[19076]</value>
+    </variable>
+
     <variable name="Label_NowPlayingTitle">
         <value condition="!String.IsEmpty(VideoPlayer.TvShowTitle)">$INFO[VideoPlayer.TvShowTitle,, ]$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E, ] </value>
         <value>$INFO[Player.Title,,  ]</value>
@@ -126,6 +132,7 @@
         <value condition="Window.IsVisible(1117)">$LOCALIZE[137]</value>
         <value condition="Window.IsVisible(1112)">[CAPITALIZE]$LOCALIZE[31007][/CAPITALIZE]</value>
         <value condition="Window.IsVisible(1115)">$INFO[Window.Property(Header)]$INFO[Container(6000).ListItem.Label, [COLOR=main_fg_70] &gt; [/COLOR] ,]</value>
+        <value condition="Window.IsVisible(MyPVRRecordings.xml)">$LOCALIZE[19017]</value>
 
         <value condition="Container.Content(seasons)">$LOCALIZE[33054]</value>
         <value condition="Container.Content(episodes) + !String.IsEmpty(Container.FolderName) + String.IsEqual(Container.FolderName,Container.ShowTitle)">$LOCALIZE[20360]</value>
