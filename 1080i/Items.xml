@@ -77,6 +77,17 @@
         <include content="Object_Info_Button">
             <param name="id" value="5003" />
             <param name="groupid" value="5103" />
+            <param name="label" value="Search" />
+            <param name="icon" value="special://skin/extras/icons/search.png" />
+            <param name="visible" value="true" />
+            <onclick condition="!String.IsEmpty(ListItem.TvShowTitle)">SetProperty(CustomSearchTerm,$ESCINFO[ListItem.TvShowTitle],Home)</onclick>
+            <onclick condition="String.IsEmpty(ListItem.TvShowTitle) + !String.IsEmpty(ListItem.Title)">SetProperty(CustomSearchTerm,$ESCINFO[ListItem.Title],Home)</onclick>
+            <onclick condition="String.IsEmpty(ListItem.TvShowTitle) + String.IsEmpty(ListItem.Title)">SetProperty(CustomSearchTerm,$ESCINFO[ListItem.Label],Home)</onclick>
+            <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_id=1114)</onclick>
+        </include>
+        <include content="Object_Info_Button">
+            <param name="id" value="5004" />
+            <param name="groupid" value="5104" />
             <param name="label" value="Trakt" />
             <param name="icon" value="special://skin/extras/icons/watchlist.png" />
             <param name="visible" value="[!String.IsEmpty(ListItem.Property(tmdb_id)) | !String.IsEmpty(window(home).property(tmdbhelper.listitem.tmdb_id))] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth))" />
@@ -84,8 +95,8 @@
             <onclick condition="String.IsEmpty(ListItem.Property(tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[window(home).property(tmdbhelper.listitem.tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
         </include>
         <include content="Object_Info_Button">
-            <param name="id" value="5004" />
-            <param name="groupid" value="5104" />
+            <param name="id" value="5005" />
+            <param name="groupid" value="5105" />
             <param name="label" value="$LOCALIZE[31002]" />
             <param name="icon" value="special://skin/extras/icons/settings.png" />
             <onclick>menu</onclick>
@@ -242,7 +253,8 @@
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/viewmode.png" />
             <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
-            <onclick>Runscript(script.skinvariables,action=buildviews,contentid=$VAR[Items_ViewMode_Switch],pluginname=$INFO[Container.PluginName])</onclick>
+            <onclick condition="!$EXP[Exp_PVRWindows]">Runscript(script.skinvariables,action=buildviews,contentid=$VAR[Items_ViewMode_Switch],pluginname=$INFO[Container.PluginName])</onclick>
+            <onclick condition="$EXP[Exp_PVRWindows]">SendClick(2)</onclick>
         </include>
         <include content="Dialog_Menu_Button" description="Sort method">
             <param name="id" value="9003" />
@@ -283,6 +295,68 @@
         </definition>
     </include>
 
+    <include name="Items_PVRNav">
+        <param name="itemgap" default="30" />
+        <definition>
+            <control type="grouplist" id="8000">
+                <nested />
+                <left>30</left>
+                <right>30</right>
+                <align>center</align>
+                <height>80</height>
+                <orientation>horizontal</orientation>
+                <itemgap>$PARAM[itemgap]</itemgap>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="special://skin/extras/icons/tvguide.png" />
+                    <param name="id" value="01" />
+                    <param name="onup" value="$PARAM[onup]" />
+                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onclick>ActivateWindow(tvguide)</onclick>
+                </include>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="special://skin/extras/icons/years.png" />
+                    <param name="id" value="02" />
+                    <param name="onup" value="$PARAM[onup]" />
+                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onclick>ActivateWindow(tvchannels)</onclick>
+                </include>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="special://skin/extras/icons/files.png" />
+                    <param name="id" value="03" />
+                    <param name="onup" value="$PARAM[onup]" />
+                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onclick>ActivateWindow(tvrecordings)</onclick>
+                </include>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="special://skin/extras/icons/timer.png" />
+                    <param name="id" value="04" />
+                    <param name="onup" value="$PARAM[onup]" />
+                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onclick>ActivateWindow(tvtimers)</onclick>
+                </include>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="special://skin/extras/icons/search.png" />
+                    <param name="id" value="05" />
+                    <param name="onup" value="$PARAM[onup]" />
+                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onclick>ActivateWindow(tvsearch)</onclick>
+                </include>
+            </control>
+            <control type="image" id="8200">
+                <top>-1</top>
+                <left>40</left>
+                <right>40</right>
+                <height>1</height>
+                <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+            </control>
+        </definition>
+    </include>
+
     <include name="Items_QuickNav">
         <param name="itemgap" default="30" />
         <definition>
@@ -302,7 +376,6 @@
                     <param name="ondown" value="$PARAM[ondown]" />
                     <onclick>SetFocus(50)</onclick>
                     <onclick>ActivateWindow(1113)</onclick>
-                    <!-- <include>Action_Plotbox_OnClick</include> -->
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
@@ -310,7 +383,9 @@
                     <param name="id" value="02" />
                     <param name="onup" value="$PARAM[onup]" />
                     <param name="ondown" value="$PARAM[ondown]" />
-                    <onclick>ActivateWindow(1114)</onclick>
+                    <onclick condition="!Window.IsActive(1114)">SetProperty(CustomSearchTerm,$ESCINFO[Window(Home).Property(ContextMenu.Title)],Home)</onclick>
+                    <onclick condition="!Window.IsActive(1114)">ActivateWindow(1114)</onclick>
+                    <onclick condition="Window.IsActive(1114)">RunScript(script.skinquicktools,set_editcontrol=9099,window_id=1114,setfocus=340,setfocus_wait=00:01,text=$INFO[Window(Home).Property(ContextMenu.Title)])</onclick>
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
@@ -391,26 +466,13 @@
     </include>
 
     <include name="Items_MyEPGNav">
-        <!-- <include>Items_QuickNav</include> -->
-        <include content="Dialog_Menu_Button" description="Sort method">
-            <param name="id" value="9002" />
-            <param name="control" value="button" />
-            <param name="icon" value="special://skin/extras/icons/viewmode.png" />
-            <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
-            <onclick>SendClick(2)</onclick>
-        </include>
-    </include>
-
-    <include name="Items_MyPVRNav">
-        <!-- <include>Items_QuickNav</include> -->
+        <include>Items_PVRNav</include>
         <include>Items_Default_MyNav</include>
-        <!-- <include content="Dialog_Menu_Button" description="Sort method">
-            <param name="id" value="9002" />
+        <include content="Dialog_Menu_Button" description="Group Switcher">
+            <param name="id" value="28" />
             <param name="control" value="button" />
-            <param name="icon" value="special://skin/extras/icons/viewmode.png" />
-            <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
-            <onclick>SendClick(2)</onclick>
-        </include> -->
+            <param name="icon" value="special://skin/extras/icons/folder.png" />
+        </include>
     </include>
 
     <include name="Items_DialogVideoInfo_Options">

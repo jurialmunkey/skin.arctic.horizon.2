@@ -32,6 +32,7 @@
         <param name="height" default="row_height_x600" />
         <param name="include" default="List_MediaList" />
         <param name="flipside" default="false" />
+        <param name="isviewtype" default="true" />
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
@@ -70,8 +71,10 @@
                             <param name="context_button" value="true" />
                             <left>-row_height_x50</left>
                             <right>-row_height_x50</right>
-                            <visible>$EXP[Exp_View_Special]</visible>
-                            <visible>$EXP[Exp_View_$PARAM[id]]</visible>
+                            <include content="Object_Include" condition="$PARAM[isviewtype]">
+                                <visible>$EXP[Exp_View_Special]</visible>
+                                <visible>$EXP[Exp_View_$PARAM[id]]</visible>
+                            </include>
                             <viewtype label="$PARAM[viewtype_label]">list</viewtype>
                             <onleft>61</onleft>
                             <onright>menu</onright>

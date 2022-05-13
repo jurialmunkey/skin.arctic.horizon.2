@@ -1248,7 +1248,7 @@
         <param name="plotheight_nr" default="120" />
         <param name="plotwidth" default="100%" />
         <param name="colordiffuse" default="main_fg" />
-        <param name="ratings" default="true" />
+        <param name="ratings" default="[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | ListItem.IsCollection]" />
         <param name="details" default="true" />
         <param name="title" default="true" />
         <definition>
@@ -1274,14 +1274,14 @@
                 <include content="Object_Control">
                     <param name="control" value="group" />
                     <height>27</height>
-                    <visible>![Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $PARAM[container]ListItem.IsCollection] | !$PARAM[ratings]</visible>
+                    <visible>![$PARAM[ratings]]</visible>
                     <visible>$PARAM[details]</visible>
                 </include>
                 <!-- Ratings -->
-                <include content="Object_Control" condition="$PARAM[ratings]">
+                <include content="Object_Control">
                     <param name="control" value="group" />
                     <height>70</height>
-                    <visible>[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $PARAM[container]ListItem.IsCollection]</visible>
+                    <visible>$PARAM[ratings]</visible>
                     <visible>$PARAM[details]</visible>
                     <include content="Info_Ratings">
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
@@ -1291,7 +1291,7 @@
                     </include>
                 </include>
                 <!-- Ratings + Plot -->
-                <include content="Object_Control" condition="$PARAM[ratings]">
+                <include content="Object_Control">
                     <param name="control" value="textbox" />
                     <height max="$PARAM[plotheight]">auto</height>
                     <width>$PARAM[plotwidth]</width>
@@ -1299,7 +1299,7 @@
                     <aligny>top</aligny>
                     <textcolor>$PARAM[colordiffuse]_70</textcolor>
                     <font>font_plotbox</font>
-                    <visible>[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $PARAM[container]ListItem.IsCollection]</visible>
+                    <visible>$PARAM[ratings]</visible>
                     <visible>$PARAM[details]</visible>
                     <visible>$PARAM[plotbox]</visible>
                 </include>
@@ -1312,7 +1312,7 @@
                     <aligny>top</aligny>
                     <textcolor>$PARAM[colordiffuse]_70</textcolor>
                     <font>font_plotbox</font>
-                    <visible>![Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $PARAM[container]ListItem.IsCollection] | !$PARAM[ratings]</visible>
+                    <visible>![$PARAM[ratings]]</visible>
                     <visible>$PARAM[details]</visible>
                     <visible>$PARAM[plotbox]</visible>
                 </include>

@@ -133,6 +133,7 @@
         <value condition="Window.IsVisible(1112)">[CAPITALIZE]$LOCALIZE[31007][/CAPITALIZE]</value>
         <value condition="Window.IsVisible(1115)">$INFO[Window.Property(Header)]$INFO[Container(6000).ListItem.Label, [COLOR=main_fg_70] &gt; [/COLOR] ,]</value>
         <value condition="Window.IsVisible(MyPVRRecordings.xml)">$LOCALIZE[19017]</value>
+        <value condition="Window.IsVisible(MyPVRTimers.xml)">$LOCALIZE[19040]</value>
 
         <value condition="Container.Content(seasons)">$LOCALIZE[33054]</value>
         <value condition="Container.Content(episodes) + !String.IsEmpty(Container.FolderName) + String.IsEqual(Container.FolderName,Container.ShowTitle)">$LOCALIZE[20360]</value>
@@ -171,12 +172,19 @@
     </variable>
 
     <variable name="Label_Plot_ESC">
-        <value condition="!String.IsEmpty(ListItem.Property(Artist_Description))">$ESCINFO[ListItem.Property(Artist_Description)]</value>
-        <value condition="!String.IsEmpty(ListItem.Property(Album_Description))">$ESCINFO[ListItem.Property(Album_Description)]</value>
-        <value condition="!String.IsEmpty(ListItem.AddonDescription)">$ESCINFO[ListItem.AddonDescription]</value>
-        <value condition="!String.IsEmpty(ListItem.PlotOutline) + Skin.HasSetting(PlotOutline)">$ESCINFO[ListItem.PlotOutline]</value>
-        <value condition="!String.IsEmpty(ListItem.Plot)">$ESCINFO[ListItem.Plot]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Property(Artist_Description))">$ESCINFO[Container.ListItem.Property(Artist_Description)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Property(Album_Description))">$ESCINFO[Container.ListItem.Property(Album_Description)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.AddonDescription)">$ESCINFO[Container.ListItem.AddonDescription]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.PlotOutline) + Skin.HasSetting(PlotOutline)">$ESCINFO[Container.ListItem.PlotOutline]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Plot)">$ESCINFO[Container.ListItem.Plot]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Plot)]</value>
+    </variable>
+    <variable name="Label_TitleOnly">
+        <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle)">$INFO[Container.ListItem.TvShowTitle]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.AlbumArtist) + [String.IsEqual(Container.ListItem.DBType,song) | String.IsEqual(Container.ListItem.DBType,album)]">$INFO[Container.ListItem.AlbumArtist]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Artist) + [String.IsEqual(Container.ListItem.DBType,song) | String.IsEqual(Container.ListItem.DBType,album)]">$INFO[Container.ListItem.Artist]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Title)">$INFO[Container.ListItem.Title]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Label)">$INFO[Container.ListItem.Label]</value>
     </variable>
 
     <variable name="Label_OverlayCritics">

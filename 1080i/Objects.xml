@@ -34,6 +34,24 @@
         </definition>
     </include>
 
+    <include name="Object_OnFocusButton_Context">
+        <include content="Object_Control">
+            <param name="control" value="button" />
+            <visible allowhiddenfocus="true">false</visible>
+            <animation effect="fade" start="0" end="0" delay="400">Focus</animation>
+            <onfocus>SetProperty(ContextMenu.Label,$INFO[Container.ListItem.Label],Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.DBType,$INFO[Container.ListItem.DBType],Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.Fanart,$VAR[Image_FanartOnly],Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.Poster,$VAR[Image_PosterOnly],Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.Icon,$INFO[Container.ListItem.Icon],Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.Title,"$VAR[Label_TitleOnly]",Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.Year,$INFO[Container.ListItem.Year],Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.Tagline,$ESCINFO[Container.ListItem.Tagline],Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.Plot,$VAR[Label_Plot_ESC],Home)</onfocus>
+            <onfocus>SetProperty(ContextMenu.Params,"$VAR[Action_Query_Params]",Home)</onfocus>
+        </include>
+    </include>
+
     <include name="Object_Shadow_40">
         <param name="colordiffuse" default="shadow_hard" />
         <param name="pad" default="-40" />
@@ -694,6 +712,7 @@
         <param name="useanimation" default="true" />
         <param name="nib_pos" default="70" />
         <param name="wraparound" default="true" />
+        <param name="action_include" default="Action_OptionsMenu_Default" />
         <definition>
             <control type="group">
                 <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
@@ -769,13 +788,9 @@
                 <include content="Object_Control" condition="$PARAM[usegrouplist]">
                     <param name="control" value="grouplist" />
                     <param name="id" value="$PARAM[id]" />
-                    <onleft condition="!$PARAM[iscontextmenu] + !$PARAM[isbuttonmenu] + !$PARAM[wraparound]">$PARAM[onback]</onleft>
-                    <onright condition="!$PARAM[iscontextmenu] + !$PARAM[isbuttonmenu] + !$PARAM[wraparound]">$PARAM[onback])</onright>
-                    <onleft condition="!$PARAM[iscontextmenu] + !$PARAM[isbuttonmenu] + $PARAM[wraparound]">SetFocus($PARAM[onback],9999,absolute)</onleft>
-                    <onright condition="!$PARAM[iscontextmenu] + !$PARAM[isbuttonmenu] + $PARAM[wraparound]">SetFocus($PARAM[onback],0,absolute)</onright>
-                    <onback condition="!$PARAM[iscontextmenu] + !$PARAM[isbuttonmenu]">$PARAM[onback]</onback>
-                    <onleft condition="$PARAM[iscontextmenu] | $PARAM[isbuttonmenu]">Close</onleft>
-                    <onright condition="$PARAM[iscontextmenu] | $PARAM[isbuttonmenu]">Close</onright>
+                    <include content="$PARAM[action_include]">
+                        <param name="id" value="$PARAM[onback]" />
+                    </include>
                     <top>row_height_x150</top>
                     <bottom>row_height_x25</bottom>
                     <orientation>vertical</orientation>
@@ -843,6 +858,7 @@
                 <param name="nib_pos" value="$PARAM[nib_pos]" />
                 <param name="useanimation" value="$PARAM[useanimation]" />
                 <param name="wraparound" value="$PARAM[wraparound]" />
+                <param name="action_include" value="$PARAM[action_include]" />
                 <nested />
             </include>
         </definition>

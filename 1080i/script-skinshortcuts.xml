@@ -110,11 +110,14 @@
                             <altlabel>$LOCALIZE[24021]</altlabel>
                             <usealttexture>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</usealttexture>
                         </include>
+
+                        <!-- Choose Shortcut -->
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="401" />
                             <param name="control" value="button" />
                             <description>Choose Shortcut</description>
                             <visible>!String.EndsWith(Window.Property(groupname),.1)</visible>
+                            <visible>!String.IsEqual(Window.Property(groupname),searchmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="4001" />
@@ -125,6 +128,17 @@
                             <onclick>SendClick(401)</onclick>
                             <visible>String.EndsWith(Window.Property(groupname),.1)</visible>
                         </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="4101" />
+                            <param name="control" value="button" />
+                            <description>Choose Search Shortcut</description>
+                            <label>$LOCALIZE[31104]</label>
+                            <onclick>SetProperty(custom-grouping,customsearchdefaultitems)</onclick>
+                            <onclick>SendClick(401)</onclick>
+                            <visible>String.IsEqual(Window.Property(groupname),searchmenu)</visible>
+                        </include>
+
+
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="307" />
                             <param name="control" value="button" />
@@ -149,6 +163,7 @@
                             <label>$LOCALIZE[31082]</label>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>!String.EndsWith(Window.Property(groupname),.1)</visible>
+                            <visible>!String.IsEqual(Window.Property(groupname),searchmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="405" />

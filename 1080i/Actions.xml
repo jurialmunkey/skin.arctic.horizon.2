@@ -2,24 +2,52 @@
 <includes>
 
     <variable name="Action_Query_Params">
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.UniqueID(tmdb))">tmdb_type=movie$COMMAtmdb_id=$INFO[ListItem.UniqueID(tmdb)]</value>
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.UniqueID(imdb))">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.UniqueID(imdb)]</value>
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Property(imdb_id))">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.Property(imdb_id)]</value>
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.IMDBNumber) + String.StartsWith(ListItem.IMDBNumber,tt)">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.IMDBNumber]</value>
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Title)">tmdb_type=movie$COMMAquery=$INFO[ListItem.Title]$INFO[ListItem.Year,$COMMAyear=,]</value>
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Label)">tmdb_type=movie$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.Year,$COMMAyear=,]</value>
 
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.UniqueID(tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[ListItem.UniqueID(tmdb)]</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Title)">tmdb_type=tv$COMMAquery=$INFO[ListItem.Title]$INFO[ListItem.Year,$COMMAyear=,]$INFO[ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Label)">tmdb_type=tv$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.Year,$COMMAyear=,]$INFO[ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
+        <!-- Movie -->
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.UniqueID(tmdb))">tmdb_type=movie$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tmdb)]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.UniqueID(imdb))">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.UniqueID(imdb)]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Property(imdb_id))">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.Property(imdb_id)]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.IMDBNumber) + String.StartsWith(Container.ListItem.IMDBNumber,tt)">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.IMDBNumber]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Title)">tmdb_type=movie$COMMAquery=$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Year,$COMMAyear=,]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=movie$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.Year,$COMMAyear=,]</value>
 
-        <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[ListItem.UniqueID(tvshow.tmdb)]</value>
-        <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[ListItem.TvShowTitle]$INFO[ListItem.Year,$COMMAepisode_year=,]</value>
+        <!-- TVShow -->
+        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.UniqueID(tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tmdb)]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.Title)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Year,$COMMAyear=,]$INFO[Container.ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[Container.ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.Year,$COMMAyear=,]$INFO[Container.ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[Container.ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
 
-        <value condition="String.IsEqual(ListItem.Property(item.type),person) + !String.IsEmpty(ListItem.Property(tmdb_id))">tmdb_type=person$COMMAtmdb_id=$INFO[ListItem.Property(tmdb_id)]</value>
-        <value condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director)] + !String.IsEmpty(ListItem.Label)">tmdb_type=person$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.UniqueID(tmdb),$COMMAtmdb_id=,]</value>
+        <!-- Season -->
+        <value condition="String.IsEqual(Container.ListItem.DBType,season) + !String.IsEmpty(Container.ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tvshow.tmdb)]$INFO[Container.ListItem.Season,$COMMAseason=,]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,season) + !String.IsEmpty(Container.ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year,$COMMAepisode_year=,]$INFO[Container.ListItem.Season,$COMMAseason=,]</value>
+
+        <!-- Episode -->
+        <value condition="String.IsEqual(Container.ListItem.DBType,episode) + !String.IsEmpty(Container.ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tvshow.tmdb)]$INFO[Container.ListItem.Season,$COMMAseason=,]$INFO[Container.ListItem.Episode,$COMMAepisode=,]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,episode) + !String.IsEmpty(Container.ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year,$COMMAepisode_year=,]$INFO[Container.ListItem.Season,$COMMAseason=,]$INFO[Container.ListItem.Episode,$COMMAepisode=,]</value>
+
+        <!-- People -->
+        <value condition="String.IsEqual(Container.ListItem.Property(item.type),person) + !String.IsEmpty(Container.ListItem.Property(tmdb_id))">tmdb_type=person$COMMAtmdb_id=$INFO[Container.ListItem.Property(tmdb_id)]</value>
+        <value condition="[String.IsEqual(Container.ListItem.DBType,actor) | String.IsEqual(Container.ListItem.DBType,director)] + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=person$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.UniqueID(tmdb),$COMMAtmdb_id=,]</value>
 
     </variable>
+
+    <include name="Action_OptionsMenu_Default">
+        <param name="id" default="50" />
+        <definition>
+            <onleft>$PARAM[id]</onleft>
+            <onright>$PARAM[id]</onright>
+            <onback>$PARAM[id]</onback>
+        </definition>
+    </include>
+
+    <include name="Action_OptionsMenu_PVRGuide">
+        <onleft>10</onleft>
+        <onright>10</onright>
+    </include>
+
+    <include name="Action_OptionsMenu_ButtonMenu">
+        <onleft>Close</onleft>
+        <onright>Close</onright>
+    </include>
 
     <include name="Action_Row_OnDown">
         <ondown>60</ondown>
@@ -66,31 +94,6 @@
             <onup>SetProperty(Plot,$VAR[Label_Plot_ESC],1113)</onup>
             <onup>ActivateWindow(1113)</onup>
         </definition>
-    </include>
-
-    <include name="Action_Plotbox_OnClick">
-        <param name="fanart" default="$ESCINFO[ListItem.Art(fanart)]" />
-        <param name="poster" default="$ESCINFO[ListItem.Art(poster)]" />
-        <definition>
-            <onclick>SetProperty(Fanart,$PARAM[fanart],1113)</onclick>
-            <onclick>SetProperty(Poster,$PARAM[poster],1113)</onclick>
-            <onclick>SetProperty(Title,"$VAR[Label_Title]",1113)</onclick>
-            <onclick>SetProperty(Year,$ESCINFO[ListItem.Year],1113)</onclick>
-            <onclick>SetProperty(ClearLogo,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)],1113)</onclick>
-            <onclick>SetProperty(Tagline,$ESCINFO[ListItem.Tagline],1113)</onclick>
-            <onclick>SetProperty(Plot,$VAR[Label_Plot_ESC],1113)</onclick>
-            <onclick>ActivateWindow(1113)</onclick>
-        </definition>
-    </include>
-
-    <include name="Action_Plotbox_OnUnload">
-        <onunload>ClearProperty(Fanart,1113)</onunload>
-        <onunload>ClearProperty(Poster,1113)</onunload>
-        <onunload>ClearProperty(Title,1113)</onunload>
-        <onunload>ClearProperty(Year,1113)</onunload>
-        <onunload>ClearProperty(ClearLogo,1113)</onunload>
-        <onunload>ClearProperty(Tagline,1113)</onunload>
-        <onunload>ClearProperty(Plot,1113)</onunload>
     </include>
 
     <include name="Action_Recommendations_OnDown">

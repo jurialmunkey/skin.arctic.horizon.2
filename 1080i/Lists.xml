@@ -95,6 +95,7 @@
                     </include>
                 </itemlayout>
                 <focusedlayout height="$PARAM[channelheight]" width="480">
+                    <include>Object_OnFocusButton_Context</include>
                     <include content="Layout_PVRGuide_Programs">
                         <param name="selected" value="false" />
                         <param name="visible" value="Control.HasFocus(11)" />
@@ -261,6 +262,31 @@
         <param name="item_h" default="160" />
         <param name="itemlayout_h" default="160" />
         <param name="itemlayout_include" default="Layout_Episode" />
+        <definition>
+            <include content="List_Core">
+                <param name="orientation" value="$PARAM[orientation]" />
+                <param name="controltype" value="$PARAM[controltype]" />
+                <param name="id" value="$PARAM[id]" />
+                <param name="item_h" value="$PARAM[item_h]" />
+                <param name="itemlayout_h" value="$PARAM[itemlayout_h]" />
+                <param name="itemlayout_include" value="$PARAM[itemlayout_include]" />
+                <param name="context_button" value="$PARAM[context_button]" />
+                <param name="offset_y" value="0" />
+                <param name="offset_x" value="0" />
+                <movement>1</movement>
+                <focusposition>1</focusposition>
+                <nested />
+            </include>
+        </definition>
+    </include>
+
+
+    <include name="List_PVRRecordings">
+        <param name="orientation" default="vertical" />
+        <param name="controltype" default="list" />
+        <param name="item_h" default="120" />
+        <param name="itemlayout_h" default="120" />
+        <param name="itemlayout_include" default="Layout_PVRRecordings" />
         <definition>
             <include content="List_Core">
                 <param name="orientation" value="$PARAM[orientation]" />
@@ -570,21 +596,7 @@
                     </control>
                 </itemlayout>
                 <focusedlayout width="$PARAM[itemlayout_w]" height="$PARAM[itemlayout_h]" condition="!$PARAM[focusedlayout_special]">
-                    <include content="Object_Control" condition="$PARAM[context_button]">
-                        <param name="control" value="button" />
-                        <visible allowhiddenfocus="true">false</visible>
-                        <animation effect="fade" start="0" end="0" delay="400">Focus</animation>
-                        <onfocus>SetProperty(ContextMenu.Label,$INFO[ListItem.Label],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.DBType,$INFO[ListItem.DBType],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Fanart,$VAR[Image_FanartOnly],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Poster,$VAR[Image_PosterOnly],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Icon,$INFO[ListItem.Icon],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Title,"$VAR[Label_Title]",Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Year,$INFO[ListItem.Year],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Tagline,$ESCINFO[ListItem.Tagline],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Plot,$VAR[Label_Plot_ESC],Home)</onfocus>
-                        <onfocus>SetProperty(ContextMenu.Params,"$VAR[Action_Query_Params]",Home)</onfocus>
-                    </include>
+                    <include condition="$PARAM[context_button]">Object_OnFocusButton_Context</include>
                     <control type="group">
                         <left>$PARAM[offset_x]</left>
                         <right>-$PARAM[offset_x]</right>

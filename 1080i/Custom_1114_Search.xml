@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1114">
     <defaultcontrol always="true">9099</defaultcontrol>
+    <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm))">RunScript(script.skinquicktools,set_editcontrol=9099,window_id=1114,setfocus=340,text=$INFO[Window(Home).Property(CustomSearchTerm)])</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm))">ClearProperty(CustomSearchTerm,Home)</onload>
     <onunload>SetProperty(AnimationDirection,Right,Home)</onunload>
     <controls>
 
@@ -26,41 +28,9 @@
                     <control type="group" id="6100">
                         <height>600</height>
                     </control>
-                    <include content="Widget_Poster">
-                        <param name="groupid" value="5100" />
-                        <param name="id" value="5000" />
-                        <param name="label" value="$LOCALIZE[342]" />
-                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                        <param name="altvisible" value="Control.HasFocus(340)" />
-                        <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=movie]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click"><param name="id" value="5000" /></include>
-                        <onback>SetFocus(5000)</onback>
-                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
-                    </include>
-                    <include content="Widget_Poster">
-                        <param name="groupid" value="5101" />
-                        <param name="id" value="5001" />
-                        <param name="label" value="$LOCALIZE[20343]" />
-                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                        <param name="altvisible" value="Control.HasFocus(340)" />
-                        <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=tv]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click"><param name="id" value="5001" /></include>
-                        <!-- <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=seasons&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Container(5001).ListItem.Property(tmdb_id)],return)</onclick> -->
-                        <onback>SetFocus(5001)</onback>
-                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
-                    </include>
-                    <include content="Widget_Poster">
-                        <param name="groupid" value="5102" />
-                        <param name="id" value="5002" />
-                        <param name="label" value="$LOCALIZE[31108]" />
-                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                        <param name="altvisible" value="Control.HasFocus(340)" />
-                        <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=collection]$VAR[Path_Param_Widget]</content>
-                        <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=collection&amp;tmdb_type=collection&amp;tmdb_id=$INFO[Container(5002).ListItem.Property(tmdb_id)],return)</onclick>
-                        <onback>SetFocus(5002)</onback>
-                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
-                    </include>
-                    <include content="Widget_Poster">
+                    <include>skinshortcuts-template-search</include>
+
+                    <!-- <include content="Widget_Poster">
                         <param name="groupid" value="5104" />
                         <param name="id" value="5004" />
                         <param name="label" value="$LOCALIZE[31109] $LOCALIZE[342]" />
@@ -81,18 +51,7 @@
                         <include content="Action_Widget_Click"><param name="id" value="5005" /></include>
                         <onback>SetFocus(5005)</onback>
                         <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
-                    </include>
-                    <include content="Widget_Poster">
-                        <param name="groupid" value="5103" />
-                        <param name="id" value="5003" />
-                        <param name="label" value="$LOCALIZE[31033]" />
-                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                        <param name="altvisible" value="Control.HasFocus(340)" />
-                        <content>$VAR[Path_Adaptive_Search,,&amp;tmdb_type=person]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click"><param name="id" value="5003" /></include>
-                        <onback>SetFocus(5003)</onback>
-                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
-                    </include>
+                    </include> -->
                 </control>
             </control>
             <include content="Object_WallFade">
@@ -156,7 +115,7 @@
                         <align>left</align>
                         <onright>Close</onright>
                         <onleft>Close</onleft>
-                        <ondown condition="!Integer.IsEqual(Container(6000).NumItems,0)">6000</ondown>
+                        <ondown condition="!Integer.IsEqual(Container(6000).NumItems,0)">350</ondown>
                         <ondown condition="Integer.IsEqual(Container(6000).NumItems,0)">340</ondown>
                         <onup>340</onup>
                     </include>
@@ -199,6 +158,15 @@
             <onclick>SetFocus(9099)</onclick>
             <visible allowhiddenfocus="true">Control.HasFocus(340)</visible>
             <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+        <control type="button" id="350">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(6000)</onfocus>
+            <onclick>SetFocus(6000)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(350)</visible>
+            <animation effect="fade" time="50" start="0" end="0">Focus</animation>
         </control>
     </controls>
 </window>
