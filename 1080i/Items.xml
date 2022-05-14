@@ -255,6 +255,7 @@
             <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
             <onclick condition="!$EXP[Exp_PVRWindows]">Runscript(script.skinvariables,action=buildviews,contentid=$VAR[Items_ViewMode_Switch],pluginname=$INFO[Container.PluginName])</onclick>
             <onclick condition="$EXP[Exp_PVRWindows]">SendClick(2)</onclick>
+            <visible>!Window.IsVisible(MyPVRSearch.xml) + !Window.IsVisible(MyPVRTimers.xml) + !Window.IsVisible(MyPVRRecordings.xml)</visible>
         </include>
         <include content="Dialog_Menu_Button" description="Sort method">
             <param name="id" value="9003" />
@@ -468,7 +469,7 @@
     <include name="Items_MyEPGNav">
         <include>Items_PVRNav</include>
         <include>Items_Default_MyNav</include>
-        <include content="Dialog_Menu_Button" description="Group Switcher">
+        <include content="Dialog_Menu_Button" description="Group Switcher" condition="!Window.IsVisible(MyPVRSearch.xml) + !Window.IsVisible(MyPVRTimers.xml) + !Window.IsVisible(MyPVRRecordings.xml)">
             <param name="id" value="28" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/folder.png" />

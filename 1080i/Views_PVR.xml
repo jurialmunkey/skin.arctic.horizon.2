@@ -273,7 +273,7 @@
                             <align>left</align>
                             <aligny>top</aligny>
                             <font>font_statusbar</font>
-                            <label>$LOCALIZE[19019]</label>
+                            <label>$INFO[Container.NumItems,, $LOCALIZE[19019]]</label>
                             <textcolor>main_fg_70</textcolor>
                         </control>
                         <control type="group">
@@ -337,15 +337,37 @@
         </definition>
     </include>
 
-    <include name="View_050_PVRChannels_Full_SmallRow">
+    <include name="View_054_PVRChannels_Full_SmallRow">
         <control type="group">
-            <visible>Control.IsVisible(50)</visible>
+            <visible>Control.IsVisible(54)</visible>
             <include content="View_PVRChannels_Standard">
-                <param name="id" value="50" />
+                <param name="id" value="54" />
                 <param name="viewtype_label" value="$LOCALIZE[35232]" />
                 <top>40</top>
             </include>
         </control>
+    </include>
+
+    <include name="View_050_PVRChannels_Pane_LargeRow">
+        <include content="Object_GlassPanel">
+            <visible>Control.IsVisible(50)</visible>
+            <top>40</top>
+            <include content="Object_GlassPanel">
+                <width>600</width>
+                <include content="View_PVR_RecordingInfo">
+                    <param name="id" value="50" />
+                    <param name="path_label" value="$INFO[Container.NumItems,, $LOCALIZE[19019]]" />
+                </include>
+            </include>
+            <include content="View_PVR_RecordingInfo">
+                <param name="path_label" value="$LOCALIZE[19033]" />
+                <param name="has_scrollbar" value="false" />
+                <param name="has_file_view" value="false" />
+                <left>600</left>
+                <right>0</right>
+                <include>View_PVR_RecordingDetails</include>
+            </include>
+        </include>
     </include>
 
     <include name="View_051_PVRChannels_Info_SmallRow">
@@ -391,44 +413,29 @@
     <include name="View_PVR_RecordingInfo">
         <param name="id" default="50" />
         <param name="scrollbar_id" default="60" />
-        <param name="path_label" default="$INFO[Container.FolderPath]" />
-        <param name="item_label" default="$INFO[Container.NumItems,, $LOCALIZE[127]]" />
+        <param name="path_label" default="$INFO[Container.NumItems,, [CAPITALIZE]$LOCALIZE[31022][/CAPITALIZE]]" />
         <param name="has_scrollbar" default="true" />
-        <param name="has_itemlabel" default="true" />
+        <param name="has_file_view" default="true" />
+        <param name="onright" default="menu" />
+        <param name="onleft" default="60" />
         <definition>
             <control type="group">
-                <width>50%</width>
                 <nested />
                 <control type="label">
-                    <haspath>true</haspath>
-                    <top>0</top>
-                    <height>100</height>
-                    <right>120</right>
-                    <textoffsetx>40</textoffsetx>
-                    <font>font_hintlabel</font>
-                    <label>$PARAM[path_label]</label>
+                    <top>-40</top>
+                    <height>30</height>
+                    <height>30</height>
+                    <width>auto</width>
+                    <font>font_statusbar</font>
+                    <textcolor>main_fg_70</textcolor>
+                    <label fallback="19076">$PARAM[path_label]</label>
                 </control>
-                <include content="Object_Control" condition="$PARAM[has_itemlabel]">
-                    <param name="control" value="label" />
-                    <top>0</top>
-                    <height>100</height>
-                    <textoffsetx>40</textoffsetx>
-                    <font>font_hintlabel</font>
-                    <align>right</align>
-                    <label>$PARAM[item_label]</label>
-                </include>
-                <include content="Object_Separator">
-                    <param name="horizontal" value="true" />
-                    <top>100</top>
-                    <left>40</left>
-                    <right>40</right>
-                </include>
-                <include content="List_AddonCategories">
+                <include content="List_PVRRecordings" condition="$PARAM[has_file_view]">
                     <param name="id" value="$PARAM[id]" />
-                    <param name="detailed" value="true" />
-                    <param name="width" value="" />
-                    <top>120</top>
-                    <bottom>40</bottom>
+                    <top>20</top>
+                    <bottom>20</bottom>
+                    <left>-dialog_pad</left>
+                    <right>-dialog_pad</right>
                     <onleft>$PARAM[onleft]</onleft>
                     <onright>$PARAM[onright]</onright>
                     <pagecontrol>$PARAM[scrollbar_id]</pagecontrol>
@@ -437,7 +444,7 @@
                 <include content="Dialog_Scrollbar" condition="$PARAM[has_scrollbar]">
                     <param name="id" value="$PARAM[scrollbar_id]" />
                     <left>0</left>
-                    <right>$PARAM[id]</right>
+                    <onright>$PARAM[id]</onright>
                 </include>
             </control>
         </definition>
@@ -451,26 +458,17 @@
 
     <include name="View_PVR_RecordingDetails">
         <control type="group">
-            <visible>!Container(50).ListItem.IsFolder</visible>
-            <top>120</top>
+            <visible>!Container(50).ListItem.IsFolder + [!String.IsEmpty(ListItem.ChannelName) | !String.IsEmpty(ListItem.Title)]</visible>
+            <top>20</top>
             <bottom>40</bottom>
             <left>40</left>
             <right>40</right>
             <control type="image">
                 <top>20</top>
-                <height>170</height>
-                <right>0</right>
-                <aspectratio align="right">keep</aspectratio>
-                <texture colordiffuse="dialog_fg_70">$INFO[ListItem.Icon]</texture>
-                <visible>String.StartsWith(ListItem.Icon,Default)</visible>
-            </control>
-            <control type="image">
-                <top>20</top>
-                <height>170</height>
+                <height>180</height>
                 <right>0</right>
                 <aspectratio align="right">keep</aspectratio>
                 <texture>$INFO[ListItem.Icon]</texture>
-                <visible>!String.StartsWith(ListItem.Icon,Default)</visible>
             </control>
             <control type="grouplist">
                 <orientation>vertical</orientation>
@@ -478,22 +476,27 @@
                     <height>80</height>
                     <label>$INFO[ListItem.ChannelName]</label>
                     <font>font_small_bold</font>
+                    <textcolor>main_fg_100</textcolor>
                 </control>
                 <control type="label">
                     <height>40</height>
                     <label>$INFO[ListItem.StartDate]</label>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
                 <control type="label">
                     <height>40</height>
                     <label>$INFO[ListItem.StartTime]$INFO[ListItem.EndTime, - ,]</label>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
                 <control type="label">
                     <height>40</height>
                     <label>$INFO[ListItem.Duration(h),, hours ]$INFO[ListItem.Duration(m),, minutes]</label>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
                 <control type="group">
-                    <height>60</height>
+                    <height>80</height>
                     <include content="Object_Separator_V">
+                        <param name="colordiffuse" value="main_fg_12" />
                         <centertop>50%</centertop>
                     </include>
                 </control>
@@ -502,37 +505,44 @@
                     <height>80</height>
                     <label>$INFO[ListItem.Title]</label>
                     <font>font_small_bold</font>
+                    <textcolor>main_fg_100</textcolor>
                 </control>
                 <control type="label">
                     <height>40</height>
                     <label>$INFO[ListItem.Season,S]$INFO[ListItem.Episode,E, ]$INFO[ListItem.EpisodeName]</label>
                     <visible>!String.IsEmpty(ListItem.EpisodeName)</visible>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
                 <control type="label">
                     <height>40</height>
                     <label>$INFO[ListItem.EPGEventTitle]</label>
                     <visible>!String.IsEmpty(ListItem.EPGEventTitle)</visible>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
                 <control type="label">
                     <height>40</height>
                     <label>$INFO[ListItem.Genre]</label>
                     <visible>!String.IsEmpty(ListItem.Genre)</visible>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
                 <control type="label">
                     <height>40</height>
                     <label>$INFO[ListItem.Size]</label>
                     <visible>!String.IsEmpty(ListItem.Size) + !String.IsEqual(ListITem.Size,0 B)</visible>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
                 <control type="label">
                     <height>40</height>
                     <label>$INFO[ListItem.ExpirationDate] $INFO[ListItem.ExpirationTime]</label>
                     <visible>!String.IsEmpty(ListItem.ExpirationDate)</visible>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
                 <control type="textbox">
                     <top>40</top>
                     <height>auto</height>
-                    <label>$INFO[ListItem.Plot]</label>
+                    <label>$VAR[Label_Plot]</label>
                     <font>font_plotbox</font>
+                    <textcolor>main_fg_70</textcolor>
                 </control>
             </control>
         </control>
