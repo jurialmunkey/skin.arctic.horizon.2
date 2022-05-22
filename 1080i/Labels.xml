@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Label_PVRChannelMgrHeader">
+        <value condition="!String.IsEmpty(Window.Property(IsRadio))">$LOCALIZE[19024]</value>
+        <value>$LOCALIZE[19023]</value>
+    </variable>
+
+    <variable name="Label_PVRRecordings_Mainlabel">
+        <value condition="[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Label]</value>
+    </variable>
+
     <variable name="Label_PVRRecordings_Sublabel">
-        <value condition="Window.IsVisible(MyPVRChannels.xml) + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.ChannelName]</value>
+        <value condition="[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.ChannelName]</value>
         <value condition="!String.IsEmpty(ListItem.EpisodeName)">$INFO[ListItem.EpisodeName]</value>
         <value condition="!String.IsEmpty(ListItem.Genre)">$INFO[ListItem.Genre]</value>
         <value condition="ListItem.IsFolder">$LOCALIZE[19076]</value>
     </variable>
 
-    <variable name="Label_PVRRecordings_Mainlabel">
-        <value condition="Window.IsVisible(MyPVRChannels.xml) + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
-        <value>$INFO[ListItem.Label]</value>
+    <variable name="Label_PVRRecordings_Sublabel_Channels">
+        <value condition="Window.IsVisible(fullscreenvideo)">$INFO[ListItem.ChannelNumberLabel,  |  CH ,]$INFO[ListItem.StartTime,  |  ,]$INFO[ListItem.EndTime, - ,]</value>
     </variable>
 
     <variable name="Label_NowPlayingTitle">
         <value condition="!String.IsEmpty(VideoPlayer.TvShowTitle)">$INFO[VideoPlayer.TvShowTitle,, ]$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E, ] </value>
         <value>$INFO[Player.Title,,  ]</value>
+    </variable>
+
+    <variable name="Label_OSD_EpisodeLabel">
+        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, ]$INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Label]</value>
     </variable>
 
     <variable name="Label_ListTrackNumber">
@@ -57,6 +71,10 @@
 
     <variable name="Label_OSD_SubtitlesLanguage">
         <value condition="VideoPlayer.SubtitlesEnabled">$INFO[VideoPlayer.SubtitlesLanguage,[UPPERCASE],[/UPPERCASE]]</value>
+    </variable>
+
+    <variable name="Label_OSD_PVR_Recording">
+        <value condition="PVR.IsRecordingPlayingChannel">$LOCALIZE[31160]</value>
     </variable>
 
     <variable name="Label_MediaList_Year">
@@ -134,8 +152,7 @@
         <value condition="Window.IsVisible(weather) + !String.IsEmpty(Weather.Location)">$INFO[Weather.Location]</value>
         <value condition="Window.IsVisible(weather)">$LOCALIZE[8]</value>
         <value condition="Window.IsVisible(filemanager)">$LOCALIZE[7]</value>
-        <value condition="Window.IsVisible(1116)">$LOCALIZE[31042]</value>
-        <value condition="Window.IsVisible(1117)">$LOCALIZE[137]</value>
+        <value condition="Window.IsVisible(1116)">$LOCALIZE[31158]</value>
         <value condition="Window.IsVisible(1112)">[CAPITALIZE]$LOCALIZE[31007][/CAPITALIZE]</value>
         <value condition="Window.IsVisible(1115)">$INFO[Window.Property(Header)]$INFO[Container(6000).ListItem.Label, [COLOR=main_fg_70] &gt; [/COLOR] ,]</value>
         <value condition="Window.IsVisible(MyPVRRecordings.xml)">$LOCALIZE[19017]</value>

@@ -297,7 +297,7 @@
                             </control>
                         </control>
                     </control>
-                    <control type="list" id="$PARAM[id]">
+                    <control type="fixedlist" id="$PARAM[id]">
                         <top>20</top>
                         <bottom>20</bottom>
                         <onup>11</onup>
@@ -305,6 +305,8 @@
                         <onright>menu</onright>
                         <onleft>menu</onleft>
                         <orientation>vertical</orientation>
+                        <focusposition>$PARAM[focusposition]</focusposition>
+                        <movement>$PARAM[movement]</movement>
                         <viewtype label="$PARAM[viewtype_label]">list</viewtype>
                         <itemlayout height="$PARAM[channelheight]">
                             <include content="Layout_PVRChannel">
@@ -343,6 +345,8 @@
             <include content="View_PVRChannels_Standard">
                 <param name="id" value="54" />
                 <param name="viewtype_label" value="$LOCALIZE[35232]" />
+                <param name="focusposition" value="4" />
+                <param name="movement" value="4" />
                 <top>40</top>
             </include>
         </control>
@@ -376,6 +380,8 @@
             <include content="View_PVRChannels_Standard">
                 <param name="id" value="51" />
                 <param name="viewtype_label" value="$LOCALIZE[19033]" />
+                <param name="focusposition" value="2" />
+                <param name="movement" value="2" />
                 <top>360</top>
             </include>
         </control>
@@ -390,6 +396,8 @@
                 <param name="channelwidth" value="100" />
                 <param name="detailed" value="true" />
                 <param name="viewtype_label" value="$LOCALIZE[31152]" />
+                <param name="focusposition" value="1" />
+                <param name="movement" value="2" />
                 <top>360</top>
             </include>
         </control>
@@ -402,6 +410,8 @@
                 <param name="id" value="53" />
                 <param name="epg_bottom" value="160" />
                 <param name="viewtype_label" value="$LOCALIZE[571]" />
+                <param name="focusposition" value="3" />
+                <param name="movement" value="3" />
                 <top>40</top>
             </include>
             <include>View_PVR_PeekInfo</include>
@@ -546,5 +556,33 @@
                 </control>
             </control>
         </control>
+    </include>
+
+    <include name="View_PVR_RecordingList">
+        <definition>
+            <control type="group">
+                <include>Dimension_Info</include>
+                <include content="Object_GlassPanel">
+                    <top>40</top>
+                    <include>Animation_Foreground_SlideUp</include>
+                    <include content="Object_GlassPanel">
+                        <width>600</width>
+                        <include content="View_PVR_RecordingInfo">
+                            <param name="path_label" value="$PARAM[path_label]" />
+                        </include>
+                    </include>
+                    <include content="View_PVR_RecordingInfo">
+                        <param name="id" value="5050" />
+                        <param name="path_label" value="$LOCALIZE[19033]" />
+                        <param name="has_scrollbar" value="false" />
+                        <param name="has_file_view" value="$PARAM[has_file_view]" />
+                        <param name="include_content" value="View_PVR_RecordingSubList" />
+                        <left>600</left>
+                        <right>0</right>
+                        <include>View_PVR_RecordingDetails</include>
+                    </include>
+                </include>
+            </control>
+        </definition>
     </include>
 </includes>

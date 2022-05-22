@@ -7,10 +7,12 @@
     <include name="View_Furniture_Top">
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!Window.IsVisible(1120)</visible>
             <visible>!Window.IsVisible(1114)</visible>
+            <visible>!Window.IsVisible(1120)</visible>
             <visible>!Window.IsVisible(DialogAddonSettings.xml)</visible>
             <visible>!Window.IsVisible(DialogGameControllers.xml)</visible>
+            <visible>!Window.IsVisible(DialogPVRChannelManager.xml)</visible>
+            <visible>!Window.IsVisible(DialogPVRGroupManager.xml)</visible>
             <visible>!Window.IsVisible(script-skinshortcuts.xml)</visible>
             <include>Furniture_Top_Left</include>
             <include>Furniture_Top_Right</include>
@@ -93,6 +95,15 @@
         </control>
     </include>
 
+    <include name="View_Visibility_Common">
+        <visible>!$EXP[Exp_InfoDialogs]</visible>
+        <visible>!Window.IsVisible(1114)</visible>
+        <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
+        <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
+        <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+        <include>Animation_Common</include>
+    </include>
+
     <include name="View_Main">
         <control type="list" id="99999">
             <width>1</width>
@@ -108,10 +119,7 @@
         </control>
         <include content="Background_Main">
             <control type="group">
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
-                <include>Animation_Common</include>
-                <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
+                <include>View_Visibility_Common</include>
                 <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,KeyArt)">View_KeyArt</include>
             </control>
         </include>
@@ -119,22 +127,13 @@
         <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,ClearArt)">
             <param name="control" value="group" />
             <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <include>Animation_Common</include>
-            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
-            <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
+            <include>View_Visibility_Common</include>
             <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
             <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,FlixArt)">View_FlixArt</include>
         </include>
 
         <control type="group">
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!Window.IsVisible(1114)</visible>
-            <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
-            <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
-            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
-            <include>Animation_Common</include>
-
+            <include>View_Visibility_Common</include>
             <control type="group">
                 <include>Animation_Foreground_SlideUp</include>
                 <control type="group">

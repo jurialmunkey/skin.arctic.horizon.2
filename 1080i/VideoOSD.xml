@@ -10,14 +10,14 @@
             <visible>!Window.IsVisible(DialogSlider.xml)</visible>
             <!-- Left Side Buttons -->
             <control type="grouplist" id="6000">
-                <centerbottom>100</centerbottom>
-                <height>60</height>
+                <centerbottom>70</centerbottom>
+                <height>120</height>
                 <left>view_pad</left>
                 <right>view_pad</right>
                 <orientation>horizontal</orientation>
                 <itemgap>30</itemgap>
                 <onleft>6800</onleft>
-                <onright>6500</onright>
+                <onright>6901</onright>
                 <include content="OSD_Button">
                     <param name="visible" value="true" />
                     <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
@@ -36,7 +36,7 @@
                     <param name="icon" value="osd/jump-back.png" />
                     <param name="id" value="6200" />
                     <param name="groupid" value="6299" />
-                    <onclick>PlayerControl(BigSkipBackward)</onclick>
+                    <onclick>Seek(-10)</onclick>
                     <onup>Action(StepForward)</onup>
                     <ondown>Action(StepBack)</ondown>
                 </include>
@@ -45,7 +45,7 @@
                     <param name="icon" value="osd/jump-forward.png" />
                     <param name="id" value="6300" />
                     <param name="groupid" value="6399" />
-                    <onclick>PlayerControl(BigSkipForward)</onclick>
+                    <onclick>Seek(10)</onclick>
                     <onup>Action(StepForward)</onup>
                     <ondown>Action(StepBack)</ondown>
                 </include>
@@ -60,6 +60,22 @@
                     <ondown condition="!Integer.IsEqual(Container(6401).NumItems,0)">SetFocus(6401,0,absolute)</ondown>
                     <onup condition="Integer.IsEqual(Container(6401).NumItems,0) + !Container(6401).IsUpdating">ActivateWindow(125)</onup>
                 </include>
+                <include content="OSD_Button">
+                    <param name="visible" value="PVR.CanRecordPlayingChannel + VideoPlayer.Content(livetv)" />
+                    <param name="icon" value="osd/record.png" />
+                    <param name="id" value="6900" />
+                    <param name="groupid" value="6990" />
+                    <label>[CR][CR][CR]$VAR[Label_OSD_PVR_Recording]</label>
+                    <textcolor>panel_fg_100</textcolor>
+                    <focusedcolor>panel_fg_100</focusedcolor>
+                    <shadowcolor>shadow_hard</shadowcolor>
+                    <font>font_osd_lang</font>
+                    <align>center</align>
+                    <aligny>top</aligny>
+                    <textoffsetx>0</textoffsetx>
+                    <onclick>PVR.ToggleRecordPlayingChannel</onclick>
+                </include>
+
             </control>
 
             <!-- Right Side Buttons -->
@@ -71,8 +87,14 @@
                 <orientation>horizontal</orientation>
                 <itemgap>30</itemgap>
                 <align>right</align>
-                <onleft>6400</onleft>
+                <onleft>6900</onleft>
                 <onright>6100</onright>
+                 <include content="OSD_Button">
+                    <param name="visible" value="VideoPlayer.Content(livetv)" />
+                    <param name="icon" value="osd/playlist.png" />
+                    <param name="id" value="6901" />
+                    <param name="groupid" value="6991" />
+                </include>
                 <include content="OSD_Button">
                     <param name="visible" value="true" />
                     <param name="icon" value="osd/info.png" />
@@ -108,7 +130,6 @@
                 <include content="OSD_Button">
                     <param name="visible" value="true" />
                     <param name="icon" value="osd/subs.png" />
-                    <param name="visible" value="true" />
                     <param name="id" value="6700" />
                     <param name="groupid" value="6799" />
                     <label>[CR][CR][CR]$VAR[Label_OSD_SubtitlesLanguage]</label>
@@ -136,14 +157,20 @@
             <!-- Episodes Pop-up -->
             <include content="OSD_Menu_Back">
                 <param name="arrow_pos" value="700" />
-                <visible>VideoPlayer.Content(episodes)</visible>
+                <visible>VideoPlayer.Content(episodes) | VideoPlayer.Content(livetv)</visible>
                 <visible>Control.HasFocus(6400) | Control.HasFocus(6401)</visible>
                 <include>Animation_SlideIn_Dialog</include>
                 <left>40</left>
                 <width>1040</width>
-                <height>740</height>
-                <include content="Object_MenuHeader">
+                <include content="Object_Include" condition="VideoPlayer.Content(livetv)">
+                    <height>740</height>
+                </include>
+                <height>540</height>
+                <include content="Object_MenuHeader" condition="!VideoPlayer.Content(livetv)">
                     <param name="label" value="$INFO[VideoPlayer.TvShowTitle,,: ]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]" />
+                </include>
+                <include content="Object_MenuHeader" condition="VideoPlayer.Content(livetv)">
+                    <param name="label" value="$LOCALIZE[19287]" />
                 </include>
                 <control type="fixedlist" id="6401">
                     <top>120</top>
@@ -154,13 +181,68 @@
                     <onleft>6400</onleft>
                     <onright>SetFocus(6401,0,absolute)</onright>
                     <onright>6400</onright>
+                    <include content="Object_Include" condition="VideoPlayer.Content(livetv)">
+                        <focusposition>2</focusposition>
+                        <movement>2</movement>
+                    </include>
                     <focusposition>1</focusposition>
                     <movement>1</movement>
                     <orientation>vertical</orientation>
-                    <itemlayout height="200">
-                        <include>Layout_OSDEpisodes</include>
+                    <itemlayout height="80" condition="!VideoPlayer.Content(livetv)">
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <textcolor>dialog_fg_70</textcolor>
+                            <selectedcolor>dialog_fg_70</selectedcolor>
+                            <label>$VAR[Label_OSD_EpisodeLabel]</label>
+                            <font>font_small_bold</font>
+                            <textoffsetx>40</textoffsetx>
+                        </include>
                     </itemlayout>
-                    <focusedlayout height="200">
+                    <itemlayout height="120" condition="VideoPlayer.Content(livetv)">
+                        <include content="Layout_PVRRecordings">
+                            <param name="selected" value="false" />
+                            <param name="side_pad" value="0" />
+                            <param name="item_h" value="120" />
+                            <param name="textoffsetx" value="dialog_pad" />
+                            <param name="imagepad" value="20" />
+                            <param name="color_fg" value="dialog_fg" />
+                        </include>
+                    </itemlayout>
+                    <focusedlayout height="120" condition="VideoPlayer.Content(livetv)">
+                        <control type="group">
+                            <visible>!Control.HasFocus(6401)</visible>
+                            <include content="Layout_PVRRecordings">
+                                <param name="selected" value="false" />
+                                <param name="side_pad" value="0" />
+                                <param name="item_h" value="120" />
+                                <param name="textoffsetx" value="dialog_pad" />
+                                <param name="imagepad" value="20" />
+                                <param name="color_fg" value="dialog_fg" />
+                            </include>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(6401)</visible>
+                            <include content="Layout_PVRRecordings">
+                                <param name="selected" value="true" />
+                                <param name="side_pad" value="0" />
+                                <param name="item_h" value="120" />
+                                <param name="textoffsetx" value="dialog_pad" />
+                                <param name="imagepad" value="20" />
+                                <param name="color_fg" value="dialog_fg" />
+                            </include>
+                        </control>
+                    </focusedlayout>
+                    <focusedlayout height="80" condition="!Control.HasFocus(6401) + !VideoPlayer.Content(livetv)">
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <textcolor>dialog_fg_70</textcolor>
+                            <selectedcolor>dialog_fg_70</selectedcolor>
+                            <label>$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, ]$INFO[ListItem.Title]</label>
+                            <font>font_small_bold</font>
+                            <textoffsetx>40</textoffsetx>
+                        </include>
+                    </focusedlayout>
+                    <focusedlayout height="240" condition="Control.HasFocus(6401) + !VideoPlayer.Content(livetv)">
                         <control type="group">
                             <visible>!Control.HasFocus(6401)</visible>
                             <include content="Layout_OSDEpisodes">
@@ -176,23 +258,17 @@
                     </focusedlayout>
                     <content sortorder="ascending" sortby="episode">$VAR[Path_OSD_Episodes]</content>
                 </control>
-                <!-- <include content="List_Landscape_Row">
-                    <param name="id" value="6401" />
-                    <param name="movement" value="2" />
-                    <param name="textcolor" value="dialog_fg" />
-                    <param name="offset_x" value="40" />
-                    <param name="offset_y" value="40" />
-                    <content>$VAR[Path_OSD_Episodes]</content>
-                    <height>400</height>
-                    <bottom>0</bottom>
-                    <ondown>6400</ondown>
-                </include> -->
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse" value="dialog_fg" />
+                    <visible>Container(6401).IsUpdating + Integer.IsEqual(Container(6401).NumItems,0)</visible>
+                </include>
             </include>
 
             <!-- Cast Pop-up -->
             <include content="OSD_Menu_Back">
                 <param name="arrow_pos" value="340" />
                 <visible>Control.HasFocus(6500) | Control.HasFocus(6501)</visible>
+                <visible>Container(6501).IsUpdating | !Integer.IsEqual(Container(6501).NumItems,0)</visible>
                 <include>Animation_SlideIn_Dialog</include>
                 <right>40</right>
                 <width>960</width>
@@ -235,6 +311,32 @@
                     <onclick>Action(Close)</onclick>
                     <onclick>RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container(6501).ListItem.FolderPath],call_auto=1190,return)</onclick>
                 </include>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse" value="dialog_fg" />
+                    <visible>Container(6501).IsUpdating + Integer.IsEqual(Container(6501).NumItems,0)</visible>
+                    <centertop>70%</centertop>
+                </include>
+            </include>
+            <!-- Plot Only Pop-up (No Cast Available) -->
+            <include content="OSD_Menu_Back">
+                <param name="arrow_pos" value="340" />
+                <visible>Control.HasFocus(6500) | Control.HasFocus(6501)</visible>
+                <visible>!Container(6501).IsUpdating + Integer.IsEqual(Container(6501).NumItems,0)</visible>
+                <include>Animation_SlideIn_Dialog</include>
+                <right>40</right>
+                <width>960</width>
+                <height>280</height>
+                <include content="Object_MenuHeader">
+                    <param name="label" value="$INFO[VideoPlayer.TvShowTitle,,: ]$INFO[Player.Title,,]" />
+                </include>
+                <control type="textbox">
+                    <top>120</top>
+                    <left>40</left>
+                    <right>40</right>
+                    <label>$INFO[VideoPlayer.Plot]</label>
+                    <bottom>40</bottom>
+                    <font>font_plotbox</font>
+                </control>
             </include>
 
             <!-- Audio Tracks -->
