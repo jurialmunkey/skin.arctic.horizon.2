@@ -401,7 +401,7 @@
                     <param name="ondown" value="$PARAM[ondown]" />
                     <onclick condition="!Window.IsActive(1114)">SetProperty(CustomSearchTerm,$ESCINFO[Window(Home).Property(ContextMenu.Title)],Home)</onclick>
                     <onclick condition="!Window.IsActive(1114)">ActivateWindow(1114)</onclick>
-                    <onclick condition="Window.IsActive(1114)">RunScript(script.skinquicktools,set_editcontrol=9099,window_id=1114,setfocus=340,setfocus_wait=00:01,text=$INFO[Window(Home).Property(ContextMenu.Title)])</onclick>
+                    <onclick condition="Window.IsActive(1114)">RunScript(script.skinvariables,set_editcontrol=9099,window_id=1114,setfocus=340,setfocus_wait=00:01,text=$INFO[Window(Home).Property(ContextMenu.Title)])</onclick>
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
@@ -411,7 +411,6 @@
                     <param name="ondown" value="$PARAM[ondown]" />
                     <onclick>SetFocus(50)</onclick>
                     <onclick>AlarmClock(DelayCommand,RunScript(plugin.video.themoviedb.helper,related_lists,$INFO[Window(Home).Property(ContextMenu.Params)]),00:01,silent)</onclick>
-                    <!-- <onclick>AlarmClock(doit,RunScript(plugin.video.themoviedb.helper,related_lists,$VAR[Action_Query_Params]),00:01,silent)</onclick> -->
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
@@ -419,9 +418,8 @@
                     <param name="id" value="04" />
                     <param name="onup" value="$PARAM[onup]" />
                     <param name="ondown" value="$PARAM[ondown]" />
-                    <onclick condition="![Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]">ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=movie,return)</onclick>
-                    <onclick condition="[Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]">ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=tv,return)</onclick>
-                    <!-- <onclick>ActivateWindow(1116)</onclick> -->
+                    <onclick condition="![String.IsEqual(Window(Home).Property(ContextMenu.DBType),tvshow) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),season) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),episode)]">ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=movie,return)</onclick>
+                    <onclick condition="[String.IsEqual(Window(Home).Property(ContextMenu.DBType),tvshow) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),season) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),episode)]">ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=tv,return)</onclick>
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
@@ -442,16 +440,40 @@
         </definition>
     </include>
 
-    <include name="Items_MyVideoNav">
-        <include>Items_QuickNav</include>
-        <include>Items_Default_MyNav</include>
-        <!-- <include content="Dialog_Menu_Button" description="Search">
-            <param name="id" value="9008" />
+    <include name="Items_NextAired">
+        <include content="Dialog_Menu_Button" description="Orientation">
+            <param name="id" value="9001" />
+            <param name="control" value="togglebutton" />
+            <param name="icon" value="special://skin/extras/icons/viewmode.png" />
+            <label>$LOCALIZE[21843]: $LOCALIZE[31163]</label>
+            <altlabel>$LOCALIZE[21843]: $LOCALIZE[31164]</altlabel>
+            <onclick>Skin.ToggleSetting(NextAired.Orientation)</onclick>
+            <onclick condition="Window.IsVisible(1116)">SetProperty(ReplaceWindow,1116,Home)</onclick>
+            <onclick condition="Window.IsVisible(1117)">SetProperty(ReplaceWindow,1117,Home)</onclick>
+            <onclick>ReplaceWindow(1197)</onclick>
+            <usealttexture>!Skin.HasSetting(NextAired.Orientation)</usealttexture>
+        </include>
+        <include content="Dialog_Menu_Button" description="Switch to Library">
+            <param name="id" value="9002" />
             <param name="control" value="button" />
-            <param name="icon" value="special://skin/extras/icons/search.png" />
-            <label>$LOCALIZE[137]</label>
-            <onclick>ActivateWindow(1117)</onclick>
-        </include> -->
+            <param name="icon" value="special://skin/extras/icons/calendar.png" />
+            <label>$LOCALIZE[456]: Trakt</label>
+            <onclick>ReplaceWindow(1117)</onclick>
+            <visible>Window.IsVisible(1116)</visible>
+        </include>
+        <include content="Dialog_Menu_Button" description="Switch to Trakt">
+            <param name="id" value="9003" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/calendar.png" />
+            <label>$LOCALIZE[456]: $LOCALIZE[14022]</label>
+            <onclick>ReplaceWindow(1116)</onclick>
+            <visible>Window.IsVisible(1117)</visible>
+        </include>
+    </include>
+
+    <include name="Items_MyVideoNav">
+        <!-- <include>Items_QuickNav</include> -->
+        <include>Items_Default_MyNav</include>
         <include content="Dialog_Menu_Button" description="Watched">
             <param name="id" value="14" />
             <param name="control" value="radiobutton" />

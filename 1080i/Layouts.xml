@@ -1176,13 +1176,10 @@
     <include name="Layout_PVRRecordings">
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
-        <param name="side_pad" default="dialog_pad" />
         <param name="textoffsetx" default="30" />
         <param name="color_fg" default="main_fg" />
         <definition>
             <control type="group">
-                <left>$PARAM[side_pad]</left>
-                <right>$PARAM[side_pad]</right>
                 <height>$PARAM[item_h]</height>
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control" value="group" />
@@ -1190,11 +1187,28 @@
                         <include>Texture_Highlight</include>
                     </control>
                     <control type="image">
-                        <colordiffuse>$PARAM[color_fg]_12</colordiffuse>
-                        <texture colordiffuse="panel_fg_12">common/selected.png</texture>
+                        <texture colordiffuse="1f000000">common/selected.png</texture>
                         <visible>ListItem.IsPlaying</visible>
                         <aspectratio>scale</aspectratio>
                     </control>
+                </include>
+
+                <!-- <include content="Object_Control" condition="!$PARAM[detailed] + !$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <colordiffuse>$PARAM[color_fg]_12</colordiffuse>
+                    <texture>common/selected.png</texture>
+                    <visible>Integer.IsGreater(ListItem.Progress,1) + !Integer.IsGreater(ListItem.Progress,99)</visible>
+                    <aspectratio>scale</aspectratio>
+                </include> -->
+
+                <include content="Object_Control" condition="!$PARAM[detailed] + !$PARAM[selected]">
+                    <param name="control" value="progress" />
+                    <texturebg>pvr/progressline-back.png</texturebg>
+                    <lefttexture border="2" colordiffuse="$PARAM[color_fg]_30">pvr/progressline-left2.png</lefttexture>
+                    <midtexture border="2" colordiffuse="$PARAM[color_fg]_30">pvr/progressline-mid2.png</midtexture>
+                    <righttexture border="2" colordiffuse="$PARAM[color_fg]_30">pvr/progressline-right2.png</righttexture>
+                    <info>ListItem.Progress</info>
+                    <visible>Integer.IsGreater(ListItem.Progress,1) + !Integer.IsGreater(ListItem.Progress,99)</visible>
                 </include>
 
                 <include content="Object_Control" condition="$PARAM[selected]">
@@ -1207,28 +1221,37 @@
                     <visible>Integer.IsGreater(ListItem.Progress,1) + !Integer.IsGreater(ListItem.Progress,99)</visible>
                 </include>
                 <control type="group">
-                    <left>$PARAM[imagepad]</left>
-                    <control type="group">
+                    <include content="Object_Include" condition="!$PARAM[detailed] + !$PARAM[selected]">
+                        <animation effect="fade" start="100" end="25" condition="Integer.IsGreater(ListItem.Progress,99)">Conditional</animation>
+                    </include>
+                    <left>$PARAM[misc]</left>
+                    <include content="Object_Control" condition="$PARAM[detailed]">
+                        <param name="control" value="group" />
                         <width>$PARAM[item_h]</width>
                         <control type="image">
                             <bordersize>20</bordersize>
                             <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
                             <aspectratio>keep</aspectratio>
                         </control>
-                    </control>
+                    </include>
                     <control type="group">
-                        <left>$PARAM[imagepad]</left>
+                        <include content="Object_Include" condition="$PARAM[detailed]">
+                            <left>$PARAM[misc]</left>
+                        </include>
                         <control type="group">
-                            <left>$PARAM[item_h]</left>
+                            <include content="Object_Include" condition="$PARAM[detailed]">
+                                <left>$PARAM[item_h]</left>
+                            </include>
                             <top>20</top>
                             <bottom>20</bottom>
-                            <control type="image">
+                            <include content="Object_Control" condition="$PARAM[detailed]">
+                                <param name="control" value="image" />
                                 <width>1</width>
                                 <include content="Object_Include" condition="$PARAM[selected]">
                                     <texture colordiffuse="panel_fg_30">common/white.png</texture>
                                 </include>
                                 <texture colordiffuse="$PARAM[color_fg]_12">common/white.png</texture>
-                            </control>
+                            </include>
                             <control type="label">
                                 <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
                                 <include condition="$PARAM[selected]">Color_SelectedText</include>

@@ -21,78 +21,49 @@
 
     <include name="View_Furniture_Discover">
         <control type="group">
+            <visible>![$EXP[Exp_View_Special]]</visible>
             <visible>Control.IsVisible(590)</visible>
-            <include>Dimension_View</include>
+            <include content="List_Poster_Row">
+                <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
+                <param name="id" value="591" />
+                <param name="context_button" value="true" />
+                <height>divider_bottom</height>
+                <bottom>40</bottom>
+                <onup>SetFocus(590)</onup>
+                <ondown>SetFocus(590)</ondown>
+                <content target="videos">$VAR[Path_DiscoverWidget]</content>
+                <visible allowhiddenfocus="true">!Container(591).IsUpdating</visible>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,591,Home)</onfocus>
+            </include>
+            <include content="Info_Panel">
+                <param name="plotwidth" value="880" />
+                <param name="plotheight" value="80" />
+                <param name="plotheight_nr" value="120" />
+                <param name="container" value="Container(591)." />
+                <param name="line_id" value="99591" />
+                <param name="ratings" value="[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual(Container(591).ListItem.DBType,movie) | String.IsEqual(Container(591).ListItem.DBType,tvshow) | String.IsEqual(Container(591).ListItem.DBType,set) | String.IsEqual(Container(591).ListItem.DBType,season) | String.IsEqual(Container(591).ListItem.DBType,episode) | Container(591).ListItem.IsCollection]" />
+                <top>view_top</top>
+                <width>1080</width>
+                <left>view_pad</left>
+            </include>
             <include content="List_Button_Row">
                 <param name="id" value="590" />
-                <param name="controltype" value="fixedlist" />
                 <param name="itemlayout_h" value="120" />
                 <param name="item_h" value="80" />
-                <param name="offset_y" value="40" />
-                <param name="orientation" value="vertical" />
-                <param name="item_w" value="474.3" />
-                <param name="itemlayout_w" value="554.3" />
-                <param name="misc" value="20" />
-                <param name="itemlayout_include" value="Layout_DiscoverButton" />
-                <focusposition>2</focusposition>
-                <movement>3</movement>
-                <preloaditems>0</preloaditems>
-                <onright>591</onright>
-                <top>-40</top>
-                <bottom>-20</bottom>
-                <left>-80</left>
-                <visible>![$EXP[Exp_View_Special]]</visible>
+                <param name="itemlayout_w" value="360" />
+                <param name="item_w" value="320" />
+                <movement>4</movement>
+                <preloaditems>2</preloaditems>
+                <height>240</height>
+                <bottom>0</bottom>
+                <onup>591</onup>
+                <ondown condition="Container(590).HasNext">SetFocus(590,5)</ondown>
+                <ondown condition="!Container(590).HasNext">SetFocus(590,0,absolute)</ondown>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,591,Home)</onfocus>
+                <visible>!$EXP[Exp_View_Special]</visible>
             </include>
-
-            <control type="group">
-                <right>-40</right>
-                <width>1365.7</width>
-                <control type="group">
-                    <visible>Integer.IsEqual(Container(591).NumItems,0) | Container(591).IsUpdating</visible>
-                    <left>80</left>
-                    <right>40</right>
-                    <include>Object_ItemBack</include>
-                    <include content="Object_Control">
-                        <param name="control" value="image" />
-                        <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
-                    </include>
-                    <control type="textbox">
-                        <align>center</align>
-                        <aligny>center</aligny>
-                        <font>font_small</font>
-                        <textcolor>main_fg_70</textcolor>
-                        <label>$LOCALIZE[31146]</label>
-                        <visible>!Container(591).IsUpdating</visible>
-                    </control>
-                    <include content="Object_BusySpinner">
-                        <param name="colordiffuse" value="main_fg" />
-                        <visible>Container(591).IsUpdating</visible>
-                    </include>
-                </control>
-                <include content="List_Poster_Wall">
-                    <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
-                    <param name="id" value="591" />
-                    <param name="offset_y" value="40" />
-                    <param name="misc" value="20" />
-                    <top>-40</top>
-                    <bottom>-20</bottom>
-                    <preloaditems>0</preloaditems>
-                    <onleft>9000</onleft>
-                    <onright>61</onright>
-                    <pagecontrol>61</pagecontrol>
-                    <content target="videos">$INFO[Container(590).ListItemAbsolute(0).FolderPath,,&amp;nextpage=False]</content>
-                    <visible allowhiddenfocus="true">!Container(591).IsUpdating</visible>
-                </include>
-                <control type="scrollbar" id="61">
-                    <texturesliderbackground colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbackground>
-                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbar>
-                    <onleft>591</onleft>
-                    <width>8</width>
-                    <centerright>0</centerright>
-                </control>
-            </control>
-
         </control>
+
     </include>
 
     <include name="View_Visibility_Common">
@@ -145,6 +116,7 @@
                 </control>
                 <control type="group">
                     <visible>!$EXP[Exp_CombinedViews]</visible>
+                    <visible>$EXP[Exp_View_Special]</visible>
                     <include>Furniture_Bottom_Left</include>
                     <include>Furniture_Bottom_Right</include>
                 </control>
