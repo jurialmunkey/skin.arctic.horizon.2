@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<window type="dialog" id="1114">
+<window type="window" id="1114">
     <defaultcontrol always="true">9099</defaultcontrol>
     <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm))">RunScript(script.skinvariables,set_editcontrol=9099,window_id=1114,setfocus=340,text=$INFO[Window(Home).Property(CustomSearchTerm)])</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm))">ClearProperty(CustomSearchTerm,Home)</onload>
-    <onunload>SetProperty(AnimationDirection,Right,Home)</onunload>
     <controls>
-
+        <include>Background_Main</include>
         <control type="group">
-            <include condition="!Window.IsVisible(Home)">Animation_Foreground_FadeInOut_Delay</include>
+            <include condition="!Window.Previous(Home)">Animation_Foreground_FadeInOut_Delay</include>
             <control type="group">
-                <include condition="Window.IsVisible(Home)">Animation_Left_Delay</include>
+                <animation type="WindowOpen" reversible="false" condition="Window.Previous(Home)">
+                    <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="out"/>
+                    <effect type="slide" start="-320" end="0" time="400" delay="0" tween="cubic" easing="out" />
+                </animation>
+                <animation type="WindowClose" reversible="false" condition="Window.Next(Home)">
+                    <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                    <effect type="slide" start="0" end="-320" time="300" delay="0" tween="cubic" easing="out" />
+                </animation>
                 <control type="grouplist" id="6000">
                     <onup>9099</onup>
                     <ondown>330</ondown>
@@ -62,7 +68,6 @@
             <control type="group">
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
-                <!-- <left>40</left> -->
                 <left>view_pad</left>
                 <top>60</top>
                 <height>view_pad</height>

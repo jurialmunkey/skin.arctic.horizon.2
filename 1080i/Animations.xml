@@ -2,10 +2,10 @@
 <includes>
 
     <include name="Animation_Background_FadeInOut">
-        <animation type="WindowOpen" reversible="false">
+        <animation type="WindowOpen" reversible="false" condition="!Window.IsActive(1114) + !Window.Previous(1114)">
             <effect type="fade" start="0" end="100" time="400" delay="0" tween="sine" easing="out"/>
         </animation>
-        <animation type="WindowClose" reversible="false">
+        <animation type="WindowClose" reversible="false" condition="!Window.IsActive(1114) + !Window.Next(1114)">
             <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
         </animation>
     </include>
@@ -99,24 +99,30 @@
     </include>
 
     <include name="Animation_FadeOut">
-        <animation type="Hidden" reversible="false">
-            <effect type="fade" end="0" start="100" time="150" delay="0"/>
-        </animation>
-        <animation type="WindowClose" reversible="false">
-            <effect type="fade" end="0" start="100" time="150" delay="0"/>
-        </animation>
+        <param name="hidden_condition" default="true" />
+        <param name="windowclose_condition" default="true" />
+        <definition>
+            <animation type="Hidden" reversible="false" condition="$PARAM[hidden_condition]">
+                <effect type="fade" end="0" start="100" time="150" delay="0"/>
+            </animation>
+            <animation type="WindowClose" reversible="false" condition="$PARAM[windowclose_condition]">
+                <effect type="fade" end="0" start="100" time="150" delay="0"/>
+            </animation>
+        </definition>
     </include>
 
     <!-- Dialog Animations -->
     <include name="Animation_SlideIn_Dialog">
         <param name="visible_delay" default="150" />
+        <param name="visible_condition" default="true" />
         <param name="windowopen_delay" default="400" />
+        <param name="windowopen_condition" default="true" />
         <definition>
-            <animation type="Visible" reversible="false">
+            <animation type="Visible" reversible="false" condition="$PARAM[visible_condition]">
                 <effect type="fade" start="0" end="100" time="300" delay="$PARAM[visible_delay]"/>
                 <effect type="slide" start="0,-48" end="0" center="auto" tween="back" easing="out" time="400" delay="$PARAM[visible_delay]"/>
             </animation>
-            <animation type="WindowOpen" reversible="false">
+            <animation type="WindowOpen" reversible="false" condition="$PARAM[windowopen_condition]">
                 <effect type="fade" start="0" end="100" time="300" delay="$PARAM[windowopen_delay]"/>
                 <effect type="slide" start="0,-48" end="0" center="auto" tween="back" easing="out" time="400" delay="$PARAM[windowopen_delay]"/>
             </animation>

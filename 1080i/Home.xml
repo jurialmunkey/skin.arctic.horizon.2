@@ -17,7 +17,6 @@
 
         <!-- Fullscreen Widget -->
         <control type="group">
-            <visible>!Window.IsVisible(1114)</visible>
             <visible>Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
             <visible>!String.IsEmpty(Container(300).ListItem.Property(widgetPath))</visible>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
@@ -36,13 +35,18 @@
                 <effect type="slide" end="0,-20" time="60" tween="sine" />
                 <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
             </animation>
+            <animation type="WindowOpen" reversible="false" condition="Window.Previous(1114)">
+                <effect type="slide" start="320" end="0" time="400" delay="0" tween="cubic" easing="out" />
+            </animation>
+            <animation type="WindowClose" reversible="false" condition="Window.Next(1114)">
+                <effect type="slide" start="0" end="320" time="300" delay="0" tween="cubic" easing="out" />
+            </animation>
             <include>skinshortcuts-template-widgets</include>
         </control>
 
         <!-- Header -->
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!Window.IsVisible(1114)</visible>
             <control type="group">
                 <visible>!Window.IsVisible(favourites)</visible>
                 <include>Furniture_Top_Right</include>
@@ -113,11 +117,11 @@
             <param name="overlay" value="false" />
             <param name="colordiffuse" value="main_fg_12" />
             <left>80</left>
-            <animation effect="fade" start="100" end="0" condition="Window.IsVisible(1114)">Conditional</animation>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <animation effect="fade" start="100" end="0" condition="Window.Next(1114)">Conditional</animation>
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
-                <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
+                <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ClearProperty(AnimationDirection)</onleft>
                 <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">Control.Move(300,-1)</onleft>
@@ -153,6 +157,39 @@
                 <content><include>skinshortcuts-mainmenu</include></content>
             </include>
         </include>
+
+        <control type="group">
+            <visible>Window.Next(1114)</visible>
+            <left>view_pad</left>
+            <top>60</top>
+            <height>view_pad</height>
+            <control type="group">
+                <left>20</left>
+                <width>740</width>
+                <include content="Object_MenuBar_Group_Texture">
+                    <param name="colordiffuse" value="main_fg_12" />
+                    <left>-20</left>
+                    <right>-20</right>
+                    <height>60</height>
+                    <centertop>50%</centertop>
+                </include>
+                <control type="group">
+                    <height>70</height>
+                    <centertop>50%</centertop>
+                    <include content="Object_MenuBar_Item">
+                        <param name="haslabel" value="false" />
+                        <param name="selected" value="true" />
+                        <param name="visible" value="true" />
+                    </include>
+                    <control type="image">
+                        <left>10</left>
+                        <width>60</width>
+                        <aspectratio>keep</aspectratio>
+                        <texture colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/search.png</texture>
+                    </control>
+                </control>
+            </control>
+        </control>
 
         <control type="button" id="330">
             <width>1</width>
