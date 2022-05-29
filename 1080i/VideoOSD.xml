@@ -56,9 +56,7 @@
                     <param name="groupid" value="6499" />
                     <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Next)</onclick>
                     <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">PlayerControl(Stop)</onclick>
-                    <onup condition="!Integer.IsEqual(Container(6401).NumItems,0)">SetFocus(6401,0,absolute)</onup>
-                    <ondown condition="!Integer.IsEqual(Container(6401).NumItems,0)">SetFocus(6401,0,absolute)</ondown>
-                    <onup condition="Integer.IsEqual(Container(6401).NumItems,0) + !Container(6401).IsUpdating">ActivateWindow(125)</onup>
+                    <include>Action_OSD_EpisodeList_Refocus</include>
                 </include>
                 <include content="OSD_Button">
                     <param name="visible" value="PVR.CanRecordPlayingChannel + VideoPlayer.Content(livetv)" />
@@ -179,12 +177,7 @@
                 <control type="fixedlist" id="6401">
                     <top>120</top>
                     <bottom>20</bottom>
-                    <onback>SetFocus(6401,0,absolute)</onback>
-                    <onback>6400</onback>
-                    <onleft>SetFocus(6401,0,absolute)</onleft>
-                    <onleft>6400</onleft>
-                    <onright>SetFocus(6401,0,absolute)</onright>
-                    <onright>6400</onright>
+                    <include>Action_OSD_EpisodeList_OnUnFocus</include>
                     <include content="Object_Include" condition="VideoPlayer.Content(livetv)">
                         <focusposition>2</focusposition>
                         <movement>2</movement>
@@ -192,6 +185,7 @@
                     <focusposition>1</focusposition>
                     <movement>1</movement>
                     <orientation>vertical</orientation>
+                    <onclick>PlayMedia($INFO[Container(6401).ListItem.FileNameAndPath])</onclick>
                     <itemlayout height="80" condition="!VideoPlayer.Content(livetv)">
                         <include content="Object_Control">
                             <param name="control" value="label" />
@@ -236,7 +230,7 @@
                             </include>
                         </control>
                     </focusedlayout>
-                    <focusedlayout height="80" condition="!Control.HasFocus(6401) + !VideoPlayer.Content(livetv)">
+                    <focusedlayout height="80" condition="!VideoPlayer.Content(livetv) + !Control.HasFocus(6401) + !String.IsEqual(Container(6401).ListItem.Title,Player.Title)">
                         <include content="Object_Control">
                             <param name="control" value="label" />
                             <textcolor>dialog_fg_70</textcolor>
@@ -246,7 +240,7 @@
                             <textoffsetx>40</textoffsetx>
                         </include>
                     </focusedlayout>
-                    <focusedlayout height="240" condition="Control.HasFocus(6401) + !VideoPlayer.Content(livetv)">
+                    <focusedlayout height="240" condition="!VideoPlayer.Content(livetv) + [Control.HasFocus(6401) | String.IsEqual(Container(6401).ListItem.Title,Player.Title)]">
                         <control type="group">
                             <visible>!Control.HasFocus(6401)</visible>
                             <include content="Layout_OSDEpisodes">
