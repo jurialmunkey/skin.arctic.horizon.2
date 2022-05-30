@@ -84,6 +84,48 @@
         </definition>
     </include>
 
+    <include name="Object_AlphabetLetter_Label">
+        <param name="textcolor_fo" default="main_fg_100" />
+        <param name="textcolor_nf" default="main_fg_30" />
+        <definition>
+            <control type="label">
+                <width>40</width>
+                <height>40</height>
+                <font>font_menulabel</font>
+                <label>$PARAM[label]</label>
+                <textcolor>$PARAM[textcolor_fo]</textcolor>
+                <align>center</align>
+                <visible>$PARAM[visible]</visible>
+            </control>
+            <control type="label">
+                <width>40</width>
+                <height>40</height>
+                <font>font_menulabel</font>
+                <label>$PARAM[label]</label>
+                <textcolor>$PARAM[textcolor_nf]</textcolor>
+                <align>center</align>
+                <visible>![$PARAM[visible]]</visible>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_AlphabetLetter">
+        <definition>
+            <include content="Object_AlphabetLetter_Label">
+                <param name="label" value="$PARAM[letter]" />
+                <param name="visible" value="String.IsEqual(ListItem.SortLetter,$PARAM[letter])" />
+            </include>
+        </definition>
+    </include>
+    <include name="Object_AlphabetNumber">
+        <definition>
+            <include content="Object_AlphabetLetter_Label">
+                <param name="label" value="#" />
+                <param name="visible" value="[!String.IsEqual(ListItem.SortLetter,A) + !String.IsEqual(ListItem.SortLetter,B) + !String.IsEqual(ListItem.SortLetter,C) + !String.IsEqual(ListItem.SortLetter,D) + !String.IsEqual(ListItem.SortLetter,E) + !String.IsEqual(ListItem.SortLetter,F) + !String.IsEqual(ListItem.SortLetter,G) + !String.IsEqual(ListItem.SortLetter,H) + !String.IsEqual(ListItem.SortLetter,I) + !String.IsEqual(ListItem.SortLetter,J) + !String.IsEqual(ListItem.SortLetter,K) + !String.IsEqual(ListItem.SortLetter,L) + !String.IsEqual(ListItem.SortLetter,M) + !String.IsEqual(ListItem.SortLetter,N) + !String.IsEqual(ListItem.SortLetter,O) + !String.IsEqual(ListItem.SortLetter,P) + !String.IsEqual(ListItem.SortLetter,Q) + !String.IsEqual(ListItem.SortLetter,R) + !String.IsEqual(ListItem.SortLetter,S) + !String.IsEqual(ListItem.SortLetter,T) + !String.IsEqual(ListItem.SortLetter,U) + !String.IsEqual(ListItem.SortLetter,V) + !String.IsEqual(ListItem.SortLetter,W) + !String.IsEqual(ListItem.SortLetter,X) + !String.IsEqual(ListItem.SortLetter,Y) + !String.IsEqual(ListItem.SortLetter,Z)]" />
+            </include>
+        </definition>
+    </include>
+
     <include name="Object_WallFade">
         <param name="altvisible_top" default="false" />
         <param name="altvisible_bottom" default="false" />

@@ -39,7 +39,7 @@
                         <orientation>horizontal</orientation>
                         <height>8</height>
                         <centertop>-40</centertop>
-                        <texturesliderbackground colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbackground>
+                        <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollh_line.png</texturesliderbackground>
                         <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbar>
                         <include>Texture_Scrollbar_H</include>
                         <visible allowhiddenfocus="true">Control.HasFocus(60)</visible>
@@ -47,6 +47,41 @@
                         <onback>50</onback>
                         <include>Action_Row_Recommendations_OnDown</include>
                     </control>
+                    <include content="Object_Control" condition="!Skin.HasSetting(DisableAlphabetScrollbar)">
+                        <param name="control" value="grouplist" />
+                        <visible>$EXP[Exp_AlphabetVisible]</visible>
+                        <orientation>horizontal</orientation>
+                        <centertoop>50%</centertoop>
+                        <height>40</height>
+                        <itemgap>26.15</itemgap>
+                        <include>Object_AlphabetNumber</include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="A" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="B" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="C" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="D" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="E" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="F" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="G" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="H" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="I" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="J" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="K" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="L" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="M" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="N" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="O" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="P" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="Q" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="R" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="S" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="T" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="U" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="V" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="W" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="X" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="Y" /></include>
+                        <include content="Object_AlphabetLetter"><param name="letter" value="Z" /></include>
+                    </include>
                 </include>
             </control>
             <include condition="$EXP[Exp_View_50_Include]">View_050_Square_Row</include>
@@ -202,17 +237,7 @@
     <include name="View_058_BigPoster_Row">
         <control type="group">
             <visible>Control.IsVisible(58)</visible>
-            <!-- <include content="Info_Panel">
-                <param name="plotwidth" value="880" />
-                <param name="plotheight" value="80" />
-                <param name="plotheight_nr" value="120" />
-                <param name="title" value="false" />
-                <top>730</top>
-                <width>1080</width>
-                <left>view_pad</left>
-                <animation effect="slide" end="515" condition="Control.IsVisible(58)">Conditional</animation>
-                <animation effect="fade" start="0" end="100" time="400" delay="1000" reversible="true" condition="!Container(58).OnNext + !Container(58).OnPrevious + Control.IsVisible(58)">Conditional</animation>
-            </include> -->
+
             <include content="List_BigPoster">
                 <param name="id" value="58" />
                 <focusposition>2</focusposition>
@@ -222,6 +247,25 @@
                 </include>
                 <pagecontrol>60</pagecontrol>
             </include>
+
+            <control type="group">
+                <visible>Control.HasFocus(58)</visible>
+                <visible>System.IdleTime(1)</visible>
+                <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+                <top>260</top>
+                <width>1180</width>
+                <left>635</left>
+
+                <include content="Info_Panel">
+                    <param name="plotwidth" value="1180" />
+                    <param name="plotheight" value="120" />
+                    <param name="plotheight_nr" value="160" />
+                </include>
+                <control type="group">
+                    <top>350</top>
+                    <include>Dialog_VideoInfoDetails</include>
+                </control>
+            </control>
 
         </control>
     </include>
