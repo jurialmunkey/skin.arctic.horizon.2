@@ -39,6 +39,9 @@
                         <orientation>horizontal</orientation>
                         <height>8</height>
                         <centertop>-40</centertop>
+                        <include content="Object_Include" condition="!Skin.String(DividerStyle,Fade)">
+                            <texturesliderbackground colordiffuse="00ffffff" border="4">scrollbar/scrollh_line.png</texturesliderbackground>
+                        </include>
                         <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollh_line.png</texturesliderbackground>
                         <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbar>
                         <include>Texture_Scrollbar_H</include>
@@ -93,36 +96,48 @@
     </include>
 
     <include name="View_Row_Divider">
-        <include content="Object_Control" condition="Skin.String(DividerStyle,Split)">
-            <param name="control" value="group" />
-            <bottom>0</bottom>
-            <height>row_height_x50</height>
-            <include content="Object_DividerPanel">
-                <param name="shadow_top" value="true" />
-                <param name="flipy" value="true" />
-                <bottom>-200</bottom>
-                <left>-200</left>
-                <right>-200</right>
-            </include>
-        </include>
-        <include content="Object_Control" condition="Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)">
-            <param name="control" value="group" />
-            <nested />
-            <height>divider_bottom</height>
-            <bottom>0</bottom>
-
-            <include content="Object_DividerPanel">
-                <param name="shadow_top" value="true" />
-                <param name="shadow_bottom" value="true" />
-                <top>0</top>
-                <include content="Object_Include" condition="Skin.String(DividerStyle,Solid)">
+        <param name="isrounded" default="false" />
+        <definition>
+            <include content="Object_Control" condition="Skin.String(DividerStyle,Split)">
+                <param name="control" value="group" />
+                <bottom>0</bottom>
+                <height>row_height_x50</height>
+                <include content="Object_DividerPanel">
+                    <param name="shadow_top" value="true" />
+                    <param name="flipy" value="true" />
                     <bottom>-200</bottom>
+                    <left>-200</left>
+                    <right>-200</right>
                 </include>
-                <bottom>160</bottom>
-                <left>-200</left>
-                <right>-200</right>
             </include>
-        </include>
+            <include content="Object_Control" condition="Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)">
+                <param name="control" value="group" />
+                <nested />
+                <height>divider_bottom</height>
+                <bottom>0</bottom>
+
+                <include content="Object_DividerPanel" condition="Skin.String(DividerStyle,Solid) | ![$PARAM[isrounded]]">
+                    <param name="shadow_top" value="true" />
+                    <param name="shadow_bottom" value="true" />
+                    <top>0</top>
+                    <include content="Object_Include" condition="Skin.String(DividerStyle,Solid)">
+                        <bottom>-200</bottom>
+                    </include>
+                    <bottom>160</bottom>
+                    <left>-200</left>
+                    <right>-200</right>
+                </include>
+
+                <include content="Object_DividerPanel_Rounded" condition="!Skin.String(DividerStyle,Solid) + [$PARAM[isrounded]]">
+                    <param name="shadow_top" value="true" />
+                    <param name="shadow_bottom" value="true" />
+                    <top>0</top>
+                    <bottom>160</bottom>
+                    <left>40</left>
+                    <right>40</right>
+                </include>
+            </include>
+        </definition>
     </include>
 
     <include name="View_ClearArt">
