@@ -103,10 +103,13 @@
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[99]">99</property>
         <property name="isFullscreenWidget" tag="property" attribute="name|widgetPath">True</property>
         <property name="isFullscreenWidget">False</property>
+        <property name="isSubmenuBumper" tag="property" attribute="name|disableSubmenuBumper">False</property>
+        <property name="isSubmenuBumper">True</property>
         <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
 
         <property name="mainmenuIcon" tag="icon" />
         <property name="mainmenuLabel" tag="label" />
+        <property name="mainmenuPath" tag="onclick" />
         <controls>
             <control type="group">
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
@@ -195,6 +198,36 @@
                         <visible>!$SKINSHORTCUTS[isFullscreenWidget] | Integer.IsEqual(Container(301).NumItems,0)</visible>
                     </control>
                     <skinshortcuts insert="widgets">items</skinshortcuts>
+                    <include content="Widget_Submenu" condition="$SKINSHORTCUTS[isSubmenuBumper]">
+                        <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 798]" />
+                        <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 698]" />
+                        <param name="spacerid" value="$PYTHON[int(mainmenuid) * 1000 + 898]" />
+                        <param name="buttonid" value="$PYTHON[(int(mainmenuid) * 1098) * 100]" />
+                        <param name="label" value="$LOCALIZE[1034]" />
+                        <param name="include" value="List_Button_Row" />
+                        <param name="visible" value="True" />
+                        <param name="infowidget" value="False" />
+                        <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).NumItems,0)" />
+                        <content>
+                            <item>
+                                <label>$SKINSHORTCUTS[mainmenuLabel]</label>
+                                <icon>$SKINSHORTCUTS[mainmenuIcon]</icon>
+                                <onclick>$SKINSHORTCUTS[mainmenuPath]</onclick>
+                            </item>
+                        </content>
+                        <content><include>skinshortcuts-submenu</include></content>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698],Home)</onfocus>
+                        <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
+                        <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                        <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
+                        <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
+                        <onback>SetFocus(300)</onback>
+                    </include>
+                    <include content="Object_Control" condition="$SKINSHORTCUTS[isSubmenuBumper]">
+                        <param name="control" value="group" />
+                        <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 699]" />
+                        <height>-300</height>
+                    </include>
                 </control>
             </control>
             <include content="Object_WallFade">
@@ -202,6 +235,7 @@
                 <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) | !$SKINSHORTCUTS[isFullscreenWidget]</visible>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
+                <visible>Window.IsActive(Home)</visible>
             </include>
         </controls>
         <items insert="widgets">
