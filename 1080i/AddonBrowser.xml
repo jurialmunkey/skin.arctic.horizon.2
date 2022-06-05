@@ -28,9 +28,6 @@
                     <onright condition="String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($INFO[Container(6000).ListItem.FolderPath],replace)</onright>
                     <onright condition="!String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($INFO[Container(6000).ListItem.Property(folderpath)],replace)</onright>
                     <onright>50</onright>
-                    <!-- <onright>7000</onright>
-                    <onclick>ActivateWindow(addonbrowser,$INFO[Container(6000).ListItem.FolderPath],return)</onclick>
-                    <onclick>SetFocus(6000)</onclick> -->
                     <content>
                         <item>
                             <label>$LOCALIZE[24998]</label>
@@ -41,6 +38,12 @@
                             <label>$LOCALIZE[24004]</label>
                             <property name="folderpath">addons://recently_updated/</property>
                             <icon>DefaultAddonsRecentlyUpdated.png</icon>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[24043]$INFO[Container(6301).NumItems, (,)]</label>
+                            <property name="folderpath">addons://outdated/</property>
+                            <icon>DefaultAddonsUpdates.png</icon>
+                            <visible>!Integer.IsEqual(Container(6301).NumItems,0)</visible>
                         </item>
                         <item>
                             <label>$LOCALIZE[137]</label>
@@ -55,53 +58,8 @@
             </control>
 
             <control type="group">
-                <!-- <left>row_height</left>
-                <animation effect="slide" end="addonbrowser_menu_slide" time="200" condition="Control.HasFocus(6000)">Conditional</animation>
                 <control type="group">
-                    <width>addonbrowser_menu_width</width>
-                    <control type="image">
-                        <texture colordiffuse="dialog_bg_100" border="20">common/dialog_overlay.png</texture>
-                    </control>
-                    <include>Dialog_Overlay</include>
-                    <include>Object_Separator</include>
-                    <control type="group">
-                        <top>row_height_x50</top>
-                        <bottom>row_height_x50</bottom>
-                        <include content="List_AddonCategories">
-                            <param name="id" value="7000" />
-                            <param name="altfocus" value="!Control.HasFocus(6000)" />
-                            <onleft>SetFocus(7000,0,absolute)</onleft>
-                            <onleft>6000</onleft>
-                            <onright>50</onright>
-                            <onback>6000</onback>
-                            <onclick condition="String.IsEmpty(Container(7000).ListItem.Property(folderpath))">Container.Update($INFO[Container(7000).ListItem.FolderPath],replace)</onclick>
-                            <onclick condition="!String.IsEmpty(Container(7000).ListItem.Property(containerupdate))">Container.Update($INFO[Container(7000).ListItem.Property(containerupdate)],replace)</onclick>
-                            <onclick>SetFocus(50)</onclick>
-                            <onright condition="String.IsEmpty(Container(7000).ListItem.Property(folderpath))">Container.Update($INFO[Container(7000).ListItem.FolderPath],replace)</onright>
-                            <onright condition="!String.IsEmpty(Container(7000).ListItem.Property(folderpath))">Container.Update($INFO[Container(7000).ListItem.Property(folderpath)],replace)</onright>
-                            <onright>50</onright>
-                            <onfocus>ClearProperty(BaseCategory)</onfocus>
-                            <onunfocus>SetProperty(BaseCategory,$INFO[Container(6000).ListItem.Label])</onunfocus>
-                            <content>
-                                <item>
-                                    <label>$LOCALIZE[24004]</label>
-                                    <icon>DefaultAddonsRecentlyUpdated.png</icon>
-                                    <property name="folderpath">addons://recently_updated/</property>
-                                    <visible>String.IsEqual(Container(6000).ListItem.Property(folderpath),addons://user/)</visible>
-                                </item>
-                            </content>
-                            <content sortby="label">$VAR[Items_AddonBrowser_Submenu]</content>
-                        </include>
-                    </control>
-                </control> -->
-
-                <control type="group">
-                    <!-- <animation effect="slide" end="-addonbrowser_menu_slide" time="200" condition="Control.HasFocus(6000)">Conditional</animation> -->
                     <left>addonbrowser_menu_width</left>
-                    <!-- <control type="image">
-                        <texture colordiffuse="dialog_bg_100" border="20">common/dialog_overlay.png</texture>
-                    </control>
-                    <include>Dialog_Overlay</include> -->
                     <include>Dialog_Overlay</include>
                     <include>Object_Separator</include>
                     <control type="group">
@@ -110,10 +68,6 @@
                             <param name="context_button" value="true" />
                             <onback condition="String.IsEqual(Container.FolderPath,Container(6000).ListItem.FolderPath) | String.IsEqual(Container.FolderPath,addons://user/) | String.IsEqual(Container.FolderPath,addons://)">6000</onback>
                             <onleft>6000</onleft>
-                            <!-- <onback>7000</onback>
-                            <onleft>7000</onleft> -->
-                            <!-- <onleft condition="String.IsEqual(Container.FolderPath,Container(6000).ListItem.FolderPath) | String.IsEqual(Container.FolderPath,addons://user/) | String.IsEqual(Container.FolderPath,addons://)">6000</onleft> -->
-
                             <onright>60</onright>
                             <pagecontrol>60</pagecontrol>
                         </include>
@@ -133,6 +87,15 @@
             <param name="grouplist_items" value="Items_AddonBrowser_Settings" />
             <param name="visible" value="!$EXP[Exp_OverlayDialogs]" />
         </include>
+
+        <control type="list" id="6301">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <itemlayout width="1" height="1" />
+            <focusedlayout width="1" height="1" />
+            <content>addons://outdated/</content>
+        </control>
 
     </controls>
 
