@@ -18,7 +18,7 @@
         <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Property(imdb_id))">&amp;imdb_id=$INFO[ListItem.Property(imdb_id)]</value>
         <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.IMDBNumber) + String.StartsWith(ListItem.IMDBNumber,tt)">&amp;imdb_id=$INFO[ListItem.IMDBNumber]</value>
         <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.TvShowTitle)">&amp;query=$INFO[ListItem.TvShowTitle]$INFO[ListItem.Year,&amp;episode_year=,]</value>
-        <value condition="String.IsEqual(ListItem.Property(item.type),person) + !String.IsEmpty(ListItem.Property(tmdb_id))">&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]</value>
+        <value condition="$EXP[Exp_IsPersonInfo] + !String.IsEmpty(ListItem.Property(tmdb_id))">&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]</value>
         <value condition="!String.IsEmpty(ListItem.Title)">&amp;query=$INFO[ListItem.Title]$INFO[ListItem.Year,&amp;year=,]</value>
         <value>$INFO[ListItem.Label,&amp;query=,]</value>
     </variable>
@@ -26,7 +26,7 @@
     <variable name="Path_Param_Type">
         <value condition="String.IsEqual(ListItem.DBType,movie) | ListItem.IsCollection | String.IsEqual(ListItem.DBType,set)">type=movie</value>
         <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">type=tv</value>
-        <value condition="String.IsEqual(ListItem.Property(item.type),person)">type=person</value>
+        <value condition="$EXP[Exp_IsPersonInfo]">type=person</value>
     </variable>
 
 
@@ -79,8 +79,8 @@
         <value>plugin://plugin.video.themoviedb.helper?info=similar$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
     </variable>
     <variable name="Path_Posters">
-        <value condition="!String.IsEqual(ListItem.Property(item.type),person)">plugin://plugin.video.themoviedb.helper?info=posters$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
-        <value condition="String.IsEqual(ListItem.Property(item.type),person)">plugin://plugin.video.themoviedb.helper?info=images$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
+        <value condition="!$EXP[Exp_IsPersonInfo]">plugin://plugin.video.themoviedb.helper?info=posters$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
+        <value condition="$EXP[Exp_IsPersonInfo]">plugin://plugin.video.themoviedb.helper?info=images$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
     </variable>
     <variable name="Path_Fanart">
         <value>plugin://plugin.video.themoviedb.helper?info=fanart$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
