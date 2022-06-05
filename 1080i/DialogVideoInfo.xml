@@ -2,6 +2,7 @@
 <window type="dialog">
     <defaultcontrol always="true">5000</defaultcontrol>
     <menucontrol>9000</menucontrol>
+    <onunload>CancelAlarm(SetTrailerDelayed,silent)</onunload>
     <onunload>ClearProperty(HasTrailer,Home)</onunload>
     <controls>
 
@@ -70,20 +71,6 @@
                         <control type="group">
                             <top>480</top>
                             <include>Dialog_VideoInfoDetails</include>
-                        </control>
-                    </control>
-
-                    <!-- Trailer -->
-                    <control type="group">
-                        <visible>Control.HasFocus(7001)</visible>
-                        <visible>Player.HasVideo</visible>
-                        <include>Animation_Right_Delay</include>
-                        <include>Dimension_Info</include>
-                        <control type="image">
-                            <include>Texture_Shadow_40</include>
-                            <texture colordiffuse="black" border="10">common/box.png</texture>
-                        </control>
-                        <control type="videowindow">
                         </control>
                     </control>
 
@@ -158,41 +145,77 @@
             <font />
             <width>1</width>
             <height>1</height>
+            <onfocus condition="!Skin.HasSetting(DisableTrailerWindow)">CancelAlarm(SetTrailerDelayed,silent)</onfocus>
+            <onfocus condition="!Skin.HasSetting(DisableTrailerWindow)">ClearProperty(HasTrailer,Home)</onfocus>
+            <onfocus condition="!Skin.HasSetting(DisableTrailerWindow)">AlarmClock(SetTrailerDelayed,SetProperty(HasTrailer,$INFO[ListItem.Trailer],Home),00:01,silent)</onfocus>
+
             <onleft condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">SetFocus(5000)</onleft>
+            <onleft condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">CancelAlarm(SetTrailerDelayed,silent)</onleft>
             <onleft condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
             <onleft condition="!Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Stop</onleft>
             <onright condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">SetFocus(5000)</onright>
+            <onright condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">CancelAlarm(SetTrailerDelayed,silent)</onright>
             <onright condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
             <onright condition="!Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Stop</onright>
             <onup condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">SetFocus(5000)</onup>
+            <onup condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">CancelAlarm(SetTrailerDelayed,silent)</onup>
             <onup condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
             <onup condition="!Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Stop</onup>
             <ondown condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">SetFocus(5000)</ondown>
+            <ondown condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">CancelAlarm(SetTrailerDelayed,silent)</ondown>
             <ondown condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
             <ondown condition="!Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Stop</ondown>
             <onback>SetFocus(5000)</onback>
+            <onback>CancelAlarm(SetTrailerDelayed,silent)</onback>
             <onback>ClearProperty(HasTrailer,Home)</onback>
             <onback condition="Player.HasVideo">Stop</onback>
             <oninfo>SetFocus(5000)</oninfo>
+            <oninfo>CancelAlarm(SetTrailerDelayed,silent)</oninfo>
             <oninfo>ClearProperty(HasTrailer,Home)</oninfo>
             <oninfo condition="Player.HasVideo">Stop</oninfo>
             <onclick condition="Player.HasVideo">Fullscreen</onclick>
+            <onclick>CancelAlarm(SetTrailerDelayed,silent)</onclick>
             <onclick>ClearProperty(HasTrailer,Home)</onclick>
             <onleft condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Fullscreen</onleft>
             <onleft condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">StepBack</onleft>
+            <onleft condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">CancelAlarm(SetTrailerDelayed,silent)</onleft>
             <onleft condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
             <onright condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Fullscreen</onright>
             <onright condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">StepForward</onright>
+            <onright condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">CancelAlarm(SetTrailerDelayed,silent)</onright>
             <onright condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
             <onup condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Fullscreen</onup>
             <onup condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">BigStepForward</onup>
+            <onup condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">CancelAlarm(SetTrailerDelayed,silent)</onup>
             <onup condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
             <ondown condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Fullscreen</ondown>
             <ondown condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">BigStepBack</ondown>
+            <ondown condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">CancelAlarm(SetTrailerDelayed,silent)</ondown>
             <ondown condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
         </control>
 
-
-
+        <!-- Trailer -->
+        <control type="group">
+            <left>big_poster_w</left>
+            <control type="group">
+                <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
+                    <left>-80</left>
+                </include>
+                <control type="group">
+                    <include>Dimension_Info</include>
+                    <visible>Player.HasVideo</visible>
+                    <control type="image">
+                        <include>Texture_Shadow_40</include>
+                        <visible>Control.HasFocus(7001)</visible>
+                        <include>Animation_Right_Delay</include>
+                        <texture colordiffuse="black" border="10">common/box.png</texture>
+                    </control>
+                    <control type="videowindow">
+                        <visible>Control.HasFocus(7001)</visible>
+                        <visible>!String.IsEmpty(Window(Home).Property(HasTrailer))</visible>
+                    </control>
+                </control>
+            </control>
+        </control>
     </controls>
 </window>
