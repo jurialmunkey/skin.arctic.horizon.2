@@ -5,6 +5,8 @@
     <onunload>ClearProperty(HasTrailer,Home)</onunload>
     <controls>
 
+        <include condition="Window.IsVisible(fullscreenvideo)">Background_Main</include>
+
         <control type="group">
             <animation effect="slide" start="0" end="-big_poster_w" time="800" tween="cubic" easing="out" condition="Window.IsActive(1120)" reversible="false">Conditional</animation>
             <animation effect="slide" end="0" start="-big_poster_w" time="800" tween="cubic" easing="out" condition="!Window.IsActive(1120)" reversible="false">Conditional</animation>
@@ -70,61 +72,7 @@
                         </control>
                         <control type="group">
                             <top>480</top>
-                            <control type="grouplist">
-                                <width>400</width>
-                                <height>240</height>
-                                <orientation>vertical</orientation>
-                                <itemgap>20</itemgap>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="$VAR[Image_DirectorIcon]" />
-                                    <param name="role" value="$LOCALIZE[20339]" />
-                                    <param name="name" value="$INFO[ListItem.Director]" />
-                                    <visible>!String.IsEmpty(ListItem.Director)</visible>
-                                </include>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="$VAR[Image_WriterIcon]" />
-                                    <param name="role" value="$LOCALIZE[20417]" />
-                                    <param name="name" value="$INFO[ListItem.Writer]" />
-                                    <visible>!String.IsEmpty(ListItem.Writer)</visible>
-                                </include>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="$VAR[Image_CreatorIcon]" />
-                                    <param name="role" value="$LOCALIZE[31065]" />
-                                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator)]" />
-                                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator))</visible>
-                                </include>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="special://skin/extras/icons/director.png" />
-                                    <param name="role" value="$LOCALIZE[572]" />
-                                    <param name="name" value="$INFO[ListItem.Studio]" />
-                                    <visible>!String.IsEmpty(ListItem.Studio)</visible>
-                                </include>
-                            </control>
-                            <control type="grouplist">
-                                <left>445</left>
-                                <orientation>vertical</orientation>
-                                <itemgap>20</itemgap>
-                                <height>240</height>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="special://skin/extras/icons/trophy.png" />
-                                    <param name="role" value="$LOCALIZE[31064]" />
-                                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]" />
-                                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))</visible>
-                                </include>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="special://skin/extras/icons/coins.png" />
-                                    <param name="role" value="Revenue / Budget" />
-                                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Revenue),, $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Budget)]" />
-                                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Revenue)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Budget))</visible>
-                                    <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Budget),$0)</visible>
-                                </include>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="special://skin/extras/icons/genre.png" />
-                                    <param name="role" value="$LOCALIZE[515]" />
-                                    <param name="name" value="$INFO[ListItem.Genre]" />
-                                    <visible>!String.IsEmpty(ListItem.Genre)</visible>
-                                </include>
-                            </control>
+                            <include>Dialog_VideoInfoDetails</include>
                         </control>
                     </control>
 
