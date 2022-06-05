@@ -185,11 +185,25 @@
                             <param name="id" value="312" />
                             <param name="control" value="button" />
                             <description>Fullscreen widget (standard widget button)</description>
-                            <label>$LOCALIZE[31102]</label>
-                            <label2>$INFO[Container(211).ListItem.Property(widgetName)]</label2>
+                            <label> - $LOCALIZE[31102]</label>
+                            <label2>$INFO[Container(211).ListItem.Property(widgetPath)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
                         </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="9906" />
+                            <param name="control" value="radiobutton" />
+                            <description>Submenu bumper</description>
+                            <label> - $LOCALIZE[1034] $LOCALIZE[31173]</label>
+                            <selected>String.IsEmpty(Container(211).ListItem.Property(disableSubmenuBumper))</selected>
+                            <onclick>SetProperty(customProperty,disableSubmenuBumper)</onclick>
+                            <onclick condition="String.IsEmpty(Container(211).ListItem.Property(disableSubmenuBumper))">SetProperty(customValue,1)</onclick>
+                            <onclick condition="!String.IsEmpty(Container(211).ListItem.Property(disableSubmenuBumper)) + String.IsEqual(Container(211).ListItem.Property(disableSubmenuBumper),1)">ClearProperty(customValue)</onclick>
+                            <onclick>SendClick(404)</onclick>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                        </include>
+
 
 
                         <!-- Widget Options -->
@@ -246,6 +260,7 @@
                         </include>
 
 
+
                         <!-- Reset -->
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="308" />
@@ -253,6 +268,7 @@
                             <description>Reset</description>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                         </include>
+
                     </control>
                 </control>
             </control>
