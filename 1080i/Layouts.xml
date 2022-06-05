@@ -307,6 +307,125 @@
         </definition>
     </include>
 
+
+    <include name="Layout_DialogSubtitles">
+        <param name="detailed" default="false" />
+        <param name="selected" default="false" />
+        <definition>
+            <include content="Object_Control" condition="$PARAM[selected]">
+                <param name="control" value="image" />
+                <include>Texture_Highlight</include>
+            </include>
+            <control type="group">
+                <control type="group">
+                    <width>140</width>
+                    <control type="image">
+                        <centerleft>50%</centerleft>
+                        <top>20</top>
+                        <height>40</height>
+                        <texture>$INFO[ListItem.Thumb,resource://resource.images.languageflags.colour/,.png]</texture>
+                        <aspectratio>keep</aspectratio>
+                    </control>
+                    <include content="Object_Control">
+                        <param name="control" value="label" />
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <align>center</align>
+                        <textoffsetx>20</textoffsetx>
+                        <bottom>20</bottom>
+                        <height>40</height>
+                        <font>font_genrelabel</font>
+                        <textcolor>dialog_fg_70</textcolor>
+                        <selectedcolor>dialog_fg_70</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </include>
+                </control>
+
+                <include content="Object_Control">
+                    <param name="control" value="textbox" />
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <left>160</left>
+                    <aligny>center</aligny>
+                    <height>row_height</height>
+                    <centertop>50%</centertop>
+                    <font>font_plotbox_mini</font>
+                    <right>240</right>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <selectedcolor>dialog_fg_70</selectedcolor>
+                    <label>$INFO[ListItem.Label2]</label>
+                </include>
+
+                <control type="group">
+                    <right>-5</right>
+                    <centerbottom>40</centerbottom>
+                    <height>48</height>
+                    <include content="Object_StarRating">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <animation effect="fade" start="100" end="25" condition="Integer.IsLess(ListItem.ActualIcon,5)">Conditional</animation>
+                        <right>30</right>
+                    </include>
+                    <include content="Object_StarRating">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <animation effect="fade" start="100" end="25" condition="Integer.IsLess(ListItem.ActualIcon,4)">Conditional</animation>
+                        <right>60</right>
+                    </include>
+                    <include content="Object_StarRating">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <animation effect="fade" start="100" end="25" condition="Integer.IsLess(ListItem.ActualIcon,3)">Conditional</animation>
+                        <right>90</right>
+                    </include>
+                    <include content="Object_StarRating">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <animation effect="fade" start="100" end="25" condition="Integer.IsLess(ListItem.ActualIcon,2)">Conditional</animation>
+                        <right>120</right>
+                    </include>
+                    <include content="Object_StarRating">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <animation effect="fade" start="100" end="25" condition="Integer.IsLess(ListItem.ActualIcon,1)">Conditional</animation>
+                        <right>150</right>
+                    </include>
+                </control>
+
+                <control type="group">
+                    <right>100</right>
+                    <centertop>40</centertop>
+                    <width>80</width>
+                    <height>28</height>
+                    <control type="image">
+                        <include content="Object_Include" condition="$PARAM[selected]">
+                            <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                        </include>
+                        <colordiffuse>dialog_fg_70</colordiffuse>
+                        <texture border="10">common/box.png</texture>
+                        <animation effect="fade" start="100" end="20" condition="!ListItem.property(sync)">Conditional</animation>
+                    </control>
+                    <control type="label">
+                        <include content="Object_Include" condition="$PARAM[selected]">
+                            <textcolor>$VAR[ColorGradient]</textcolor>
+                        </include>
+                        <textcolor>dialog_bg_100</textcolor>
+                        <label>[B]SYNC[/B]</label>
+                        <font>font_genrelabel</font>
+                        <align>center</align>
+                    </control>
+                </control>
+
+                <control type="image">
+                    <right>40</right>
+                    <centertop>40</centertop>
+                    <width>40</width>
+                    <height>40</height>
+                    <include content="Object_Include" condition="$PARAM[selected]">
+                        <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                    </include>
+                    <colordiffuse>dialog_fg_70</colordiffuse>
+                    <texture>flags/cc.png</texture>
+                    <aspectratio>keep</aspectratio>
+                    <animation effect="fade" start="100" end="20" condition="!ListItem.property(hearing_imp)">Conditional</animation>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_Submenu">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />

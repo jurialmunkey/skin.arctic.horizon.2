@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <controls>
+        <include condition="!Window.IsVisible(videoosd)">Object_Overlay</include>
+        <include content="Dialog_Background">
+            <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+            <include>Animation_SlideIn_Dialog</include>
+            <include condition="Window.IsVisible(videoosd)">Dimension_DialogSelect_OSD</include>
+            <include condition="!Window.IsVisible(videoosd)">Dimension_DialogSelect</include>
+            <include>Dialog_Overlay_Buttons</include>
+            <control type="group">
+                <left>dialog_category_width</left>
+                <include>Dialog_Overlay</include>
+                <include>Object_Separator</include>
+            </control>
+            <include content="Dialog_Header" description="Service Name">
+                <param name="id" value="100" />
+                <include content="Object_Include" condition="Window.IsVisible(videoosd)">
+                    <align>left</align>
+                </include>
+            </include>
+            <include content="Dialog_Group">
+                <control type="group">
+                    <right>0</right>
+                    <width>dialog_button_width</width>
+
+                    <control type="grouplist" id="9000">
+                        <onleft>61</onleft>
+                        <itemgap>20</itemgap>
+                        <control type="button" id="9001" description="Close">
+                            <label>$LOCALIZE[15067]</label>
+                            <height>row_height</height>
+                            <onclick>Close</onclick>
+                        </control>
+                        <control type="button" id="160" description="Manual Search">
+                            <label>$LOCALIZE[413]</label>
+                            <height>row_height</height>
+                        </control>
+                    </control>
+
+                    <control type="image" id="110" description="Service Logo">
+                        <height>dialog_button_width</height>
+                        <bottom>0</bottom>
+                        <aspectratio aligny="bottom">keep</aspectratio>
+                    </control>
+                </control>
+            </include>
+
+            <control type="group">
+                <top>dialog_pad</top>
+                <bottom>dialog_pad</bottom>
+                <include content="List_DialogSelect">
+                    <param name="id" value="150" />
+                    <onright>120</onright>
+                    <width>dialog_category_width</width>
+                </include>
+
+                <include content="List_DialogSelect">
+                    <param name="id" value="120" />
+                    <param name="itemlayout_include" value="Layout_DialogSubtitles" />
+                    <param name="item_height" value="120" />
+                    <onleft>150</onleft>
+                    <onright>61</onright>
+                    <pagecontrol>61</pagecontrol>
+                    <left>dialog_category_width</left>
+                    <right>dialog_button_width_padded</right>
+                </include>
+
+                <include content="Dialog_Scrollbar">
+                    <onright>9000</onright>
+                    <onleft>120</onleft>
+                    <centerright>dialog_button_width_padded</centerright>
+                </include>
+            </control>
+        </include>
+
+
+    </controls>
+</window>
