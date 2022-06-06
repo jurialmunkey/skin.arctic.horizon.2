@@ -121,13 +121,17 @@
             <animation effect="fade" start="100" end="0" condition="Window.Next(1114)">Conditional</animation>
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
+
                 <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ClearProperty(AnimationDirection)</onleft>
                 <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">Control.Move(300,-1)</onleft>
+
+                <onright condition="String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetProperty(OptionsMenuFocused,303,Home)</onright>
                 <onright condition="String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetFocus(303)</onright>
                 <onright condition="!String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetProperty(AnimationDirection,Right)</onright>
                 <onright condition="!String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">Control.Move(300,1)</onright>
+                <onfocus>ClearProperty(OptionsMenuFocused,Home)</onfocus>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
                 <onup>SetFocus(302,0,absolute)</onup>
                 <oninfo>SetFocus(302,0,absolute)</oninfo>
@@ -152,8 +156,13 @@
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
                 <left>80</left>
                 <include>skinshortcuts-template-menubar</include>
+                <onfocus>ClearProperty(OptionsMenuFocused,Home)</onfocus>
                 <onup>SetFocus(302,0,absolute)</onup>
                 <oninfo>SetFocus(302,0,absolute)</oninfo>
+                <onright>SetProperty(OptionsMenuFocused,303,Home)</onright>
+                <onright>SetFocus(303)</onright>
+                <onleft>ClearProperty(AnimationDirection)</onleft>
+                <onleft>ActivateWindow(1114)</onleft>
                 <content><include>skinshortcuts-mainmenu</include></content>
             </include>
         </include>
@@ -204,9 +213,27 @@
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="skinshortcuts-template-powermenu" />
             <param name="visible" value="!Window.IsVisible(DialogSelect.xml) + !Window.IsVisible(favourites)" />
+            <param name="isfocused" value="!String.IsEmpty(Window(Home).Property(OptionsMenuFocused))" />
             <param name="onback" value="300" />
             <param name="id" value="303" />
         </include>
+
+        <control type="button" id="360">
+            <right>80</right>
+            <centertop>100</centertop>
+            <width>60</width>
+            <height>60</height>
+            <visible allowhiddenfocus="true">false</visible>
+            <onleft>399</onleft>
+            <onright>399</onright>
+            <onup>399</onup>
+            <ondown>399</ondown>
+            <onclick condition="!String.IsEmpty(Window(Home).Property(OptionsMenuFocused))">ClearProperty(OptionsMenuFocused,Home)</onclick>
+            <onclick condition="!String.IsEmpty(Window(Home).Property(OptionsMenuFocused))">SetFocus(399)</onclick>
+            <onclick condition="String.IsEmpty(Window(Home).Property(OptionsMenuFocused))">SetProperty(OptionsMenuFocused,303,Home)</onclick>
+            <onclick condition="String.IsEmpty(Window(Home).Property(OptionsMenuFocused))">SetFocus(303)</onclick>
+            <!-- <onclick>ActivateWindow(shutdownmenu)</onclick> -->
+        </control>
 
 
     </controls>
