@@ -780,6 +780,7 @@
         <param name="visible" default="true" />
         <param name="iscontextmenu" default="false" />
         <param name="isbuttonmenu" default="false" />
+        <param name="isfocused" default="false" />
         <param name="useanimation" default="true" />
         <param name="nib_pos" default="70" />
         <param name="wraparound" default="true" />
@@ -873,7 +874,7 @@
                     <include>Animation_SlideIn_Dialog</include>
                     <include condition="!$PARAM[isbuttonmenu]">Animation_FadeOut</include>
                     <visible>$PARAM[visible]</visible>
-                    <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]]</visible>
+                    <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused]</visible>
                 </include>
                 <width>$PARAM[width]</width>
                 <height>860</height>
@@ -893,11 +894,12 @@
         <param name="visible" default="true" />
         <param name="iscontextmenu" default="false" />
         <param name="isbuttonmenu" default="false" />
+        <param name="isfocused" default="false" />
         <param name="hasbuttonoverlay" default="true" />
         <definition>
             <include content="Object_Control">
                 <param name="control" value="group" />
-                <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]]</visible>
+                <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused]</visible>
                 <include>Animation_FadeIn</include>
                 <include condition="!$PARAM[isbuttonmenu]">Animation_FadeOut</include>
                 <include content="Object_Overlay">
@@ -925,6 +927,7 @@
                 <param name="visible" value="$PARAM[visible]" />
                 <param name="iscontextmenu" value="$PARAM[iscontextmenu]" />
                 <param name="isbuttonmenu" value="$PARAM[isbuttonmenu]" />
+                <param name="isfocused" value="$PARAM[isfocused]" />
                 <param name="grouplist_items" value="$PARAM[grouplist_items]" />
                 <param name="nib_pos" value="$PARAM[nib_pos]" />
                 <param name="useanimation" value="$PARAM[useanimation]" />
