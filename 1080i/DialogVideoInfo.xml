@@ -68,40 +68,16 @@
                                 <include>Action_Recommendations_OnDown</include>
                             </include>
                         </control>
-                        <control type="group">
+                        <include content="Dialog_VideoInfoDetails">
                             <top>480</top>
-                            <include>Dialog_VideoInfoDetails</include>
-                        </control>
+                        </include>
                     </control>
+
+                    <!-- Trailer -->
+                    <include>Dialog_VideoInfoTrailer</include>
 
                     <!-- Plot Box -->
-                    <control type="group">
-                        <include>Dimension_Info</include>
-                        <include>Info_Title</include>
-                        <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
-                        <include content="Object_Control">
-                            <param name="control" value="textbox" />
-                            <top>120</top>
-                            <bottom>80</bottom>
-                            <align>left</align>
-                            <textcolor>main_fg_70</textcolor>
-                            <font>font_overlay_plotbox</font>
-                            <label fallback="19055">$INFO[ListItem.Tagline,[B]$LOCALIZE[202][/B][CR],[CR][CR]]$VAR[Label_Plot,[B]$LOCALIZE[31028][/B][CR],]$VAR[Label_OverlayCritics]$INFO[Window(Home).Property(ResetScroll)]</label>
-                            <pagecontrol>61</pagecontrol>
-                            <autoscroll delay="8000" time="4000" repeat="12000">false</autoscroll>
-                        </include>
-                        <control type="scrollbar" id="61">
-                            <centerright>-40</centerright>
-                            <width>8</width>
-
-                            <onleft>SetFocus(5000)</onleft>
-                            <onright>SetFocus(5000)</onright>
-                            <ondown>SetFocus(5000)</ondown>
-                            <onup>SetFocus(5000)</onup>
-
-                            <visible allowhiddenfocus="true">false</visible>
-                        </control>
-                    </control>
+                    <include>Dialog_VideoInfoPlotBox</include>
 
                     <!-- Codecs -->
                     <control type="group">
@@ -194,28 +170,5 @@
             <ondown condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
         </control>
 
-        <!-- Trailer -->
-        <control type="group">
-            <left>big_poster_w</left>
-            <control type="group">
-                <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
-                    <left>-80</left>
-                </include>
-                <control type="group">
-                    <include>Dimension_Info</include>
-                    <visible>Player.HasVideo</visible>
-                    <control type="image">
-                        <include>Texture_Shadow_40</include>
-                        <visible>Control.HasFocus(7001)</visible>
-                        <include>Animation_Right_Delay</include>
-                        <texture colordiffuse="black" border="10">common/box.png</texture>
-                    </control>
-                    <control type="videowindow">
-                        <visible>Control.HasFocus(7001)</visible>
-                        <visible>!String.IsEmpty(Window(Home).Property(HasTrailer))</visible>
-                    </control>
-                </control>
-            </control>
-        </control>
     </controls>
 </window>
