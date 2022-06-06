@@ -738,17 +738,23 @@
                     <include>Texture_Box_Highlight_V</include>
                 </include>
                 <include condition="!$PARAM[selected]">Dialog_Outline_Box</include>
-                <control type="image">
-                    <texture background="true" diffuse="diffuse/square-sml.png">$INFO[ListItem.Icon]</texture>
-                    <aspectratio scalediffuse="false">keep</aspectratio>
+                <control type="group">
                     <height>$PARAM[item_w]</height>
-                    <visible>$PARAM[selected] | ![String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.StartsWith(ListItem.Icon,image://special)]</visible>
-                </control>
-                <control type="image">
-                    <texture background="true" colordiffuse="dialog_fg_70" diffuse="diffuse/square-sml.png">$INFO[ListItem.Icon]</texture>
-                    <aspectratio scalediffuse="false">keep</aspectratio>
-                    <height>$PARAM[item_w]</height>
-                    <visible>!$PARAM[selected] + [String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.StartsWith(ListItem.Icon,image://special)]</visible>
+                    <control type="group">
+                        <include content="Object_Include" condition="$PARAM[detailed]">
+                            <bottom>40</bottom>
+                        </include>
+                        <control type="image">
+                            <texture background="true" diffuse="diffuse/square-sml.png">$INFO[ListItem.Icon]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                            <visible>$PARAM[selected] | ![String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.StartsWith(ListItem.Icon,image://special)]</visible>
+                        </control>
+                        <control type="image">
+                            <texture background="true" colordiffuse="dialog_fg_70" diffuse="diffuse/square-sml.png">$INFO[ListItem.Icon]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                            <visible>!$PARAM[selected] + [String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.StartsWith(ListItem.Icon,image://special)]</visible>
+                        </control>
+                    </control>
                 </control>
                 <control type="group">
                     <height>$PARAM[item_w]</height>
@@ -766,6 +772,17 @@
                     <align>center</align>
                     <font>font_mini</font>
                     <visible>!$PARAM[detailed]</visible>
+                </control>
+                <control type="label">
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <label>$INFO[ListItem.Label]</label>
+                    <height>30</height>
+                    <bottom>10</bottom>
+                    <textoffsetx>20</textoffsetx>
+                    <align>center</align>
+                    <font>font_statusbar</font>
+                    <visible>$PARAM[detailed]</visible>
                 </control>
 
                 <include content="Object_SelectBox" condition="$PARAM[selected]">
