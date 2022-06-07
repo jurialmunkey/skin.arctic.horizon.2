@@ -41,13 +41,32 @@
                             <texturesliderbackground colordiffuse="00ffffff" border="4">scrollbar/scrollh_line.png</texturesliderbackground>
                         </include>
                         <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollh_line.png</texturesliderbackground>
-                        <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollh.png</texturesliderbar>
+                        <texturesliderbar border="4">special://profile/addon_data/script.texturemaker/ArcticHorizon/scrollh_h.png</texturesliderbar>
                         <include>Texture_Scrollbar_H</include>
-                        <visible allowhiddenfocus="true">Control.HasFocus(60)</visible>
+                        <visible allowhiddenfocus="true">Control.HasFocus(60) | Control.HasFocus(65)</visible>
                         <ondown>50</ondown>
                         <onback>50</onback>
                         <include>Action_Row_Recommendations_OnDown</include>
                     </control>
+                    <include content="Object_Hidden_Button">
+                        <param name="id" value="65" />
+                        <onright>SetFocus(50)</onright>
+                        <onright>Action(nextletter)</onright>
+                        <onright condition="!Container.HasNext | String.IsEqual(ListItem.SortLetter,Z)">Action(jumpsms2)</onright>
+                        <onright condition="!Container.HasNext | String.IsEqual(ListItem.SortLetter,Z)">Action(prevletter)</onright>
+                        <onright condition="!Container.HasNext | String.IsEqual(ListItem.SortLetter,Z)">Action(prevletter)</onright>
+                        <onright condition="!Container.HasNext | String.IsEqual(ListItem.SortLetter,Z)">Action(prevletter)</onright>
+                        <onright>SetFocus(65)</onright>
+                        <onleft>SetFocus(50)</onleft>
+                        <onleft>Action(prevletter)</onleft>
+                        <onleft condition="!Container.HasPrevious">Action(PageUp)</onleft>
+                        <onleft condition="!Container.HasPrevious">Action(Left)</onleft>
+                        <onleft>SetFocus(65)</onleft>
+                        <onup>50</onup>
+                        <ondown>50</ondown>
+                        <onback>50</onback>
+                        <include>Action_Row_Recommendations_OnDown</include>
+                    </include>
                     <include content="Object_Control" condition="!Skin.HasSetting(DisableAlphabetScrollbar)">
                         <param name="control" value="grouplist" />
                         <visible>$EXP[Exp_AlphabetVisible]</visible>
