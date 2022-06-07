@@ -9,7 +9,7 @@
 
     <variable name="Defs_PercentPlayed" containers="50">
         <value condition="Window.IsVisible(AddonBrowser.xml) + String.EndsWith({listitemposition}.Label2,%)">$INFO[{listitemposition}.Label2]</value>
-        <value condition="!String.IsEmpty({listitemposition}.PercentPlayed) + !Integer.IsEqual({listitemposition}.PercentPlayed,0)">$INFO[{listitemposition}.PercentPlayed]</value>
+        <value condition="!String.IsEmpty({listitemposition}.PercentPlayed) + [!Integer.IsEqual({listitemposition}.PercentPlayed,0) | {listitemposition}.IsResumable]">$INFO[{listitemposition}.PercentPlayed]</value>
         <value condition="String.IsEqual({listitemposition}.Overlay,OverlayWatched.png) + !Skin.HasSetting(DisableIndicator.Watched)">100</value>
     </variable>
 
@@ -102,7 +102,7 @@
         <value condition="{listitemposition}.HasTimer">indicator/timer.png</value>
 
         <!-- Progress / Resume -->
-        <value condition="{listitemposition}.IsResumable + !Skin.HasSetting(DisableIndicator.Progress) + !Integer.IsEqual({listitemposition}.PercentPlayed,0)">indicator/timer.png</value>
+        <value condition="{listitemposition}.IsResumable + !Skin.HasSetting(DisableIndicator.Progress)">indicator/timer.png</value>
 
         <!-- Watched -->
         <value condition="String.IsEqual({listitemposition}.Overlay,OverlayWatched.png) + !Skin.HasSetting(DisableIndicator.Watched)">common/null.png</value>
@@ -139,7 +139,7 @@
         <value condition="{listitemposition}.HasTimer">indicator/circle</value>
 
         <!-- Progress / Resume -->
-        <value condition="{listitemposition}.IsResumable + !Skin.HasSetting(DisableIndicator.Progress) + !Integer.IsEqual({listitemposition}.PercentPlayed,0)">indicator/circle</value>
+        <value condition="{listitemposition}.IsResumable + !Skin.HasSetting(DisableIndicator.Progress)">indicator/circle</value>
 
         <!-- Watched -->
         <value condition="String.IsEqual({listitemposition}.Overlay,OverlayWatched.png) + !Skin.HasSetting(DisableIndicator.Watched)">indicator/circle</value>
