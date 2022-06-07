@@ -279,6 +279,7 @@
     <include name="Layout_DialogBasic">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
+        <param name="misc" default="0" />
         <definition>
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control" value="image" />
@@ -286,6 +287,7 @@
             </include>
             <control type="group">
                 <left>dialog_pad</left>
+                <right>$PARAM[misc]</right>
                 <include content="Object_Control">
                     <param name="control" value="label" />
                     <include condition="$PARAM[selected]">Color_SelectedText</include>
@@ -1218,7 +1220,9 @@
                 <textcolor>main_fg_70</textcolor>
                 <font>font_plotbox_mini</font>
                 <align>left</align>
-                <autoscroll>false</autoscroll>
+                <include content="Object_Include" condition="!$PARAM[selected]">
+                    <autoscroll>false</autoscroll>
+                </include>
             </control>
         </control>
     </include>
