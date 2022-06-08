@@ -377,6 +377,10 @@
             <property name="isVisible" tag="property" attribute="name|list" value="Fullscreen">False</property>
             <property name="isVisible">True</property>
 
+            <!-- IsAutoScroll -->
+            <property name="isAutoScroll" tag="property" attribute="name|widgetAutoScroll">True</property>
+            <property name="isAutoScroll">False</property>
+
             <!-- IsVisible -->
             <property name="isInfo" tag="property" attribute="name|widgetInfo">True</property>
             <property name="isInfo">False</property>
@@ -395,6 +399,9 @@
                     <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,0)" />
                     <include content="Object_Include" condition="!$SKINSHORTCUTS[isSubmenu]">
                         <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
+                        <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isAutoScroll]">
+                            <param name="condition" value="!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])" />
+                        </include>
                     </include>
                     <include content="Object_Include" condition="$SKINSHORTCUTS[isSubmenu]">
                         <content>
@@ -673,6 +680,10 @@
                 <ondown>SetFocus(300)</ondown>
                 <onback>SetFocus(300)</onback>
                 <orientation>horizontal</orientation>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <include content="Defs_AutoScroll">
+                    <param name="condition" value="Control.HasFocus(300) | Control.HasFocus(399)" />
+                </include>
                 <itemlayout width="1920" height="1080">
                     <control type="image">
                         <texture background="true">$INFO[ListItem.Art(fanart)]</texture>
