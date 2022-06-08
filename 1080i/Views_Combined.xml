@@ -102,6 +102,11 @@
         </include>
     </include>
 
+    <variable name="View_Combined_SortBy">
+        <value condition="Container.Content(seasons)">episode</value>
+        <value condition="Container.Content(sets) | Container.Content(artists)">year</value>
+    </variable>
+
     <include name="View_Combined_Row">
         <include content="$PARAM[include]">
             <param name="id" value="$PARAM[id]3" />
@@ -111,7 +116,7 @@
             <ondown>$PARAM[id]2</ondown>
             <onup>menu</onup>
             <visible>Container($PARAM[id]2).ListItem.IsFolder</visible>
-            <content target="videos" sortby="episode" sortorder="ascending">$INFO[Container($PARAM[id]2).ListItem.FolderPath]</content>
+            <content target="videos" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$INFO[Container($PARAM[id]2).ListItem.FolderPath]</content>
             <visible>Control.IsVisible($PARAM[id]2)</visible>
             <onback>SetFocus($PARAM[id]2)</onback>
             <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id]3,Home)</onfocus>
