@@ -64,7 +64,8 @@
                     <param name="hasprogress" value="true" />
                     <param name="progress" value="Player.Progress" />
                     <param name="progress_id" value="933" />
-                    <param name="mainlabel" value="$VAR[Label_NowPlayingTitle]$INFO[System.Time]" />
+                    <param name="hastime" value="true" />
+                    <param name="mainlabel" value="$VAR[Label_NowPlayingTitle]" />
                     <param name="minilabel" value="$INFO[Player.FinishTime,$LOCALIZE[31072] , • ]$INFO[Player.Time]$INFO[Player.Duration, / ,]" />
                     <param name="icon" value="$VAR[Image_NowPlaying_Icon]" />
                     <visible>Player.HasMedia</visible>
@@ -288,6 +289,7 @@
         <param name="colordiffuse" default="dialog_fg" />
         <param name="groupinclude" default="Furniture_Topbar_Group" />
         <param name="haslabel" default="true" />
+        <param name="hastime" default="false" />
         <param name="texture" default="dialog/loading-back.png" />
         <param name="size" default="104" />
         <definition>
@@ -315,13 +317,24 @@
                     </control>
                     <control type="group">
                         <right>row_height</right>
-                        <include content="Furniture_MenuLabel" condition="$PARAM[haslabel]">
-                            <param name="id" value="$PARAM[mainlabel_id]" />
-                            <label>$PARAM[mainlabel]</label>
+                        <control type="grouplist">
+                            <orientation>horizontal</orientation>
                             <align>right</align>
-                            <height>50%</height>
-                            <top>0</top>
-                        </include>
+                            <itemgap>10</itemgap>
+                            <include content="Furniture_MenuLabel" condition="$PARAM[haslabel]">
+                                <param name="id" value="$PARAM[mainlabel_id]" />
+                                <label>$PARAM[mainlabel]</label>
+                                <width max="480">auto</width>
+                                <height>50%</height>
+                                <top>0</top>
+                            </include>
+                            <include content="Furniture_MenuLabel" condition="$PARAM[hastime]">
+                                <label>$INFO[System.Time]</label>
+                                <width>auto</width>
+                                <height>50%</height>
+                                <top>0</top>
+                            </include>
+                        </control>
                         <include content="Furniture_MiniLabel" condition="$PARAM[haslabel]">
                             <param name="id" value="$PARAM[minilabel_id]" />
                             <label>$PARAM[minilabel]</label>
