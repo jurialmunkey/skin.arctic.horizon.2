@@ -113,12 +113,6 @@
     <include name="Action_Row_OnDown">
         <ondown condition="$EXP[Exp_AlphabetTypes_Only] + !Skin.HasSetting(DisableAlphabetScrollbar)">65</ondown>
         <ondown condition="!$EXP[Exp_AlphabetTypes_Only] | Skin.HasSetting(DisableAlphabetScrollbar)">60</ondown>
-        <!-- <include>Action_Row_Recommendations_OnDown</include> -->
-        <!-- <include content="Object_Include">
-            <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">SetProperty(WallMode,$INFO[Container.FolderPath])</ondown>
-            <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">Container.SetViewMode($PARAM[id]4)</ondown>
-            <ondown condition="[Container($PARAM[id]).HasNext | Container($PARAM[id]).HasPrevious]">SetFocus($PARAM[id]6)</ondown>
-        </include> -->
     </include>
 
     <include name="Action_Row_Recommendations_OnDown">
@@ -128,6 +122,14 @@
             <ondown>ClearProperty(Path.Posters,1120)</ondown>
             <ondown>ClearProperty(Path.Fanart,1120)</ondown>
         </include>
+    </include>
+
+    <include name="Action_Row_WallView_OnDown">
+        <ondown condition="[Container.HasNext | Container.HasPrevious] + [Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(57)]">SetProperty(WallMode,$INFO[Container.FolderPath])</ondown>
+        <ondown condition="[Container.HasNext | Container.HasPrevious] + Control.IsVisible(50)">SetFocus(506)</ondown>
+        <ondown condition="[Container.HasNext | Container.HasPrevious] + Control.IsVisible(51)">SetFocus(516)</ondown>
+        <ondown condition="[Container.HasNext | Container.HasPrevious] + Control.IsVisible(52)">SetFocus(526)</ondown>
+        <ondown condition="[Container.HasNext | Container.HasPrevious] + Control.IsVisible(57)">SetFocus(576)</ondown>
     </include>
 
     <include name="Action_ClearContext_OnUnload">

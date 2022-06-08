@@ -46,7 +46,9 @@
                         <visible allowhiddenfocus="true">Control.HasFocus(60) | Control.HasFocus(65)</visible>
                         <ondown>50</ondown>
                         <onback>50</onback>
-                        <include>Action_Row_Recommendations_OnDown</include>
+                        <showonepage>true</showonepage>
+                        <include condition="!Skin.String(Rows.OnDown,Wall)">Action_Row_Recommendations_OnDown</include>
+                        <include condition="Skin.String(Rows.OnDown,Wall)">Action_Row_WallView_OnDown</include>
                     </control>
                     <include content="Object_Hidden_Button">
                         <param name="id" value="65" />
@@ -65,7 +67,8 @@
                         <onup>50</onup>
                         <ondown>50</ondown>
                         <onback>50</onback>
-                        <include>Action_Row_Recommendations_OnDown</include>
+                        <include condition="!Skin.String(Rows.OnDown,Wall)">Action_Row_Recommendations_OnDown</include>
+                        <include condition="Skin.String(Rows.OnDown,Wall)">Action_Row_WallView_OnDown</include>
                     </include>
                     <include content="Object_Control" condition="!Skin.HasSetting(DisableAlphabetScrollbar)">
                         <param name="control" value="grouplist" />
@@ -225,6 +228,7 @@
             </include>
             <include content="Object_Hidden_Button">
                 <param name="id" value="$PARAM[id]6" />
+                <onfocus>Container.SetViewMode($PARAM[id]4)</onfocus>
                 <onfocus>Container.SetViewMode($PARAM[id]4)</onfocus>
                 <onfocus>SetFocus($PARAM[id]4)</onfocus>
             </include>
