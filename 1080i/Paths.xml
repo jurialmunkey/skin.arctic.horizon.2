@@ -55,7 +55,7 @@
 
     <variable name="Path_OSD_Episodes">
         <value condition="VideoPlayer.Content(livetv)">pvr://channels/tv/*</value>
-        <value condition="!Integer.IsEqual(VideoPlayer.PlaylistLength,1)">playlistvideo://?reload=$INFO[VideoPlayer.Season,,_]$INFO[VideoPlayer.Episode]</value>
+        <value condition="!Integer.IsEqual(VideoPlayer.PlaylistLength,1) + !Integer.IsEqual(VideoPlayer.PlaylistLength,0)">playlistvideo://?reload=$INFO[VideoPlayer.Season,,_]$INFO[VideoPlayer.Episode]</value>
         <value condition="VideoPlayer.Content(episodes) + !String.IsEmpty(VideoPlayer.TvShowDBID) + !String.IsEmpty(VideoPlayer.Season)">videodb://tvshows/titles/$INFO[VideoPlayer.TvShowDBID]/$INFO[VideoPlayer.Season]/?tvshowid=$INFO[VideoPlayer.TvShowDBID]</value>
         <value condition="VideoPlayer.Content(episodes)">plugin://plugin.video.themoviedb.helper/?info=episodes&amp;type=tv$INFO[VideoPlayer.TVShowTitle,&amp;query=,]$INFO[VideoPlayer.Season,&amp;season=,]$VAR[Path_Param_Widget]</value>
 
