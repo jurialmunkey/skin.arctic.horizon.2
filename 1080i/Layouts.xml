@@ -749,12 +749,16 @@
                         <control type="image">
                             <texture background="true" diffuse="diffuse/square-sml.png">$INFO[ListItem.Icon]</texture>
                             <aspectratio scalediffuse="false">keep</aspectratio>
-                            <visible>$PARAM[selected] | ![String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.StartsWith(ListItem.Icon,image://special)]</visible>
+                            <visible>![String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.StartsWith(ListItem.Icon,image://special)]</visible>
                         </control>
                         <control type="image">
-                            <texture background="true" colordiffuse="dialog_fg_70" diffuse="diffuse/square-sml.png">$INFO[ListItem.Icon]</texture>
+                            <include content="Object_Include" condition="$PARAM[selected]">
+                                <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                            </include>
+                            <colordiffuse>dialog_fg_70</colordiffuse>
+                            <texture background="true" diffuse="diffuse/square-sml.png">$INFO[ListItem.Icon]</texture>
                             <aspectratio scalediffuse="false">keep</aspectratio>
-                            <visible>!$PARAM[selected] + [String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.StartsWith(ListItem.Icon,image://special)]</visible>
+                            <visible>[String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.StartsWith(ListItem.Icon,image://special)]</visible>
                         </control>
                     </control>
                 </control>
@@ -828,6 +832,7 @@
                             <visible>[String.IsEmpty(ListItem.Icon) | String.StartsWith(ListItem.Icon,Default)]</visible>
                             <include content="Object_Control" condition="$PARAM[selected]">
                                 <param name="control" value="image" />
+                                <colordiffuse>$VAR[ColorSelected]</colordiffuse>
                                 <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
                                 <aspectratio>keep</aspectratio>
                             </include>
@@ -1506,6 +1511,9 @@
                 </include>
                 <include content="Object_Control" condition="$PARAM[detailed]">
                     <param name="control" value="image" />
+                    <include content="Object_Include" condition="$PARAM[selected]">
+                        <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                    </include>
                     <texture background="true">$INFO[ListItem.Icon]</texture>
                     <aspectratio scalediffuse="false">keep</aspectratio>
                     <bottom>40</bottom>
