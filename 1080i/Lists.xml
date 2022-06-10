@@ -58,6 +58,8 @@
     <include name="List_EPGGrid">
         <param name="channelheight" default="row_height" />
         <param name="channelwidth" default="480" />
+        <param name="include_channels" default="Layout_PVRGuide_Channels" />
+        <param name="include_programs" default="Layout_PVRGuide_Programs" />
         <definition>
             <control type="epggrid" id="$PARAM[id]">
                 <nested />
@@ -77,35 +79,38 @@
                     </control>
                 </rulerlayout>
                 <channellayout height="$PARAM[channelheight]" width="$PARAM[channelwidth]">
-                    <include content="Layout_PVRGuide_Channels">
+                    <include content="$PARAM[include_channels]">
                         <param name="detailed" value="$PARAM[detailed]" />
+                        <param name="item_h" value="$PARAM[channelheight]" />
                     </include>
                 </channellayout>
                 <focusedchannellayout height="$PARAM[channelheight]" width="$PARAM[channelwidth]">
-                    <include content="Layout_PVRGuide_Channels">
+                    <include content="$PARAM[include_channels]">
                         <param name="selected" value="false" />
                         <param name="detailed" value="$PARAM[detailed]" />
+                        <param name="item_h" value="$PARAM[channelheight]" />
                         <visible>Control.HasFocus(11)</visible>
                     </include>
-                    <include content="Layout_PVRGuide_Channels">
+                    <include content="$PARAM[include_channels]">
                         <param name="selected" value="true" />
                         <param name="detailed" value="$PARAM[detailed]" />
+                        <param name="item_h" value="$PARAM[channelheight]" />
                         <visible>!Control.HasFocus(11)</visible>
                     </include>
                 </focusedchannellayout>
                 <itemlayout height="$PARAM[channelheight]" width="480">
-                    <include content="Layout_PVRGuide_Programs">
+                    <include content="$PARAM[include_programs]">
                         <param name="detailed" value="$PARAM[detailed]" />
                     </include>
                 </itemlayout>
                 <focusedlayout height="$PARAM[channelheight]" width="480">
                     <include>Object_OnFocusButton_Context</include>
-                    <include content="Layout_PVRGuide_Programs">
+                    <include content="$PARAM[include_programs]">
                         <param name="selected" value="false" />
                         <param name="visible" value="Control.HasFocus(11)" />
                         <param name="detailed" value="$PARAM[detailed]" />
                     </include>
-                    <include content="Layout_PVRGuide_Programs">
+                    <include content="$PARAM[include_programs]">
                         <param name="selected" value="true" />
                         <param name="visible" value="!Control.HasFocus(11)" />
                         <param name="detailed" value="$PARAM[detailed]" />

@@ -57,6 +57,7 @@
         <param name="channelwidth" default="480" />
         <param name="epg_bottom" default="0" />
         <param name="epg_top" default="0" />
+        <param name="bottomline_left" default="0" />
         <definition>
             <include content="Object_GlassPanel">
                 <width>$PARAM[channelwidth]</width>
@@ -71,6 +72,7 @@
                         <param name="control" value="image" />
                         <texture colordiffuse="main_fg_12">common/white.png</texture>
                         <height>1</height>
+                        <left>$PARAM[bottomline_left]</left>
                     </include>
                 </control>
                 <nested />
@@ -176,11 +178,14 @@
                     <param name="detailed" value="$PARAM[detailed]" />
                     <param name="epg_bottom" value="$PARAM[epg_bottom]" />
                     <param name="epg_top" value="$PARAM[epg_top]" />
+                    <param name="bottomline_left" value="$PARAM[bottomline_left]" />
                     <include content="List_EPGGrid">
                         <param name="id" value="$PARAM[id]" />
                         <param name="channelheight" value="$PARAM[channelheight]" />
                         <param name="channelwidth" value="$PARAM[channelwidth]" />
                         <param name="detailed" value="$PARAM[detailed]" />
+                        <param name="include_channels" value="$PARAM[include_channels]" />
+                        <param name="include_programs" value="$PARAM[include_programs]" />
                         <onup>11</onup>
                         <ondown>11</ondown>
                         <include content="Object_Include" condition="!Skin.HasSetting(PVR.DisableOnBackMenu)">
@@ -248,6 +253,23 @@
                 <top>40</top>
             </include>
             <include>View_PVR_PeekInfo</include>
+        </control>
+    </include>
+
+    <include name="View_053_PVRGuide_Pane_LargeRow">
+        <control type="group">
+            <visible>Control.IsVisible(53)</visible>
+            <include content="View_PVRGuide_Standard">
+                <param name="id" value="53" />
+                <param name="progresstexture" value="pvr/progressline-full.png" />
+                <param name="viewtype_label" value="$LOCALIZE[535]" />
+                <param name="channelheight" value="120" />
+                <param name="channelwidth" value="600" />
+                <param name="include_channels" value="Layout_PVRRecordings" />
+                <param name="detailed" value="true" />
+                <param name="bottomline_left" value="600" />
+                <top>40</top>
+            </include>
         </control>
     </include>
 
