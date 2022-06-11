@@ -704,6 +704,8 @@
             <skinshortcuts insert="searchlist">items</skinshortcuts>
         </controls>
         <items insert="searchlist">
+            <condition tag="property" attribute="name|list" />
+
             <property name="widgetPath" tag="property" attribute="name|list" value="DefaultSearch-Movies">videodb://movies/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22</property>
             <property name="widgetPath2" tag="property" attribute="name|list" value="DefaultSearch-Movies">%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D</property>
 
@@ -856,9 +858,12 @@
             <property name="id" tag="property" attribute="name|id" value="$NUMBER[48]">48</property>
             <property name="id" tag="property" attribute="name|id" value="$NUMBER[49]">49</property>
             <property name="id">50</property>
+
+            <property name="isVisible" tag="visible" />
+            <property name="isVisible">True</property>
             <controls>
 
-                <include content="$SKINSHORTCUTS[widgetInclude]">
+                <include content="$SKINSHORTCUTS[widgetInclude]" condition="$SKINSHORTCUTS[isVisible]">
                     <param name="groupid" value="$PYTHON[5100 + int(id)]" />
                     <param name="id" value="$PYTHON[5000 + int(id)]" />
                     <param name="label" value="$SKINSHORTCUTS[widgetName]" />
