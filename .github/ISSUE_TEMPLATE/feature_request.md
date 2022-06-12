@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[Feature] [Skin Section] Title"
+title: "[Feature] [Skin Section] Short Description"
 labels: enhancement
 assignees: ''
 
