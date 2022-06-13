@@ -21,6 +21,13 @@
         <value>$INFO[ListItem.Label]</value>
     </variable>
 
+    <variable name="Label_Playlist_Sublabel">
+        <value condition="!String.IsEmpty(ListItem.Artist)">$INFO[ListItem.Artist]$INFO[ListItem.Album, • ,]$INFO[ListItem.Year, • ,]</value>
+        <value condition="!String.IsEmpty(ListItem.AlbumArtist)">$INFO[ListItem.AlbumArtist]$INFO[ListItem.Album, • ,]$INFO[ListItem.Year, • ,]</value>
+        <value condition="!String.IsEmpty(ListItem.Album)">$INFO[ListItem.Album]$INFO[ListItem.Year, • ,]</value>
+        <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, • ]$INFO[ListItem.TVShowTitle]</value>
+    </variable>
+
     <variable name="Label_PVRRecordings_Sublabel">
         <value condition="Window.IsVisible(MyPVRGuide.xml)">$INFO[ListItem.ChannelNumberLabel,Channel ,]</value>
         <value condition="[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.ChannelName]</value>
@@ -34,8 +41,16 @@
     </variable>
 
     <variable name="Label_NowPlayingTitle">
-        <value condition="!String.IsEmpty(VideoPlayer.TvShowTitle)">$INFO[VideoPlayer.TvShowTitle,, ]$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E, ] </value>
-        <value>$INFO[Player.Title,,  ]</value>
+        <value condition="!String.IsEmpty(MusicPlayer.Artist)">$INFO[MusicPlayer.Artist]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.TvShowTitle)">$INFO[VideoPlayer.TvShowTitle]</value>
+        <value>$INFO[Player.Title]</value>
+    </variable>
+
+    <variable name="Label_NowPlayingSubLabel">
+        <value condition="!String.IsEmpty(MusicPlayer.Artist)">$INFO[Player.Title]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.TvShowTitle)">$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E, • ]$INFO[Player.Title]</value>
+        <!-- <value>$INFO[VideoPlayer.Director]</value> -->
+        <value>$INFO[Player.FinishTime,$LOCALIZE[31072] ,]</value>
     </variable>
 
     <variable name="Label_OSD_EpisodeLabel">
@@ -44,9 +59,9 @@
     </variable>
 
     <variable name="Label_ListTrackNumber">
-        <value condition="!String.IsEqual(Container.FolderName,ListItem.Album) + Integer.IsLess(ListItem.CurrentItem,10)">$INFO[ListItem.CurrentItem,0,]</value>
-        <value condition="!String.IsEqual(Container.FolderName,ListItem.Album)">$INFO[ListItem.CurrentItem]</value>
-        <value>$INFO[ListItem.TrackNumber]</value>
+        <value condition="String.IsEqual(Container.FolderName,ListItem.Album) + !String.IsEmpty(Container.FolderName) + !String.IsEmpty(ListItem.Album)">$INFO[ListItem.TrackNumber]</value>
+        <value condition="Integer.IsLess(ListItem.CurrentItem,10)">$INFO[ListItem.CurrentItem,0,]</value>
+        <value>$INFO[ListItem.CurrentItem]</value>
     </variable>
 
     <variable name="Label_ListArtist">
@@ -170,6 +185,7 @@
         <value condition="Window.IsVisible(MyPVRRecordings.xml)">$LOCALIZE[19017]</value>
         <value condition="Window.IsVisible(MyPVRTimers.xml)">$LOCALIZE[19040]</value>
         <value condition="Window.IsVisible(MyPVRSearch.xml)">$LOCALIZE[137]</value>
+        <value condition="Window.IsVisible(MyPlaylist.xml)">$LOCALIZE[559]</value>
 
         <value condition="Container.Content(seasons)">$LOCALIZE[33054]</value>
         <value condition="Container.Content(episodes) + !String.IsEmpty(Container.FolderName) + String.IsEqual(Container.FolderName,Container.ShowTitle)">$LOCALIZE[20360]</value>

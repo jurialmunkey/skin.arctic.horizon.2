@@ -73,61 +73,128 @@
         <include>Animation_Common</include>
     </include>
 
-    <include name="View_Main">
-        <control type="list" id="99999">
-            <width>1</width>
-            <height>1</height>
-            <left>-1000</left>
-            <itemlayout width="1" height="1" />
-            <focusedlayout width="1" height="1" />
-            <content>$VAR[Path_FolderDetails]</content>
-            <visible>!String.IsEmpty(ListItem.FolderPath)</visible>
-            <visible>ListItem.IsFolder</visible>
-            <visible>String.IsEmpty(ListItem.Property(Addon.ID)) + String.IsEmpty(Container.PluginName)</visible>
-            <visible>!$EXP[Exp_CombinedViews]</visible>
-        </control>
-        <include content="Background_Main">
+    <include name="View_Main_MyPlaylist">
+        <control type="group">
+            <include>Animation_Foreground_SlideUp</include>
             <control type="group">
-                <include>View_Visibility_Common</include>
-                <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,KeyArt)">View_KeyArt</include>
+                <include>Dimension_View</include>
+                <include content="Object_Control">
+                    <param name="control" value="group" />
+                    <include content="Object_GlassPanel">
+                        <left>493.33</left>
+                        <include content="List_MediaList">
+                            <param name="id" value="50" />
+                            <param name="context_button" value="true" />
+                            <param name="detailed" value="true" />
+                            <param name="itemlayout_include" value="Layout_PlayList" />
+                            <param name="item_h" value="113.33" />
+                            <param name="itemlayout_h" value="113.33" />
+                            <param name="misc" value="5" />
+                            <left>-row_height_x50</left>
+                            <right>-row_height_x50</right>
+                            <viewtype label="Playlist">list</viewtype>
+                            <onleft>61</onleft>
+                            <onright>menu</onright>
+                            <pagecontrol>61</pagecontrol>
+                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
+                        </include>
+                    </include>
+                    <include content="Dialog_MusicInfoAlbumArt">
+                        <param name="discart_top" value="225" />
+                        <param name="width" value="453.33" />
+                        <param name="icon" value="$INFO[ListItem.Icon]" />
+                        <param name="discart_image" value="$VAR[Image_DiscArt]" />
+                        <param name="discart_spin" value="Player.Playing + !Player.Paused" />
+                        <left>0</left>
+                        <top>0</top>
+                        <visible>String.IsEqual(ListItem.DBtype,song)</visible>
+                        <control type="image">
+                            <top>453.33</top>
+                            <width>453.33</width>
+                            <texture background="true">$VAR[Image_Clearlogo]</texture>
+                            <aspectratio>keep</aspectratio>
+                            <bordersize>40</bordersize>
+                            <visible>String.IsEmpty(ListItem.Art(discart))</visible>
+                            <visible>String.IsEmpty(ListItem.Art(album.discart))</visible>
+                        </control>
+                    </include>
+                    <include content="Object_BigPoster">
+                        <param name="diffuse" value="diffuse/poster_w475_h680.png" />
+                        <height>680</height>
+                        <width>453.33</width>
+                        <visible>!String.IsEqual(ListItem.DBtype,song)</visible>
+                    </include>
+                </include>
             </control>
-        </include>
+            <control type="group">
+                <include>Furniture_Bottom_Left</include>
+                <include>Furniture_Bottom_Right</include>
+            </control>
+        </control>
+    </include>
 
-        <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,ClearArt)">
-            <param name="control" value="group" />
-            <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
-            <include>View_Visibility_Common</include>
-            <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
-            <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,FlixArt)">View_FlixArt</include>
-        </include>
+    <include name="View_Main_Standard">
+        <control type="group">
+            <include>Animation_Foreground_SlideUp</include>
+            <control type="group">
+                <include>View_Furniture_List_Bottom</include>
+                <include>View_Furniture_Wall_Bottom</include>
+                <include>View_Furniture_Row_Bottom</include>
+                <include>View_Furniture_Combined_Bottom</include>
+                <include>View_Furniture_Discover</include>
+            </control>
+            <control type="group">
+                <visible>!$EXP[Exp_AlphabetVisible]</visible>
+                <visible>!$EXP[Exp_CombinedViews]</visible>
+                <visible>$EXP[Exp_View_Special]</visible>
+                <include>Furniture_Bottom_Left</include>
+                <include>Furniture_Bottom_Right</include>
+            </control>
+        </control>
 
         <control type="group">
-            <include>View_Visibility_Common</include>
-            <control type="group">
-                <include>Animation_Foreground_SlideUp</include>
-                <control type="group">
-                    <include>View_Furniture_List_Bottom</include>
-                    <include>View_Furniture_Wall_Bottom</include>
-                    <include>View_Furniture_Row_Bottom</include>
-                    <include>View_Furniture_Combined_Bottom</include>
-                    <include>View_Furniture_Discover</include>
-                </control>
-                <control type="group">
-                    <visible>!$EXP[Exp_AlphabetVisible]</visible>
-                    <visible>!$EXP[Exp_CombinedViews]</visible>
-                    <visible>$EXP[Exp_View_Special]</visible>
-                    <include>Furniture_Bottom_Left</include>
-                    <include>Furniture_Bottom_Right</include>
-                </control>
-            </control>
-
-            <control type="group">
-                <include>Animation_Foreground_FadeInOut</include>
-                <include>View_Furniture_Row_Top</include>
-                <include>View_Furniture_Combined_Top</include>
-            </control>
+            <include>Animation_Foreground_FadeInOut</include>
+            <include>View_Furniture_Row_Top</include>
+            <include>View_Furniture_Combined_Top</include>
         </control>
+    </include>
 
-        <include>View_Furniture_Top</include>
+    <include name="View_Main">
+        <param name="include_views" default="View_Main_Standard" />
+        <definition>
+            <control type="list" id="99999">
+                <width>1</width>
+                <height>1</height>
+                <left>-1000</left>
+                <itemlayout width="1" height="1" />
+                <focusedlayout width="1" height="1" />
+                <content>$VAR[Path_FolderDetails]</content>
+                <visible>!String.IsEmpty(ListItem.FolderPath)</visible>
+                <visible>ListItem.IsFolder</visible>
+                <visible>String.IsEmpty(ListItem.Property(Addon.ID)) + String.IsEmpty(Container.PluginName)</visible>
+                <visible>!$EXP[Exp_CombinedViews]</visible>
+            </control>
+            <include content="Background_Main">
+                <control type="group">
+                    <include>View_Visibility_Common</include>
+                    <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,KeyArt)">View_KeyArt</include>
+                </control>
+            </include>
+
+            <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,ClearArt)">
+                <param name="control" value="group" />
+                <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
+                <include>View_Visibility_Common</include>
+                <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
+                <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,FlixArt)">View_FlixArt</include>
+            </include>
+
+            <control type="group">
+                <include>View_Visibility_Common</include>
+                <include>$PARAM[include_views]</include>
+            </control>
+
+            <include>View_Furniture_Top</include>
+        </definition>
     </include>
 </includes>

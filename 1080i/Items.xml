@@ -250,12 +250,14 @@
     <include name="Items_Weather_Settings">
         <include content="Dialog_Menu_Button" description="Refresh">
             <param name="id" value="2" />
+            <param name="groupid" value="9202" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/update.png" />
             <label>$LOCALIZE[184]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Next Location">
             <param name="id" value="9002" />
+            <param name="groupid" value="9102" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/antenna.png" />
             <label>$LOCALIZE[31006]</label>
@@ -263,6 +265,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Weather Plugin Settings">
             <param name="id" value="9003" />
+            <param name="groupid" value="9103" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/configure.png" />
             <label>$LOCALIZE[10140]</label>
@@ -271,6 +274,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Weather Settings">
             <param name="id" value="9004" />
+            <param name="groupid" value="9104" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/settings.png" />
             <label>$LOCALIZE[5]</label>
@@ -281,6 +285,7 @@
     <include name="Items_Default_MyNav">
         <include content="Dialog_Menu_Button" description="View Switcher">
             <param name="id" value="9002" />
+            <param name="groupid" value="9102" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/viewmode.png" />
             <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
@@ -290,6 +295,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Sort method">
             <param name="id" value="9003" />
+            <param name="groupid" value="9103" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/sort.png" />
             <label>$INFO[Container.SortMethod,$LOCALIZE[31016]: ,]</label>
@@ -298,6 +304,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Sort direction">
             <param name="id" value="4" />
+            <param name="groupid" value="9204" />
             <param name="control" value="togglebutton" />
             <param name="icon" value="special://skin/extras/icons/sort2.png" />
             <label>$LOCALIZE[31015]: $LOCALIZE[584]</label>
@@ -308,9 +315,8 @@
 
     <include name="Items_QuickNav_Button">
         <param name="itemgap" default="30" />
-        <param name="onup" default="9001" />
-        <param name="ondown" default="9002" />
-        <param name="Visible" default="true" />
+        <param name="visible" default="true" />
+        <param name="bordersize" default="4" />
         <definition>
             <include content="OSD_Button">
                 <param name="visible" value="$PARAM[visible]" />
@@ -318,13 +324,108 @@
                 <param name="id" value="80$PARAM[id]" />
                 <param name="groupid" value="81$PARAM[id]" />
                 <param name="size" value="60" />
-                <param name="bordersize" value="4" />
+                <param name="bordersize" value="$PARAM[bordersize]" />
                 <param name="itemgap" value="$PARAM[itemgap]" />
                 <param name="back_colordiffuse" value="00ffffff" />
-                <onup>$PARAM[onup]</onup>
-                <ondown>$PARAM[ondown]</ondown>
+                <param name="flipx" value="$PARAM[flipx]" />
                 <nested />
             </include>
+        </definition>
+    </include>
+
+    <include name="Items_QuickNav_NowPlaying">
+        <param name="itemgap" default="30" />
+        <param name="onup" value="9001" />
+        <definition>
+            <!-- <include content="Dialog_Menu_Button">
+                <param name="icon" value="special://skin/extras/icons/playlist.png" />
+                <param name="id" value="8086" />
+                <param name="groupid" value="8186" />
+                <param name="control" value="button" />
+                <onclick condition="!Integer.IsEqual(MusicPlayer.PlaylistLength,0)">ActivateWindow(musicplaylist)</onclick>
+                <onclick condition="!Integer.IsEqual(VideoPlayer.PlaylistLength,0)">ActivateWindow(videoplaylist)</onclick>
+                <label>$LOCALIZE[559]</label>
+                <visible>!Window.IsVisible(MyPlaylist.xml)</visible>
+                <visible>!Integer.IsEqual(MusicPlayer.PlaylistLength,0) | !Integer.IsEqual(VideoPlayer.PlaylistLength,0)</visible>
+            </include> -->
+            <!-- <include content="Dialog_Menu_Button">
+                <param name="icon" value="special://skin/extras/icons/fullscreen.png" />
+                <param name="id" value="8087" />
+                <param name="groupid" value="8187" />
+                <param name="control" value="button" />
+                <label>$LOCALIZE[35232]</label>
+                <onclick>fullscreen</onclick>
+                <visible>!Integer.IsEqual(MusicPlayer.PlaylistLength,0) | !Integer.IsEqual(VideoPlayer.PlaylistLength,0)</visible>
+            </include> -->
+            <control type="grouplist" id="8080">
+                <nested />
+                <left>30</left>
+                <right>30</right>
+                <align>center</align>
+                <height>80</height>
+                <top>10</top>
+                <orientation>horizontal</orientation>
+                <itemgap>$PARAM[itemgap]</itemgap>
+                <visible>!Integer.IsEqual(VideoPlayer.PlaylistLength,0) | !Integer.IsEqual(MusicPlayer.PlaylistLength,0)</visible>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="osd/next.png" />
+                    <param name="id" value="83" />
+                    <param name="bordersize" value="6" />
+                    <param name="flipx" value="true" />
+                    <onleft>PlayerControl(Previous)</onleft>
+                </include>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
+                    <param name="id" value="84" />
+                    <param name="bordersize" value="6" />
+                    <param name="flipx" value="false" />
+                    <onclick>PlayerControl(Play)</onclick>
+                </include>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="osd/next.png" />
+                    <param name="id" value="85" />
+                    <param name="bordersize" value="6" />
+                    <param name="flipx" value="false" />
+                    <onleft>PlayerControl(Next)</onleft>
+                </include>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="$VAR[Image_OSD_Shuffle]" />
+                    <param name="id" value="81" />
+                    <param name="bordersize" value="6" />
+                    <param name="visible" value="Window.IsVisible(MyPlaylist.xml)" />
+                    <onclick>PlayerControl(Random)</onclick>
+                </include>
+                <!-- <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="$VAR[Image_OSD_Repeat]" />
+                    <param name="id" value="82" />
+                    <param name="bordersize" value="6" />
+                    <onclick>PlayerControl(Repeat)</onclick>
+                </include> -->
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="special://skin/extras/icons/playlist.png" />
+                    <param name="id" value="86" />
+                    <param name="bordersize" value="4" />
+                    <param name="visible" value="!Window.IsVisible(MyPlaylist.xml) + [!Integer.IsEqual(MusicPlayer.PlaylistLength,0) | !Integer.IsEqual(VideoPlayer.PlaylistLength,0)]" />
+                    <onclick condition="!Integer.IsEqual(MusicPlayer.PlaylistLength,0)">ActivateWindow(musicplaylist)</onclick>
+                    <onclick condition="!Integer.IsEqual(VideoPlayer.PlaylistLength,0)">ActivateWindow(videoplaylist)</onclick>
+                </include>
+                <include content="Items_QuickNav_Button">
+                    <param name="itemgap" value="$PARAM[itemgap]" />
+                    <param name="icon" value="special://skin/extras/icons/fullscreen.png" />
+                    <param name="id" value="87" />
+                    <param name="bordersize" value="4" />
+                    <param name="visible" value="!Integer.IsEqual(MusicPlayer.PlaylistLength,0) | !Integer.IsEqual(VideoPlayer.PlaylistLength,0)" />
+                    <onclick>fullscreen</onclick>
+                </include>
+
+            </control>
+
         </definition>
     </include>
 
@@ -343,55 +444,49 @@
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/tvguide.png" />
                     <param name="id" value="01" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
                     <param name="visible" value="!Window.IsVisible(tvguide)" />
                     <onclick>ActivateWindow(tvguide)</onclick>
+                    <ondown>9002</ondown>
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/years.png" />
                     <param name="id" value="02" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
                     <param name="visible" value="!Window.IsVisible(tvchannels)" />
                     <onclick>ActivateWindow(tvchannels)</onclick>
+                    <ondown>9002</ondown>
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/files.png" />
                     <param name="id" value="03" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
                     <param name="visible" value="!Window.IsVisible(tvrecordings)" />
                     <onclick>ActivateWindow(tvrecordings)</onclick>
+                    <ondown>9002</ondown>
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/timer.png" />
                     <param name="id" value="04" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
                     <param name="visible" value="!Window.IsVisible(tvtimers)" />
                     <onclick>ActivateWindow(tvtimers)</onclick>
+                    <ondown>9002</ondown>
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/alarm.png" />
                     <param name="id" value="05" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
                     <param name="visible" value="!Window.IsVisible(tvtimerrules)" />
                     <onclick>ActivateWindow(tvtimerrules)</onclick>
+                    <ondown>9002</ondown>
                 </include>
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/search.png" />
                     <param name="id" value="06" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
                     <param name="visible" value="!Window.IsVisible(tvsearch)" />
                     <onclick>ActivateWindow(tvsearch)</onclick>
+                    <ondown>9002</ondown>
                 </include>
             </control>
             <control type="image" id="8200">
@@ -419,8 +514,8 @@
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/quote.png" />
                     <param name="id" value="01" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onup>$PARAM[onup]</onup>
+                    <ondown>$PARAM[ondown]</ondown>
                     <onclick>SetFocus(50)</onclick>
                     <onclick>ActivateWindow(1113)</onclick>
                 </include>
@@ -428,10 +523,10 @@
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/search.png" />
                     <param name="id" value="02" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
                     <onclick>SetProperty(CustomSearchTerm,$ESCINFO[Window(Home).Property(ContextMenu.Title)],Home)</onclick>
                     <onclick>SetProperty(ReplaceWindow,1114,Home)</onclick>
+                    <onup>$PARAM[onup]</onup>
+                    <ondown>$PARAM[ondown]</ondown>
                     <onclick condition="!Window.IsActive(1114)">ActivateWindow(1114)</onclick>
                     <onclick condition="Window.IsActive(1114)">ReplaceWindow(1197)</onclick>
                 </include>
@@ -439,8 +534,8 @@
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/fire2.png" />
                     <param name="id" value="03" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onup>$PARAM[onup]</onup>
+                    <ondown>$PARAM[ondown]</ondown>
                     <onclick>SetFocus(50)</onclick>
                     <onclick>AlarmClock(DelayCommand,RunScript(plugin.video.themoviedb.helper,related_lists,$INFO[Window(Home).Property(ContextMenu.Params)]),00:01,silent)</onclick>
                 </include>
@@ -448,8 +543,8 @@
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/binoculars.png" />
                     <param name="id" value="04" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onup>$PARAM[onup]</onup>
+                    <ondown>$PARAM[ondown]</ondown>
                     <onclick condition="![String.IsEqual(Window(Home).Property(ContextMenu.DBType),tvshow) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),season) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),episode)]">ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=movie,return)</onclick>
                     <onclick condition="[String.IsEqual(Window(Home).Property(ContextMenu.DBType),tvshow) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),season) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),episode)]">ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=tv,return)</onclick>
                 </include>
@@ -457,8 +552,8 @@
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/fullscreen.png" />
                     <param name="id" value="05" />
-                    <param name="onup" value="$PARAM[onup]" />
-                    <param name="ondown" value="$PARAM[ondown]" />
+                    <onup>$PARAM[onup]</onup>
+                    <ondown>$PARAM[ondown]</ondown>
                     <onclick>fullscreen</onclick>
                 </include>
             </control>
@@ -475,6 +570,7 @@
     <include name="Items_NextAired">
         <include content="Dialog_Menu_Button" description="Orientation">
             <param name="id" value="9001" />
+            <param name="groupid" value="9101" />
             <param name="control" value="togglebutton" />
             <param name="icon" value="special://skin/extras/icons/viewmode.png" />
             <label>$LOCALIZE[21843]: $LOCALIZE[31163]</label>
@@ -487,6 +583,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Switch to Library">
             <param name="id" value="9002" />
+            <param name="groupid" value="9102" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/calendar.png" />
             <label>$LOCALIZE[456]: Trakt</label>
@@ -495,6 +592,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Switch to Trakt">
             <param name="id" value="9003" />
+            <param name="groupid" value="9103" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/calendar.png" />
             <label>$LOCALIZE[456]: $LOCALIZE[14022]</label>
@@ -503,36 +601,76 @@
         </include>
     </include>
 
+    <include name="Items_MyPlaylist">
+        <include content="Dialog_Menu_Button" description="Sort method">
+            <param name="id" value="9003" />
+            <param name="groupid" value="9103" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/sort.png" />
+            <label>$INFO[Container.SortMethod,$LOCALIZE[31016]: ,]</label>
+            <onclick>SetProperty(DialogSelectType,Menu,Home)</onclick>
+            <onclick>SendClick(3)</onclick>
+        </include>
+        <include content="Dialog_Menu_Button" description="Sort direction">
+            <param name="id" value="4" />
+            <param name="groupid" value="9204" />
+            <param name="control" value="togglebutton" />
+            <param name="icon" value="special://skin/extras/icons/sort2.png" />
+            <label>$LOCALIZE[31015]: $LOCALIZE[584]</label>
+            <altlabel>$LOCALIZE[31015]: $LOCALIZE[585]</altlabel>
+            <usealttexture>Container.SortDirection(Descending)</usealttexture>
+        </include>
+        <include content="Dialog_Menu_Button" description="Save">
+            <param name="id" value="21" />
+            <param name="groupid" value="9221" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/files.png" />
+            <label>$LOCALIZE[190]</label>
+        </include>
+        <include content="Dialog_Menu_Button" description="Clear">
+            <param name="id" value="22" />
+            <param name="groupid" value="9222" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/disabled.png" />
+            <label>$LOCALIZE[192]</label>
+        </include>
+        <include>Items_QuickNav_NowPlaying</include>
+    </include>
+
     <include name="Items_MyVideoNav">
         <!-- <include>Items_QuickNav</include> -->
         <include>Items_Default_MyNav</include>
         <include content="Dialog_Menu_Button" description="Watched">
             <param name="id" value="14" />
+            <param name="groupid" value="9214" />
             <param name="control" value="radiobutton" />
             <param name="icon" value="$VAR[Image_Watched]" />
             <label>$LOCALIZE[20367]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Filter">
             <param name="id" value="19" />
+            <param name="groupid" value="9219" />
             <param name="control" value="edit" />
             <param name="icon" value="$VAR[Image_Filtered]" />
             <label>$LOCALIZE[587]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Update Library">
             <param name="id" value="20" />
+            <param name="groupid" value="9220" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/update.png" />
             <label>$LOCALIZE[653]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Background Customisation">
             <param name="id" value="9001" />
+            <param name="groupid" value="9101" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/paintbrush2.png" />
             <onclick>SetFocus(50)</onclick>
             <onclick>ActivateWindow(1112)</onclick>
             <label>$LOCALIZE[31007]</label>
         </include>
-
+        <include>Items_QuickNav_NowPlaying</include>
     </include>
 
     <include name="Items_MyEPGNav">
@@ -540,12 +678,14 @@
         <include>Items_Default_MyNav</include>
         <include content="Dialog_Menu_Button" description="Hide Disabled" condition="Window.IsVisible(MyPVRTimers.xml)">
             <param name="id" value="8" />
+            <param name="groupid" value="9208" />
             <param name="control" value="radiobutton" />
             <param name="icon" value="special://skin/extras/icons/eye.png" />
             <label>$LOCALIZE[19077]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Group Switcher" condition="!Window.IsVisible(MyPVRSearch.xml) + !Window.IsVisible(MyPVRTimers.xml) + !Window.IsVisible(MyPVRRecordings.xml)">
             <param name="id" value="28" />
+            <param name="groupid" value="9228" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/folder.png" />
         </include>
@@ -554,12 +694,14 @@
     <include name="Items_DialogVideoInfo_Options">
         <include content="Dialog_Menu_Button" description="Refresh">
             <param name="id" value="6" />
+            <param name="groupid" value="9206" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/update.png" />
             <label>$LOCALIZE[184]</label>
         </include>
         <include content="Dialog_Menu_Button" description="UserRating">
             <param name="id" value="9001" />
+            <param name="groupid" value="9101" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/userrating.png" />
             <label>$LOCALIZE[38018]</label>
@@ -568,6 +710,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Artwork">
             <param name="id" value="10" />
+            <param name="groupid" value="9210" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/paintbrush.png" />
             <label>$LOCALIZE[39123]</label>
@@ -623,12 +766,14 @@
     <include name="Items_DialogPVRInfo_Options">
         <include content="Dialog_Menu_Button" description="Record">
             <param name="id" value="6" />
+            <param name="groupid" value="9206" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/timer.png" />
             <visible>Window.IsActive(PVRGuideInfo)</visible>
         </include>
         <include content="Dialog_Menu_Button" description="Add timer">
             <param name="id" value="9" />
+            <param name="groupid" value="9209" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/timer.png" />
             <label>$LOCALIZE[19061]</label>
@@ -636,6 +781,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Set Reminder">
             <param name="id" value="11" />
+            <param name="groupid" value="9211" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/timer.png" />
             <label>$LOCALIZE[826]</label>
@@ -646,12 +792,14 @@
     <include name="Items_DialogMusicInfo_Options">
         <include content="Dialog_Menu_Button" description="Refresh">
             <param name="id" value="6" />
+            <param name="groupid" value="9206" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/update.png" />
             <label>$LOCALIZE[184]</label>
         </include>
         <include content="Dialog_Menu_Button" description="UserRating">
             <param name="id" value="9001" />
+            <param name="groupid" value="9101" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/userrating.png" />
             <label>$LOCALIZE[38018]</label>
@@ -660,6 +808,7 @@
         </include>
         <include content="Dialog_Menu_Button" description="Artwork">
             <param name="id" value="10" />
+            <param name="groupid" value="9210" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/paintbrush.png" />
             <label>$LOCALIZE[39123]</label>
@@ -667,49 +816,37 @@
     </include>
 
     <include name="Items_DialogAddonInfo_Options">
-        <!-- <include content="Dialog_Menu_Button" description="Open">
-            <param name="id" value="12" />
-            <param name="control" value="button" />
-            <param name="icon" value="special://skin/extras/icons/play3.png" />
-        </include> -->
-        <!-- <include content="Dialog_Menu_Button" description="Install">
-            <param name="id" value="9006" />
-            <param name="control" value="button" />
-            <param name="icon" value="$VAR[Image_AddonInfo_Install]" />
-            <label>$INFO[Control.GetLabel(6)]</label>
-            <onclick>SendClick(6)</onclick>
-        </include>
-        <include content="Dialog_Menu_Button" description="Enable">
-            <param name="id" value="7" />
-            <param name="control" value="button" />
-            <param name="icon" value="$VAR[Image_AddonInfo_Enable]" />
-        </include> -->
         <include content="Dialog_Menu_Button" description="Update">
             <param name="id" value="8" />
+            <param name="groupid" value="9208" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/update.png" />
             <label>$LOCALIZE[24138]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Auto-Update">
             <param name="id" value="13" />
+            <param name="groupid" value="9213" />
             <param name="control" value="radiobutton" />
             <param name="icon" value="special://skin/extras/icons/update.png" />
             <label>$LOCALIZE[21340]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Versions">
             <param name="id" value="14" />
+            <param name="groupid" value="9214" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/network.png" />
             <label>$LOCALIZE[24069]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Dependencies">
             <param name="id" value="10" />
+            <param name="groupid" value="9210" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/dependencies.png" />
             <label>$LOCALIZE[39024]</label>
         </include>
         <include content="Dialog_Menu_Button" description="Settings">
             <param name="id" value="9" />
+            <param name="groupid" value="9209" />
             <param name="control" value="button" />
             <param name="icon" value="special://skin/extras/icons/settings.png" />
             <label>$LOCALIZE[5]</label>

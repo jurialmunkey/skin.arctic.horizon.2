@@ -452,7 +452,7 @@
                 <radioposx>340</radioposx>
                 <nested />
             </include>
-            <control type="group" id="1900$PARAM[id]">
+            <control type="group" id="$PARAM[groupid]">
                 <width>row_height</width>
                 <height>row_height</height>
                 <top>-row_height</top>
@@ -735,6 +735,34 @@
                         <texture colordiffuse="panel_fg_70" flipx="false">common/arrow-240.png</texture>
                     </control>
                 </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_MusicInfoAlbumArt">
+        <param name="discart_top" default="272" />
+        <param name="discart_spin" default="true" />
+        <param name="discart_image" default="$VAR[Image_DiscArt]" />
+        <param name="width" default="544" />
+        <param name="diffuse" default="diffuse/square_w544_h544.png" />
+        <definition>
+            <control type="group">
+                <width>$PARAM[width]</width>
+                <control type="image">
+                    <top>$PARAM[discart_top]</top>
+                    <height>$PARAM[width]</height>
+                    <texture background="true">$PARAM[discart_image]</texture>
+                    <aspectratio>keep</aspectratio>
+                    <bordersize>40</bordersize>
+                    <animation effect="rotate" condition="$PARAM[discart_spin]" start="0" end="360" loop="true" time="50000" center="auto">Conditional</animation>
+                    <fadetime>300</fadetime>
+                </control>
+                <include content="Object_BigPoster">
+                    <param name="diffuse" value="$PARAM[diffuse]" />
+                    <param name="icon" value="$PARAM[icon]" />
+                    <height>$PARAM[width]</height>
+                </include>
+                <nested />
             </control>
         </definition>
     </include>

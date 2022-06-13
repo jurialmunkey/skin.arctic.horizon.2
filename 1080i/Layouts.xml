@@ -464,6 +464,113 @@
         </definition>
     </include>
 
+    <include name="Layout_PlayList">
+        <param name="detailed" default="false" />
+        <param name="selected" default="false" />
+        <param name="misc" default="5" />
+        <definition>
+            <control type="group">
+                <height>$PARAM[item_h]</height>
+                <left>dialog_pad</left>
+                <right>dialog_pad</right>
+                <include content="Object_Control" condition="$PARAM[selected]">
+                    <param name="control" value="group" />
+                    <control type="image">
+                        <include>Texture_Box_Highlight_H</include>
+                    </control>
+                    <control type="image">
+                        <visible>!Container.Position($PARAM[misc])</visible>
+                        <include>Texture_Highlight</include>
+                        <height>50%</height>
+                        <bottom>0</bottom>
+                    </control>
+                    <control type="image">
+                        <include>Texture_Highlight</include>
+                        <height>50%</height>
+                        <visible>!Container.Position(0)</visible>
+                    </control>
+                </include>
+
+                <!-- Songs -->
+                <control type="group">
+                    <left>dialog_pad</left>
+                    <right>dialog_pad</right>
+                    <include content="Object_Control">
+                        <param name="control" value="label" />
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <textcolor>main_fg_70</textcolor>
+                        <selectedcolor>main_fg_70</selectedcolor>
+                        <label>$VAR[Label_ListTrackNumber]</label>
+                        <align>center</align>
+                        <font>font_small</font>
+                        <bottom>3</bottom>
+                        <width>100</width>
+                        <left>-30</left>
+                        <visible>!ListItem.IsPlaying</visible>
+                    </include>
+                    <include content="Object_Control">
+                        <param name="control" value="image" />
+                        <include condition="$PARAM[selected]" content="Object_Include">
+                            <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                        </include>
+                        <colordiffuse>main_fg_100</colordiffuse>
+                        <texture>indicator/playwhite.png</texture>
+                        <height>40</height>
+                        <width>40</width>
+                        <left>0</left>
+                        <centertop>50%</centertop>
+                        <visible>ListItem.IsPlaying</visible>
+                    </include>
+                    <include content="Object_Control">
+                        <param name="control" value="image" />
+                        <left>60</left>
+                        <width>$PARAM[item_h]</width>
+                        <height>$PARAM[item_h]</height>
+                        <bordersize>20</bordersize>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                    </include>
+                    <control type="group">
+                        <left>$PARAM[item_h]</left>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <left>70</left>
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_90</textcolor>
+                            <selectedcolor>main_fg_90</selectedcolor>
+                            <label>$INFO[ListItem.Title]</label>
+                            <font>font_small_bold</font>
+                            <height>40</height>
+                            <centertop>35%</centertop>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$VAR[Label_Playlist_Sublabel]</label>
+                            <font>font_genrelabel</font>
+                            <align>left</align>
+                            <height>40</height>
+                            <centerbottom>35%</centerbottom>
+                            <left>70</left>
+                        </include>
+                    </control>
+                    <include content="Object_Control">
+                        <param name="control" value="label" />
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <textcolor>main_fg_70</textcolor>
+                        <selectedcolor>main_fg_70</selectedcolor>
+                        <label>$INFO[ListItem.Duration]</label>
+                        <font>font_small</font>
+                        <align>right</align>
+                        <bottom>3</bottom>
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_MediaList">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
