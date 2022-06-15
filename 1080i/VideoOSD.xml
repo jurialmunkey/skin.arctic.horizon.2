@@ -176,7 +176,6 @@
             <!-- Episodes Pop-up -->
             <include content="OSD_Menu_Back">
                 <param name="arrow_pos" value="700" />
-                <visible>VideoPlayer.Content(episodes) | VideoPlayer.Content(livetv)</visible>
                 <visible>Control.HasFocus(6400) | Control.HasFocus(6401)</visible>
                 <visible>Container(6401).IsUpdating | !Integer.IsEqual(Container(6401).NumItems,0)</visible>
                 <include>Animation_SlideIn_Dialog</include>
@@ -186,13 +185,17 @@
                     <height>740</height>
                 </include>
                 <height>540</height>
-                <include content="Object_MenuHeader" condition="!VideoPlayer.Content(livetv)">
+                <include content="Object_MenuHeader" condition="VideoPlayer.Content(movies)">
+                    <param name="label" value="$LOCALIZE[559]" />
+                </include>
+                <include content="Object_MenuHeader" condition="VideoPlayer.Content(episodes)">
                     <param name="label" value="$INFO[VideoPlayer.TvShowTitle,,: ]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]" />
                 </include>
                 <include content="Object_MenuHeader" condition="VideoPlayer.Content(livetv)">
                     <param name="label" value="$LOCALIZE[19287]" />
                 </include>
                 <control type="fixedlist" id="6401">
+                    <animation effect="slide" end="0,-80" condition="Integer.IsLess(Container(6401).NumItems,3)">Conditional</animation>
                     <top>120</top>
                     <bottom>20</bottom>
                     <include>Action_OSD_EpisodeList_OnUnFocus</include>
