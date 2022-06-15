@@ -39,68 +39,36 @@
                 </control>
                 <control type="group">
                     <visible>Control.HasFocus($PARAM[id]) + $PARAM[infowidget] + !Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
-                    <animation effect="fade" start="0" end="100" delay="200" time="400">Visible</animation>
-                    <control type="grouplist">
+                    <animation effect="fade" start="0" end="100" delay="200" time="400" reversible="false">Visible</animation>
+
+                    <!-- Info Widget Top -->
+                    <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)</visible>
                         <animation effect="slide" end="0,infowidget_slide_infotop" condition="true">Conditional</animation>
-                        <orientation>vertical</orientation>
-                        <itemgap>0</itemgap>
-                        <include content="Info_Title">
+                        <include content="Info_Panel">
+                            <param name="title" value="true" />
+                            <param name="infoline" value="true" />
                             <param name="container" value="Container($PARAM[id])." />
+                            <param name="plotwidth" value="60%" />
+                            <param name="details" value="false" />
+                            <param name="line_id" value="0" />
+                            <param name="controltype" value="label" />
+                            <param name="iswidget" value="true" />
+                            <param name="widget_label" value="$PARAM[label]" />
                         </include>
-                        <control type="group">
-                            <height>40</height>
-                            <control type="grouplist">
-                                <height>80</height>
-                                <centertop>50%</centertop>
-                                <orientation>horizontal</orientation>
-                                <itemgap>0</itemgap>
-                                <control type="label">
-                                    <width>auto</width>
-                                    <label>$PARAM[label]</label>
-                                    <font>font_medium_bold</font>
-                                    <textcolor>main_fg_100</textcolor>
-                                    <top>22</top>
-                                    <height>30</height>
-                                </control>
-                                <control type="label">
-                                    <left>10</left>
-                                    <width>auto</width>
-                                    <label>››</label>
-                                    <textcolor>$VAR[ColorHighlight]</textcolor>
-                                    <font>font_medium_bold</font>
-                                    <height>74</height>
-                                </control>
-                                <control type="group">
-                                    <left>10</left>
-                                    <include content="Info_Line">
-                                        <param name="container" value="Container($PARAM[id])." />
-                                        <param name="id" value="0" />
-                                        <param name="controltype" value="label" />
-                                        <centertop>50%</centertop>
-                                    </include>
-                                </control>
-                            </control>
-                        </control>
                     </control>
-                    <!-- <control type="group">
-                        <animation effect="slide" end="0,440" condition="true">Conditional</animation>
-                        <control type="group">
-                            <height>70</height>
-                            <include content="Info_Line">
-                                <param name="container" value="Container($PARAM[id])." />
-                                <param name="id" value="0" />
-                                <param name="controltype" value="label" />
-                                <centertop>50%</centertop>
-                            </include>
-                        </control>
-                    </control> -->
+
+                    <!-- Info Widget Bottom -->
                     <control type="group">
                         <animation effect="slide" end="0,infowidget_slide_infobottom" condition="true">Conditional</animation>
                         <include content="Info_Panel">
                             <param name="title" value="false" />
+                            <param name="infoline" value="false" />
+                            <param name="line_id" value="0" />
+                            <param name="controltype" value="label" />
                             <param name="container" value="Container($PARAM[id])." />
                             <param name="plotwidth" value="60%" />
+                            <param name="ratingsheight" value="70" />
                             <param name="ratings" value="[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,set) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,season) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) | Container($PARAM[id]).ListItem.IsCollection]" />
                         </include>
                     </control>
