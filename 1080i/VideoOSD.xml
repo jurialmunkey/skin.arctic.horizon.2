@@ -6,6 +6,13 @@
     <onload>SetProperty(UID,$ESCINFO[Player.Title]$INFO[Player.Time(ss)])</onload>
     <controls>
 
+        <include content="Object_Hidden_Button">
+            <param name="id" value="99997" />
+            <include>Defs_Hidden_Button</include>
+            <onfocus>SetFocus(6100)</onfocus>
+            <onfocus condition="Window.IsVisible(videoosd)">Action(Close)</onfocus>
+        </include>
+
         <control type="group">
             <visible>!Window.IsVisible(DialogSlider.xml)</visible>
             <!-- Left Side Buttons -->
@@ -19,6 +26,7 @@
                 <onleft>6800</onleft>
                 <onright>6901</onright>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="true" />
                     <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
                     <param name="visible" value="true" />
@@ -32,6 +40,7 @@
                     <ondown condition="!Player.Rewinding32x">PlayerControl(Rewind)</ondown>
                 </include>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="true" />
                     <param name="icon" value="osd/jump-back.png" />
                     <param name="id" value="6200" />
@@ -41,6 +50,7 @@
                     <ondown>Action(StepBack)</ondown>
                 </include>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="true" />
                     <param name="icon" value="osd/jump-forward.png" />
                     <param name="id" value="6300" />
@@ -50,6 +60,7 @@
                     <ondown>Action(StepBack)</ondown>
                 </include>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="true" />
                     <param name="icon" value="$VAR[Image_OSD_NextStop]" />
                     <param name="id" value="6400" />
@@ -59,6 +70,7 @@
                     <include>Action_OSD_EpisodeList_Refocus</include>
                 </include>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="PVR.CanRecordPlayingChannel + VideoPlayer.Content(livetv)" />
                     <param name="icon" value="osd/record.png" />
                     <param name="id" value="6900" />
@@ -88,6 +100,7 @@
                 <onleft>6900</onleft>
                 <onright>6100</onright>
                  <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="VideoPlayer.Content(livetv)" />
                     <param name="icon" value="osd/playlist.png" />
                     <param name="id" value="6901" />
@@ -98,6 +111,7 @@
                     <onup condition="VideoPlayer.HasEPG">ActivateWindow(pvrchannelguide)</onup>
                 </include>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="true" />
                     <param name="icon" value="osd/info.png" />
                     <param name="visible" value="true" />
@@ -113,6 +127,7 @@
                     <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)]">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=tv&amp;query='"$INFO[VideoPlayer.TvShowTitle]"',call_auto=1190,return)</onclick>
                 </include>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="true" />
                     <param name="icon" value="osd/audio-settings.png" />
                     <param name="visible" value="true" />
@@ -130,6 +145,7 @@
                     <onup>6601</onup>
                 </include>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="true" />
                     <param name="icon" value="osd/subs.png" />
                     <param name="id" value="6700" />
@@ -146,6 +162,7 @@
                     <onup>6701</onup>
                 </include>
                 <include content="OSD_Button">
+                    <param name="autoclose" value="true" />
                     <param name="visible" value="true" />
                     <param name="icon" value="osd/settings.png" />
                     <param name="visible" value="true" />
