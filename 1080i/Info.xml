@@ -1267,7 +1267,6 @@
         <param name="container" default="" />
         <param name="plotbox" default="true" />
         <param name="plotheight" default="80" />
-        <param name="plotheight_nr" default="120" />
         <param name="plotwidth" default="100%" />
         <param name="colordiffuse" default="main_fg" />
         <param name="ratings" default="[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | ListItem.IsCollection]" />
@@ -1312,11 +1311,11 @@
                     </include>
 
                     <control type="group">
+                        <height>$PARAM[plotheight]</height>
                         <bottom>-$PARAM[plotheight]</bottom>
                         <!-- Ratings + Plot -->
                         <include content="Object_Control">
                             <param name="control" value="textbox" />
-                            <height>$PARAM[plotheight]</height>
                             <width>$PARAM[plotwidth]</width>
                             <label>$VAR[Label_Plot_Main]</label>
                             <aligny>top</aligny>
@@ -1325,12 +1324,12 @@
                             <visible>$PARAM[ratings]</visible>
                             <visible>$PARAM[details]</visible>
                             <visible>$PARAM[plotbox]</visible>
+                            <top>0</top>
                             <bottom>0</bottom>
                         </include>
                         <!-- No Ratings + Plot -->
                         <include content="Object_Control">
                             <param name="control" value="textbox" />
-                            <height>$PARAM[plotheight_nr]</height>
                             <width>$PARAM[plotwidth]</width>
                             <label>$VAR[Label_Plot_Main]</label>
                             <aligny>top</aligny>
@@ -1339,6 +1338,7 @@
                             <visible>![$PARAM[ratings]]</visible>
                             <visible>$PARAM[details]</visible>
                             <visible>$PARAM[plotbox]</visible>
+                            <top>-40</top>
                             <bottom>0</bottom>
                         </include>
                     </control>
