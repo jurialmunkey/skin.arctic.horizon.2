@@ -1008,7 +1008,7 @@
                         <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Clearlogo]</texture>
                         <aspectratio scalediffuse="false" align="left">keep</aspectratio>
                         <bordersize>20</bordersize>
-                        <visible>String.IsEmpty(ListItem.Art(landscape)) + String.IsEmpty(ListItem.Art(tvshow.landscape)) + String.IsEmpty(ListItem.Art(season.landscape))</visible>
+                        <visible>!$EXP[Exp_HasArtLandscape]</visible>
                     </control>
                 </include>
                 <include content="Object_Control">
@@ -1843,13 +1843,15 @@
                     <control type="image">
                         <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">scale</aspectratio>
-                        <visible>![$EXP[Exp_IsPVRItem] + String.IsEmpty(ListItem.Art(fanart)) + String.IsEmpty(ListItem.Art(landscape))]</visible>
+                        <visible>$EXP[Exp_HasLandscapeFormatArt]</visible>
                     </control>
                     <control type="image">
                         <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">keep</aspectratio>
                         <bordersize>40</bordersize>
-                        <visible>$EXP[Exp_IsPVRItem] + String.IsEmpty(ListItem.Art(fanart)) + String.IsEmpty(ListItem.Art(landscape))</visible>
+                        <top>0</top>
+                        <bottom>-40</bottom>
+                        <visible>!$EXP[Exp_HasLandscapeFormatArt]</visible>
                     </control>
                     <include content="Object_Indicator">
                         <param name="selected" value="$PARAM[selected]" />

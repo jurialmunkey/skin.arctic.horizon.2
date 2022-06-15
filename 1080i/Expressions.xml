@@ -2,6 +2,12 @@
 <includes>
     <expression name="Exp_HasExtraFanart">[!String.IsEmpty(ListItem.Art(fanart1)) | !String.IsEmpty(ListItem.Art(tvshow.fanart1))]</expression>
 
+    <expression name="Exp_HasArtLandscape">[!String.IsEmpty(ListItem.Art(landscape)) | !String.IsEmpty(ListItem.Art(tvshow.landscape)) | !String.IsEmpty(ListItem.Art(season.landscape))]</expression>
+
+    <expression name="Exp_HasArtFanart">[!String.IsEmpty(ListItem.Art(fanart)) | !String.IsEmpty(ListItem.Art(tvshow.fanart)) | !String.IsEmpty(ListItem.Art(season.fanart))]</expression>
+
+    <expression name="Exp_HasLandscapeFormatArt">[$EXP[Exp_HasArtFanart] | $EXP[Exp_HasArtLandscape] | [!$EXP[Exp_IsPVRItem] + !String.IsEmpty(ListItem.Art(thumb))]]</expression>
+
     <expression name="Exp_HasWatchedProgress">[!Skin.HasSetting(DisableIndicator.Progress) + [[ListItem.IsResumable + !Integer.IsEqual(ListItem.PercentPlayed,0)] | [!String.IsEmpty(ListItem.Property(WatchedProgress)) + !Integer.IsEqual(ListItem.Property(WatchedProgress),0)]]]</expression>
 
     <expression name="Exp_IsPVRItem">[!String.IsEmpty(ListItem.ChannelNumberLabel)]</expression>
