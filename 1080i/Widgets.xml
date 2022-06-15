@@ -45,7 +45,7 @@
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)</visible>
                         <animation effect="slide" end="0,infowidget_slide_infotop" condition="true">Conditional</animation>
-                        <include content="Info_Panel">
+                        <include content="Info_Panel" condition="!$PARAM[usewidgetlabel]">
                             <param name="title" value="true" />
                             <param name="infoline" value="true" />
                             <param name="container" value="Container($PARAM[id])." />
@@ -55,6 +55,17 @@
                             <param name="controltype" value="label" />
                             <param name="iswidget" value="true" />
                             <param name="widget_label" value="$PARAM[label]" />
+                        </include>
+                        <include content="Info_Panel" condition="$PARAM[usewidgetlabel]">
+                            <param name="title" value="true" />
+                            <param name="infoline" value="true" />
+                            <param name="container" value="Container($PARAM[id])." />
+                            <param name="plotwidth" value="60%" />
+                            <param name="details" value="false" />
+                            <param name="line_id" value="0" />
+                            <param name="controltype" value="label" />
+                            <param name="iswidget" value="true" />
+                            <param name="widget_label" value="[CAPITALIZE]$INFO[Container($PARAM[id]).ListItem.Property(widget)][/CAPITALIZE]" />
                         </include>
                     </control>
 
