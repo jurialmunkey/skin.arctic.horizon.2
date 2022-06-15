@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="Background_ExtraFanart">
+        <control type="fadelabel" id="99998">
+            <description>Randomizer for plugin-free multiple fanart</description>
+            <font>font_statusbar</font>
+            <height>1</height>
+            <width>1</width>
+            <top>-1000</top>
+            <info>ListItem.Art(fanart)</info>
+            <info>ListItem.Art(fanart1)</info>
+            <info>ListItem.Art(fanart2)</info>
+            <info>ListItem.Art(fanart3)</info>
+            <info>ListItem.Art(fanart4)</info>
+            <info>ListItem.Art(fanart5)</info>
+            <info>ListItem.Art(fanart6)</info>
+            <info>ListItem.Art(fanart7)</info>
+            <info>ListItem.Art(fanart8)</info>
+            <info>ListItem.Art(fanart9)</info>
+            <info>ListItem.Art(tvshow.fanart)</info>
+            <info>ListItem.Art(tvshow.fanart1)</info>
+            <info>ListItem.Art(tvshow.fanart2)</info>
+            <info>ListItem.Art(tvshow.fanart3)</info>
+            <info>ListItem.Art(tvshow.fanart4)</info>
+            <info>ListItem.Art(tvshow.fanart5)</info>
+            <info>ListItem.Art(tvshow.fanart6)</info>
+            <info>ListItem.Art(tvshow.fanart7)</info>
+            <info>ListItem.Art(tvshow.fanart8)</info>
+            <info>ListItem.Art(tvshow.fanart9)</info>
+            <randomize>true</randomize>
+            <include>Defs_PauseAtEnd</include>
+            <scroll>false</scroll>
+            <scrollout>false</scrollout>
+            <resetonlabelchange>true</resetonlabelchange>
+            <visible>$EXP[Exp_HasExtraFanart]</visible>
+        </control>
+    </include>
+
     <include name="Background_BusyLoader">
         <control type="group">
             <visible>Window.IsVisible(DialogBusy.xml) | [Window.IsVisible(1190) + !$EXP[Exp_InfoDialogs]]</visible>
@@ -48,6 +84,7 @@
 
     <variable name="Background_Fanart_Var">
         <value condition="$EXP[Exp_IsPersonInfo]">common/blur2.jpg</value>
+        <value condition="[Window.IsVisible(MyPVRGuide.xml) | Window.IsMedia | $EXP[Exp_InfoDialogs] | [Skin.HasSetting(HomeFanart) + [Window.IsActive(1114) | Window.IsActive(Home)]]] + $EXP[Exp_HasExtraFanart]">$INFO[Control.GetLabel(99998)]</value>
         <value condition="[Window.IsVisible(MyPVRGuide.xml) | Window.IsMedia | $EXP[Exp_InfoDialogs] | [Skin.HasSetting(HomeFanart) + [Window.IsActive(1114) | Window.IsActive(Home)]]] + !String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="Window.IsMedia + Control.IsVisible(502) + Control.HasFocus(503) + !String.IsEmpty(Container(503).ListItem.Art(fanart))">$INFO[Container(503).ListItem.Art(fanart)]</value>
         <value condition="Window.IsMedia + Control.IsVisible(512) + Control.HasFocus(513) + !String.IsEmpty(Container(513).ListItem.Art(fanart))">$INFO[Container(513).ListItem.Art(fanart)]</value>
