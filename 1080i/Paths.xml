@@ -72,12 +72,16 @@
     <variable name="Path_Param_AggregateCrew">
         <value condition="Skin.HasSetting(Recommendations.AggregateTvCrew)">&amp;aggregate=true</value>
     </variable>
+    <variable name="Path_Param_EpisodeSpecific">
+        <value condition="String.IsEqual(ListItem.DBType,season)">$INFO[ListItem.Season,&amp;season=,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,episode)">$INFO[ListItem.Season,&amp;season=,]$INFO[ListItem.Episode,&amp;episode=,]</value>
+    </variable>
 
     <variable name="Path_Cast">
-        <value>plugin://plugin.video.themoviedb.helper?info=cast$VAR[Path_Param_Widget]$VAR[Path_Param_AggregateCast]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
+        <value>plugin://plugin.video.themoviedb.helper?info=cast$VAR[Path_Param_Widget]$VAR[Path_Param_AggregateCast]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]$VAR[Path_Param_EpisodeSpecific]</value>
     </variable>
     <variable name="Path_Crew">
-        <value>plugin://plugin.video.themoviedb.helper?info=crew$VAR[Path_Param_Widget]$VAR[Path_Param_AggregateCrew]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
+        <value>plugin://plugin.video.themoviedb.helper?info=crew$VAR[Path_Param_Widget]$VAR[Path_Param_AggregateCrew]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]$VAR[Path_Param_EpisodeSpecific]</value>
     </variable>
     <variable name="Path_Recommendations">
         <value>plugin://plugin.video.themoviedb.helper?info=recommendations$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
