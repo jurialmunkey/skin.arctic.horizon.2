@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[BUG] [Skin Section] Short Description"
+title: "[BUG] Short Description"
 labels: bug
 assignees: ''
 
