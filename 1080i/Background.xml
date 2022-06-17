@@ -58,28 +58,33 @@
     </include>
 
     <include name="Background_Blur">
-        <include content="Object_Control">
-            <param name="control" value="image" />
-            <fadetime>2000</fadetime>
-            <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
-            <visible>![Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)] | !$EXP[Exp_ShowSideArt]</visible>
-        </include>
+        <control type="group">
+            <include content="Background_NotVideo">
+                <param name="fade_end" value="70" />
+            </include>
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <fadetime>2000</fadetime>
+                <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
+                <visible>![Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)] | !$EXP[Exp_ShowSideArt]</visible>
+            </include>
 
-        <include content="Object_Control" condition="[Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)]" >
-            <param name="control" value="image" />
-            <fadetime>1000</fadetime>
-            <width>200%</width>
-            <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
-            <animation effect="fade" end="0" start="100" time="1000">Hidden</animation>
-            <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(tvshow.fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.TVShow.Fanart))</visible>
-            <visible>$EXP[Exp_ShowSideArt]</visible>
-            <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
-        </include>
+            <include content="Object_Control" condition="[Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)]" >
+                <param name="control" value="image" />
+                <fadetime>1000</fadetime>
+                <width>200%</width>
+                <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
+                <animation effect="fade" end="0" start="100" time="1000">Hidden</animation>
+                <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(tvshow.fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.TVShow.Fanart))</visible>
+                <visible>$EXP[Exp_ShowSideArt]</visible>
+                <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
+            </include>
 
-        <include content="Object_Control">
-            <param name="control" value="image" />
-            <texture colordiffuse="main_bg_45">common/bg.jpg</texture>
-        </include>
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <texture colordiffuse="main_bg_45">common/bg.jpg</texture>
+            </include>
+        </control>
     </include>
 
     <variable name="Background_Fanart_Var">
@@ -99,6 +104,7 @@
             <control type="image">
                 <fadetime>600</fadetime>
                 <texture background="true">$VAR[Background_Fanart_Var]</texture>
+                <include>Background_NotVideo</include>
             </control>
             <include content="Object_Control">
                 <param name="control" value="image" />
@@ -113,6 +119,9 @@
             <include content="Object_Control">
                 <param name="control" value="image" />
                 <texture background="true" colordiffuse="main_back">$PARAM[texture]</texture>
+                <include content="Background_NotVideo">
+                    <param name="fade_end" value="70" />
+                </include>
             </include>
         </definition>
     </include>
@@ -121,23 +130,61 @@
         <include content="Object_Control" condition="![Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)]">
             <param name="control" value="image" />
             <texture colordiffuse="main_back">common/bg.jpg</texture>
+            <include content="Background_NotVideo">
+                <param name="fade_end" value="70" />
+            </include>
         </include>
         <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)">
             <param name="control" value="image" />
             <texture colordiffuse="main_bg_100">common/bg.jpg</texture>
+            <include content="Background_NotVideo">
+                <param name="fade_end" value="70" />
+            </include>
+        </include>
+    </include>
+
+    <include name="Background_NotVideo">
+        <param name="fade_end" default="0" />
+        <definition>
+            <animation effect="fade" start="100" end="$PARAM[fade_end]" time="400" tween="sine" easing="out" reversible="false" condition="[$EXP[Exp_BackgroundVideo_Visible] + $EXP[Exp_BackgroundVideo_Include]]">Conditional</animation>
+            <animation effect="fade" start="$PARAM[fade_end]" end="100" time="400" tween="sine" easing="out" reversible="false" condition="![$EXP[Exp_BackgroundVideo_Visible] + $EXP[Exp_BackgroundVideo_Include]]">Conditional</animation>
+        </definition>
+    </include>
+
+    <include name="Background_Video">
+        <include content="Object_Control" condition="!$EXP[Exp_BackgroundVideo_Include]">
+            <param name="control" value="videowindow" />
+            <description>Off-screen videowindow for background video</description>
+            <top>-2160</top>
+            <width>1920</width>
+            <height>1080</height>
+        </include>
+        <include content="Object_Control" condition="$EXP[Exp_BackgroundVideo_Include]">
+            <param name="control" value="videowindow" />
+            <description>On-screen videowindow for background video</description>
+        </include>
+        <include content="Object_Control" condition="$EXP[Exp_BackgroundVideo_Include]">
+            <param name="control" value="image" />
+            <description>Transition effect for videowindow</description>
+            <texture colordiffuse="black">common/white.png</texture>
+            <include>Animation_WindowTransition_FadeInOut</include>
+            <visible>$EXP[Exp_BackgroundVideo_Visible]</visible>
         </include>
     </include>
 
     <include name="Background_Main">
+        <include>Background_Video</include>
         <control type="group">
             <include>Animation_Background_FadeInOut</include>
-            <control type="videowindow" />
             <include condition="Skin.String(BackgroundStyle,None)">Background_None</include>
             <include condition="Skin.String(BackgroundStyle,Image)">Background_Image</include>
             <include condition="Skin.String(BackgroundStyle,Fanart)">Background_Fanart</include>
             <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
             <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
             <nested />
+        </control>
+        <control type="group">
+            <include>Animation_Background_FadeInOut</include>
             <include content="Object_Control" condition="Skin.String(DividerStyle,Fade) | String.IsEmpty(Skin.String(DividerStyle))" >
                 <param name="control" value="image" />
                 <texture colordiffuse="main_bg_90">common/floor.png</texture>
