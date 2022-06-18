@@ -146,35 +146,35 @@
     <include name="Background_NotVideo">
         <param name="fade_end" default="0" />
         <definition>
-            <animation effect="fade" start="100" end="$PARAM[fade_end]" time="400" tween="sine" easing="out" reversible="false" condition="[$EXP[Exp_BackgroundVideo_Visible] + $EXP[Exp_BackgroundVideo_Include]]">Conditional</animation>
-            <animation effect="fade" start="$PARAM[fade_end]" end="100" time="400" tween="sine" easing="out" reversible="false" condition="![$EXP[Exp_BackgroundVideo_Visible] + $EXP[Exp_BackgroundVideo_Include]]">Conditional</animation>
+            <animation effect="fade" start="100" end="$PARAM[fade_end]" time="400" tween="sine" easing="out" reversible="false" condition="$EXP[Exp_HasBackgroundVideo]">Conditional</animation>
+            <animation effect="fade" start="$PARAM[fade_end]" end="100" time="400" tween="sine" easing="out" reversible="false" condition="!$EXP[Exp_HasBackgroundVideo]">Conditional</animation>
         </definition>
     </include>
 
     <include name="Background_Video">
-        <include content="Object_Control" condition="!$EXP[Exp_BackgroundVideo_Include]">
+        <include content="Object_Control" condition="!Skin.HasSetting(UseBackgroundVideo)">
             <param name="control" value="videowindow" />
             <description>Off-screen videowindow for background video</description>
             <top>-2160</top>
             <width>1920</width>
             <height>1080</height>
         </include>
-        <include content="Object_Control" condition="$EXP[Exp_BackgroundVideo_Include]">
+        <include content="Object_Control" condition="Skin.HasSetting(UseBackgroundVideo)">
             <param name="control" value="videowindow" />
             <description>On-screen videowindow for background video</description>
-        </include>
-        <include content="Object_Control" condition="$EXP[Exp_BackgroundVideo_Include]">
-            <param name="control" value="image" />
-            <description>Transition effect for videowindow</description>
-            <texture colordiffuse="black">common/white.png</texture>
-            <include>Animation_WindowTransition_FadeInOut</include>
-            <visible>$EXP[Exp_BackgroundVideo_Visible]</visible>
         </include>
     </include>
 
     <include name="Background_Main">
         <include>Background_Video</include>
-        <control type="group">
+        <include content="Object_Control" condition="$EXP[Exp_SettingsDialogs]">
+            <param name="control" value="group" />
+            <description>Plain background used to prevent fadetime transitions</description>
+            <include>Animation_Background_FadeInOut</include>
+            <include>Background_Image</include>
+        </include>
+        <include content="Object_Control" condition="!$EXP[Exp_SettingsDialogs]">
+            <param name="control" value="group" />
             <include>Animation_Background_FadeInOut</include>
             <include condition="Skin.String(BackgroundStyle,None)">Background_None</include>
             <include condition="Skin.String(BackgroundStyle,Image)">Background_Image</include>
@@ -182,7 +182,7 @@
             <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
             <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
             <nested />
-        </control>
+        </include>
         <control type="group">
             <include>Animation_Background_FadeInOut</include>
             <include content="Object_Control" condition="Skin.String(DividerStyle,Fade) | String.IsEmpty(Skin.String(DividerStyle))" >
