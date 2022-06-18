@@ -984,9 +984,6 @@
         <param name="fg_layer" default="true" />
         <param name="bg_layer" default="true" />
         <param name="diffuse" default="diffuse/landscape_w560_h320.png" />
-        <param name="listitem_dbtype" default="ListItem.DBType" />
-        <param name="listitem_label" default="ListItem.Label" />
-        <param name="listitem_label2" default="ListItem.TVShowTitle" />
         <param name="icon" default="$VAR[Image_Landscape]" />
         <param name="misc" default="0" />
         <definition>
@@ -1013,7 +1010,7 @@
                 </include>
                 <include content="Object_Control">
                     <param name="control" value="group" />
-                    <visible>String.IsEqual($PARAM[listitem_dbtype],actor) | String.IsEqual($PARAM[listitem_dbtype],video) | String.IsEqual($PARAM[listitem_dbtype],episode) | $PARAM[detailed]</visible>
+                    <visible>String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,video) | $EXP[Exp_IsPVRItem]</visible>
                     <include content="Object_Control" condition="$PARAM[bg_layer]">
                         <param name="control" value="image" />
                         <texture border="10" colordiffuse="bbffffff">diffuse/poster_fade.png</texture>
@@ -1024,36 +1021,31 @@
                         <height>120</height>
                         <control type="label">
                             <textcolor>ffdedede</textcolor>
-                            <label>$INFO[$PARAM[listitem_label]]</label>
+                            <label>$VAR[Label_Landscape_Plain]</label>
                             <textoffsetx>30</textoffsetx>
                             <align>left</align>
                             <aligny>center</aligny>
                             <font>font_mini_bold</font>
                             <height>20</height>
                             <bottom>30</bottom>
-                            <visible>String.IsEmpty($PARAM[listitem_label2]) | ![String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)]</visible>
                         </control>
                         <control type="label">
                             <textcolor>ffdedede</textcolor>
-                            <label>$INFO[$PARAM[listitem_label]]</label>
+                            <label>$VAR[Label_Landscape_Upper]</label>
                             <textoffsetx>30</textoffsetx>
                             <align>left</align>
                             <font>font_mini_bold</font>
                             <height>40</height>
                             <bottom>50</bottom>
-                            <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
-                            <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
                         </control>
                         <control type="label">
                             <textcolor>b3dedede</textcolor>
-                            <label>$INFO[$PARAM[listitem_label2]]</label>
+                            <label>$VAR[Label_Landscape_Lower]</label>
                             <textoffsetx>30</textoffsetx>
                             <align>left</align>
                             <font>font_mini</font>
                             <height>20</height>
                             <bottom>30</bottom>
-                            <visible>!String.IsEmpty($PARAM[listitem_label2])</visible>
-                            <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
                         </control>
                     </include>
                 </include>
@@ -1863,18 +1855,16 @@
                     <top>$PARAM[artwork_h]</top>
                     <control type="label">
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.Label]</label>
+                        <label>$VAR[Label_Landscape_Plain]</label>
                         <textcolor>$PARAM[textcolor]_70</textcolor>
                         <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
                         <font>font_mini_bold</font>
                         <align>center</align>
                         <textoffsetx>30</textoffsetx>
-                        <visible>!String.IsEqual(ListItem.DBType,episode) | String.IsEmpty(ListItem.TVShowTitle) | !String.IsEmpty(Container.ShowTitle)</visible>
                     </control>
                     <control type="label">
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.Label]</label>
-                        <!-- <label>$INFO[ListItem.Season,,x]$INFO[ListItem.Episode,,. ]$INFO[ListItem.Title]</label> -->
+                        <label>$VAR[Label_Landscape_Upper]</label>
                         <textcolor>$PARAM[textcolor]_70</textcolor>
                         <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
                         <font>font_mini_bold</font>
@@ -1882,11 +1872,10 @@
                         <textoffsetx>30</textoffsetx>
                         <height>40</height>
                         <centertop>33%</centertop>
-                        <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
                     </control>
                     <control type="label">
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <label>$INFO[ListItem.TVShowTitle]</label>
+                        <label>$VAR[Label_Landscape_Lower]</label>
                         <textcolor>$PARAM[textcolor]_70</textcolor>
                         <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
                         <font>font_statusbar</font>
@@ -1894,7 +1883,6 @@
                         <textoffsetx>30</textoffsetx>
                         <height>40</height>
                         <centerbottom>33%</centerbottom>
-                        <visible>String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TVShowTitle) + String.IsEmpty(Container.ShowTitle)</visible>
                     </control>
                 </control>
                 <include content="Object_Control" condition="!$PARAM[selected]">
