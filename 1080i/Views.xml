@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_MediaWindows_ID">
-        <views>50,500,501,502,504,507,51,510,511,512,514,517,52,520,522,524,540,57,570,572,574,58,580,590</views>
+        <views>50,500,501,502,504,507,508,51,510,511,512,514,517,52,520,522,524,540,57,570,572,574,58,580,590</views>
     </include>
 
     <include name="View_Furniture_Top">
@@ -75,55 +75,29 @@
     <include name="View_Main_MyPlaylist">
         <control type="group">
             <include>Animation_Foreground_SlideUp</include>
+            <include content="View_List_PlayList">
+                <param name="id" value="50" />
+                <param name="viewtype_label" value="$LOCALIZE[559]" />
+                <param name="isviewtype" value="false" />
+                <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
+            </include>
             <control type="group">
-                <include>Dimension_View</include>
-                <include content="Object_Control">
-                    <param name="control" value="group" />
-                    <include content="Object_GlassPanel">
-                        <left>493.33</left>
-                        <include content="List_MediaList">
-                            <param name="id" value="50" />
-                            <param name="context_button" value="true" />
-                            <param name="detailed" value="true" />
-                            <param name="itemlayout_include" value="Layout_PlayList" />
-                            <param name="item_h" value="113.33" />
-                            <param name="itemlayout_h" value="113.33" />
-                            <param name="misc" value="5" />
-                            <left>-row_height_x50</left>
-                            <right>-row_height_x50</right>
-                            <viewtype label="Playlist">list</viewtype>
-                            <onleft>61</onleft>
-                            <onright>menu</onright>
-                            <pagecontrol>61</pagecontrol>
-                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
-                        </include>
+                <width>view_pad</width>
+                <top>view_top</top>
+                <bottom>view_top</bottom>
+                <control type="scrollbar" id="61">
+                    <onright>50</onright>
+                    <orientation>vertical</orientation>
+                    <width>8</width>
+                    <centerleft>50%</centerleft>
+                    <include content="Object_Include" condition="!Skin.String(DividerStyle,Fade)">
+                        <texturesliderbackground colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
                     </include>
-                    <include content="Dialog_MusicInfoAlbumArt">
-                        <param name="discart_top" value="225" />
-                        <param name="width" value="453.33" />
-                        <param name="icon" value="$INFO[ListItem.Icon]" />
-                        <param name="discart_image" value="$VAR[Image_DiscArt]" />
-                        <param name="discart_spin" value="Player.Playing + !Player.Paused" />
-                        <left>0</left>
-                        <top>0</top>
-                        <visible>String.IsEqual(ListItem.DBtype,song)</visible>
-                        <control type="image">
-                            <top>453.33</top>
-                            <width>453.33</width>
-                            <texture background="true">$VAR[Image_Clearlogo]</texture>
-                            <aspectratio>keep</aspectratio>
-                            <bordersize>40</bordersize>
-                            <visible>String.IsEmpty(ListItem.Art(discart))</visible>
-                            <visible>String.IsEmpty(ListItem.Art(album.discart))</visible>
-                        </control>
-                    </include>
-                    <include content="Object_BigPoster">
-                        <param name="diffuse" value="diffuse/poster_w475_h680.png" />
-                        <height>680</height>
-                        <width>453.33</width>
-                        <visible>!String.IsEqual(ListItem.DBtype,song)</visible>
-                    </include>
-                </include>
+                    <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
+                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
+                    <include>Texture_Scrollbar_V</include>
+                    <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
+                </control>
             </control>
             <control type="group">
                 <include>Furniture_Bottom_Left</include>
