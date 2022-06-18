@@ -67,8 +67,7 @@
     <variable name="Label_NowPlayingSubLabel">
         <value condition="!String.IsEmpty(MusicPlayer.Artist)">$INFO[Player.Title]</value>
         <value condition="!String.IsEmpty(VideoPlayer.TvShowTitle)">$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E, • ]$INFO[Player.Title]</value>
-        <!-- <value>$INFO[VideoPlayer.Director]</value> -->
-        <value>$INFO[Player.FinishTime,$LOCALIZE[31072] ,]</value>
+        <value>$VAR[Label_PlayerFinishes,$LOCALIZE[31072] ,]</value>
     </variable>
 
     <variable name="Label_OSD_EpisodeLabel">
@@ -99,6 +98,12 @@
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Formed))">$INFO[ListItem.Property(Artist_Formed)]$INFO[ListItem.Property(Artist_Disbanded), ($LOCALIZE[21896] ,)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Born))">$INFO[ListItem.Property(Artist_Born)]$INFO[ListItem.Property(Artist_Died), ($LOCALIZE[21896] ,)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Birthday)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Deathday), ($LOCALIZE[21897] ,)]</value>
+    </variable>
+
+    <variable name="Label_PlayerFinishes">
+        <value condition="!String.IsEmpty(PVR.EpgEventFinishTime)">$INFO[PVR.EpgEventFinishTime]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.EndTime)">$INFO[VideoPlayer.EndTime]</value>
+        <value>$INFO[Player.FinishTime]</value>
     </variable>
 
     <variable name="Label_PlayerStream_IsForced">
