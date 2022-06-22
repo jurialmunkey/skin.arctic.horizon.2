@@ -488,17 +488,25 @@
         <param name="colordiffuse">main_fg</param>
         <param name="label_fallback"></param>
         <param name="label_width">auto</param>
+        <param name="icon_width">32</param>
+        <param name="icon_height">32</param>
+        <param name="icon_top">0</param>
+        <param name="icon_colordiffuse">ffffffff</param>
+        <param name="is_updating">$EXP[Exp_TMDbHelper_IsUpdating]</param>
         <definition>
             <include content="Object_Control" condition="$PARAM[include_condition]">
                 <param name="control" value="image" />
-                <top>0</top>
-                <width>32</width>
-                <height>32</height>
+                <top>$PARAM[icon_top]</top>
+                <width>$PARAM[icon_width]</width>
+                <height>$PARAM[icon_height]</height>
                 <include content="Texture_Control" condition="!Skin.HasSetting(EnableMonochromeFlags)">
                     <param name="texture" value="$PARAM[icon]" />
-                    <param name="colordiffuse" value="ffffffff" />
+                    <param name="colordiffuse" value="$PARAM[icon_colordiffuse]" />
                 </include>
-                <texture colordiffuse="$PARAM[colordiffuse]_100">$PARAM[icon]</texture>
+                <include content="Texture_Control" condition="Skin.HasSetting(EnableMonochromeFlags)">
+                    <param name="texture" value="$PARAM[icon]" />
+                    <param name="colordiffuse" value="$PARAM[colordiffuse]_100" />
+                </include>
                 <nested />
             </include>
             <include content="Object_Control" condition="$PARAM[include_condition]">
@@ -510,29 +518,41 @@
                 <align>left</align>
                 <font>font_mini</font>
                 <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
+                <visible>!$PARAM[is_updating]</visible>
+                <nested />
+            </include>
+            <include content="Object_Control" condition="$PARAM[include_condition]">
+                <param name="control" value="label" />
+                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                <top>2</top>
+                <width>$PARAM[label_width]</width>
+                <height>28</height>
+                <align>left</align>
+                <font>font_mini</font>
+                <label>$PARAM[label_fallback]</label>
+                <visible>$PARAM[is_updating]</visible>
                 <nested />
             </include>
         </definition>
     </include>
 
     <include name="Info_Ratings">
-        <param name="directory" default="$VAR[Texture_ColorMode_Dir]" />
-        <param name="align" default="left" />
-        <param name="rottentomatoes" default="true" />
-        <param name="imdbvotes" default="false" />
-        <param name="usermeter" default="true" />
-        <param name="imdb" default="true" />
-        <param name="tmdb" default="true" />
-        <param name="tvdb" default="true" />
-        <param name="trakt" default="true" />
-        <param name="metacritic" default="true" />
-        <param name="oscars" default="true" />
-        <param name="numericstarrating" default="!Skin.HasSetting(DisableNumericStarRating) + !Skin.HasSetting(DisableStarRating)" />
-        <param name="top250" default="false" />
-        <param name="tmdbtype" default="ListItem" />
-        <param name="userrating" default="ListItem.UserRating" />
-        <param name="starrating" default="ListItem.Rating" />
-        <param name="colordiffuse" default="main_fg" />
+        <param name="directory">$VAR[Texture_ColorMode_Dir]</param>
+        <param name="align">left</param>
+        <param name="rottentomatoes">true</param>
+        <param name="usermeter">true</param>
+        <param name="imdb">true</param>
+        <param name="tmdb">true</param>
+        <param name="tvdb">true</param>
+        <param name="trakt">true</param>
+        <param name="metacritic">true</param>
+        <param name="oscars">true</param>
+        <param name="top250">true</param>
+        <param name="releasestatus">true</param>
+        <param name="tmdbtype">ListItem</param>
+        <param name="userrating">ListItem.UserRating</param>
+        <param name="starrating">ListItem.Rating</param>
+        <param name="colordiffuse">main_fg</param>
         <definition>
             <control type="grouplist">
                 <nested />
@@ -541,162 +561,127 @@
                 <align>$PARAM[align]</align>
                 <itemgap>4</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
-                <include content="Info_StarRating" condition="!$PARAM[numericstarrating]">
-                    <left>-15</left>
-                </include>
-                <include content="Object_Control" condition="$PARAM[numericstarrating]">
-                    <param name="control" value="image" />
-                    <top>-17</top>
-                    <left>-14</left>
-                    <width>64</width>
-                    <height>64</height>
-                    <include content="Texture_Control" condition="Skin.HasSetting(EnableMonochromeFlags)">
-                        <param name="texture" value="flags/star10.png" />
-                        <param name="colordiffuse" value="$PARAM[colordiffuse]_100" />
-                    </include>
-                    <texture colordiffuse="ffeebb00">flags/star10.png</texture>
-                    <visible>!String.IsEmpty($PARAM[starrating])</visible>
-                    <visible>!String.IsEqual(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].TMDb_Rating),$PARAM[starrating])</visible>
-                    <visible>!String.IsEqual(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating),$PARAM[starrating])</visible>
-                </include>
-                <include content="Object_Control" condition="$PARAM[numericstarrating]">
-                    <param name="control" value="label" />
-                    <left>-11</left>
-                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                    <top>2</top>
-                    <width>auto</width>
-                    <height>28</height>
-                    <align>right</align>
-                    <font>font_mini</font>
-                    <label>$INFO[$PARAM[starrating],,   ]</label>
-                    <visible>!String.IsEmpty($PARAM[starrating])</visible>
-                    <visible>!String.IsEqual(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].TMDb_Rating),$PARAM[starrating])</visible>
-                    <visible>!String.IsEqual(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating),$PARAM[starrating])</visible>
-                </include>
+                <!-- <include content="Info_StarRating">
+                    <left>-16</left>
+                </include> -->
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">[$PARAM[oscars]] + !Skin.HasSetting(DisableOscarRating)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableStarRating)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                    <param name="icon">flags/$PARAM[directory]/ratings/oscar.png</param>
-                    <param name="label">$VAR[Label_$PARAM[tmdbtype]_TrophyWins, x,   ]</param>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Oscar_Wins))</visible>
+                    <param name="icon">flags/star10.png</param>
+                    <param name="icon_colordiffuse">ffeebb00</param>
+                    <param name="icon_top">-17</param>
+                    <param name="icon_width">64</param>
+                    <param name="icon_height">64</param>
+                    <param name="label">$INFO[$PARAM[starrating], ,   ]</param>
+                    <param name="label_fallback"> −.−   </param>
+                    <param name="is_updating">False</param>
+                    <left>-16</left>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">[$PARAM[oscars]] + !Skin.HasSetting(DisableOscarRating)</param>
-                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                    <param name="icon">flags/$PARAM[directory]/ratings/goldenglobe.png</param>
-                    <param name="label">$VAR[Label_$PARAM[tmdbtype]_TrophyWins, x,   ]</param>
-                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Oscar_Wins)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].GoldenGlobe_Wins))</visible>
-                </include>
-
-                <include content="Info_Ratings_Item">
-                    <param name="include_condition">[$PARAM[metacritic]] + !Skin.HasSetting(DisableMetacriticRating)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableMetacritic)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/metacritic.png</param>
                     <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].MetaCritic_Rating), ,%   ]</param>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].MetaCritic_Rating))</visible>
+                    <param name="label_fallback"> −−%   </param>
+                    <visible>$PARAM[metacritic]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">[$PARAM[trakt]] + !Skin.HasSetting(DisableTraktRating)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableTrakt)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/trakt.png</param>
                     <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Trakt_Rating), ,   ]</param>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Trakt_Rating))</visible>
+                    <param name="label_fallback"> −.−   </param>
+                    <visible>$PARAM[trakt]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">[$PARAM[tmdb]] + !Skin.HasSetting(DisableTMDBRating)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableTMDB)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/tmdb.png</param>
                     <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].TMDb_Rating), ,   ]</param>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].TMDb_Rating))</visible>
+                    <param name="label_fallback"> −.−   </param>
+                    <visible>$PARAM[tmdb]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">[$PARAM[usermeter]] + !Skin.HasSetting(DisableRottenTomatoesUserRating)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesUser)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes_UserMeter]</param>
                     <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_UserMeter), ,%   ]</param>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_UserMeter))</visible>
+                    <param name="label_fallback"> −−%   </param>
+                    <visible>$PARAM[usermeter]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">[$PARAM[rottentomatoes]] + !Skin.HasSetting(DisableRottenTomatoesCriticRating)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesCritic)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes]</param>
                     <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_Rating), ,%   ]</param>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_Rating))</visible>
+                    <param name="label_fallback"> −−%   </param>
+                    <visible>$PARAM[rottentomatoes]</visible>
                 </include>
 
-                <include content="Object_Control" condition="[$PARAM[imdb]] + !Skin.HasSetting(DisableIMDBRating)">
-                    <param name="control" value="image" />
-                    <top>1</top>
-                    <width>52</width>
-                    <height>32</height>
-                    <include content="Texture_Control" condition="!Skin.HasSetting(EnableMonochromeFlags)">
-                        <param name="texture" value="flags/$PARAM[directory]/ratings/imdb.png" />
-                        <param name="colordiffuse" value="ffffffff" />
-                    </include>
-                    <texture colordiffuse="$PARAM[colordiffuse]_100">flags/$PARAM[directory]/ratings/imdb.png</texture>
-                    <visible>!String.IsEmpty(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating))</visible>
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableIMDb)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/imdb.png</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">52</param>
+                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating), ,   ]</param>
+                    <param name="label_fallback"> −.−   </param>
+                    <visible>$PARAM[imdb]</visible>
                 </include>
-                <include content="Object_Control" condition="[$PARAM[imdb]] + [$PARAM[imdbvotes]] + !Skin.HasSetting(DisableIMDBRating)">
-                    <param name="control" value="label" />
-                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                    <top>2</top>
-                    <width>auto</width>
-                    <height>28</height>
-                    <align>right</align>
-                    <font>font_mini</font>
-                    <label>$INFO[Window(home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating), ,]$INFO[Window(home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Votes), (, $LOCALIZE[205])]</label>
-                    <visible>!String.IsEmpty(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating))</visible>
-                </include>
-                <include content="Object_Control" condition="[$PARAM[imdb]] + ![$PARAM[imdbvotes]] + !Skin.HasSetting(DisableIMDBRating)">
-                    <param name="control" value="label" />
-                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                    <top>2</top>
-                    <width>auto</width>
-                    <height>28</height>
-                    <align>right</align>
-                    <font>font_mini</font>
-                    <label>$INFO[Window(home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating), ,   ]</label>
-                    <visible>!String.IsEmpty(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating))</visible>
-                </include>
-                <include content="Object_Control" condition="[$PARAM[imdb]] + [$PARAM[top250]] + !Skin.HasSetting(DisableIMDBRating) + !Skin.HasSetting(DisableIMDBRatingTop250)">
+                <include content="Object_Control" condition="!Skin.HasSetting(DisableIMDBRating) + !Skin.HasSetting(Ratings.DisableIMDbTop250)">
                     <param name="control" value="label" />
                     <textcolor>$PARAM[colordiffuse]_70</textcolor>
                     <left>-10</left>
                     <top>2</top>
                     <width>auto</width>
                     <height>28</height>
-                    <align>right</align>
                     <font>font_mini</font>
                     <label>$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Top250),#,   ]</label>
-                    <visible>Integer.IsGreater(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].Top250),0)</visible>
+                    <visible>!Integer.IsEqual(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].Top250),0)</visible>
+                    <visible>[$PARAM[imdb]] + [$PARAM[top250]]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableOscar)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/oscar.png</param>
+                    <param name="label">$VAR[Label_$PARAM[tmdbtype]_TrophyWins, x,   ]</param>
+                    <visible>$PARAM[oscars]</visible>
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Oscar_Wins))</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableOscar)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/goldenglobe.png</param>
+                    <param name="label">$VAR[Label_$PARAM[tmdbtype]_TrophyWins, x,   ]</param>
+                    <visible>$PARAM[oscars]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Oscar_Wins)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].GoldenGlobe_Wins))</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRelease)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/nextaired.png</param>
+                    <param name="icon_colordiffuse">FFBD2F84</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">31</param>
+                    <param name="icon_height">31</param>
+                    <param name="label">$VAR[Label_NextAired, ,   ]</param>
+                    <param name="label_fallback"> </param>
+                    <param name="is_updating">False</param>
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))</visible>
+                    <visible>!$EXP[Exp_TMDbHelper_IsUpdating]</visible>
+                    <visible>$PARAM[releasestatus]</visible>
                 </include>
 
 
-                <include content="Object_Control">
-                    <param name="control" value="image" />
-                    <top>1</top>
-                    <width>31</width>
-                    <height>31</height>
-                    <texture colordiffuse="FFBD2F84">flags/nextaired.png</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))</visible>
-                </include>
-                <include content="Object_Control">
-                    <param name="control" value="label" />
-                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                    <top>2</top>
-                    <width>auto</width>
-                    <height>28</height>
-                    <align>right</align>
-                    <font>font_mini</font>
-                    <label>$VAR[Label_NextAired]</label>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))</visible>
-                </include>
             </control>
         </definition>
     </include>
@@ -1215,6 +1200,15 @@
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <param name="userrating" value="$PARAM[container]ListItem.UserRating" />
                         <param name="starrating" value="$PARAM[container]ListItem.Rating" />
+                        <param name="rottentomatoes">String.IsEqual($PARAM[container]ListItem.DBType,movie)</param>
+                        <param name="usermeter">String.IsEqual($PARAM[container]ListItem.DBType,movie)</param>
+                        <param name="imdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)]</param>
+                        <param name="tmdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)]</param>
+                        <param name="trakt">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]</param>
+                        <param name="metacritic">String.IsEqual($PARAM[container]ListItem.DBType,movie)</param>
+                        <param name="oscars">true</param>
+                        <param name="top250">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]</param>
+                        <param name="releasestatus">[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)]</param>
                         <centertop>50%</centertop>
                         <visible>$PARAM[ratings]</visible>
                     </include>
