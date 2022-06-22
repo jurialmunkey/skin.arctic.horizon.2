@@ -4,7 +4,8 @@
     <visible>true</visible>
     <visible>Skin.HasSetting(DebugInfo) | Skin.HasSetting(DebugGrid)</visible>
     <controls>
-        <control type="group">
+        <include content="Object_Control" condition="Skin.HasSetting(DebugGrid)">
+            <param name="control">group</param>
             <visible>Skin.HasSetting(DebugGrid)</visible>
             <!-- Vertical 40 px lines -->
             <control type="grouplist">
@@ -36,9 +37,6 @@
                 <include>Horz_Red_Line</include>
                 <include>Horz_Red_Line</include>
             </control>
-
-
-
 
             <!-- Screen Padding Lines -->
             <control type="image">
@@ -152,42 +150,44 @@
                 <texture colordiffuse="blue">common/white.png</texture>
             </control>
 
-        </control>
+        </include>
 
-        <control type="grouplist">
-            <visible>Skin.HasSetting(DebugInfo)</visible>
-            <align>top</align>
-            <orientation>vertical</orientation>
-            <include content="Overlay_InfoLabel">
-                <label> --system.currentcontrolid: $INFO[System.CurrentControlID,, ]$INFO[System.CurrentControl] </label>
-                <textcolor>yellowgreen</textcolor>
-            </include>
-            <include content="Overlay_InfoLabel">
-                <label>    --system.currentwindow: $INFO[System.CurrentWindow] </label>
-                <textcolor>yellowgreen</textcolor>
-            </include>
-            <include content="Overlay_InfoLabel">
-                <label>       --contextmenu.title: $INFO[Window(Home).Property(ContextMenu.Title)] </label>
-                <textcolor>yellowgreen</textcolor>
-            </include>
-            <include content="Overlay_InfoLabel">
-                <label>   --tmdbhelper.isupdating: $INFO[Window(Home).Property(TMDBHelper.IsUpdating),details: , ]$INFO[Window(Home).Property(TMDBHelper.IsUpdatingRatings),ratings: , ]</label>
-                <textcolor>yellowgreen</textcolor>
-            </include>
-
-        </control>
-        <control type="grouplist">
-            <visible>Skin.HasSetting(DebugInfo)</visible>
-            <align>bottom</align>
-            <orientation>vertical</orientation>
-            <include content="Overlay_InfoLabel">
-                <label> --container.folderpath: $INFO[Container.FolderPath] </label>
-                <textcolor>magenta</textcolor>
-            </include>
-            <include content="Overlay_InfoLabel">
-                <label>  --listitem.folderpath: $INFO[ListItem.FolderPath] </label>
-                <textcolor>blueviolet</textcolor>
-            </include>
-        </control>
+        <include content="Object_Control" condition="Skin.HasSetting(DebugInfo)">
+            <param name="control">group</param>
+            <control type="grouplist">
+                <visible>Skin.HasSetting(DebugInfo)</visible>
+                <align>top</align>
+                <orientation>vertical</orientation>
+                <include content="Overlay_InfoLabel">
+                    <label> --system.currentcontrolid: $INFO[System.CurrentControlID,, ]$INFO[System.CurrentControl] </label>
+                    <textcolor>yellowgreen</textcolor>
+                </include>
+                <include content="Overlay_InfoLabel">
+                    <label>    --system.currentwindow: $INFO[System.CurrentWindow] </label>
+                    <textcolor>yellowgreen</textcolor>
+                </include>
+                <include content="Overlay_InfoLabel">
+                    <label>       --contextmenu.title: $INFO[Window(Home).Property(ContextMenu.Title)] </label>
+                    <textcolor>yellowgreen</textcolor>
+                </include>
+                <include content="Overlay_InfoLabel">
+                    <label>   --tmdbhelper.isupdating: $INFO[Window(Home).Property(TMDBHelper.IsUpdating),details: , ]$INFO[Window(Home).Property(TMDBHelper.IsUpdatingRatings),ratings: , ]</label>
+                    <textcolor>yellowgreen</textcolor>
+                </include>
+            </control>
+            <control type="grouplist">
+                <visible>Skin.HasSetting(DebugInfo)</visible>
+                <align>bottom</align>
+                <orientation>vertical</orientation>
+                <include content="Overlay_InfoLabel">
+                    <label> --container.folderpath: $INFO[Container.FolderPath] </label>
+                    <textcolor>magenta</textcolor>
+                </include>
+                <include content="Overlay_InfoLabel">
+                    <label>  --listitem.folderpath: $INFO[ListItem.FolderPath] </label>
+                    <textcolor>blueviolet</textcolor>
+                </include>
+            </control>
+        </include>
     </controls>
 </window>
