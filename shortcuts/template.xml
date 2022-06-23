@@ -163,6 +163,9 @@
                                     <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 511]" />
                                     <param name="label" value="$VAR[Label_FullscreenWidget_PlayButton]" />
                                     <param name="icon" value="$VAR[Image_FullscreenWidget_PlayButton]" />
+                                    <onup>SetFocus(300)</onup>
+                                    <onback>SetFocus(300)</onback>
+                                    <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
                                     <onclick>SetFocus(301)</onclick>
                                     <onclick>Action(Select)</onclick>
                                     <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</onclick>
@@ -173,6 +176,9 @@
                                     <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 513]" />
                                     <param name="label" value="$LOCALIZE[31077]" />
                                     <param name="icon" value="special://skin/extras/icons/info2.png" />
+                                    <onup>SetFocus(300)</onup>
+                                    <onback>SetFocus(300)</onback>
+                                    <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
                                     <onclick>SetFocus(301)</onclick>
                                     <onclick>Action(Info)</onclick>
                                     <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</onclick>
@@ -219,7 +225,8 @@
                 </control>
             </control>
             <include content="Object_WallFade">
-                <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 400]" />
+                <param name="id">$PYTHON[int(mainmenuid) * 1000 + 400]</param>
+                <param name="altvisible_bottom">!String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle))</param>
                 <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) | !$SKINSHORTCUTS[isFullscreenWidget]</visible>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
@@ -872,6 +879,7 @@
 
             <property name="isInfo" tag="property" attribute="name|widgetInfo">True</property>
             <property name="isInfo">False</property>
+            <property name="widgetInfo" tag="property" attribute="name|widgetInfo" value="Full">Plot</property>
             <property name="widgetInfo" tag="property" attribute="name|widgetInfo" />
 
             <property name="isVisible" tag="visible" />
