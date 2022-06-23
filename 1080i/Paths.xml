@@ -142,7 +142,12 @@
     </variable>
 
     <variable name="Path_UpNext">
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode) |  | String.IsEqual(ListItem.DBType,season)">plugin://plugin.video.themoviedb.helper/?info=trakt_upnext&amp;type=tv$VAR[Path_Param_Widget]$VAR[Path_Param_Query]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season)">plugin://plugin.video.themoviedb.helper/?info=trakt_upnext&amp;type=tv$VAR[Path_Param_Widget]$VAR[Path_Param_Query]</value>
+    </variable>
+
+    <variable name="Path_Youtube">
+        <value condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season)] + !String.IsEmpty(ListItem.TvShowTitle)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.TvShowTitle]&amp;search_type=notvalid</value>
+        <value condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,movie)] + !String.IsEmpty(ListItem.Title)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Title]&amp;search_type=notvalid</value>
     </variable>
 
     <variable name="Path_Seasons">

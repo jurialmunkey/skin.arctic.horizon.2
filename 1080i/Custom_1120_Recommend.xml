@@ -224,6 +224,22 @@
                     <onback>SetFocus(5000)</onback>
                 </include>
 
+                <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableYoutube)">
+                    <param name="groupid" value="5112" />
+                    <param name="id" value="5012" />
+                    <param name="label" value="Youtube" />
+                    <param name="include" value="List_Landscape_Row" />
+                    <param name="icon" value="$INFO[ListItem.Icon]" />
+                    <param name="visible" value="!String.IsEmpty(Window.Property(Path.Youtube))" />
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,5012,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                    <content>$INFO[Window.Property(Path.Youtube)]</content>
+                    <include content="Action_Widget_Click"><param name="id" value="5012" /></include>
+                    <onback>SetFocus(5000)</onback>
+                </include>
+
                 <!-- People Widgets -->
                 <include content="Widget_Poster" condition="$EXP[Exp_IsPersonInfo]">
                     <param name="groupid" value="5100" />
