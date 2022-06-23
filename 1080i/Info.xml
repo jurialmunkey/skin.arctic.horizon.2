@@ -488,11 +488,15 @@
         <param name="colordiffuse">main_fg</param>
         <param name="label_fallback"></param>
         <param name="label_width">auto</param>
+        <param name="label_prefix">[COLOR=00ffffff].[/COLOR]</param>
+        <param name="label_suffix">[COLOR=00ffffff]...[/COLOR]</param>
         <param name="icon_width">32</param>
         <param name="icon_height">32</param>
         <param name="icon_top">0</param>
         <param name="icon_colordiffuse">ffffffff</param>
         <param name="is_updating">$EXP[Exp_TMDbHelper_IsUpdating]</param>
+        <param name="is_varlabel">false</param>
+        <param name="is_autohide">false</param>
         <definition>
             <include content="Object_Control" condition="$PARAM[include_condition]">
                 <param name="control" value="image" />
@@ -507,6 +511,9 @@
                     <param name="texture" value="$PARAM[icon]" />
                     <param name="colordiffuse" value="$PARAM[colordiffuse]_100" />
                 </include>
+                <include content="Object_Include" condition="$PARAM[is_autohide]">
+                    <visible>!String.IsEmpty($PARAM[label])</visible>
+                </include>
                 <nested />
             </include>
             <include content="Object_Control" condition="$PARAM[include_condition]">
@@ -517,8 +524,14 @@
                 <height>28</height>
                 <align>left</align>
                 <font>font_mini</font>
-                <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
+                <include content="Object_Include" condition="$PARAM[is_varlabel]">
+                    <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
+                </include>
+                <label fallback="$PARAM[label_prefix]$PARAM[label_fallback]$PARAM[label_suffix]">$INFO[$PARAM[label],$PARAM[label_prefix],$PARAM[label_suffix]]</label>
                 <visible>!$PARAM[is_updating]</visible>
+                <include content="Object_Include" condition="$PARAM[is_autohide]">
+                    <visible>!String.IsEmpty($PARAM[label])</visible>
+                </include>
                 <nested />
             </include>
             <include content="Object_Control" condition="$PARAM[include_condition]">
@@ -529,8 +542,11 @@
                 <height>28</height>
                 <align>left</align>
                 <font>font_mini</font>
-                <label>$PARAM[label_fallback]</label>
+                <label>$PARAM[label_prefix]$PARAM[label_fallback]$PARAM[label_suffix]</label>
                 <visible>$PARAM[is_updating]</visible>
+                <include content="Object_Include" condition="$PARAM[is_autohide]">
+                    <visible>!String.IsEmpty($PARAM[label])</visible>
+                </include>
                 <nested />
             </include>
         </definition>
@@ -573,9 +589,10 @@
                     <param name="icon_top">-17</param>
                     <param name="icon_width">64</param>
                     <param name="icon_height">64</param>
-                    <param name="label">$INFO[$PARAM[starrating], ,   ]</param>
-                    <param name="label_fallback"> −.−   </param>
+                    <param name="label">$PARAM[starrating]</param>
+                    <param name="label_fallback">−.−</param>
                     <param name="is_updating">False</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <left>-16</left>
                 </include>
 
@@ -583,8 +600,10 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableMetacritic)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/metacritic.png</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].MetaCritic_Rating), ,%   ]</param>
-                    <param name="label_fallback"> −−%   </param>
+                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].MetaCritic_Rating)</param>
+                    <param name="label_fallback">−−</param>
+                    <param name="label_suffix">%   </param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[metacritic]</visible>
                 </include>
 
@@ -592,8 +611,9 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableTrakt)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/trakt.png</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Trakt_Rating), ,   ]</param>
-                    <param name="label_fallback"> −.−   </param>
+                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Trakt_Rating)</param>
+                    <param name="label_fallback">−.−</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[trakt]</visible>
                 </include>
 
@@ -601,8 +621,9 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableTMDB)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/tmdb.png</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].TMDb_Rating), ,   ]</param>
-                    <param name="label_fallback"> −.−   </param>
+                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].TMDb_Rating)</param>
+                    <param name="label_fallback">−.−</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[tmdb]</visible>
                 </include>
 
@@ -610,8 +631,10 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesUser)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes_UserMeter]</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_UserMeter), ,%   ]</param>
-                    <param name="label_fallback"> −−%   </param>
+                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_UserMeter)</param>
+                    <param name="label_fallback">−−</param>
+                    <param name="label_suffix">%   </param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[usermeter]</visible>
                 </include>
 
@@ -619,8 +642,10 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesCritic)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes]</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_Rating), ,%   ]</param>
-                    <param name="label_fallback"> −−%   </param>
+                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_Rating)</param>
+                    <param name="label_fallback">−−</param>
+                    <param name="label_suffix">%   </param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[rottentomatoes]</visible>
                 </include>
 
@@ -630,8 +655,9 @@
                     <param name="icon">flags/$PARAM[directory]/ratings/imdb.png</param>
                     <param name="icon_top">1</param>
                     <param name="icon_width">52</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating), ,   ]</param>
-                    <param name="label_fallback"> −.−   </param>
+                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating)</param>
+                    <param name="label_fallback">−.−</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[imdb]</visible>
                 </include>
                 <include content="Object_Control" condition="!Skin.HasSetting(DisableIMDBRating) + !Skin.HasSetting(Ratings.DisableIMDbTop250)">
@@ -652,6 +678,7 @@
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/oscar.png</param>
                     <param name="label">$VAR[Label_$PARAM[tmdbtype]_TrophyWins, x,   ]</param>
+                    <param name="is_varlabel">true</param>
                     <visible>$PARAM[oscars]</visible>
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Oscar_Wins))</visible>
                 </include>
@@ -661,6 +688,7 @@
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/goldenglobe.png</param>
                     <param name="label">$VAR[Label_$PARAM[tmdbtype]_TrophyWins, x,   ]</param>
+                    <param name="is_varlabel">true</param>
                     <visible>$PARAM[oscars]</visible>
                     <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Oscar_Wins)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].GoldenGlobe_Wins))</visible>
                 </include>
@@ -676,6 +704,7 @@
                     <param name="label">$VAR[Label_NextAired, ,   ]</param>
                     <param name="label_fallback"> </param>
                     <param name="is_updating">False</param>
+                    <param name="is_varlabel">true</param>
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))</visible>
                     <visible>!$EXP[Exp_TMDbHelper_IsUpdating]</visible>
                     <visible>$PARAM[releasestatus]</visible>
