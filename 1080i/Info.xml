@@ -17,7 +17,8 @@
                     </include>
                     <font>font_infotitle</font>
                     <visible>![Skin.HasSetting(TMDbHelper.EnableCrop) +
-                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]] |
+                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + !$EXP[Exp_RecommendationDialogs] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]] |
+                        [$EXP[Exp_RecommendationDialogs] + !String.IsEmpty(Window.Property(CropLogo))] |
                         [!String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [String.IsEqual($PARAM[container]ListItem.DBType,artist) + !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]]]]</visible>
                     <animation type="Hidden" reversible="false">
                         <effect type="fade" end="0" start="100" time="300" delay="700"/>
@@ -31,9 +32,10 @@
                     <aspectratio align="left">keep</aspectratio>
                     <fadetime>600</fadetime>
                     <texture background="true">$VAR[Image_CropLogo_Main]</texture>
-                    <visible>Skin.HasSetting(TMDbHelper.EnableCrop) +
-                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(1120) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]] |
-                        [!String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [String.IsEqual($PARAM[container]ListItem.DBType,artist) + !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]]]</visible>
+                    <visible>[Skin.HasSetting(TMDbHelper.EnableCrop) +
+                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + !$EXP[Exp_RecommendationDialogs] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]] |
+                        [$EXP[Exp_RecommendationDialogs] + !String.IsEmpty(Window.Property(CropLogo))] |
+                        [!String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [String.IsEqual($PARAM[container]ListItem.DBType,artist) + !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]]]]</visible>
                     <animation type="Visible" reversible="false">
                         <effect type="fade" end="100" start="0" time="300" delay="1000"/>
                     </animation>
