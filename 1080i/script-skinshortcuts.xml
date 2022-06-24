@@ -182,10 +182,11 @@
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
-                            <param name="id" value="312" />
+                            <param name="id" value="9312" />
                             <param name="control" value="button" />
                             <description>Fullscreen widget (standard widget button)</description>
-                            <label> - $LOCALIZE[31102]</label>
+                            <onclick>SetFocus(312)</onclick>
+                            <label>$LOCALIZE[31102]</label>
                             <label2>$INFO[Container(211).ListItem.Property(widgetPath)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
@@ -194,7 +195,7 @@
                             <param name="id" value="9906" />
                             <param name="control" value="radiobutton" />
                             <description>Submenu bumper</description>
-                            <label> - $LOCALIZE[1034] $LOCALIZE[31173]</label>
+                            <label>$LOCALIZE[1034] $LOCALIZE[31173]</label>
                             <selected>String.IsEmpty(Container(211).ListItem.Property(disableSubmenuBumper))</selected>
                             <onclick>SetProperty(customProperty,disableSubmenuBumper)</onclick>
                             <onclick condition="String.IsEmpty(Container(211).ListItem.Property(disableSubmenuBumper))">SetProperty(customValue,1)</onclick>
@@ -306,6 +307,77 @@
 
                     </control>
                 </control>
+            </control>
+        </include>
+
+        <include content="Object_Overlay">
+            <param name="windowanimation">false</param>
+            <include>Animation_FadeIn</include>
+            <visible>ControlGroup(8000).HasFocus()</visible>
+        </include>
+        <include content="Dialog_Background">
+            <include content="Animation_SlideIn_Dialog_Conditional">
+                <param name="delay">150</param>
+                <param name="condition">ControlGroup(8000).HasFocus()</param>
+            </include>
+            <include>Dimension_DialogSkinShortcuts_FullscreenWidget</include>
+            <include content="Dialog_Header">
+                <label>$LOCALIZE[31102]</label>
+            </include>
+            <control type="grouplist" id="8000">
+                <orientation>vertical</orientation>
+                <top>dialog_pad</top>
+                <bottom>dialog_pad</bottom>
+                <onleft>9100</onleft>
+                <onright>9100</onright>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="312" />
+                    <param name="control" value="button" />
+                    <description>Fullscreen widget (standard widget button)</description>
+                    <label>$LOCALIZE[31104]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetPath)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9912" />
+                    <param name="control" value="button" />
+                    <onclick>SendClick(9902)</onclick>
+                    <description>Content Type</description>
+                    <label>$LOCALIZE[31106]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetTarget)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9913" />
+                    <param name="control" value="button" />
+                    <description>Sort by</description>
+                    <onclick>SendClick(9903)</onclick>
+                    <label>$LOCALIZE[31016]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetSortby)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9914" />
+                    <param name="control" value="button" />
+                    <onclick>SendClick(9904)</onclick>
+                    <description>Sort direction</description>
+                    <label>$LOCALIZE[580]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetSortorder)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9917" />
+                    <param name="control" value="button" />
+                    <onclick>SendClick(9907)</onclick>
+                    <description>Limit</description>
+                    <label>$LOCALIZE[31188]</label>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                </include>
             </control>
         </include>
 
