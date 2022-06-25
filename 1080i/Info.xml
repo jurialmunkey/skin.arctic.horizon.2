@@ -698,7 +698,7 @@
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRelease)</param>
+                    <param name="include_condition">[!Skin.HasSetting(Ratings.DisableTvRelease) | !Skin.HasSetting(Ratings.DisableMovieRelease)]</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/nextaired.png</param>
                     <param name="icon_colordiffuse">FFBD2F84</param>
@@ -1243,7 +1243,7 @@
                         <param name="metacritic">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
                         <param name="oscars">true</param>
                         <param name="top250">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | $EXP[Exp_PVRWindows]]</param>
-                        <param name="releasestatus">[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
+                        <param name="releasestatus">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) + !Skin.HasSetting(Ratings.DisableMovieRelease)] | [[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)] + !Skin.HasSetting(Ratings.DisableTvRelease)]]</param>
                         <centertop>50%</centertop>
                         <visible>$PARAM[ratings]</visible>
                     </include>
