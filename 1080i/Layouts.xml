@@ -309,7 +309,6 @@
         </definition>
     </include>
 
-
     <include name="Layout_DialogSubtitles">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
@@ -1416,7 +1415,6 @@
         </definition>
     </include>
 
-
     <include name="Layout_PVRRecordings">
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
@@ -1638,45 +1636,19 @@
                 </include>
                 <control type="group">
                     <width>$PARAM[item_h]</width>
-                    <!-- Genre Icons -->
-                    <control type="image">
-                        <texture colordiffuse="main_fg_90" fallback="resource://resource.images.moviegenreicons.transparent/Drama.png">resource://resource.images.moviegenreicons.transparent/$INFO[ListItem.Label,,.png]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <bordersize>32</bordersize>
-                        <visible>Container.Content(genres)</visible>
-                    </control>
-                    <!-- Studio Icons -->
-                    <control type="image">
-                        <texture colordiffuse="main_fg_90" fallback="special://skin/extras/icons/folder.png">resource://resource.images.studios.white/$INFO[ListItem.Label,,.png]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <bordersize>20</bordersize>
-                        <visible>Container.Content(studios)</visible>
-                    </control>
-                    <!-- Country Icons -->
-                    <control type="image">
-                        <texture colordiffuse="main_fg_90" fallback="special://skin/extras/icons/folder.png">resource://resource.images.moviecountryicons.maps/$INFO[ListItem.Label,,.png]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <bordersize>20</bordersize>
-                        <visible>Container.Content(countries)</visible>
-                    </control>
-                    <!-- Default Icons -->
                     <control type="group">
-                        <visible>!Container.Content(genres)</visible>
-                        <visible>!Container.Content(studios)</visible>
-                        <visible>!Container.Content(countries)</visible>
-                        <!-- Default Icon -->
-                        <control type="image">
-                            <texture fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
-                            <aspectratio scalediffuse="false">keep</aspectratio>
-                            <visible>String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)</visible>
-                        </control>
-                        <!-- Colour Icon -->
-                        <control type="image">
-                            <texture background="true">$INFO[ListItem.Icon]</texture>
-                            <aspectratio scalediffuse="false">keep</aspectratio>
-                            <visible>![String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)]</visible>
-                            <bordersize>20</bordersize>
-                        </control>
+                        <visible>[String.IsEmpty(ListItem.Icon) | $EXP[Exp_IsGenre] | $EXP[Exp_IsStudio] | $EXP[Exp_IsCountry] | String.StartsWith(ListItem.Icon,Default)]</visible>
+                        <include content="Object_ItemIcon">
+                            <param name="icon">$INFO[ListItem.Icon]</param>
+                            <param name="icon_genre_bordersize">40</param>
+                            <param name="icon_other_bordersize">20</param>
+                        </include>
+                    </control>
+                    <control type="image">
+                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                        <visible>![String.IsEmpty(ListItem.Icon) | $EXP[Exp_IsGenre] | $EXP[Exp_IsStudio] | $EXP[Exp_IsCountry] | String.StartsWith(ListItem.Icon,Default)]</visible>
+                        <bordersize>20</bordersize>
                     </control>
                 </control>
                 <control type="group">
@@ -1718,16 +1690,10 @@
                 </include>
                 <control type="group">
                     <height>$PARAM[item_w]</height>
-                    <control type="image">
-                        <texture background="true" diffuse="$PARAM[diffuse]">$INFO[ListItem.Icon]</texture>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <visible>!$EXP[Exp_IsPVRItem]</visible>
-                    </control>
-                    <control type="image">
-                        <texture background="true" diffuse="$PARAM[diffuse]">$INFO[ListItem.Icon]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <visible>$EXP[Exp_IsPVRItem]</visible>
-                    </control>
+                    <include content="Object_ItemIcon">
+                        <param name="icon">$INFO[ListItem.Icon]</param>
+                        <param name="diffuse">$PARAM[diffuse]</param>
+                    </include>
                     <include content="Object_Indicator">
                         <param name="selected" value="$PARAM[selected]" />
                         <param name="shadow" value="false" />

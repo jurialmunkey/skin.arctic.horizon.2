@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <expression name="Exp_IsGenre">[String.IsEqual(ListItem.DBType,genre) | String.IsEqual(ListItem.Property(dbtype),genre) | Container.Content(genres)]</expression>
+    <expression name="Exp_IsStudio">[String.IsEqual(ListItem.DBType,studio) | String.IsEqual(ListItem.Property(dbtype),studio) | Container.Content(studios)]</expression>
+    <expression name="Exp_IsCountry">[String.IsEqual(ListItem.DBType,country) | String.IsEqual(ListItem.Property(dbtype),country) | Container.Content(countries)]</expression>
+
     <expression name="Exp_TMDbHelper_IsUpdating">[!String.IsEmpty(Window(Home).Property(TMDBHelper.IsUpdating)) | !String.IsEmpty(Window(Home).Property(TMDBHelper.IsUpdatingRating))]</expression>
 
     <expression name="Exp_HasProfileImage">[Skin.HasSetting(Home.ShowProfileImage) + !String.IsEmpty(System.ProfileThumb) + [Window.IsVisible(Home) | $EXP[Exp_SettingsDialogs]] + !$EXP[Exp_InfoDialogs]]</expression>

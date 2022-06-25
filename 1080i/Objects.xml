@@ -285,9 +285,9 @@
         <param name="fadetime" default="300" />
         <param name="aspectratio" default="scale" />
         <param name="posterback_colordiffuse" default="main_fg_12" />
+        <param name="icon_visible">true</param>
         <definition>
             <control type="group">
-                <nested />
                 <include content="Object_Control">
                     <param name="control" value="image" />
                     <include content="Texture_Shadow_40">
@@ -295,11 +295,14 @@
                     </include>
                     <texture colordiffuse="$PARAM[posterback_colordiffuse]" border="10">common/box.png</texture>
                 </include>
-                <control type="image">
+                <nested />
+                <include content="Object_Control">
+                    <param name="control">image</param>
                     <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
                     <fadetime>$PARAM[fadetime]</fadetime>
                     <texture diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
-                </control>
+                    <visible>$PARAM[icon_visible]</visible>
+                </include>
                 <include content="Object_Control">
                     <param name="control" value="image" />
                     <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
@@ -1566,6 +1569,56 @@
                     <label>$INFO[ListItem.Label2]</label>
                     <visible>!String.IsEmpty(ListItem.Label2)</visible>
                 </control>
+            </control>
+        </definition>
+    </include>
+
+
+    <include name="Object_ItemIcon">
+        <param name="fadetime">0</param>
+        <param name="icon">$INFO[ListItem.Icon]</param>
+        <param name="is_keep">$EXP[Exp_IsPVRItem]</param>
+        <param name="icon_keep">$VAR[Image_KeepIcon]</param>
+
+        <param name="is_genre">$EXP[Exp_IsGenre]</param>
+        <param name="icon_genre">$VAR[Image_GenreIcon]</param>
+        <param name="icon_genre_bordersize">60</param>
+        <param name="icon_genre_fallback">resource://resource.images.moviegenreicons.transparent/Drama.png</param>
+
+        <param name="is_other">[$EXP[Exp_IsStudio] | $EXP[Exp_IsCountry]]</param>
+        <param name="icon_other">$VAR[Image_OtherIcon]</param>
+        <param name="icon_other_bordersize">40</param>
+        <param name="icon_other_fallback">DefaultFolder.png</param>
+        <definition>
+            <control type="image">
+                <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <fadetime>$PARAM[fadetime]</fadetime>
+                <visible>![$PARAM[is_keep]]</visible>
+                <visible>!$PARAM[is_genre]</visible>
+                <visible>!$PARAM[is_other]</visible>
+            </control>
+            <control type="image">
+                <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon_keep]</texture>
+                <aspectratio scalediffuse="false">keep</aspectratio>
+                <fadetime>$PARAM[fadetime]</fadetime>
+                <visible>$PARAM[is_keep]</visible>
+                <visible>!$PARAM[is_genre]</visible>
+                <visible>!$PARAM[is_other]</visible>
+            </control>
+            <control type="image">
+                <texture background="true" diffuse="$PARAM[diffuse]" colordiffuse="main_fg_90" fallback="$PARAM[icon_genre_fallback]">$PARAM[icon_genre]</texture>
+                <fadetime>$PARAM[fadetime]</fadetime>
+                <aspectratio scalediffuse="false">keep</aspectratio>
+                <visible>$PARAM[is_genre]</visible>
+                <bordersize>$PARAM[icon_genre_bordersize]</bordersize>
+            </control>
+            <control type="image">
+                <texture background="true" diffuse="$PARAM[diffuse]" colordiffuse="main_fg_90" fallback="$PARAM[icon_other_fallback]">$PARAM[icon_other]</texture>
+                <fadetime>$PARAM[fadetime]</fadetime>
+                <aspectratio scalediffuse="false">keep</aspectratio>
+                <visible>$PARAM[is_other]</visible>
+                <bordersize>$PARAM[icon_other_bordersize]</bordersize>
             </control>
         </definition>
     </include>

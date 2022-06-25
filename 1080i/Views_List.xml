@@ -156,8 +156,9 @@
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <include>Dimension_View</include>
                 <include content="Object_BigPoster">
-                    <param name="icon" value="$PARAM[icon]" />
-                    <param name="diffuse" value="$PARAM[diffuse]" />
+                    <param name="icon">$PARAM[icon]</param>
+                    <param name="diffuse">$PARAM[diffuse]</param>
+                    <param name="icon_visible">![Container.Content(countries) | Container.Content(genres) | Container.Content(studios)]</param>
                     <bottom>0</bottom>
                     <include content="Object_Include" condition="$PARAM[flipside]">
                         <right>0</right>
@@ -167,6 +168,14 @@
                     </include>
                     <width>$PARAM[width]</width>
                     <height>$PARAM[height]</height>
+                    <control type="group">
+                        <visible>[Container.Content(countries) | Container.Content(genres) | Container.Content(studios)]</visible>
+                        <include content="Object_ItemIcon">
+                            <param name="icon">$PARAM[icon]</param>
+                            <param name="diffuse">$PARAM[diffuse]</param>
+                            <param name="icon_genre_bordersize">120</param>
+                        </include>
+                    </control>
                 </include>
                 <control type="group">
                     <include content="Object_Include" condition="$PARAM[flipside]">
