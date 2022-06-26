@@ -1607,12 +1607,28 @@
                     <align>center</align>
                 </include>
                 <include content="Object_Control" condition="$PARAM[detailed]">
-                    <param name="control" value="image" />
-                    <include content="Object_Include" condition="$PARAM[selected]">
-                        <colordiffuse>$VAR[ColorSelected]</colordiffuse>
-                    </include>
-                    <texture background="true">$INFO[ListItem.Icon]</texture>
-                    <aspectratio scalediffuse="false">keep</aspectratio>
+                    <param name="control">group</param>
+                    <control type="group">
+                        <visible>!String.IsEqual(ListItem.Property(isSubmenu),True)</visible>
+                        <include content="Object_ItemIcon">
+                            <param name="icon">$INFO[ListItem.Icon]</param>
+                            <param name="diffuse">$PARAM[diffuse]</param>
+                            <param name="is_keep">True</param>
+                            <param name="icon_keep_bordersize">16</param>
+                            <param name="icon_other_bordersize">16</param>
+                            <param name="icon_genre_bordersize">24</param>
+                            <param name="selected">$PARAM[selected]</param>
+                        </include>
+                    </control>
+                    <control type="image">
+                        <visible>String.IsEqual(ListItem.Property(isSubmenu),True)</visible>
+                        <include content="Object_Include" condition="$PARAM[selected]">
+                            <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                        </include>
+                        <colordiffuse>main_fg_90</colordiffuse>
+                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                    </control>
                     <bottom>40</bottom>
                 </include>
                 <include content="Object_SelectBox" condition="$PARAM[selected]">

@@ -1591,6 +1591,8 @@
         <param name="icon_other">$VAR[Image_OtherIcon]</param>
         <param name="icon_other_bordersize">40</param>
         <param name="icon_other_fallback">DefaultFolder.png</param>
+
+        <param name="selected">False</param>
         <definition>
             <control type="image">
                 <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
@@ -1610,14 +1612,22 @@
                 <visible>!$PARAM[is_other]</visible>
             </control>
             <control type="image">
-                <texture background="true" diffuse="$PARAM[diffuse]" colordiffuse="main_fg_90" fallback="$PARAM[icon_genre_fallback]">$PARAM[icon_genre]</texture>
+                <include content="Object_Include" condition="$PARAM[selected]">
+                    <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                </include>
+                <colordiffuse>main_fg_90</colordiffuse>
+                <texture background="true" diffuse="$PARAM[diffuse]" fallback="$PARAM[icon_genre_fallback]">$PARAM[icon_genre]</texture>
                 <fadetime>$PARAM[fadetime]</fadetime>
                 <aspectratio scalediffuse="false">keep</aspectratio>
                 <visible>$PARAM[is_genre]</visible>
                 <bordersize>$PARAM[icon_genre_bordersize]</bordersize>
             </control>
             <control type="image">
-                <texture background="true" diffuse="$PARAM[diffuse]" colordiffuse="main_fg_90" fallback="$PARAM[icon_other_fallback]">$PARAM[icon_other]</texture>
+                <include content="Object_Include" condition="$PARAM[selected]">
+                    <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                </include>
+                <colordiffuse>main_fg_90</colordiffuse>
+                <texture background="true" diffuse="$PARAM[diffuse]" fallback="$PARAM[icon_other_fallback]">$PARAM[icon_other]</texture>
                 <fadetime>$PARAM[fadetime]</fadetime>
                 <aspectratio scalediffuse="false">keep</aspectratio>
                 <visible>$PARAM[is_other]</visible>
