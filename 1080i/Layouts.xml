@@ -979,12 +979,13 @@
     </include>
 
     <include name="Layout_BigLandscape">
-        <param name="selected" default="false" />
-        <param name="fg_layer" default="true" />
-        <param name="bg_layer" default="true" />
-        <param name="diffuse" default="diffuse/landscape_w560_h320.png" />
-        <param name="icon" default="$VAR[Image_Landscape]" />
-        <param name="misc" default="0" />
+        <param name="detailed">true</param>
+        <param name="selected">false</param>
+        <param name="fg_layer">true</param>
+        <param name="bg_layer">true</param>
+        <param name="diffuse">diffuse/landscape_w560_h320.png</param>
+        <param name="icon">$VAR[Image_Landscape]</param>
+        <param name="misc">0</param>
         <definition>
             <control type="group">
                 <nested />
@@ -1000,15 +1001,16 @@
                         <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">scale</aspectratio>
                     </control>
-                    <control type="image">
+                    <include content="Object_Control" condition="$PARAM[detailed]">
+                        <param name="control">image</param>
                         <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Clearlogo]</texture>
                         <aspectratio scalediffuse="false" align="left">keep</aspectratio>
                         <bordersize>20</bordersize>
                         <visible>!$EXP[Exp_HasArtLandscape]</visible>
-                    </control>
+                    </include>
                 </include>
-                <include content="Object_Control">
-                    <param name="control" value="group" />
+                <include content="Object_Control" condition="$PARAM[detailed]">
+                    <param name="control">group</param>
                     <visible>String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,video) | $EXP[Exp_IsPVRItem]</visible>
                     <include content="Object_Control" condition="$PARAM[bg_layer]">
                         <param name="control" value="image" />
