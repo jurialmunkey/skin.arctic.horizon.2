@@ -978,8 +978,7 @@
         </definition>
     </include>
 
-    <include name="Layout_BigLandscape">
-        <param name="detailed">true</param>
+    <include name="Layout_Apps">
         <param name="selected">false</param>
         <param name="fg_layer">true</param>
         <param name="bg_layer">true</param>
@@ -1001,7 +1000,51 @@
                         <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">scale</aspectratio>
                     </control>
-                    <include content="Object_Control" condition="$PARAM[detailed]">
+                </include>
+                <include content="Object_Control" condition="!$PARAM[selected]">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
+                <control type="group">
+                    <top>-$PARAM[misc]</top>
+                    <bottom>$PARAM[misc]</bottom>
+                    <animation effect="slide" end="0,$PARAM[misc]" condition="true">Conditional</animation>
+                    <include condition="$PARAM[fg_layer] + !$PARAM[selected]" content="Object_Indicator">
+                        <param name="affix" value="$PARAM[affix]" />
+                        <param name="listitem" value="$PARAM[listitem]" />
+                    </include>
+                    <include content="Object_SelectBox" condition="$PARAM[fg_layer] + $PARAM[selected]">
+                        <param name="indicator" value="true" />
+                        <param name="focusbounce" value="true" />
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Layout_BigLandscape">
+        <param name="selected">false</param>
+        <param name="fg_layer">true</param>
+        <param name="bg_layer">true</param>
+        <param name="diffuse">diffuse/landscape_w560_h320.png</param>
+        <param name="icon">$VAR[Image_Landscape]</param>
+        <param name="misc">0</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_Control" condition="$PARAM[bg_layer]">
+                    <param name="control" value="group" />
+                    <include content="Object_ItemBack">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
+                    </include>
+                    <control type="image">
+                        <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                    </control>
+                    <include content="Object_Control">
                         <param name="control">image</param>
                         <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Clearlogo]</texture>
                         <aspectratio scalediffuse="false" align="left">keep</aspectratio>
@@ -1009,7 +1052,7 @@
                         <visible>!$EXP[Exp_HasArtLandscape]</visible>
                     </include>
                 </include>
-                <include content="Object_Control" condition="$PARAM[detailed]">
+                <include content="Object_Control">
                     <param name="control">group</param>
                     <visible>String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,video) | $EXP[Exp_IsPVRItem]</visible>
                     <include content="Object_Control" condition="$PARAM[bg_layer]">
