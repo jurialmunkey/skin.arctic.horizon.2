@@ -320,36 +320,69 @@
 
                 <!-- Artwork Widgets -->
                 <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisablePosters)">
-                    <param name="groupid" value="5198" />
-                    <param name="id" value="5098" />
+                    <param name="groupid" value="5191" />
+                    <param name="id" value="5091" />
                     <param name="label" value="$LOCALIZE[31070]" />
                     <param name="include" value="List_Poster_Row" />
                     <param name="icon" value="$INFO[ListItem.Icon]" />
                     <param name="visible" value="!String.IsEmpty(Window.Property(Path.Posters))" />
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,5098,Home)</onfocus>
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,5091,Home)</onfocus>
                     <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
                     <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <content>$INFO[Window.Property(Path.Posters)]</content>
-                    <onclick>SetFocus(5298)</onclick>
+                    <onclick>SetFocus(5291)</onclick>
                     <onback>SetFocus(5000)</onback>
                 </include>
                 <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableFanart)">
-                    <param name="groupid" value="5199" />
-                    <param name="id" value="5099" />
+                    <param name="groupid" value="5192" />
+                    <param name="id" value="5092" />
                     <param name="label" value="$LOCALIZE[20445]" />
                     <param name="include" value="List_Landscape_Row" />
                     <param name="icon" value="$INFO[ListItem.Icon]" />
                     <param name="visible" value="!String.IsEmpty(Window.Property(Path.Fanart))" />
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,5099,Home)</onfocus>
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,5092,Home)</onfocus>
                     <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
                     <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <content>$INFO[Window.Property(Path.Fanart)]</content>
-                    <onclick>SetFocus(5299)</onclick>
+                    <onclick>SetFocus(5292)</onclick>
                     <onback>SetFocus(5000)</onback>
                 </include>
 
+                <!-- Reviews etc -->
+                <include content="Widget_Submenu" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableKeywords)">
+                    <param name="spacerid" value="5294" />
+                    <param name="groupid" value="5194" />
+                    <param name="id" value="5094" />
+                    <param name="label" value="$LOCALIZE[21861]" />
+                    <param name="visible" value="!String.IsEmpty(Window.Property(Path.Keywords))" />
+                    <param name="include">List_Button_Row</param>
+                    <param name="detailed">false</param>
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,5094,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                    <content>$INFO[Window.Property(Path.Keywords)]</content>
+                    <onback>SetFocus(5000)</onback>
+                </include>
+                <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableReviews)">
+                    <param name="spacerid" value="5295" />
+                    <param name="groupid" value="5195" />
+                    <param name="id" value="5095" />
+                    <param name="label" value="$LOCALIZE[31215]" />
+                    <param name="visible" value="!String.IsEmpty(Window.Property(Path.Reviews))" />
+                    <param name="include">List_Reviews_Row</param>
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,5095,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                    <content>$INFO[Window.Property(Path.Reviews)]</content>
+                    <onback>SetFocus(5000)</onback>
+                </include>
+                <!-- <control type="group" id="5099">
+                    <height>-300</height>
+                </control> -->
 
             </control>
             <include content="Object_WallFade">
@@ -378,13 +411,13 @@
         </control>
 
         <include content="Dialog_ImageViewer">
-            <param name="buttonid" value="5299" />
-            <param name="listid" value="5099" />
+            <param name="buttonid" value="5292" />
+            <param name="listid" value="5092" />
             <param name="art" value="PicturePath" />
         </include>
         <include content="Dialog_ImageViewer">
-            <param name="buttonid" value="5298" />
-            <param name="listid" value="5098" />
+            <param name="buttonid" value="5291" />
+            <param name="listid" value="5091" />
             <param name="art" value="PicturePath" />
         </include>
     </controls>

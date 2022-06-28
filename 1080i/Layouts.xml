@@ -1618,6 +1618,39 @@
         </definition>
     </include>
 
+    <include name="Layout_Reviews">
+        <param name="selected" default="false" />
+        <param name="detailed" default="false" />
+        <param name="icon">$INFO[ListItem.Icon]</param>
+        <definition>
+            <control type="group">
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_ItemBack">
+                    <param name="selected" value="$PARAM[selected]" />
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="textbox" />
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <label>[B]$INFO[ListItem.Label,, ~ ][/B]$INFO[ListItem.Plot]</label>
+                    <textcolor>main_fg_70</textcolor>
+                    <font>font_plotbox_mini</font>
+                    <top>25</top>
+                    <bottom>25</bottom>
+                    <left>35</left>
+                    <right>35</right>
+                    <align>left</align>
+                    <autoscroll delay="6000" time="3000" repeat="10000">$PARAM[selected]</autoscroll>
+                </include>
+                <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <param name="indicator" value="false" />
+                    <param name="focusbounce" value="true" />
+                    <param name="pad" value="-5" />
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_Button">
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
