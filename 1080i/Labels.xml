@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
+    <variable name="Label_VideoHWDecoder">
+        <value condition="Player.Process(videohwdecoder)">HW</value>
+        <value>SW</value>
+    </variable>
+    <variable name="Label_StreamLanguage">
+        <value condition="!String.IsEmpty(ListItem.Label)">$INFO[ListItem.Label]</value>
+        <value>UNK</value>
+    </variable>
+    <variable name="Label_Landscape_Plain">
+        <value condition="!String.IsEmpty(ListItem.TvShowTitle) + !String.IsEqual(ListItem.Label,ListItem.TVShowTitle) + !String.IsEqual(ListItem.DBType,tvshow) + $EXP[Exp_WidgetWindow]" />
+        <value condition="$EXP[Exp_IsPVRItem] + !String.IsEmpty(ListItem.Title)" />
+        <value>$INFO[ListItem.Label]</value>
+    </variable>
+    <variable name="Label_Landscape_Upper">
+        <value condition="!String.IsEmpty(ListItem.TvShowTitle) + !String.IsEqual(ListItem.Label,ListItem.TVShowTitle) + !String.IsEqual(ListItem.DBType,tvshow) + $EXP[Exp_WidgetWindow]">$INFO[ListItem.Label]</value>
+        <value condition="$EXP[Exp_IsPVRItem] + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.ChannelName]</value>
+    </variable>
+    <variable name="Label_Landscape_Lower">
+        <value condition="!String.IsEmpty(ListItem.TvShowTitle) + !String.IsEqual(ListItem.Label,ListItem.TVShowTitle) + !String.IsEqual(ListItem.DBType,tvshow) + $EXP[Exp_WidgetWindow]">$INFO[ListItem.TvShowTitle]</value>
+        <value condition="$EXP[Exp_IsPVRItem] + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+    </variable>
 
     <variable name="Label_Setting_RowScrollBar">
         <value condition="Skin.String(Rows.OnDown,Wall)">$LOCALIZE[31184]</value>
@@ -31,6 +52,7 @@
         <value condition="!String.IsEmpty(ListItem.AlbumArtist)">$INFO[ListItem.AlbumArtist]$INFO[ListItem.Album, • ,]$INFO[ListItem.Year, • ,]</value>
         <value condition="!String.IsEmpty(ListItem.Album)">$INFO[ListItem.Album]$INFO[ListItem.Year, • ,]</value>
         <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, • ]$INFO[ListItem.TVShowTitle]</value>
+        <value condition="!String.IsEmpty(ListItem.Director)">$INFO[ListItem.Director]$INFO[ListItem.Year, • ,]</value>
     </variable>
 
     <variable name="Label_PVRRecordings_Sublabel">
@@ -54,8 +76,7 @@
     <variable name="Label_NowPlayingSubLabel">
         <value condition="!String.IsEmpty(MusicPlayer.Artist)">$INFO[Player.Title]</value>
         <value condition="!String.IsEmpty(VideoPlayer.TvShowTitle)">$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E, • ]$INFO[Player.Title]</value>
-        <!-- <value>$INFO[VideoPlayer.Director]</value> -->
-        <value>$INFO[Player.FinishTime,$LOCALIZE[31072] ,]</value>
+        <value>$VAR[Label_PlayerFinishes,$LOCALIZE[31072] ,]</value>
     </variable>
 
     <variable name="Label_OSD_EpisodeLabel">
@@ -86,6 +107,12 @@
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Formed))">$INFO[ListItem.Property(Artist_Formed)]$INFO[ListItem.Property(Artist_Disbanded), ($LOCALIZE[21896] ,)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Born))">$INFO[ListItem.Property(Artist_Born)]$INFO[ListItem.Property(Artist_Died), ($LOCALIZE[21896] ,)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Birthday)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Deathday), ($LOCALIZE[21897] ,)]</value>
+    </variable>
+
+    <variable name="Label_PlayerFinishes">
+        <value condition="!String.IsEmpty(PVR.EpgEventFinishTime) + VideoPlayer.Content(livetv)">$INFO[PVR.EpgEventFinishTime]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.EndTime) + VideoPlayer.Content(livetv)">$INFO[VideoPlayer.EndTime]</value>
+        <value>$INFO[Player.FinishTime]</value>
     </variable>
 
     <variable name="Label_PlayerStream_IsForced">
@@ -228,6 +255,32 @@
         <value condition="String.IsEqual(Window.Property(TMDbType),collection)">$LOCALIZE[20434]</value>
     </variable>
 
+    <variable name="Label_Plot_Widget_Title_Tilde">
+        <value condition="!String.IsEmpty(Container.ListItem.Property(Artist_Description))"> ~ </value>
+        <value condition="!String.IsEmpty(Container.ListItem.Property(Album_Description))"> ~ </value>
+        <value condition="!String.IsEmpty(Container.ListItem.AddonDescription)"> ~ </value>
+        <value condition="!String.IsEmpty(Container.ListItem.Plot)"> ~ </value>
+    </variable>
+    <variable name="Label_Plot_Widget_Title">
+        <value condition="String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)" />
+        <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle) + !String.IsEmpty(Container.ListItem.Title) + !String.IsEqual(Container.ListItem.TvShowTitle,Container.ListItem.Title)">$INFO[Container.ListItem.TvShowTitle,,: ]$INFO[Container.ListItem.Title]$VAR[Label_Plot_Widget_Title_Tilde]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle)">$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.AlbumArtist) + !String.IsEmpty(Container.ListItem.Album) + !String.IsEqual(Container.ListItem.AlbumArtist,Container.ListItem.Album)">$INFO[Container.ListItem.AlbumArtist,,: ]$INFO[Container.ListItem.Album]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Album)">$INFO[Container.ListItem.Album]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Title)">$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Label)">$INFO[Container.ListItem.Label]$VAR[Label_Plot_Widget_Title_Tilde]</value>
+    </variable>
+    <variable name="Label_Plot_Widget">
+        <value condition="!String.IsEmpty(Container.ListItem.Property(Artist_Description))">$INFO[Container.ListItem.Property(Artist_Description)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Property(Album_Description))">$INFO[Container.ListItem.Property(Album_Description)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.AddonDescription)">$INFO[Container.ListItem.AddonDescription]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Plot)">$INFO[Container.ListItem.Plot]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,song)">[CR]$INFO[Container.ListItem.TrackNumber,,. ]$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Duration, (,)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Property(role))">[CR]$INFO[Container.ListItem.Property(role)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Property(character))">[CR]$INFO[Container.ListItem.Property(character)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Property(job))">[CR]$INFO[Container.ListItem.Property(job)]</value>
+    </variable>
+
     <variable name="Label_Plot_ESC">
         <value condition="!String.IsEmpty(Container.ListItem.Property(Artist_Description))">$ESCINFO[Container.ListItem.Property(Artist_Description)]</value>
         <value condition="!String.IsEmpty(Container.ListItem.Property(Album_Description))">$ESCINFO[Container.ListItem.Property(Album_Description)]</value>
@@ -255,15 +308,5 @@
         <!-- <value condition="!String.IsEmpty(ListItem.Label)">$INFO[ListItem.Label]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Label))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Label)]</value> -->
     </variable>
-
-    <variable name="Label_ListItem_TrophyWins">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Oscar_Wins))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Oscar_Wins)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.GoldenGlobe_Wins))">$INFO[Window(Home).Property(TMDbHelper.ListItem.GoldenGlobe_Wins)]</value>
-    </variable>
-    <variable name="Label_Player_TrophyWins">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Oscar_Wins))">$INFO[Window(Home).Property(TMDbHelper.Player.Oscar_Wins)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.GoldenGlobe_Wins))">$INFO[Window(Home).Property(TMDbHelper.Player.GoldenGlobe_Wins)]</value>
-    </variable>
-
 
 </includes>

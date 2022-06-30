@@ -51,6 +51,7 @@
                         </include>
                         <include content="Object_MenuButton" condition="!$PARAM[minimal]">
                             <param name="icon" value="$PARAM[icon]" />
+                            <param name="profileimage" value="$EXP[Exp_HasProfileImage]" />
                             <right>0</right>
                         </include>
                         <include content="Furniture_Clock_Big" condition="!$PARAM[minimal]">
@@ -87,18 +88,23 @@
     </include>
 
     <include name="Furniture_MenuButton">
-        <include content="Furniture_Topbar_Group">
-            <include content="Furniture_Gutters">
-                <include content="Object_MenuButton">
-                    <param name="icon" value="$PARAM[icon]" />
-                    <right>0</right>
-                </include>
-                <include content="Furniture_Clock_Big">
-                    <param name="align" value="right" />
-                    <right>80</right>
+        <param name="hasclock">true</param>
+        <definition>
+            <include content="Furniture_Topbar_Group">
+                <nested />
+                <include content="Furniture_Gutters">
+                    <include content="Object_MenuButton">
+                        <param name="icon" value="$PARAM[icon]" />
+                        <param name="profileimage" value="$EXP[Exp_HasProfileImage]" />
+                        <right>0</right>
+                    </include>
+                    <include content="Furniture_Clock_Big" condition="$PARAM[hasclock]">
+                        <param name="align" value="right" />
+                        <right>80</right>
+                    </include>
                 </include>
             </include>
-        </include>
+        </definition>
     </include>
 
     <include name="Furniture_Bottom_Right">
@@ -198,8 +204,7 @@
                     <orientation>horizontal</orientation>
                     <align>$PARAM[align]</align>
                     <itemgap>10</itemgap>
-                    <visible>[Control.HasFocus(60) | Control.HasFocus(61)]</visible>
-
+                    <visible>$EXP[Exp_HasPagesItems]</visible>
                     <include content="Furniture_MiniLabel">
                         <label>$INFO[Container.CurrentPage,, $LOCALIZE[1443] ]$INFO[Container.NumPages,, $LOCALIZE[31110]]</label>
                         <align>$PARAM[align]</align>
@@ -222,7 +227,7 @@
                     <orientation>horizontal</orientation>
                     <align>$PARAM[align]</align>
                     <itemgap>10</itemgap>
-                    <visible>![Control.HasFocus(60) | Control.HasFocus(61)]</visible>
+                    <visible>!$EXP[Exp_HasPagesItems]</visible>
                     <control type="image">
                         <centertop>50%</centertop>
                         <height>40</height>

@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <expression name="Exp_HasAutoCompletion">[System.HasAddon(plugin.program.autocompletion) + System.AddonIsEnabled(plugin.program.autocompletion) + !Skin.HasSetting(Keyboard.DisableAutoCompletion)]</expression>
+
+    <expression name="Exp_IsGenre">[String.IsEqual(ListItem.DBType,genre) | String.IsEqual(ListItem.Property(dbtype),genre) | Container.Content(genres)]</expression>
+    <expression name="Exp_IsStudio">[String.IsEqual(ListItem.DBType,studio) | String.IsEqual(ListItem.Property(dbtype),studio) | Container.Content(studios)]</expression>
+    <expression name="Exp_IsCountry">[String.IsEqual(ListItem.DBType,country) | String.IsEqual(ListItem.Property(dbtype),country) | Container.Content(countries)]</expression>
+
+    <expression name="Exp_TMDbHelper_IsUpdating">[!String.IsEmpty(Window(Home).Property(TMDBHelper.IsUpdating)) | !String.IsEmpty(Window(Home).Property(TMDBHelper.IsUpdatingRating))]</expression>
+
+    <expression name="Exp_HasProfileImage">[Skin.HasSetting(Home.ShowProfileImage) + !String.IsEmpty(System.ProfileThumb) + [Window.IsVisible(Home) | $EXP[Exp_SettingsDialogs]] + !$EXP[Exp_InfoDialogs]]</expression>
+
+    <expression name="Exp_HasBackgroundVideo">[Skin.HasSetting(UseBackgroundVideo) + Player.HasVideo + !$EXP[Exp_InfoDialogs] + !$EXP[Exp_RecommendationDialogs]]</expression>
+
+    <expression name="Exp_HasPagesItems">[[Control.HasFocus(60) | Control.HasFocus(61)] + !$EXP[Exp_InfoDialogs]]</expression>
+
     <expression name="Exp_HasBackgroundFanart">[Window.IsVisible(MyPVRGuide.xml) | Window.IsMedia | $EXP[Exp_InfoDialogs] | [Skin.HasSetting(HomeFanart) + [Window.IsActive(1114) | Window.IsActive(Home)]]]</expression>
 
     <expression name="Exp_HasExtraFanart">[!String.IsEmpty(ListItem.Art(fanart1)) | !String.IsEmpty(ListItem.Art(tvshow.fanart1))]</expression>
@@ -11,7 +25,7 @@
 
     <expression name="Exp_HasLandscapeFormatArt">[$EXP[Exp_HasArtFanart] | $EXP[Exp_HasArtLandscape] | !String.IsEmpty(ListItem.EPGEventIcon) | [!$EXP[Exp_IsPVRItem] + !String.IsEmpty(ListItem.Art(thumb))]]</expression>
 
-    <expression name="Exp_HasWatchedProgress">[!Skin.HasSetting(DisableIndicator.Progress) + [[ListItem.IsResumable + !Integer.IsEqual(ListItem.PercentPlayed,0)] | [!String.IsEmpty(ListItem.Property(WatchedProgress)) + !Integer.IsEqual(ListItem.Property(WatchedProgress),0)]]]</expression>
+    <expression name="Exp_HasWatchedProgress">[!Skin.HasSetting(DisableIndicator.Progress) + [[ListItem.IsResumable + !Integer.IsEqual(ListItem.PercentPlayed,0)] | [!String.IsEmpty(ListItem.Property(WatchedProgress)) + !Integer.IsEqual(ListItem.Property(WatchedProgress),0)] | [!Integer.IsEqual(ListItem.Progress,0)]]]</expression>
 
     <expression name="Exp_IsPVRItem">[!String.IsEmpty(ListItem.ChannelNumberLabel)]</expression>
 
@@ -37,7 +51,13 @@
 
     <expression name="Exp_RecommendationDialogs">[Window.IsVisible(1120)]</expression>
 
-    <expression name="Exp_SettingsDialogs">[Window.IsVisible(SettingsCategory.xml) | Window.IsVisible(SettingsProfile.xml) | Window.IsVisible(systeminfo) | Window.IsVisible(skinsettings)]</expression>
+    <expression name="Exp_SearchWindow">[Window.IsVisible(1114)]</expression>
+
+    <expression name="Exp_WidgetWindow">[Window.IsVisible(Home) | $EXP[Exp_SearchWindow] | $EXP[Exp_RecommendationDialogs]]</expression>
+
+    <expression name="Exp_SettingsDialogs">[Window.IsVisible(SettingsCategory.xml) | Window.IsVisible(SkinSettings.xml) | Window.IsVisible(SettingsProfile.xml) | Window.IsVisible(SettingsSystemInfo.xml)]</expression>
+    <expression name="Exp_SettingsDialogs_Next">[Window.Next(SettingsCategory.xml) | Window.Next(SkinSettings.xml) | Window.Next(SettingsProfile.xml) | Window.Next(SettingsSystemInfo.xml)]</expression>
+    <expression name="Exp_SettingsDialogs_Prev">[Window.Previous(SettingsCategory.xml) | Window.Previous(SkinSettings.xml) | Window.Previous(SettingsProfile.xml) | Window.Previous(SettingsSystemInfo.xml)]</expression>
 
     <expression name="Exp_RowViews">[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(57)]</expression>
 
@@ -48,6 +68,8 @@
     <expression name="Exp_WallViews">[Control.IsVisible(500) | Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(540) | Control.IsVisible(570) | Control.IsVisible(580)]</expression>
 
     <expression name="Exp_ListViews">[Control.IsVisible(501) | Control.IsVisible(511) | Control.IsVisible(507) | Control.IsVisible(517)]</expression>
+
+    <expression name="Exp_BigListViews">[Control.IsVisible(508)]</expression>
 
     <!-- <expression name="Exp_View_Special">[True]</expression> -->
     <expression name="Exp_View_Special">!String.IsEqual(Container.Property(param.info),user_discover)</expression>

@@ -4,10 +4,7 @@
     <include>Action_Settings_Onload</include>
     <onunload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onunload>
     <controls>
-        <include content="Object_Control">
-            <param name="control" value="image" />
-            <texture colordiffuse="main_bg_100">common/bg.jpg</texture>
-        </include>
+        <include>Background_Main</include>
         <include content="Dialog_SettingsCategory_Background">
             <include content="Dialog_SettingsCategory_ChangerGroup">
                 <include content="Dialog_SettingsCategory_LeftGroup">
@@ -64,6 +61,9 @@
                             </item>
                             <item id="7">
                                 <label>$LOCALIZE[33029]</label>
+                            </item>
+                            <item id="8">
+                                <label>$LOCALIZE[39024]</label>
                             </item>
                         </content>
                     </control>
@@ -135,6 +135,14 @@
                                 <onclick>Skin.ToggleSetting(PVR.DisableEPGEventIconFanart)</onclick>
                                 <selected>!Skin.HasSetting(PVR.DisableEPGEventIconFanart)</selected>
                             </include>
+                            <include content="Dialog_Settings_Button" description="Use videowindow for background">
+                                <param name="id" value="2005" />
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31204]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                                <onclick>Skin.ToggleSetting(UseBackgroundVideo)</onclick>
+                                <selected>Skin.HasSetting(UseBackgroundVideo)</selected>
+                            </include>
                             <include content="Dialog_Settings_Button" description="Background">
                                 <param name="id" value="2099" />
                                 <label>$LOCALIZE[31007]</label>
@@ -168,7 +176,7 @@
                             <include content="Dialog_Settings_Button" description="Pressing Down from Scrollbar">
                                 <param name="id" value="3003" />
                                 <param name="control" value="button" />
-                                <label>Press down from row view scrollbar opens</label>
+                                <label>$LOCALIZE[31205]</label>
                                 <label2>$VAR[Label_Setting_RowScrollBar]</label2>
                                 <visible>Container(3).HasFocus(3)</visible>
                                 <onclick condition="String.IsEmpty(Skin.String(Rows.OnDown))">Skin.SetString(Rows.OnDown,Wall)</onclick>
@@ -189,6 +197,25 @@
                                 <onclick condition="!Skin.String(WeatherClock,Small)">Skin.SetString(WeatherClock,Small)</onclick>
                                 <onclick condition="Skin.String(WeatherClock,Small)">Skin.Reset(WeatherClock)</onclick>
                                 <selected>Skin.String(WeatherClock,Small)</selected>
+                            </include>
+                            <include content="Dialog_Settings_Button" description="Profile image">
+                                <param name="id" value="4002" />
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31195]</label>
+                                <visible>Container(3).HasFocus(4)</visible>
+                                <onclick>Skin.ToggleSetting(Home.ShowProfileImage)</onclick>
+                                <selected>Skin.HasSetting(Home.ShowProfileImage)</selected>
+                                <!-- Reset window -->
+                                <onclick>SetProperty(ReplaceWindow,skinsettings,Home)</onclick>
+                                <onclick>ReplaceWindow(1197)</onclick>
+                            </include>
+                            <include content="Dialog_Settings_Button" description="Expanded widgets show codec info">
+                                <param name="id" value="4003" />
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31207]</label>
+                                <visible>Container(3).HasFocus(4)</visible>
+                                <onclick>Skin.ToggleSetting(Widgets.CodecInfo)</onclick>
+                                <selected>Skin.HasSetting(Widgets.CodecInfo)</selected>
                             </include>
 
                             <!-- Playback -->
@@ -243,12 +270,20 @@
                                 <label2>$INFO[Skin.String(OSD_Timeout),,s]</label2>
                                 <onclick>Skin.SetNumeric(OSD_Timeout)</onclick>
                             </include>
+                            <include content="Dialog_Settings_Button" description="Trailer button plays fullscreen">
+                                <param name="id" value="6003" />
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31194]</label>
+                                <visible>Container(3).HasFocus(6)</visible>
+                                <onclick>Skin.ToggleSetting(VideoInfo.FullscreenTrailer)</onclick>
+                                <selected>!Skin.HasSetting(VideoInfo.FullscreenTrailer)</selected>
+                            </include>
 
 
                             <!-- Details -->
                             <include content="Dialog_Settings_Label" description="Details">
                                 <param name="id" value="7000" />
-                                <label>$LOCALIZE[33029] / $LOCALIZE[19033]</label>
+                                <label>$LOCALIZE[19033]</label>
                                 <visible>Container(3).HasFocus(7)</visible>
                             </include>
                             <include content="Dialog_Settings_Button" description="Aggregate full tv cast list">
@@ -267,6 +302,114 @@
                                 <onclick>Skin.ToggleSetting(Recommendations.AggregateTvCrew)</onclick>
                                 <selected>Skin.HasSetting(Recommendations.AggregateTvCrew)</selected>
                             </include>
+                            <include content="Dialog_Settings_Button" description="CustomDialog Recommendations">
+                                <param name="id" value="7003" />
+                                <label>$LOCALIZE[31197]</label>
+                                <visible>Container(3).HasFocus(7)</visible>
+                                <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_Recommendations,Home)</onclick>
+                                <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31018],Home)</onclick>
+                                <onclick>ActivateWindow(1118)</onclick>
+                            </include>
+                            <include content="Dialog_Settings_Button" description="CustomDialog Ratings">
+                                <param name="id" value="7004" />
+                                <label>$LOCALIZE[31198]</label>
+                                <visible>Container(3).HasFocus(7)</visible>
+                                <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_Ratings,Home)</onclick>
+                                <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31202],Home)</onclick>
+                                <onclick>ActivateWindow(1118)</onclick>
+                            </include>
+
+                            <!-- Playback -->
+                            <include content="Dialog_Settings_Label" description="Dependencies">
+                                <param name="id" value="8000" />
+                                <label>$LOCALIZE[39024]</label>
+                                <visible>Container(3).HasFocus(8)</visible>
+                            </include>
+                            <include content="Dialog_Settings_Button">
+                                <param name="id" value="8001" />
+                                <param name="control" value="radiobutton" />
+                                <label>plugin.video.themoviedb.helper</label>
+                                <label2>$INFO[System.AddonVersion(plugin.video.themoviedb.helper),v,       ]</label2>
+                                <visible>Container(3).HasFocus(8)</visible>
+                                <onclick condition="!System.HasAddon(plugin.video.themoviedb.helper)">InstallAddon(plugin.video.themoviedb.helper)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(plugin.video.themoviedb.helper) + System.HasAddon(plugin.video.themoviedb.helper)">EnableAddon(plugin.video.themoviedb.helper)</onclick>
+                                <onclick condition="System.AddonIsEnabled(plugin.video.themoviedb.helper) + System.HasAddon(plugin.video.themoviedb.helper)">Addon.OpenSettings(plugin.video.themoviedb.helper)</onclick>
+                                <selected>System.AddonIsEnabled(plugin.video.themoviedb.helper) + System.HasAddon(plugin.video.themoviedb.helper)</selected>
+                            </include>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id" value="8002" />
+                                <param name="control" value="radiobutton" />
+                                <label>script.skinshortcuts</label>
+                                <label2>$INFO[System.AddonVersion(script.skinshortcuts),v,       ]</label2>
+                                <visible>Container(3).HasFocus(8)</visible>
+                                <onclick condition="!System.HasAddon(script.skinshortcuts)">InstallAddon(script.skinshortcuts)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(script.skinshortcuts) + System.HasAddon(script.skinshortcuts)">EnableAddon(script.skinshortcuts)</onclick>
+                                <onclick condition="System.AddonIsEnabled(script.skinshortcuts) + System.HasAddon(script.skinshortcuts)">Addon.OpenSettings(script.skinshortcuts)</onclick>
+                                <selected>System.AddonIsEnabled(script.skinshortcuts) + System.HasAddon(script.skinshortcuts)</selected>
+                            </include>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id" value="8003" />
+                                <param name="control" value="radiobutton" />
+                                <label>script.skinvariables</label>
+                                <label2>$INFO[System.AddonVersion(script.skinvariables),v,       ]</label2>
+                                <visible>Container(3).HasFocus(8)</visible>
+                                <onclick condition="!System.HasAddon(script.skinvariables)">InstallAddon(script.skinvariables)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(script.skinvariables) + System.HasAddon(script.skinvariables)">EnableAddon(script.skinvariables)</onclick>
+                                <onclick condition="System.AddonIsEnabled(script.skinvariables) + System.HasAddon(script.skinvariables)">Addon.OpenSettings(script.skinvariables)</onclick>
+                                <selected>System.AddonIsEnabled(script.skinvariables) + System.HasAddon(script.skinvariables)</selected>
+                            </include>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id" value="8004" />
+                                <param name="control" value="radiobutton" />
+                                <label>script.texturemaker</label>
+                                <label2>$INFO[System.AddonVersion(script.texturemaker),v,       ]</label2>
+                                <visible>Container(3).HasFocus(8)</visible>
+                                <onclick condition="!System.HasAddon(script.texturemaker)">InstallAddon(script.texturemaker)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(script.texturemaker) + System.HasAddon(script.texturemaker)">EnableAddon(script.texturemaker)</onclick>
+                                <onclick condition="System.AddonIsEnabled(script.texturemaker) + System.HasAddon(script.texturemaker)">Addon.OpenSettings(script.texturemaker)</onclick>
+                                <selected>System.AddonIsEnabled(script.texturemaker) + System.HasAddon(script.texturemaker)</selected>
+                            </include>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id" value="8005" />
+                                <param name="control" value="radiobutton" />
+                                <label>script.artistslideshow</label>
+                                <label2>$INFO[System.AddonVersion(script.artistslideshow),v,       ]</label2>
+                                <visible>Container(3).HasFocus(8)</visible>
+                                <onclick condition="!System.HasAddon(script.artistslideshow)">InstallAddon(script.artistslideshow)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(script.artistslideshow) + System.HasAddon(script.artistslideshow)">EnableAddon(script.artistslideshow)</onclick>
+                                <onclick condition="System.AddonIsEnabled(script.artistslideshow) + System.HasAddon(script.artistslideshow)">Addon.OpenSettings(script.artistslideshow)</onclick>
+                                <selected>System.AddonIsEnabled(script.artistslideshow) + System.HasAddon(script.artistslideshow)</selected>
+                            </include>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id" value="8006" />
+                                <param name="control" value="radiobutton" />
+                                <label>resource.images.arctic.waves</label>
+                                <label2>$INFO[System.AddonVersion(resource.images.arctic.waves),v,       ]</label2>
+                                <visible>Container(3).HasFocus(8)</visible>
+                                <onclick condition="!System.HasAddon(resource.images.arctic.waves)">InstallAddon(resource.images.arctic.waves)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(resource.images.arctic.waves) + System.HasAddon(resource.images.arctic.waves)">EnableAddon(resource.images.arctic.waves)</onclick>
+                                <onclick condition="System.AddonIsEnabled(resource.images.arctic.waves) + System.HasAddon(resource.images.arctic.waves)">Addon.OpenSettings(resource.images.arctic.waves)</onclick>
+                                <selected>System.AddonIsEnabled(resource.images.arctic.waves) + System.HasAddon(resource.images.arctic.waves)</selected>
+                            </include>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id" value="8007" />
+                                <param name="control" value="radiobutton" />
+                                <label>service.upnext</label>
+                                <label2>$INFO[System.AddonVersion(service.upnext),v,       ]</label2>
+                                <visible>Container(3).HasFocus(8)</visible>
+                                <onclick condition="!System.HasAddon(service.upnext)">InstallAddon(service.upnext)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(service.upnext) + System.HasAddon(service.upnext)">EnableAddon(service.upnext)</onclick>
+                                <onclick condition="System.AddonIsEnabled(service.upnext) + System.HasAddon(service.upnext)">Addon.OpenSettings(service.upnext)</onclick>
+                                <selected>System.AddonIsEnabled(service.upnext) + System.HasAddon(service.upnext)</selected>
+                            </include>
+
+
                         </control>
                     </include>
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <zorder>0</zorder>
-    <visible>!Player.HasGame + !Window.IsVisible(DialogPlayerProcessInfo.xml)</visible>
+    <visible>!Player.HasGame</visible>
+    <visible>!Window.IsActive(DialogPlayerProcessInfo.xml)</visible>
     <visible>VideoPlayer.IsFullscreen | Window.IsVisible(MusicVisualisation.xml)</visible>
     <visible>Window.IsActive(videoosd) | Window.IsActive(musicosd) | Player.Caching | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Window.IsActive(DialogFullScreenInfo.xml) | !String.IsEmpty(Window(Home).Property(OSDInfo)) | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput)</visible>
     <visible>!Window.IsVisible(DialogSlider.xml)</visible>
@@ -96,14 +97,18 @@
         </include>
 
         <!-- Clock -->
-        <include content="Object_ShadowSpot">
-            <width>500</width>
-            <height>40</height>
-            <top>80</top>
-            <right>-80</right>
+        <include content="Furniture_Topbar_Group">
+            <include content="Furniture_Gutters">
+                <include content="Object_ShadowSpot">
+                    <width>800</width>
+                    <height>200</height>
+                    <centertop>50%</centertop>
+                    <centerright>80</centerright>
+                </include>
+            </include>
         </include>
         <include content="Furniture_Top_Right">
-            <param name="icon" value="special://skin/extras/icons/videoplay.png" />
+            <param name="icon" value="$VAR[Image_MuteBug_Seekbar]" />
         </include>
     </controls>
 </window>

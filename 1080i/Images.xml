@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Image_OtherIcon">
+        <value condition="$EXP[Exp_IsStudio]">$INFO[ListItem.Label,resource://resource.images.studios.white/,.png]</value>
+        <value condition="$EXP[Exp_IsCountry]">$INFO[ListItem.Label,resource://resource.images.moviecountryicons.maps/,.png]</value>
+    </variable>
+
+    <variable name="Image_GenreIcon">
+        <value condition="System.HasAddon(resource.images.moviegenreicons.horizon)">$INFO[ListItem.Label,resource://resource.images.moviegenreicons.horizon/,.png]</value>
+        <value condition="System.HasAddon(resource.images.moviegenreicons.transparent)">$INFO[ListItem.Label,resource://resource.images.moviegenreicons.transparent/,.png]</value>
+    </variable>
+
     <variable name="Image_FullscreenWidget_Artwork">
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.EPGEventIcon) + !Skin.HasSetting(PVR.DisableEPGEventIconFanart)">$INFO[ListItem.EPGEventIcon]</value>
@@ -34,8 +44,8 @@
     </variable>
 
     <variable name="Image_OSD_Shuffle">
-        <value condition="Playlist.IsRandom">osd/shuffle.png</value>
-        <value>osd/shuffle-on.png</value>
+        <value condition="Playlist.IsRandom">osd/shuffle-on.png</value>
+        <value>osd/shuffle.png</value>
     </variable>
 
     <variable name="Image_UpNext">
@@ -114,8 +124,14 @@
     </variable>
 
     <variable name="Image_CropLogo_Main">
+        <value condition="$EXP[Exp_RecommendationDialogs] + !String.IsEmpty(Window.Property(CropLogo))">$INFO[Window.Property(CropLogo)]</value>
         <value condition="!$EXP[Exp_InfoDialogs] + Window.IsVisible(Home) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">$VAR[Image_CropLogo_C301]</value>
         <value>$VAR[Image_CropLogo_Parent]</value>
+    </variable>
+
+    <variable name="Image_MuteBug_Seekbar">
+        <value condition="Player.Muted">special://skin/extras/icons/mute.png</value>
+        <value>special://skin/extras/icons/videoplay.png</value>
     </variable>
 
     <variable name="Image_MuteBug">
@@ -208,23 +224,25 @@
         <value condition="String.IsEqual(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Image),certified)">certified.png</value>
         <value condition="String.IsEqual(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Image),fresh)">rtfresh.png</value>
         <value condition="String.IsEqual(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Image),rotten)">rtrotten.png</value>
+        <value condition="String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating))">rtfresh.png</value>
         <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating),59)">rtfresh.png</value>
-        <value>rtrotten.png</value>
+        <value>rtfresh.png</value>
     </variable>
     <variable name="Image_Player_RottenTomatoes">
         <value condition="String.IsEqual(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Image),certified)">certified.png</value>
         <value condition="String.IsEqual(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Image),fresh)">rtfresh.png</value>
         <value condition="String.IsEqual(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Image),rotten)">rtrotten.png</value>
+        <value condition="String.IsEmpty(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Rating))">rtfresh.png</value>
         <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Rating),59)">rtfresh.png</value>
         <value>rtrotten.png</value>
     </variable>
 
     <variable name="Image_ListItem_RottenTomatoes_UserMeter">
-        <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter),59)">popcorn.png</value>
+        <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter),59) | String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter))">popcorn.png</value>
         <value>popcorn_spilt.png</value>
     </variable>
     <variable name="Image_Player_RottenTomatoes_UserMeter">
-        <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.Player.RottenTomatoes_UserMeter),59)">popcorn.png</value>
+        <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.Player.RottenTomatoes_UserMeter),59) | String.IsEmpty(Window(home).Property(TMDbHelper.Player.RottenTomatoes_UserMeter))">popcorn.png</value>
         <value>popcorn_spilt.png</value>
     </variable>
 

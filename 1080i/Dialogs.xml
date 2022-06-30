@@ -788,7 +788,7 @@
             <ondown condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">SetFocus(5000)</ondown>
             <ondown condition="!Skin.HasSetting(DisableTrailerWindow) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
             <ondown condition="!Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">Stop</ondown>
-            <onback>SetFocus(5000)</onback>
+            <onback>5000</onback>
             <onback>ClearProperty(HasTrailer,Home)</onback>
             <onback condition="Player.HasVideo">Stop</onback>
             <oninfo>SetFocus(5000)</oninfo>
@@ -809,10 +809,20 @@
             <ondown condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">BigStepBack</ondown>
             <ondown condition="Skin.HasSetting(DisableTrailerWindow) + Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
         </control>
+        <include content="Object_Control" condition="Skin.HasSetting(VideoInfo.FullscreenTrailer)">
+            <param name="control" value="group" />
+            <visible>Control.HasFocus(7001)</visible>
+            <visible>Player.HasVideo</visible>
+            <control type="image">
+                <texture colordiffuse="black">common/white.png</texture>
+            </control>
+            <control type="videowindow" />
+        </include>
     </include>
 
     <include name="Dialog_VideoInfoTrailer">
-        <control type="group">
+        <include content="Object_Control" condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer)">
+            <param name="control" value="group" />
             <include>Dimension_Info</include>
             <include>Animation_Right_Delay</include>
             <visible>Control.HasFocus(7001)</visible>
@@ -822,7 +832,7 @@
                 <texture colordiffuse="black" border="10">common/box.png</texture>
             </control>
             <control type="videowindow" />
-        </control>
+        </include>
     </include>
 
     <include name="Dialog_VideoInfoPlotBox">

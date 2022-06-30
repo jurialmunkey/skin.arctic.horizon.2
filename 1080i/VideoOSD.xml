@@ -14,6 +14,7 @@
         </include>
 
         <control type="group">
+            <visible>!Window.IsActive(DialogPlayerProcessInfo.xml)</visible>
             <visible>!Window.IsVisible(DialogSlider.xml)</visible>
             <!-- Left Side Buttons -->
             <control type="grouplist" id="6000">
@@ -67,7 +68,8 @@
                     <param name="groupid" value="6499" />
                     <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength) + !Skin.HasSetting(OSD.AlwaysDisplayStop)">PlayerControl(Next)</onclick>
                     <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength) | Skin.HasSetting(OSD.AlwaysDisplayStop)">PlayerControl(Stop)</onclick>
-                    <include>Action_OSD_EpisodeList_Refocus</include>
+                    <include condition="!VideoPlayer.Content(livetv)">Action_OSD_EpisodeList_Refocus</include>
+                    <onup condition="VideoPlayer.Content(livetv)">6401</onup>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose" value="true" />
@@ -198,7 +200,10 @@
                     <animation effect="slide" end="0,-80" condition="Integer.IsLess(Container(6401).NumItems,3)">Conditional</animation>
                     <top>120</top>
                     <bottom>20</bottom>
-                    <include>Action_OSD_EpisodeList_OnUnFocus</include>
+                    <include condition="!VideoPlayer.Content(livetv)">Action_OSD_EpisodeList_OnUnFocus</include>
+                    <onleft>6400</onleft>
+                    <onright>6400</onright>
+                    <onback>6400</onback>
                     <include content="Object_Include" condition="VideoPlayer.Content(livetv)">
                         <focusposition>2</focusposition>
                         <movement>2</movement>
@@ -473,7 +478,7 @@
                             <control type="label">
                                 <font>font_statusbar_bold</font>
                                 <label>$LOCALIZE[31071]</label>
-                                <textcolor>white</textcolor>
+                                <textcolor>$VAR[ColorSelected]</textcolor>
                                 <align>left</align>
                                 <visible>Control.HasFocus(7800)</visible>
                             </control>
@@ -517,7 +522,8 @@
                                 <visible>!Control.HasFocus(7800)</visible>
                             </control>
                             <control type="image">
-                                <texture colordiffuse="panel_fg_30" border="4">progress/progress-bg.png</texture>
+                                <animation effect="fade" end="30" condition="true">Conditional</animation>
+                                <texture colordiffuse="$VAR[ColorSelected]" border="4">progress/progress-bg.png</texture>
                                 <visible>Control.HasFocus(7800)</visible>
                             </control>
                         </control>
@@ -549,14 +555,14 @@
                             <control type="group">
                                 <visible>Control.HasFocus(7800)</visible>
                                 <control type="image">
-                                    <texture colordiffuse="white">common/circle.png</texture>
+                                    <texture colordiffuse="$VAR[ColorSelected]">common/circle.png</texture>
                                 </control>
                                 <control type="image">
                                     <centerleft>50%</centerleft>
                                     <bottom>-12</bottom>
                                     <height>16</height>
                                     <width>16</width>
-                                    <texture colordiffuse="white" flipy="true">common/arrow-menu-up.png</texture>
+                                    <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-menu-up.png</texture>
                                 </control>
                             </control>
                         </control>
