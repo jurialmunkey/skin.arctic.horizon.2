@@ -12,12 +12,7 @@
     <!-- Build includes for textures / views / menus -->
     <include condition="String.IsEmpty(Window(Home).Property(ReloadDone))">Action_BuildTextures_Onload</include>
     <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">RunScript(script.skinvariables,action=buildviews)</onload>
-    <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onload>
-
-
-    <!-- Wait for window repload before replacing -->
-    <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">AlarmClock(RepWin,ReloadSkin(),00:04,silent)</onload> <!-- Manually reload if one of the scripts doesnt -->
-    <onload condition="!String.IsEmpty(Window(Home).Property(ReloadDone))">AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:01,silent)</onload>
+    <onload>AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:02,silent)</onload>
     <onload>SetProperty(ReloadDone,1,Home)</onload>
 
     <controls>
