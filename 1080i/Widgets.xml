@@ -4,6 +4,7 @@
     <include name="Widget_Label">
         <param name="usewidgetlabel">false</param>
         <param name="infowidget">false</param>
+        <param name="labelvisible">true</param>
         <definition>
             <control type="group" id="$PARAM[groupid]">
                 <nested />
@@ -23,6 +24,7 @@
                     <label>$PARAM[label]</label>
                     <font>font_small_bold</font>
                     <visible>!Control.HasFocus($PARAM[id])</visible>
+                    <visible>$PARAM[labelvisible]</visible>
                 </control>
                 <control type="label">
                     <top>30</top>
@@ -36,6 +38,7 @@
                     <font>font_medium_bold</font>
                     <visible>Control.HasFocus($PARAM[id])</visible>
                     <visible>!$PARAM[infowidget] | !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) | Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+                    <visible>$PARAM[labelvisible]</visible>
                 </control>
 
                 <control type="group">
@@ -137,6 +140,7 @@
                 <param name="busy_visible">Container($PARAM[id]).IsUpdating + $PARAM[busy_visible]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
                 <param name="infowidget">$PARAM[infowidget]</param>
+                <param name="labelvisible">$PARAM[labelvisible]</param>
                 <include content="Widget_SlideAnimation">
                     <param name="infowidget">$PARAM[infowidget]</param>
                     <param name="id">$PARAM[id]</param>
@@ -150,6 +154,8 @@
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                <param name="item_w">$PARAM[item_w]</param>
+                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <nested />
                 <top>300</top>
                 <height>780</height>
@@ -171,6 +177,7 @@
         <param name="item_h">140</param>
         <param name="itemlayout_h">180</param>
         <param name="detailed">true</param>
+        <param name="spacertop">-180</param>
         <definition>
             <include content="Widget_Poster">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -181,17 +188,22 @@
                 <param name="infowidget">$PARAM[infowidget]</param>
                 <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                <param name="item_w">$PARAM[item_w]</param>
+                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="include">$PARAM[include]</param>
                 <param name="visible">$PARAM[visible]</param>
                 <param name="altvisible">$PARAM[altvisible]</param>
+                <param name="labelvisible">$PARAM[labelvisible]</param>
                 <nested />
             </include>
-            <control type="group" id="$PARAM[spacerid]">
-                <top>-180</top>
+            <include content="Object_Control">
+                <param name="control">group</param>
+                <param name="id">$PARAM[spacerid]</param>
+                <top>$PARAM[spacertop]</top>
                 <height>0</height>
                 <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</visible>
                 <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
-            </control>
+            </include>
         </definition>
     </include>
 

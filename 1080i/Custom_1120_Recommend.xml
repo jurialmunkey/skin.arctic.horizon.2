@@ -187,7 +187,7 @@
                 <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableDirector)">
                     <param name="groupid" value="5108" />
                     <param name="id" value="5008" />
-                    <param name="label" value="$INFO[Window.Property(Director),$LOCALIZE[31062] ,]" />
+                    <param name="label" value="$INFO[Window.Property(Director),$LOCALIZE[31225] ,]" />
                     <param name="visible" value="!String.IsEmpty(Window.Property(Path.FromDirector))" />
                     <content>$INFO[Window.Property(Path.FromDirector)]</content>
                     <include content="Action_Widget_Click"><param name="id" value="5008" /></include>
@@ -201,7 +201,7 @@
                 <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableWriter)">
                     <param name="groupid" value="5109" />
                     <param name="id" value="5009" />
-                    <param name="label" value="$INFO[Window.Property(Writer),$LOCALIZE[31062] ,]" />
+                    <param name="label" value="$INFO[Window.Property(Writer),$LOCALIZE[31224] ,]" />
                     <param name="visible" value="!String.IsEmpty(Window.Property(Path.FromWriter))" />
                     <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
                     <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,5009,Home)</onfocus>
@@ -351,6 +351,20 @@
                 </include>
 
                 <!-- Reviews etc -->
+                <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableReviews)">
+                    <param name="spacerid" value="5293" />
+                    <param name="groupid" value="5193" />
+                    <param name="id" value="5093" />
+                    <param name="label" value="$LOCALIZE[31215]" />
+                    <param name="visible" value="!String.IsEmpty(Window.Property(Path.Reviews))" />
+                    <param name="include">List_Reviews_Row</param>
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,5093,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                    <content>$INFO[Window.Property(Path.Reviews)]</content>
+                    <onback>SetFocus(5000)</onback>
+                </include>
                 <include content="Widget_Submenu" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableKeywords)">
                     <param name="spacerid" value="5294" />
                     <param name="groupid" value="5194" />
@@ -359,30 +373,50 @@
                     <param name="visible" value="!String.IsEmpty(Window.Property(Path.Keywords))" />
                     <param name="include">List_Button_Row</param>
                     <param name="detailed">false</param>
+                    <param name="spacertop">-360</param>
+                    <param name="item_h">80</param>
+                    <param name="itemlayout_h">120</param>
+                    <param name="item_w">217.14</param>
+                    <param name="itemlayout_w">257.14</param>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,5094,Home)</onfocus>
                     <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
                     <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <content>$INFO[Window.Property(Path.Keywords)]</content>
+                    <onclick>Close</onclick>
+                    <onclick condition="!Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(5094).ListItem.FolderPath]),00:01,silent)</onclick>
+                    <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container(5094).ListItem.FolderPath]),00:01,silent)</onclick>
                     <onback>SetFocus(5000)</onback>
+                    <movement>6</movement>
                 </include>
-                <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableReviews)">
-                    <param name="spacerid" value="5295" />
+                <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableKeywords)">
                     <param name="groupid" value="5195" />
                     <param name="id" value="5095" />
-                    <param name="label" value="$LOCALIZE[31215]" />
-                    <param name="visible" value="!String.IsEmpty(Window.Property(Path.Reviews))" />
-                    <param name="include">List_Reviews_Row</param>
+                    <param name="label" value="[CAPITALIZE]$INFO[Container(5094).ListItem.Label][/CAPITALIZE]" />
+                    <param name="visible" value="[!Integer.IsEqual(Container(5094).NumItems,0) + !String.IsEmpty(Container(5094).ListItem.FolderPath) + Container(5094).ListItem.IsFolder]" />
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <param name="labelvisible">false</param>
+                    <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,5095,Home)</onfocus>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,5095,Home)</onfocus>
-                    <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
-                    <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+                    <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
-                    <content>$INFO[Window.Property(Path.Reviews)]</content>
+                    <content>$INFO[Container(5094).ListItem.FolderPath,,&amp;nextpage=false]</content>
+                    <content>
+                        <item>
+                            <label />
+                            <onclick />
+                            <visible>![!Integer.IsEqual(Container(5094).NumItems,0) + !String.IsEmpty(Container(5094).ListItem.FolderPath) + Container(5094).ListItem.IsFolder]</visible>
+                        </item>
+                    </content>
+                    <include content="Action_Widget_Click"><param name="id" value="5095" /></include>
                     <onback>SetFocus(5000)</onback>
                 </include>
-                <!-- <control type="group" id="5099">
-                    <height>-300</height>
-                </control> -->
+
+
+                <control type="group" id="5099">
+                    <height>-120</height>
+                    <visible>[!Integer.IsEqual(Container(5094).NumItems,0) + !String.IsEmpty(Container(5094).ListItem.FolderPath) + Container(5094).ListItem.IsFolder]</visible>
+                </control>
 
             </control>
             <include content="Object_WallFade">
