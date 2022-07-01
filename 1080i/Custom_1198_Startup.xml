@@ -12,10 +12,23 @@
     <!-- Build includes for textures / views / menus -->
     <include condition="String.IsEmpty(Window(Home).Property(ReloadDone))">Action_BuildTextures_Onload</include>
     <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">RunScript(script.skinvariables,action=buildviews)</onload>
-    <onload>AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:02,silent)</onload>
+    <onload>AlarmClock(RepWin,SetFocus(9002),00:01,silent)</onload>
     <onload>SetProperty(ReloadDone,1,Home)</onload>
 
     <controls>
+        <control type="button" id="9001">
+            <texturefocus />
+            <texturenofocus />
+            <animation effect="fade" time="250" start="0" end="0">Focus</animation>
+            <onfocus>SetFocus(9002)</onfocus>
+        </control>
+        <control type="button" id="9002">
+            <texturefocus />
+            <texturenofocus />
+            <onfocus condition="System.HasPVRAddon + !PVR.HasTVChannels + !Pvr.HasRadioChannels">SetFocus(9001)</onfocus>
+            <onfocus>AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:01,silent)</onfocus>
+            <animation effect="fade" time="250" start="0" end="0">Focus</animation>
+        </control>
         <include content="Background_Image">
             <param name="texture" value="special://skin/fanart.jpg" />
         </include>

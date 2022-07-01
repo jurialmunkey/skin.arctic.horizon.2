@@ -199,18 +199,10 @@
                         <param name="buttonid" value="$PYTHON[(int(mainmenuid) * 1098) * 100]" />
                         <param name="label" value="$LOCALIZE[1034]" />
                         <param name="include" value="List_Button_Row" />
-                        <param name="visible" value="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])" />
+                        <param name="visible" value="[String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
                         <param name="infowidget" value="False" />
                         <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).NumItems,0)" />
-                        <content>
-                            <item>
-                                <label>$SKINSHORTCUTS[mainmenuLabel]</label>
-                                <icon>$SKINSHORTCUTS[mainmenuIcon]</icon>
-                                <onclick>$SKINSHORTCUTS[mainmenuPath]</onclick>
-                                <property name="isSubmenu">True</property>
-                            </item>
-                        </content>
-                        <content><include>skinshortcuts-submenu</include></content>
+                        <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698],Home)</onfocus>
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                         <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
@@ -412,7 +404,7 @@
                     <param name="label" value="$SKINSHORTCUTS[widgetName]" />
                     <param name="usewidgetlabel" value="$SKINSHORTCUTS[widgetLabelName]" />
                     <param name="include" value="$SKINSHORTCUTS[widgetStyle]" />
-                    <param name="visible" value="[$SKINSHORTCUTS[isVisible]] + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])" />
+                    <param name="visible" value="[[$SKINSHORTCUTS[isVisible]] + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
                     <param name="infowidget" value="$SKINSHORTCUTS[isInfo]" />
                     <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,0)" />
                     <include content="Object_Include" condition="!$SKINSHORTCUTS[isSubmenu]">
@@ -422,15 +414,7 @@
                         </include>
                     </include>
                     <include content="Object_Include" condition="$SKINSHORTCUTS[isSubmenu]">
-                        <content>
-                            <item>
-                                <label>$SKINSHORTCUTS[mainmenuLabel]</label>
-                                <icon>$SKINSHORTCUTS[mainmenuIcon]</icon>
-                                <onclick>$SKINSHORTCUTS[mainmenuPath]</onclick>
-                                <property name="isSubmenu">True</property>
-                            </item>
-                        </content>
-                        <content><include>skinshortcuts-submenu</include></content>
+                        <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
                     </include>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
