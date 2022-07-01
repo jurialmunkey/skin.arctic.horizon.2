@@ -199,7 +199,7 @@
                         <param name="buttonid" value="$PYTHON[(int(mainmenuid) * 1098) * 100]" />
                         <param name="label" value="$LOCALIZE[1034]" />
                         <param name="include" value="List_Button_Row" />
-                        <param name="visible" value="True" />
+                        <param name="visible" value="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])" />
                         <param name="infowidget" value="False" />
                         <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).NumItems,0)" />
                         <content>
@@ -222,6 +222,7 @@
                         <param name="control" value="group" />
                         <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 699]" />
                         <height>-300</height>
+                        <visible>Control.IsVisible($PYTHON[int(mainmenuid) * 1000 + 698])</visible>
                     </include>
                 </control>
             </control>
@@ -411,7 +412,7 @@
                     <param name="label" value="$SKINSHORTCUTS[widgetName]" />
                     <param name="usewidgetlabel" value="$SKINSHORTCUTS[widgetLabelName]" />
                     <param name="include" value="$SKINSHORTCUTS[widgetStyle]" />
-                    <param name="visible" value="$SKINSHORTCUTS[isVisible]" />
+                    <param name="visible" value="[$SKINSHORTCUTS[isVisible]] + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])" />
                     <param name="infowidget" value="$SKINSHORTCUTS[isInfo]" />
                     <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,0)" />
                     <include content="Object_Include" condition="!$SKINSHORTCUTS[isSubmenu]">
