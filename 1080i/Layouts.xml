@@ -727,6 +727,7 @@
     <include name="Layout_DialogSelect">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
+        <param name="misc">ListItem.IsSelected</param>
         <definition>
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control" value="image" />
@@ -734,8 +735,12 @@
             </include>
             <control type="group">
                 <left>dialog_pad</left>
-                <include condition="!$PARAM[selected]">Object_IsSelected_Checkmark</include>
-                <include condition="$PARAM[selected]">Object_IsSelected_Checkmark_Focus</include>
+                <include condition="!$PARAM[selected]" content="Object_IsSelected_Checkmark">
+                    <param name="selected">$PARAM[misc]</param>
+                </include>
+                <include condition="$PARAM[selected]" content="Object_IsSelected_Checkmark_Focus">
+                    <param name="selected">$PARAM[misc]</param>
+                </include>
                 <control type="group">
                     <left>64</left>
                     <include content="Object_Control" condition="!$PARAM[detailed]">
@@ -1464,7 +1469,7 @@
         <param name="selected" default="false" />
         <param name="detailed" default="false" />
         <param name="textoffsetx" default="30" />
-        <param name="color_fg" default="main_fg" />
+        <param name="textcolor" default="main_fg" />
         <definition>
             <control type="group">
                 <height>$PARAM[item_h]</height>
@@ -1483,9 +1488,9 @@
                 <include content="Object_Control" condition="!$PARAM[detailed] + !$PARAM[selected]">
                     <param name="control" value="progress" />
                     <texturebg>pvr/progressline-back.png</texturebg>
-                    <lefttexture border="2" colordiffuse="$PARAM[color_fg]_30">pvr/progressline-left2.png</lefttexture>
-                    <midtexture border="2" colordiffuse="$PARAM[color_fg]_30">pvr/progressline-mid2.png</midtexture>
-                    <righttexture border="2" colordiffuse="$PARAM[color_fg]_30">pvr/progressline-right2.png</righttexture>
+                    <lefttexture border="2" colordiffuse="$PARAM[textcolor]_30">pvr/progressline-left2.png</lefttexture>
+                    <midtexture border="2" colordiffuse="$PARAM[textcolor]_30">pvr/progressline-mid2.png</midtexture>
+                    <righttexture border="2" colordiffuse="$PARAM[textcolor]_30">pvr/progressline-right2.png</righttexture>
                     <info>ListItem.Progress</info>
                     <visible>Integer.IsGreater(ListItem.Progress,1) + !Integer.IsGreater(ListItem.Progress,99)</visible>
                     <visible>!Window.IsVisible(MyPVRGuide.xml)</visible>
@@ -1531,14 +1536,14 @@
                                 <include content="Object_Include" condition="$PARAM[selected]">
                                     <texture colordiffuse="panel_fg_30">common/white.png</texture>
                                 </include>
-                                <texture colordiffuse="$PARAM[color_fg]_12">common/white.png</texture>
+                                <texture colordiffuse="$PARAM[textcolor]_12">common/white.png</texture>
                             </include>
                             <control type="label">
                                 <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
                                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                                 <label>$VAR[Label_PVRRecordings_Mainlabel]</label>
-                                <textcolor>$PARAM[color_fg]_90</textcolor>
-                                <selectedcolor>$PARAM[color_fg]_90</selectedcolor>
+                                <textcolor>$PARAM[textcolor]_70</textcolor>
+                                <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
                                 <font>font_small_bold</font>
                                 <align>left</align>
                                 <visible>![!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.ISEmpty(ListItem.Title)]]</visible>
@@ -1549,8 +1554,8 @@
                                 <top>10</top>
                                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                                 <label>$VAR[Label_PVRRecordings_Mainlabel]</label>
-                                <textcolor>$PARAM[color_fg]_90</textcolor>
-                                <selectedcolor>$PARAM[color_fg]_90</selectedcolor>
+                                <textcolor>$PARAM[textcolor]_70</textcolor>
+                                <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
                                 <font>font_small_bold</font>
                                 <align>left</align>
                                 <visible>!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.ISEmpty(ListItem.Title)]</visible>
@@ -1565,8 +1570,8 @@
                                 <top>40</top>
                                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                                 <label>$INFO[ListItem.Label2]</label>
-                                <textcolor>$PARAM[color_fg]_90</textcolor>
-                                <selectedcolor>$PARAM[color_fg]_90</selectedcolor>
+                                <textcolor>$PARAM[textcolor]_70</textcolor>
+                                <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
                                 <font>font_genrelabel</font>
                                 <align>right</align>
                                 <visible>ListItem.IsFolder</visible>
@@ -1576,8 +1581,8 @@
                                 <top>40</top>
                                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                                 <label>$VAR[Label_PVRRecordings_Sublabel]$VAR[Label_PVRRecordings_Sublabel_Channels]</label>
-                                <textcolor>$PARAM[color_fg]_70</textcolor>
-                                <selectedcolor>$PARAM[color_fg]_90</selectedcolor>
+                                <textcolor>$PARAM[textcolor]_70</textcolor>
+                                <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
                                 <font>font_genrelabel</font>
                                 <align>left</align>
                                 <autoscroll>false</autoscroll>

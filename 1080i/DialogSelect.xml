@@ -3,8 +3,7 @@
     <defaultcontrol>3</defaultcontrol>
     <onunload>ClearProperty(DialogSelectType,Home)</onunload>
     <controls>
-
-        <include content="Object_Options_Menu" condition="String.IsEqual(Window(Home).Property(DialogSelectType),Menu)">
+        <include content="Object_Options_Menu" condition="String.IsEqual(Window(Home).Property(DialogSelectType),Menu) + String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive))">
             <param name="id" value="3" />
             <param name="header" value="$INFO[Control.GetLabel(1)]" />
             <param name="usegrouplist" value="false" />
@@ -21,7 +20,7 @@
         </include>
 
         <include condition="String.IsEmpty(Window(Home).Property(DialogSelectType))">Object_Overlay</include>
-        <include content="Dialog_Background" condition="String.IsEmpty(Window(Home).Property(DialogSelectType))">
+        <include content="Dialog_Background" condition="String.IsEmpty(Window(Home).Property(DialogSelectType)) + String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive))">
             <include>Animation_SlideIn_Dialog</include>
             <include>Dimension_DialogSelect</include>
             <include>Dialog_Overlay_Buttons</include>
@@ -105,6 +104,62 @@
                     </control>
                 </control>
             </include>
+        </include>
+
+
+        <include content="Dialog_Background" condition="!String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive))">
+            <include>Animation_SlideIn_Dialog</include>
+            <centerleft>50%</centerleft>
+            <width>1702</width>
+            <top>view_top</top>
+            <height>720</height>
+
+            <include>Dialog_Header</include>
+            <include content="Dialog_Header">
+                <param name="id" value="9901" />
+                <visible>String.IsEmpty(Control.GetLabel(1))</visible>
+                <label>$LOCALIZE[424]</label>
+            </include>
+
+            <!-- Image -->
+            <control type="group">
+                <left>480</left>
+                <include>Dialog_Overlay</include>
+                <include>Object_Separator</include>
+                <include content="Dialog_Group">
+                    <control type="image">
+                        <texture colordiffuse="ff181818">common/white.png</texture>
+                    </control>
+                    <control type="image">
+                        <aspectratio>scale</aspectratio>
+                        <fadetime>300</fadetime>
+                        <texture background="true">$INFO[Container(6).ListITem.Icon]</texture>
+                    </control>
+                    <control type="image">
+                        <include content="Dimension_Padding"><param name="pad" value="-10" /></include>
+                        <texture colordiffuse="dialog_bg_100" border="20">common/selectbox.png</texture>
+                    </control>
+                    <control type="image">
+                        <include content="Dimension_Padding"><param name="pad" value="-10" /></include>
+                        <texture colordiffuse="dialog_fg_07" border="20">common/selectbox.png</texture>
+                    </control>
+                </include>
+            </control>
+
+            <control type="group">
+                <left>0</left>
+                <width>480</width>
+                <top>dialog_pad</top>
+                <bottom>dialog_pad</bottom>
+                <include content="List_DialogSelect">
+                    <param name="id" value="3" />
+                    <param name="misc">String.IsEqual(Container.ViewMode,ListItem.Label)</param>
+                </include>
+                <include content="List_DialogSelect">
+                    <param name="id" value="6" />
+                    <param name="misc">String.IsEqual(Container.ViewMode,ListItem.Label)</param>
+                </include>
+            </control>
         </include>
     </controls>
 </window>
