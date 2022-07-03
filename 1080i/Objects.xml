@@ -721,7 +721,7 @@
         <control type="group">
             <visible>$PARAM[visible]</visible>
             <control type="image">
-                <texture colordiffuse="$PARAM[colordiffuse_back]">$PARAM[texture]</texture>
+                <texture colordiffuse="$PARAM[colordiffuse_back]" border="128,0,0,0">$PARAM[texture]</texture>
             </control>
             <control type="image">
                 <left>80</left>
@@ -743,7 +743,7 @@
         <definition>
             <control type="group" id="$PARAM[groupid]">
                 <left>-28</left>
-                <width>128</width>
+                <width>150</width>
                 <height>256</height>
                 <visible>$PARAM[visible]</visible>
                 <include content="Object_Info_Button_Left" condition="!$PARAM[invertcolor]">
@@ -774,18 +774,34 @@
                 <visible>$PARAM[visible]</visible>
                 <height>256</height>
                 <include content="Object_Include" condition="$PARAM[invertcolor]">
-                    <texturefocus border="0,93,74,93" colordiffuse="panel_fg_100">common/$PARAM[texturename]right.png</texturefocus>
+                    <texturefocus colordiffuse="panel_fg_100">common/$PARAM[texturename]right_x.png</texturefocus>
                     <focusedcolor>panel_bg</focusedcolor>
                 </include>
-                <texturenofocus border="0,93,74,93" colordiffuse="main_fg_12">common/$PARAM[texturename]right.png</texturenofocus>
-                <texturefocus border="0,93,74,93">special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]right_h.png</texturefocus>
+                <texturenofocus colordiffuse="main_fg_12">common/$PARAM[texturename]right_x.png</texturenofocus>
+                <texturefocus>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]right_h_x.png</texturefocus>
                 <font>font_mini_bold</font>
-                <label>$PARAM[label][COLOR=00ffffff]______[/COLOR]</label>
+                <label>$PARAM[label]</label>
                 <align>left</align>
-                <textoffsetx>24</textoffsetx>
+                <textoffsetx>0</textoffsetx>
                 <textcolor>main_fg_70</textcolor>
                 <focusedcolor>$VAR[ColorSelected]</focusedcolor>
                 <nested />
+            </control>
+            <control type="group" id="$PARAM[groupid2]">
+                <left>$PARAM[itemgap]</left>
+                <width>80</width>
+                <height>256</height>
+                <control type="image">
+                    <visible>![Control.HasFocus($PARAM[id]) | $PARAM[focused]]</visible>
+                    <texture colordiffuse="main_fg_12">common/$PARAM[texturename]right_y.png</texture>
+                </control>
+                <control type="image">
+                    <visible>Control.HasFocus($PARAM[id]) | $PARAM[focused]</visible>
+                    <include content="Object_Include" condition="$PARAM[invertcolor]">
+                        <texture colordiffuse="panel_fg_100">common/$PARAM[texturename]right_y.png</texture>
+                    </include>
+                    <texture>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]right_h_y.png</texture>
+                </control>
             </control>
         </definition>
     </include>
