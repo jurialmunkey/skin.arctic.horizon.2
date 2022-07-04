@@ -11,7 +11,12 @@
                 <param name="windowopen_delay" value="600" />
             </include>
             <include>Animation_FadeOut</include>
-            <width>1440</width>
+            <include content="Object_Include" condition="$EXP[Exp_ContextMenu_HasPoster]">
+                <width>1440</width>
+            </include>
+            <include content="Object_Include" condition="!$EXP[Exp_ContextMenu_HasPoster]">
+                <width>1645</width>
+            </include>
             <include>Dimension_Context</include>
             <include>Dialog_ContextMenu_Header</include>
 
@@ -20,8 +25,14 @@
                 <include content="Dialog_Background">
                     <param name="overlay" value="true" />
                     <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
-                    <include content="Dialog_Context_Image">
+                    <include content="Dialog_Context_Image" condition="$EXP[Exp_ContextMenu_HasPoster]">
                         <param name="diffuse" value="diffuse/poster_w435_h640.png" />
+                        <param name="icon" value="$VAR[Image_ContextPoster]" />
+                        <param name="right" value="925" />
+                    </include>
+                    <include content="Dialog_Context_Image" condition="!$EXP[Exp_ContextMenu_HasPoster]">
+                        <param name="diffuse" value="diffuse/poster_w640_h640.png" />
+                        <param name="aspectratio" value="keep" />
                         <param name="icon" value="$VAR[Image_ContextPoster]" />
                         <param name="right" value="925" />
                     </include>

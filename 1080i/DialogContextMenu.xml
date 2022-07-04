@@ -21,7 +21,8 @@
 
             <control type="group">
                 <!-- Slide Over if Square -->
-                <animation effect="slide" end="context_slide_sq" condition="!$EXP[Exp_ContextMenu_HasPoster]">Conditional</animation>
+                <animation effect="slide" end="context_slide_sq" condition="!$EXP[Exp_ContextMenu_HasPoster] + !String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
+                <animation effect="slide" end="context_slide_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
 
                 <!-- Poster Image -->
                 <control type="group">
@@ -38,7 +39,7 @@
                 <!-- Square Image -->
                 <control type="group">
                     <left>context_icon_sq_l</left>
-                    <visible>!$EXP[Exp_ContextMenu_HasPoster]</visible>
+                    <visible>!$EXP[Exp_ContextMenu_HasPoster] + !String.IsEmpty(Window(Home).Property(ContextMenu.Icon))</visible>
                     <include content="Dialog_Background">
                         <param name="overlay" value="true" />
                         <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
@@ -46,6 +47,15 @@
                             <param name="aspectratio" value="keep" />
                             <param name="diffuse" value="diffuse/square_w640_h640.png" />
                         </include>
+                    </include>
+                </control>
+
+                <!-- No Image -->
+                <control type="group">
+                    <left>context_icon_w</left>
+                    <visible>!$EXP[Exp_ContextMenu_HasPoster] + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))</visible>
+                    <include content="Dialog_Background">
+                        <param name="overlay" value="false" />
                     </include>
                 </control>
 
@@ -121,6 +131,7 @@
                         <width>16</width>
                         <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-small.png</texture>
                         <visible>Container(996).HasPrevious</visible>
+                        <animation effect="slide" end="context_slide_arrow_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
                     </control>
                     <control type="image">
                         <bottom>-24</bottom>
@@ -129,6 +140,7 @@
                         <width>16</width>
                         <texture colordiffuse="$VAR[ColorSelected]">common/arrow-small.png</texture>
                         <visible>Container(996).HasNext</visible>
+                        <animation effect="slide" end="context_slide_arrow_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
                     </control>
                 </control>
             </control>
