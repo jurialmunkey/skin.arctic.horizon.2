@@ -228,9 +228,15 @@
         <value>$LOCALIZE[10000]</value>
     </variable>
 
+
+    <variable name="Label_Header_SkinShortcuts">
+        <value condition="String.IsEqual(Window.Property(groupname),searchmenu)">[CAPITALIZE]$LOCALIZE[31151][/CAPITALIZE]</value>
+        <value condition="String.IsEqual(Window.Property(groupname),powermenu)">[CAPITALIZE]$LOCALIZE[31086][/CAPITALIZE]</value>
+        <value condition="String.EndsWith(Window.Property(groupname),.1)">[CAPITALIZE]$LOCALIZE[21450] $INFO[Window.Property(groupdisplayname),, ]$LOCALIZE[31103][/CAPITALIZE]</value>
+        <value condition="!String.IsEmpty(Control.GetLabel(500))">[CAPITALIZE]$INFO[Control.GetLabel(500)][/CAPITALIZE]</value>
+    </variable>
     <variable name="Label_Header_Mini">
-        <value condition="Window.Isvisible(script-skinshortcuts.xml) + !String.IsEmpty(Control.GetLabel(500))">$INFO[Control.GetLabel(500)]</value>
-        <!-- <value condition="Window.IsVisible(AddonBrowser)">$INFO[Window.Property(BaseCategory),, [COLOR=main_fg_70] &gt; [/COLOR] ]$INFO[Container.FolderName]</value> -->
+        <value condition="Window.Isvisible(script-skinshortcuts.xml)">$VAR[Label_Header_SkinShortcuts]</value>
         <value condition="Window.IsVisible(AddonBrowser) + Control.HasFocus(6000)">$INFO[Container(6000).ListItem.Label]</value>
         <value condition="Window.IsVisible(AddonBrowser) + !String.IsEqual(Container(6000).ListItem.Label,Container.FolderName)">$INFO[Container(6000).ListItem.Label,, [COLOR=main_fg_70] &gt; [/COLOR] ]$INFO[Container.FolderName]</value>
         <value condition="Window.IsVisible(AddonBrowser)">$INFO[Container.FolderName]</value>

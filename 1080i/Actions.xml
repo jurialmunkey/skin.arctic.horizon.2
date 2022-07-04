@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="Action_SkinShortcuts_ContentType_AutoSetOnFocus">
+        <onfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SetProperty(customProperty,widgetTarget)</onfocus>
+        <onfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SetProperty(customValue,$VAR[Action_SkinShortcuts_ContentType])</onfocus>
+        <onfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SendClick(404)</onfocus>
+    </include>
+    <include name="Action_SkinShortcuts_ContentType_AutoSetOnUnFocus">
+        <onunfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SetProperty(customProperty,widgetTarget)</onunfocus>
+        <onunfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SetProperty(customValue,$VAR[Action_SkinShortcuts_ContentType])</onunfocus>
+        <onunfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SendClick(404)</onunfocus>
+    </include>
+
+    <variable name="Action_SkinShortcuts_ContentType">
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,Video)">videos</value>
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,Music)">music</value>
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,Program)">programs</value>
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,Picture)">pictures</value>
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,PVR)">tvguide</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),Videos)">videos</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),Music)">music</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),Programs)">programs</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),Pictures)">pictures</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),pvr://)">tvguide</value>
+    </variable>
+
     <variable name="Action_Query_Params">
 
         <!-- Movie -->
