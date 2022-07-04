@@ -103,8 +103,17 @@
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[99]">99</property>
         <property name="isFullscreenWidget" tag="property" attribute="name|widgetPath">True</property>
         <property name="isFullscreenWidget">False</property>
-        <property name="isSubmenuBumper" tag="property" attribute="name|disableSubmenuBumper">False</property>
-        <property name="isSubmenuBumper">True</property>
+        <property name="isSubmenuBumper" tag="property" attribute="name|widgetPath.SubmenuBumper">True</property>
+        <property name="isSubmenuBumper">False</property>
+        <property name="isSubmenuBumperCustom" tag="property" attribute="name|widgetPath.SubmenuBumper" value="Submenu">False</property>
+        <property name="isSubmenuBumperCustom" tag="property" attribute="name|widgetPath.SubmenuBumper">True</property>
+        <property name="isSubmenuBumperCustom">False</property>
+        <property name="submenuPath" tag="property" attribute="name|widgetPath.SubmenuBumper" />
+        <property name="submenuTarget" tag="property" attribute="name|widgetTarget.SubmenuBumper" />
+        <property name="submenuName" tag="property" attribute="name|widgetName.SubmenuBumper" />
+        <property name="submenuName">$LOCALIZE[1034]</property>
+
+
         <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
 
         <property name="mainmenuIcon" tag="thumb" />
@@ -201,12 +210,17 @@
                         <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 698]" />
                         <param name="spacerid" value="$PYTHON[int(mainmenuid) * 1000 + 898]" />
                         <param name="buttonid" value="$PYTHON[(int(mainmenuid) * 1098) * 100]" />
-                        <param name="label" value="$LOCALIZE[1034]" />
+                        <param name="label" value="$SKINSHORTCUTS[submenuName]" />
                         <param name="include" value="List_Button_Row" />
                         <param name="visible" value="[String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
                         <param name="infowidget" value="False" />
                         <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).NumItems,0)" />
-                        <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
+                        <include content="Object_Include" condition="$SKINSHORTCUTS[isSubmenuBumperCustom]">
+                            <content target="$SKINSHORTCUTS[submenuTarget]">$SKINSHORTCUTS[submenuPath]</content>
+                        </include>
+                        <include content="Object_Include" condition="![$SKINSHORTCUTS[isSubmenuBumperCustom]]">
+                            <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
+                        </include>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698],Home)</onfocus>
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                         <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
