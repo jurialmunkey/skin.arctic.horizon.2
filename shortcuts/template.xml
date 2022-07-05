@@ -134,9 +134,10 @@
                     <orientation>vertical</orientation>
                     <onup>SetFocus(300)</onup>
                     <ondown>SetFocus(330)</ondown>
+
                     <control type="group" id="$PYTHON[int(mainmenuid) * 1000 + 500]">
-                        <height>1260</height>
-                        <left>view_pad</left>
+                        <top>widget_fs_button_top</top>
+                        <height>widget_fs_button_height</height>
                         <visible>$SKINSHORTCUTS[isFullscreenWidget]</visible>
                         <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
                         <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
@@ -145,64 +146,61 @@
                         <include content="Info_Panel">
                             <param name="plotwidth" value="info_plot_w" />
                             <param name="plotheight" value="80" />
+                            <param name="controltype">label</param>
                             <param name="line_id" value="$PYTHON[int(mainmenuid) * 1000 + 598]" />
                             <param name="container" value="Container(301)." />
                             <param name="ratings" value="[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual(Container(301).ListItem.DBType,movie) | String.IsEqual(Container(301).ListItem.DBType,tvshow) | String.IsEqual(Container(301).ListItem.DBType,set) | String.IsEqual(Container(301).ListItem.DBType,season) | String.IsEqual(Container(301).ListItem.DBType,episode) | Container(301).ListItem.IsCollection]" />
                             <height>280</height>
                             <width>info_panel_w</width>
-                            <bottom>480</bottom>
+                            <top>widget_fs_info_top</top>
+                            <left>view_pad</left>
                         </include>
 
-                        <control type="group">
-                            <height>70</height>
-                            <bottom>380</bottom>
-                            <control type="grouplist" id="$PYTHON[int(mainmenuid) * 1000 + 599]">
-                                <left>-40</left>
-                                <orientation>horizontal</orientation>
-                                <height>256</height>
-                                <centertop>50%</centertop>
-                                <itemgap>-60</itemgap>
+                        <control type="grouplist" id="$PYTHON[int(mainmenuid) * 1000 + 599]">
+                            <left>40</left>
+                            <orientation>horizontal</orientation>
+                            <height>256</height>
+                            <top>-3</top>
+                            <itemgap>-60</itemgap>
+                            <onup>SetFocus(300)</onup>
+                            <onback>SetFocus(300)</onback>
+                            <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
+                            <onleft>Control.Move(301,-1)</onleft>
+                            <onright>Control.Move(301,1)</onright>
+                            <include content="Object_Info_Button">
+                                <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 501]" />
+                                <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 511]" />
+                                <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 521]" />
+                                <param name="label" value="$VAR[Label_FullscreenWidget_PlayButton]" />
+                                <param name="icon" value="$VAR[Image_FullscreenWidget_PlayButton]" />
                                 <onup>SetFocus(300)</onup>
                                 <onback>SetFocus(300)</onback>
                                 <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
-                                <onleft>Control.Move(301,-1)</onleft>
-                                <onright>Control.Move(301,1)</onright>
-                                <include content="Object_Info_Button">
-                                    <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 501]" />
-                                    <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 511]" />
-                                    <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 521]" />
-                                    <param name="label" value="$VAR[Label_FullscreenWidget_PlayButton]" />
-                                    <param name="icon" value="$VAR[Image_FullscreenWidget_PlayButton]" />
-                                    <onup>SetFocus(300)</onup>
-                                    <onback>SetFocus(300)</onback>
-                                    <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
-                                    <onclick>SetFocus(301)</onclick>
-                                    <onclick>Action(Select)</onclick>
-                                    <onclick condition="!Container(301).ListItem.IsFolder">SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</onclick>
-                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                                    <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
-                                </include>
-                                <include content="Object_Info_Button">
-                                    <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 503]" />
-                                    <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 513]" />
-                                    <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 523]" />
-                                    <param name="label" value="$LOCALIZE[31077]" />
-                                    <param name="icon" value="special://skin/extras/icons/info2.png" />
-                                    <onup>SetFocus(300)</onup>
-                                    <onback>SetFocus(300)</onback>
-                                    <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
-                                    <onclick>SetFocus(301)</onclick>
-                                    <onclick>Action(Info)</onclick>
-                                    <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</onclick>
-                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                                    <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
-                                </include>
-                            </control>
+                                <onclick>SetFocus(301)</onclick>
+                                <onclick>Action(Select)</onclick>
+                                <onclick condition="!Container(301).ListItem.IsFolder">SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</onclick>
+                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
+                            </include>
+                            <include content="Object_Info_Button">
+                                <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 503]" />
+                                <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 513]" />
+                                <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 523]" />
+                                <param name="label" value="$LOCALIZE[31077]" />
+                                <param name="icon" value="special://skin/extras/icons/info2.png" />
+                                <onup>SetFocus(300)</onup>
+                                <onback>SetFocus(300)</onback>
+                                <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
+                                <onclick>SetFocus(301)</onclick>
+                                <onclick>Action(Info)</onclick>
+                                <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</onclick>
+                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
+                            </include>
                         </control>
                     </control>
                     <control type="group" id="$PYTHON[int(mainmenuid) * 1000 + 600]">
                         <height>600</height>
-                        <visible>!$SKINSHORTCUTS[isFullscreenWidget] | Integer.IsEqual(Container(301).NumItems,0)</visible>
                     </control>
                     <skinshortcuts insert="widgets">items</skinshortcuts>
                     <include content="Widget_Submenu" condition="$SKINSHORTCUTS[isSubmenuBumper]">
@@ -705,6 +703,7 @@
                 <onback>SetFocus(300)</onback>
                 <orientation>horizontal</orientation>
                 <scrolltime tween="quadratic">400</scrolltime>
+                <hitrect x="0" y="0" w="0" h="0" />
                 <include content="Defs_AutoScroll">
                     <param name="condition" value="Control.HasFocus(300) | Control.HasFocus(399)" />
                 </include>
