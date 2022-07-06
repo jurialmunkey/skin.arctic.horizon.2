@@ -195,23 +195,22 @@
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="9312" />
                             <param name="control" value="button" />
-                            <description>Fullscreen widget (standard widget button)</description>
-                            <onclick>SetFocus(312)</onclick>
+                            <description>Fullscreen widget</description>
+                            <onclick>SetProperty(SkinShortcutsDialogType,$LOCALIZE[31102],Home)</onclick>
+                            <onclick>AlarmClock(RefocusDialog,SetFocus(312),00:00,silent)</onclick>
                             <label>$LOCALIZE[31102]</label>
                             <label2>$INFO[Container(211).ListItem.Property(widgetPath)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
-                            <param name="id" value="9906" />
+                            <param name="id" value="9916" />
                             <param name="control" value="button" />
                             <description>Submenu bumper</description>
-                            <label>$LOCALIZE[1034] $LOCALIZE[31173]</label>
-                            <label2>$INFO[Container(211).ListItem.Property(widgetName.SubmenuBumper)]</label2>
-
-                            <onclick>SetProperty(widgetID,SubmenuBumper)</onclick>
-                            <onclick>SendClick(312)</onclick>
-
+                            <label>$LOCALIZE[31229]</label>
+                            <label2>$INFO[Container(211).ListItem.Property(widgetPath.SubmenuBumper)]</label2>
+                            <onclick>SetProperty(SkinShortcutsDialogType,$LOCALIZE[31229],Home)</onclick>
+                            <onclick>AlarmClock(RefocusDialog,SetFocus(9906),00:00,silent)</onclick>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
                         </include>
@@ -336,7 +335,7 @@
             </include>
             <include>Dimension_DialogSkinShortcuts_FullscreenWidget</include>
             <include content="Dialog_Header">
-                <label>$LOCALIZE[31102]</label>
+                <label>$INFO[Window(Home).Property(SkinShortcutsDialogType)]</label>
             </include>
             <control type="grouplist" id="8000">
                 <orientation>vertical</orientation>
@@ -352,6 +351,7 @@
                     <label2>$INFO[Container(211).ListItem.Property(widgetPath)]</label2>
                     <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                     <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
                 </include>
                 <include content="Dialog_Settings_Button">
                     <param name="id" value="9912" />
@@ -362,6 +362,7 @@
                     <label2>$INFO[Container(211).ListItem.Property(widgetTarget)]</label2>
                     <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                     <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
                 </include>
                 <include content="Dialog_Settings_Button">
                     <param name="id" value="9913" />
@@ -372,6 +373,7 @@
                     <label2>$INFO[Container(211).ListItem.Property(widgetSortby)]</label2>
                     <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                     <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
                 </include>
                 <include content="Dialog_Settings_Button">
                     <param name="id" value="9914" />
@@ -382,6 +384,7 @@
                     <label2>$INFO[Container(211).ListItem.Property(widgetSortorder)]</label2>
                     <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                     <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
                 </include>
                 <include content="Dialog_Settings_Button">
                     <param name="id" value="9917" />
@@ -391,6 +394,36 @@
                     <label>$LOCALIZE[31188]</label>
                     <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                     <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
+                </include>
+
+                <!-- Submenu Widget -->
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9906" />
+                    <param name="control" value="button" />
+                    <description>Submenu Choose Widget</description>
+                    <label>$LOCALIZE[31104]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetPath.SubmenuBumper)]</label2>
+                    <onclick>SetProperty(widgetID,SubmenuBumper)</onclick>
+                    <onclick>SendClick(312)</onclick>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31229])</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9961" />
+                    <param name="control" value="button" />
+                    <description>Submenu bumper</description>
+                    <label>$LOCALIZE[736]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetAspect.SubmenuBumper)]</label2>
+                    <onclick>SetProperty(customProperty,widgetAspect.SubmenuBumper)</onclick>
+                    <onclick condition="String.IsEmpty(Container(211).ListItem.Property(widgetAspect.SubmenuBumper)) | String.IsEqual(Container(211).ListItem.Property(widgetAspect.SubmenuBumper),Standard)">SetProperty(customValue,Image)</onclick>
+                    <onclick condition="String.IsEqual(Container(211).ListItem.Property(widgetAspect.SubmenuBumper),Image)">SetProperty(customValue,Text)</onclick>
+                    <onclick condition="String.IsEqual(Container(211).ListItem.Property(widgetAspect.SubmenuBumper),Text)">SetProperty(customValue,Standard)</onclick>
+                    <onclick>SendClick(404)</onclick>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31229])</visible>
                 </include>
             </control>
         </include>
