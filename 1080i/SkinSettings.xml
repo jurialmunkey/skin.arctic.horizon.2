@@ -133,6 +133,22 @@
                                 <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_Background,Home)</onclick>
                                 <onclick>ActivateWindow(1118)</onclick>
                             </include>
+                            <include content="Dialog_Settings_Button" description="Customise Startup">
+                                <param name="id" value="2005" />
+                                <label>Customise startup image</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+
+                                <onclick condition="!System.HasAddon(script.toolbox)">InstallAddon(script.toolbox)</onclick>
+                                <onclick>SetProperty(Dialog.1.Label,Single image)</onclick>
+                                <onclick>SetProperty(Dialog.1.BuiltIn,Skin.SetImage(Startup.ImageFolder))</onclick>
+                                <onclick>SetProperty(Dialog.2.Label,Image folder)</onclick>
+                                <onclick>SetProperty(Dialog.2.BuiltIn,Skin.SetPath(Startup.ImageFolder))</onclick>
+                                <onclick>SetProperty(Dialog.3.Label,$LOCALIZE[571])</onclick>
+                                <onclick>SetProperty(Dialog.3.BuiltIn,Skin.SetString(Startup.ImageFolder,special://skin/fanart.jpg))</onclick>
+                                <onclick>RunScript(script.toolbox,info=selectdialog,header=Customise startup image)</onclick>
+
+                                <label2>$INFO[Skin.String(Startup.ImageFolder)]</label2>
+                            </include>
 
 
 
