@@ -131,6 +131,7 @@
         <param name="busy_visible">true</param>
         <param name="usewidgetlabel">false</param>
         <param name="infowidget">false</param>
+        <param name="height">780</param>
         <definition>
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -159,7 +160,7 @@
                 <nested />
                 <hitrect x="0" y="360" w="1920" h="360" />
                 <top>300</top>
-                <height>780</height>
+                <height>$PARAM[height]</height>
                 <animation effect="fade" start="100" end="0" time="0" condition="Container($PARAM[id]).IsUpdating + $PARAM[busy_visible]">Conditional</animation>
                 <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</visible>
                 <include content="Widget_SlideAnimation">
@@ -209,4 +210,62 @@
         </definition>
     </include>
 
+
+    <include name="Widget_Stacked">
+        <param name="content_affix">&amp;nextpage=false</param>
+        <param name="widget_onclick_include">Action_Widget_Click</param>
+        <param name="onback">SetFocus(5000)</param>
+        <param name="expand_plot">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+        <param name="include_widgetspacer">true</param>
+        <definition>
+            <include content="Widget_Submenu">
+                <param name="spacerid">$PARAM[spacerid]</param>
+                <param name="groupid">$PARAM[groupid]</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="label">$PARAM[label]</param>
+                <param name="visible">$PARAM[visible]</param>
+                <param name="include">List_Button_Row</param>
+                <param name="detailed">false</param>
+                <param name="spacertop">-360</param>
+                <param name="item_h">80</param>
+                <param name="itemlayout_h">120</param>
+                <param name="item_w">217.14</param>
+                <param name="itemlayout_w">257.14</param>
+                <nested />
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
+                <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
+                <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onback>$PARAM[onback]</onback>
+                <movement>6</movement>
+            </include>
+            <include content="Widget_Poster">
+                <param name="groupid" value="$PARAM[widgetgroupid]" />
+                <param name="id" value="$PARAM[widgetid]" />
+                <param name="label" value="[CAPITALIZE]$INFO[Container($PARAM[id]).ListItem.Label][/CAPITALIZE]" />
+                <param name="visible" value="$PARAM[visible]" />
+                <param name="infowidget">$PARAM[expand_plot]</param>
+                <param name="labelvisible">false</param>
+                <param name="include">$PARAM[include]</param>
+                <param name="height">$PARAM[height]</param>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[widgetid],Home)</onfocus>
+                <onfocus condition="$PARAM[expand_plot]">SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
+                <onfocus condition="$PARAM[expand_plot]">SetProperty(Slide.WidgetContainer,$PARAM[widgetid],Home)</onfocus>
+                <onfocus condition="![$PARAM[expand_plot]]">ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
+                <onfocus condition="![$PARAM[expand_plot]]">ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <animation effect="fade" start="100" end="0" time="0" condition="Container($PARAM[id]).IsUpdating">Conditional</animation>
+                <content>$INFO[Container($PARAM[id]).ListItem.FolderPath,,$PARAM[content_affix]]</content>
+                <content>
+                    <item>
+                        <label />
+                        <onclick />
+                        <visible>![!Integer.IsEqual(Container($PARAM[id]).NumItems,0) + !String.IsEmpty(Container($PARAM[id]).ListItem.FolderPath) + Container($PARAM[id]).ListItem.IsFolder]</visible>
+                    </item>
+                </content>
+                <include content="$PARAM[widget_onclick_include]"><param name="id">$PARAM[widgetid]</param></include>
+                <onback>$PARAM[onback]</onback>
+            </include>
+        </definition>
+    </include>
 </includes>
