@@ -120,8 +120,12 @@
         <property name="mainmenuIcon" tag="icon" />
         <property name="mainmenuLabel" tag="label" />
         <property name="mainmenuPath" tag="onclick" />
+
+        <property name="includeCondition" tag="visible" />
+        <property name="includeCondition">True</property>
         <controls>
-            <control type="group">
+            <include content="Object_Control" condition="$SKINSHORTCUTS[includeCondition]">
+                <param name="control">group</param>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
                 <include content="Animation_LeftRight">
                     <param name="visible" value="[String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
@@ -233,8 +237,8 @@
                         <visible>Control.IsVisible($PYTHON[int(mainmenuid) * 1000 + 698])</visible>
                     </include>
                 </control>
-            </control>
-            <include content="Object_WallFade">
+            </include>
+            <include content="Object_WallFade" condition="$SKINSHORTCUTS[includeCondition]">
                 <param name="id">$PYTHON[int(mainmenuid) * 1000 + 400]</param>
                 <param name="altvisible_bottom">!String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle))</param>
                 <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) | !$SKINSHORTCUTS[isFullscreenWidget]</visible>
@@ -691,8 +695,12 @@
         <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
         <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
         <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
+        <property name="includeCondition" tag="visible" />
+        <property name="includeCondition">True</property>
         <controls>
-            <control type="list" id="301">
+            <include content="Object_Control" condition="$SKINSHORTCUTS[includeCondition]">
+                <param name="control">list</param>
+                <param name="id">301</param>
                 <preloaditems>2</preloaditems>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
                 <animation effect="fade" start="0" end="100" time="600" reversible="false">Visible</animation>
@@ -720,7 +728,7 @@
                     </control>
                 </focusedlayout>
                 <content target="$SKINSHORTCUTS[widgetTarget]" sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
-            </control>
+            </include>
         </controls>
     </other>
 
