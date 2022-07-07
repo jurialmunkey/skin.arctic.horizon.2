@@ -68,10 +68,10 @@
                     <param name="id" value="5001" />
                     <param name="label" value="$LOCALIZE[33054]" />
                     <param name="visible" value="!String.IsEmpty(Window.Property(Path.Seasons))" />
-                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
-                    <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,5001,Home)</onfocus>
+                    <param name="detailed">true</param>
+                    <param name="infowidget">false</param>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,5001,Home)</onfocus>
-                    <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
+                    <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <content target="videos">$INFO[Window.Property(Path.Seasons)]</content>
                     <onclick>Close</onclick>
@@ -79,6 +79,22 @@
                     <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container(5001).ListItem.FolderPath]),00:01,silent)</onclick>
                     <onback>SetFocus(5000)</onback>
                 </include>
+                <!-- <include content="Widget_Stacked" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableSeasons)">
+                    <param name="spacerid">5201</param>
+                    <param name="groupid">5101</param>
+                    <param name="id">5001</param>
+                    <param name="widgetspacerid">5202</param>
+                    <param name="widgetgroupid">5102</param>
+                    <param name="widgetid">5002</param>
+                    <param name="label">$LOCALIZE[20373]$INFO[Container(5001).ListItem.Season, ,]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(Path.Seasons))</param>
+                    <param name="include">List_Landscape_Row</param>
+                    <param name="expand_plot">false</param>
+                    <content>$INFO[Window.Property(Path.Seasons)]</content>
+                    <onclick>Close</onclick>
+                    <onclick condition="!Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(5001).ListItem.FolderPath]),00:01,silent)</onclick>
+                    <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container(5001).ListItem.FolderPath]),00:01,silent)</onclick>
+                </include> -->
 
                 <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableCollections)">
                     <param name="groupid" value="5103" />
