@@ -1581,25 +1581,48 @@
                     <selectedcolor>$PARAM[color]</selectedcolor>
                     <font>font_small_bold</font>
                     <label>$INFO[ListItem.Label]</label>
-                    <visible>String.IsEmpty(ListItem.Label2)</visible>
+                    <visible>String.IsEmpty(ListItem.Label2) + String.IsEmpty(ListItem.Property(Event.Description))</visible>
                 </control>
-                <control type="label">
-                    <height>50%</height>
-                    <centertop>37.5%</centertop>
-                    <textcolor>$PARAM[color]</textcolor>
-                    <selectedcolor>$PARAM[color]</selectedcolor>
-                    <font>font_small_bold</font>
-                    <label>$INFO[ListItem.Label]</label>
-                    <visible>!String.IsEmpty(ListItem.Label2)</visible>
-                </control>
-                <control type="label">
-                    <height>50%</height>
-                    <font>font_mini</font>
-                    <centerbottom>37.5%</centerbottom>
-                    <textcolor>$PARAM[color]</textcolor>
-                    <selectedcolor>$PARAM[color]</selectedcolor>
-                    <label>$INFO[ListItem.Label2]</label>
-                    <visible>!String.IsEmpty(ListItem.Label2)</visible>
+                <control type="group">
+                    <height>80</height>
+                    <centertop>50%</centertop>
+                    <visible>![String.IsEmpty(ListItem.Label2) + String.IsEmpty(ListItem.Property(Event.Description))]</visible>
+                    <control type="label">
+                        <height>40</height>
+                        <top>0</top>
+                        <textcolor>$PARAM[color]</textcolor>
+                        <selectedcolor>$PARAM[color]</selectedcolor>
+                        <font>font_small_bold</font>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    <control type="label">
+                        <height>40</height>
+                        <font>font_mini</font>
+                        <bottom>0</bottom>
+                        <textcolor>$PARAM[color]</textcolor>
+                        <selectedcolor>$PARAM[color]</selectedcolor>
+                        <label>$INFO[ListItem.Label2]</label>
+                        <visible>String.IsEmpty(ListItem.Property(Event.Description))</visible>
+                    </control>
+                    <control type="label">
+                        <height>40</height>
+                        <font>font_mini</font>
+                        <bottom>0</bottom>
+                        <textcolor>$PARAM[color]</textcolor>
+                        <selectedcolor>$PARAM[color]</selectedcolor>
+                        <label>$INFO[ListItem.Property(Event.Description)]</label>
+                        <visible>!String.IsEmpty(ListItem.Property(Event.Description))</visible>
+                    </control>
+                    <control type="label">
+                        <height>80</height>
+                        <font>font_mini</font>
+                        <bottom>0</bottom>
+                        <align>right</align>
+                        <textcolor>$PARAM[color]</textcolor>
+                        <selectedcolor>$PARAM[color]</selectedcolor>
+                        <label>$INFO[ListItem.Label2]</label>
+                        <visible>!String.IsEmpty(ListItem.Property(Event.Description))</visible>
+                    </control>
                 </control>
             </control>
         </definition>

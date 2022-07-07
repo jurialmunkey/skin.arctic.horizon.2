@@ -166,16 +166,38 @@
     </include>
 
     <include name="Animation_WindowTransition_Settings">
-        <param name="windowopen" default="!Window.Previous(SettingsCategory.xml) + !Window.Previous(SkinSettings.xml) + !Window.Previous(SettingsProfile.xml) + !Window.Previous(SettingsSystemInfo.xml)" />
-        <param name="windowclose" default="!Window.Next(SettingsCategory.xml) + !Window.Next(SkinSettings.xml) + !Window.Next(SettingsProfile.xml) + !Window.Next(SettingsSystemInfo.xml)" />
+        <param name="windowopen">!$EXP[Exp_SettingsDialogs_Prev]</param>
+        <param name="windowclose">!$EXP[Exp_SettingsDialogs_Next]</param>
+
+        <param name="windowopen_left">false</param>
+        <param name="windowopen_right">false</param>
+        <param name="windowclose_left">false</param>
+        <param name="windowclose_right">false</param>
+        <param name="windowopen_delay">400</param>
         <definition>
             <animation type="WindowOpen" reversible="false" condition="$PARAM[windowopen]">
-                <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
-                <effect type="slide" start="0,320" end="0" time="400" delay="400" tween="cubic" easing="out" />
+                <effect type="fade" start="0" end="100" time="300" delay="$PARAM[windowopen_delay]" tween="sine" easing="out"/>
+                <effect type="slide" start="0,320" end="0" time="400" delay="$PARAM[windowopen_delay]" tween="cubic" easing="out" />
+            </animation>
+            <animation type="WindowOpen" reversible="false" condition="![$PARAM[windowopen]] + $PARAM[windowopen_left]">
+                <effect type="fade" start="0" end="100" time="300" delay="$PARAM[windowopen_delay]" tween="sine" easing="out"/>
+                <effect type="slide" start="-320,0" end="0" time="400" delay="$PARAM[windowopen_delay]" tween="cubic" easing="out" />
+            </animation>
+            <animation type="WindowOpen" reversible="false" condition="![$PARAM[windowopen]] + $PARAM[windowopen_right]">
+                <effect type="fade" start="0" end="100" time="300" delay="$PARAM[windowopen_delay]" tween="sine" easing="out"/>
+                <effect type="slide" start="320,0" end="0" time="400" delay="$PARAM[windowopen_delay]" tween="cubic" easing="out" />
             </animation>
             <animation type="WindowClose" reversible="false"  condition="$PARAM[windowclose]">
                 <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
                 <effect type="slide" start="0" end="0,320" time="300" delay="0" tween="cubic" easing="out" />
+            </animation>
+            <animation type="WindowClose" reversible="false"  condition="![$PARAM[windowclose]] + $PARAM[windowclose_left]">
+                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="-320,0" time="300" delay="0" tween="cubic" easing="out" />
+            </animation>
+            <animation type="WindowClose" reversible="false"  condition="![$PARAM[windowclose]] + $PARAM[windowclose_right]">
+                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="320,0" time="300" delay="0" tween="cubic" easing="out" />
             </animation>
         </definition>
     </include>

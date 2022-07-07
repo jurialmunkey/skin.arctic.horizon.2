@@ -133,7 +133,18 @@
             <param name="overlay" value="false" />
             <param name="overlay_animation" value="false" />
             <include>Dimension_Info</include>
-            <include>Animation_WindowTransition_Settings</include>
+            <include content="Animation_WindowTransition_Settings">
+                <param name="windowopen_left">Window.Previous(EventLog.xml)</param>
+                <param name="windowclose_left">Window.Next(EventLog.xml)</param>
+            </include>
+            <animation type="Conditional" reversible="false"  condition="Window.IsVisible(DialogAddonSettings.xml)">
+                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="-320,0" time="300" delay="0" tween="cubic" easing="out" />
+            </animation>
+            <animation type="Conditional" reversible="false"  condition="!Window.IsVisible(DialogAddonSettings.xml)">
+                <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
+                <effect type="slide" start="-320,0" end="0" time="400" delay="400" tween="cubic" easing="out" />
+            </animation>
             <include>Dialog_Overlay_Settings</include>
             <!-- <include content="Dialog_Header">
                 <param name="id" value="4000" />
