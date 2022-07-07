@@ -459,8 +459,12 @@
                         <onup>6805</onup>
                         <ondown>6800</ondown>
                         <height>160</height>
-                        <onleft>PlayerControl(TempoDown)</onleft>
-                        <onright>PlayerControl(TempoUp)</onright>
+                        <onleft condition="Player.Paused">PlayerControl(Play)</onleft>
+                        <onright condition="Player.Paused">PlayerControl(Play)</onright>
+                        <onleft condition="Player.TempoEnabled">PlayerControl(TempoDown)</onleft>
+                        <onright condition="Player.TempoEnabled">PlayerControl(TempoUp)</onright>
+                        <onright condition="!Player.TempoEnabled + !Player.Forwarding32x">PlayerControl(Forward)</onright>
+                        <onleft condition="!Player.TempoEnabled + !Player.Rewinding32x">PlayerControl(Rewind)</onleft>
                     </include>
                     <control type="group">
                         <left>40</left>
@@ -483,7 +487,8 @@
                                 <visible>Control.HasFocus(7800)</visible>
                             </control>
                         </control>
-                        <control type="grouplist">
+                        <include content="Object_Control" condition="Player.TempoEnabled">
+                            <param name="control">grouplist</param>
                             <left>-8</left>
                             <right>-8</right>
                             <height>70</height>
@@ -513,7 +518,59 @@
                             <include content="OSD_PlaySpeed_Label">
                                 <param name="label" value="1.50" />
                             </include>
-                        </control>
+                        </include>
+                        <include content="Object_Control" condition="!Player.TempoEnabled">
+                            <param name="control">grouplist</param>
+                            <left>-9</left>
+                            <right>-9</right>
+                            <height>70</height>
+                            <bottom>0</bottom>
+                            <orientation>horizontal</orientation>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[32]</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[16]</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[8]x</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[4]x</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[2]x</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">|</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[2]x</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[4]x</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[8]x</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[16]</param>
+                            </include>
+                            <include content="OSD_PlaySpeed_Label">
+                                <param name="width">38</param>
+                                <param name="label">$NUMBER[32]</param>
+                            </include>
+                        </include>
                         <control type="group">
                             <centertop>50%</centertop>
                             <height>12</height>
@@ -532,13 +589,28 @@
                             <centertop>50%</centertop>
                             <height>24</height>
                             <width>24</width>
-                            <animation effect="slide" end="52" condition="String.IsEqual(Player.PlaySpeed,0.90)">Conditional</animation>
-                            <animation effect="slide" end="104" condition="String.IsEqual(Player.PlaySpeed,1.00) | String.IsEqual(Player.PlaySpeed,0.00)">Conditional</animation>
-                            <animation effect="slide" end="156" condition="String.IsEqual(Player.PlaySpeed,1.10)">Conditional</animation>
-                            <animation effect="slide" end="208" condition="String.IsEqual(Player.PlaySpeed,1.20)">Conditional</animation>
-                            <animation effect="slide" end="260" condition="String.IsEqual(Player.PlaySpeed,1.30)">Conditional</animation>
-                            <animation effect="slide" end="312" condition="String.IsEqual(Player.PlaySpeed,1.40)">Conditional</animation>
-                            <animation effect="slide" end="364" condition="String.IsEqual(Player.PlaySpeed,1.50)">Conditional</animation>
+                            <include content="Object_Include" condition="Player.TempoEnabled">
+                                <animation effect="slide" end="52" condition="String.IsEqual(Player.PlaySpeed,0.90)">Conditional</animation>
+                                <animation effect="slide" end="104" condition="String.IsEqual(Player.PlaySpeed,1.00) | String.IsEqual(Player.PlaySpeed,0.00)">Conditional</animation>
+                                <animation effect="slide" end="156" condition="String.IsEqual(Player.PlaySpeed,1.10)">Conditional</animation>
+                                <animation effect="slide" end="208" condition="String.IsEqual(Player.PlaySpeed,1.20)">Conditional</animation>
+                                <animation effect="slide" end="260" condition="String.IsEqual(Player.PlaySpeed,1.30)">Conditional</animation>
+                                <animation effect="slide" end="312" condition="String.IsEqual(Player.PlaySpeed,1.40)">Conditional</animation>
+                                <animation effect="slide" end="364" condition="String.IsEqual(Player.PlaySpeed,1.50)">Conditional</animation>
+                            </include>
+                            <include content="Object_Include" condition="!Player.TempoEnabled">
+                                <animation effect="slide" end="-8" condition="Player.Rewinding32x">Conditional</animation>
+                                <animation effect="slide" end="30" condition="Player.Rewinding16x">Conditional</animation>
+                                <animation effect="slide" end="68" condition="Player.Rewinding8x">Conditional</animation>
+                                <animation effect="slide" end="106" condition="Player.Rewinding4x">Conditional</animation>
+                                <animation effect="slide" end="144" condition="Player.Rewinding2x">Conditional</animation>
+                                <animation effect="slide" end="182" condition="!Player.Rewinding + !Player.Forwarding">Conditional</animation>
+                                <animation effect="slide" end="220" condition="Player.Forwarding2x">Conditional</animation>
+                                <animation effect="slide" end="258" condition="Player.Forwarding4x">Conditional</animation>
+                                <animation effect="slide" end="296" condition="Player.Forwarding8x">Conditional</animation>
+                                <animation effect="slide" end="334" condition="Player.Forwarding16x">Conditional</animation>
+                                <animation effect="slide" end="372" condition="Player.Forwarding32x">Conditional</animation>
+                            </include>
                             <control type="group">
                                 <visible>!Control.HasFocus(7800)</visible>
                                 <control type="image">
