@@ -3,6 +3,7 @@
 
     <include name="Layout_SkinShortcuts">
         <param name="selected" default="false" />
+        <param name="detailed" default="false" />
         <definition>
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control" value="image" />
@@ -13,10 +14,22 @@
                 <width>80</width>
                 <bordersize>10</bordersize>
                 <include content="Object_Include" condition="$PARAM[selected]">
-                    <texture background="true" colordiffuse="$VAR[ColorSelected]">$INFO[ListItem.Icon]</texture>
+                    <texture background="true" colordiffuse="$VAR[ColorSelected]">$VAR[Image_SkinShortcut]</texture>
                 </include>
-                <texture background="true" colordiffuse="dialog_fg_70">$INFO[ListItem.Icon]</texture>
+                <texture background="true" colordiffuse="dialog_fg_70">$VAR[Image_SkinShortcut]</texture>
                 <aspectratio>keep</aspectratio>
+                <visible>[String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.IsEqual(ListItem.Icon,thumb)]</visible>
+            </include>
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <width>80</width>
+                <bordersize>10</bordersize>
+                <include content="Object_Include" condition="$PARAM[selected]">
+                    <texture background="true" colordiffuse="$VAR[ColorSelected]">$VAR[Image_SkinShortcut]</texture>
+                </include>
+                <texture background="true" colordiffuse="bfffffff">$VAR[Image_SkinShortcut]</texture>
+                <aspectratio>keep</aspectratio>
+                <visible>![String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/) | String.IsEqual(ListItem.Icon,thumb) | String.IsEqual(ListItem.Label,..)]</visible>
             </include>
             <include content="Object_Separator" condition="$PARAM[selected]">
                 <left>80</left>
@@ -25,7 +38,9 @@
                 <param name="control" value="label" />
                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                 <left>60</left>
-                <width>400</width>
+                <include content="Object_Include" condition="$PARAM[detailed]">
+                    <width>400</width>
+                </include>
                 <textoffsetx>40</textoffsetx>
                 <textcolor>dialog_fg_70</textcolor>
                 <selectedcolor>dialog_fg_70</selectedcolor>

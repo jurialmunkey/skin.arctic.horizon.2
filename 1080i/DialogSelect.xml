@@ -23,6 +23,12 @@
         <include content="Dialog_Background" condition="String.IsEmpty(Window(Home).Property(DialogSelectType)) + String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive))">
             <include>Animation_SlideIn_Dialog</include>
             <include>Dimension_DialogSelect</include>
+            <include content="Object_Control" condition="Window.IsVisible(script-skinshortcuts.xml)">
+                <param name="control">group</param>
+                <left>row_height</left>
+                <include>Dialog_Overlay</include>
+                <include>Object_Separator</include>
+            </include>
             <include>Dialog_Overlay_Buttons</include>
             <include>Dialog_Header</include>
             <include content="Dialog_Header">
@@ -43,10 +49,17 @@
                             <pagecontrol>61</pagecontrol>
                             <onright>61</onright>
                         </include>
-                        <include content="List_DialogSelect">
+                        <include content="List_DialogSelect" condition="!Window.IsVisible(script-skinshortcuts.xml)">
                             <param name="id" value="6" />
                             <param name="detailed" value="True" />
                             <param name="item_height" value="row_height_x200" />
+                            <left>-dialog_pad</left>
+                            <pagecontrol>62</pagecontrol>
+                            <onright>62</onright>
+                        </include>
+                        <include content="List_DialogSelect" condition="Window.IsVisible(script-skinshortcuts.xml)">
+                            <param name="id" value="6" />
+                            <param name="itemlayout_include">Layout_SkinShortcuts</param>
                             <left>-dialog_pad</left>
                             <pagecontrol>62</pagecontrol>
                             <onright>62</onright>
@@ -87,20 +100,24 @@
                         <control type="button" id="8" description="GetMore">
                             <height>row_height</height>
                             <visible>Control.IsEnabled(8)</visible>
+                            <visible>!Window.IsVisible(script-skinshortcuts.xml)</visible>
                         </control>
                     </control>
 
-                    <control type="image">
-                        <bottom>0</bottom>
-                        <aspectratio aligny="bottom">keep</aspectratio>
-                        <texture background="true">$INFO[Container(6).ListITem.Icon]</texture>
-                        <visible>![String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/)]</visible>
-                    </control>
-                    <control type="image">
-                        <bottom>0</bottom>
-                        <aspectratio aligny="bottom">keep</aspectratio>
-                        <texture background="true" colordiffuse="dialog_fg_70">$INFO[Container(6).ListITem.Icon]</texture>
-                        <visible>String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/))</visible>
+                    <control type="group">
+                        <visible>!String.IsEmpty(Container(6).ListItem.Icon)</visible>
+                        <control type="image">
+                            <bottom>0</bottom>
+                            <aspectratio aligny="bottom">keep</aspectratio>
+                            <texture background="true">$INFO[Container(6).ListItem.Icon]</texture>
+                            <visible>![String.StartsWith(Container(6).ListItem.Icon,Default) | String.StartsWith(Container(6).ListItem.Icon,special://skin/extras/icons/) | String.IsEqual(Container(6).ListItem.Icon,thumb)]</visible>
+                        </control>
+                        <control type="image">
+                            <bottom>0</bottom>
+                            <aspectratio aligny="bottom">keep</aspectratio>
+                            <texture background="true" colordiffuse="dialog_fg_70">$INFO[Container(6).ListItem.Icon]</texture>
+                            <visible>[String.StartsWith(Container(6).ListItem.Icon,Default)]</visible>
+                        </control>
                     </control>
                 </control>
             </include>
