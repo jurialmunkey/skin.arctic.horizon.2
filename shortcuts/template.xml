@@ -362,7 +362,19 @@
             <property name="widgetTarget">videos</property>
             <property name="widgetSortby" tag="property" attribute="name|widgetSortby" />
             <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
+
+            <!-- Widget Limits -->
+            <property name="widgetLimit" tag="property" attribute="name|widgetLimit" value="Auto">99999</property>
             <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
+            <property name="isAutoLimit" tag="property" attribute="name|widgetLimit" value="Auto">true</property>
+            <property name="isAutoLimit">false</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Button">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Apps">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Square">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Landscape">4</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Landscape">3</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
+            <property name="widgetAutoLimit">7</property>
 
             <!-- Include -->
             <property name="widgetInclude" tag="property" attribute="name|list" value="Submenu">Widget_Submenu</property>
@@ -432,7 +444,12 @@
                     <param name="infowidget" value="$SKINSHORTCUTS[isInfo]" />
                     <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,0)" />
                     <include content="Object_Include" condition="!$SKINSHORTCUTS[isSubmenu]">
-                        <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
+                        <include content="Object_Include" condition="!$SKINSHORTCUTS[isAutoLimit]">
+                            <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
+                        </include>
+                        <include content="Object_Include" condition="$SKINSHORTCUTS[isAutoLimit]">
+                            <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetAutoLimit]">$SKINSHORTCUTS[widgetPath]</content>
+                        </include>
                         <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isAutoScroll]">
                             <param name="condition" value="!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])" />
                         </include>
@@ -697,6 +714,7 @@
         <property name="widgetTarget" tag="property" attribute="name|widgetTarget" />
         <property name="widgetSortby" tag="property" attribute="name|widgetSortby" />
         <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
+        <property name="widgetLimit" tag="property" attribute="name|widgetLimit" value="auto">99999</property>
         <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
         <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
         <property name="includeCondition" tag="visible" />
@@ -819,8 +837,6 @@
 
             <property name="widgetPath" tag="property" attribute="name|list"/>
 
-            <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
-
 
             <!-- Widget Label -->
             <property name="widgetName" tag="label" />
@@ -829,7 +845,19 @@
             <!-- Widget Sort -->
             <property name="widgetSortby" tag="property" attribute="name|widgetSortby" />
             <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
+
+            <!-- Widget Limits -->
+            <property name="widgetLimit" tag="property" attribute="name|widgetLimit" value="Auto">99999</property>
             <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
+            <property name="isAutoLimit" tag="property" attribute="name|widgetLimit" value="Auto">true</property>
+            <property name="isAutoLimit">false</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Button">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Apps">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Square">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Landscape">4</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Landscape">3</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
+            <property name="widgetAutoLimit">7</property>
 
             <!-- Include -->
             <property name="widgetInclude">Widget_Poster</property>
@@ -929,7 +957,12 @@
                     <param name="altvisible" value="[Control.HasFocus(340) | Control.HasFocus(350)]" />
                     <param name="include" value="$SKINSHORTCUTS[widgetStyle]" />
                     <param name="infowidget" value="$SKINSHORTCUTS[isInfo]" />
-                    <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</content>
+                    <include content="Object_Include" condition="!$SKINSHORTCUTS[isAutoLimit]">
+                        <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</content>
+                    </include>
+                    <include content="Object_Include" condition="$SKINSHORTCUTS[isAutoLimit]">
+                        <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetAutoLimit]">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</content>
+                    </include>
                     <onback>SetFocus(5000)</onback>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[5000 + int(id)],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[5000 + int(id)],Home)</onfocus>
