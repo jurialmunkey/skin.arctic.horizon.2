@@ -371,6 +371,26 @@
     </include>
 
     <include name="Object_StartUp_Logo">
+        <control type="grouplist">
+            <height>128</height>
+            <centertop>400</centertop>
+            <orientation>vertical</orientation>
+            <align>center</align>
+            <control type="image">
+                <width>96</width>
+                <height>96</height>
+                <centerleft>50%</centerleft>
+                <aspectratio>keep</aspectratio>
+                <texture colordiffuse="$VAR[ColorHighlight]">special://skin/extras/icons/kodi.png</texture>
+            </control>
+            <control type="label">
+                <height>32</height>
+                <textcolor>main_fg_100</textcolor>
+                <label>KODI</label>
+                <font>font_logo_large</font>
+                <align>center</align>
+            </control>
+        </control>
         <control type="label">
             <height>80</height>
             <centertop>49%</centertop>
@@ -379,6 +399,48 @@
             <font>font_infotitle</font>
             <textcolor>$VAR[ColorHighlight]</textcolor>
             <label>[COLOR=main_logo]Arctic[/COLOR] Horizon 2</label>
+        </control>
+        <control type="group">
+            <bottom>80</bottom>
+            <height>120</height>
+            <centerleft>50%</centerleft>
+            <width>600</width>
+            <visible>Weather.IsFetched</visible>
+            <animation effect="fade" reversible="false" start="0" end="100" time="300" delay="0">Visible</animation>
+            <control type="grouplist">
+                <orientation>horizontal</orientation>
+                <align>center</align>
+                <height>90</height>
+                <centertop>40</centertop>
+                <control type="image">
+                    <centertop>50%</centertop>
+                    <width>90</width>
+                    <height>90</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="main_fg_90">$INFO[Window(Weather).Property(Current.FanartCode),resource://resource.images.weathericons.white/,.png]</texture>
+                    <visible>!String.IsEmpty(Window(Weather).Property(Current.FanartCode))</visible>
+                </control>
+                <control type="label">
+                    <left>-10</left>
+                    <label>$INFO[Window(Weather).Property(Current.Temperature), [B],[/B]°]</label>
+                    <width>auto</width>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <font>font_infotitle</font>
+                    <textcolor>main_fg_90</textcolor>
+                    <visible>!String.IsEmpty(Window(Weather).Property(Current.Temperature))</visible>
+                </control>
+            </control>
+            <control type="label">
+                <label>$INFO[Window(Weather).Property(Current.Condition)]</label>
+                <height>20</height>
+                <centerbottom>20</centerbottom>
+                <align>center</align>
+                <aligny>center</aligny>
+                <font>font_small</font>
+                <textcolor>main_fg_90</textcolor>
+                <visible>!String.IsEmpty(Window(Weather).Property(Current.Condition))</visible>
+            </control>
         </control>
     </include>
 
