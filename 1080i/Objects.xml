@@ -615,11 +615,12 @@
                 <control type="image">
                     <texture colordiffuse="ff333333">$VAR[Image_Overlay_Backing$PARAM[affix],,-bg.png]</texture>
                 </control>
-                <control type="image">
+                <include content="Object_Control" condition="!Skin.HasSetting(Indicator.DisableProgress)">
+                    <param name="control">image</param>
                     <include content="Dimension_Padding"><param name="pad" value="0" /></include>
                     <texture colordiffuse="$VAR[ColorWatchedProgress]">$VAR[Defs_PercentPlayed$PARAM[affix],progress/circle/p,.png]</texture>
                     <aspectratio align="center" aligny="center">keep</aspectratio>
-                </control>
+                </include>
                 <control type="image">
                     <texture>$VAR[Image_Overlay_Backing$PARAM[affix],,-fg.png]</texture>
                 </control>
@@ -630,11 +631,11 @@
                 <control type="image">
                     <include content="Dimension_Padding"><param name="pad" value="20" /></include>
                     <texture colordiffuse="$VAR[ColorWatchedProgress]">indicator/checkmark.png</texture>
-                    <visible>!Skin.HasSetting(DisableIndicator.Watched)</visible>
+                    <visible>!Skin.HasSetting(Indicator.DisableWatched)</visible>
                     <visible>String.IsEqual($PARAM[listitem].Overlay,OverlayWatched.png) | [!String.IsEmpty($PARAM[listitem].PlayCount) + !Integer.IsEqual($PARAM[listitem].PlayCount,0) + !String.IsEqual($PARAM[listitem].DBType,song) + !String.IsEqual($PARAM[listitem].DBType,album) + !String.IsEqual($PARAM[listitem].DBType,artist) + !String.IsEqual($PARAM[listitem].DBType,image) + !String.IsEqual($PARAM[listitem].DBType,addon)]</visible>
-                    <visible>Integer.IsEqual($PARAM[listitem].Property(UnWatchedEpisodes),0) | Skin.HasSetting(DisableIndicator.Episodes)</visible>
+                    <visible>Integer.IsEqual($PARAM[listitem].Property(UnWatchedEpisodes),0) | Skin.HasSetting(Indicator.DisableEpisodes)</visible>
                     <visible>!$PARAM[listitem].IsRecording + !$PARAM[listitem].HasTimer</visible>
-                    <visible>!$PARAM[listitem].IsResumable | Skin.HasSetting(DisableIndicator.Progress)</visible>
+                    <visible>!$PARAM[listitem].IsResumable | Skin.HasSetting(Indicator.DisableProgress)</visible>
                 </control>
                 <control type="label">
                     <font>font_unwatched</font>
@@ -642,7 +643,7 @@
                     <aligny>center</aligny>
                     <textcolor>panel_fg_100</textcolor>
                     <label>$INFO[$PARAM[listitem].Property(UnWatchedEpisodes)]</label>
-                    <visible>Integer.IsGreater($PARAM[listitem].Property(UnWatchedEpisodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(DisableIndicator.Episodes)</visible>
+                    <visible>Integer.IsGreater($PARAM[listitem].Property(UnWatchedEpisodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(Indicator.DisableEpisodes)</visible>
                 </control>
             </control>
         </definition>
