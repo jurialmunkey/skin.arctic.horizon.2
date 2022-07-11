@@ -47,22 +47,30 @@
         <!-- Music Seekbar -->
         <include content="Object_Control" condition="!VideoPlayer.IsFullscreen">
             <param name="control" value="group" />
+            <top>view_top</top>
+            <height>640</height>
             <control type="group">
-                <top>view_top</top>
                 <centerleft>50%</centerleft>
                 <width>640</width>
-                <height>640</height>
-                <include content="Object_BigPoster">
-                    <param name="diffuse" value="diffuse/square_w640_h640.png" />
-                    <param name="icon" value="$INFO[Player.Icon]" />
-                </include>
                 <control type="group">
-                    <height>12</height>
-                    <bottom>0</bottom>
-                    <include>OSD_Progress_BarControls</include>
+                    <animation effect="slide" start="0" end="90" time="400" tween="cubic" easing="out" reversible="false" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Window.IsVisible(musicosd)">Conditional</animation>
+                    <animation effect="slide" end="0" start="90" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) + Window.IsVisible(musicosd)]">Conditional</animation>
+                    <animation effect="slide" start="0" end="-560" time="400" tween="cubic" easing="out" reversible="false" condition="Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
+                    <animation effect="slide" end="0" start="-560" time="400" tween="cubic" easing="out" reversible="false" condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
+                    <include content="Object_BigPoster">
+                        <param name="diffuse" value="diffuse/square_w640_h640.png" />
+                        <param name="icon" value="$INFO[Player.Icon]" />
+                    </include>
+                    <control type="group">
+                        <height>12</height>
+                        <bottom>0</bottom>
+                        <include>OSD_Progress_BarControls</include>
+                    </control>
                 </control>
-
                 <control type="grouplist">
+                    <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+                    <include>Animation_FadeIn_Delay</include>
+                    <include>Animation_FadeOut</include>
                     <top>640</top>
                     <left>-320</left>
                     <right>-320</right>
@@ -94,6 +102,41 @@
                     </control>
                 </control>
             </control>
+
+            <control type="group">
+                <visible>Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+                <top>720</top>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                <height>80</height>
+                <control type="label">
+                    <label>$INFO[Player.Title]</label>
+                    <textcolor>panel_fg_100</textcolor>
+                    <font>font_mainlabel</font>
+                    <align>left</align>
+                    <height>30</height>
+                    <top>0</top>
+                </control>
+                <control type="label">
+                    <label>$INFO[Player.Time,[COLOR=panel_fg_90],[/COLOR]]$INFO[Player.Duration, | [COLOR=panel_fg_90],[/COLOR]]</label>
+                    <textcolor>$VAR[ColorHighlight]</textcolor>
+                    <font>font_small</font>
+                    <align>right</align>
+                    <height>40</height>
+                    <bottom>0</bottom>
+                </control>
+                <control type="label">
+                    <label>$INFO[MusicPlayer.Artist,[COLOR=panel_fg_70],[/COLOR]]$INFO[MusicPlayer.Album, • [COLOR=panel_fg_70],[/COLOR]]$INFO[MusicPlayer.Year, • [COLOR=panel_fg_70],[/COLOR]]</label>
+                    <textcolor>$VAR[ColorHighlight]</textcolor>
+                    <font>font_small</font>
+                    <align>left</align>
+                    <height>40</height>
+                    <bottom>0</bottom>
+                </control>
+            </control>
+
         </include>
 
         <!-- Clock -->
@@ -103,5 +146,15 @@
         <include content="Furniture_Top_Right">
             <param name="icon" value="$VAR[Image_MuteBug_Seekbar]" />
         </include>
+
+        <!-- Top Label Lyrics -->
+        <control type="group">
+            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include>Animation_FadeOut</include>
+            <include content="Furniture_Top_Left">
+                <param name="label">$LOCALIZE[31244]</param>
+            </include>
+        </control>
     </controls>
 </window>
