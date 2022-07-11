@@ -166,15 +166,34 @@
         <onunload>ClearProperty(ContextMenu.Icon,Home)</onunload>
     </include>
 
-    <include name="Action_Widget_Click">
+    <include name="Action_Widget_Refocus_Click">
         <onclick>SetFocus(5004)</onclick>
         <onclick>SetFocus(5003)</onclick>
         <onclick>SetFocus(5002)</onclick>
         <onclick>SetFocus(5001)</onclick>
         <onclick>SetFocus(5000)</onclick>
+    </include>
+
+    <include name="Action_Widget_Click">
+        <include>Action_Widget_Refocus_Click</include>
         <onclick>SetProperty(TMDbHelper.HideView,1,Home)</onclick>
         <onclick>Close</onclick>
         <onclick>AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190),00:01,silent)</onclick>
+    </include>
+
+    <include name="Action_Widget_Play_Click">
+        <include>Action_Widget_Refocus_Click</include>
+        <onclick>Close</onclick>
+        <onclick condition="!Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container($PARAM[id]).ListItem.FolderPath]),00:01,silent)</onclick>
+        <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container($PARAM[id]).ListItem.FolderPath]),00:01,silent)</onclick>
+    </include>
+
+    <include name="Action_Widget_TrailerPlay_Click">
+        <onclick>Close</onclick>
+        <onclick condition="$EXP[Exp_InfoDialogs]">PlayMedia($INFO[Container($PARAM[id]).ListItem.FolderPath],False,1)</onclick>
+        <onclick condition="!$EXP[Exp_InfoDialogs]">PlayMedia($INFO[Container($PARAM[id]).ListItem.FolderPath],False)</onclick>
+        <onclick condition="$EXP[Exp_InfoDialogs]">SetProperty(HasTrailer,$INFO[Container($PARAM[id]).ListItem.FolderPath],Home)</onclick>
+        <onclick condition="$EXP[Exp_InfoDialogs]">AlarmClock(Refocus,SetFocus(7001),00:01,silent)</onclick>
     </include>
 
     <include name="Action_Plotbox_OnUp">
