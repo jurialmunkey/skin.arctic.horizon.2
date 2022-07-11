@@ -887,7 +887,7 @@
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,video)</visible>
                 <visible>!$EXP[Exp_IsPersonInfo]</visible>
                 <visible>!String.IsEmpty(ListItem.VideoCodec) | !String.IsEmpty(ListItem.AudioCodec)</visible>
-                <include content="Info_Codec_ImageControl">
+                <include content="Info_Codec_ImageControl" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <fadetime>100</fadetime>
                     <centertop>50%</centertop>
                     <width>64</width>
@@ -896,7 +896,7 @@
                     <texture fallback="flags/generic.png">flags/$PARAM[directory]/resolution/$INFO[ListItem.VideoResolution].png</texture>
                     <param name="visible" value="!String.IsEmpty(ListItem.VideoResolution)" />
                 </include>
-                <include content="Info_Codec_ImageControl">
+                <include content="Info_Codec_ImageControl" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <fadetime>100</fadetime>
                     <centertop>50%</centertop>
                     <width>71</width>
@@ -905,7 +905,7 @@
                     <texture fallback="flags/generic.png">flags/$PARAM[directory]/source/$INFO[ListItem.VideoCodec].png</texture>
                     <param name="visible" value="!String.IsEmpty(ListItem.VideoCodec)" />
                 </include>
-                <include content="Info_Codec_ImageControl">
+                <include content="Info_Codec_ImageControl" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <fadetime>100</fadetime>
                     <centertop>50%</centertop>
                     <width>71</width>
@@ -914,7 +914,7 @@
                     <texture fallback="flags/generic.png">flags/$PARAM[directory]/aspectratio/$INFO[ListItem.VideoAspect].png</texture>
                     <param name="visible" value="!String.IsEmpty(ListItem.VideoAspect)" />
                 </include>
-                <include content="Info_Codec_ImageControl">
+                <include content="Info_Codec_ImageControl" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <fadetime>100</fadetime>
                     <centertop>50%</centertop>
                     <width>71</width>
@@ -923,7 +923,7 @@
                     <texture fallback="flags/generic.png">$VAR[Image_AudioCodec]</texture>
                     <param name="visible" value="!String.IsEmpty(ListItem.AudioCodec)" />
                 </include>
-                <include content="Info_Codec_ImageControl">
+                <include content="Info_Codec_ImageControl" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <fadetime>100</fadetime>
                     <centertop>50%</centertop>
                     <width>71</width>
@@ -932,7 +932,7 @@
                     <texture fallback="flags/generic.png">flags/$PARAM[directory]/channels/$INFO[ListItem.AudioChannels].png</texture>
                     <param name="visible" value="!String.IsEmpty(ListItem.AudioChannels)" />
                 </include>
-                <include content="Info_Codec_ImageControl">
+                <include content="Info_Codec_ImageControl" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <fadetime>100</fadetime>
                     <centertop>50%</centertop>
                     <width>64</width>
@@ -941,7 +941,7 @@
                     <texture>flags/$PARAM[directory]/other/3D.png</texture>
                     <param name="visible" value="ListItem.IsStereoscopic" />
                 </include>
-                <include content="Info_Codec_ImageControl">
+                <include content="Info_Codec_ImageControl" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <fadetime>100</fadetime>
                     <centertop>50%</centertop>
                     <width>71</width>
@@ -950,7 +950,7 @@
                     <texture>flags/$PARAM[directory]/other/HDR.png</texture>
                     <param name="visible" value="String.Contains(ListItem.FileNameAndPath,HDR)" />
                 </include>
-                <include content="Info_Codec_ImageControl">
+                <include content="Info_Codec_ImageControl" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <fadetime>100</fadetime>
                     <centertop>50%</centertop>
                     <width>71</width>
@@ -961,52 +961,54 @@
                 </include>
 
                 <!-- Audio / Subtitle Languages -->
-                <control type="group">
+                <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
+                    <param name="control">group</param>
                     <width>0</width>
-                    <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.1)) | !String.IsEmpty(ListItem.Property(SubtitleLanguage.1))</visible>
-                </control>
-                <include content="Info_Language">
+                    <visible>[!String.IsEmpty(ListItem.Property(AudioLanguage.1)) + !Skin.HasSetting(Codecs.DisableAudioLanguageFlags)] | [!String.IsEmpty(ListItem.Property(SubtitleLanguage.1)) + !Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)]</visible>
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
                     <param name="property" value="ListItem.Property(AudioLanguage.1)" />
                     <param name="icon" value="flags/subs.png" />
                 </include>
-                <include content="Info_Language">
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
                     <param name="property" value="ListItem.Property(AudioLanguage.2)" />
                     <param name="icon" value="flags/subs.png" />
                 </include>
-                <include content="Info_Language">
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
                     <param name="property" value="ListItem.Property(AudioLanguage.3)" />
                     <param name="icon" value="flags/subs.png" />
                 </include>
-                <include content="Info_Language">
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
                     <param name="property" value="ListItem.Property(AudioLanguage.4)" />
                     <param name="icon" value="flags/subs.png" />
                 </include>
-                <include content="Info_Language">
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
                     <param name="property" value="ListItem.Property(AudioLanguage.5)" />
                     <param name="icon" value="flags/subs.png" />
                 </include>
-                <control type="group">
+                <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags) + !Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
+                    <param name="control">group</param>
                     <width>0</width>
                     <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.1))</visible>
                     <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.1))</visible>
-                </control>
-                <include content="Info_Language">
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
                     <param name="property" value="ListItem.Property(SubtitleLanguage.1)" />
                     <param name="icon" value="flags/subtitles.png" />
                 </include>
-                <include content="Info_Language">
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
                     <param name="property" value="ListItem.Property(SubtitleLanguage.2)" />
                     <param name="icon" value="flags/subtitles.png" />
                 </include>
-                <include content="Info_Language">
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
                     <param name="property" value="ListItem.Property(SubtitleLanguage.3)" />
                     <param name="icon" value="flags/subtitles.png" />
                 </include>
-                <include content="Info_Language">
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
                     <param name="property" value="ListItem.Property(SubtitleLanguage.4)" />
                     <param name="icon" value="flags/subtitles.png" />
                 </include>
-                <include content="Info_Language">
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
                     <param name="property" value="ListItem.Property(SubtitleLanguage.5)" />
                     <param name="icon" value="flags/subtitles.png" />
                 </include>
@@ -1022,6 +1024,7 @@
                 <usecontrolcoords>true</usecontrolcoords>
                 <left>-8</left>
                 <right>-8</right>
+                <visible>!Skin.HasSetting(Codecs.DisableMediaProviderIcons)</visible>
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,video)</visible>
                 <visible>!$EXP[Exp_IsPersonInfo]</visible>
                 <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)</visible>
@@ -1174,12 +1177,13 @@
                 <aspectratio>keep</aspectratio>
                 <texture>$INFO[$PARAM[property],resource://resource.images.languageflags.colour/,.png]</texture>
             </control>
-            <control type="image">
+            <control type="button">
                 <centerbottom>10%</centerbottom>
                 <centerright>10%</centerright>
                 <width>20</width>
                 <height>20</height>
-                <texture colordiffuse="main_fg_100">$PARAM[icon]</texture>
+                <texturefocus colordiffuse="main_fg_100">$PARAM[icon]</texturefocus>
+                <texturenofocus colordiffuse="main_fg_100">$PARAM[icon]</texturenofocus>
             </control>
             <visible>!String.IsEmpty($PARAM[property])</visible>
         </control>
