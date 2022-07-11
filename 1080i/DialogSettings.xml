@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <controls>
-        <include condition="!Window.IsVisible(videoosd)">Object_Overlay</include>
-        <include content="Dialog_Background">
+        <include condition="!Window.IsVisible(videoosd) + !String.IsEqual(Window(Home).Property(DialogSettings.Style),mediafilter)">Object_Overlay</include>
+
+        <!-- Standard -->
+        <include content="Dialog_Background" condition="!String.IsEqual(Window(Home).Property(DialogSettings.Style),mediafilter)">
             <visible>!Window.IsVisible(DialogSubtitles.xml)</visible>
             <visible>!Window.IsVisible(DialogSlider.xml)</visible>
             <include>Animation_SlideIn_Dialog</include>
@@ -19,7 +21,6 @@
                 <control type="group">
                     <right>0</right>
                     <width>dialog_button_width</width>
-
                     <control type="grouplist" id="9000">
                         <onleft>61</onleft>
                         <itemgap>20</itemgap>
@@ -33,32 +34,86 @@
                             <height>row_height</height>
                         </control>
                     </control>
-
-                    <!-- <control type="image">
-                        <height>dialog_button_width</height>
-                        <bottom>0</bottom>
-                        <texture background="true">$INFO[Container(6).ListITem.Icon]</texture>
-                    </control> -->
                 </control>
-
                 <control type="group">
                     <right>dialog_button_width</right>
                     <control type="group">
                         <right>dialog_pad</right>
-
                         <control type="grouplist" id="5">
                             <left>-dialog_pad</left>
                             <pagecontrol>61</pagecontrol>
                             <onright>61</onright>
                         </control>
-
                         <include content="Dialog_Scrollbar">
                             <onright>9000</onright>
                             <onleft>5</onleft>
                         </include>
                     </control>
                 </control>
+            </include>
+        </include>
 
+
+        <!-- Media Filter -->
+        <include content="Dialog_Background" condition="String.IsEqual(Window(Home).Property(DialogSettings.Style),mediafilter)">
+            <include content="Animation_SlideIn_Dialog">
+                <param name="windowopen_delay">800</param>
+            </include>
+            <include>Dimension_DialogAdvFilter</include>
+            <include content="Dialog_Header">
+                <param name="id" value="2" />
+                <visible>!String.IsEqual(Window(Home).Property(DialogSettings.Style),mediafilter)</visible>
+            </include>
+            <include>Dialog_Nib</include>
+            <include content="Object_MenuHeader">
+                <param name="label" value="$INFO[Control.GetLabel(2)]" />
+            </include>
+            <include content="Object_Control">
+                <param name="control">group</param>
+                <top>dialog_pad</top>
+                <control type="group">
+                    <bottom>row_height_x200</bottom>
+                    <control type="grouplist" id="5">
+                        <top>row_height</top>
+                        <bottom>row_height_x25</bottom>
+                        <orientation>vertical</orientation>
+                        <ondown>9000</ondown>
+                        <onup>9000</onup>
+                        <onleft>Close</onleft>
+                        <onright>Close</onright>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>row_height_x200</height>
+                    <bottom>0</bottom>
+                    <include>Dialog_Overlay_V</include>
+                    <include>Object_Separator_V</include>
+                    <control type="grouplist" id="9000">
+                        <height>row_height</height>
+                        <orientation>horizontal</orientation>
+                        <itemgap>20</itemgap>
+                        <onup>-71</onup>
+                        <ondown>-80</ondown>
+                        <left>dialog_pad</left>
+                        <right>dialog_pad</right>
+                        <bottom>dialog_pad</bottom>
+                        <include content="Object_Control">
+                            <param name="id" value="28" />
+                            <param name="control" value="button" />
+                            <width>250</width>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="id" value="29" />
+                            <param name="control" value="button" />
+                            <width>250</width>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="id" value="30" />
+                            <param name="control" value="button" />
+                            <width>250</width>
+                        </include>
+                    </control>
+                </control>
 
             </include>
         </include>
