@@ -5,6 +5,7 @@
         <param name="usewidgetlabel">false</param>
         <param name="infowidget">false</param>
         <param name="labelvisible">true</param>
+        <param name="infowidget_full">false</param>
         <definition>
             <control type="group" id="$PARAM[groupid]">
                 <nested />
@@ -37,17 +38,18 @@
                     <label>$PARAM[label]</label>
                     <font>font_medium_bold</font>
                     <visible>Control.HasFocus($PARAM[id])</visible>
-                    <visible>!$PARAM[infowidget] | !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) | Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+                    <visible>!$PARAM[infowidget_full] | Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
                     <visible>$PARAM[labelvisible]</visible>
                 </control>
 
-                <control type="group">
-                    <visible>Control.HasFocus($PARAM[id]) + $PARAM[infowidget] + !Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+                <include content="Object_Control" condition="$PARAM[infowidget]">
+                    <param name="control">group</param>
+                    <visible>Control.HasFocus($PARAM[id]) + !Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
                     <animation effect="fade" start="0" end="100" delay="200" time="400" reversible="false">Visible</animation>
 
                     <!-- Info Widget Top -->
-                    <control type="group">
-                        <visible>String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)</visible>
+                    <include content="Object_Control" condition="$PARAM[infowidget_full]">
+                        <param name="control">group</param>
                         <animation effect="slide" end="0,infowidget_slide_infotop" condition="true">Conditional</animation>
                         <control type="label">
                             <top>-70</top>
@@ -60,7 +62,6 @@
                             <label>$PARAM[label]</label>
                             <font>font_medium_bold</font>
                             <visible>Control.HasFocus($PARAM[id])</visible>
-                            <visible>String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)</visible>
                         </control>
                         <include content="Info_Panel">
                             <param name="title">true</param>
@@ -74,11 +75,12 @@
                             <param name="plotheight">40</param>
                             <width>info_panel_w</width>
                         </include>
-                    </control>
+                    </include>
 
                     <!-- Info Widget Bottom -->
-                    <control type="group">
-                        <animation effect="slide" end="0,infowidget_slide_infobottom" condition="true">Conditional</animation>
+                    <include content="Object_Control">
+                        <param name="control">group</param>
+                        <top>infowidget_slide_infobottom</top>
                         <include content="Info_Panel">
                             <param name="title">false</param>
                             <param name="infoline">false</param>
@@ -92,8 +94,8 @@
                             <param name="plotlabel">[COLOR=main_fg_90]$VAR[Label_Plot_Widget_Title,[B],[/B]][/COLOR]$VAR[Label_Plot_Widget]</param>
                             <width>info_panel_w</width>
                         </include>
-                    </control>
-                </control>
+                    </include>
+                </include>
                 <control type="group">
                     <top>80</top>
                     <height>280</height>
@@ -109,16 +111,16 @@
     </include>
 
     <include name="Widget_SlideAnimation">
-        <animation effect="slide" time="400" tween="quadratic" end="0,infowidget_slide_bottom_full" condition="!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer)) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" end="0,infowidget_slide_bottom_full" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
 
-        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_slide_bottom_plot" reversible="false" condition="!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer)) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id])">Conditional</animation>
-        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_slide_bottom_plot" reversible="false" condition="![!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer)) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id])]">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_slide_bottom_plot" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id])">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_slide_bottom_plot" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id])]">Conditional</animation>
 
-        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_slide_top" reversible="false" condition="!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer)) + Integer.IsGreater(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
-        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_slide_top" reversible="false" condition="![!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer)) + Integer.IsGreater(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_slide_top" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsGreater(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_slide_top" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsGreater(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
-        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_slide_pos" reversible="false" condition="Control.HasFocus($PARAM[id]) + $PARAM[infowidget] + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
-        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_slide_pos" reversible="false" condition="![Control.HasFocus($PARAM[id]) + $PARAM[infowidget] + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_slide_pos" reversible="false" condition="Control.HasFocus($PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_slide_pos" reversible="false" condition="![Control.HasFocus($PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
 
         <!-- <animation effect="slide" time="400" tween="quadratic" end="0,-40" condition="!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer)) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation> -->
@@ -141,6 +143,7 @@
                 <param name="busy_visible">Container($PARAM[id]).IsUpdating + $PARAM[busy_visible]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
                 <param name="infowidget">$PARAM[infowidget]</param>
+                <param name="infowidget_full">$PARAM[infowidget_full]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
                 <include content="Widget_SlideAnimation">
                     <param name="infowidget">$PARAM[infowidget]</param>
@@ -188,6 +191,7 @@
                 <param name="icon">$PARAM[icon]</param>
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="infowidget">$PARAM[infowidget]</param>
+                <param name="infowidget_full">$PARAM[infowidget_full]</param>
                 <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="item_w">$PARAM[item_w]</param>
