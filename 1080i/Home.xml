@@ -81,7 +81,9 @@
             <param name="usegrouplist" value="false" />
             <param name="nib_pos" value="420" />
             <param name="useanimation" value="false" />
-            <!-- <left>140</left> -->
+            <include content="Object_Include" condition="Skin.HasSetting(Home.DisableSearchMenu)">
+                <left>80</left>
+            </include>
             <left>180</left>
             <animation effect="slide" start="0" end="100" condition="Container(300).Position(1)">Conditional</animation>
             <animation effect="slide" start="0" end="200" condition="Container(300).Position(2)">Conditional</animation>
@@ -133,8 +135,10 @@
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
 
-                <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ClearProperty(AnimationDirection)</onleft>
-                <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
+                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ClearProperty(AnimationDirection)</onleft>
+                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
+                </include>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">Control.Move(300,-1)</onleft>
 
@@ -151,29 +155,35 @@
                 <onclick>Action(Select)</onclick>
                 <include>skinshortcuts-template-menubar</include>
             </include>
-            <control type="image">
+            <include content="Object_Control" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                <param name="control">image</param>
                 <left>20</left>
                 <width>80</width>
                 <height>60</height>
                 <centertop>50%</centertop>
                 <aspectratio>keep</aspectratio>
                 <texture colordiffuse="main_fg_70">special://skin/extras/icons/search.png</texture>
-            </control>
+            </include>
             <include content="Object_MenuBar_List">
                 <param name="id" value="300" />
                 <param name="color_nf" value="main_fg" />
                 <param name="altfocus" value="Control.HasFocus(399)" />
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetFocus(399)</onfocus>
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                <left>80</left>
+                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                    <left>80</left>
+                </include>
                 <include>skinshortcuts-template-menubar</include>
                 <onfocus>ClearProperty(OptionsMenuFocused,Home)</onfocus>
                 <onup condition="!Skin.HasSetting(DisableSubmenuOnUp)">SetFocus(302,0,absolute)</onup>
                 <oninfo>SetFocus(302,0,absolute)</oninfo>
                 <onright>SetProperty(OptionsMenuFocused,303,Home)</onright>
                 <onright>SetFocus(303)</onright>
-                <onleft>ClearProperty(AnimationDirection)</onleft>
-                <onleft>ActivateWindow(1114)</onleft>
+                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                    <onleft>ClearProperty(AnimationDirection)</onleft>
+                    <onleft>ActivateWindow(1114)</onleft>
+                </include>
+                <onleft>-</onleft>
                 <content><include>skinshortcuts-mainmenu</include></content>
             </include>
         </include>
