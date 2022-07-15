@@ -17,7 +17,7 @@
                     </include>
                     <font>font_infotitle</font>
                     <visible>![Skin.HasSetting(TMDbHelper.EnableCrop) +
-                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + !$EXP[Exp_RecommendationDialogs] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]] |
+                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + !$EXP[Exp_RecommendationDialogs] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_IsPVRItem]]] |
                         [$EXP[Exp_RecommendationDialogs] + !String.IsEmpty(Window.Property(CropLogo))] |
                         [!String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [String.IsEqual($PARAM[container]ListItem.DBType,artist) + !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]]]]</visible>
                     <animation type="Hidden" reversible="false">
@@ -33,7 +33,7 @@
                     <fadetime>600</fadetime>
                     <texture background="true">$VAR[Image_CropLogo_Main]</texture>
                     <visible>[Skin.HasSetting(TMDbHelper.EnableCrop) +
-                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + !$EXP[Exp_RecommendationDialogs] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]] |
+                        [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + !$EXP[Exp_RecommendationDialogs] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,set) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_IsPVRItem]]] |
                         [$EXP[Exp_RecommendationDialogs] + !String.IsEmpty(Window.Property(CropLogo))] |
                         [!String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [String.IsEqual($PARAM[container]ListItem.DBType,artist) + !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]]]]</visible>
                     <animation type="Visible" reversible="false">
@@ -218,7 +218,7 @@
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
                         <param name="label" value="$LOCALIZE[20359] $INFO[$PARAM[container]ListItem.Season,S,E]$INFO[$PARAM[container]ListItem.Episode]" />
-                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Episode) + [String.IsEqual($PARAM[container]ListItem.DBType,episode) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Episode) + [String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_IsPVRItem]]" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
@@ -230,7 +230,7 @@
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
                         <param name="label" value="$INFO[$PARAM[container]ListItem.StartTime]$INFO[$PARAM[container]ListItem.EndTime, - ,]" />
-                        <param name="visible" value="[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)] + !String.IsEmpty($PARAM[container]ListItem.StartTime)" />
+                        <param name="visible" value="[$EXP[Exp_IsPVRItem]] + !String.IsEmpty($PARAM[container]ListItem.StartTime)" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
