@@ -25,8 +25,13 @@
                 <include>OSD_Progress_Bar</include>
                 <include>OSD_Progress_Labels</include>
                 <include>OSD_Progress_Details</include>
+                <include content="Object_Include" condition="Skin.HasSetting(OSD.DisableCodecs)">
+                    <animation effect="slide" start="0" end="0,80" time="300" tween="sine" easing="out" reversible="false" condition="!Window.IsVisible(videoosd)">Conditional</animation>
+                    <animation effect="slide" end="0" start="0,80" time="300" tween="sine" easing="out" reversible="false" condition="Window.IsVisible(videoosd)">Conditional</animation>
+                </include>
             </control>
-            <control type="group">
+            <include content="Object_Control" condition="!Skin.HasSetting(OSD.DisableCodecs)">
+                <param name="control">group</param>
                 <height>60</height>
                 <left>view_pad</left>
                 <right>view_pad</right>
@@ -39,7 +44,7 @@
                 <include content="OSD_Codecs">
                     <centertop>50%</centertop>
                 </include>
-            </control>
+            </include>
         </include>
 
         <!-- Music Seekbar -->
