@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="window" id="1198">
+    <onload>AlarmClock(RepWin,SetFocus(9002),00:01,silent)</onload>
+    <onload condition="String.IsEmpty(Window.Property(ReloadDone))">SetProperty(InitStatus,$LOCALIZE[31145])</onload>
 
     <!-- Set default settings -->
     <onload condition="String.IsEmpty(Skin.String(BackgroundStyle))">Skin.SetString(BackgroundStyle,Fanart)</onload>
@@ -7,27 +9,26 @@
     <onload condition="String.IsEmpty(Skin.String(DividerStyle))">Skin.SetString(DividerStyle,Fade)</onload>
 
     <!-- Start TMDbH service -->
-    <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">Skin.SetBool(TMDbHelper.Service)</onload>
+    <onload condition="String.IsEmpty(Window.Property(ReloadDone))">Skin.SetBool(TMDbHelper.Service)</onload>
 
     <!-- Build includes for textures / views / menus -->
-    <include condition="String.IsEmpty(Window(Home).Property(ReloadDone))">Action_BuildTextures_Onload</include>
-    <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">RunScript(script.skinvariables,action=buildviews)</onload>
-    <onload>AlarmClock(RepWin,SetFocus(9002),00:01,silent)</onload>
-    <onload>SetProperty(ReloadDone,1,Home)</onload>
+    <include condition="String.IsEmpty(Window.Property(ReloadDone))">Action_BuildTextures_Onload</include>
+    <onload condition="String.IsEmpty(Window.Property(ReloadDone))">RunScript(script.skinvariables,action=buildviews)</onload>
+    <onload condition="!String.IsEmpty(Window.Property(ReloadDone))">SetProperty(InitStatus,$LOCALIZE[31248])</onload>
+    <onload>SetProperty(ReloadDone,1)</onload>
 
     <controls>
         <control type="button" id="9001">
             <texturefocus />
             <texturenofocus />
-            <animation effect="fade" time="250" start="0" end="0">Focus</animation>
-            <onfocus>SetFocus(9002)</onfocus>
+            <onfocus>SetProperty(InitStatus,$LOCALIZE[31249])</onfocus>
+            <onfocus>AlarmClock(RepWin,SetFocus(9002),00:01,silent)</onfocus>
         </control>
         <control type="button" id="9002">
             <texturefocus />
             <texturenofocus />
-            <onfocus condition="System.HasPVRAddon + !PVR.HasTVChannels + !Pvr.HasRadioChannels">SetFocus(9001)</onfocus>
+            <onfocus condition="System.HasPVRAddon + !PVR.HasTVChannels + !Pvr.HasRadioChannels">AlarmClock(ReFocus,SetFocus(9001),00:00,silent)</onfocus>
             <onfocus>AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:01,silent)</onfocus>
-            <animation effect="fade" time="250" start="0" end="0">Focus</animation>
         </control>
         <control type="group">
             <include>Background_StartUp</include>
@@ -38,7 +39,7 @@
                 <aligny>center</aligny>
                 <align>center</align>
                 <textcolor>main_logo</textcolor>
-                <label>$LOCALIZE[31145]...</label>
+                <label>$INFO[Window.Property(InitStatus)]...</label>
             </control>
             <control type="group">
                 <centertop>660</centertop>
