@@ -42,6 +42,7 @@
                     <ondown condition="!Player.Rewinding32x">PlayerControl(Rewind)</ondown>
                     <ondown condition="!Player.Rewinding32x">SetProperty(PlayerSpeedControl,1)</ondown>
                     <onunfocus>ClearProperty(PlayerSpeedControl)</onunfocus>
+                    <onunfocus condition="Player.Forwarding | Player.Rewinding">PlayerControl(Play)</onunfocus>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose" value="true" />
@@ -91,6 +92,29 @@
                     <onclick>PVR.ToggleRecordPlayingChannel</onclick>
                 </include>
             </control>
+
+            <!-- Playback Speed Display -->
+            <include content="OSD_Menu_Back">
+                <param name="arrow_pos" value="410" />
+                <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+                <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
+                <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                <visible>Control.HasFocus(6100)</visible>
+                <visible>Player.Forwarding | Player.Rewinding | !String.IsEmpty(Window.Property(PlayerSpeedControl))</visible>
+                <include>Animation_SlideIn_Dialog</include>
+                <left>40</left>
+                <width>480</width>
+                <height>200</height>
+                <control type="group">
+                    <bottom>20</bottom>
+                    <height>160</height>
+                    <left>dialog_pad</left>
+                    <right>dialog_pad</right>
+                    <include content="OSD_TempoControl">
+                        <param name="istempo">false</param>
+                    </include>
+                </control>
+            </include>
 
             <!-- Right Side Buttons -->
             <control type="grouplist" id="6001">
