@@ -4,7 +4,7 @@
     <coordinates>
         <origin x="0" y="0" />
     </coordinates>
-    <onload condition="$EXP[Exp_ContextMenu_QuickBar]">AlarmClock(refocusContext,SetFocus(8001),00:00,silent)</onload>
+    <onload condition="$EXP[Exp_ContextMenu_QuickBar] + !$EXP[Exp_ContextMenu_HasBasic]">AlarmClock(refocusContext,SetFocus(8001),00:00,silent)</onload>
     <controls>
         <include content="Object_Overlay">
             <param name="delay" value="300" />
@@ -17,13 +17,17 @@
             </include>
             <include>Animation_FadeOut</include>
             <include>Dimension_Context</include>
-            <include>Dialog_ContextMenu_Header</include>
+            <include content="Dialog_ContextMenu_Header">
+                <visible>!$EXP[Exp_ContextMenu_HasBasic]</visible>
+            </include>
+
+            <animation effect="slide" start="0" end="0,120" condition="$EXP[Exp_ContextMenu_HasBasic]">Conditional</animation>
 
 
             <control type="group">
                 <!-- Slide Over if Square -->
-                <animation effect="slide" end="context_slide_sq" condition="!$EXP[Exp_ContextMenu_HasPoster] + !String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
-                <animation effect="slide" end="context_slide_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
+                <animation effect="slide" end="context_slide_sq" condition="$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
+                <animation effect="slide" end="context_slide_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
 
                 <!-- Poster Image -->
                 <control type="group">
@@ -40,7 +44,7 @@
                 <!-- Square Image -->
                 <control type="group">
                     <left>context_icon_sq_l</left>
-                    <visible>!$EXP[Exp_ContextMenu_HasPoster] + !String.IsEmpty(Window(Home).Property(ContextMenu.Icon))</visible>
+                    <visible>$EXP[Exp_ContextMenu_HasIcon]</visible>
                     <include content="Dialog_Background">
                         <param name="overlay" value="true" />
                         <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
@@ -54,10 +58,12 @@
                 <!-- No Image -->
                 <control type="group">
                     <left>context_icon_w</left>
-                    <visible>!$EXP[Exp_ContextMenu_HasPoster] + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))</visible>
-                    <include content="Dialog_Background">
-                        <param name="overlay" value="false" />
-                    </include>
+                    <bottom>100</bottom>
+                    <visible>!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]</visible>
+                    <control type="image" id="999">
+                        <include condition="$PARAM[shadows]">Texture_Shadow_20</include>
+                        <include>Texture_Dialog</include>
+                    </control>
                 </control>
 
                 <!-- Menu -->
@@ -97,6 +103,7 @@
                         <top>120</top>
                         <height>80</height>
                         <orientation>vertical</orientation>
+                        <visible>!$EXP[Exp_ContextMenu_HasBasic]</visible>
                         <include content="Items_QuickNav">
                             <param name="itemgap" value="39" />
                             <param name="ondown" value="1001" />
@@ -113,6 +120,7 @@
                         <include content="Object_Include" condition="$EXP[Exp_ContextMenu_QuickBar]">
                             <top>200</top>
                         </include>
+                        <animation effect="slide" start="0" end="0,-80" condition="$EXP[Exp_ContextMenu_HasBasic] + $EXP[Exp_ContextMenu_QuickBar]">Conditional</animation>
                         <top>120</top>
                         <bottom>40</bottom>
                         <orientation>vertical</orientation>
@@ -120,9 +128,11 @@
                         <onleft>Close</onleft>
                         <onright>Close</onright>
                         <include content="Object_Include" condition="$EXP[Exp_ContextMenu_QuickBar]">
-                            <onup>8000</onup>
-                            <ondown>SetFocus(1001)</ondown>
-                            <ondown>SetFocus(8000)</ondown>
+                            <onup condition="!$EXP[Exp_ContextMenu_HasBasic]">8000</onup>
+                            <ondown condition="!$EXP[Exp_ContextMenu_HasBasic]">SetFocus(1001)</ondown>
+                            <ondown condition="!$EXP[Exp_ContextMenu_HasBasic]">SetFocus(8000)</ondown>
+                            <ondown condition="$EXP[Exp_ContextMenu_HasBasic]">996</ondown>
+                            <ondown condition="$EXP[Exp_ContextMenu_HasBasic]">996</ondown>
                         </include>
                     </include>
                     <control type="image">
@@ -132,7 +142,7 @@
                         <width>16</width>
                         <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-small.png</texture>
                         <visible>Container(996).HasPrevious</visible>
-                        <animation effect="slide" end="context_slide_arrow_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
+                        <animation effect="slide" end="context_slide_arrow_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
                     </control>
                     <control type="image">
                         <bottom>-24</bottom>
@@ -141,7 +151,7 @@
                         <width>16</width>
                         <texture colordiffuse="$VAR[ColorSelected]">common/arrow-small.png</texture>
                         <visible>Container(996).HasNext</visible>
-                        <animation effect="slide" end="context_slide_arrow_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">Conditional</animation>
+                        <animation effect="slide" end="context_slide_arrow_no" condition="$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
                     </control>
                 </control>
             </control>

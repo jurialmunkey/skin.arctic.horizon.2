@@ -39,7 +39,11 @@
 
     <expression name="Exp_AlphabetVisible">[[Control.HasFocus(60) | Control.HasFocus(65)] + $EXP[Exp_AlphabetTypes_Only] + !Skin.HasSetting(DisableAlphabetScrollbar)]</expression>
 
-    <expression name="Exp_ContextMenu_HasPoster">[!String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) | [!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Label),Window(Home).Property(ContextMenu.Label)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Title),Window(Home).Property(ContextMenu.Title))]]]</expression>
+    <expression name="Exp_ContextMenu_HasPoster">[[!String.IsEmpty(Window(Home).Property(ContextMenu.Poster)) | [!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Label),Window(Home).Property(ContextMenu.Label)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Title),Window(Home).Property(ContextMenu.Title))]]] + !$EXP[Exp_ContextMenu_HasBasic]]</expression>
+
+    <expression name="Exp_ContextMenu_HasIcon">[!$EXP[Exp_ContextMenu_HasPoster] + !String.IsEmpty(Window(Home).Property(ContextMenu.Icon)) + !$EXP[Exp_ContextMenu_HasBasic]]</expression>
+
+    <expression name="Exp_ContextMenu_HasBasic">[String.IsEqual(Control.GetLabel(1002),$LOCALIZE[12021]) + String.IsEmpty(Control.GetLabel(1003))]</expression>
 
     <expression name="Exp_ContextMenu_QuickBar">[String.IsEqual(Window(Home).Property(ContextMenu.DBType),movie) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),tvshow) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),season) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),episode) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),set) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),artist) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),album) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),song)]</expression>
 
