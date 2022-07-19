@@ -1226,85 +1226,91 @@
         <param name="infoline" default="true" />
         <param name="plotlabel">$VAR[Label_Plot_Main]</param>
         <definition>
-            <control type="grouplist">
-                <hitrect x="0" y="0" w="0" h="0" />
-                <orientation>vertical</orientation>
-                <itemgap>0</itemgap>
+            <control type="group">
                 <nested />
-                <include content="Info_Title" condition="$PARAM[title]">
-                    <param name="colordiffuse" value="$PARAM[colordiffuse]" />
-                    <param name="container" value="$PARAM[container]" />
-                </include>
-                <control type="group">
-                    <height>50</height>
-                    <visible>$PARAM[infoline]</visible>
-                    <include content="Info_Line" condition="$PARAM[infoline]">
+                <control type="grouplist">
+                    <top>-20</top>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <orientation>vertical</orientation>
+                    <itemgap>0</itemgap>
+                    <control type="group" description="Avoid grouplist chop with spacer">
+                        <height>20</height>
+                    </control>
+                    <include content="Info_Title" condition="$PARAM[title]">
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                         <param name="container" value="$PARAM[container]" />
-                        <param name="id" value="$PARAM[line_id]" />
-                        <param name="controltype" value="$PARAM[controltype]" />
-                        <param name="iswidget" value="$PARAM[iswidget]" />
-                        <param name="widget_label" value="$PARAM[widget_label]" />
-                        <centertop>50%</centertop>
                     </include>
-                </control>
-
-                <!-- Ratings -->
-                <include content="Object_Control">
-                    <param name="control" value="group" />
-                    <height>$PARAM[ratingsheight]</height>
-                    <visible>$PARAM[details]</visible>
-                    <include content="Info_Ratings">
-                        <param name="colordiffuse" value="$PARAM[colordiffuse]" />
-                        <param name="userrating" value="$PARAM[container]ListItem.UserRating" />
-                        <param name="starrating" value="$PARAM[container]ListItem.Rating" />
-                        <param name="star">!$EXP[Exp_PVRWindows]</param>
-                        <param name="rottentomatoes">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
-                        <param name="usermeter">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
-                        <param name="imdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
-                        <param name="tmdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
-                        <param name="trakt">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | $EXP[Exp_PVRWindows]]</param>
-                        <param name="metacritic">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
-                        <param name="oscars">true</param>
-                        <param name="top250">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | $EXP[Exp_PVRWindows]]</param>
-                        <param name="releasestatus">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) + !Skin.HasSetting(Ratings.DisableMovieRelease)] | [[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)] + !Skin.HasSetting(Ratings.DisableTvRelease)]]</param>
-                        <centertop>50%</centertop>
-                        <visible>$PARAM[ratings]</visible>
-                    </include>
-
                     <control type="group">
-                        <height>$PARAM[plotheight]</height>
-                        <bottom>-$PARAM[plotheight]</bottom>
-                        <!-- Ratings + Plot -->
-                        <include content="Object_Control">
-                            <param name="control" value="textbox" />
-                            <width>$PARAM[plotwidth]</width>
-                            <label>$PARAM[plotlabel]</label>
-                            <aligny>top</aligny>
-                            <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                            <font>font_plotbox</font>
-                            <visible>$PARAM[ratings]</visible>
-                            <visible>$PARAM[details]</visible>
-                            <visible>$PARAM[plotbox]</visible>
-                            <top>0</top>
-                            <bottom>0</bottom>
-                        </include>
-                        <!-- No Ratings + Plot -->
-                        <include content="Object_Control">
-                            <param name="control" value="textbox" />
-                            <width>$PARAM[plotwidth]</width>
-                            <label>$PARAM[plotlabel]</label>
-                            <aligny>top</aligny>
-                            <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                            <font>font_plotbox</font>
-                            <visible>![$PARAM[ratings]]</visible>
-                            <visible>$PARAM[details]</visible>
-                            <visible>$PARAM[plotbox]</visible>
-                            <top>-60</top>
-                            <bottom>20</bottom>
+                        <height>50</height>
+                        <visible>$PARAM[infoline]</visible>
+                        <include content="Info_Line" condition="$PARAM[infoline]">
+                            <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                            <param name="container" value="$PARAM[container]" />
+                            <param name="id" value="$PARAM[line_id]" />
+                            <param name="controltype" value="$PARAM[controltype]" />
+                            <param name="iswidget" value="$PARAM[iswidget]" />
+                            <param name="widget_label" value="$PARAM[widget_label]" />
+                            <centertop>50%</centertop>
                         </include>
                     </control>
-                </include>
+
+                    <!-- Ratings -->
+                    <include content="Object_Control">
+                        <param name="control" value="group" />
+                        <height>$PARAM[ratingsheight]</height>
+                        <visible>$PARAM[details]</visible>
+                        <include content="Info_Ratings">
+                            <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                            <param name="userrating" value="$PARAM[container]ListItem.UserRating" />
+                            <param name="starrating" value="$PARAM[container]ListItem.Rating" />
+                            <param name="star">!$EXP[Exp_PVRWindows]</param>
+                            <param name="rottentomatoes">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="usermeter">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="imdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="tmdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="trakt">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="metacritic">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="oscars">true</param>
+                            <param name="top250">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="releasestatus">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) + !Skin.HasSetting(Ratings.DisableMovieRelease)] | [[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)] + !Skin.HasSetting(Ratings.DisableTvRelease)]]</param>
+                            <centertop>50%</centertop>
+                            <visible>$PARAM[ratings]</visible>
+                        </include>
+
+                        <control type="group">
+                            <height>$PARAM[plotheight]</height>
+                            <bottom>-$PARAM[plotheight]</bottom>
+                            <!-- Ratings + Plot -->
+                            <include content="Object_Control">
+                                <param name="control" value="textbox" />
+                                <width>$PARAM[plotwidth]</width>
+                                <label>$PARAM[plotlabel]</label>
+                                <aligny>top</aligny>
+                                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                                <font>font_plotbox</font>
+                                <visible>$PARAM[ratings]</visible>
+                                <visible>$PARAM[details]</visible>
+                                <visible>$PARAM[plotbox]</visible>
+                                <top>0</top>
+                                <bottom>0</bottom>
+                            </include>
+                            <!-- No Ratings + Plot -->
+                            <include content="Object_Control">
+                                <param name="control" value="textbox" />
+                                <width>$PARAM[plotwidth]</width>
+                                <label>$PARAM[plotlabel]</label>
+                                <aligny>top</aligny>
+                                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                                <font>font_plotbox</font>
+                                <visible>![$PARAM[ratings]]</visible>
+                                <visible>$PARAM[details]</visible>
+                                <visible>$PARAM[plotbox]</visible>
+                                <top>-60</top>
+                                <bottom>20</bottom>
+                            </include>
+                        </control>
+                    </include>
+                </control>
             </control>
         </definition>
     </include>
