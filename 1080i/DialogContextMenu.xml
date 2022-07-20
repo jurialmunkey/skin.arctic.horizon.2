@@ -58,7 +58,7 @@
                 <!-- No Image -->
                 <control type="group">
                     <left>context_icon_w</left>
-                    <bottom>100</bottom>
+                    <bottom>20</bottom>
                     <visible>!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]</visible>
                     <control type="image" id="999">
                         <include condition="$PARAM[shadows]">Texture_Shadow_20</include>
@@ -103,14 +103,27 @@
                         <top>120</top>
                         <height>80</height>
                         <orientation>vertical</orientation>
-                        <visible>!$EXP[Exp_ContextMenu_HasBasic]</visible>
                         <include content="Items_QuickNav">
                             <param name="itemgap" value="39" />
                             <param name="ondown" value="1001" />
                             <param name="onup" value="2000" />
                             <left>0</left>
                             <right>0</right>
+                            <visible>!$EXP[Exp_ContextMenu_HasBasic]</visible>
                         </include>
+                    </include>
+
+                    <include content="Dialog_Settings_Button" condition="$EXP[Exp_ContextMenu_QuickBar]">
+                        <param name="id" value="9500" />
+                        <param name="control" value="button" />
+                        <label>$LOCALIZE[222]</label>
+                        <width>context_icon_w</width>
+                        <onclick>Close</onclick>
+                        <visible>$EXP[Exp_ContextMenu_HasBasic]</visible>
+                        <ondown>1001</ondown>
+                        <onup>2000</onup>
+                        <top>280</top>
+                        <height>80</height>
                     </include>
 
                     <!-- Main Menu -->
@@ -121,6 +134,7 @@
                             <top>200</top>
                         </include>
                         <animation effect="slide" start="0" end="0,-80" condition="$EXP[Exp_ContextMenu_HasBasic] + $EXP[Exp_ContextMenu_QuickBar]">Conditional</animation>
+
                         <top>120</top>
                         <bottom>40</bottom>
                         <orientation>vertical</orientation>
@@ -131,8 +145,8 @@
                             <onup condition="!$EXP[Exp_ContextMenu_HasBasic]">8000</onup>
                             <ondown condition="!$EXP[Exp_ContextMenu_HasBasic]">SetFocus(1001)</ondown>
                             <ondown condition="!$EXP[Exp_ContextMenu_HasBasic]">SetFocus(8000)</ondown>
-                            <ondown condition="$EXP[Exp_ContextMenu_HasBasic]">996</ondown>
-                            <ondown condition="$EXP[Exp_ContextMenu_HasBasic]">996</ondown>
+                            <onup condition="$EXP[Exp_ContextMenu_HasBasic]">9500</onup>
+                            <ondown condition="$EXP[Exp_ContextMenu_HasBasic]">9500</ondown>
                         </include>
                     </include>
                     <control type="image">
