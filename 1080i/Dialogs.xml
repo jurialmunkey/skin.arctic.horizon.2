@@ -89,18 +89,9 @@
     <include name="Dialog_ContextMenu_Header">
         <include content="Dialog_Header">
             <param name="id" value="7000" />
+            <nested />
             <label>$VAR[Label_ContextMenu_Title]</label>
-            <!-- <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage))</visible> -->
         </include>
-        <!-- <control type="image">
-            <top>-row_height_x150</top>
-            <height>row_height</height>
-            <width>480</width>
-            <centerleft>50%</centerleft>
-            <aspectratio align="center" aligny="bottom">keep</aspectratio>
-            <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</texture>
-            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage))</visible>
-        </control> -->
     </include>
 
 
@@ -159,11 +150,6 @@
                 <effect type="slide" start="-320,0" end="0" time="400" delay="400" tween="cubic" easing="out" />
             </animation>
             <include>Dialog_Overlay_Settings</include>
-            <!-- <include content="Dialog_Header">
-                <param name="id" value="4000" />
-                <label>$VAR[Label_Header_Mini]</label>
-                <visible>!$EXP[Exp_OverlayDialogs]</visible>
-            </include> -->
             <nested />
         </include>
     </include>
@@ -605,32 +591,41 @@
     <include name="Dialog_Settings_Changer">
         <param name="id" default="30000" />
         <definition>
-            <control type="list" id="$PARAM[id]">
+            <control type="grouplist" id="$PARAM[id]">
                 <nested />
                 <width>row_height</width>
                 <orientation>vertical</orientation>
-                <itemlayout height="row_height" width="row_height">
-                    <include>Layout_IconSwitcher</include>
-                </itemlayout>
-                <focusedlayout height="row_height" width="row_height">
-                    <control type="button">
-                        <visible allowhiddenfocus="true">false</visible>
-                        <onfocus condition="!Window.IsActive(InterfaceSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(InterfaceSettings))">ReplaceWindow(InterfaceSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(SkinSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(SkinSettings))">ReplaceWindow(SkinSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(MediaSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(MediaSettings))">ReplaceWindow(MediaSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(PlayerSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(PlayerSettings))">ReplaceWindow(PlayerSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(SystemSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(SystemSettings))">ReplaceWindow(SystemSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(servicesettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(servicesettings))">ReplaceWindow(servicesettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(pvrsettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(pvrsettings))">ReplaceWindow(pvrsettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(systeminfo) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(systeminfo))">ReplaceWindow(systeminfo)</onfocus>
-                        <onfocus condition="!Window.IsActive(Profiles) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(Profiles))">ReplaceWindow(Profiles)</onfocus>
-                    </control>
-                    <include content="Layout_IconSwitcher">
-                        <param name="selected" value="true" />
-                        <param name="colordiffuse" value="$VAR[ColorSelected]" />
-                    </include>
-                </focusedlayout>
-                <include>Items_Settings</include>
+                <include>Items_Settings_Changer</include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Settings_Changer_Button">
+        <param name="width">80</param>
+        <definition>
+            <control type="togglebutton" id="$PARAM[button_id]">
+                <width>$PARAM[width]</width>
+                <height>$PARAM[width]</height>
+                <include>Texture_Highlight_ToggleButton_FakeFocus</include>
+                <onclick>ReplaceWindow($PARAM[window])</onclick>
+                <usealttexture>Window.IsActive($PARAM[window])</usealttexture>
+                <include content="Object_Include" condition="!Window.IsVisible($PARAM[window])">
+                    <onfocus condition="!Window.IsVisible($PARAM[window])">ReplaceWindow($PARAM[window])</onfocus>
+                </include>
+            </control>
+            <control type="group" id="$PARAM[group_id]">
+                <top>-$PARAM[width]</top>
+                <width>$PARAM[width]</width>
+                <height>$PARAM[width]</height>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="10" /></include>
+                    <texture colordiffuse="dialog_fg_30">$PARAM[icon]</texture>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="10" /></include>
+                    <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                    <visible>Window.IsActive($PARAM[window]) | Control.HasFocus($PARAM[button_id])</visible>
+                </control>
             </control>
         </definition>
     </include>
@@ -789,6 +784,19 @@
                 <nested />
             </control>
         </definition>
+    </include>
+
+    <include name="Dialog_VideoInfoRecommendationsButton">
+        <control type="button" id="7002">
+            <texturefocus />
+            <texturenofocus />
+            <font />
+            <width>1</width>
+            <height>1</height>
+            <include content="Action_Recommendations_OnFocus">
+                <onfocus>SetFocus(5000)</onfocus>
+            </include>
+        </control>
     </include>
 
     <include name="Dialog_VideoInfoTrailerButton">

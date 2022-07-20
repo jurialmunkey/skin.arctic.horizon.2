@@ -1832,6 +1832,11 @@
                 </include>
                 <control type="group">
                     <height>$PARAM[item_w]</height>
+                    <include content="Object_Control" condition="$PARAM[selected] + Skin.HasSetting(Widgets.OpaqueFocus)">
+                        <param name="control">image</param>
+                        <texture colordiffuse="main_item" diffuse="$PARAM[diffuse]">common/white.png</texture>
+                        <visible>$EXP[Exp_IsPVRItem]</visible>
+                    </include>
                     <include content="Object_ItemIcon">
                         <param name="icon">$INFO[ListItem.Icon]</param>
                         <param name="diffuse">$PARAM[diffuse]</param>
@@ -1945,12 +1950,19 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <visible>$EXP[Exp_HasLandscapeFormatArt]</visible>
                     </control>
+                    <include content="Object_Control" condition="$PARAM[selected] + Skin.HasSetting(Widgets.OpaqueFocus)">
+                        <param name="control">image</param>
+                        <texture colordiffuse="main_item" diffuse="$PARAM[diffuse]">common/white.png</texture>
+                        <visible>!$EXP[Exp_HasLandscapeFormatArt]</visible>
+                    </include>
                     <control type="image">
                         <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">keep</aspectratio>
                         <bordersize>40</bordersize>
                         <top>0</top>
-                        <bottom>-40</bottom>
+                        <include content="Object_Include" condition="!Skin.HasSetting(Widgets.OpaqueFocus)">
+                            <bottom>-40</bottom>
+                        </include>
                         <visible>!$EXP[Exp_HasLandscapeFormatArt]</visible>
                     </control>
                     <include content="Object_Indicator">

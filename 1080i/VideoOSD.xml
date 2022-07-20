@@ -37,9 +37,12 @@
                     <onclick>PlayerControl(Play)</onclick>
                     <onup condition="Player.Paused">PlayerControl(Play)</onup>
                     <ondown condition="Player.Paused">PlayerControl(Play)</ondown>
-
                     <onup condition="!Player.Forwarding32x">PlayerControl(Forward)</onup>
+                    <onup condition="!Player.Forwarding32x">SetProperty(PlayerSpeedControl,1)</onup>
                     <ondown condition="!Player.Rewinding32x">PlayerControl(Rewind)</ondown>
+                    <ondown condition="!Player.Rewinding32x">SetProperty(PlayerSpeedControl,1)</ondown>
+                    <onunfocus>ClearProperty(PlayerSpeedControl)</onunfocus>
+                    <onunfocus condition="Player.Forwarding | Player.Rewinding">PlayerControl(Play)</onunfocus>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose" value="true" />
@@ -88,8 +91,30 @@
                     <textoffsetx>0</textoffsetx>
                     <onclick>PVR.ToggleRecordPlayingChannel</onclick>
                 </include>
-
             </control>
+
+            <!-- Playback Speed Display -->
+            <include content="OSD_Menu_Back">
+                <param name="arrow_pos" value="410" />
+                <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+                <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
+                <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                <visible>Control.HasFocus(6100)</visible>
+                <visible>Player.Forwarding | Player.Rewinding | !String.IsEmpty(Window.Property(PlayerSpeedControl))</visible>
+                <include>Animation_SlideIn_Dialog</include>
+                <left>40</left>
+                <width>480</width>
+                <height>200</height>
+                <control type="group">
+                    <bottom>20</bottom>
+                    <height>160</height>
+                    <left>dialog_pad</left>
+                    <right>dialog_pad</right>
+                    <include content="OSD_TempoControl">
+                        <param name="istempo">false</param>
+                    </include>
+                </control>
+            </include>
 
             <!-- Right Side Buttons -->
             <control type="grouplist" id="6001">
@@ -342,6 +367,7 @@
                     <centertop>70%</centertop>
                 </include>
             </include>
+
             <!-- Plot Only Pop-up (No Cast Available) -->
             <include content="OSD_Menu_Back">
                 <param name="arrow_pos" value="340" />
@@ -397,7 +423,7 @@
                 <include>Animation_SlideIn_Dialog</include>
                 <right>40</right>
                 <width>480</width>
-                <height>660</height>
+                <height>500</height>
                 <include content="Object_MenuHeader">
                     <param name="label" value="$LOCALIZE[33063]" />
                 </include>
@@ -418,41 +444,27 @@
                         <onclick>ActivateWindow(osdvideosettings)</onclick>
                     </include>
                     <include content="Dialog_Menu_Button">
-                        <param name="id" value="6803" />
-                        <param name="groupid" value="6893" />
+                        <param name="id" value="6805" />
+                        <param name="groupid" value="6895" />
                         <param name="control" value="button" />
                         <param name="icon" value="special://skin/extras/icons/bookmark.png" />
                         <label>$LOCALIZE[298]</label>
                         <onclick>ActivateWindow(125)</onclick>
                     </include>
-                    <include content="Dialog_Menu_Button">
-                        <param name="id" value="6804" />
-                        <param name="groupid" value="6894" />
-                        <param name="control" value="button" />
-                        <param name="icon" value="special://skin/extras/icons/volume.png" />
-                        <label>$LOCALIZE[297]</label>
-                        <onclick>audiodelay</onclick>
-                    </include>
-                    <include content="Dialog_Menu_Button">
-                        <param name="id" value="6805" />
-                        <param name="groupid" value="6895" />
-                        <param name="control" value="button" />
-                        <param name="icon" value="special://skin/extras/icons/quote.png" />
-                        <label>$LOCALIZE[22006]</label>
-                        <onclick>subtitledelay</onclick>
-                    </include>
                 </control>
                 <control type="group">
                     <bottom>20</bottom>
                     <height>160</height>
+                    <left>dialog_pad</left>
+                    <right>dialog_pad</right>
                     <control type="image">
                         <centertop>-20</centertop>
                         <height>1</height>
-                        <left>row_height_x50</left>
-                        <right>row_height_x50</right>
                         <texture colordiffuse="dialog_fg_12">common/white.png</texture>
                     </control>
                     <include content="Dialog_Menu_Button">
+                        <left>-dialog_pad</left>
+                        <right>-dialog_pad</right>
                         <param name="id" value="7800" />
                         <param name="groupid" value="7890" />
                         <param name="control" value="button" />
@@ -467,179 +479,16 @@
                         <onright condition="!Player.TempoEnabled + !Player.Forwarding32x">PlayerControl(Forward)</onright>
                         <onleft condition="!Player.TempoEnabled + !Player.Rewinding32x">PlayerControl(Rewind)</onleft>
                     </include>
-                    <control type="group">
-                        <left>40</left>
-                        <right>40</right>
-                        <control type="group">
-                            <height>70</height>
-                            <top>0</top>
-                            <control type="label">
-                                <font>font_statusbar_bold</font>
-                                <label>$LOCALIZE[31071]</label>
-                                <textcolor>dialog_fg_70</textcolor>
-                                <align>left</align>
-                                <visible>!Control.HasFocus(7800)</visible>
-                            </control>
-                            <control type="label">
-                                <font>font_statusbar_bold</font>
-                                <label>$LOCALIZE[31071]</label>
-                                <textcolor>$VAR[ColorSelected]</textcolor>
-                                <align>left</align>
-                                <visible>Control.HasFocus(7800)</visible>
-                            </control>
-                        </control>
-                        <include content="Object_Control" condition="Player.TempoEnabled">
-                            <param name="control">grouplist</param>
-                            <left>-8</left>
-                            <right>-8</right>
-                            <height>70</height>
-                            <bottom>0</bottom>
-                            <orientation>horizontal</orientation>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="label" value="0.80" />
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="label" value="0.90" />
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="label" value="1.00" />
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="label" value="1.10" />
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="label" value="1.20" />
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="label" value="1.30" />
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="label" value="1.40" />
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="label" value="1.50" />
-                            </include>
-                        </include>
-                        <include content="Object_Control" condition="!Player.TempoEnabled">
-                            <param name="control">grouplist</param>
-                            <left>-9</left>
-                            <right>-9</right>
-                            <height>70</height>
-                            <bottom>0</bottom>
-                            <orientation>horizontal</orientation>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[32]</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[16]</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[8]x</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[4]x</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[2]x</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">|</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[2]x</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[4]x</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[8]x</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[16]</param>
-                            </include>
-                            <include content="OSD_PlaySpeed_Label">
-                                <param name="width">38</param>
-                                <param name="label">$NUMBER[32]</param>
-                            </include>
-                        </include>
-                        <control type="group">
-                            <centertop>50%</centertop>
-                            <height>12</height>
-                            <control type="image">
-                                <texture colordiffuse="dialog_fg_12" border="4">progress/progress-bg.png</texture>
-                                <visible>!Control.HasFocus(7800)</visible>
-                            </control>
-                            <control type="image">
-                                <animation effect="fade" end="30" condition="true">Conditional</animation>
-                                <texture colordiffuse="$VAR[ColorSelected]" border="4">progress/progress-bg.png</texture>
-                                <visible>Control.HasFocus(7800)</visible>
-                            </control>
-                        </control>
-                        <control type="group">
-                            <left>6</left>
-                            <centertop>50%</centertop>
-                            <height>24</height>
-                            <width>24</width>
-                            <include content="Object_Include" condition="Player.TempoEnabled">
-                                <animation effect="slide" end="52" condition="String.IsEqual(Player.PlaySpeed,0.90)">Conditional</animation>
-                                <animation effect="slide" end="104" condition="String.IsEqual(Player.PlaySpeed,1.00) | String.IsEqual(Player.PlaySpeed,0.00)">Conditional</animation>
-                                <animation effect="slide" end="156" condition="String.IsEqual(Player.PlaySpeed,1.10)">Conditional</animation>
-                                <animation effect="slide" end="208" condition="String.IsEqual(Player.PlaySpeed,1.20)">Conditional</animation>
-                                <animation effect="slide" end="260" condition="String.IsEqual(Player.PlaySpeed,1.30)">Conditional</animation>
-                                <animation effect="slide" end="312" condition="String.IsEqual(Player.PlaySpeed,1.40)">Conditional</animation>
-                                <animation effect="slide" end="364" condition="String.IsEqual(Player.PlaySpeed,1.50)">Conditional</animation>
-                            </include>
-                            <include content="Object_Include" condition="!Player.TempoEnabled">
-                                <animation effect="slide" end="-8" condition="Player.Rewinding32x">Conditional</animation>
-                                <animation effect="slide" end="30" condition="Player.Rewinding16x">Conditional</animation>
-                                <animation effect="slide" end="68" condition="Player.Rewinding8x">Conditional</animation>
-                                <animation effect="slide" end="106" condition="Player.Rewinding4x">Conditional</animation>
-                                <animation effect="slide" end="144" condition="Player.Rewinding2x">Conditional</animation>
-                                <animation effect="slide" end="182" condition="!Player.Rewinding + !Player.Forwarding">Conditional</animation>
-                                <animation effect="slide" end="220" condition="Player.Forwarding2x">Conditional</animation>
-                                <animation effect="slide" end="258" condition="Player.Forwarding4x">Conditional</animation>
-                                <animation effect="slide" end="296" condition="Player.Forwarding8x">Conditional</animation>
-                                <animation effect="slide" end="334" condition="Player.Forwarding16x">Conditional</animation>
-                                <animation effect="slide" end="372" condition="Player.Forwarding32x">Conditional</animation>
-                            </include>
-                            <control type="group">
-                                <visible>!Control.HasFocus(7800)</visible>
-                                <control type="image">
-                                    <texture colordiffuse="dialog_fg_100">common/circle.png</texture>
-                                </control>
-                                <control type="image">
-                                    <centerleft>50%</centerleft>
-                                    <bottom>-12</bottom>
-                                    <height>16</height>
-                                    <width>16</width>
-                                    <texture colordiffuse="dialog_fg_100" flipy="true">common/arrow-menu-up.png</texture>
-                                </control>
-                            </control>
-                            <control type="group">
-                                <visible>Control.HasFocus(7800)</visible>
-                                <control type="image">
-                                    <texture colordiffuse="$VAR[ColorSelected]">common/circle.png</texture>
-                                </control>
-                                <control type="image">
-                                    <centerleft>50%</centerleft>
-                                    <bottom>-12</bottom>
-                                    <height>16</height>
-                                    <width>16</width>
-                                    <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-menu-up.png</texture>
-                                </control>
-                            </control>
-                        </control>
-                    </control>
+
+                    <include content="OSD_TempoControl">
+                        <param name="istempo">Player.TempoEnabled</param>
+                        <visible>!Control.HasFocus(7800)</visible>
+                    </include>
+                    <include content="OSD_TempoControl">
+                        <param name="istempo">Player.TempoEnabled</param>
+                        <param name="selected">true</param>
+                        <visible>Control.HasFocus(7800)</visible>
+                    </include>
                 </control>
             </include>
         </control>
