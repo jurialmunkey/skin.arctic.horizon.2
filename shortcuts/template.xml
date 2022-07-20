@@ -376,6 +376,14 @@
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
             <property name="widgetAutoLimit">7</property>
 
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[10]">10</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[20]">20</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[30]">30</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[40]">40</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[50]">50</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[100]">100</property>
+            <property name="widgetLimitNumber">99999</property>
+
             <!-- Include -->
             <property name="widgetInclude" tag="property" attribute="name|list" value="Submenu">Widget_Submenu</property>
             <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Button">Widget_Submenu</property>
@@ -416,6 +424,10 @@
             <property name="widgetLabelName" tag="property" attribute="name|labelID" value="randomyourlist">True</property>
             <property name="widgetLabelName" tag="label" value="widgetname">True</property>
             <property name="widgetLabelName">False</property>
+
+            <property name="widgetShowMore" tag="property" attribute="name|widgetLimit" value="Auto">false</property>
+            <property name="widgetShowMore" tag="property" attribute="name|widgetLimit">true</property>
+            <property name="widgetShowMore">false</property>
 
             <!-- IsSubmenu -->
             <property name="isSubmenu" tag="property" attribute="name|list" value="Submenu">True</property>
@@ -466,6 +478,16 @@
                         </include>
                         <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isAutoScroll]">
                             <param name="condition" value="!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])" />
+                        </include>
+                        <include content="Object_Include" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit]">
+                            <content>
+                                <item>
+                                    <label>$LOCALIZE[31253]...</label>
+                                    <icon>common/more-items.png</icon>
+                                    <onclick>ActivateWindow($SKINSHORTCUTS[widgetTarget],$SKINSHORTCUTS[widgetPath],return)</onclick>
+                                    <visible>Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</visible>
+                                </item>
+                            </content>
                         </include>
                     </include>
                     <include content="Object_Include" condition="$SKINSHORTCUTS[isSubmenu]">
@@ -875,6 +897,18 @@
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
             <property name="widgetAutoLimit">7</property>
 
+            <property name="widgetShowMore" tag="property" attribute="name|widgetLimit" value="Auto">false</property>
+            <property name="widgetShowMore" tag="property" attribute="name|widgetLimit">true</property>
+            <property name="widgetShowMore">false</property>
+
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[10]">10</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[20]">20</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[30]">30</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[40]">40</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[50]">50</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[100]">100</property>
+            <property name="widgetLimitNumber">99999</property>
+
             <!-- Include -->
             <property name="widgetInclude" tag="property" attribute="name|list" value="Submenu">Widget_Submenu</property>
             <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Button">Widget_Submenu</property>
@@ -1004,6 +1038,16 @@
                     <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
+                    <include content="Object_Include" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit]">
+                        <content>
+                            <item>
+                                <label>$LOCALIZE[31253]...</label>
+                                <icon>common/more-items.png</icon>
+                                <onclick>ActivateWindow($SKINSHORTCUTS[widgetTarget],$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]],return)</onclick>
+                                <visible>Integer.IsEqual(Container($PYTHON[5000 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[5000 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</visible>
+                            </item>
+                        </content>
+                    </include>
                 </include>
 
             </controls>
