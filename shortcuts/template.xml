@@ -245,7 +245,7 @@
             <include content="Object_WallFade" condition="$SKINSHORTCUTS[includeCondition]">
                 <param name="id">$PYTHON[int(mainmenuid) * 1000 + 400]</param>
                 <param name="altvisible_bottom">!String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle))</param>
-                <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) | !$SKINSHORTCUTS[isFullscreenWidget]</visible>
+                <param name="direction_buttons">true</param>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
                 <visible>Window.IsActive(Home)</visible>
@@ -494,9 +494,13 @@
                         <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
                     </include>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
+                    <onfocus condition="$SKINSHORTCUTS[isInfoFull] + ![$SKINSHORTCUTS[widgetLabelName]]">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[widgetName],Home)</onfocus>
+                    <onfocus condition="$SKINSHORTCUTS[isInfoFull] + [$SKINSHORTCUTS[widgetLabelName]]">SetProperty(Slide.WidgetTitle,[CAPITALIZE]$INFO[Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.Property(widget)][/CAPITALIZE],Home)</onfocus>
+
                     <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
                     <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetTitle,Home)</onunfocus>
                     <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
                     <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
                     <onback>SetFocus(300)</onback>

@@ -56,19 +56,31 @@
         <!-- Header -->
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <animation type="Conditional" reversible="false" condition="$EXP[Exp_HomeBarVisible]">
+                <effect type="fade" start="0" end="100" time="300" delay="150"/>
+                <effect type="slide" start="0,-48" end="0" center="auto" tween="back" easing="out" time="400" delay="150"/>
+            </animation>
+            <animation type="Conditional" reversible="false" condition="!$EXP[Exp_HomeBarVisible]">
+                <effect type="fade" start="100" end="0" time="150" delay="0"/>
+            </animation>
             <control type="group">
                 <visible>!Window.IsVisible(favourites)</visible>
                 <include>Furniture_Top_Right</include>
             </control>
         </control>
 
+
         <include content="Object_Control" condition="Skin.HasSetting(Widgets.CodecInfo)">
             <param name="control">group</param>
+            <include content="Furniture_Top_Left">
+                <param name="label">$INFO[Window(Home).Property(Slide.WidgetTitle)]</param>
+            </include>
             <include>Furniture_Bottom</include>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>!$EXP[Exp_HomeBarVisible]</visible>
             <visible>String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)</visible>
             <visible>!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer))</visible>
-            <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+            <animation effect="fade" start="0" end="100" time="400" delay="200" reversible="false">Visible</animation>
         </include>
 
         <!-- Submenu -->
@@ -130,6 +142,7 @@
             <param name="colordiffuse" value="main_fg_12" />
             <left>80</left>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>$EXP[Exp_HomeBarVisible]</visible>
             <animation effect="fade" start="100" end="0" condition="Window.Next(1114)">Conditional</animation>
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
