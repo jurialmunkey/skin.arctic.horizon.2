@@ -142,63 +142,51 @@
         </definition>
     </include>
 
-    <include name="Object_NavButton_Up">
-        <include content="Object_Control" condition="!Skin.HasSetting(EnableMouseMode)">
-            <param name="control">image</param>
-            <texture flipy="false" colordiffuse="main_fg_100">common/arrow-up-240.png</texture>
-            <bordersize>15</bordersize>
-            <width>60</width>
-            <height>60</height>
-            <centerleft>50%</centerleft>
-            <centertop>40</centertop>
-        </include>
-        <include content="Object_MenuButton" condition="Skin.HasSetting(EnableMouseMode)">
-            <param name="profileimage" value="false" />
-            <param name="icon">common/arrow-up-240.png</param>
-            <param name="bordersize">15</param>
-            <param name="flipy">false</param>
-            <centerleft>50%</centerleft>
-            <centertop>50%</centertop>
-            <height>60</height>
-        </include>
-        <control type="button">
-            <texturefocus />
-            <texturenofocus />
-            <onclick>SetFocus($PARAM[id])</onclick>
-            <onclick>Action(Up)</onclick>
-        </control>
-    </include>
-
-    <include name="Object_NavButton_Down">
-        <include content="Object_Control" condition="!Skin.HasSetting(EnableMouseMode)">
-            <param name="control">image</param>
-            <texture flipy="true" colordiffuse="main_fg_100">common/arrow-up-240.png</texture>
-            <bordersize>15</bordersize>
-            <width>60</width>
-            <height>60</height>
-            <centerleft>50%</centerleft>
-            <centerbottom>40</centerbottom>
-        </include>
-        <include content="Object_MenuButton" condition="Skin.HasSetting(EnableMouseMode)">
-            <param name="profileimage" value="false" />
-            <param name="icon">common/arrow-up-240.png</param>
-            <param name="bordersize">15</param>
-            <param name="flipy">true</param>
-            <centerleft>50%</centerleft>
-            <centertop>50%</centertop>
-            <height>60</height>
-        </include>
-        <control type="button">
-            <texturefocus />
-            <texturenofocus />
-            <onclick>SetFocus($PARAM[id])</onclick>
-            <onclick>Action(Down)</onclick>
-        </control>
+    <include name="Object_NavButton">
+        <param name="flipy">false</param>
+        <definition>
+            <include content="Object_Control" condition="!Skin.HasSetting(EnableMouseMode)">
+                <param name="control">image</param>
+                <texture flipy="$PARAM[flipy]" colordiffuse="main_fg_60">common/arrow-up-240.png</texture>
+                <bordersize>15</bordersize>
+                <width>60</width>
+                <height>60</height>
+                <centerleft>50%</centerleft>
+                <include content="Object_Include" condition="$PARAM[flipy]">
+                    <centerbottom>40</centerbottom>
+                </include>
+                <include content="Object_Include" condition="!$PARAM[flipy]">
+                    <centertop>40</centertop>
+                </include>
+            </include>
+            <include content="Object_MenuButton" condition="Skin.HasSetting(EnableMouseMode)">
+                <param name="profileimage" value="false" />
+                <param name="icon">common/arrow-up-240.png</param>
+                <param name="bordersize">15</param>
+                <param name="flipy">$PARAM[flipy]</param>
+                <centerleft>50%</centerleft>
+                <centertop>50%</centertop>
+                <height>60</height>
+            </include>
+            <control type="button">
+                <texturefocus />
+                <texturenofocus />
+                <onclick>SetFocus($PARAM[id])</onclick>
+                <include content="Object_Include" condition="$PARAM[flipy]">
+                    <onclick>Action(Down)</onclick>
+                </include>
+                <include content="Object_Include" condition="!$PARAM[flipy]">
+                    <onclick>Action(Up)</onclick>
+                </include>
+            </control>
+        </definition>
     </include>
 
     <include name="Object_WallFade">
         <param name="altvisible_top" default="false" />
         <param name="altvisible_bottom" default="false" />
+        <param name="visible_top">true</param>
+        <param name="visible_bottom">true</param>
         <param name="direction_buttons">false</param>
         <definition>
             <control type="image">
@@ -210,6 +198,7 @@
                 <animation type="Hidden" reversible="false">
                     <effect type="fade" end="0" start="100" time="400"/>
                 </animation>
+                <visible>$PARAM[visible_top]</visible>
                 <visible>Container($PARAM[id]).HasPrevious | $PARAM[altvisible_top]</visible>
                 <nested />
             </control>
@@ -223,6 +212,7 @@
                 <animation type="Hidden" reversible="false">
                     <effect type="fade" end="0" start="100" time="400"/>
                 </animation>
+                <visible>$PARAM[visible_bottom]</visible>
                 <visible>Container($PARAM[id]).HasNext | $PARAM[altvisible_bottom]</visible>
                 <nested />
             </control>
@@ -233,8 +223,9 @@
                 <height>140</height>
                 <include>Animation_FadeIn_Delay</include>
                 <include>Animation_FadeOut</include>
-                <include content="Object_NavButton_Up">
+                <include content="Object_NavButton">
                     <param name="id">$PARAM[id]</param>
+                    <param name="flipy">false</param>
                 </include>
                 <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
                 <visible>Container($PARAM[id]).HasPrevious | $PARAM[altvisible_top]</visible>
@@ -247,8 +238,9 @@
                 <height>140</height>
                 <include>Animation_FadeIn_Delay</include>
                 <include>Animation_FadeOut</include>
-                <include content="Object_NavButton_Down">
+                <include content="Object_NavButton">
                     <param name="id">$PARAM[id]</param>
+                    <param name="flipy">true</param>
                 </include>
                 <visible>Container($PARAM[id]).HasNext | $PARAM[altvisible_bottom]</visible>
                 <nested />
