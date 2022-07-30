@@ -140,7 +140,9 @@
                     <include>Animation_Foreground_FadeInOut</include>
                     <orientation>vertical</orientation>
                     <onup>SetFocus(300)</onup>
-                    <ondown>SetFocus(330)</ondown>
+                    <ondown>ClearProperty(330_FocusBounce,Home)</ondown>
+                    <ondown condition="!String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
+                    <ondown condition="String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
 
                     <control type="group" id="$PYTHON[int(mainmenuid) * 1000 + 500]">
                         <top>widget_fs_button_top</top>
