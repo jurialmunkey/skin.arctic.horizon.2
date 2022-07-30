@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="window" id="1198">
+    <onload>AlarmClock(RepWin,SetFocus(9002),00:01,silent)</onload>
+    <onload condition="String.IsEmpty(Window.Property(ReloadDone))">SetProperty(InitStatus,$LOCALIZE[31145])</onload>
 
     <!-- Set default settings -->
     <onload condition="String.IsEmpty(Skin.String(BackgroundStyle))">Skin.SetString(BackgroundStyle,Fanart)</onload>
@@ -7,45 +9,42 @@
     <onload condition="String.IsEmpty(Skin.String(DividerStyle))">Skin.SetString(DividerStyle,Fade)</onload>
 
     <!-- Start TMDbH service -->
-    <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">Skin.SetBool(TMDbHelper.Service)</onload>
+    <onload condition="String.IsEmpty(Window.Property(ReloadDone))">Skin.SetBool(TMDbHelper.Service)</onload>
 
     <!-- Build includes for textures / views / menus -->
-    <include condition="String.IsEmpty(Window(Home).Property(ReloadDone))">Action_BuildTextures_Onload</include>
-    <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">RunScript(script.skinvariables,action=buildviews)</onload>
-    <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onload>
-
-
-    <!-- Wait for window repload before replacing -->
-    <onload condition="String.IsEmpty(Window(Home).Property(ReloadDone))">AlarmClock(RepWin,ReloadSkin(),00:04,silent)</onload> <!-- Manually reload if one of the scripts doesnt -->
-    <onload condition="!String.IsEmpty(Window(Home).Property(ReloadDone))">AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:01,silent)</onload>
+    <include condition="String.IsEmpty(Window.Property(ReloadDone))">Action_BuildTextures_Onload</include>
+    <onload condition="String.IsEmpty(Window.Property(ReloadDone))">RunScript(script.skinvariables,action=buildviews)</onload>
+    <onload condition="!String.IsEmpty(Window.Property(ReloadDone))">SetProperty(InitStatus,$LOCALIZE[31248])</onload>
+    <onload>SetProperty(ReloadDone,1)</onload>
     <onload>SetProperty(ReloadDone,1,Home)</onload>
 
     <controls>
-        <include content="Background_Image">
-            <param name="texture" value="special://skin/fanart.jpg" />
-        </include>
+        <control type="button" id="9001">
+            <texturefocus />
+            <texturenofocus />
+            <onfocus>SetProperty(InitStatus,$LOCALIZE[31249])</onfocus>
+            <onfocus>AlarmClock(RepWin,SetFocus(9002),00:01,silent)</onfocus>
+        </control>
+        <control type="button" id="9002">
+            <texturefocus />
+            <texturenofocus />
+            <onfocus condition="System.HasPVRAddon + !PVR.HasTVChannels + !Pvr.HasRadioChannels">AlarmClock(ReFocus,SetFocus(9001),00:00,silent)</onfocus>
+            <onfocus>AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:01,silent)</onfocus>
+        </control>
         <control type="group">
-            <control type="label">
-                <height>80</height>
-                <centertop>49%</centertop>
-                <aligny>center</aligny>
-                <align>center</align>
-                <font>font_infotitle</font>
-                <textcolor>$VAR[ColorHighlight]</textcolor>
-                <label>[COLOR=panel_fg_70]Arctic[/COLOR] Horizon 2</label>
-            </control>
+            <include>Background_StartUp</include>
+            <include>Object_StartUp_Logo</include>
             <control type="label">
                 <centertop>590</centertop>
                 <height>40</height>
                 <aligny>center</aligny>
                 <align>center</align>
-                <textcolor>panel_fg_70</textcolor>
-                <label>$LOCALIZE[31145]...</label>
+                <textcolor>main_logo</textcolor>
+                <label>$INFO[Window.Property(InitStatus)]...</label>
             </control>
             <control type="group">
                 <centertop>660</centertop>
                 <height>80</height>
-                <include>Animation_FadeIn_Delay</include>
                 <include content="Object_BusySpinner">
                     <param name="colordiffuse" value="main_fg" />
                     <param name="haslabel" value="false" />

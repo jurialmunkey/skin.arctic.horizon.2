@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
+    <variable name="Label_HomeHeader">
+        <value condition="!String.IsEmpty(Window(Home).Property(Slide.WidgetTitle))">$INFO[Window(Home).Property(Slide.WidgetTitle)]</value>
+        <value>$INFO[Container(300).ListItem.Label]</value>
+    </variable>
     <variable name="Label_VideoHWDecoder">
         <value condition="Player.Process(videohwdecoder)">HW</value>
         <value>SW</value>
@@ -45,6 +49,11 @@
     <variable name="Label_PVRRecordings_Mainlabel">
         <value condition="[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
         <value>$INFO[ListItem.Label]</value>
+    </variable>
+
+    <variable name="Label_Playlist_Title">
+        <value condition="String.IsEqual(ListItem.DBType,artist)">$INFO[ListItem.Artist]</value>
+        <value>$INFO[ListItem.Title]</value>
     </variable>
 
     <variable name="Label_Playlist_Sublabel">
@@ -176,6 +185,8 @@
     </variable>
 
     <variable name="Label_PlayerStatus">
+        <value condition="!String.IsEmpty(PVR.ChannelNumberInput)">$INFO[PVR.ChannelNumberInput,$LOCALIZE[19165] ,]</value>
+        <value condition="!String.IsEmpty(Player.SeekNumeric)">$INFO[Player.SeekNumeric,$LOCALIZE[31233] ,]</value>
         <value condition="Player.Forwarding32x">FF 32x</value>
         <value condition="Player.Forwarding16x">FF 16x</value>
         <value condition="Player.Forwarding8x">FF 8x</value>
@@ -228,9 +239,15 @@
         <value>$LOCALIZE[10000]</value>
     </variable>
 
+
+    <variable name="Label_Header_SkinShortcuts">
+        <value condition="String.IsEqual(Window.Property(groupname),searchmenu)">[CAPITALIZE]$LOCALIZE[31151][/CAPITALIZE]</value>
+        <value condition="String.IsEqual(Window.Property(groupname),powermenu)">[CAPITALIZE]$LOCALIZE[31086][/CAPITALIZE]</value>
+        <value condition="String.EndsWith(Window.Property(groupname),.1)">[CAPITALIZE]$LOCALIZE[21450] $INFO[Window.Property(groupdisplayname),, ]$LOCALIZE[31103][/CAPITALIZE]</value>
+        <value condition="!String.IsEmpty(Control.GetLabel(500))">[CAPITALIZE]$INFO[Control.GetLabel(500)][/CAPITALIZE]</value>
+    </variable>
     <variable name="Label_Header_Mini">
-        <value condition="Window.Isvisible(script-skinshortcuts.xml) + !String.IsEmpty(Control.GetLabel(500))">$INFO[Control.GetLabel(500)]</value>
-        <!-- <value condition="Window.IsVisible(AddonBrowser)">$INFO[Window.Property(BaseCategory),, [COLOR=main_fg_70] &gt; [/COLOR] ]$INFO[Container.FolderName]</value> -->
+        <value condition="Window.Isvisible(script-skinshortcuts.xml)">$VAR[Label_Header_SkinShortcuts]</value>
         <value condition="Window.IsVisible(AddonBrowser) + Control.HasFocus(6000)">$INFO[Container(6000).ListItem.Label]</value>
         <value condition="Window.IsVisible(AddonBrowser) + !String.IsEqual(Container(6000).ListItem.Label,Container.FolderName)">$INFO[Container(6000).ListItem.Label,, [COLOR=main_fg_70] &gt; [/COLOR] ]$INFO[Container.FolderName]</value>
         <value condition="Window.IsVisible(AddonBrowser)">$INFO[Container.FolderName]</value>
@@ -263,7 +280,8 @@
     </variable>
     <variable name="Label_Plot_Widget_Title">
         <value condition="String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)" />
-        <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle) + !String.IsEmpty(Container.ListItem.Title) + !String.IsEqual(Container.ListItem.TvShowTitle,Container.ListItem.Title)">$INFO[Container.ListItem.TvShowTitle,,: ]$INFO[Container.ListItem.Title]$VAR[Label_Plot_Widget_Title_Tilde]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle) + !String.IsEmpty(Container.ListItem.Title) + !String.IsEqual(Container.ListItem.TvShowTitle,Container.ListItem.Title) + !String.IsEqual(Container.ListItem.DBType,tvshow)">$INFO[Container.ListItem.TvShowTitle,,: ]$INFO[Container.ListItem.Title]$VAR[Label_Plot_Widget_Title_Tilde]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,episode)">$INFO[Container.ListItem.Title]$VAR[Label_Plot_Widget_Title_Tilde]</value>
         <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle)">$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
         <value condition="!String.IsEmpty(Container.ListItem.AlbumArtist) + !String.IsEmpty(Container.ListItem.Album) + !String.IsEqual(Container.ListItem.AlbumArtist,Container.ListItem.Album)">$INFO[Container.ListItem.AlbumArtist,,: ]$INFO[Container.ListItem.Album]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
         <value condition="!String.IsEmpty(Container.ListItem.Album)">$INFO[Container.ListItem.Album]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
@@ -309,4 +327,99 @@
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Label))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Label)]</value> -->
     </variable>
 
+
+    <variable name="Label_MPAAConvert_Rated">
+        <value condition="String.IsEqual(ListItem.MPAA,Rated E)">E</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated G)">G</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated M)">M</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated MA)">MA</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated MA15+)">MA15+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated PG)">PG</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated R)">R</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated R18+)">R18+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-AV)">TV-AV</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-C)">TV-C</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-G)">TV-G</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-M)">TV-M</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-MA)">TV-MA</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-MA15+)">TV-MA15+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-P)">TV-P</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-PG)">TV-PG</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated X)">X</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated X18+)">X18+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 10)">10</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 12)">12</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 14)">14</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 16)">16</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 18)">18</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated Livre)">Livre</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 14A)">14A</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 18A)">18A</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-14)">TV-14</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-18)">TV-18</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-C8)">TV-C8</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 11)">11</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 15)">15</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 7)">7</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated A)">A</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated F)">F</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated FSK 0)">FSK 0</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated FSK 12)">FSK 12</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated FSK 16)">FSK 16</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated FSK 18)">FSK 18</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated FSK 6)">FSK 6</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated S)">S</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-10)">TV-10</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-12)">TV-12</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-16)">TV-16</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-U)">TV-U</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 1)">1</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 2)">2</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 2a)">2a</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 2b)">2b</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 3)">3</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 0)">0</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 6)">6</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-0)">TV-0</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-6)">TV-6</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated U)">U</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated UA)">UA</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 12A)">12A</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 15A)">15A</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated T)">T</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated VM14)">VM14</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated VM18)">VM18</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated PG12)">PG12</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated R15+)">R15+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated All)">All</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated Restricted)">Restricted</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-15)">TV-15</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-19)">TV-19</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-7)">TV-7</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-All)">TV-All</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 9)">9</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated AL)">AL</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated R13)">R13</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated R15)">R15</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated R16)">R16</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated RP13)">RP13</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated RP16)">RP16</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated NC-17)">NC-17</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated PG-13)">PG-13</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 0+)">0+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 12+)">12+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 16+)">16+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 18+)">18+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 6+)">6+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-Y)">TV-Y</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated TV-Y7)">TV-Y7</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated 15+)">15+</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated R18)">R18</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated UC)">UC</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated C13)">C13</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated C16)">C16</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated C18)">C18</value>
+        <value condition="String.IsEqual(ListItem.MPAA,Rated P)">P</value>
+        <value>$INFO[ListItem.MPAA]</value>
+    </variable>
 </includes>

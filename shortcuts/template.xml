@@ -103,16 +103,32 @@
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[99]">99</property>
         <property name="isFullscreenWidget" tag="property" attribute="name|widgetPath">True</property>
         <property name="isFullscreenWidget">False</property>
-        <property name="isSubmenuBumper" tag="property" attribute="name|disableSubmenuBumper">False</property>
-        <property name="isSubmenuBumper">True</property>
+        <property name="isSubmenuBumper" tag="property" attribute="name|widgetPath.SubmenuBumper">True</property>
+        <property name="isSubmenuBumper">False</property>
+        <property name="isSubmenuBumperCustom" tag="property" attribute="name|widgetPath.SubmenuBumper" value="Submenu">False</property>
+        <property name="isSubmenuBumperCustom" tag="property" attribute="name|widgetPath.SubmenuBumper">True</property>
+        <property name="isSubmenuBumperCustom">False</property>
+        <property name="submenuPath" tag="property" attribute="name|widgetPath.SubmenuBumper" />
+        <property name="submenuTarget" tag="property" attribute="name|widgetTarget.SubmenuBumper" />
+        <property name="submenuName" tag="property" attribute="name|widgetName.SubmenuBumper" />
+        <property name="submenuName">$LOCALIZE[1034]</property>
+        <property name="submenuInclude" tag="property" attribute="name|widgetAspect.SubmenuBumper" value="Image">List_Apps_Row</property>
+        <property name="submenuInclude">List_Button_Row</property>
+        <property name="submenuDetailed" tag="property" attribute="name|widgetAspect.SubmenuBumper" value="Text">False</property>
+        <property name="submenuDetailed">True</property>
+
         <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
 
         <property name="mainmenuIcon" tag="thumb" />
         <property name="mainmenuIcon" tag="icon" />
         <property name="mainmenuLabel" tag="label" />
         <property name="mainmenuPath" tag="onclick" />
+
+        <property name="includeCondition" tag="visible" />
+        <property name="includeCondition">True</property>
         <controls>
-            <control type="group">
+            <include content="Object_Control" condition="$SKINSHORTCUTS[includeCondition]">
+                <param name="control">group</param>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
                 <include content="Animation_LeftRight">
                     <param name="visible" value="[String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
@@ -124,72 +140,76 @@
                     <include>Animation_Foreground_FadeInOut</include>
                     <orientation>vertical</orientation>
                     <onup>SetFocus(300)</onup>
-                    <ondown>SetFocus(330)</ondown>
+                    <ondown>ClearProperty(330_FocusBounce,Home)</ondown>
+                    <ondown condition="!String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
+                    <ondown condition="String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
+
                     <control type="group" id="$PYTHON[int(mainmenuid) * 1000 + 500]">
-                        <height>1260</height>
-                        <left>view_pad</left>
+                        <top>widget_fs_button_top</top>
+                        <height>widget_fs_button_height</height>
                         <visible>$SKINSHORTCUTS[isFullscreenWidget]</visible>
                         <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
                         <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
-                        <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
+                        <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
 
                         <include content="Info_Panel">
-                            <param name="plotwidth" value="880" />
-                            <param name="plotheight" value="80" />
+                            <param name="plotwidth" value="info_plot_w" />
+                            <param name="plotheight" value="info_plot_h" />
+                            <param name="controltype">label</param>
                             <param name="line_id" value="$PYTHON[int(mainmenuid) * 1000 + 598]" />
                             <param name="container" value="Container(301)." />
-                            <param name="ratings" value="[Container.Content(movies) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(tvshows) | String.IsEqual(Container(301).ListItem.DBType,movie) | String.IsEqual(Container(301).ListItem.DBType,tvshow) | String.IsEqual(Container(301).ListItem.DBType,set) | String.IsEqual(Container(301).ListItem.DBType,season) | String.IsEqual(Container(301).ListItem.DBType,episode) | Container(301).ListItem.IsCollection]" />
+                            <param name="ratings" value="[String.IsEqual(Container(301).ListItem.DBType,movie) | String.IsEqual(Container(301).ListItem.DBType,tvshow) | String.IsEqual(Container(301).ListItem.DBType,set) | String.IsEqual(Container(301).ListItem.DBType,season) | String.IsEqual(Container(301).ListItem.DBType,episode) | Container(301).ListItem.IsCollection]" />
                             <height>280</height>
-                            <width>1080</width>
-                            <bottom>480</bottom>
+                            <width>info_panel_w</width>
+                            <top>widget_fs_info_top</top>
+                            <left>view_pad</left>
                         </include>
 
-                        <control type="group">
-                            <height>70</height>
-                            <bottom>380</bottom>
-                            <control type="grouplist" id="$PYTHON[int(mainmenuid) * 1000 + 599]">
-                                <left>-40</left>
-                                <orientation>horizontal</orientation>
-                                <height>256</height>
-                                <centertop>50%</centertop>
-                                <itemgap>-60</itemgap>
+                        <control type="grouplist" id="$PYTHON[int(mainmenuid) * 1000 + 599]">
+                            <left>40</left>
+                            <orientation>horizontal</orientation>
+                            <height>256</height>
+                            <top>-3</top>
+                            <itemgap>-60</itemgap>
+                            <onup>SetFocus(300)</onup>
+                            <onback>SetFocus(300)</onback>
+                            <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
+                            <onleft>Control.Move(301,-1)</onleft>
+                            <onright>Control.Move(301,1)</onright>
+                            <include content="Object_Info_Button">
+                                <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 501]" />
+                                <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 511]" />
+                                <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 521]" />
+                                <param name="label" value="$VAR[Label_FullscreenWidget_PlayButton]" />
+                                <param name="icon" value="$VAR[Image_FullscreenWidget_PlayButton]" />
                                 <onup>SetFocus(300)</onup>
                                 <onback>SetFocus(300)</onback>
                                 <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
-                                <onleft>Control.Move(301,-1)</onleft>
-                                <onright>Control.Move(301,1)</onright>
-                                <include content="Object_Info_Button">
-                                    <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 501]" />
-                                    <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 511]" />
-                                    <param name="label" value="$VAR[Label_FullscreenWidget_PlayButton]" />
-                                    <param name="icon" value="$VAR[Image_FullscreenWidget_PlayButton]" />
-                                    <onup>SetFocus(300)</onup>
-                                    <onback>SetFocus(300)</onback>
-                                    <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
-                                    <onclick>SetFocus(301)</onclick>
-                                    <onclick>Action(Select)</onclick>
-                                    <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</onclick>
-                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                                </include>
-                                <include content="Object_Info_Button">
-                                    <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 503]" />
-                                    <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 513]" />
-                                    <param name="label" value="$LOCALIZE[31077]" />
-                                    <param name="icon" value="special://skin/extras/icons/info2.png" />
-                                    <onup>SetFocus(300)</onup>
-                                    <onback>SetFocus(300)</onback>
-                                    <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
-                                    <onclick>SetFocus(301)</onclick>
-                                    <onclick>Action(Info)</onclick>
-                                    <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</onclick>
-                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                                </include>
-                            </control>
+                                <onclick>SetFocus(301)</onclick>
+                                <onclick>Action(Select)</onclick>
+                                <onclick condition="!Container(301).ListItem.IsFolder">SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</onclick>
+                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
+                            </include>
+                            <include content="Object_Info_Button">
+                                <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 503]" />
+                                <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 513]" />
+                                <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 523]" />
+                                <param name="label" value="$LOCALIZE[31077]" />
+                                <param name="icon" value="special://skin/extras/icons/info2.png" />
+                                <onup>SetFocus(300)</onup>
+                                <onback>SetFocus(300)</onback>
+                                <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
+                                <onclick>SetFocus(301)</onclick>
+                                <onclick>Action(Info)</onclick>
+                                <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</onclick>
+                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
+                            </include>
                         </control>
                     </control>
                     <control type="group" id="$PYTHON[int(mainmenuid) * 1000 + 600]">
                         <height>600</height>
-                        <visible>!$SKINSHORTCUTS[isFullscreenWidget] | Integer.IsEqual(Container(301).NumItems,0)</visible>
                     </control>
                     <skinshortcuts insert="widgets">items</skinshortcuts>
                     <include content="Widget_Submenu" condition="$SKINSHORTCUTS[isSubmenuBumper]">
@@ -197,20 +217,18 @@
                         <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 698]" />
                         <param name="spacerid" value="$PYTHON[int(mainmenuid) * 1000 + 898]" />
                         <param name="buttonid" value="$PYTHON[(int(mainmenuid) * 1098) * 100]" />
-                        <param name="label" value="$LOCALIZE[1034]" />
-                        <param name="include" value="List_Button_Row" />
-                        <param name="visible" value="True" />
+                        <param name="label" value="$SKINSHORTCUTS[submenuName]" />
+                        <param name="include" value="$SKINSHORTCUTS[submenuInclude]" />
+                        <param name="detailed">$SKINSHORTCUTS[submenuDetailed]</param>
+                        <param name="visible" value="[String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
                         <param name="infowidget" value="False" />
                         <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).NumItems,0)" />
-                        <content>
-                            <item>
-                                <label>$SKINSHORTCUTS[mainmenuLabel]</label>
-                                <icon>$SKINSHORTCUTS[mainmenuIcon]</icon>
-                                <onclick>$SKINSHORTCUTS[mainmenuPath]</onclick>
-                                <property name="isSubmenu">True</property>
-                            </item>
-                        </content>
-                        <content><include>skinshortcuts-submenu</include></content>
+                        <include content="Object_Include" condition="$SKINSHORTCUTS[isSubmenuBumperCustom]">
+                            <content target="$SKINSHORTCUTS[submenuTarget]">$SKINSHORTCUTS[submenuPath]</content>
+                        </include>
+                        <include content="Object_Include" condition="![$SKINSHORTCUTS[isSubmenuBumperCustom]]">
+                            <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
+                        </include>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698],Home)</onfocus>
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                         <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
@@ -222,13 +240,16 @@
                         <param name="control" value="group" />
                         <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 699]" />
                         <height>-300</height>
+                        <visible>Control.IsVisible($PYTHON[int(mainmenuid) * 1000 + 698])</visible>
                     </include>
                 </control>
-            </control>
-            <include content="Object_WallFade">
+            </include>
+            <include content="Object_WallFade" condition="$SKINSHORTCUTS[includeCondition]">
                 <param name="id">$PYTHON[int(mainmenuid) * 1000 + 400]</param>
-                <param name="altvisible_bottom">!String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle))</param>
-                <visible>!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) | !$SKINSHORTCUTS[isFullscreenWidget]</visible>
+                <param name="altvisible_top">Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PYTHON[int(mainmenuid) * 1000 + 601])</param>
+                <param name="altvisible_bottom">[!String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle)) + $SKINSHORTCUTS[isSubmenuBumper]]</param>
+                <param name="direction_buttons">true</param>
+                <param name="visible_top">![Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503]) | Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PYTHON[int(mainmenuid) * 1000 + 601])]</param>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
                 <visible>Window.IsActive(Home)</visible>
@@ -345,18 +366,46 @@
             <property name="widgetTarget">videos</property>
             <property name="widgetSortby" tag="property" attribute="name|widgetSortby" />
             <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
+
+            <!-- Widget Limits -->
+            <property name="widgetLimit" tag="property" attribute="name|widgetLimit" value="Auto">99999</property>
             <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
+            <property name="isAutoLimit" tag="property" attribute="name|widgetLimit" value="Auto">true</property>
+            <property name="isAutoLimit">false</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Button">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Apps">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Square">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Landscape">4</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Landscape">3</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
+            <property name="widgetAutoLimit">7</property>
+
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[10]">10</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[20]">20</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[30]">30</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[40]">40</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[50]">50</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[100]">100</property>
+            <property name="widgetLimitNumber">99999</property>
 
             <!-- Include -->
             <property name="widgetInclude" tag="property" attribute="name|list" value="Submenu">Widget_Submenu</property>
             <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Button">Widget_Submenu</property>
             <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Apps">Widget_Submenu</property>
+            <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Text">Widget_Submenu</property>
             <property name="widgetInclude">Widget_Poster</property>
+
+            <!-- Details -->
+            <property name="widgetDetailed" tag="property" attribute="name|list" value="Submenu">true</property>
+            <property name="widgetDetailed" tag="property" attribute="name|widgetAspect" value="Button">true</property>
+            <property name="widgetDetailed" tag="property" attribute="name|widgetAspect" value="Apps">true</property>
+            <property name="widgetDetailed">false</property>
 
             <!-- Style -->
             <property name="widgetStyle" tag="property" attribute="name|list" value="Submenu">List_Button_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Button">List_Button_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Apps">List_Apps_Row</property>
+            <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Text">List_Button_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Square">List_Square_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Landscape">List_Landscape_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Big Landscape">List_BigLandscape_Row</property>
@@ -380,6 +429,10 @@
             <property name="widgetLabelName" tag="label" value="widgetname">True</property>
             <property name="widgetLabelName">False</property>
 
+            <property name="widgetShowMore" tag="property" attribute="name|widgetLimit" value="Auto">false</property>
+            <property name="widgetShowMore" tag="property" attribute="name|widgetLimit">true</property>
+            <property name="widgetShowMore">false</property>
+
             <!-- IsSubmenu -->
             <property name="isSubmenu" tag="property" attribute="name|list" value="Submenu">True</property>
             <property name="isSubmenu">False</property>
@@ -396,11 +449,15 @@
             <property name="isInfo" tag="property" attribute="name|list" value="Submenu">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Button">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Apps">False</property>
+            <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Text">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetInfo">True</property>
             <property name="isInfo">False</property>
+            <property name="isInfoFull" tag="property" attribute="name|widgetInfo" value="Full">True</property>
+            <property name="isInfoFull">False</property>
             <property name="widgetInfo" tag="property" attribute="name|list" value="Submenu"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="Button"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="Apps"></property>
+            <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="text"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetInfo" />
             <controls>
                 <include content="$SKINSHORTCUTS[widgetInclude]">
@@ -411,30 +468,45 @@
                     <param name="label" value="$SKINSHORTCUTS[widgetName]" />
                     <param name="usewidgetlabel" value="$SKINSHORTCUTS[widgetLabelName]" />
                     <param name="include" value="$SKINSHORTCUTS[widgetStyle]" />
-                    <param name="visible" value="$SKINSHORTCUTS[isVisible]" />
+                    <param name="visible" value="[[$SKINSHORTCUTS[isVisible]] + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
                     <param name="infowidget" value="$SKINSHORTCUTS[isInfo]" />
+                    <param name="infowidget_full" value="$SKINSHORTCUTS[isInfoFull]" />
                     <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,0)" />
+                    <param name="detailed">$SKINSHORTCUTS[widgetDetailed]</param>
                     <include content="Object_Include" condition="!$SKINSHORTCUTS[isSubmenu]">
-                        <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
+                        <include content="Object_Include" condition="!$SKINSHORTCUTS[isAutoLimit]">
+                            <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
+                        </include>
+                        <include content="Object_Include" condition="$SKINSHORTCUTS[isAutoLimit]">
+                            <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetAutoLimit]">$SKINSHORTCUTS[widgetPath]</content>
+                        </include>
                         <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isAutoScroll]">
                             <param name="condition" value="!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])" />
                         </include>
+                        <include content="Object_Include" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit]">
+                            <content>
+                                <item>
+                                    <label>$LOCALIZE[31253]...</label>
+                                    <icon>common/more-items.png</icon>
+                                    <onclick>ActivateWindow($SKINSHORTCUTS[widgetTarget],$SKINSHORTCUTS[widgetPath],return)</onclick>
+                                    <visible>Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</visible>
+                                </item>
+                            </content>
+                        </include>
                     </include>
                     <include content="Object_Include" condition="$SKINSHORTCUTS[isSubmenu]">
-                        <content>
-                            <item>
-                                <label>$SKINSHORTCUTS[mainmenuLabel]</label>
-                                <icon>$SKINSHORTCUTS[mainmenuIcon]</icon>
-                                <onclick>$SKINSHORTCUTS[mainmenuPath]</onclick>
-                                <property name="isSubmenu">True</property>
-                            </item>
-                        </content>
-                        <content><include>skinshortcuts-submenu</include></content>
+                        <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
                     </include>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
+                    <onfocus condition="$SKINSHORTCUTS[isInfoFull] + ![$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.CodecInfo)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[widgetName],Home)</onfocus>
+                    <onfocus condition="$SKINSHORTCUTS[isInfoFull] + [$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.CodecInfo)">SetProperty(Slide.WidgetTitle,[CAPITALIZE]$INFO[Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.Property(widget)][/CAPITALIZE],Home)</onfocus>
+
                     <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
                     <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
+
+
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetTitle,Home)</onunfocus>
                     <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
                     <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
                     <onback>SetFocus(300)</onback>
@@ -548,9 +620,11 @@
             <property name="id" tag="property" attribute="name|id" value="$NUMBER[98]">98</property>
             <property name="id" tag="property" attribute="name|id" value="$NUMBER[99]">99</property>
 
+            <property name="widgetLabel" tag="label" value="$LOCALIZE[12600]">$LOCALIZE[12600]$INFO[Weather.Temperature, • ,]</property>
             <property name="widgetLabel" tag="label" value="$LOCALIZE[8]">$LOCALIZE[8]$INFO[Weather.Temperature, • ,]</property>
             <property name="widgetLabel" tag="label" />
             <property name="widgetAction" tag="property" attribute="name|path" />
+            <property name="widgetIcon" tag="label" value="$LOCALIZE[12600]">$INFO[Weather.FanartCode,resource://resource.images.weathericons.white/,.png]</property>
             <property name="widgetIcon" tag="label" value="$LOCALIZE[8]">$INFO[Weather.FanartCode,resource://resource.images.weathericons.white/,.png]</property>
             <property name="widgetIcon" tag="thumb" />
             <property name="widgetIcon" tag="icon" />
@@ -688,10 +762,15 @@
         <property name="widgetTarget" tag="property" attribute="name|widgetTarget" />
         <property name="widgetSortby" tag="property" attribute="name|widgetSortby" />
         <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
+        <property name="widgetLimit" tag="property" attribute="name|widgetLimit" value="auto">99999</property>
         <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
         <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
+        <property name="includeCondition" tag="visible" />
+        <property name="includeCondition">True</property>
         <controls>
-            <control type="list" id="301">
+            <include content="Object_Control" condition="$SKINSHORTCUTS[includeCondition]">
+                <param name="control">list</param>
+                <param name="id">301</param>
                 <preloaditems>2</preloaditems>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
                 <animation effect="fade" start="0" end="100" time="600" reversible="false">Visible</animation>
@@ -702,6 +781,7 @@
                 <onback>SetFocus(300)</onback>
                 <orientation>horizontal</orientation>
                 <scrolltime tween="quadratic">400</scrolltime>
+                <hitrect x="0" y="0" w="0" h="0" />
                 <include content="Defs_AutoScroll">
                     <param name="condition" value="Control.HasFocus(300) | Control.HasFocus(399)" />
                 </include>
@@ -718,7 +798,7 @@
                     </control>
                 </focusedlayout>
                 <content target="$SKINSHORTCUTS[widgetTarget]" sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
-            </control>
+            </include>
         </controls>
     </other>
 
@@ -805,8 +885,6 @@
 
             <property name="widgetPath" tag="property" attribute="name|list"/>
 
-            <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
-
 
             <!-- Widget Label -->
             <property name="widgetName" tag="label" />
@@ -815,13 +893,50 @@
             <!-- Widget Sort -->
             <property name="widgetSortby" tag="property" attribute="name|widgetSortby" />
             <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
+
+            <!-- Widget Limits -->
+            <property name="widgetLimit" tag="property" attribute="name|widgetLimit" value="Auto">99999</property>
             <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
+            <property name="isAutoLimit" tag="property" attribute="name|widgetLimit" value="Auto">true</property>
+            <property name="isAutoLimit">false</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Button">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Apps">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Square">6</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Landscape">4</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Landscape">3</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
+            <property name="widgetAutoLimit">7</property>
+
+            <property name="widgetShowMore" tag="property" attribute="name|widgetLimit" value="Auto">false</property>
+            <property name="widgetShowMore" tag="property" attribute="name|widgetLimit">true</property>
+            <property name="widgetShowMore">false</property>
+
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[10]">10</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[20]">20</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[30]">30</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[40]">40</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[50]">50</property>
+            <property name="widgetLimitNumber" tag="property" attribute="name|widgetLimit" value="$NUMBER[100]">100</property>
+            <property name="widgetLimitNumber">99999</property>
 
             <!-- Include -->
+            <property name="widgetInclude" tag="property" attribute="name|list" value="Submenu">Widget_Submenu</property>
+            <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Button">Widget_Submenu</property>
+            <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Apps">Widget_Submenu</property>
+            <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Text">Widget_Submenu</property>
             <property name="widgetInclude">Widget_Poster</property>
+
+            <!-- Details -->
+            <property name="widgetDetailed" tag="property" attribute="name|list" value="Submenu">true</property>
+            <property name="widgetDetailed" tag="property" attribute="name|widgetAspect" value="Button">true</property>
+            <property name="widgetDetailed" tag="property" attribute="name|widgetAspect" value="Apps">true</property>
+            <property name="widgetDetailed">false</property>
 
             <!-- Style -->
             <property name="widgetStyle" tag="property" attribute="name|list" value="Submenu">List_Button_Row</property>
+            <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Button">List_Button_Row</property>
+            <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Apps">List_Apps_Row</property>
+            <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Text">List_Button_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Square">List_Square_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Landscape">List_Landscape_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Big Landscape">List_BigLandscape_Row</property>
@@ -895,11 +1010,14 @@
             <property name="isInfo" tag="property" attribute="name|list" value="Submenu">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Button">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Apps">False</property>
+            <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Text">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetInfo">True</property>
             <property name="isInfo">False</property>
+            <property name="isInfoFull">False</property>
             <property name="widgetInfo" tag="property" attribute="name|list" value="Submenu"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="Button"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="Apps"></property>
+            <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="Text"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetInfo" value="Full">Plot</property>
             <property name="widgetInfo" tag="property" attribute="name|widgetInfo" />
 
@@ -908,20 +1026,38 @@
             <controls>
 
                 <include content="$SKINSHORTCUTS[widgetInclude]" condition="$SKINSHORTCUTS[isVisible]">
+                    <param name="spacerid" value="$PYTHON[5200 + int(id)]" />
                     <param name="groupid" value="$PYTHON[5100 + int(id)]" />
                     <param name="id" value="$PYTHON[5000 + int(id)]" />
                     <param name="label" value="$SKINSHORTCUTS[widgetName]" />
                     <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1))" />
-                    <param name="altvisible" value="[Control.HasFocus(340) | Control.HasFocus(350)]" />
+                    <param name="altvisible" value="[Control.HasFocus(340) | [System.IdleTime(1) + !System.IdleTime(2) + Control.HasFocus(9099) + !String.IsEqual(Window.Property(PreviousSearchTerm),Control.GetLabel(9099).index(1))]]" />
                     <param name="include" value="$SKINSHORTCUTS[widgetStyle]" />
                     <param name="infowidget" value="$SKINSHORTCUTS[isInfo]" />
-                    <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</content>
+                    <param name="infowidget_full" value="$SKINSHORTCUTS[isInfoFull]" />
+                    <param name="detailed">$SKINSHORTCUTS[widgetDetailed]</param>
+                    <include content="Object_Include" condition="!$SKINSHORTCUTS[isAutoLimit]">
+                        <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</content>
+                    </include>
+                    <include content="Object_Include" condition="$SKINSHORTCUTS[isAutoLimit]">
+                        <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetAutoLimit]">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</content>
+                    </include>
                     <onback>SetFocus(5000)</onback>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[5000 + int(id)],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[5000 + int(id)],Home)</onfocus>
                     <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
+                    <include content="Object_Include" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit]">
+                        <content>
+                            <item>
+                                <label>$LOCALIZE[31253]...</label>
+                                <icon>common/more-items.png</icon>
+                                <onclick>ActivateWindow($SKINSHORTCUTS[widgetTarget],$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]],return)</onclick>
+                                <visible>Integer.IsEqual(Container($PYTHON[5000 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[5000 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</visible>
+                            </item>
+                        </content>
+                    </include>
                 </include>
 
             </controls>

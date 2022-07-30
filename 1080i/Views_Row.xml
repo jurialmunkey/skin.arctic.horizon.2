@@ -4,11 +4,11 @@
         <control type="group">
             <visible>$EXP[Exp_RowViews] | $EXP[Exp_ListViews] | Control.IsVisible(540)</visible>
             <include content="Info_Panel">
-                <param name="plotwidth" value="1080" />
-                <param name="plotheight" value="80" />
+                <param name="plotwidth" value="info_plot_w" />
+                <param name="plotheight" value="info_plot_h" />
                 <param name="details" value="!$EXP[Exp_ListViews] + !Control.IsVisible(540) + !Control.IsVisible(58)" />
                 <top>view_top</top>
-                <width>1080</width>
+                <width>info_panel_w</width>
                 <left>view_pad</left>
             </include>
         </control>
@@ -129,25 +129,22 @@
                     <right>-200</right>
                 </include>
             </include>
-            <include content="Object_Control" condition="Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)">
+            <include content="Object_Control" condition="Skin.String(DividerStyle,Split)">
                 <param name="control" value="group" />
                 <nested />
                 <height>divider_bottom</height>
                 <bottom>0</bottom>
 
-                <include content="Object_DividerPanel" condition="Skin.String(DividerStyle,Solid) | ![$PARAM[isrounded]]">
+                <include content="Object_DividerPanel" condition="![$PARAM[isrounded]]">
                     <param name="shadow_top" value="true" />
                     <param name="shadow_bottom" value="true" />
                     <top>0</top>
-                    <include content="Object_Include" condition="Skin.String(DividerStyle,Solid)">
-                        <bottom>-200</bottom>
-                    </include>
                     <bottom>160</bottom>
                     <left>-200</left>
                     <right>-200</right>
                 </include>
 
-                <include content="Object_DividerPanel_Rounded" condition="!Skin.String(DividerStyle,Solid) + [$PARAM[isrounded]]">
+                <include content="Object_DividerPanel_Rounded" condition="$PARAM[isrounded]">
                     <param name="shadow_top" value="true" />
                     <param name="shadow_bottom" value="true" />
                     <top>0</top>
@@ -168,6 +165,7 @@
             <aspectratio align="right">keep</aspectratio>
             <fadetime>600</fadetime>
             <texture background="true">$VAR[Image_ClearArt]</texture>
+            <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
         </include>
     </include>
 
@@ -184,6 +182,7 @@
             <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/fanart.jpg) | Skin.String(BackgroundStyle,None) | Skin.String(BackgroundStyle,Image)</visible>
             <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
             <animation effect="fade" start="100" end="0" time="150">Hidden</animation>
+            <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
         </include>
     </include>
 
@@ -290,15 +289,15 @@
 
             <control type="group">
                 <visible>Control.HasFocus(58)</visible>
-                <visible>System.IdleTime(1)</visible>
+                <visible>System.IdleTime(3)</visible>
                 <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
                 <top>260</top>
-                <width>1180</width>
+                <width>info_panel_w</width>
                 <left>635</left>
-
                 <include content="Info_Panel">
-                    <param name="plotwidth" value="1180" />
-                    <param name="plotheight" value="120" />
+                    <param name="plotwidth" value="info_plot_w" />
+                    <param name="plotheight" value="info_plot_large_h" />
+                    <param name="line_id">99058</param>
                 </include>
                 <control type="group">
                     <top>350</top>

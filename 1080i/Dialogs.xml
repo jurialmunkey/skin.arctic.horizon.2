@@ -36,7 +36,6 @@
                 <right>$PARAM[right]</right>
                 <include content="Dialog_Overlay">
                     <param name="flipx" value="true" />
-                    <param name="colordiffuse" value="dialog_fg_12" />
                 </include>
                 <include content="Object_Separator">
                     <right>0</right>
@@ -50,6 +49,19 @@
                         <param name="aspectratio" value="$PARAM[aspectratio]" />
                     </include>
                 </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Nib">
+        <param name="nib_pos">70</param>
+        <definition>
+            <control type="image">
+                <top>-16</top>
+                <centerright>$PARAM[nib_pos]</centerright>
+                <height>16</height>
+                <width>16</width>
+                <texture colordiffuse="dialog_bg_100">common/arrow-menu-up.png</texture>
             </control>
         </definition>
     </include>
@@ -76,18 +88,9 @@
     <include name="Dialog_ContextMenu_Header">
         <include content="Dialog_Header">
             <param name="id" value="7000" />
+            <nested />
             <label>$VAR[Label_ContextMenu_Title]</label>
-            <!-- <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage))</visible> -->
         </include>
-        <!-- <control type="image">
-            <top>-row_height_x150</top>
-            <height>row_height</height>
-            <width>480</width>
-            <centerleft>50%</centerleft>
-            <aspectratio align="center" aligny="bottom">keep</aspectratio>
-            <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</texture>
-            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage))</visible>
-        </control> -->
     </include>
 
 
@@ -97,7 +100,7 @@
             <control type="group">
                 <left>$PARAM[left]</left>
                 <include>Animation_Right_Delay</include>
-                <include content="Object_Control" condition="[Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)] + Skin.String(BackgroundStyle,Blur) + [Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)]">
+                <include content="Object_Control" condition="Skin.String(DividerStyle,Split) + Skin.String(BackgroundStyle,Blur) + Skin.String(ForegroundStyle,KeyArt)">
                     <param name="control" value="image" />
                     <aspectratio scalediffuse="false">scale</aspectratio>
                     <include content="Object_Include" condition="Skin.HasSetting(DividerShadows)">
@@ -105,20 +108,20 @@
                     </include>
                     <texture background="true" diffuse="diffuse/flixart.png" colordiffuse="main_flix">$VAR[Background_Fanart_Var]</texture>
                     <visible>!Window.IsActive(1120)</visible>
-                    <animation effect="fade" start="0" end="100" time="400" delay="400">Visible</animation>
+                    <animation effect="fade" start="0" end="100" time="800" delay="0">Visible</animation>
                     <animation effect="fade" start="100" end="0" time="400">Hidden</animation>
                 </include>
                 <control type="group">
                     <right>-$PARAM[left]</right>
-                    <include content="Object_Control" condition="[Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)] + Skin.String(BackgroundStyle,Blur) + [Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)]">
+                    <include content="Object_Control" condition="Skin.String(DividerStyle,Split) + Skin.String(BackgroundStyle,Blur) + Skin.String(ForegroundStyle,KeyArt)">
                         <param name="control" value="image" />
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture background="true" colordiffuse="main_flix">$VAR[Background_Fanart_Var]</texture>
                         <visible>Window.IsActive(1120)</visible>
-                        <animation effect="fade" start="0" end="100" time="400">Visible</animation>
-                        <animation effect="fade" start="100" end="0" time="800">Hidden</animation>
+                        <animation effect="fade" start="0" end="100" time="800">Visible</animation>
+                        <animation effect="fade" start="100" end="0" time="1200">Hidden</animation>
                     </include>
-                    <include content="Object_DividerPanel" condition="[Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
+                    <include content="Object_DividerPanel" condition="Skin.String(DividerStyle,Split)">
                         <param name="shadow_left" value="true" />
                     </include>
                 </control>
@@ -133,13 +136,19 @@
             <param name="overlay" value="false" />
             <param name="overlay_animation" value="false" />
             <include>Dimension_Info</include>
-            <include>Animation_WindowTransition_Settings</include>
+            <include content="Animation_WindowTransition_Settings">
+                <param name="windowopen_left">Window.Previous(EventLog.xml)</param>
+                <param name="windowclose_left">Window.Next(EventLog.xml)</param>
+            </include>
+            <animation type="Conditional" reversible="false"  condition="Window.IsVisible(DialogAddonSettings.xml)">
+                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="-320,0" time="300" delay="0" tween="cubic" easing="out" />
+            </animation>
+            <animation type="Conditional" reversible="false"  condition="!Window.IsVisible(DialogAddonSettings.xml)">
+                <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
+                <effect type="slide" start="-320,0" end="0" time="400" delay="400" tween="cubic" easing="out" />
+            </animation>
             <include>Dialog_Overlay_Settings</include>
-            <!-- <include content="Dialog_Header">
-                <param name="id" value="4000" />
-                <label>$VAR[Label_Header_Mini]</label>
-                <visible>!$EXP[Exp_OverlayDialogs]</visible>
-            </include> -->
             <nested />
         </include>
     </include>
@@ -434,7 +443,7 @@
                 <width>row_height</width>
                 <bordersize>18</bordersize>
                 <aspectratio align="right">keep</aspectratio>
-                <texture>$INFO[Window(Home).Property($PARAM[language].Language),resource://resource.images.languageflags.colour/,.png]</texture>
+                <texture>$INFO[Window(Home).Property($PARAM[language].Language),flags/color/language/,.png]</texture>
             </control>
 
         </control>
@@ -581,32 +590,41 @@
     <include name="Dialog_Settings_Changer">
         <param name="id" default="30000" />
         <definition>
-            <control type="list" id="$PARAM[id]">
+            <control type="grouplist" id="$PARAM[id]">
                 <nested />
                 <width>row_height</width>
                 <orientation>vertical</orientation>
-                <itemlayout height="row_height" width="row_height">
-                    <include>Layout_IconSwitcher</include>
-                </itemlayout>
-                <focusedlayout height="row_height" width="row_height">
-                    <control type="button">
-                        <visible allowhiddenfocus="true">false</visible>
-                        <onfocus condition="!Window.IsActive(InterfaceSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(InterfaceSettings))">ReplaceWindow(InterfaceSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(SkinSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(SkinSettings))">ReplaceWindow(SkinSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(MediaSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(MediaSettings))">ReplaceWindow(MediaSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(PlayerSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(PlayerSettings))">ReplaceWindow(PlayerSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(SystemSettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(SystemSettings))">ReplaceWindow(SystemSettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(servicesettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(servicesettings))">ReplaceWindow(servicesettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(pvrsettings) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(pvrsettings))">ReplaceWindow(pvrsettings)</onfocus>
-                        <onfocus condition="!Window.IsActive(systeminfo) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(systeminfo))">ReplaceWindow(systeminfo)</onfocus>
-                        <onfocus condition="!Window.IsActive(Profiles) + String.IsEqual(Container($PARAM[id]).ListItem.Property(path),ReplaceWindow(Profiles))">ReplaceWindow(Profiles)</onfocus>
-                    </control>
-                    <include content="Layout_IconSwitcher">
-                        <param name="selected" value="true" />
-                        <param name="colordiffuse" value="$VAR[ColorSelected]" />
-                    </include>
-                </focusedlayout>
-                <include>Items_Settings</include>
+                <include>Items_Settings_Changer</include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Settings_Changer_Button">
+        <param name="width">80</param>
+        <definition>
+            <control type="togglebutton" id="$PARAM[button_id]">
+                <width>$PARAM[width]</width>
+                <height>$PARAM[width]</height>
+                <include>Texture_Highlight_ToggleButton_FakeFocus</include>
+                <onclick>ReplaceWindow($PARAM[window])</onclick>
+                <usealttexture>Window.IsActive($PARAM[window])</usealttexture>
+                <include content="Object_Include" condition="!Window.IsVisible($PARAM[window])">
+                    <onfocus condition="!Window.IsVisible($PARAM[window])">ReplaceWindow($PARAM[window])</onfocus>
+                </include>
+            </control>
+            <control type="group" id="$PARAM[group_id]">
+                <top>-$PARAM[width]</top>
+                <width>$PARAM[width]</width>
+                <height>$PARAM[width]</height>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="10" /></include>
+                    <texture colordiffuse="dialog_fg_30">$PARAM[icon]</texture>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="10" /></include>
+                    <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                    <visible>Window.IsActive($PARAM[window]) | Control.HasFocus($PARAM[button_id])</visible>
+                </control>
             </control>
         </definition>
     </include>
@@ -615,7 +633,7 @@
         <param name="flipx" default="false" />
         <param name="flipy" default="false" />
         <param name="texture" default="common/dialog_overlay.png" />
-        <param name="colordiffuse" default="dialog_fg_07" />
+        <param name="colordiffuse" default="dialog_panel" />
         <definition>
             <control type="image">
                 <nested />
@@ -767,6 +785,19 @@
         </definition>
     </include>
 
+    <include name="Dialog_VideoInfoRecommendationsButton">
+        <control type="button" id="7002">
+            <texturefocus />
+            <texturenofocus />
+            <font />
+            <width>1</width>
+            <height>1</height>
+            <include content="Action_Recommendations_OnFocus">
+                <onfocus>SetFocus(5000)</onfocus>
+            </include>
+        </control>
+    </include>
+
     <include name="Dialog_VideoInfoTrailerButton">
         <control type="button" id="7001">
             <texturefocus />
@@ -909,7 +940,7 @@
                 </include>
                 <include content="Object_InfoCircle">
                     <param name="icon" value="special://skin/extras/icons/coins.png" />
-                    <param name="role" value="Revenue / Budget" />
+                    <param name="role" value="$LOCALIZE[31264] / $LOCALIZE[31265]" />
                     <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Revenue),, $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Budget)]" />
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Revenue)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Budget))</visible>
                     <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Budget),$0)</visible>

@@ -39,33 +39,11 @@
                         <height>600</height>
                     </control>
                     <include>skinshortcuts-template-search</include>
-
-                    <!-- <include content="Widget_Poster">
-                        <param name="groupid" value="5104" />
-                        <param name="id" value="5004" />
-                        <param name="label" value="$LOCALIZE[31109] $LOCALIZE[342]" />
-                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1)) + !String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))" />
-                        <param name="altvisible" value="Control.HasFocus(340)" />
-                        <content>$INFO[Container(4000).ListItemAbsolute(0).Property(tmdb_id),plugin://plugin.video.themoviedb.helper/?info=discover&amp;tmdb_type=movie&amp;with_id=True&amp;with_keywords=,]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click"><param name="id" value="5004" /></include>
-                        <onback>SetFocus(5004)</onback>
-                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
-                    </include>
-                    <include content="Widget_Poster">
-                        <param name="groupid" value="5105" />
-                        <param name="id" value="5005" />
-                        <param name="label" value="$LOCALIZE[31109] $LOCALIZE[20343]" />
-                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1)) + !String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))" />
-                        <param name="altvisible" value="Control.HasFocus(340)" />
-                        <content>$INFO[Container(4000).ListItemAbsolute(0).Property(tmdb_id),plugin://plugin.video.themoviedb.helper/?info=discover&amp;tmdb_type=tv&amp;with_id=True&amp;with_keywords=,]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click"><param name="id" value="5005" /></include>
-                        <onback>SetFocus(5005)</onback>
-                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
-                    </include> -->
                 </control>
             </control>
             <include content="Object_WallFade">
                 <param name="id" value="6000" />
+                <param name="direction_buttons">true</param>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
             </include>
@@ -124,7 +102,8 @@
                         <align>left</align>
                         <onright>Close</onright>
                         <onleft>Close</onleft>
-                        <ondown condition="!Integer.IsEqual(Container(6000).NumItems,0)">350</ondown>
+                        <ondown>SetProperty(PreviousSearchTerm,$INFO[Control.GetLabel(9099).index(1)])</ondown>
+                        <ondown condition="!Integer.IsEqual(Container(6000).NumItems,0)">6000</ondown>
                         <ondown condition="Integer.IsEqual(Container(6000).NumItems,0)">340</ondown>
                         <onup>340</onup>
                     </include>
@@ -146,15 +125,15 @@
         </control>
 
         <!-- Keyword Finder -->
-        <control type="list" id="4000">
+        <!-- <control type="list" id="4000">
             <top>-1000</top>
             <left>-1000</left>
             <width>1</width>
             <height>1</height>
             <itemlayout />
             <focusedlayout />
-            <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=keyword]$VAR[Path_Param_Widget]</content>
-        </control>
+            <content target="videos">$INFO[Control.GetLabel(9099).index(1),plugin://plugin.video.themoviedb.helper/?info=search&amp;query=,&amp;tmdb_type=keyword]$VAR[Path_Param_Widget]</content>
+        </control> -->
 
 
         <control type="button" id="330">
@@ -174,15 +153,6 @@
             <onclick>SetFocus(9099)</onclick>
             <visible allowhiddenfocus="true">Control.HasFocus(340)</visible>
             <animation effect="fade" time="300" start="0" end="0">Focus</animation>
-        </control>
-        <control type="button" id="350">
-            <width>1</width>
-            <height>1</height>
-            <left>-1000</left>
-            <onfocus>SetFocus(6000)</onfocus>
-            <onclick>SetFocus(6000)</onclick>
-            <visible allowhiddenfocus="true">Control.HasFocus(350)</visible>
-            <animation effect="fade" time="50" start="0" end="0">Focus</animation>
         </control>
     </controls>
 </window>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <controls>
+        <include content="Object_Control">
+            <param name="control">group</param>
+            <animation type="WindowOpen" reversible="false">
+                <effect type="slide" end="0" start="560" time="400" delay="400" tween="cubic" easing="out" />
+                <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
+            </animation>
+            <animation effect="slide" start="0" end="90" time="400" tween="cubic" easing="out" reversible="false" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Window.IsVisible(musicosd)">Conditional</animation>
+            <animation effect="slide" end="0" start="90" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) + Window.IsVisible(musicosd)]">Conditional</animation>
+            <top>view_top</top>
+            <height>640</height>
+            <left>800</left>
+            <right>view_pad</right>
+            <control type="group">
+                <top>dialog_pad</top>
+                <bottom>dialog_pad</bottom>
+                <control type="group">
+                    <height>80</height>
+                    <control type="label">
+                        <font>font_mainlabel</font>
+                        <textcolor>panel_fg_100</textcolor>
+                        <label>$LOCALIZE[24013]</label>
+                    </control>
+                </control>
+                <!-- ** Required ** Do not change <id> or <type> (Lyrics, will autoscroll if lrc based lyrics are shown) -->
+                <control type="list" id="110">
+                    <top>80</top>
+                    <scrolltime>200</scrolltime>
+                    <itemlayout height="row_height">
+                        <control type="label">
+                            <font>font_medium</font>
+                            <aligny>center</aligny>
+                            <align>left</align>
+                            <textcolor>panel_fg_70</textcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="row_height">
+                        <control type="label">
+                            <font>font_medium_bold</font>
+                            <aligny>center</aligny>
+                            <align>left</align>
+                            <textcolor>panel_fg_100</textcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </focusedlayout>
+                </control>
+            </control>
+        </include>
+
+
+        <!-- ** Required ** Do not change <id> or <type> (name of the used scraper and optionally the number of found lyrics) -->
+        <control type="label" id="200">
+            <description>Scraper label</description>
+            <visible>false</visible>
+        </control>
+    </controls>
+</window>

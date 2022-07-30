@@ -9,7 +9,9 @@
     <onunload>ClearProperty(AnimationDirection,Home)</onunload>
     <include>Action_ClearContext_OnUnload</include>
     <onload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onload>
-    <onload condition="Control.HasFocus(301)">SetFocus(300)</onload>
+    <onload condition="Control.HasFocus(301) + !String.IsEmpty(Window(Home).Property(FullscreenWidgetRefocus))">SetFocus($INFO[Window(Home).Property(FullscreenWidgetRefocus)])</onload>
+    <onload condition="Control.HasFocus(301) + String.IsEmpty(Window(Home).Property(FullscreenWidgetRefocus))">SetFocus(300)</onload>
+    <onload>ClearProperty(FullscreenWidgetRefocus,Home)</onload>
     <controls>
 
         <include>Background_ExtraFanart</include>
@@ -33,11 +35,12 @@
             </control>
         </control>
 
+
         <!-- All Widgets Group -->
         <control type="group" id="320">
-            <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
-                <effect type="slide" end="0,-20" time="60" tween="sine" />
-                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+            <animation type="Conditional" condition="Control.IsVisible(330) | !String.IsEmpty(Window(Home).Property(330_FocusBounce))" reversible="false">
+                <effect type="slide" end="0,-30" time="60" tween="sine" />
+                <effect type="slide" end="0,30" time="180" tween="sine" delay="80" />
             </animation>
             <animation type="WindowOpen" reversible="false" condition="Window.Previous(1114)">
                 <effect type="slide" start="320" end="0" time="400" delay="0" tween="cubic" easing="out" />
@@ -48,28 +51,35 @@
             <include>skinshortcuts-template-widgets</include>
         </control>
 
-        <!-- Header -->
+        <!-- Right Header -->
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <control type="group">
                 <visible>!Window.IsVisible(favourites)</visible>
                 <include>Furniture_Top_Right</include>
             </control>
-            <!-- <control type="group">
-                <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false">Visible</animation>
-                <animation effect="fade" start="100" end="0" time="200" delay="0" reversible="false">Hidden</animation>
-                <visible>![Control.HasFocus(300) | Control.HasFocus(399) | Control.HasFocus(302) | ControlGroup(303).HasFocus()]</visible>
-                <include>Furniture_Top_Left</include>
-            </control> -->
         </control>
 
+        <!-- Left Header -->
+        <include content="Object_Control">
+            <param name="control">group</param>
+            <include content="Furniture_Top_Left">
+                <param name="label">$VAR[Label_HomeHeader]</param>
+            </include>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>!$EXP[Exp_HomeBarVisible]</visible>
+            <animation effect="fade" start="0" end="100" time="400" delay="200" reversible="false">Visible</animation>
+        </include>
+
+        <!-- Codec Info -->
         <include content="Object_Control" condition="Skin.HasSetting(Widgets.CodecInfo)">
             <param name="control">group</param>
-            <include>Furniture_Bottom</include>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>!$EXP[Exp_HomeBarVisible]</visible>
             <visible>String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)</visible>
             <visible>!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer))</visible>
-            <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+            <include>Furniture_Bottom</include>
+            <animation effect="fade" start="0" end="100" time="400" delay="200" reversible="false">Visible</animation>
         </include>
 
         <!-- Submenu -->
@@ -81,7 +91,9 @@
             <param name="usegrouplist" value="false" />
             <param name="nib_pos" value="420" />
             <param name="useanimation" value="false" />
-            <!-- <left>140</left> -->
+            <include content="Object_Include" condition="Skin.HasSetting(Home.DisableSearchMenu)">
+                <left>80</left>
+            </include>
             <left>180</left>
             <animation effect="slide" start="0" end="100" condition="Container(300).Position(1)">Conditional</animation>
             <animation effect="slide" start="0" end="200" condition="Container(300).Position(2)">Conditional</animation>
@@ -129,12 +141,19 @@
             <param name="colordiffuse" value="main_fg_12" />
             <left>80</left>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>$EXP[Exp_HomeBarVisible]</visible>
             <animation effect="fade" start="100" end="0" condition="Window.Next(1114)">Conditional</animation>
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
 
-                <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ClearProperty(AnimationDirection)</onleft>
-                <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
+                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ClearProperty(AnimationDirection)</onleft>
+                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
+                </include>
+                <include content="Object_Include" condition="Skin.HasSetting(Home.DisableSearchMenu)">
+                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(OptionsMenuFocused,303,Home)</onleft>
+                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetFocus(303)</onleft>
+                </include>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">Control.Move(300,-1)</onleft>
 
@@ -151,29 +170,39 @@
                 <onclick>Action(Select)</onclick>
                 <include>skinshortcuts-template-menubar</include>
             </include>
-            <control type="image">
+            <include content="Object_Control" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                <param name="control">image</param>
                 <left>20</left>
                 <width>80</width>
                 <height>60</height>
                 <centertop>50%</centertop>
                 <aspectratio>keep</aspectratio>
                 <texture colordiffuse="main_fg_70">special://skin/extras/icons/search.png</texture>
-            </control>
+            </include>
             <include content="Object_MenuBar_List">
                 <param name="id" value="300" />
                 <param name="color_nf" value="main_fg" />
                 <param name="altfocus" value="Control.HasFocus(399)" />
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetFocus(399)</onfocus>
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                <left>80</left>
+                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                    <left>80</left>
+                </include>
                 <include>skinshortcuts-template-menubar</include>
                 <onfocus>ClearProperty(OptionsMenuFocused,Home)</onfocus>
                 <onup condition="!Skin.HasSetting(DisableSubmenuOnUp)">SetFocus(302,0,absolute)</onup>
                 <oninfo>SetFocus(302,0,absolute)</oninfo>
                 <onright>SetProperty(OptionsMenuFocused,303,Home)</onright>
                 <onright>SetFocus(303)</onright>
-                <onleft>ClearProperty(AnimationDirection)</onleft>
-                <onleft>ActivateWindow(1114)</onleft>
+                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                    <onleft>ClearProperty(AnimationDirection)</onleft>
+                    <onleft>ActivateWindow(1114)</onleft>
+                </include>
+                <include content="Object_Include" condition="Skin.HasSetting(Home.DisableSearchMenu)">
+                    <onleft>SetProperty(OptionsMenuFocused,303,Home)</onleft>
+                    <onleft>SetFocus(303)</onleft>
+                </include>
+                <onleft>-</onleft>
                 <content><include>skinshortcuts-mainmenu</include></content>
             </include>
         </include>
@@ -227,6 +256,7 @@
             <param name="isfocused" value="!String.IsEmpty(Window(Home).Property(OptionsMenuFocused))" />
             <param name="onback" value="300" />
             <param name="id" value="303" />
+            <param name="action_include">Action_OptionsMenu_HomeWrap</param>
         </include>
 
         <control type="button" id="360">
@@ -243,7 +273,6 @@
             <onclick condition="!String.IsEmpty(Window(Home).Property(OptionsMenuFocused))">SetFocus(399)</onclick>
             <onclick condition="String.IsEmpty(Window(Home).Property(OptionsMenuFocused))">SetProperty(OptionsMenuFocused,303,Home)</onclick>
             <onclick condition="String.IsEmpty(Window(Home).Property(OptionsMenuFocused))">SetFocus(303)</onclick>
-            <!-- <onclick>ActivateWindow(shutdownmenu)</onclick> -->
         </control>
 
 

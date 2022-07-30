@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="Action_SkinShortcuts_ContentType_AutoSetOnFocus">
+        <onfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SetProperty(customProperty,widgetTarget)</onfocus>
+        <onfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SetProperty(customValue,$VAR[Action_SkinShortcuts_ContentType])</onfocus>
+        <onfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SendClick(404)</onfocus>
+    </include>
+    <include name="Action_SkinShortcuts_ContentType_AutoSetOnUnFocus">
+        <onunfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SetProperty(customProperty,widgetTarget)</onunfocus>
+        <onunfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SetProperty(customValue,$VAR[Action_SkinShortcuts_ContentType])</onunfocus>
+        <onunfocus condition="String.IsEmpty(Container(211).ListItem.Property(widgetTarget))">SendClick(404)</onunfocus>
+    </include>
+
+    <variable name="Action_SkinShortcuts_ContentType">
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,Video)">videos</value>
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,Music)">music</value>
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,Program)">programs</value>
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,Picture)">pictures</value>
+        <value condition="String.StartsWith(Container(211).ListItem.Label2,PVR)">tvguide</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),Videos)">videos</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),Music)">music</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),Programs)">programs</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),Pictures)">pictures</value>
+        <value condition="String.Contains(Container(211).ListItem.Property(path),pvr://)">tvguide</value>
+    </variable>
+
     <variable name="Action_Query_Params">
 
         <!-- Movie -->
@@ -103,6 +127,17 @@
         </definition>
     </include>
 
+    <include name="Action_OptionsMenu_HomeWrap">
+        <definition>
+            <onleft condition="Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(300,9999,absolute)</onleft>
+            <onright condition="Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(300,0,absolute)</onright>
+            <onback condition="Skin.HasSetting(Home.DisableSearchMenu)">300</onback>
+            <onback condition="!Skin.HasSetting(Home.DisableSearchMenu)">300</onback>
+            <onleft condition="!Skin.HasSetting(Home.DisableSearchMenu)">300</onleft>
+            <onright condition="!Skin.HasSetting(Home.DisableSearchMenu)">300</onright>
+        </definition>
+    </include>
+
     <include name="Action_OptionsMenu_PVRGuide">
         <onleft>10</onleft>
         <onright>10</onright>
@@ -119,12 +154,7 @@
     </include>
 
     <include name="Action_Row_Recommendations_OnDown">
-        <include content="Action_Recommendations_OnDown">
-            <ondown>ClearProperty(Path.Cast,1120)</ondown>
-            <ondown>ClearProperty(Path.Crew,1120)</ondown>
-            <ondown>ClearProperty(Path.Posters,1120)</ondown>
-            <ondown>ClearProperty(Path.Fanart,1120)</ondown>
-        </include>
+        <ondown>SetFocus(99996)</ondown>
     </include>
 
     <include name="Action_Row_WallView_OnDown">
@@ -137,15 +167,45 @@
 
     <include name="Action_ClearContext_OnUnload">
         <onunload>ClearProperty(ContextMenu.Label,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.DBType,Home)</onunload>
         <onunload>ClearProperty(ContextMenu.Fanart,Home)</onunload>
         <onunload>ClearProperty(ContextMenu.Poster,Home)</onunload>
         <onunload>ClearProperty(ContextMenu.Icon,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.Title,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.Year,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.Tagline,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.Plot,Home)</onunload>
+        <onunload>ClearProperty(ContextMenu.Params,Home)</onunload>
+    </include>
+
+    <include name="Action_Widget_Refocus_Click">
+        <onclick>SetFocus(5004)</onclick>
+        <onclick>SetFocus(5003)</onclick>
+        <onclick>SetFocus(5002)</onclick>
+        <onclick>SetFocus(5001)</onclick>
+        <onclick>SetFocus(5000)</onclick>
     </include>
 
     <include name="Action_Widget_Click">
+        <include>Action_Widget_Refocus_Click</include>
         <onclick>SetProperty(TMDbHelper.HideView,1,Home)</onclick>
         <onclick>Close</onclick>
         <onclick>AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190),00:01,silent)</onclick>
+    </include>
+
+    <include name="Action_Widget_Play_Click">
+        <include>Action_Widget_Refocus_Click</include>
+        <onclick>Close</onclick>
+        <onclick condition="!Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container($PARAM[id]).ListItem.FolderPath]),00:01,silent)</onclick>
+        <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container($PARAM[id]).ListItem.FolderPath]),00:01,silent)</onclick>
+    </include>
+
+    <include name="Action_Widget_TrailerPlay_Click">
+        <onclick>Close</onclick>
+        <onclick condition="$EXP[Exp_InfoDialogs]">PlayMedia($INFO[Container($PARAM[id]).ListItem.FolderPath],False,1)</onclick>
+        <onclick condition="!$EXP[Exp_InfoDialogs]">PlayMedia($INFO[Container($PARAM[id]).ListItem.FolderPath],False)</onclick>
+        <onclick condition="$EXP[Exp_InfoDialogs]">SetProperty(HasTrailer,$INFO[Container($PARAM[id]).ListItem.FolderPath],Home)</onclick>
+        <onclick condition="$EXP[Exp_InfoDialogs]">AlarmClock(Refocus,SetFocus(7001),00:01,silent)</onclick>
     </include>
 
     <include name="Action_Plotbox_OnUp">
@@ -163,57 +223,57 @@
         </definition>
     </include>
 
-    <include name="Action_Recommendations_OnDown">
-        <ondown>SetProperty(Path.Cast,"$VAR[Path_Cast]",1120)</ondown>
-        <ondown>SetProperty(Path.Crew,"$VAR[Path_Crew]",1120)</ondown>
-        <ondown>SetProperty(Path.Recommendations,"$VAR[Path_Recommendations]",1120)</ondown>
-        <ondown>SetProperty(Path.Similar,"$VAR[Path_Similar]",1120)</ondown>
-        <ondown>SetProperty(Path.FromYear,"$VAR[Path_FromYear]",1120)</ondown>
-        <ondown>SetProperty(Path.FromGenre,"$VAR[Path_FromGenre]",1120)</ondown>
-        <ondown>SetProperty(Path.FromStudio,"$VAR[Path_FromStudio]",1120)</ondown>
-        <ondown>SetProperty(Path.FromDirector,"$VAR[Path_FromDirector]",1120)</ondown>
-        <ondown>SetProperty(Path.FromWriter,"$VAR[Path_FromWriter]",1120)</ondown>
-        <ondown>SetProperty(Path.FromCollection,"$VAR[Path_FromCollection]",1120)</ondown>
-        <ondown>SetProperty(Path.Seasons,"$VAR[Path_Seasons]",1120)</ondown>
-        <ondown>SetProperty(Path.UpNext,"$VAR[Path_UpNext]",1120)</ondown>
-        <ondown>SetProperty(Path.Youtube,"$VAR[Path_Youtube]",1120)</ondown>
-        <ondown>SetProperty(Path.Reviews,"$VAR[Path_Reviews]",1120)</ondown>
-        <ondown>SetProperty(Path.Keywords,"$VAR[Path_Keywords]",1120)</ondown>
+    <include name="Action_Recommendations_OnFocus">
+        <onfocus>SetProperty(Path.Cast,"$VAR[Path_Cast]",1120)</onfocus>
+        <onfocus>SetProperty(Path.Crew,"$VAR[Path_Crew]",1120)</onfocus>
+        <onfocus>SetProperty(Path.Recommendations,"$VAR[Path_Recommendations]",1120)</onfocus>
+        <onfocus>SetProperty(Path.Similar,"$VAR[Path_Similar]",1120)</onfocus>
+        <onfocus>SetProperty(Path.FromYear,"$VAR[Path_FromYear]",1120)</onfocus>
+        <onfocus>SetProperty(Path.FromGenre,"$VAR[Path_FromGenre]",1120)</onfocus>
+        <onfocus>SetProperty(Path.FromStudio,"$VAR[Path_FromStudio]",1120)</onfocus>
+        <onfocus>SetProperty(Path.FromDirector,"$VAR[Path_FromDirector]",1120)</onfocus>
+        <onfocus>SetProperty(Path.FromWriter,"$VAR[Path_FromWriter]",1120)</onfocus>
+        <onfocus>SetProperty(Path.FromCollection,"$VAR[Path_FromCollection]",1120)</onfocus>
+        <onfocus>SetProperty(Path.Seasons,"$VAR[Path_Seasons]",1120)</onfocus>
+        <onfocus>SetProperty(Path.UpNext,"$VAR[Path_UpNext]",1120)</onfocus>
+        <onfocus>SetProperty(Path.Youtube,"$VAR[Path_Youtube]",1120)</onfocus>
+        <onfocus>SetProperty(Path.Reviews,"$VAR[Path_Reviews]",1120)</onfocus>
+        <onfocus>SetProperty(Path.Keywords,"$VAR[Path_Keywords]",1120)</onfocus>
 
-        <ondown>SetProperty(Path.CastInMovies,"$VAR[Path_CastInMovies]",1120)</ondown>
-        <ondown>SetProperty(Path.CastInShows,"$VAR[Path_CastInShows]",1120)</ondown>
-        <ondown>SetProperty(Path.CrewInMovies,"$VAR[Path_CrewInMovies]",1120)</ondown>
-        <ondown>SetProperty(Path.CrewInShows,"$VAR[Path_CrewInShows]",1120)</ondown>
+        <onfocus>SetProperty(Path.CastInMovies,"$VAR[Path_CastInMovies]",1120)</onfocus>
+        <onfocus>SetProperty(Path.CastInShows,"$VAR[Path_CastInShows]",1120)</onfocus>
+        <onfocus>SetProperty(Path.CrewInMovies,"$VAR[Path_CrewInMovies]",1120)</onfocus>
+        <onfocus>SetProperty(Path.CrewInShows,"$VAR[Path_CrewInShows]",1120)</onfocus>
 
-        <ondown>SetProperty(Path.Posters,"$VAR[Path_Posters]",1120)</ondown>
-        <ondown>SetProperty(Path.Fanart,"$VAR[Path_Fanart]",1120)</ondown>
+        <onfocus>SetProperty(Path.Posters,"$VAR[Path_Posters]",1120)</onfocus>
+        <onfocus>SetProperty(Path.Fanart,"$VAR[Path_Fanart]",1120)</onfocus>
 
-        <ondown>SetProperty(Collection,$ESCINFO[ListItem.Set],1120)</ondown>
-        <ondown>SetProperty(Director,$ESCINFO[ListItem.Director],1120)</ondown>
-        <ondown>SetProperty(Writer,$ESCINFO[ListItem.Writer],1120)</ondown>
-        <ondown>SetProperty(Genre,$ESCINFO[ListItem.Genre],1120)</ondown>
-        <ondown>SetProperty(Studio,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.Name)],1120)</ondown>
-        <ondown>SetProperty(Year,$ESCINFO[ListItem.Year],1120)</ondown>
-        <ondown>SetProperty(Fanart,$ESCINFO[ListItem.Art(fanart)],1120)</ondown>
-        <ondown>SetProperty(Title,"$VAR[Label_Title]",1120)</ondown>
+        <onfocus>SetProperty(Collection,$ESCINFO[ListItem.Set],1120)</onfocus>
+        <onfocus>SetProperty(Director,$ESCINFO[ListItem.Director],1120)</onfocus>
+        <onfocus>SetProperty(Writer,$VAR[Path_FromWriter_Screenplay],1120)</onfocus>
+        <onfocus>SetProperty(Genre,$ESCINFO[ListItem.Genre],1120)</onfocus>
+        <onfocus>SetProperty(Studio,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.Name)],1120)</onfocus>
+        <onfocus>SetProperty(Year,$ESCINFO[ListItem.Year],1120)</onfocus>
+        <onfocus>SetProperty(Fanart,$ESCINFO[ListItem.Art(fanart)],1120)</onfocus>
+        <onfocus>SetProperty(Title,"$VAR[Label_Title]",1120)</onfocus>
 
-        <ondown>SetProperty(CropLogo,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.CropImage)],1120)</ondown>
+        <onfocus>SetProperty(CropLogo,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.CropImage)],1120)</onfocus>
 
         <nested />
 
-        <ondown condition="String.IsEqual(ListItem.DBtype,movie) | String.IsEqual(ListItem.DBtype,tvshow) | String.IsEqual(ListItem.DBtype,season) | String.IsEqual(ListItem.DBtype,episode) | String.IsEqual(ListItem.DBtype,set) | $EXP[Exp_IsPersonInfo]">ActivateWindow(1120)</ondown>
+        <onfocus condition="String.IsEqual(ListItem.DBtype,movie) | String.IsEqual(ListItem.DBtype,tvshow) | String.IsEqual(ListItem.DBtype,season) | String.IsEqual(ListItem.DBtype,episode) | String.IsEqual(ListItem.DBtype,set) | $EXP[Exp_IsPersonInfo]">ActivateWindow(1120)</onfocus>
     </include>
 
     <include name="Action_Settings_Onload">
-        <onload condition="Window.IsActive(skinsettings)">SetFocus(30000,0)</onload>
-        <onload condition="Window.IsActive(interfacesettings)">SetFocus(30000,1)</onload>
-        <onload condition="Window.IsActive(mediasettings)">SetFocus(30000,2)</onload>
-        <onload condition="Window.IsActive(playersettings)">SetFocus(30000,3)</onload>
-        <onload condition="Window.IsActive(systemsettings)">SetFocus(30000,4)</onload>
-        <onload condition="Window.IsActive(servicesettings)">SetFocus(30000,5)</onload>
-        <onload condition="Window.IsActive(pvrsettings)">SetFocus(30000,6)</onload>
-        <onload condition="Window.IsActive(systeminfo)">SetFocus(30000,7)</onload>
-        <onload condition="Window.IsActive(profiles)">SetFocus(30000,8)</onload>
+        <onload condition="Window.IsActive(skinsettings)">SetFocus(30001)</onload>
+        <onload condition="Window.IsActive(interfacesettings)">SetFocus(30002)</onload>
+        <onload condition="Window.IsActive(mediasettings)">SetFocus(30003)</onload>
+        <onload condition="Window.IsActive(playersettings)">SetFocus(30004)</onload>
+        <onload condition="Window.IsActive(systemsettings)">SetFocus(30005)</onload>
+        <onload condition="Window.IsActive(servicesettings)">SetFocus(30006)</onload>
+        <onload condition="Window.IsActive(pvrsettings)">SetFocus(30007)</onload>
+        <onload condition="Window.IsActive(systeminfo)">SetFocus(30008)</onload>
+        <onload condition="Window.IsActive(profiles)">SetFocus(30009)</onload>
     </include>
 
 
@@ -227,12 +287,12 @@
     </include>
 
     <include name="Action_BuildTextures_Onload">
-        <onload>RunScript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,button+multiply=special://skin/extras/textures/button.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menuright+overlay=special://skin/extras/textures/menuright.png,menusquareright+overlay=special://skin/extras/textures/menusquareright.png,main=special://skin/extras/textures/main.png)</onload>
+        <onload>RunScript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,button+multiply=special://skin/extras/textures/button.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menuright+overlay+slicing{right|80}=special://skin/extras/textures/menuright.png,menusquareright+overlay+slicing{right|80}=special://skin/extras/textures/menusquareright.png,main=special://skin/extras/textures/main.png,no_reload)</onload>
     </include>
     <include name="Action_BuildTextures_Onclick">
-        <onclick condition="!String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,button+multiply=special://skin/extras/textures/button.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menuright+overlay=special://skin/extras/textures/menuright.png,menusquareright+overlay=special://skin/extras/textures/menusquareright.png,main=special://skin/extras/textures/main.png,reload=1111)</onclick>
+        <onclick condition="!String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,button+multiply=special://skin/extras/textures/button.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menuright+overlay+slicing{right|80}=special://skin/extras/textures/menuright.png,menusquareright+overlay+slicing{right|80}=special://skin/extras/textures/menusquareright.png,main=special://skin/extras/textures/main.png,reload=1111)</onclick>
     </include>
     <include name="Action_BuildTextures_Onclick_Preset">
-        <onclick>runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,button+multiply=special://skin/extras/textures/button.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menuright+overlay=special://skin/extras/textures/menuright.png,menusquareright+overlay=special://skin/extras/textures/menusquareright.png,main=special://skin/extras/textures/main.png,reload=1115)</onclick>
+        <onclick>runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,button+multiply=special://skin/extras/textures/button.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menuright+overlay+slicing{right|80}=special://skin/extras/textures/menuright.png,menusquareright+overlay+slicing{right|80}=special://skin/extras/textures/menusquareright.png,main=special://skin/extras/textures/main.png,reload=1115)</onclick>
     </include>
 </includes>

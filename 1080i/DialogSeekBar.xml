@@ -3,14 +3,12 @@
     <zorder>0</zorder>
     <visible>!Player.HasGame</visible>
     <visible>!Window.IsActive(DialogPlayerProcessInfo.xml)</visible>
-    <visible>VideoPlayer.IsFullscreen | Window.IsVisible(MusicVisualisation.xml)</visible>
-    <visible>Window.IsActive(videoosd) | Window.IsActive(musicosd) | Player.Caching | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Window.IsActive(DialogFullScreenInfo.xml) | !String.IsEmpty(Window(Home).Property(OSDInfo)) | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput)</visible>
+    <visible>Window.IsActive(VideoFullScreen.xml) | Window.IsActive(MusicVisualisation.xml)</visible>
+    <visible>Window.IsActive(videoosd) | Window.IsActive(musicosd) | Player.Caching | Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Window.IsActive(DialogFullScreenInfo.xml) | !String.IsEmpty(Window(Home).Property(OSDInfo)) | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput) | Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
     <visible>!Window.IsVisible(DialogSlider.xml)</visible>
     <visible>!Window.IsVisible(DialogPVRChannelsOSD.xml)</visible>
     <visible>!Window.IsVisible(DialogPVRChannelGuide.xml)</visible>
-    <animation effect="fade" start="0" end="100" time="300">WindowOpen</animation>
-    <animation effect="fade" end="0" start="100" time="300">WindowClose</animation>
-    <animation effect="fade" start="0" end="100" time="300">VisibleChange</animation>
+    <include>Animation_Fullscreen_Media</include>
 
     <onload condition="Player.Paused + !String.IsEmpty(Window(Home).Property(OSDExtendedInfo))">PlayerControl(Play)</onload>
     <onload condition="Player.Paused + !String.IsEmpty(Window(Home).Property(OSDExtendedInfo))">ClearProperty(OSDExtendedInfo,Home)</onload>
@@ -27,8 +25,13 @@
                 <include>OSD_Progress_Bar</include>
                 <include>OSD_Progress_Labels</include>
                 <include>OSD_Progress_Details</include>
+                <include content="Object_Include" condition="Skin.HasSetting(OSD.DisableCodecs)">
+                    <animation effect="slide" start="0" end="0,80" time="300" tween="sine" easing="out" reversible="false" condition="!Window.IsVisible(videoosd)">Conditional</animation>
+                    <animation effect="slide" end="0" start="0,80" time="300" tween="sine" easing="out" reversible="false" condition="Window.IsVisible(videoosd)">Conditional</animation>
+                </include>
             </control>
-            <control type="group">
+            <include content="Object_Control" condition="!Skin.HasSetting(OSD.DisableCodecs)">
+                <param name="control">group</param>
                 <height>60</height>
                 <left>view_pad</left>
                 <right>view_pad</right>
@@ -41,28 +44,36 @@
                 <include content="OSD_Codecs">
                     <centertop>50%</centertop>
                 </include>
-            </control>
+            </include>
         </include>
 
         <!-- Music Seekbar -->
         <include content="Object_Control" condition="!VideoPlayer.IsFullscreen">
             <param name="control" value="group" />
+            <top>view_top</top>
+            <height>640</height>
             <control type="group">
-                <top>view_top</top>
                 <centerleft>50%</centerleft>
                 <width>640</width>
-                <height>640</height>
-                <include content="Object_BigPoster">
-                    <param name="diffuse" value="diffuse/square_w640_h640.png" />
-                    <param name="icon" value="$INFO[Player.Icon]" />
-                </include>
                 <control type="group">
-                    <height>12</height>
-                    <bottom>0</bottom>
-                    <include>OSD_Progress_BarControls</include>
+                    <animation effect="slide" start="0" end="90" time="400" tween="cubic" easing="out" reversible="false" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Window.IsVisible(musicosd)">Conditional</animation>
+                    <animation effect="slide" end="0" start="90" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) + Window.IsVisible(musicosd)]">Conditional</animation>
+                    <animation effect="slide" start="0" end="-560" time="400" tween="cubic" easing="out" reversible="false" condition="Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
+                    <animation effect="slide" end="0" start="-560" time="400" tween="cubic" easing="out" reversible="false" condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
+                    <include content="Object_BigPoster">
+                        <param name="diffuse" value="diffuse/square_w640_h640.png" />
+                        <param name="icon" value="$INFO[Player.Icon]" />
+                    </include>
+                    <control type="group">
+                        <height>12</height>
+                        <bottom>0</bottom>
+                        <include>OSD_Progress_BarControls</include>
+                    </control>
                 </control>
-
                 <control type="grouplist">
+                    <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+                    <include>Animation_FadeIn_Delay</include>
+                    <include>Animation_FadeOut</include>
                     <top>640</top>
                     <left>-320</left>
                     <right>-320</right>
@@ -94,21 +105,59 @@
                     </control>
                 </control>
             </control>
+
+            <control type="group">
+                <visible>Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+                <top>720</top>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                <height>80</height>
+                <control type="label">
+                    <label>$INFO[Player.Title]</label>
+                    <textcolor>panel_fg_100</textcolor>
+                    <font>font_mainlabel</font>
+                    <align>left</align>
+                    <height>30</height>
+                    <top>0</top>
+                </control>
+                <control type="label">
+                    <label>$INFO[Player.Time,[COLOR=panel_fg_90],[/COLOR]]$INFO[Player.Duration, | [COLOR=panel_fg_90],[/COLOR]]</label>
+                    <textcolor>$VAR[ColorHighlight]</textcolor>
+                    <font>font_small</font>
+                    <align>right</align>
+                    <height>40</height>
+                    <bottom>0</bottom>
+                </control>
+                <control type="label">
+                    <label>$INFO[MusicPlayer.Artist,[COLOR=panel_fg_70],[/COLOR]]$INFO[MusicPlayer.Album, • [COLOR=panel_fg_70],[/COLOR]]$INFO[MusicPlayer.Year, • [COLOR=panel_fg_70],[/COLOR]]</label>
+                    <textcolor>$VAR[ColorHighlight]</textcolor>
+                    <font>font_small</font>
+                    <align>left</align>
+                    <height>40</height>
+                    <bottom>0</bottom>
+                </control>
+            </control>
+
         </include>
 
         <!-- Clock -->
-        <include content="Furniture_Topbar_Group">
-            <include content="Furniture_Gutters">
-                <include content="Object_ShadowSpot">
-                    <width>800</width>
-                    <height>200</height>
-                    <centertop>50%</centertop>
-                    <centerright>80</centerright>
-                </include>
-            </include>
+        <include content="Object_ShadowSpot">
+            <include>Dimension_ClockShadow</include>
         </include>
         <include content="Furniture_Top_Right">
             <param name="icon" value="$VAR[Image_MuteBug_Seekbar]" />
         </include>
+
+        <!-- Top Label Lyrics -->
+        <control type="group">
+            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include>Animation_FadeOut</include>
+            <include content="Furniture_Top_Left">
+                <param name="label">$LOCALIZE[31244]</param>
+            </include>
+        </control>
     </controls>
 </window>

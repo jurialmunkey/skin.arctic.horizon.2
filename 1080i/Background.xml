@@ -89,7 +89,7 @@
 
     <variable name="Background_Fanart_Var">
         <value condition="$EXP[Exp_IsPersonInfo]">common/blur2.jpg</value>
-        <value condition="$EXP[Exp_HasBackgroundFanart] + $EXP[Exp_HasExtraFanart]">$INFO[Control.GetLabel(99998)]</value>
+        <value condition="$EXP[Exp_HasBackgroundFanart] + $EXP[Exp_HasExtraFanart] + !String.IsEmpty(Control.GetLabel(99998))">$INFO[Control.GetLabel(99998)]</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(ListItem.EPGEventIcon) + !Skin.HasSetting(PVR.DisableEPGEventIconFanart)">$INFO[ListItem.EPGEventIcon]</value>
         <value condition="Window.IsMedia + Control.IsVisible(502) + Control.HasFocus(503) + !String.IsEmpty(Container(503).ListItem.Art(fanart))">$INFO[Container(503).ListItem.Art(fanart)]</value>
@@ -99,10 +99,21 @@
         <value>common/blur2.jpg</value>
     </variable>
 
+    <include name="Background_StartUp">
+        <include content="Object_Control">
+            <param name="control">multiimage</param>
+            <imagepath colordiffuse="main_back">$VAR[Image_StartUp]</imagepath>
+            <randomize>true</randomize>
+            <timeperimage>20000</timeperimage>
+            <fadetime>400</fadetime>
+        </include>
+    </include>
+
     <include name="Background_Fanart">
         <control type="group">
             <control type="image">
                 <fadetime>600</fadetime>
+                <aspectratio>scale</aspectratio>
                 <texture background="true">$VAR[Background_Fanart_Var]</texture>
                 <include>Background_NotVideo</include>
             </control>
@@ -118,6 +129,7 @@
         <definition>
             <include content="Object_Control">
                 <param name="control" value="image" />
+                <aspectratio>scale</aspectratio>
                 <texture background="true" colordiffuse="main_back">$PARAM[texture]</texture>
                 <include content="Background_NotVideo">
                     <param name="fade_end" value="70" />

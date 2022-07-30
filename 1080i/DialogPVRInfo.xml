@@ -33,7 +33,7 @@
                 <control type="group">
                     <visible>!Window.IsActive(1120)</visible>
                     <include>Animation_DialogInfo_Recommendations</include>
-                    <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
+                    <include content="Object_Include" condition="!Skin.String(DividerStyle,Split)">
                         <left>-80</left>
                     </include>
 
@@ -44,7 +44,7 @@
                         <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
                         <include content="Info_Panel">
                             <param name="ratings" value="!String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.TMDb_Rating)) | !String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.Trakt_Rating)) | !String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.IMDb_Rating)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))" />
-                            <param name="plotheight" value="120" />
+                            <param name="plotheight" value="info_plot_large_h" />
                         </include>
                         <control type="group">
                             <top>360</top>
@@ -58,14 +58,15 @@
                                 <height>256</height>
                                 <centertop>50%</centertop>
                                 <onleft>noop</onleft>
-                                <onright>menu</onright>
+                                <onright condition="!Integer.IsEqual(Container(9000).NumItems,0)">SetFocus(9000)</onright>
+                                <onright condition="Integer.IsEqual(Container(9000).NumItems,0)">noop</onright>
 
                                 <!-- Property to reset textbox scroll position -->
                                 <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
                                 <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
                                 <onup>61</onup>
 
-                                <include>Action_Recommendations_OnDown</include>
+                                <ondown>7002</ondown>
                                 <include>Items_DialogPVRInfo_MenuBar</include>
                             </include>
                         </control>
@@ -103,7 +104,6 @@
         </include>
 
         <include>Dialog_VideoInfoTrailerButton</include>
-
-
+        <include>Dialog_VideoInfoRecommendationsButton</include>
     </controls>
 </window>
