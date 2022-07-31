@@ -5,17 +5,31 @@
     </include>
 
     <include name="View_Furniture_Top">
-        <control type="group">
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!Window.IsVisible(1120)</visible>
-            <visible>!Window.IsVisible(DialogAddonSettings.xml)</visible>
-            <visible>!Window.IsVisible(DialogGameControllers.xml)</visible>
-            <visible>!Window.IsVisible(DialogPVRChannelManager.xml)</visible>
-            <visible>!Window.IsVisible(DialogPVRGroupManager.xml)</visible>
-            <visible>!Window.IsVisible(script-skinshortcuts.xml)</visible>
-            <include>Furniture_Top_Left</include>
-            <include>Furniture_Top_Right</include>
-        </control>
+        <param name="powermenu_button">false</param>
+        <definition>
+            <control type="group">
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>!Window.IsVisible(1120)</visible>
+                <visible>!Window.IsVisible(DialogAddonSettings.xml)</visible>
+                <visible>!Window.IsVisible(DialogGameControllers.xml)</visible>
+                <visible>!Window.IsVisible(DialogPVRChannelManager.xml)</visible>
+                <visible>!Window.IsVisible(DialogPVRGroupManager.xml)</visible>
+                <visible>!Window.IsVisible(script-skinshortcuts.xml)</visible>
+                <include>Furniture_Top_Left</include>
+                <include>Furniture_Top_Right</include>
+                <include content="Object_Control" condition="$PARAM[powermenu_button]">
+                    <param name="control">button</param>
+                    <texturenofocus />
+                    <texturefocus />
+                    <font />
+                    <width>60</width>
+                    <height>60</height>
+                    <onclick>ActivateWindow(shutdownmenu)</onclick>
+                    <right>80</right>
+                    <centertop>100</centertop>
+                </include>
+            </control>
+        </definition>
     </include>
 
     <include name="View_Furniture_Discover">

@@ -963,6 +963,7 @@
         <param name="icon" default="special://skin/extras/icons/kodi.png" />
         <param name="header" default="$LOCALIZE[33063]" />
         <param name="id" default="9000" />
+        <param name="groupid" default="89000" />
         <param name="onback" default="50" />
         <param name="width" default="dialog_menu_width" />
         <param name="usegrouplist" default="true" />
@@ -973,9 +974,18 @@
         <param name="useanimation" default="true" />
         <param name="nib_pos" default="70" />
         <param name="wraparound" default="true" />
+        <param name="usemousefocus" default="false" />
         <param name="action_include" default="Action_OptionsMenu_Default" />
         <definition>
             <control type="group">
+                <include content="Object_Control" condition="$PARAM[usemousefocus]">
+                    <param name="control">button</param>
+                    <param name="id">$PARAM[groupid]</param>
+                    <texturenofocus />
+                    <texturefocus />
+                    <font />
+                    <top>-200</top>
+                </include>
                 <include content="Dialog_Background" condition="!$PARAM[iscontextmenu]">
                     <bottom>row_height_x800</bottom>
                     <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,1)</visible>
@@ -1060,7 +1070,7 @@
                     <include>Animation_SlideIn_Dialog</include>
                     <include condition="!$PARAM[isbuttonmenu]">Animation_FadeOut</include>
                     <visible>$PARAM[visible]</visible>
-                    <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused]</visible>
+                    <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused] | [Control.HasFocus($PARAM[groupid]) + [$PARAM[usemousefocus]]]</visible>
                 </include>
                 <width>$PARAM[width]</width>
                 <height>860</height>
@@ -1074,6 +1084,8 @@
         <param name="icon" default="special://skin/extras/icons/kodi.png" />
         <param name="header" default="$LOCALIZE[33063]" />
         <param name="id" default="9000" />
+        <param name="groupid" default="89000" />
+        <param name="usemousefocus" default="false" />
         <param name="onback" default="50" />
         <param name="width" default="dialog_menu_width" />
         <param name="usegrouplist" default="true" />
@@ -1086,7 +1098,7 @@
         <definition>
             <include content="Object_Control">
                 <param name="control" value="group" />
-                <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused]</visible>
+                <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused] | [Control.HasFocus($PARAM[groupid]) + [$PARAM[usemousefocus]]]</visible>
                 <include>Animation_FadeIn</include>
                 <include condition="!$PARAM[isbuttonmenu]">Animation_FadeOut</include>
                 <include content="Object_Overlay" condition="$PARAM[has_background_overlay]">
@@ -1108,6 +1120,7 @@
                 <param name="icon" value="$PARAM[icon]" />
                 <param name="header" value="$PARAM[header]" />
                 <param name="id" value="$PARAM[id]" />
+                <param name="groupid" value="$PARAM[groupid]" />
                 <param name="onback" value="$PARAM[onback]" />
                 <param name="width" value="$PARAM[width]" />
                 <param name="usegrouplist" value="$PARAM[usegrouplist]" />
@@ -1119,6 +1132,7 @@
                 <param name="nib_pos" value="$PARAM[nib_pos]" />
                 <param name="useanimation" value="$PARAM[useanimation]" />
                 <param name="wraparound" value="$PARAM[wraparound]" />
+                <param name="usemousefocus" value="$PARAM[usemousefocus]" />
                 <param name="action_include" value="$PARAM[action_include]" />
                 <nested />
             </include>
