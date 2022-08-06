@@ -52,7 +52,7 @@
         <value>monochrome</value>
     </variable>
 
-    <include name="Texture_Control">
+    <include name="Texture_Control_Texture">
         <texture colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]" flipy="$PARAM[flipy]">$PARAM[texture]</texture>
     </include>
 
@@ -89,26 +89,44 @@
         <texture colordiffuse="main_fg_12" border="10">common/box.png</texture>
     </include>
 
+    <include name="Texture_Control_TextureFocus">
+        <texturefocus colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]" flipy="$PARAM[flipy]" border="$PARAM[border]">$PARAM[texture]</texturefocus>
+    </include>
     <include name="Texture_Button">
         <texturenofocus colordiffuse="dialog_fg_12" border="10">common/box.png</texturenofocus>
-        <include content="Object_Include" condition="String.IsEmpty(Window(Home).Property(ReloadDone))">
-            <texturefocus border="10" colordiffuse="$VAR[ColorHighlight]">common/box.png</texturefocus>
+        <include content="Texture_Control_TextureFocus" condition="String.IsEmpty(Window(Home).Property(ReloadDone))">
+            <param name="border">10</param>
+            <param name="texture">common/box.png</param>
+            <param name="colordiffuse">$VAR[ColorHighlight]</param>
         </include>
-        <include content="Object_Include" condition="Skin.HasSetting(EnableMonochromeHighlight)">
-            <texturefocus border="10">special://profile/addon_data/script.texturemaker/ArcticHorizon/box_h.png</texturefocus>
+        <include content="Texture_Control_TextureFocus" condition="Skin.HasSetting(EnableMonochromeHighlight) + !String.IsEmpty(Window(Home).Property(ReloadDone))">
+            <param name="border">10</param>
+            <param name="texture">special://profile/addon_data/script.texturemaker/ArcticHorizon/box_h.png</param>
         </include>
-        <texturefocus border="10">special://profile/addon_data/script.texturemaker/ArcticHorizon/button_h.png</texturefocus>
+        <include content="Texture_Control_TextureFocus" condition="!Skin.HasSetting(EnableMonochromeHighlight) + !String.IsEmpty(Window(Home).Property(ReloadDone))">
+            <param name="border">10</param>
+            <param name="texture">special://profile/addon_data/script.texturemaker/ArcticHorizon/button_h.png</param>
+        </include>
     </include>
 
+    <include name="Texture_Control_AltTextureFocus">
+        <alttexturefocus colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]" flipy="$PARAM[flipy]" border="$PARAM[border]">$PARAM[texture]</alttexturefocus>
+    </include>
     <include name="Texture_ToggleButton">
         <alttexturenofocus colordiffuse="dialog_fg_12" border="10">common/box.png</alttexturenofocus>
-        <include content="Object_Include" condition="String.IsEmpty(Window(Home).Property(ReloadDone))">
-            <alttexturefocus border="10" colordiffuse="$VAR[ColorHighlight]">common/box.png</alttexturefocus>
+        <include content="Texture_Control_AltTextureFocus" condition="String.IsEmpty(Window(Home).Property(ReloadDone))">
+            <param name="border">10</param>
+            <param name="texture">common/box.png</param>
+            <param name="colordiffuse">$VAR[ColorHighlight]</param>
         </include>
-        <include content="Object_Include" condition="Skin.HasSetting(EnableMonochromeHighlight)">
-            <alttexturefocus border="10">special://profile/addon_data/script.texturemaker/ArcticHorizon/box_h.png</alttexturefocus>
+        <include content="Texture_Control_AltTextureFocus" condition="Skin.HasSetting(EnableMonochromeHighlight) + !String.IsEmpty(Window(Home).Property(ReloadDone))">
+            <param name="border">10</param>
+            <param name="texture">special://profile/addon_data/script.texturemaker/ArcticHorizon/box_h.png</param>
         </include>
-        <alttexturefocus border="10">special://profile/addon_data/script.texturemaker/ArcticHorizon/button_h.png</alttexturefocus>
+        <include content="Texture_Control_AltTextureFocus" condition="!Skin.HasSetting(EnableMonochromeHighlight) + !String.IsEmpty(Window(Home).Property(ReloadDone))">
+            <param name="border">10</param>
+            <param name="texture">special://profile/addon_data/script.texturemaker/ArcticHorizon/button_h.png</param>
+        </include>
     </include>
 
 
