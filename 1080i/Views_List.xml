@@ -12,52 +12,72 @@
             <include condition="$EXP[Exp_View_507_Include]">View_507_Square_Infolist</include>
             <include condition="$EXP[Exp_View_511_Include]">View_511_Landscape_List</include>
             <include condition="$EXP[Exp_View_517_Include]">View_517_Landscape_Infolist</include>
-            <control type="group">
-                <width>view_pad</width>
+            <include content="View_Furniture_Scrollbar_V">
                 <height>row_height_x600</height>
-                <bottom>view_top</bottom>
-                <control type="scrollbar" id="61">
-                    <onright>50</onright>
-                    <orientation>vertical</orientation>
-                    <width>8</width>
-                    <centerleft>50%</centerleft>
-                    <include content="Object_Include" condition="!Skin.String(DividerStyle,Fade)">
-                        <texturesliderbackground colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
-                    </include>
-                    <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
-                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
-                    <include>Texture_Scrollbar_V</include>
-                    <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
-                </control>
-            </control>
+            </include>
         </include>
-        <include content="Object_Control" condition="$EXP[Exp_View_508_Include]">
+        <include content="Object_Control" condition="$EXP[Exp_View_508_Include] | $EXP[Exp_View_558_Include]">
             <param name="control" value="group" />
             <visible>$EXP[Exp_BigListViews]</visible>
-            <!-- <include content="View_Row_Divider">
+            <include content="View_Row_Divider">
                 <param name="isrounded" value="true" />
-                <height>720</height>
-            </include> -->
+                <height>920</height>
+            </include>
             <include condition="$EXP[Exp_View_508_Include]">View_508_Square_Playlist</include>
-            <control type="group">
-                <width>view_pad</width>
+            <include condition="$EXP[Exp_View_558_Include]">View_558_MediaInfo_List</include>
+            <include content="View_Furniture_Scrollbar_V">
                 <top>view_top</top>
-                <bottom>view_top</bottom>
-                <control type="scrollbar" id="61">
-                    <onright>50</onright>
-                    <orientation>vertical</orientation>
-                    <width>8</width>
-                    <centerleft>50%</centerleft>
-                    <include content="Object_Include" condition="!Skin.String(DividerStyle,Fade)">
-                        <texturesliderbackground colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
-                    </include>
-                    <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
-                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
-                    <include>Texture_Scrollbar_V</include>
-                    <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
-                </control>
-            </control>
+            </include>
         </include>
+    </include>
+
+    <include name="View_List_Playlist_Main">
+        <param name="isviewtype" default="true" />
+        <param name="flipside" default="false" />
+        <param name="right">info_poster_w</param>
+        <param name="detailed">true</param>
+        <definition>
+            <include content="Object_Control">
+                <param name="control" value="group" />
+                <control type="group">
+                    <include content="Object_Include" condition="!$PARAM[flipside]">
+                        <left>40</left>
+                    </include>
+                    <include content="Object_Include" condition="$PARAM[flipside]">
+                        <right>40</right>
+                    </include>
+                    <include content="Object_GlassPanel">
+                        <include content="Object_Include" condition="!$PARAM[flipside]">
+                            <left>$PARAM[right]</left>
+                        </include>
+                        <include content="Object_Include" condition="$PARAM[flipside]">
+                            <right>$PARAM[right]</right>
+                        </include>
+                        <include content="List_MediaList">
+                            <param name="id" value="$PARAM[id]" />
+                            <param name="context_button" value="true" />
+                            <param name="detailed" value="$PARAM[detailed]" />
+                            <param name="itemlayout_include" value="Layout_PlayList" />
+                            <param name="item_h" value="113.33" />
+                            <param name="item_w" value="113.33" />
+                            <param name="itemlayout_h" value="113.33" />
+                            <param name="misc" value="5" />
+                            <left>-row_height_x50</left>
+                            <right>-row_height_x50</right>
+                            <include content="Object_Include" condition="$PARAM[isviewtype]">
+                                <visible>$EXP[Exp_View_Special]</visible>
+                                <visible>$EXP[Exp_View_$PARAM[id]]</visible>
+                            </include>
+                            <viewtype label="$PARAM[viewtype_label]">list</viewtype>
+                            <onleft>61</onleft>
+                            <onright>menu</onright>
+                            <pagecontrol>61</pagecontrol>
+                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
+                        </include>
+                    </include>
+                </control>
+            </include>
+        </definition>
     </include>
 
     <include name="View_List_PlayList">
@@ -67,79 +87,92 @@
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <include>Dimension_View</include>
-                <include content="Object_Control">
-                    <param name="control" value="group" />
-                    <control type="group">
-                        <include content="Object_Include" condition="!$PARAM[flipside]">
-                            <left>40</left>
-                        </include>
-                        <include content="Object_Include" condition="$PARAM[flipside]">
-                            <right>40</right>
-                        </include>
-                        <include content="Object_GlassPanel">
-                            <include content="Object_Include" condition="!$PARAM[flipside]">
-                                <left>info_poster_w</left>
-                            </include>
-                            <include content="Object_Include" condition="$PARAM[flipside]">
-                                <right>info_poster_w</right>
-                            </include>
-                            <include content="List_MediaList">
-                                <param name="id" value="$PARAM[id]" />
-                                <param name="context_button" value="true" />
-                                <param name="detailed" value="true" />
-                                <param name="itemlayout_include" value="Layout_PlayList" />
-                                <param name="item_h" value="113.33" />
-                                <param name="itemlayout_h" value="113.33" />
-                                <param name="misc" value="5" />
-                                <left>-row_height_x50</left>
-                                <right>-row_height_x50</right>
-                                <include content="Object_Include" condition="$PARAM[isviewtype]">
-                                    <visible>$EXP[Exp_View_Special]</visible>
-                                    <visible>$EXP[Exp_View_$PARAM[id]]</visible>
-                                </include>
-                                <viewtype label="$PARAM[viewtype_label]">list</viewtype>
-                                <onleft>61</onleft>
-                                <onright>menu</onright>
-                                <pagecontrol>61</pagecontrol>
-                                <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
-                            </include>
-                        </include>
-                    </control>
-                    <include content="Dialog_MusicInfoAlbumArt">
-                        <param name="discart_top" value="237" />
-                        <param name="width" value="info_poster_w" />
-                        <param name="icon" value="$INFO[ListItem.Icon]" />
-                        <param name="discart_image" value="$VAR[Image_DiscArt]" />
-                        <param name="discart_spin" value="Player.Playing + !Player.Paused" />
-                        <include content="Object_Include" condition="!$PARAM[flipside]">
-                            <left>0</left>
-                        </include>
-                        <include content="Object_Include" condition="$PARAM[flipside]">
-                            <right>0</right>
-                        </include>
-                        <top>0</top>
-                        <visible>String.IsEqual(ListItem.DBtype,song) | String.IsEqual(ListItem.DBtype,album) | String.IsEqual(ListItem.DBtype,artist)</visible>
-                        <control type="image">
-                            <top>info_poster_w</top>
-                            <width>info_poster_w</width>
-                            <texture background="true">$VAR[Image_Clearlogo]</texture>
-                            <aspectratio>keep</aspectratio>
-                            <bordersize>40</bordersize>
-                            <visible>String.IsEmpty(ListItem.Art(discart))</visible>
-                            <visible>String.IsEmpty(ListItem.Art(album.discart))</visible>
-                        </control>
+                <include content="View_List_Playlist_Main">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="flipside">$PARAM[flipside]</param>
+                    <param name="isviewtype">$PARAM[isviewtype]</param>
+                </include>
+                <include content="Dialog_MusicInfoAlbumArt">
+                    <param name="discart_top" value="237" />
+                    <param name="width" value="info_poster_w" />
+                    <param name="icon" value="$INFO[ListItem.Icon]" />
+                    <param name="discart_image" value="$VAR[Image_DiscArt]" />
+                    <param name="discart_spin" value="Player.Playing + !Player.Paused" />
+                    <include content="Object_Include" condition="!$PARAM[flipside]">
+                        <left>0</left>
                     </include>
-                    <include content="Object_BigPoster">
-                        <param name="diffuse" value="diffuse/poster_w475_h680.png" />
-                        <include content="Object_Include" condition="!$PARAM[flipside]">
-                            <left>0</left>
-                        </include>
-                        <include content="Object_Include" condition="$PARAM[flipside]">
-                            <right>0</right>
-                        </include>
-                        <height>info_poster_h</height>
+                    <include content="Object_Include" condition="$PARAM[flipside]">
+                        <right>0</right>
+                    </include>
+                    <top>0</top>
+                    <visible>String.IsEqual(ListItem.DBtype,song) | String.IsEqual(ListItem.DBtype,album) | String.IsEqual(ListItem.DBtype,artist)</visible>
+                    <control type="image">
+                        <top>info_poster_w</top>
                         <width>info_poster_w</width>
-                        <visible>![String.IsEqual(ListItem.DBtype,song) | String.IsEqual(ListItem.DBtype,album) | String.IsEqual(ListItem.DBtype,artist)]</visible>
+                        <texture background="true">$VAR[Image_Clearlogo]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <bordersize>40</bordersize>
+                        <visible>String.IsEmpty(ListItem.Art(discart))</visible>
+                        <visible>String.IsEmpty(ListItem.Art(album.discart))</visible>
+                    </control>
+                </include>
+                <include content="Object_BigPoster">
+                    <param name="diffuse" value="diffuse/poster_w475_h680.png" />
+                    <include content="Object_Include" condition="!$PARAM[flipside]">
+                        <left>0</left>
+                    </include>
+                    <include content="Object_Include" condition="$PARAM[flipside]">
+                        <right>0</right>
+                    </include>
+                    <height>info_poster_h</height>
+                    <width>info_poster_w</width>
+                    <visible>![String.IsEqual(ListItem.DBtype,song) | String.IsEqual(ListItem.DBtype,album) | String.IsEqual(ListItem.DBtype,artist)]</visible>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="View_List_List">
+        <param name="isviewtype">true</param>
+        <param name="flipside">false</param>
+        <param name="height">row_height_x600</param>
+        <param name="include">List_MediaList</param>
+        <param name="bottom">0</param>
+        <definition>
+            <control type="group">
+                <include content="Object_Include" condition="$PARAM[flipside]">
+                    <right>$PARAM[width]</right>
+                </include>
+                <include content="Object_Include" condition="!$PARAM[flipside]">
+                    <left>$PARAM[width]</left>
+                </include>
+                <height>$PARAM[height]</height>
+                <bottom>0</bottom>
+                <include content="Object_GlassPanel">
+                    <include content="Object_Include" condition="$PARAM[flipside]">
+                        <right>row_height_x50</right>
+                    </include>
+                    <include content="Object_Include" condition="!$PARAM[flipside]">
+                        <left>row_height_x50</left>
+                    </include>
+                    <include content="$PARAM[include]">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="context_button">true</param>
+                        <param name="item_h">$PARAM[item_h]</param>
+                        <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                        <param name="misc">$PARAM[misc]</param>
+                        <left>-row_height_x50</left>
+                        <right>-row_height_x50</right>
+                        <bottom>$PARAM[bottom]</bottom>
+                        <include content="Object_Include" condition="$PARAM[isviewtype]">
+                            <visible>$EXP[Exp_View_Special]</visible>
+                            <visible>$EXP[Exp_View_$PARAM[id]]</visible>
+                        </include>
+                        <viewtype label="$PARAM[viewtype_label]">list</viewtype>
+                        <onleft>61</onleft>
+                        <onright>menu</onright>
+                        <pagecontrol>61</pagecontrol>
+                        <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
                     </include>
                 </include>
             </control>
@@ -177,39 +210,15 @@
                         </include>
                     </control>
                 </include>
-                <control type="group">
-                    <include content="Object_Include" condition="$PARAM[flipside]">
-                        <right>$PARAM[width]</right>
-                    </include>
-                    <include content="Object_Include" condition="!$PARAM[flipside]">
-                        <left>$PARAM[width]</left>
-                    </include>
-                    <height>$PARAM[height]</height>
-                    <bottom>0</bottom>
-                    <include content="Object_GlassPanel">
-                        <include content="Object_Include" condition="$PARAM[flipside]">
-                            <right>row_height_x50</right>
-                        </include>
-                        <include content="Object_Include" condition="!$PARAM[flipside]">
-                            <left>row_height_x50</left>
-                        </include>
-                        <include content="$PARAM[include]">
-                            <param name="id" value="$PARAM[id]" />
-                            <param name="context_button" value="true" />
-                            <left>-row_height_x50</left>
-                            <right>-row_height_x50</right>
-                            <include content="Object_Include" condition="$PARAM[isviewtype]">
-                                <visible>$EXP[Exp_View_Special]</visible>
-                                <visible>$EXP[Exp_View_$PARAM[id]]</visible>
-                            </include>
-                            <viewtype label="$PARAM[viewtype_label]">list</viewtype>
-                            <onleft>61</onleft>
-                            <onright>menu</onright>
-                            <pagecontrol>61</pagecontrol>
-                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
-                        </include>
-                    </include>
-                </control>
+                <include content="View_List_List">
+                    <param name="isviewtype">$PARAM[isviewtype]</param>
+                    <param name="flipside">$PARAM[flipside]</param>
+                    <param name="height">$PARAM[height]</param>
+                    <param name="include">$PARAM[include]</param>
+                    <param name="width">$PARAM[width]</param>
+                    <param name="id">$PARAM[id]</param>
+                    <param name="viewtype_label">$PARAM[viewtype_label]</param>
+                </include>
             </control>
         </definition>
     </include>
@@ -241,6 +250,42 @@
             <param name="viewtype_label" value="$LOCALIZE[31193]" />
             <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
         </include>
+    </include>
+
+    <include name="View_558_MediaInfo_List">
+        <param name="id">558</param>
+        <param name="viewtype_label">$LOCALIZE[31276]</param>
+        <param name="flipside">!Skin.HasSetting(Lists.FlipSide)</param>
+        <definition>
+            <control type="group">
+                <visible>Control.IsVisible($PARAM[id])</visible>
+                <include>Dimension_View</include>
+                <include content="View_List_List">
+                    <param name="isviewtype">true</param>
+                    <param name="flipside">$PARAM[flipside]</param>
+                    <param name="height">680</param>
+                    <param name="width">view_mediainfo_landscape_w</param>
+                    <param name="id">$PARAM[id]</param>
+                    <param name="viewtype_label">$PARAM[viewtype_label]</param>
+                    <param name="item_h">80</param>
+                    <param name="itemlayout_h">85.714</param>
+                    <param name="misc">7</param>
+                    <param name="bottom">-5.714</param>
+                </include>
+                <control type="group">
+                    <include content="Object_Include" condition="$PARAM[flipside]">
+                        <right>0</right>
+                    </include>
+                    <include content="Object_Include" condition="![$PARAM[flipside]]">
+                        <left>0</left>
+                    </include>
+                    <width>view_mediainfo_landscape_w</width>
+                    <include content="View_Wall_MediaInfo">
+                        <param name="line_id">99$PARAM[id]</param>
+                    </include>
+                </control>
+            </control>
+        </definition>
     </include>
 
     <include name="View_511_Landscape_List">
