@@ -744,6 +744,26 @@
                     <visible>![$PARAM[detailed]]</visible>
                     <left>dialog_pad</left>
                     <right>dialog_pad</right>
+
+                    <!-- Files has indicator -->
+                    <control type="group">
+                        <visible>Container.Content(files)</visible>
+                        <include content="Object_Indicator_List">
+                            <centertop>50%</centertop>
+                            <centerleft>0</centerleft>
+                        </include>
+                        <include content="Object_Control">
+                            <param name="control" value="label" />
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <selectedcolor>main_fg_70</selectedcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>font_small_bold</font>
+                            <left>40</left>
+                        </include>
+                    </control>
+
+                    <!-- Other content -->
                     <include content="Object_Control">
                         <param name="control" value="label" />
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
@@ -751,7 +771,10 @@
                         <selectedcolor>main_fg_70</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         <font>font_small_bold</font>
+                        <visible>!Container.Content(files)</visible>
                     </include>
+
+                    <!-- Right label -->
                     <include content="Object_Control">
                         <param name="control" value="label" />
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
