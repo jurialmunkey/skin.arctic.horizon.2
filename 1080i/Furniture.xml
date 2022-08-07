@@ -21,8 +21,9 @@
 
     <include name="Furniture_Top_Left">
         <param name="label" default="$VAR[Label_Header_Main]" />
+        <param name="enabled">!Skin.HasSetting(Furniture.DisableLeftHeader)</param>
         <definition>
-            <include content="Furniture_Topbar_Group">
+            <include content="Furniture_Topbar_Group" condition="$PARAM[enabled]">
                 <include content="Furniture_Gutters">
                     <include content="Furniture_MainLabel">
                         <param name="id" value="$PARAM[id]" />
@@ -36,13 +37,14 @@
 
     <include name="Furniture_Top_Right">
         <param name="minimal" default="false" />
+        <param name="enabled">!Skin.HasSetting(Furniture.DisableRightHeader)</param>
         <definition>
             <control type="group">
                 <visible>!Window.IsVisible(DialogBusy.xml)</visible>
                 <visible>!Window.IsVisible(DialogExtendedProgressBar.xml)</visible>
                 <visible>!Window.IsVisible(DialogNotification.xml)</visible>
                 <visible>!Window.IsVisible(DialogVolumeBar.xml) | Player.Muted</visible>
-                <include content="Furniture_Topbar_Group">
+                <include content="Furniture_Topbar_Group" condition="$PARAM[enabled]">
                     <include content="Furniture_Gutters">
                         <visible>!$EXP[Exp_HasFurnitureNowPlaying]</visible>
                         <include content="Furniture_Clock_Small" condition="$PARAM[minimal]">
@@ -60,7 +62,7 @@
                         </include>
                     </include>
                 </include>
-                <include content="Furniture_Busy">
+                <include content="Furniture_Busy" condition="$PARAM[enabled]">
                     <param name="hasspinner" value="false" />
                     <param name="hasprogress" value="true" />
                     <param name="progress" value="Player.Progress" />
@@ -107,21 +109,27 @@
     </include>
 
     <include name="Furniture_Bottom_Right">
-        <include content="Furniture_Bottombar_Group">
-            <include content="Furniture_Gutters">
-                <include>Info_Studio</include>
+        <param name="enabled">!Skin.HasSetting(Furniture.DisableRightFooter)</param>
+        <definition>
+            <include content="Furniture_Bottombar_Group" condition="$PARAM[enabled]">
+                <include content="Furniture_Gutters">
+                    <include>Info_Studio</include>
+                </include>
             </include>
-        </include>
+        </definition>
     </include>
 
     <include name="Furniture_Bottom_Left">
-        <include content="Furniture_Bottombar_Group">
-            <include content="Furniture_Gutters">
-                <include content="Info_Codecs">
-                    <param name="align" value="left" />
+        <param name="enabled">!Skin.HasSetting(Furniture.DisableLeftFooter)</param>
+        <definition>
+            <include content="Furniture_Bottombar_Group" condition="$PARAM[enabled]">
+                <include content="Furniture_Gutters">
+                    <include content="Info_Codecs">
+                        <param name="align" value="left" />
+                    </include>
                 </include>
             </include>
-        </include>
+        </definition>
     </include>
 
     <include name="Furniture_Bottom">
