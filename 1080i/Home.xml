@@ -91,8 +91,8 @@
             <param name="usegrouplist" value="false" />
             <param name="nib_pos" value="420" />
             <param name="useanimation" value="false" />
-            <include content="Object_Include" condition="Skin.HasSetting(Home.DisableSearchMenu)">
-                <left>80</left>
+            <include content="Object_Left" condition="Skin.HasSetting(Home.DisableSearchMenu)">
+                <param name="left">80</param>
             </include>
             <left>180</left>
             <animation effect="slide" start="0" end="100" condition="Container(300).Position(1)">Conditional</animation>
@@ -145,18 +145,12 @@
             <animation effect="fade" start="100" end="0" condition="Window.Next(1114)">Conditional</animation>
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
-
-                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
-                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ClearProperty(AnimationDirection)</onleft>
-                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
-                </include>
-                <include content="Object_Include" condition="Skin.HasSetting(Home.DisableSearchMenu)">
-                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(OptionsMenuFocused,303,Home)</onleft>
-                    <onleft condition="String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetFocus(303)</onleft>
-                </include>
+                <onleft condition="!Skin.HasSetting(Home.DisableSearchMenu) + String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ClearProperty(AnimationDirection)</onleft>
+                <onleft condition="!Skin.HasSetting(Home.DisableSearchMenu) + String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
+                <onleft condition="Skin.HasSetting(Home.DisableSearchMenu) + String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(OptionsMenuFocused,303,Home)</onleft>
+                <onleft condition="Skin.HasSetting(Home.DisableSearchMenu) + String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetFocus(303)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
                 <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">Control.Move(300,-1)</onleft>
-
                 <onright condition="String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetProperty(OptionsMenuFocused,303,Home)</onright>
                 <onright condition="String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetFocus(303)</onright>
                 <onright condition="!String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetProperty(AnimationDirection,Right)</onright>
@@ -185,8 +179,8 @@
                 <param name="altfocus" value="Control.HasFocus(399)" />
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetFocus(399)</onfocus>
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
-                    <left>80</left>
+                <include content="Object_Left" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+                    <param name="left">80</param>
                 </include>
                 <include>skinshortcuts-template-menubar</include>
                 <onfocus>ClearProperty(OptionsMenuFocused,Home)</onfocus>
@@ -194,14 +188,10 @@
                 <oninfo>SetFocus(302,0,absolute)</oninfo>
                 <onright>SetProperty(OptionsMenuFocused,303,Home)</onright>
                 <onright>SetFocus(303)</onright>
-                <include content="Object_Include" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
-                    <onleft>ClearProperty(AnimationDirection)</onleft>
-                    <onleft>ActivateWindow(1114)</onleft>
-                </include>
-                <include content="Object_Include" condition="Skin.HasSetting(Home.DisableSearchMenu)">
-                    <onleft>SetProperty(OptionsMenuFocused,303,Home)</onleft>
-                    <onleft>SetFocus(303)</onleft>
-                </include>
+                <onleft condition="!Skin.HasSetting(Home.DisableSearchMenu)">ClearProperty(AnimationDirection)</onleft>
+                <onleft condition="!Skin.HasSetting(Home.DisableSearchMenu)">ActivateWindow(1114)</onleft>
+                <onleft condition="Skin.HasSetting(Home.DisableSearchMenu)">SetProperty(OptionsMenuFocused,303,Home)</onleft>
+                <onleft condition="Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(303)</onleft>
                 <onleft>-</onleft>
                 <content><include>skinshortcuts-mainmenu</include></content>
             </include>

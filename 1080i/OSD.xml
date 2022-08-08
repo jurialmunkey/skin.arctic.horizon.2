@@ -9,8 +9,8 @@
             <control type="label">
                 <font>font_statusbar</font>
                 <label>$PARAM[label]</label>
-                <include content="Object_Include" condition="$PARAM[selected]">
-                    <textcolor>$VAR[ColorSelected]</textcolor>
+                <include content="Object_TextColor" condition="$PARAM[selected]">
+                    <param name="textcolor">$VAR[ColorSelected]</param>
                 </include>
                 <textcolor>$PARAM[textcolor]</textcolor>
                 <width>$PARAM[width]</width>
@@ -208,20 +208,24 @@
                 <nested />
             </control>
             <control type="group" id="$PARAM[groupid]">
-                <include content="Object_Include" condition="!$PARAM[vertical]">
-                    <left>-$PARAM[itemgap]</left>
-                    <width>0</width>
+                <include content="Object_Left" condition="!$PARAM[vertical]">
+                    <param name="left">-$PARAM[itemgap]</param>
                 </include>
-                <include content="Object_Include" condition="$PARAM[vertical]">
-                    <top>-$PARAM[itemgap]</top>
-                    <height>0</height>
+                <include content="Object_Width" condition="!$PARAM[vertical]">
+                    <param name="width">0</param>
+                </include>
+                <include content="Object_Top" condition="$PARAM[vertical]">
+                    <param name="top">-$PARAM[itemgap]</param>
+                </include>
+                <include content="Object_Height" condition="$PARAM[vertical]">
+                    <param name="height">0</param>
                 </include>
                 <control type="group">
-                    <include content="Object_Include" condition="!$PARAM[vertical]">
-                        <left>-$PARAM[size]</left>
+                    <include content="Object_Left" condition="!$PARAM[vertical]">
+                        <param name="left">-$PARAM[size]</param>
                     </include>
-                    <include content="Object_Include" condition="$PARAM[vertical]">
-                        <top>-$PARAM[size]</top>
+                    <include content="Object_Top" condition="$PARAM[vertical]">
+                        <param name="top">-$PARAM[size]</param>
                     </include>
                     <visible>$PARAM[visible]</visible>
                     <control type="image">
@@ -530,8 +534,8 @@
                 <control type="label">
                     <font>font_statusbar_bold</font>
                     <label>$LOCALIZE[31071]</label>
-                    <include content="Object_Include" condition="$PARAM[selected]">
-                        <textcolor>$VAR[ColorSelected]</textcolor>
+                    <include content="Object_TextColor" condition="$PARAM[selected]">
+                        <param name="textcolor">$VAR[ColorSelected]</param>
                     </include>
                     <textcolor>$PARAM[textcolor]</textcolor>
                     <align>left</align>
@@ -670,31 +674,28 @@
                     <centertop>50%</centertop>
                     <height>24</height>
                     <width>24</width>
-                    <include content="Object_Include" condition="$PARAM[istempo]">
-                        <animation effect="slide" end="52" condition="String.IsEqual(Player.PlaySpeed,0.90)">Conditional</animation>
-                        <animation effect="slide" end="104" condition="String.IsEqual(Player.PlaySpeed,1.00) | String.IsEqual(Player.PlaySpeed,0.00)">Conditional</animation>
-                        <animation effect="slide" end="156" condition="String.IsEqual(Player.PlaySpeed,1.10)">Conditional</animation>
-                        <animation effect="slide" end="208" condition="String.IsEqual(Player.PlaySpeed,1.20)">Conditional</animation>
-                        <animation effect="slide" end="260" condition="String.IsEqual(Player.PlaySpeed,1.30)">Conditional</animation>
-                        <animation effect="slide" end="312" condition="String.IsEqual(Player.PlaySpeed,1.40)">Conditional</animation>
-                        <animation effect="slide" end="364" condition="String.IsEqual(Player.PlaySpeed,1.50)">Conditional</animation>
-                    </include>
-                    <include content="Object_Include" condition="!$PARAM[istempo]">
-                        <animation effect="slide" end="-8" condition="Player.Rewinding32x">Conditional</animation>
-                        <animation effect="slide" end="30" condition="Player.Rewinding16x">Conditional</animation>
-                        <animation effect="slide" end="68" condition="Player.Rewinding8x">Conditional</animation>
-                        <animation effect="slide" end="106" condition="Player.Rewinding4x">Conditional</animation>
-                        <animation effect="slide" end="144" condition="Player.Rewinding2x">Conditional</animation>
-                        <animation effect="slide" end="182" condition="!Player.Rewinding + !Player.Forwarding">Conditional</animation>
-                        <animation effect="slide" end="220" condition="Player.Forwarding2x">Conditional</animation>
-                        <animation effect="slide" end="258" condition="Player.Forwarding4x">Conditional</animation>
-                        <animation effect="slide" end="296" condition="Player.Forwarding8x">Conditional</animation>
-                        <animation effect="slide" end="334" condition="Player.Forwarding16x">Conditional</animation>
-                        <animation effect="slide" end="372" condition="Player.Forwarding32x">Conditional</animation>
-                    </include>
+                    <animation effect="slide" end="52" condition="$PARAM[istempo] + String.IsEqual(Player.PlaySpeed,0.90)">Conditional</animation>
+                    <animation effect="slide" end="104" condition="$PARAM[istempo] + String.IsEqual(Player.PlaySpeed,1.00) | String.IsEqual(Player.PlaySpeed,0.00)">Conditional</animation>
+                    <animation effect="slide" end="156" condition="$PARAM[istempo] + String.IsEqual(Player.PlaySpeed,1.10)">Conditional</animation>
+                    <animation effect="slide" end="208" condition="$PARAM[istempo] + String.IsEqual(Player.PlaySpeed,1.20)">Conditional</animation>
+                    <animation effect="slide" end="260" condition="$PARAM[istempo] + String.IsEqual(Player.PlaySpeed,1.30)">Conditional</animation>
+                    <animation effect="slide" end="312" condition="$PARAM[istempo] + String.IsEqual(Player.PlaySpeed,1.40)">Conditional</animation>
+                    <animation effect="slide" end="364" condition="$PARAM[istempo] + String.IsEqual(Player.PlaySpeed,1.50)">Conditional</animation>
+
+                    <animation effect="slide" end="-8" condition="!$PARAM[istempo] + Player.Rewinding32x">Conditional</animation>
+                    <animation effect="slide" end="30" condition="!$PARAM[istempo] + Player.Rewinding16x">Conditional</animation>
+                    <animation effect="slide" end="68" condition="!$PARAM[istempo] + Player.Rewinding8x">Conditional</animation>
+                    <animation effect="slide" end="106" condition="!$PARAM[istempo] + Player.Rewinding4x">Conditional</animation>
+                    <animation effect="slide" end="144" condition="!$PARAM[istempo] + Player.Rewinding2x">Conditional</animation>
+                    <animation effect="slide" end="182" condition="!$PARAM[istempo] + !Player.Rewinding + !Player.Forwarding">Conditional</animation>
+                    <animation effect="slide" end="220" condition="!$PARAM[istempo] + Player.Forwarding2x">Conditional</animation>
+                    <animation effect="slide" end="258" condition="!$PARAM[istempo] + Player.Forwarding4x">Conditional</animation>
+                    <animation effect="slide" end="296" condition="!$PARAM[istempo] + Player.Forwarding8x">Conditional</animation>
+                    <animation effect="slide" end="334" condition="!$PARAM[istempo] + Player.Forwarding16x">Conditional</animation>
+                    <animation effect="slide" end="372" condition="!$PARAM[istempo] + Player.Forwarding32x">Conditional</animation>
                     <control type="image">
-                        <include content="Object_Include" condition="$PARAM[selected]">
-                            <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                        <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
+                            <param name="colordiffuse">$VAR[ColorSelected]</param>
                         </include>
                         <colordiffuse>$PARAM[nibcolor]</colordiffuse>
                         <texture>common/circle.png</texture>
@@ -704,8 +705,8 @@
                         <bottom>-12</bottom>
                         <height>16</height>
                         <width>16</width>
-                        <include content="Object_Include" condition="$PARAM[selected]">
-                            <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                        <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
+                            <param name="colordiffuse">$VAR[ColorSelected]</param>
                         </include>
                         <colordiffuse>$PARAM[nibcolor]</colordiffuse>
                         <texture flipy="true">common/arrow-menu-up.png</texture>

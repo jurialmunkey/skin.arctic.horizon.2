@@ -223,11 +223,12 @@
                         <param name="visible" value="[String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
                         <param name="infowidget" value="False" />
                         <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).NumItems,0)" />
-                        <include content="Object_Include" condition="$SKINSHORTCUTS[isSubmenuBumperCustom]">
-                            <content target="$SKINSHORTCUTS[submenuTarget]">$SKINSHORTCUTS[submenuPath]</content>
+                        <include content="Object_ContentDynamic" condition="$SKINSHORTCUTS[isSubmenuBumperCustom]">
+                            <param name="content">$SKINSHORTCUTS[submenuPath]</param>
+                            <param name="target">$SKINSHORTCUTS[submenuTarget]</param>
                         </include>
-                        <include content="Object_Include" condition="![$SKINSHORTCUTS[isSubmenuBumperCustom]]">
-                            <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
+                        <include content="Object_ContentInclude" condition="![$SKINSHORTCUTS[isSubmenuBumperCustom]]">
+                            <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</param>
                         </include>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698],Home)</onfocus>
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
@@ -474,38 +475,37 @@
                     <param name="infowidget_full" value="$SKINSHORTCUTS[isInfoFull]" />
                     <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,0)" />
                     <param name="detailed">$SKINSHORTCUTS[widgetDetailed]</param>
-                    <include content="Object_Include" condition="!$SKINSHORTCUTS[isSubmenu]">
-                        <include content="Object_Include" condition="!$SKINSHORTCUTS[isAutoLimit]">
-                            <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
-                        </include>
-                        <include content="Object_Include" condition="$SKINSHORTCUTS[isAutoLimit]">
-                            <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetAutoLimit]">$SKINSHORTCUTS[widgetPath]</content>
-                        </include>
-                        <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isAutoScroll]">
-                            <param name="condition" value="!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])" />
-                        </include>
-                        <include content="Object_Include" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit]">
-                            <content>
-                                <item>
-                                    <label>$LOCALIZE[31253]...</label>
-                                    <icon>common/more-items.png</icon>
-                                    <onclick>ActivateWindow($SKINSHORTCUTS[widgetTarget],$SKINSHORTCUTS[widgetPath],return)</onclick>
-                                    <visible>Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</visible>
-                                </item>
-                            </content>
-                        </include>
+                    <include content="Object_ContentDynamic" condition="!$SKINSHORTCUTS[isAutoLimit] + !$SKINSHORTCUTS[isSubmenu]">
+                        <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
+                        <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
+                        <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                        <param name="limit">$SKINSHORTCUTS[widgetLimit]</param>
+                        <param name="content">$SKINSHORTCUTS[widgetPath]</param>
                     </include>
-                    <include content="Object_Include" condition="$SKINSHORTCUTS[isSubmenu]">
-                        <content><include>skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</include></content>
+                    <include content="Object_ContentDynamic" condition="$SKINSHORTCUTS[isAutoLimit] + !$SKINSHORTCUTS[isSubmenu]">
+                        <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
+                        <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
+                        <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                        <param name="limit">$SKINSHORTCUTS[widgetAutoLimit]</param>
+                        <param name="content">$SKINSHORTCUTS[widgetPath]</param>
+                    </include>
+                    <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isAutoScroll] + !$SKINSHORTCUTS[isSubmenu]">
+                        <param name="condition" value="!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])" />
+                    </include>
+                    <include content="Object_ContentItem" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit] + !$SKINSHORTCUTS[isSubmenu]">
+                        <param name="label">$LOCALIZE[31253]...</param>
+                        <param name="icon">common/more-items.png</param>
+                        <param name="onclick">ActivateWindow($SKINSHORTCUTS[widgetTarget],$SKINSHORTCUTS[widgetPath],return)</param>
+                        <param name="visible">Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</param>
+                    </include>
+                    <include content="Object_ContentInclude" condition="$SKINSHORTCUTS[isSubmenu]">
+                        <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</param>
                     </include>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfoFull] + ![$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.CodecInfo)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[widgetName],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfoFull] + [$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.CodecInfo)">SetProperty(Slide.WidgetTitle,[CAPITALIZE]$INFO[Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.Property(widget)][/CAPITALIZE],Home)</onfocus>
-
                     <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
                     <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
-
-
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <onunfocus>ClearProperty(Slide.WidgetTitle,Home)</onunfocus>
                     <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
@@ -1040,11 +1040,19 @@
                     <param name="infowidget" value="$SKINSHORTCUTS[isInfo]" />
                     <param name="infowidget_full" value="$SKINSHORTCUTS[isInfoFull]" />
                     <param name="detailed">$SKINSHORTCUTS[widgetDetailed]</param>
-                    <include content="Object_Include" condition="!$SKINSHORTCUTS[isAutoLimit]">
-                        <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetLimit]">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</content>
+                    <include content="Object_ContentDynamic" condition="!$SKINSHORTCUTS[isAutoLimit]">
+                        <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
+                        <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
+                        <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                        <param name="limit">$SKINSHORTCUTS[widgetLimit]</param>
+                        <param name="content">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</param>
                     </include>
-                    <include content="Object_Include" condition="$SKINSHORTCUTS[isAutoLimit]">
-                        <content sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" target="$SKINSHORTCUTS[widgetTarget]" limit="$SKINSHORTCUTS[widgetAutoLimit]">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</content>
+                    <include content="Object_ContentDynamic" condition="$SKINSHORTCUTS[isAutoLimit]">
+                        <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
+                        <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
+                        <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                        <param name="limit">$SKINSHORTCUTS[widgetAutoLimit]</param>
+                        <param name="content">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</param>
                     </include>
                     <onback>SetFocus(5000)</onback>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[5000 + int(id)],Home)</onfocus>
@@ -1052,15 +1060,11 @@
                     <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
-                    <include content="Object_Include" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit]">
-                        <content>
-                            <item>
-                                <label>$LOCALIZE[31253]...</label>
-                                <icon>common/more-items.png</icon>
-                                <onclick>ActivateWindow($SKINSHORTCUTS[widgetTarget],$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]],return)</onclick>
-                                <visible>Integer.IsEqual(Container($PYTHON[5000 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[5000 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</visible>
-                            </item>
-                        </content>
+                    <include content="Object_ContentItem" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit]">
+                        <param name="label">$LOCALIZE[31253]...</param>
+                        <param name="icon">common/more-items.png</param>
+                        <param name="onclick">ActivateWindow($SKINSHORTCUTS[widgetTarget],$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]],return)</param>
+                        <param name="visible">Integer.IsEqual(Container($PYTHON[5000 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[5000 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</param>
                     </include>
                 </include>
 

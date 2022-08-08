@@ -1,12 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
-    <include name="Object_Include">
-        <nested />
-    </include>
-
+    <include name="Object_Left"><left>$PARAM[left]</left></include>
+    <include name="Object_Right"><right>$PARAM[right]</right></include>
+    <include name="Object_Top"><top>$PARAM[top]</top></include>
+    <include name="Object_CenterTop"><centertop>$PARAM[centertop]</centertop></include>
+    <include name="Object_Bottom"><bottom>$PARAM[bottom]</bottom></include>
+    <include name="Object_CenterBottom"><centerbottom>$PARAM[centerbottom]</centerbottom></include>
+    <include name="Object_Height"><height>$PARAM[height]</height></include>
     <include name="Object_Width"><width>$PARAM[width]</width></include>
     <include name="Object_Font"><font>$PARAM[font]</font></include>
+    <include name="Object_Scroll"><scroll>$PARAM[scroll]</scroll></include>
+    <include name="Object_AutoScroll"><autoscroll>$PARAM[autoscroll]</autoscroll></include>
+    <include name="Object_Align"><align>$PARAM[align]</align></include>
+    <include name="Object_Visible"><visible>$PARAM[visible]</visible></include>
+    <include name="Object_ColorDiffuse"><colordiffuse>$PARAM[colordiffuse]</colordiffuse></include>
+    <include name="Object_TextColor"><textcolor>$PARAM[textcolor]</textcolor></include>
+    <include name="Object_SelectedColor"><selectedcolor>$PARAM[selectedcolor]</selectedcolor></include>
+    <include name="Object_FocusedColor"><focusedcolor>$PARAM[focusedcolor]</focusedcolor></include>
+    <include name="Object_FocusPosition"><focusposition>$PARAM[focusposition]</focusposition></include>
+    <include name="Object_Movement"><movement>$PARAM[movement]</movement></include>
+    <include name="Object_Label"><label fallback="$PARAM[fallback]">$PARAM[label]</label></include>
+    <include name="Object_HitRect"><hitrect x="$PARAM[x]" y="$PARAM[y]" w="$PARAM[w]" h="$PARAM[h]" /></include>
+    <include name="Object_DefaultControl"><defaultcontrol always="$PARAM[always]">$PARAM[defaultcontrol]</defaultcontrol></include>
+    <include name="Object_Texture">
+        <texture colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]" flipy="$PARAM[flipy]" background="$PARAM[background]">$PARAM[texture]</texture>
+    </include>
+    <include name="Object_TextureFocus">
+        <texturefocus colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]" flipy="$PARAM[flipy]" border="$PARAM[border]">$PARAM[texture]</texturefocus>
+    </include>
+    <include name="Object_AltTextureFocus">
+        <alttexturefocus colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]" flipy="$PARAM[flipy]" border="$PARAM[border]">$PARAM[texture]</alttexturefocus>
+    </include>
+    <include name="Object_TextureSliderBackground">
+        <texturesliderbackground colordiffuse="$PARAM[colordiffuse]" flipx="$PARAM[flipx]" flipy="$PARAM[flipy]" border="$PARAM[border]">$PARAM[texture]</texturesliderbackground>
+    </include>
+    <include name="Object_ContentDynamic">
+        <content target="$PARAM[target]" sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" limit="$PARAM[limit]">$PARAM[content]</content>
+    </include>
+    <include name="Object_ContentInclude">
+        <content target="$PARAM[target]" sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" limit="$PARAM[limit]">$PARAM[include]</content>
+    </include>
+    <include name="Object_ContentItem">
+        <content>
+            <item>
+                <label>$PARAM[label]</label>
+                <icon>$PARAM[icon]</icon>
+                <onclick>$PARAM[onclick]</onclick>
+                <visible>$PARAM[visible]</visible>
+            </item>
+        </content>
+    </include>
 
     <include name="Object_Control">
         <param name="padding" default="false" />
@@ -92,7 +136,9 @@
         <definition>
             <control type="image">
                 <nested />
-                <include content="Object_Include" condition="$PARAM[selected]"><colordiffuse>$VAR[ColorSelected]</colordiffuse></include>
+                <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
+                    <param name="colordiffuse">$VAR[ColorSelected]</param>
+                </include>
                 <height>48</height>
                 <width>48</width>
                 <centertop>50%</centertop>
@@ -155,11 +201,11 @@
                 <width>60</width>
                 <height>60</height>
                 <centerleft>50%</centerleft>
-                <include content="Object_Include" condition="$PARAM[flipy]">
-                    <centerbottom>40</centerbottom>
+                <include content="Object_CenterBottom" condition="$PARAM[flipy]">
+                    <param name="centerbottom">40</param>
                 </include>
-                <include content="Object_Include" condition="!$PARAM[flipy]">
-                    <centertop>40</centertop>
+                <include content="Object_CenterTop" condition="!$PARAM[flipy]">
+                    <param name="centertop">40</param>
                 </include>
             </include>
             <include content="Object_MenuButton" condition="Skin.HasSetting(EnableMouseMode)">
@@ -175,12 +221,8 @@
                 <texturefocus />
                 <texturenofocus />
                 <onclick>SetFocus($PARAM[id])</onclick>
-                <include content="Object_Include" condition="$PARAM[flipy]">
-                    <onclick>Action(Down)</onclick>
-                </include>
-                <include content="Object_Include" condition="!$PARAM[flipy]">
-                    <onclick>Action(Up)</onclick>
-                </include>
+                <onclick condition="$PARAM[flipy]">Action(Down)</onclick>
+                <onclick condition="!$PARAM[flipy]">Action(Up)</onclick>
             </control>
         </definition>
     </include>
@@ -926,9 +968,12 @@
                 <width>$PARAM[width]</width>
                 <visible>$PARAM[visible]</visible>
                 <height>256</height>
-                <include content="Object_Include" condition="$PARAM[invertcolor]">
-                    <texturefocus colordiffuse="panel_fg_100">common/$PARAM[texturename]right_x.png</texturefocus>
-                    <focusedcolor>panel_bg</focusedcolor>
+                <include content="Object_TextureFocus" condition="$PARAM[invertcolor]">
+                    <param name="colordiffuse">panel_fg_100</param>
+                    <param name="texture">common/$PARAM[texturename]right_x.png</param>
+                </include>
+                <include content="Object_FocusedColor" condition="$PARAM[invertcolor]">
+                    <param name="focusedcolor">panel_bg</param>
                 </include>
                 <texturenofocus colordiffuse="main_fg_12">common/$PARAM[texturename]right_x.png</texturenofocus>
                 <texturefocus>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]right_h_x.png</texturefocus>
@@ -951,8 +996,9 @@
                 </control>
                 <control type="image">
                     <visible>Control.HasFocus($PARAM[id]) | $PARAM[focused]</visible>
-                    <include content="Object_Include" condition="$PARAM[invertcolor]">
-                        <texture colordiffuse="panel_fg_100">common/$PARAM[texturename]right_y.png</texture>
+                    <include content="Object_Texture" condition="$PARAM[invertcolor]">
+                        <param name="colordiffuse">panel_fg_100</param>
+                        <param name="texture">common/$PARAM[texturename]right_y.png</param>
                     </include>
                     <texture>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]right_h_y.png</texture>
                 </control>
@@ -1067,11 +1113,10 @@
                     <include>$PARAM[grouplist_items]</include>
                 </include>
                 <nested />
-                <include content="Object_Include" condition="$PARAM[useanimation]">
-                    <include>Animation_SlideIn_Dialog</include>
-                    <include condition="!$PARAM[isbuttonmenu]">Animation_FadeOut</include>
-                    <visible>$PARAM[visible]</visible>
-                    <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused] | [Control.HasFocus($PARAM[groupid]) + [$PARAM[usemousefocus]]]</visible>
+                <include condition="$PARAM[useanimation]">Animation_SlideIn_Dialog</include>
+                <include condition="$PARAM[useanimation] + !$PARAM[isbuttonmenu]">Animation_FadeOut</include>
+                <include content="Object_Visible" condition="$PARAM[useanimation]">
+                    <param name="visible">[$PARAM[visible]] + [[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused] | [Control.HasFocus($PARAM[groupid]) + [$PARAM[usemousefocus]]]]</param>
                 </include>
                 <width>$PARAM[width]</width>
                 <height>860</height>
@@ -1419,8 +1464,8 @@
                 <include content="Animation_FadeOut">
                     <param name="windowclose_condition" value="!Window.Next(1114)" />
                 </include>
-                <include content="Object_Include" condition="$PARAM[altwidth_condition]">
-                    <width>$PARAM[altwidth]</width>
+                <include content="Object_Width" condition="$PARAM[altwidth_condition]">
+                    <param name="width">$PARAM[altwidth]</param>
                 </include>
                 <width>$PARAM[width]</width>
                 <include content="Object_Control" condition="$PARAM[backing]">
@@ -1572,7 +1617,7 @@
                 <include content="Animation_Overlay_FadeIn" condition="$PARAM[windowanimation]">
                     <param name="delay" value="$PARAM[delay]" />
                 </include>
-                <include content="Texture_Control_Texture">
+                <include content="Object_Texture">
                     <param name="texture" value="common/dim-overlay.png" />
                 </include>
             </control>
@@ -1823,8 +1868,8 @@
                 <visible>!$PARAM[is_other]</visible>
             </control>
             <control type="image">
-                <include content="Object_Include" condition="$PARAM[selected]">
-                    <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
+                    <param name="colordiffuse">$VAR[ColorSelected]</param>
                 </include>
                 <colordiffuse>main_fg_90</colordiffuse>
                 <texture background="true" diffuse="$PARAM[diffuse]" fallback="$PARAM[icon_genre_fallback]">$PARAM[icon_genre]</texture>
@@ -1834,8 +1879,8 @@
                 <bordersize>$PARAM[icon_genre_bordersize]</bordersize>
             </control>
             <control type="image">
-                <include content="Object_Include" condition="$PARAM[selected]">
-                    <colordiffuse>$VAR[ColorSelected]</colordiffuse>
+                <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
+                    <param name="colordiffuse">$VAR[ColorSelected]</param>
                 </include>
                 <colordiffuse>main_fg_90</colordiffuse>
                 <texture background="true" diffuse="$PARAM[diffuse]" fallback="$PARAM[icon_other_fallback]">$PARAM[icon_other]</texture>
