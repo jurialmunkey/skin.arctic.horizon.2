@@ -772,6 +772,7 @@
     <include name="Object_Indicator_List">
         <param name="affix" default="" />
         <param name="listitem" default="ListItem" />
+        <param name="selected">false</param>
         <definition>
             <control type="group">
                 <nested />
@@ -779,18 +780,24 @@
                 <height>64</height>
                 <control type="image">
                     <include content="Dimension_Padding"><param name="pad" value="10" /></include>
-                    <texture colordiffuse="main_fg_30">progress/circle/p100.png</texture>
+                    <include content="Object_ColorDiffuse" condition="$PARAM[selected]"><param name="colordiffuse">$VAR[ColorSelected_30]</param></include>
+                    <colordiffuse>main_fg_30</colordiffuse>
+                    <texture>progress/circle/p100.png</texture>
                     <aspectratio align="center" aligny="center">keep</aspectratio>
                     <visible>$EXP[Exp_HasWatchedProgress]</visible>
                 </control>
                 <control type="image">
                     <include content="Dimension_Padding"><param name="pad" value="10" /></include>
-                    <texture colordiffuse="main_fg_90">$VAR[Defs_PercentPlayed,progress/circle/p,.png]</texture>
+                    <include content="Object_ColorDiffuse" condition="$PARAM[selected]"><param name="colordiffuse">$VAR[ColorSelected]</param></include>
+                    <colordiffuse>main_fg_90</colordiffuse>
+                    <texture>$VAR[Defs_PercentPlayed,progress/circle/p,.png]</texture>
                     <aspectratio align="center" aligny="center">keep</aspectratio>
                     <visible>$EXP[Exp_HasWatchedProgress]</visible>
                 </control>
                 <control type="image">
                     <include content="Dimension_Padding"><param name="pad" value="16" /></include>
+                    <include content="Object_ColorDiffuse" condition="$PARAM[selected]"><param name="colordiffuse">$VAR[ColorSelected]</param></include>
+                    <colordiffuse>main_fg_100</colordiffuse>
                     <texture>$VAR[Image_Overlay_List]</texture>
                 </control>
             </control>
