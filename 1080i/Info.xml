@@ -581,16 +581,16 @@
                 <top>$PARAM[icon_top]</top>
                 <width>$PARAM[icon_width]</width>
                 <height>$PARAM[icon_height]</height>
-                <include content="Texture_Control_Texture" condition="!Skin.HasSetting(EnableMonochromeFlags)">
+                <include content="Object_Texture" condition="!Skin.HasSetting(EnableMonochromeFlags)">
                     <param name="texture" value="$PARAM[icon]" />
                     <param name="colordiffuse" value="$PARAM[icon_colordiffuse]" />
                 </include>
-                <include content="Texture_Control_Texture" condition="Skin.HasSetting(EnableMonochromeFlags)">
+                <include content="Object_Texture" condition="Skin.HasSetting(EnableMonochromeFlags)">
                     <param name="texture" value="$PARAM[icon]" />
                     <param name="colordiffuse" value="$PARAM[colordiffuse]_100" />
                 </include>
-                <include content="Object_Include" condition="$PARAM[is_autohide]">
-                    <visible>!String.IsEmpty($PARAM[label])</visible>
+                <include content="Object_Visible" condition="$PARAM[is_autohide]">
+                    <param name="visible">!String.IsEmpty($PARAM[label])</param>
                 </include>
                 <nested />
             </include>
@@ -602,13 +602,14 @@
                 <height>20</height>
                 <align>left</align>
                 <font>font_mini</font>
-                <include content="Object_Include" condition="$PARAM[is_varlabel]">
-                    <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
+                <include content="Object_Label" condition="$PARAM[is_varlabel]">
+                    <param name="fallback">$PARAM[label_fallback]</param>
+                    <param name="label">$PARAM[label]</param>
                 </include>
                 <label fallback="$PARAM[label_prefix]$PARAM[label_fallback]$PARAM[label_suffix]">$INFO[$PARAM[label],$PARAM[label_prefix],$PARAM[label_suffix]]</label>
                 <visible>!$PARAM[is_updating]</visible>
-                <include content="Object_Include" condition="$PARAM[is_autohide]">
-                    <visible>!String.IsEmpty($PARAM[label])</visible>
+                <include content="Object_Visible" condition="$PARAM[is_autohide]">
+                    <param name="visible">!String.IsEmpty($PARAM[label])</param>
                 </include>
                 <nested />
             </include>
@@ -622,8 +623,8 @@
                 <font>font_mini</font>
                 <label>$PARAM[label_prefix]$PARAM[label_fallback]$PARAM[label_suffix]</label>
                 <visible>$PARAM[is_updating]</visible>
-                <include content="Object_Include" condition="$PARAM[is_autohide]">
-                    <visible>!String.IsEmpty($PARAM[label])</visible>
+                <include content="Object_Visible" condition="$PARAM[is_autohide]">
+                    <param name="visible">!String.IsEmpty($PARAM[label])</param>
                 </include>
                 <nested />
             </include>

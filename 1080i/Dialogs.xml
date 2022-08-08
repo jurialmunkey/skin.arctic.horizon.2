@@ -103,8 +103,10 @@
                 <include content="Object_Control" condition="Skin.String(DividerStyle,Split) + Skin.String(BackgroundStyle,Blur) + Skin.String(ForegroundStyle,KeyArt)">
                     <param name="control" value="image" />
                     <aspectratio scalediffuse="false">scale</aspectratio>
-                    <include content="Object_Include" condition="Skin.HasSetting(DividerShadows)">
-                        <texture background="true" colordiffuse="main_flix">$VAR[Background_Fanart_Var]</texture>
+                    <include content="Object_Texture" condition="Skin.HasSetting(DividerShadows)">
+                        <param name="background">true</param>
+                        <param name="colordiffuse">main_flix</param>
+                        <param name="texture">$VAR[Background_Fanart_Var]</param>
                     </include>
                     <texture background="true" diffuse="diffuse/flixart.png" colordiffuse="main_flix">$VAR[Background_Fanart_Var]</texture>
                     <visible>!Window.IsActive(1120)</visible>
@@ -608,9 +610,7 @@
                 <include>Texture_Highlight_ToggleButton_FakeFocus</include>
                 <onclick>ReplaceWindow($PARAM[window])</onclick>
                 <usealttexture>Window.IsActive($PARAM[window])</usealttexture>
-                <include content="Object_Include" condition="!Window.IsVisible($PARAM[window])">
-                    <onfocus condition="!Window.IsVisible($PARAM[window])">ReplaceWindow($PARAM[window])</onfocus>
-                </include>
+                <onfocus condition="!Window.IsVisible($PARAM[window])">ReplaceWindow($PARAM[window])</onfocus>
             </control>
             <control type="group" id="$PARAM[group_id]">
                 <top>-$PARAM[width]</top>
