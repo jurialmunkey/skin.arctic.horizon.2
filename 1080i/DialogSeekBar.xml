@@ -21,12 +21,27 @@
         <!-- Video Seekbar -->
         <include content="Object_Control" condition="VideoPlayer.IsFullscreen">
             <param name="control" value="group" />
+
+            <!-- Progress Bar Group -->
             <control type="group">
                 <include>OSD_Progress_Bar</include>
                 <include>OSD_Progress_Labels</include>
                 <include>OSD_Progress_Details</include>
                 <include condition="Skin.HasSetting(OSD.DisableCodecs)">Animation_OSD_Seekbar_NoCodecs</include>
             </control>
+
+            <!-- Top Left Label -->
+            <control type="group">
+                <visible>[VideoPlayer.Content(episodes) + !String.IsEmpty(VideoPlayer.Title)] | [VideoPlayer.Content(movies) + !String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00)] | [VideoPlayer.Content(livetv) + !String.IsEmpty(VideoPlayer.ChannelNumberLabel)]</visible>
+                <include content="Object_ShadowSpot">
+                    <include>Dimension_HeaderTitleShadow</include>
+                </include>
+                <include content="Furniture_Top_Left">
+                    <param name="label">$VAR[Label_OSD_HeaderEpisodeChapter]</param>
+                </include>
+            </control>
+
+            <!-- Codecs -->
             <include content="Object_Control" condition="!Skin.HasSetting(OSD.DisableCodecs)">
                 <param name="control">group</param>
                 <height>60</height>
