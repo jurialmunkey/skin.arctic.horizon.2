@@ -637,6 +637,7 @@
         <param name="rottentomatoes">true</param>
         <param name="usermeter">true</param>
         <param name="star">true</param>
+        <param name="user">true</param>
         <param name="imdb">true</param>
         <param name="tmdb">true</param>
         <param name="tvdb">true</param>
@@ -676,6 +677,19 @@
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <left>-16</left>
                     <visible>$PARAM[star]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">Skin.HasSetting(Ratings.EnableUserRating)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/user_rating.png</param>
+                    <param name="icon_colordiffuse">ff0087E2</param>
+                    <param name="label">$INFO[$PARAM[userrating],[COLOR=00ffffff].[/COLOR],.0[COLOR=00ffffff]...[/COLOR]]</param>
+                    <param name="label_fallback">[COLOR=00ffffff].[/COLOR]−.−[COLOR=00ffffff]...[/COLOR]</param>
+                    <param name="is_varlabel">true</param>
+                    <param name="is_updating">False</param>
+                    <visible>$PARAM[user]</visible>
+                    <visible>!Skin.HasSetting(Ratings.AutoHide) | !String.IsEmpty($PARAM[userrating])</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
