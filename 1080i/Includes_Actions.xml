@@ -25,36 +25,6 @@
         <value condition="String.Contains(Container(211).ListItem.Property(path),pvr://)">tvguide</value>
     </variable>
 
-    <variable name="Action_Query_Params">
-
-        <!-- Movie -->
-        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.UniqueID(tmdb))">tmdb_type=movie$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tmdb)]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.UniqueID(imdb))">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.UniqueID(imdb)]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Property(imdb_id))">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.Property(imdb_id)]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.IMDBNumber) + String.StartsWith(Container.ListItem.IMDBNumber,tt)">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.IMDBNumber]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Title)">tmdb_type=movie$COMMAquery=$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Year,$COMMAyear=,]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=movie$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.Year,$COMMAyear=,]</value>
-
-        <!-- TVShow -->
-        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.UniqueID(tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tmdb)]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.Title)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Year,$COMMAyear=,]$INFO[Container.ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[Container.ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.Year,$COMMAyear=,]$INFO[Container.ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[Container.ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
-
-        <!-- Season -->
-        <value condition="String.IsEqual(Container.ListItem.DBType,season) + !String.IsEmpty(Container.ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tvshow.tmdb)]$INFO[Container.ListItem.Season,$COMMAseason=,]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,season) + !String.IsEmpty(Container.ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year,$COMMAepisode_year=,]$INFO[Container.ListItem.Season,$COMMAseason=,]</value>
-
-        <!-- Episode -->
-        <value condition="String.IsEqual(Container.ListItem.DBType,episode) + !String.IsEmpty(Container.ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tvshow.tmdb)]$INFO[Container.ListItem.Season,$COMMAseason=,]$INFO[Container.ListItem.Episode,$COMMAepisode=,]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,episode) + !String.IsEmpty(Container.ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year,$COMMAepisode_year=,]$INFO[Container.ListItem.Season,$COMMAseason=,]$INFO[Container.ListItem.Episode,$COMMAepisode=,]</value>
-
-        <!-- People -->
-        <value condition="String.IsEqual(Container.ListItem.Property(item.type),person) + !String.IsEmpty(Container.ListItem.Property(tmdb_id))">tmdb_type=person$COMMAtmdb_id=$INFO[Container.ListItem.Property(tmdb_id)]</value>
-        <value condition="[String.IsEqual(Container.ListItem.DBType,actor) | String.IsEqual(Container.ListItem.DBType,director)] + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=person$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.UniqueID(tmdb),$COMMAtmdb_id=,]</value>
-
-    </variable>
-
-
     <include name="_Action_OSD_EpisodeList_OnUnFocus_XX">
         <onright condition="!String.IsEmpty(Container(6401).ListItemAbsolute($PARAM[pos]).Title) + String.IsEqual(Container(6401).ListItemAbsolute($PARAM[pos]).Title,Player.Title)">SetFocus(6401,$PARAM[pos],absolute)</onright>
         <onleft condition="!String.IsEmpty(Container(6401).ListItemAbsolute($PARAM[pos]).Title) + String.IsEqual(Container(6401).ListItemAbsolute($PARAM[pos]).Title,Player.Title)">SetFocus(6401,$PARAM[pos],absolute)</onleft>
@@ -206,21 +176,6 @@
         <onclick condition="!$EXP[Exp_InfoDialogs]">PlayMedia($INFO[Container($PARAM[id]).ListItem.FolderPath],False)</onclick>
         <onclick condition="$EXP[Exp_InfoDialogs]">SetProperty(HasTrailer,$INFO[Container($PARAM[id]).ListItem.FolderPath],Home)</onclick>
         <onclick condition="$EXP[Exp_InfoDialogs]">AlarmClock(Refocus,SetFocus(7001),00:01,silent)</onclick>
-    </include>
-
-    <include name="Action_Plotbox_OnUp">
-        <param name="fanart" default="$ESCINFO[ListItem.Art(fanart)]" />
-        <param name="poster" default="$ESCINFO[ListItem.Art(poster)]" />
-        <definition>
-            <onup>SetProperty(Fanart,$PARAM[fanart],1113)</onup>
-            <onup>SetProperty(Poster,$PARAM[poster],1113)</onup>
-            <onup>SetProperty(Title,"$VAR[Label_Title]",1113)</onup>
-            <onup>SetProperty(Year,$ESCINFO[ListItem.Year],1113)</onup>
-            <onup>SetProperty(ClearLogo,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)],1113)</onup>
-            <onup>SetProperty(Tagline,$ESCINFO[ListItem.Tagline],1113)</onup>
-            <onup>SetProperty(Plot,$VAR[Label_Plot_ESC],1113)</onup>
-            <onup>ActivateWindow(1113)</onup>
-        </definition>
     </include>
 
     <include name="Action_Recommendations_OnFocus">

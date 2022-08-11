@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <variable name="ContextMenu_Fanart">
+        <value condition="!String.IsEmpty(ListItem.Art(fanart))">$ESCINFO[ListItem.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(ListItem.Art(tvshow.fanart))">$ESCINFO[ListItem.Art(tvshow.fanart)]</value>
+        <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$ESCINFO[ListItem.Art(artist.fanart)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Fanart))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Fanart)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Poster">
+        <value condition="!String.IsEmpty(ListItem.Art(poster))">$ESCINFO[ListItem.Art(poster)]</value>
+        <value condition="!String.IsEmpty(ListItem.Art(tvshow.poster))">$ESCINFO[ListItem.Art(tvshow.poster)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Poster))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Poster)]</value>
+    </variable>
+
+    <variable name="ContextMenu_DBType">
+        <value condition="!String.IsEmpty(ListItem.DBType)">$ESCINFO[ListItem.DBType]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.DBType))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.DBType)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Label">
+        <value condition="!String.IsEmpty(ListItem.Label)">$ESCINFO[ListItem.Label]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Label))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Label)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Icon">
+        <value condition="!String.IsEmpty(ListItem.Icon)">$ESCINFO[ListItem.Icon]</value>
+    </variable>
+
+    <variable name="ContextMenu_Year">
+        <value condition="!String.IsEmpty(ListItem.Year)">$ESCINFO[ListItem.Year]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Year))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Year)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Tagline">
+        <value condition="!String.IsEmpty(ListItem.Tagline)">$ESCINFO[ListItem.Tagline]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Tagline))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Tagline)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Title">
+        <value condition="!String.IsEmpty(ListItem.TvShowTitle)">$ESCINFO[ListItem.TvShowTitle]</value>
+        <value condition="!String.IsEmpty(ListItem.AlbumArtist) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album)]">$ESCINFO[ListItem.AlbumArtist]</value>
+        <value condition="!String.IsEmpty(ListItem.Artist) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album)]">$ESCINFO[ListItem.Artist]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">$ESCINFO[ListItem.Title]</value>
+        <value condition="!String.IsEmpty(ListItem.Label)">$ESCINFO[ListItem.Label]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.TvShowTitle))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.TvShowTitle)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Title))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Title)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Plot">
+        <value condition="!String.IsEmpty(ListItem.Property(Artist_Description))">$ESCINFO[ListItem.Property(Artist_Description)]</value>
+        <value condition="!String.IsEmpty(ListItem.Property(Album_Description))">$ESCINFO[ListItem.Property(Album_Description)]</value>
+        <value condition="!String.IsEmpty(ListItem.AddonDescription)">$ESCINFO[ListItem.AddonDescription]</value>
+        <value condition="!String.IsEmpty(ListItem.PlotOutline) + Skin.HasSetting(PlotOutline)">$ESCINFO[ListItem.PlotOutline]</value>
+        <value condition="!String.IsEmpty(ListItem.Plot)">$ESCINFO[ListItem.Plot]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Plot)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Params">
+
+        <!-- Movie -->
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.UniqueID(tmdb))">tmdb_type=movie$COMMAtmdb_id=$INFO[ListItem.UniqueID(tmdb)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.UniqueID(imdb))">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.UniqueID(imdb)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Property(imdb_id))">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.Property(imdb_id)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.IMDBNumber) + String.StartsWith(ListItem.IMDBNumber,tt)">tmdb_type=movie$COMMAimdb_id=$INFO[ListItem.IMDBNumber]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Title)">tmdb_type=movie$COMMAquery=$INFO[ListItem.Title]$INFO[ListItem.Year,$COMMAyear=,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Label)">tmdb_type=movie$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.Year,$COMMAyear=,]</value>
+
+        <!-- TVShow -->
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.UniqueID(tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[ListItem.UniqueID(tmdb)]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Title)">tmdb_type=tv$COMMAquery=$INFO[ListItem.Title]$INFO[ListItem.Year,$COMMAyear=,]$INFO[ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Label)">tmdb_type=tv$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.Year,$COMMAyear=,]$INFO[ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
+
+        <!-- Season -->
+        <value condition="String.IsEqual(ListItem.DBType,season) + !String.IsEmpty(ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[ListItem.UniqueID(tvshow.tmdb)]$INFO[ListItem.Season,$COMMAseason=,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,season) + !String.IsEmpty(ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[ListItem.TvShowTitle]$INFO[ListItem.Year,$COMMAepisode_year=,]$INFO[ListItem.Season,$COMMAseason=,]</value>
+
+        <!-- Episode -->
+        <value condition="String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[ListItem.UniqueID(tvshow.tmdb)]$INFO[ListItem.Season,$COMMAseason=,]$INFO[ListItem.Episode,$COMMAepisode=,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[ListItem.TvShowTitle]$INFO[ListItem.Year,$COMMAepisode_year=,]$INFO[ListItem.Season,$COMMAseason=,]$INFO[ListItem.Episode,$COMMAepisode=,]</value>
+
+        <!-- People -->
+        <value condition="String.IsEqual(ListItem.Property(item.type),person) + !String.IsEmpty(ListItem.Property(tmdb_id))">tmdb_type=person$COMMAtmdb_id=$INFO[ListItem.Property(tmdb_id)]</value>
+        <value condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director)] + !String.IsEmpty(ListItem.Label)">tmdb_type=person$COMMAquery=$INFO[ListItem.Label]$INFO[ListItem.UniqueID(tmdb),$COMMAtmdb_id=,]</value>
+
+    </variable>
+
+
+
+    <!-- Container Button -->
+    <variable name="ContextMenu_Container_Fanart">
+        <value condition="!String.IsEmpty(Container.ListItem.Art(fanart))">$ESCINFO[Container.ListItem.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Art(tvshow.fanart))">$ESCINFO[Container.ListItem.Art(tvshow.fanart)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Art(artist.fanart))">$ESCINFO[Container.ListItem.Art(artist.fanart)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Fanart))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Fanart)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_Poster">
+        <value condition="!String.IsEmpty(Container.ListItem.Art(poster))">$ESCINFO[Container.ListItem.Art(poster)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Art(tvshow.poster))">$ESCINFO[Container.ListItem.Art(tvshow.poster)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Poster))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Poster)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_DBType">
+        <value condition="!String.IsEmpty(Container.ListItem.DBType)">$ESCINFO[Container.ListItem.DBType]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.DBType))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.DBType)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_Label">
+        <value condition="!String.IsEmpty(Container.ListItem.Label)">$ESCINFO[Container.ListItem.Label]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Label))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Label)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_Icon">
+        <value condition="!String.IsEmpty(Container.ListItem.Icon)">$ESCINFO[Container.ListItem.Icon]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_Year">
+        <value condition="!String.IsEmpty(Container.ListItem.Year)">$ESCINFO[Container.ListItem.Year]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Year))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Year)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_Tagline">
+        <value condition="!String.IsEmpty(Container.ListItem.Tagline)">$ESCINFO[Container.ListItem.Tagline]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Tagline))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Tagline)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_Title">
+        <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle)">$ESCINFO[Container.ListItem.TvShowTitle]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.AlbumArtist) + [String.IsEqual(Container.ListItem.DBType,song) | String.IsEqual(Container.ListItem.DBType,album)]">$ESCINFO[Container.ListItem.AlbumArtist]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Artist) + [String.IsEqual(Container.ListItem.DBType,song) | String.IsEqual(Container.ListItem.DBType,album)]">$ESCINFO[Container.ListItem.Artist]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Title)">$ESCINFO[Container.ListItem.Title]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Label)">$ESCINFO[Container.ListItem.Label]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.TvShowTitle))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.TvShowTitle)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Title))">$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Title)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_Plot">
+        <value condition="!String.IsEmpty(Container.ListItem.Property(Artist_Description))">$ESCINFO[Container.ListItem.Property(Artist_Description)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Property(Album_Description))">$ESCINFO[Container.ListItem.Property(Album_Description)]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.AddonDescription)">$ESCINFO[Container.ListItem.AddonDescription]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.PlotOutline) + Skin.HasSetting(PlotOutline)">$ESCINFO[Container.ListItem.PlotOutline]</value>
+        <value condition="!String.IsEmpty(Container.ListItem.Plot)">$ESCINFO[Container.ListItem.Plot]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Plot)]</value>
+    </variable>
+
+    <variable name="ContextMenu_Container_Params">
+
+        <!-- Movie -->
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.UniqueID(tmdb))">tmdb_type=movie$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tmdb)]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.UniqueID(imdb))">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.UniqueID(imdb)]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Property(imdb_id))">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.Property(imdb_id)]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.IMDBNumber) + String.StartsWith(Container.ListItem.IMDBNumber,tt)">tmdb_type=movie$COMMAimdb_id=$INFO[Container.ListItem.IMDBNumber]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Title)">tmdb_type=movie$COMMAquery=$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Year,$COMMAyear=,]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,movie) + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=movie$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.Year,$COMMAyear=,]</value>
+
+        <!-- TVShow -->
+        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.UniqueID(tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tmdb)]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.Title)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Year,$COMMAyear=,]$INFO[Container.ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[Container.ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,tvshow) + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.Year,$COMMAyear=,]$INFO[Container.ListItem.UniqueID(tvdb),$COMMAtvdb_id=,]$INFO[Container.ListItem.UniqueID(imdb),$COMMAimdb_id=,]</value>
+
+        <!-- Season -->
+        <value condition="String.IsEqual(Container.ListItem.DBType,season) + !String.IsEmpty(Container.ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tvshow.tmdb)]$INFO[Container.ListItem.Season,$COMMAseason=,]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,season) + !String.IsEmpty(Container.ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year,$COMMAepisode_year=,]$INFO[Container.ListItem.Season,$COMMAseason=,]</value>
+
+        <!-- Episode -->
+        <value condition="String.IsEqual(Container.ListItem.DBType,episode) + !String.IsEmpty(Container.ListItem.UniqueID(tvshow.tmdb))">tmdb_type=tv$COMMAtmdb_id=$INFO[Container.ListItem.UniqueID(tvshow.tmdb)]$INFO[Container.ListItem.Season,$COMMAseason=,]$INFO[Container.ListItem.Episode,$COMMAepisode=,]</value>
+        <value condition="String.IsEqual(Container.ListItem.DBType,episode) + !String.IsEmpty(Container.ListItem.TvShowTitle)">tmdb_type=tv$COMMAquery=$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year,$COMMAepisode_year=,]$INFO[Container.ListItem.Season,$COMMAseason=,]$INFO[Container.ListItem.Episode,$COMMAepisode=,]</value>
+
+        <!-- People -->
+        <value condition="String.IsEqual(Container.ListItem.Property(item.type),person) + !String.IsEmpty(Container.ListItem.Property(tmdb_id))">tmdb_type=person$COMMAtmdb_id=$INFO[Container.ListItem.Property(tmdb_id)]</value>
+        <value condition="[String.IsEqual(Container.ListItem.DBType,actor) | String.IsEqual(Container.ListItem.DBType,director)] + !String.IsEmpty(Container.ListItem.Label)">tmdb_type=person$COMMAquery=$INFO[Container.ListItem.Label]$INFO[Container.ListItem.UniqueID(tmdb),$COMMAtmdb_id=,]</value>
+
+    </variable>
+</includes>
