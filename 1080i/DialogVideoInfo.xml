@@ -5,105 +5,64 @@
     <onunload>ClearProperty(HasTrailer,Home)</onunload>
     <controls>
 
-        <control type="group">
-            <animation effect="slide" start="0" end="-big_poster_w" time="800" tween="cubic" easing="out" condition="Window.IsActive(1120)" reversible="false">Conditional</animation>
-            <animation effect="slide" end="0" start="-big_poster_w" time="800" tween="cubic" easing="out" condition="!Window.IsActive(1120)" reversible="false">Conditional</animation>
-            <control type="group">
-                <width>big_poster_w</width>
-                <include>Animation_Left_Delay</include>
-                <include content="Object_BigPoster">
-                    <param name="diffuse" value="diffuse/poster_w544_h800.png" />
-                    <include>Dimension_Info</include>
-                </include>
-            </control>
-
-            <include content="Dialog_Info_RightSide">
+        <include content="DialogInfo_MainGroup">
+            <include content="DialogInfo_LeftGroup">
+            </include>
+            <include content="DialogInfo_RightGroup">
+                <!-- Info -->
                 <control type="group">
-                    <visible>!Window.IsActive(1120)</visible>
+                    <visible>!Control.HasFocus(61)</visible>
+                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
                     <include>Animation_DialogInfo_Recommendations</include>
-                    <include content="Object_Left" condition="!Skin.String(DividerStyle,Split)">
-                        <param name="left">-80</param>
+
+                    <!-- Person Info -->
+                    <include content="Info_Panel" condition="!$EXP[Exp_IsPersonInfo]">
+                        <param name="plotheight" value="info_plot_large_h" />
                     </include>
 
-                    <!-- Info -->
-                    <control type="group">
-                        <visible>!Control.HasFocus(61)</visible>
-                        <include>Dimension_Info</include>
-                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                        <include content="Info_Panel" condition="!$EXP[Exp_IsPersonInfo]">
-                            <param name="plotheight" value="info_plot_large_h" />
-                        </include>
-                        <include content="Info_Panel" condition="$EXP[Exp_IsPersonInfo]">
-                            <param name="plotheight" value="info_plot_person_h" />
-                        </include>
-                        <control type="group">
-                            <top>360</top>
-                            <height>70</height>
-                            <include content="Object_Control" condition="!$EXP[Exp_IsPersonInfo]">
-                                <param name="control" value="grouplist" />
-                                <param name="id" value="5000" />
-                                <left>-40</left>
-                                <itemgap>-60</itemgap>
-                                <orientation>horizontal</orientation>
-                                <height>256</height>
-                                <centertop>50%</centertop>
-                                <onleft>noop</onleft>
-                                <onright condition="!Integer.IsEqual(Container(9000).NumItems,0)">SetFocus(9000)</onright>
-                                <onright condition="Integer.IsEqual(Container(9000).NumItems,0)">noop</onright>
+                    <!-- Video Info -->
+                    <include content="Info_Panel" condition="$EXP[Exp_IsPersonInfo]">
+                        <param name="plotheight" value="info_plot_person_h" />
+                    </include>
 
-                                <!-- Property to reset textbox scroll position -->
-                                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
-                                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
-                                <onup>61</onup>
-                                <include>Items_DialogVideoInfo_MenuBar</include>
-                                <ondown>7002</ondown>
-                            </include>
-                            <include content="Object_Hidden_Button" condition="$EXP[Exp_IsPersonInfo]">
-                                <param name="id" value="5000" />
-                                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
-                                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
-                                <onup>61</onup>
-                                <ondown>7002</ondown>
-                            </include>
-                        </control>
-                        <include content="Dialog_VideoInfoDetails">
-                            <top>480</top>
-                        </include>
-                    </control>
+                    <!-- Button Group -->
+                    <include content="DialogInfo_ButtonGroup" condition="!$EXP[Exp_IsPersonInfo]">
+                        <param name="include">Items_DialogVideoInfo_MenuBar</param>
+                    </include>
+                    <include condition="$EXP[Exp_IsPersonInfo]">DialogInfo_ButtonHidden</include>
 
-                    <!-- Trailer -->
-                    <include>Dialog_VideoInfoTrailer</include>
-
-                    <!-- Plot Box -->
-                    <include>Dialog_VideoInfoPlotBox</include>
+                    <!-- Video Details -->
+                    <include content="DialogInfo_VideoDetails">
+                        <top>480</top>
+                    </include>
 
                     <!-- Codecs -->
                     <control type="group">
-                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                        <include>Furniture_Bottom</include>
+                        <height>40</height>
+                        <bottom>0</bottom>
+                        <include>Info_Codecs</include>
+                        <include>Info_Studio</include>
                     </control>
 
                     <!-- Mouse Nav Button -->
                     <include content="Object_Control">
                         <param name="control">group</param>
-                        <bottom>0</bottom>
+                        <bottom>-80</bottom>
                         <height>140</height>
-                        <include>Animation_FadeIn_Delay</include>
-                        <include>Animation_FadeOut</include>
-                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                        <visible>!Control.HasFocus(61)</visible>
                         <include content="Object_NavButton">
                             <param name="flipy">true</param>
                             <param name="id">5000</param>
                         </include>
                     </include>
                 </control>
+
+                <!-- Trailer and Plot -->
+                <include>DialogInfo_VideoTrailer</include>
+                <include>DialogInfo_PlotBox</include>
             </include>
 
-
-
             <include>Furniture_Top_Left</include>
-        </control>
+        </include>
 
         <control type="group">
             <visible>!Window.IsVisible(1120)</visible>
@@ -117,34 +76,9 @@
             <param name="usemousefocus">true</param>
         </include>
 
-        <include>Dialog_VideoInfoTrailerFullscreen</include>
-        <include>Dialog_VideoInfoRecommendationsButton</include>
-
-        <control type="grouplist">
-            <orientation>horizontal</orientation>
-            <bottom>0</bottom>
-            <itemgap>10</itemgap>
-            <height>view_pad</height>
-            <left>dialog_pad</left>
-            <right>dialog_pad</right>
-            <align>right</align>
-            <visible>ControlGroup(9000).HasFocus()</visible>
-            <animation effect="fade" start="0" end="100" time="300" delay="100">Visible</animation>
-            <control type="image">
-                <width>56</width>
-                <height>56</height>
-                <centertop>51%</centertop>
-                <texture colordiffuse="main_fg_90">special://skin/extras/icons/files.png</texture>
-            </control>
-            <control type="label">
-                <aligny>center</aligny>
-                <label>$INFO[ListItem.FileNameAndPath]</label>
-                <font>font_mini</font>
-                <textcolor>main_fg_90</textcolor>
-                <haspath>true</haspath>
-                <width max="1800">auto</width>
-            </control>
-        </control>
+        <include>DialogInfo_VideoTrailerFullscreen</include>
+        <include>DialogInfo_RecommendationsButton</include>
+        <include>DialogInfo_FilePathInfo</include>
 
     </controls>
 </window>

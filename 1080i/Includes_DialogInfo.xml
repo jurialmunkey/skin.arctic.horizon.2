@@ -1,4 +1,317 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <!-- Main Group for DialogInfo -->
+    <include name="DialogInfo_MainGroup">
+        <control type="group">
+            <visible>!Window.IsActive(1120)</visible>
+            <animation effect="slide" start="0" end="-dialoginfo_left_w" time="800" tween="cubic" easing="out" reversible="false">Hidden</animation>
+            <animation effect="slide" end="0" start="-dialoginfo_left_w" time="800" tween="cubic" easing="out" reversible="false">Visible</animation>
+            <nested />
+        </control>
+    </include>
+
+    <!-- Left Group for DialogInfo -->
+    <include name="DialogInfo_LeftGroup">
+        <param name="poster_visible">true</param>
+        <param name="diffuse">diffuse/poster_w544_h800.png</param>
+        <param name="width">dialoginfo_poster_w</param>
+        <param name="height">dialoginfo_poster_h</param>
+        <definition>
+            <control type="group">
+                <width>dialoginfo_left_w</width>
+                <include>Animation_Left_Delay</include>
+                <include content="Object_BigPoster">
+                    <param name="diffuse">$PARAM[diffuse]</param>
+                    <param name="icon">$PARAM[icon]</param>
+                    <left>view_pad</left>
+                    <top>view_top</top>
+                    <width>$PARAM[width]</width>
+                    <height>$PARAM[height]</height>
+                    <visible>$PARAM[poster_visible]</visible>
+                </include>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <!-- Right Group for DialogInfo -->
+    <include name="DialogInfo_RightGroup">
+        <param name="left" default="dialoginfo_left_w" />
+        <param name="left_divider" default="dialoginfo_left_divider_w" />
+        <definition>
+            <control type="group">
+                <include content="Object_Left" condition="!Skin.String(DividerStyle,Split)">
+                    <param name="left">$PARAM[left]</param>
+                </include>
+                <include content="Object_Left" condition="Skin.String(DividerStyle,Split)">
+                    <param name="left">$PARAM[left_divider]</param>
+                </include>
+                <include>Dimension_Info</include>
+                <include>Animation_Right_Delay</include>
+                <include content="Object_DividerPanel" condition="Skin.String(DividerStyle,Split)">
+                    <param name="shadow_left" value="true" />
+                    <left>-80</left>
+                    <right>-$PARAM[left]</right>
+                </include>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <!-- Button Group for DialogInfo -->
+    <include name="DialogInfo_ButtonGroup">
+        <control type="group">
+            <top>360</top>
+            <height>70</height>
+            <include content="Object_Control">
+                <param name="control" value="grouplist" />
+                <param name="id" value="5000" />
+                <left>-40</left>
+                <itemgap>-60</itemgap>
+                <orientation>horizontal</orientation>
+                <height>256</height>
+                <centertop>50%</centertop>
+                <onleft>noop</onleft>
+
+                <!-- Open Manage Menu -->
+                <onright condition="!Integer.IsEqual(Container(9000).NumItems,0)">SetFocus(9000)</onright>
+                <onright condition="Integer.IsEqual(Container(9000).NumItems,0)">noop</onright>
+
+                <!-- Open Plotbox (and reset scroll position) -->
+                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+                <onup>61</onup>
+
+                <!-- Open Recommendations -->
+                <ondown>7002</ondown>
+
+                <include>$PARAM[include]</include>
+            </include>
+        </control>
+    </include>
+
+    <!-- Hidden Button Control in lieu of Button Group -->
+    <include name="DialogInfo_ButtonHidden">
+        <include content="Object_Hidden_Button">
+            <param name="id" value="5000" />
+            <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+            <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+            <onup>61</onup>
+            <ondown>7002</ondown>
+        </include>
+    </include>
+
+    <!-- Additional Video Info Details not included in info line such as Director and Genres -->
+    <include name="DialogInfo_VideoDetails">
+        <control type="group">
+            <nested />
+            <control type="grouplist">
+                <width>400</width>
+                <height>240</height>
+                <orientation>vertical</orientation>
+                <itemgap>20</itemgap>
+                <include content="Object_InfoCircle">
+                    <param name="icon" value="$VAR[Image_DirectorIcon]" />
+                    <param name="role" value="$LOCALIZE[20339]" />
+                    <param name="name" value="$INFO[ListItem.Director]" />
+                    <visible>!String.IsEmpty(ListItem.Director)</visible>
+                </include>
+                <include content="Object_InfoCircle">
+                    <param name="icon" value="$VAR[Image_WriterIcon]" />
+                    <param name="role" value="$LOCALIZE[20417]" />
+                    <param name="name" value="$INFO[ListItem.Writer]" />
+                    <visible>!String.IsEmpty(ListItem.Writer)</visible>
+                </include>
+                <include content="Object_InfoCircle">
+                    <param name="icon" value="$VAR[Image_CreatorIcon]" />
+                    <param name="role" value="$LOCALIZE[31065]" />
+                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator)]" />
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator))</visible>
+                </include>
+                <include content="Object_InfoCircle">
+                    <param name="icon" value="special://skin/extras/icons/director.png" />
+                    <param name="role" value="$LOCALIZE[572]" />
+                    <param name="name" value="$INFO[ListItem.Studio]" />
+                    <visible>!String.IsEmpty(ListItem.Studio)</visible>
+                </include>
+            </control>
+            <control type="grouplist">
+                <left>445</left>
+                <orientation>vertical</orientation>
+                <itemgap>20</itemgap>
+                <height>240</height>
+                <include content="Object_InfoCircle">
+                    <param name="icon" value="special://skin/extras/icons/trophy.png" />
+                    <param name="role" value="$LOCALIZE[31064]" />
+                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]" />
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))</visible>
+                </include>
+                <include content="Object_InfoCircle">
+                    <param name="icon" value="special://skin/extras/icons/coins.png" />
+                    <param name="role" value="$LOCALIZE[31264] / $LOCALIZE[31265]" />
+                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Revenue),, $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Budget)]" />
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Revenue)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Budget))</visible>
+                    <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Budget),$0)</visible>
+                </include>
+                <include content="Object_InfoCircle">
+                    <param name="icon" value="special://skin/extras/icons/genre.png" />
+                    <param name="role" value="$LOCALIZE[515]" />
+                    <param name="name" value="$INFO[ListItem.Genre]" />
+                    <visible>!String.IsEmpty(ListItem.Genre)</visible>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <!-- Trailer PIP Window -->
+    <include name="DialogInfo_VideoTrailer">
+        <include content="Object_Control" condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer)">
+            <param name="control" value="group" />
+            <visible>Control.HasFocus(7001)</visible>
+            <visible>Player.HasVideo</visible>
+            <include>Animation_Right_Delay</include>
+            <control type="image">
+                <include>Texture_Shadow_40</include>
+                <texture colordiffuse="black" border="10">common/box.png</texture>
+            </control>
+            <control type="videowindow" />
+            <include>DialogInfo_VideoTrailerButton</include>
+        </include>
+    </include>
+
+    <!-- Trailer Control Button -->
+    <include name="DialogInfo_VideoTrailerButton">
+        <control type="button" id="7001">
+            <texturefocus />
+            <texturenofocus />
+            <font />
+            <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</onunfocus>
+            <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onunfocus>
+            <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onunfocus>
+            <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</onleft>
+            <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
+            <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onleft>
+            <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</onright>
+            <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
+            <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onright>
+            <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</onup>
+            <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
+            <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onup>
+            <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</ondown>
+            <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
+            <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</ondown>
+            <onback>5000</onback>
+            <onback>ClearProperty(HasTrailer,Home)</onback>
+            <onback condition="Player.HasVideo">Stop</onback>
+            <oninfo>SetFocus(5000)</oninfo>
+            <oninfo>ClearProperty(HasTrailer,Home)</oninfo>
+            <oninfo condition="Player.HasVideo">Stop</oninfo>
+            <onclick condition="Player.HasVideo">Fullscreen</onclick>
+            <onclick>ClearProperty(HasTrailer,Home)</onclick>
+            <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onleft>
+            <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepBack</onleft>
+            <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
+            <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onright>
+            <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepForward</onright>
+            <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
+            <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onup>
+            <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepForward</onup>
+            <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
+            <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</ondown>
+            <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepBack</ondown>
+            <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
+        </control>
+    </include>
+
+    <!-- Fake Fullscreen Trailer -->
+    <include name="DialogInfo_VideoTrailerFullscreen">
+        <include content="Object_Control" condition="Skin.HasSetting(VideoInfo.FullscreenTrailer)">
+            <param name="control" value="group" />
+            <visible>Control.HasFocus(7001)</visible>
+            <visible>Player.HasVideo</visible>
+            <control type="image">
+                <texture colordiffuse="black">common/white.png</texture>
+            </control>
+            <control type="videowindow" />
+            <include>DialogInfo_VideoTrailerButton</include>
+        </include>
+    </include>
+
+
+    <!-- PlotBox Large -->
+    <include name="DialogInfo_PlotBox">
+        <param name="label">$INFO[ListItem.Tagline,[B]$LOCALIZE[202][/B][CR],[CR][CR]]$VAR[Label_Plot,[B]$LOCALIZE[31028][/B][CR],]$VAR[Label_OverlayCritics]</param>
+        <definition>
+            <control type="group">
+                <include>Info_Title</include>
+                <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
+                <include content="Object_Control">
+                    <param name="control" value="textbox" />
+                    <top>120</top>
+                    <bottom>80</bottom>
+                    <align>left</align>
+                    <textcolor>main_fg_70</textcolor>
+                    <font>font_overlay_plotbox</font>
+                    <label fallback="19055">$PARAM[label]$INFO[Window(Home).Property(ResetScroll)]</label>
+                    <pagecontrol>61</pagecontrol>
+                    <autoscroll delay="8000" time="4000" repeat="12000">false</autoscroll>
+                </include>
+                <control type="scrollbar" id="61">
+                    <centerright>-40</centerright>
+                    <width>8</width>
+                    <onleft>SetFocus(5000)</onleft>
+                    <onright>SetFocus(5000)</onright>
+                    <ondown>SetFocus(5000)</ondown>
+                    <onup>SetFocus(5000)</onup>
+                    <visible allowhiddenfocus="true">false</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+
+    <!-- Recommendations Window Button -->
+    <include name="DialogInfo_RecommendationsButton">
+        <control type="button" id="7002">
+            <texturefocus />
+            <texturenofocus />
+            <font />
+            <width>1</width>
+            <height>1</height>
+            <include content="Action_Recommendations_OnFocus">
+                <onfocus>SetFocus(5000)</onfocus>
+            </include>
+        </control>
+    </include>
+
+    <!-- File Path for Management -->
+    <include name="DialogInfo_FilePathInfo">
+        <control type="grouplist">
+            <orientation>horizontal</orientation>
+            <bottom>0</bottom>
+            <itemgap>10</itemgap>
+            <height>view_pad</height>
+            <left>dialog_pad</left>
+            <right>dialog_pad</right>
+            <align>right</align>
+            <visible>ControlGroup(9000).HasFocus()</visible>
+            <animation effect="fade" start="0" end="100" time="300" delay="100">Visible</animation>
+            <control type="image">
+                <width>56</width>
+                <height>56</height>
+                <centertop>51%</centertop>
+                <texture colordiffuse="main_fg_90">special://skin/extras/icons/files.png</texture>
+            </control>
+            <control type="label">
+                <aligny>center</aligny>
+                <label>$INFO[ListItem.FileNameAndPath]</label>
+                <font>font_mini</font>
+                <textcolor>main_fg_90</textcolor>
+                <haspath>true</haspath>
+                <width max="1800">auto</width>
+            </control>
+        </control>
+    </include>
+
 </includes>
