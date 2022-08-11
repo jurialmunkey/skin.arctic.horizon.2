@@ -3,156 +3,97 @@
     <defaultcontrol always="true">5000</defaultcontrol>
     <menucontrol>9000</menucontrol>
     <controls>
-        <control type="group">
-            <animation effect="slide" start="0" end="-dialoginfo_left_w" time="800" tween="cubic" easing="out" condition="ControlGroup(6000).HasFocus()" reversible="false">Conditional</animation>
-            <animation effect="slide" end="0" start="-dialoginfo_left_w" time="800" tween="cubic" easing="out" condition="!ControlGroup(6000).HasFocus()" reversible="false">Conditional</animation>
-
-            <include content="Dialog_MusicInfoAlbumArt">
-                <include>Animation_Left_Delay</include>
-                <include>Dimension_Info</include>
-                <control type="image">
-                    <top>544</top>
-                    <width>544</width>
-                    <texture background="true">$VAR[Image_Clearlogo]</texture>
-                    <aspectratio>keep</aspectratio>
-                    <bordersize>40</bordersize>
-                    <visible>String.IsEmpty(ListItem.Art(discart))</visible>
-                    <visible>String.IsEmpty(ListItem.Art(album.discart))</visible>
-                </control>
+        <include content="DialogInfo_MainGroup">
+            <visible>!ControlGroup(6000).HasFocus()</visible>
+            <include content="DialogInfo_LeftGroup">
+                <param name="height">dialoginfo_poster_w</param>
+                <param name="diffuse">diffuse/square_w544_h544.png</param>
+                <include>DialogInfo_MusicArt</include>
             </include>
 
-            <include content="Dialog_Info_RightSide">
+            <include content="DialogInfo_RightGroup">
+                <!-- Info -->
                 <control type="group">
-                    <visible>!ControlGroup(6000).HasFocus()</visible>
-                    <include>Animation_DialogInfo_Recommendations</include>
-                    <include content="Object_Left" condition="!Skin.String(DividerStyle,Split)">
-                        <param name="left">-80</param>
+                    <visible>!Control.HasFocus(61)</visible>
+                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                    <include content="Animation_DialogInfo_Recommendations">
+                        <param name="condition">ControlGroup(6000).HasFocus()</param>
                     </include>
+
+                    <!-- Info -->
+                    <include content="Info_Panel">
+                        <param name="plotheight" value="info_plot_large_h" />
+                    </include>
+
+                    <!-- Button Group -->
+                    <include content="DialogInfo_ButtonGroup">
+                        <param name="include">Items_DialogVideoInfo_MenuBar</param>
+                    </include>
+
+                    <!-- Track Details -->
+                    <include>DialogInfo_MusicTracks</include>
+
+                    <!-- Codecs -->
                     <control type="group">
-                        <include>Dimension_Info</include>
-                        <visible>!Control.HasFocus(61)</visible>
-                        <include content="Info_Panel">
-                            <param name="plotheight" value="info_plot_large_h" />
-                        </include>
-                        <control type="group">
-                            <top>360</top>
-                            <height>80</height>
-                            <include content="Object_Control">
-                                <param name="control" value="grouplist" />
-                                <param name="id" value="5000" />
-                                <left>-40</left>
-                                <itemgap>-60</itemgap>
-                                <orientation>horizontal</orientation>
-                                <height>256</height>
-                                <centertop>50%</centertop>
-                                <onright condition="!Integer.IsEqual(Container(9000).NumItems,0)">SetFocus(9000)</onright>
-                                <onright condition="Integer.IsEqual(Container(9000).NumItems,0)">noop</onright>
-                                <onleft>noop</onleft>
-                                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
-                                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
-                                <onup>61</onup>
-                                <ondown condition="String.IsEqual(ListItem.DBType,artist)">SetFocus(6000)</ondown>
-                                <ondown condition="!String.IsEqual(ListItem.DBType,artist)">Close</ondown>
-                                <ondown condition="!String.IsEqual(ListItem.DBType,artist)">SendClick(12)</ondown>
-                                <include>Items_DialogVideoInfo_MenuBar</include>
-                            </include>
-                        </control>
-                        <include content="Object_Control"  condition="!String.IsEqual(ListItem.DBType,artist)">
-                            <param name="control" value="panel" />
-                            <param name="id" value="50" />
-                            <orientation>horizontal</orientation>
-                            <top>480</top>
-                            <height>240</height>
-                            <right>0</right>
-                            <itemlayout height="row_height" width="380">
-                                <include content="Object_InfoCircle">
-                                    <param name="role" value="$INFO[ListItem.Label]" />
-                                    <param name="name" value="$INFO[ListItem.Duration]" />
-                                    <param name="bordersize" value="4" />
-                                    <right>40</right>
-                                    <include content="Object_Control">
-                                        <param name="control" value="image" />
-                                        <width>60</width>
-                                        <bordersize>4</bordersize>
-                                        <texture colordiffuse="panel_bg">common/circle.png</texture>
-                                    </include>
-                                    <control type="label">
-                                        <width>60</width>
-                                        <height>60</height>
-                                        <font>font_small_bold</font>
-                                        <textcolor>panel_fg_70</textcolor>
-                                        <label>$INFO[ListItem.TrackNumber]</label>
-                                        <align>center</align>
-                                        <aligny>center</aligny>
-                                    </control>
-                                </include>
-                            </itemlayout>
-                            <focusedlayout height="row_height" width="380">
-                                <include content="Object_InfoCircle">
-                                    <param name="role" value="$INFO[ListItem.Label]" />
-                                    <param name="name" value="$INFO[ListItem.Duration]" />
-                                    <param name="bordersize" value="4" />
-                                    <right>40</right>
-                                    <include content="Object_Control">
-                                        <param name="control" value="image" />
-                                        <width>60</width>
-                                        <bordersize>4</bordersize>
-                                        <texture colordiffuse="panel_bg">common/circle.png</texture>
-                                    </include>
-                                    <control type="label">
-                                        <width>60</width>
-                                        <height>60</height>
-                                        <font>font_small_bold</font>
-                                        <textcolor>panel_fg_70</textcolor>
-                                        <label>$INFO[ListItem.TrackNumber]</label>
-                                        <align>center</align>
-                                        <aligny>center</aligny>
-                                    </control>
-                                </include>
-                            </focusedlayout>
-                        </include>
+                        <height>40</height>
+                        <bottom>0</bottom>
+                        <include>Info_Codecs</include>
+                        <include>Info_Studio</include>
                     </control>
 
-                    <!-- Plot Box -->
-                    <control type="group">
-                        <include>Dimension_Info</include>
-                        <include>Info_Title</include>
-                        <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
-                        <include content="Object_Control">
-                            <param name="control" value="textbox" />
-                            <top>120</top>
-                            <bottom>80</bottom>
-                            <align>left</align>
-                            <textcolor>main_fg_70</textcolor>
-                            <font>font_overlay_plotbox</font>
-                            <label fallback="19055">$VAR[Label_Plot]$INFO[Window(Home).Property(ResetScroll)]</label>
-                            <pagecontrol>61</pagecontrol>
-                            <autoscroll delay="8000" time="4000" repeat="12000">false</autoscroll>
+                    <!-- Mouse Nav Button -->
+                    <!-- <include content="Object_Control">
+                        <param name="control">group</param>
+                        <bottom>-80</bottom>
+                        <height>140</height>
+                        <include content="Object_NavButton">
+                            <param name="flipy">true</param>
+                            <param name="id">5000</param>
                         </include>
-                        <control type="scrollbar" id="61">
-                            <centerright>-40</centerright>
-                            <width>8</width>
-
-                            <onleft>SetFocus(5000)</onleft>
-                            <onright>SetFocus(5000)</onright>
-                            <ondown>SetFocus(5000)</ondown>
-                            <onup>SetFocus(5000)</onup>
-
-                            <visible allowhiddenfocus="true">false</visible>
-                        </control>
-                    </control>
-                    <include>Furniture_Bottom</include>
+                    </include> -->
                 </control>
+
+                <!-- Trailer and Plot -->
+                <include>DialogInfo_VideoTrailer</include>
+                <include content="DialogInfo_PlotBox">
+                    <param name="label">$VAR[Label_Plot]</param>
+                </include>
             </include>
+
             <include>Furniture_Top_Left</include>
+        </include>
+
+        <control type="group">
+            <visible>!Window.IsVisible(1120)</visible>
+            <include>Furniture_Top_Right</include>
         </control>
 
+        <include content="Object_Options_Menu">
+            <param name="grouplist_items" value="Items_DialogMusicInfo_Options" />
+            <param name="visible" value="!$EXP[Exp_OverlayDialogs]" />
+            <param name="onback" value="5000" />
+            <param name="usemousefocus">true</param>
+        </include>
+
+        <include>DialogInfo_VideoTrailerFullscreen</include>
+
+        <include content="Object_Hidden_Button">
+            <param name="id">7002</param>
+            <onfocus condition="String.IsEqual(ListItem.DBType,artist)">SetFocus(6000)</onfocus>
+            <onfocus condition="!String.IsEqual(ListItem.DBType,artist)">Close</onfocus>
+            <onfocus condition="!String.IsEqual(ListItem.DBType,artist)">SendClick(12)</onfocus>
+        </include>
+
+        <include>DialogInfo_FilePathInfo</include>
+
+
+        <!-- Albums -->
         <control type="group">
-            <animation type="Conditional" condition="ControlGroup(6000).HasFocus()" reversible="false">
+            <animation type="Conditional" reversible="false" condition="ControlGroup(6000).HasFocus()">
                 <effect type="fade" start="0" end="100" time="800" tween="sine" easing="out"/>
                 <effect type="slide" start="dialoginfo_left_w,200" end="0" time="800" tween="cubic" easing="out" />
             </animation>
-            <animation type="Conditional" condition="!ControlGroup(6000).HasFocus()" reversible="false">
+            <animation type="Conditional" reversible="false" condition="!ControlGroup(6000).HasFocus()">
                 <effect type="fade" start="100" end="0" time="400" tween="sine" easing="out" />
                 <effect type="slide" start="0" end="dialoginfo_left_w,200" time="800" tween="cubic" easing="out" />
             </animation>
@@ -187,16 +128,6 @@
                 </include>
             </control>
         </control>
-
-
-        <include>Furniture_Top_Right</include>
-
-        <include content="Object_Options_Menu">
-            <param name="grouplist_items" value="Items_DialogMusicInfo_Options" />
-            <param name="visible" value="!$EXP[Exp_OverlayDialogs]" />
-            <param name="onback" value="5000" />
-            <param name="usemousefocus">true</param>
-        </include>
 
     </controls>
 </window>
