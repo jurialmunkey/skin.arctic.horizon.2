@@ -9,8 +9,8 @@
 
         <include content="DialogInfo_MainGroup">
             <include content="DialogInfo_LeftGroup">
-                <param name="icon">$VAR[Image_ContextPoster]</param>
-                <param name="poster_visible">$EXP[Exp_ContextMenu_HasPoster]</param>
+                <param name="icon">$VAR[Image_PVRPoster]</param>
+                <param name="poster_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) | !String.IsEmpty(ListItem.Art(tvshow.poster)) | !String.IsEmpty(ListItem.Art(poster))</param>
 
                 <!-- Use Square when Poster not available -->
                 <include content="Object_BigPoster">
@@ -20,7 +20,7 @@
                     <left>view_pad</left>
                     <height>dialoginfo_poster_w</height>
                     <width>dialoginfo_poster_w</width>
-                    <visible>!$EXP[Exp_ContextMenu_HasPoster]</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(poster))</visible>
                 </include>
             </include>
 
