@@ -121,8 +121,8 @@
         <param name="changer_onright" default="3" />
         <definition>
             <control type="group">
-                <top>dialog_pad</top>
-                <bottom>dialog_pad</bottom>
+                <top>grid_x1</top>
+                <bottom>grid_x1</bottom>
                 <include content="Dialog_Settings_Changer">
                     <onright>$PARAM[changer_onright]</onright>
                 </include>
@@ -137,7 +137,7 @@
         <param name="header_id" default="" />
         <definition>
             <control type="group">
-                <left>row_height</left>
+                <left>grid_x2</left>
                 <include content="Dialog_Settings_Label" condition="$PARAM[header_condition]">
                     <param name="control" value="label" />
                     <param name="id" value="$PARAM[header_id]" />
@@ -163,8 +163,8 @@
                 </include>
                 <control type="scrollbar" id="61">
                     <width>8</width>
-                    <top>-dialog_pad</top>
-                    <bottom>-dialog_pad</bottom>
+                    <top>-grid_x1</top>
+                    <bottom>-grid_x1</bottom>
                     <onleft>$PARAM[scrollbar_onleft]</onleft>
                     <right>0</right>
                     <showonepage>false</showonepage>
@@ -179,10 +179,10 @@
         <definition>
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
-                <left>dialog_pad</left>
-                <right>dialog_pad</right>
-                <bottom>dialog_pad</bottom>
-                <top>dialog_pad</top>
+                <left>grid_x1</left>
+                <right>grid_x1</right>
+                <bottom>grid_x1</bottom>
+                <top>grid_x1</top>
             </control>
         </definition>
     </include>
@@ -241,7 +241,7 @@
 
     <include name="Dialog_Overlay_Settings">
         <control type="group">
-            <left>row_height</left>
+            <left>grid_x2</left>
             <include>Dialog_Overlay</include>
             <include>Object_Separator</include>
             <control type="group">
@@ -264,7 +264,7 @@
     <include name="Dialog_Group_NoHeader">
         <include content="Dialog_Group">
             <nested />
-            <top>dialog_pad</top>
+            <top>grid_x1</top>
         </include>
     </include>
 
@@ -274,8 +274,8 @@
             <control type="label" id="$PARAM[id]">
                 <nested />
                 <textcolor>main_fg_100</textcolor>
-                <top>-dialog_top</top>
-                <height>dialog_top</height>
+                <top>-grid_x3</top>
+                <height>grid_x3</height>
                 <font>font_mainlabel</font>
                 <align>center</align>
             </control>
@@ -296,13 +296,13 @@
     <include name="Dialog_Button_Grouplist_Bottom">
         <control type="grouplist">
             <nested />
-            <left>dialog_pad</left>
-            <right>dialog_pad</right>
-            <bottom>dialog_pad</bottom>
-            <height>row_height</height>
+            <left>grid_x1</left>
+            <right>grid_x1</right>
+            <bottom>grid_x1</bottom>
+            <height>grid_x2</height>
             <align>center</align>
             <orientation>horizontal</orientation>
-            <itemgap>dialog_pad</itemgap>
+            <itemgap>grid_x1</itemgap>
         </control>
     </include>
 
@@ -311,7 +311,7 @@
             <param name="id" value="$PARAM[id]" />
             <param name="control" value="$PARAM[control]" />
             <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].Language))</visible>
-            <textoffsetx>dialog_pad</textoffsetx>
+            <textoffsetx>grid_x1</textoffsetx>
             <label>$INFO[Window(Home).Property($PARAM[language].Language),[UPPERCASE],[/UPPERCASE]]$INFO[Window(Home).Property($PARAM[language].Name), | ,]</label>
             <onclick condition="$PARAM[issubtitle] + String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex))">Action(ShowSubtitles)</onclick>
             <onclick condition="$PARAM[issubtitle] + !String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex))">RunScript(plugin.video.themoviedb.helper,set_player_subtitle=$INFO[Window(Home).Property($PARAM[language].Index)])</onclick>
@@ -325,13 +325,13 @@
         <control type="grouplist" id="$PARAM[groupid]">
             <visible>Control.IsVisible($PARAM[id])</visible>
             <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].Language))</visible>
-            <height>row_height</height>
-            <top>-row_height</top>
-            <right>row_height_x50</right>
+            <height>grid_x2</height>
+            <top>-grid_x2</top>
+            <right>grid_x1</right>
             <orientation>horizontal</orientation>
             <align>right</align>
             <itemgap>20</itemgap>
-            <left>row_height_x25</left>
+            <left>grid_x0.5</left>
             <control type="label">
                 <width>auto</width>
                 <label>$LOCALIZE[39111]</label>
@@ -383,28 +383,28 @@
             <control type="image">
                 <top>-1</top>
                 <bottom>1</bottom>
-                <width>row_height</width>
+                <width>grid_x2</width>
                 <bordersize>22</bordersize>
                 <aspectratio align="right">keep</aspectratio>
                 <texture colordiffuse="dialog_fg_70">flags/cc.png</texture>
                 <animation effect="fade" end="33" condition="!String.IsEqual(Window(Home).Property($PARAM[language].IsImpaired),True)">Conditional</animation>
             </control>
             <control type="image">
-                <width>row_height</width>
+                <width>grid_x2</width>
                 <bordersize>28</bordersize>
                 <aspectratio align="right">keep</aspectratio>
                 <texture colordiffuse="dialog_fg_70">buttons/check-on.png</texture>
                 <visible>[String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex)) + $PARAM[issubtitle] + VideoPlayer.SubtitlesEnabled] | [String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.AudioStreams.CurrentIndex)) + !$PARAM[issubtitle]]</visible>
             </control>
             <control type="image">
-                <width>row_height</width>
+                <width>grid_x2</width>
                 <bordersize>28</bordersize>
                 <aspectratio align="right">keep</aspectratio>
                 <texture colordiffuse="dialog_fg_70">buttons/check-off.png</texture>
                 <visible>[[!String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex)) | !VideoPlayer.SubtitlesEnabled] + $PARAM[issubtitle]] | [!String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.AudioStreams.CurrentIndex)) + !$PARAM[issubtitle]]</visible>
             </control>
             <control type="image">
-                <width>row_height</width>
+                <width>grid_x2</width>
                 <bordersize>18</bordersize>
                 <aspectratio align="right">keep</aspectratio>
                 <texture>$INFO[Window(Home).Property($PARAM[language].Language),flags/color/language/,.png]</texture>
@@ -420,16 +420,16 @@
                 <param name="id" value="$PARAM[id]" />
                 <param name="control" value="$PARAM[control]" />
                 <visible>Control.IsEnabled($PARAM[id])</visible>
-                <textoffsetx>dialog_pad</textoffsetx>
+                <textoffsetx>grid_x1</textoffsetx>
                 <textwidth>356</textwidth>
                 <radioposx>340</radioposx>
                 <nested />
             </include>
             <control type="group" id="$PARAM[groupid]">
-                <width>row_height</width>
-                <height>row_height</height>
-                <top>-row_height</top>
-                <right>row_height_x25</right>
+                <width>grid_x2</width>
+                <height>grid_x2</height>
+                <top>-grid_x2</top>
+                <right>grid_x0.5</right>
                 <visible>Control.IsEnabled($PARAM[id]) + Control.IsVisible($PARAM[id])</visible>
                 <control type="image">
                     <right>0</right>
@@ -456,8 +456,8 @@
                 <nested />
                 <align>left</align>
                 <font>font_small</font>
-                <height>row_height</height>
-                <textoffsetx>row_height_x50</textoffsetx>
+                <height>grid_x2</height>
+                <textoffsetx>grid_x1</textoffsetx>
                 <texturenofocus />
                 <alttexturenofocus />
                 <include>Texture_Highlight_Focus</include>
@@ -472,9 +472,9 @@
                 <nested />
                 <align>left</align>
                 <font>font_hintlabel</font>
-                <top>row_height_x50</top>
-                <height>row_height_x50</height>
-                <textoffsetx>dialog_pad</textoffsetx>
+                <top>grid_x1</top>
+                <height>grid_x1</height>
+                <textoffsetx>grid_x1</textoffsetx>
             </control>
         </definition>
     </include>
@@ -482,7 +482,7 @@
     <include name="Dialog_Settings_Level">
         <control type="group">
             <bottom>0</bottom>
-            <height>row_height</height>
+            <height>grid_x2</height>
             <width>dialog_category_width</width>
             <include content="Dialog_Settings_Button">
                 <param name="id" value="20" />
@@ -516,9 +516,9 @@
         <definition>
             <control type="group">
                 <bottom>0</bottom>
-                <left>dialog_pad</left>
-                <right>dialog_pad</right>
-                <height>row_height</height>
+                <left>grid_x1</left>
+                <right>grid_x1</right>
+                <height>grid_x2</height>
                 <visible>$PARAM[visible]</visible>
                 <control type="image">
                     <centertop>50%</centertop>
@@ -556,7 +556,7 @@
         <definition>
             <control type="grouplist" id="$PARAM[id]">
                 <nested />
-                <width>row_height</width>
+                <width>grid_x2</width>
                 <orientation>vertical</orientation>
                 <include>Items_Settings_Changer</include>
             </control>
