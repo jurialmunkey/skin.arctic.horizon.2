@@ -1023,7 +1023,7 @@
                 </include>
 
                 <!-- Info Providers -->
-                <include content="Object_Control">
+                <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaProviderIcons)">
                     <param name="control">image</param>
                     <width>56</width>
                     <height>40</height>
@@ -1044,7 +1044,7 @@
             </control>
 
             <!-- Folder Items -->
-            <control type="grouplist" id="98002">
+            <control type="grouplist">
                 <hitrect x="0" y="0" w="0" h="0" />
                 <nested />
                 <orientation>horizontal</orientation>
@@ -1170,7 +1170,8 @@
     </include>
 
     <include name="Info_Provider">
-        <control type="image">
+        <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaProviderIcons)">
+            <param name="control">image</param>
             <width>56</width>
             <height>40</height>
             <centertop>50%</centertop>
@@ -1178,7 +1179,7 @@
             <texture background="true" diffuse="diffuse/provider.png">$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.$PARAM[pos].Icon)]</texture>
             <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.$PARAM[pos].Icon))</visible>
             <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)</visible>
-        </control>
+        </include>
     </include>
 
     <include name="Info_Studio">
