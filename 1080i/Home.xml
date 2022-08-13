@@ -13,7 +13,7 @@
     <onload condition="Control.HasFocus(301) + String.IsEmpty(Window(Home).Property(FullscreenWidgetRefocus))">SetFocus(300)</onload>
     <onload>ClearProperty(FullscreenWidgetRefocus,Home)</onload>
     <controls>
-
+        <include>skinshortcuts-template-fullscreen-widget</include>
         <include>Background_ExtraFanart</include>
         <include>Background_Main</include>
 
@@ -26,9 +26,39 @@
             <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
             <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
             <include>Animation_Foreground_FadeInOut</include>
+            <include>Background_NotVideo</include>
+            <control type="image">
+                <width>1920</width>
+                <height>1080</height>
+                <texture background="true">$VAR[Image_FullscreenWidget_Artwork]</texture>
+                <aspectratio>scale</aspectratio>
+                <fadetime>400</fadetime>
+            </control>
             <control type="group">
-                <include>Background_NotVideo</include>
-                <include>skinshortcuts-template-fullscreen-widget</include>
+                <visible>Container(301).OnNext | Container(301).OnPrevious</visible>
+                <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="false">Hidden</animation>
+                <animation condition="!Container(301).OnNext" effect="slide" start="0" end="-1920" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
+                <animation condition="!Container(301).OnPrevious" effect="slide" start="0" end="1920" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
+                <control type="image">
+                    <left>-1920</left>
+                    <width>1920</width>
+                    <height>1080</height>
+                    <texture background="true">$VAR[Image_FullscreenWidget_Artwork-1]</texture>
+                    <aspectratio>scale</aspectratio>
+                </control>
+                <control type="image">
+                    <width>1920</width>
+                    <height>1080</height>
+                    <texture background="true">$VAR[Image_FullscreenWidget_Artwork]</texture>
+                    <aspectratio>scale</aspectratio>
+                </control>
+                <control type="image">
+                    <left>1920</left>
+                    <width>1920</width>
+                    <height>1080</height>
+                    <texture background="true">$VAR[Image_FullscreenWidget_Artwork+1]</texture>
+                    <aspectratio>scale</aspectratio>
+                </control>
             </control>
             <control type="image">
                 <texture>common/vignetted.png</texture>
