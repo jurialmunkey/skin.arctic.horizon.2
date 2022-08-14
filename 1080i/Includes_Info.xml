@@ -1139,17 +1139,42 @@
                     <visible>!String.IsEmpty(ListItem.Property(TotalEpisodes))</visible>
                 </include>
 
-                <!-- Total Duration -->
+                <!-- Total Duration Songs View -->
                 <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/songs.png" />
                     <param name="label" value="$INFO[Container.NumNonFolderItems,[B],[/B] $LOCALIZE[134]]" />
-                    <visible>!String.IsEmpty(Container.NumNonFolderItems) + Container.Content(songs)</visible>
+                    <visible>!String.IsEmpty(Container.NumNonFolderItems)</visible>
+                    <visible>Container.Content(songs)</visible>
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
                 </include>
                 <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/clock.png" />
                     <param name="label" value="$INFO[Container.Totaltime,[B],[/B] $LOCALIZE[31142]]" />
-                    <visible>!String.IsEmpty(Container.Totaltime) + Container.Content(songs)</visible>
+                    <visible>!String.IsEmpty(Container.Totaltime)</visible>
+                    <visible>Container.Content(songs)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+
+                <!-- Total Duration Albums View -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container(99999).NumNonFolderItems,[B],[/B] $LOCALIZE[134]]" />
+                    <visible>Container.Content(albums)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/clock.png" />
+                    <param name="label" value="$INFO[ListItem.Property(Album_Duration),[B],[/B] $LOCALIZE[31142]]" />
+                    <visible>Container.Content(albums)</visible>
+                    <visible>!String.IsEmpty(ListItem.Property(Album_Duration))</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+
+                <!-- Total Albums in Artists View -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container(99999).NumItems,[B],[/B] $LOCALIZE[132]]" />
+                    <visible>Container.Content(artists)</visible>
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
                 </include>
 
@@ -1307,7 +1332,7 @@
                             <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                             <centertop>50%</centertop>
                             <visible>$PARAM[ratings]</visible>
-                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]</visible>
+                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]</visible>
                         </include>
 
                         <control type="group">
@@ -1324,7 +1349,7 @@
                                 <visible>$PARAM[ratings]</visible>
                                 <visible>$PARAM[details]</visible>
                                 <visible>$PARAM[plotbox]</visible>
-                                <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]]</visible>
+                                <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]]</visible>
                                 <top>-3</top>
                                 <bottom>3</bottom>
                             </include>
@@ -1336,7 +1361,7 @@
                                 <aligny>top</aligny>
                                 <textcolor>$PARAM[colordiffuse]_70</textcolor>
                                 <font>font_plotbox</font>
-                                <visible>![$PARAM[ratings] + [[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]]]</visible>
+                                <visible>![$PARAM[ratings] + [[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]]]</visible>
                                 <visible>$PARAM[details]</visible>
                                 <visible>$PARAM[plotbox]</visible>
                                 <top>-63</top>

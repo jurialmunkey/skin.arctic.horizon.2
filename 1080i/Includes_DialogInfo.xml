@@ -189,49 +189,61 @@
     </include>
 
     <!-- Additional Track Info -->
-    <include name="DialogInfo_MusicTracks">
-        <include content="Object_Control"  condition="!String.IsEqual(ListItem.DBType,artist)">
-            <param name="control" value="panel" />
-            <param name="id" value="50" />
-            <orientation>horizontal</orientation>
-            <top>grid_x48</top>
-            <height>grid_x24</height>
-            <right>0</right>
-            <itemlayout height="grid_x08" width="380">
-                <include content="Object_InfoCircle">
-                    <param name="role" value="$INFO[ListItem.Label]" />
-                    <param name="name" value="$INFO[ListItem.Duration]" />
-                    <param name="bordersize" value="4" />
-                    <right>grid_x04</right>
-                    <control type="label">
-                        <width>grid_x06</width>
-                        <height>grid_x06</height>
-                        <font>font_mini_bold</font>
-                        <textcolor>panel_fg_90</textcolor>
-                        <label>$INFO[ListItem.TrackNumber]</label>
-                        <align>center</align>
-                        <aligny>center</aligny>
-                    </control>
-                </include>
-            </itemlayout>
-            <focusedlayout height="grid_x08" width="380">
-                <include content="Object_InfoCircle">
-                    <param name="role" value="$INFO[ListItem.Label]" />
-                    <param name="name" value="$INFO[ListItem.Duration]" />
-                    <param name="bordersize" value="4" />
-                    <right>grid_x04</right>
-                    <control type="label">
-                        <width>grid_x06</width>
-                        <height>grid_x06</height>
-                        <font>font_mini_bold</font>
-                        <textcolor>panel_fg_90</textcolor>
-                        <label>$INFO[ListItem.TrackNumber]</label>
-                        <align>center</align>
-                        <aligny>center</aligny>
-                    </control>
-                </include>
-            </focusedlayout>
+    <include name="DialogInfo_MusicTracks_ItemLayout">
+        <include content="Object_InfoCircle">
+            <param name="role" value="$INFO[ListItem.Label]" />
+            <param name="name" value="$INFO[ListItem.Duration]" />
+            <param name="bordersize" value="4" />
+            <right>grid_x04</right>
+            <control type="label">
+                <width>grid_x06</width>
+                <height>grid_x06</height>
+                <font>font_mini_bold</font>
+                <textcolor>panel_fg_90</textcolor>
+                <label>$INFO[ListItem.TrackNumber]</label>
+                <align>center</align>
+                <aligny>center</aligny>
+            </control>
         </include>
+    </include>
+    <include name="DialogInfo_MusicAllTracks_ItemLayout">
+        <include content="Object_InfoCircle">
+            <param name="role">$INFO[ListItem.Label]</param>
+            <param name="name">$INFO[ListItem.Album]</param>
+            <param name="bordersize">4</param>
+            <right>grid_x04</right>
+            <control type="label">
+                <width>grid_x06</width>
+                <height>grid_x06</height>
+                <font>font_mini_bold</font>
+                <textcolor>panel_fg_90</textcolor>
+                <label>$INFO[ListItem.CurrentItem]</label>
+                <align>center</align>
+                <aligny>center</aligny>
+            </control>
+        </include>
+    </include>
+    <include name="DialogInfo_MusicTracks">
+        <param name="detailed">false</param>
+        <definition>
+            <include content="Object_Control">
+                <param name="control" value="panel" />
+                <param name="id" value="$PARAM[id]" />
+                <nested />
+                <orientation>horizontal</orientation>
+                <top>grid_x48</top>
+                <height>grid_x24</height>
+                <right>0</right>
+                <itemlayout height="grid_x08" width="380">
+                    <include condition="!$PARAM[detailed]">DialogInfo_MusicTracks_ItemLayout</include>
+                    <include condition="$PARAM[detailed]">DialogInfo_MusicAllTracks_ItemLayout</include>
+                </itemlayout>
+                <focusedlayout height="grid_x08" width="380">
+                    <include condition="!$PARAM[detailed]">DialogInfo_MusicTracks_ItemLayout</include>
+                    <include condition="$PARAM[detailed]">DialogInfo_MusicAllTracks_ItemLayout</include>
+                </focusedlayout>
+            </include>
+        </definition>
     </include>
 
     <!-- Trailer PIP Window -->
@@ -389,19 +401,29 @@
         <definition>
             <control type="group">
                 <top>view_top</top>
-                <control type="image">
-                    <centerleft>50%</centerleft>
+                <bottom>view_pad</bottom>
+                <width>$PARAM[width]</width>
+                <centerleft>50%</centerleft>
+                <control type="group">
                     <top>$PARAM[width]</top>
-                    <width>$PARAM[width]</width>
-                    <texture background="true">$VAR[Image_Clearlogo]</texture>
-                    <aspectratio>keep</aspectratio>
-                    <bordersize>40</bordersize>
                     <visible>String.IsEmpty(ListItem.Art(discart))</visible>
                     <visible>String.IsEmpty(ListItem.Art(album.discart))</visible>
+                    <!-- <control type="image">
+                        <top>grid_x04</top>
+                        <centerleft>50%</centerleft>
+                        <texture background="true" colordiffuse="ff555555">$INFO[ListItem.Art(fanart)]</texture>
+                        <aspectratio>scale</aspectratio>
+                    </control> -->
+                    <control type="image">
+                        <top>grid_x04</top>
+                        <centerleft>50%</centerleft>
+                        <texture background="true">$VAR[Image_Clearlogo]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <bordersize>40</bordersize>
+                    </control>
                 </control>
                 <control type="image">
                     <top>$PARAM[discart_top]</top>
-                    <centerleft>50%</centerleft>
                     <height>$PARAM[width]</height>
                     <width>$PARAM[width]</width>
                     <texture background="true">$PARAM[discart_image]</texture>
