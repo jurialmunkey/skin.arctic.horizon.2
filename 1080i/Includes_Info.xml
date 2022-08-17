@@ -1,34 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="Info_Title_Label">
+        <definition>
+            <control type="label">
+                <aligny>center</aligny>
+                <height>80</height>
+                <label>$VAR[Label_Title_Main]</label>
+                <textcolor>$PARAM[colordiffuse]_100</textcolor>
+                <include content="Object_Font" condition="Skin.HasSetting(UseLightFont)">
+                    <param name="font">font_infotitle_light</param>
+                </include>
+                <font>font_infotitle</font>
+                <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
+                <nested />
+            </control>
+        </definition>
+    </include>
+    <include name="Info_Title_Logo">
+        <definition>
+            <include content="Info_Title_Label">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <visible>![$PARAM[visible]]</visible>
+            </include>
+            <control type="image">
+                <height>80</height>
+                <aspectratio align="left">keep</aspectratio>
+                <fadetime>400</fadetime>
+                <texture background="true">$VAR[Image_CropLogo_Main]</texture>
+                <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
+                <visible>$PARAM[visible]</visible>
+            </control>
+        </definition>
+    </include>
+
     <include name="Info_Title">
         <param name="colordiffuse" default="main_fg" />
         <param name="container" default="" />
         <definition>
             <control type="group">
                 <height>80</height>
-                <control type="label">
-                    <aligny>center</aligny>
-                    <height>80</height>
-                    <label>$VAR[Label_Title_Main]</label>
-                    <textcolor>$PARAM[colordiffuse]_100</textcolor>
-                    <include content="Object_Font" condition="Skin.HasSetting(UseLightFont)">
-                        <param name="font">font_infotitle_light</param>
-                    </include>
-                    <font>font_infotitle</font>
+                <!-- Title Only -->
+                <include content="Info_Title_Label" condition="!Skin.HasSetting(TMDbHelper.EnableCrop)">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                </include>
 
-                    <visible>![Skin.HasSetting(TMDbHelper.EnableCrop) + [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [$EXP[Exp_InfoDialogs] | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FolderPath),$PARAM[container]ListItem.FolderPath)]] | !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(tvshow.clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [$EXP[Exp_RecommendationDialogs] + !String.IsEmpty(Window.Property(CropLogo))]]]</visible>
-                    <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
-                </control>
-                <control type="image">
-                    <height>80</height>
-                    <aspectratio align="left">keep</aspectratio>
-                    <fadetime>400</fadetime>
-                    <texture background="true">$VAR[Image_CropLogo_Main]</texture>
+                <!-- Recommendations Dialogs -->
+                <include content="Info_Title_Logo" condition="Skin.HasSetting(TMDbHelper.EnableCrop) + $EXP[Exp_RecommendationDialogs]">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(CropLogo))</param>
+                </include>
 
-                    <visible>Skin.HasSetting(TMDbHelper.EnableCrop) + [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [$EXP[Exp_InfoDialogs] | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FolderPath),$PARAM[container]ListItem.FolderPath)]] | !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(tvshow.clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo)) | [$EXP[Exp_RecommendationDialogs] + !String.IsEmpty(Window.Property(CropLogo))]]</visible>
-                    <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
-                </control>
+                <!-- Other -->
+                <include content="Info_Title_Logo" condition="Skin.HasSetting(TMDbHelper.EnableCrop) + !$EXP[Exp_RecommendationDialogs]">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FileNameAndPath),$PARAM[container]ListItem.FileNameAndPath)] | !String.IsEmpty($PARAM[container]ListItem.Art(clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(tvshow.clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo))</param>
+                </include>
+
             </control>
         </definition>
     </include>
