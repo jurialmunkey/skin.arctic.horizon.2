@@ -9,13 +9,13 @@
         <definition>
             <control type="group" id="$PARAM[groupid]">
                 <nested />
-                <top>-320</top>
-                <height>-280</height>
+                <top>widget_label_t</top>
+                <height>widget_label_h</height>
                 <left>80</left>
                 <right>80</right>
                 <visible>$PARAM[visible]</visible>
                 <control type="label">
-                    <top>40</top>
+                    <top>30</top>
                     <height>30</height>
                     <aligny>center</aligny>
                     <textcolor>main_fg_30</textcolor>
@@ -28,8 +28,8 @@
                     <visible>$PARAM[labelvisible]</visible>
                 </control>
                 <control type="label">
-                    <top>30</top>
-                    <height>30</height>
+                    <top>20</top>
+                    <height>40</height>
                     <aligny>center</aligny>
                     <textcolor>main_fg_100</textcolor>
                     <include content="Object_Label" condition="$PARAM[usewidgetlabel]">
@@ -95,6 +95,7 @@
                     <include content="Object_BusySpinner">
                         <param name="colordiffuse">main_fg</param>
                         <param name="label">$LOCALIZE[31023] $PARAM[label]</param>
+                        <param name="spinspinner">$PARAM[busy_visible]</param>
                     </include>
                 </control>
             </control>
@@ -103,17 +104,15 @@
 
     <include name="Widget_SlideAnimation">
 
-        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_next_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id])">Conditional</animation>
-        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_next_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id])]">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_next_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_next_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
-        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_prev_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsGreater(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
-        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_prev_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsGreater(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_mext_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_mext_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
         <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_main_t" reversible="false" condition="Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
         <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_main_t" reversible="false" condition="![Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
-
-        <!-- <animation effect="slide" time="400" tween="quadratic" end="0,-40" condition="!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer)) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation> -->
     </include>
 
     <include name="Widget_Poster">
@@ -123,7 +122,7 @@
         <param name="busy_visible">true</param>
         <param name="usewidgetlabel">false</param>
         <param name="infowidget">false</param>
-        <param name="height">780</param>
+        <param name="height">widget_items_h</param>
         <definition>
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -164,7 +163,7 @@
                     <param name="h">1280</param>
                 </include>
 
-                <top>300</top>
+                <top>widget_items_t</top>
                 <height>$PARAM[height]</height>
                 <animation effect="fade" start="100" end="0" time="0" condition="Container($PARAM[id]).IsUpdating + $PARAM[busy_visible]">Conditional</animation>
                 <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</visible>
@@ -181,10 +180,12 @@
         <param name="visible">true</param>
         <param name="altvisible">false</param>
         <param name="include">List_Button_Row</param>
-        <param name="item_h">140</param>
-        <param name="itemlayout_h">180</param>
+        <param name="item_h">120</param>
+        <param name="itemlayout_h">160</param>
         <param name="detailed">true</param>
-        <param name="spacertop">-180</param>
+        <param name="spacertop">-200</param>
+        <param name="item_w">view_poster_item_w</param>
+        <param name="itemlayout_w">view_poster_itemlayout_w</param>
         <definition>
             <include content="Widget_Poster">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -203,6 +204,7 @@
                 <param name="altvisible">$PARAM[altvisible]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
                 <hitrect x="0" y="360" w="1920" h="$PARAM[itemlayout_h]" />
+                <movement>6</movement>
                 <nested />
             </include>
             <include content="Object_Control">
@@ -232,9 +234,9 @@
                 <param name="visible">$PARAM[visible]</param>
                 <param name="include">List_Button_Row</param>
                 <param name="detailed">false</param>
-                <param name="spacertop">-360</param>
-                <param name="item_h">80</param>
-                <param name="itemlayout_h">120</param>
+                <param name="spacertop">widget_stack_t</param>
+                <param name="item_h">60</param>
+                <param name="itemlayout_h">100</param>
                 <param name="item_w">217.14</param>
                 <param name="itemlayout_w">257.14</param>
                 <nested />
