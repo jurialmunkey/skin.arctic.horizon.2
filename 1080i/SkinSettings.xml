@@ -347,6 +347,20 @@
                                 <selected>!Skin.HasSetting(Codecs.DisableMediaProviderIcons)</selected>
                                 <enable>!Skin.HasSetting(Furniture.DisableLeftFooter)</enable>
                             </include>
+                            <include content="Dialog_Settings_Button" description="MPAA Classification Country">
+                                <param name="id" value="4094" />
+                                <param name="control" value="radiobutton" />
+                                <label>-  $LOCALIZE[31285]</label>
+                                <label2>$INFO[Skin.String(MPAA_Country),       ,       ]</label2>
+                                <visible>Container(3).HasFocus(4)</visible>
+                                <onclick condition="!System.HasAddon(resource.images.classificationicons.colour)">InstallAddon(resource.images.classificationicons.colour)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(resource.images.classificationicons.colour) + System.HasAddon(resource.images.classificationicons.colour)">EnableAddon(resource.images.classificationicons.colour)</onclick>
+                                <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_MPAACountries,Home)</onclick>
+                                <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31285],Home)</onclick>
+                                <onclick>ActivateWindow(1118)</onclick>
+                                <selected>!String.IsEmpty(Skin.String(MPAA_Country))</selected>
+                                <enable>!Skin.HasSetting(Furniture.DisableLeftFooter)</enable>
+                            </include>
 
                             <!-- Playback -->
                             <include content="Dialog_Settings_Label" description="Playback">

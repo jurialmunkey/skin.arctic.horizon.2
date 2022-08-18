@@ -1051,6 +1051,26 @@
                     <visible>!String.IsEqual(Control.GetLabel(99995),common/null.png)</visible>
                 </include>
 
+                <!-- Info Providers -->
+                <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaProviderIcons)">
+                    <param name="control">image</param>
+                    <width>56</width>
+                    <height>40</height>
+                    <centertop>50%</centertop>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="True" diffuse="diffuse/provider.png">flags/justwatch2.png</texture>
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                    <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)</visible>
+                </include>
+                <include content="Info_Provider"><param name="pos" value="1" /></include>
+                <include content="Info_Provider"><param name="pos" value="2" /></include>
+                <include content="Info_Provider"><param name="pos" value="3" /></include>
+                <include content="Info_Provider"><param name="pos" value="4" /></include>
+                <include content="Info_Provider"><param name="pos" value="5" /></include>
+                <include content="Info_Provider"><param name="pos" value="6" /></include>
+                <include content="Info_Provider"><param name="pos" value="7" /></include>
+                <include content="Info_Provider"><param name="pos" value="8" /></include>
+
                 <!-- Audio Languages -->
                 <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <param name="control">group</param>
@@ -1106,25 +1126,23 @@
                     <param name="icon" value="flags/subtitles.png" />
                 </include>
 
-                <!-- Info Providers -->
-                <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaProviderIcons)">
-                    <param name="control">image</param>
-                    <width>56</width>
-                    <height>40</height>
-                    <centertop>50%</centertop>
-                    <aspectratio>keep</aspectratio>
-                    <texture background="True" diffuse="diffuse/provider.png">flags/justwatch2.png</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
-                    <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)</visible>
+
+                <!-- MPAA -->
+                <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
+                    <param name="control">group</param>
+                    <width>0</width>
+                    <visible>[!String.IsEmpty(ListItem.Property(AudioLanguage.1)) + !Skin.HasSetting(Codecs.DisableAudioLanguageFlags)] | [!String.IsEmpty(ListItem.Property(SubtitleLanguage.1)) + !Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)]</visible>
                 </include>
-                <include content="Info_Provider"><param name="pos" value="1" /></include>
-                <include content="Info_Provider"><param name="pos" value="2" /></include>
-                <include content="Info_Provider"><param name="pos" value="3" /></include>
-                <include content="Info_Provider"><param name="pos" value="4" /></include>
-                <include content="Info_Provider"><param name="pos" value="5" /></include>
-                <include content="Info_Provider"><param name="pos" value="6" /></include>
-                <include content="Info_Provider"><param name="pos" value="7" /></include>
-                <include content="Info_Provider"><param name="pos" value="8" /></include>
+                <!-- MPAA -->
+                <include content="Object_Control" condition="!String.IsEmpty(Skin.String(MPAA_Country))">
+                    <param name="control">image</param>
+                    <width>60</width>
+                    <height>40</height>
+                    <aspectratio align="center">keep</aspectratio>
+                    <texture>$VAR[MPAA_ImageConvert,resource://resource.images.classificationicons.colour/,]</texture>
+                    <centertop>50%</centertop>
+                    <visible>!String.IsEmpty(ListItem.MPAA)</visible>
+                </include>
             </control>
 
             <!-- Folder Items -->
