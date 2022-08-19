@@ -103,16 +103,17 @@
     </include>
 
     <include name="Widget_SlideAnimation">
+        <param name="infowidget_full">false</param>
+        <definition>
+            <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_next_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+            <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_next_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
-        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_next_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
-        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_next_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
+            <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_mext_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+            <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_mext_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
-        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_mext_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
-        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_mext_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
-
-        <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_main_t" reversible="false" condition="Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
-        <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_main_t" reversible="false" condition="![Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
-
+            <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_main_t" reversible="false" condition="$PARAM[infowidget_full] + Control.HasFocus($PARAM[id])">Conditional</animation>
+            <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_main_t" reversible="false" condition="$PARAM[infowidget_full] + !Control.HasFocus($PARAM[id])">Conditional</animation>
+        </definition>
     </include>
 
     <include name="Widget_Poster">
@@ -135,6 +136,7 @@
                 <param name="infowidget_full">$PARAM[infowidget_full]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
                 <include content="Widget_SlideAnimation">
+                    <param name="infowidget_full">$PARAM[infowidget_full]</param>
                     <param name="infowidget">$PARAM[infowidget]</param>
                     <param name="id">$PARAM[id]</param>
                 </include>
@@ -168,6 +170,7 @@
                 <animation effect="fade" start="100" end="0" time="0" condition="Container($PARAM[id]).IsUpdating + $PARAM[busy_visible]">Conditional</animation>
                 <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</visible>
                 <include content="Widget_SlideAnimation">
+                    <param name="infowidget_full">$PARAM[infowidget_full]</param>
                     <param name="infowidget">$PARAM[infowidget]</param>
                     <param name="id">$PARAM[id]</param>
                 </include>
