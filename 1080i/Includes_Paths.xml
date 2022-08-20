@@ -104,7 +104,7 @@
 
 
     <variable name="Path_FromGenre">
-        <value condition="!String.IsEmpty(ListItem.Genre)">plugin://plugin.video.themoviedb.helper?info=discover&amp;with_genres=$INFO[ListItem.Genre]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]$VAR[Path_Param_Query]</value>
+        <value condition="!String.IsEmpty(ListItem.Genre)">plugin://plugin.video.themoviedb.helper?info=discover&amp;with_genres=$INFO[ListItem.Genre]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]$VAR[Path_Param_Type,&amp;,]</value>
     </variable>
 
     <variable name="Path_Reviews">
@@ -122,8 +122,12 @@
     </variable>
 
 
+    <variable name="Path_FromDirector_Name">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director.1.name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Director.1.name)]</value>
+        <value condition="!String.IsEmpty(ListItem.Director)">$INFO[ListItem.Director]</value>
+    </variable>
     <variable name="Path_FromDirector">
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Director)">plugin://plugin.video.themoviedb.helper?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;query=$INFO[ListItem.Director]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie)">plugin://plugin.video.themoviedb.helper?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director$VAR[Path_FromDirector_Name,&amp;query=,]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</value>
     </variable>
 
     <variable name="Path_FromWriter_Screenplay">
