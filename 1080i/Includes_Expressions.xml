@@ -53,11 +53,13 @@
 
     <expression name="Exp_ContextMenu_QuickBar">[[!String.IsEmpty(Window(Home).Property(ContextMenu.DBType)) + [String.IsEqual(Window(Home).Property(ContextMenu.DBType),movie) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),tvshow) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),season) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),episode) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),set) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),artist) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),album) | String.IsEqual(Window(Home).Property(ContextMenu.DBType),song)]] | [String.IsEmpty(Window(Home).Property(ContextMenu.DBType)) + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)]]]</expression>
 
-    <expression name="Exp_ShowSideArt">[Window.IsVisible(MyVideoNav.xml) | Window.IsVisible(MyMusicNav.xml) | Window.IsVisible(MyPics.xml)]</expression>
+    <expression name="Exp_ShowSideArt">[Window.IsMedia | String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]</expression>
 
     <expression name="Exp_PVRWindows">[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRRecordings.xml) | Window.IsVisible(MyPVRSearch.xml)]</expression>
 
     <expression name="Exp_InfoDialogs">[Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(DialogPVRInfo.xml)]
+    </expression>
+    <expression name="Exp_InfoDialogs_Active">[Window.IsActive(DialogVideoInfo.xml) | Window.IsActive(DialogMusicInfo.xml) | Window.IsActive(DialogAddonInfo.xml) | Window.IsActive(DialogPVRInfo.xml)]
     </expression>
 
     <expression name="Exp_OverlayDialogs">[Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogAddonSettings.xml) | Window.IsVisible(DialogKeyboard.xml) | Window.Isvisible(1113) | Window.IsVisible(1111) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogConfirm.xml)]

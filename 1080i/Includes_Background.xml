@@ -62,24 +62,73 @@
             <include content="Background_NotVideo">
                 <param name="fade_end" value="70" />
             </include>
-            <include content="Object_Control">
-                <param name="control" value="image" />
-                <fadetime>2000</fadetime>
-                <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
-                <visible>![Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)] | !$EXP[Exp_ShowSideArt]</visible>
-            </include>
 
-            <include content="Object_Control" condition="[Skin.String(ForegroundStyle,FlixArt) | Skin.String(ForegroundStyle,KeyArt)]" >
+            <!-- Standard Blur -->
+            <include content="Object_Control" condition="!Skin.String(ForegroundStyle,FlixArt) + !Skin.String(ForegroundStyle,KeyArt)">
                 <param name="control" value="image" />
-                <fadetime>1000</fadetime>
-                <width>200%</width>
-                <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
-                <animation effect="fade" end="0" start="100" time="1000">Hidden</animation>
-                <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(tvshow.fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Fanart)) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.TVShow.Fanart))</visible>
-                <visible>$EXP[Exp_ShowSideArt]</visible>
+                <fadetime>1600</fadetime>
                 <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
             </include>
 
+            <!-- KeyArt (Offset Blur) -->
+            <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt)" >
+                <param name="control" value="group" />
+                <control type="image">
+                    <right>75%</right>
+                    <fadetime>1600</fadetime>
+                    <width>100%</width>
+                    <texture background="true" flipx="true">$VAR[Image_Background_Blur]</texture>
+                </control>
+                <control type="image">
+                    <left>25%</left>
+                    <fadetime>1600</fadetime>
+                    <width>100%</width>
+                    <texture background="true">$VAR[Image_Background_Blur]</texture>
+                </control>
+            </include>
+
+            <!-- FlixArt (Quadrant Blur) -->
+            <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt)" >
+                <param name="control" value="group" />
+                <!-- Left -->
+                <control type="group">
+                    <right>50%</right>
+                    <width>150%</width>
+                    <!-- Top  -->
+                    <control type="image">
+                        <fadetime>1600</fadetime>
+                        <height>50%</height>
+                        <texture background="true" flipx="true" flipy="false">$VAR[Image_Background_Blur]</texture>
+                    </control>
+                    <!-- Bottom -->
+                    <control type="image">
+                        <fadetime>1600</fadetime>
+                        <bottom>0</bottom>
+                        <height>50%</height>
+                        <texture background="true" flipx="true" flipy="true">$VAR[Image_Background_Blur]</texture>
+                    </control>
+                </control>
+
+                <!-- Right -->
+                <control type="group">
+                    <left>50%</left>
+                    <width>50%</width>
+                    <!-- Top  -->
+                    <control type="image">
+                        <fadetime>1600</fadetime>
+                        <height>50%</height>
+                        <texture background="true" flipx="false" flipy="false">$VAR[Image_Background_Blur]</texture>
+                    </control>
+                    <!-- Bottom -->
+                    <control type="image">
+                        <fadetime>1600</fadetime>
+                        <bottom>0</bottom>
+                        <height>50%</height>
+                        <texture background="true" flipx="false" flipy="true">$VAR[Image_Background_Blur]</texture>
+                    </control>
+                </control>
+
+            </include>
             <include content="Object_Control">
                 <param name="control" value="image" />
                 <texture colordiffuse="main_bg_45">common/bg.jpg</texture>
@@ -87,17 +136,7 @@
         </control>
     </include>
 
-    <variable name="Background_Fanart_Var">
-        <value condition="$EXP[Exp_IsPersonInfo]">common/blur2.png</value>
-        <value condition="$EXP[Exp_HasBackgroundFanart] + $EXP[Exp_HasExtraFanart] + !String.IsEmpty(Control.GetLabel(99998))">$INFO[Control.GetLabel(99998)]</value>
-        <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
-        <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(ListItem.EPGEventIcon) + !Skin.HasSetting(PVR.DisableEPGEventIconFanart)">$INFO[ListItem.EPGEventIcon]</value>
-        <value condition="Window.IsMedia + Control.IsVisible(502) + Control.HasFocus(503) + !String.IsEmpty(Container(503).ListItem.Art(fanart))">$INFO[Container(503).ListItem.Art(fanart)]</value>
-        <value condition="Window.IsMedia + Control.IsVisible(512) + Control.HasFocus(513) + !String.IsEmpty(Container(513).ListItem.Art(fanart))">$INFO[Container(513).ListItem.Art(fanart)]</value>
-        <value condition="Window.IsMedia + Control.IsVisible(522) + Control.HasFocus(523) + !String.IsEmpty(Container(523).ListItem.Art(fanart))">$INFO[Container(523).ListItem.Art(fanart)]</value>
-        <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Fanart)) + [!$EXP[Exp_WidgetWindow] | String.IsEqual(Container.ListItem.Title,Window(Home).Property(TMDBHelper.ListItem.Title))]">$INFO[Window(Home).Property(TMDbHelper.ListItem.Fanart)]</value>
-        <value>common/blur2.png</value>
-    </variable>
+
 
     <include name="Background_StartUp">
         <include content="Object_Control">
@@ -114,7 +153,7 @@
             <control type="image">
                 <fadetime>600</fadetime>
                 <aspectratio>scale</aspectratio>
-                <texture background="true">$VAR[Background_Fanart_Var]</texture>
+                <texture background="true">$VAR[Image_Background_Fanart]</texture>
                 <include>Background_NotVideo</include>
             </control>
             <include content="Object_Control">
@@ -193,6 +232,21 @@
             <include condition="Skin.String(BackgroundStyle,Fanart)">Background_Fanart</include>
             <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
             <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
+            <include content="Object_Control" condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,KeyArt)">
+                <param name="control">group</param>
+                <include content="View_Visibility_Common">
+                    <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
+                    <param name="visible_infodialogs">true</param>
+                </include>
+                <include>View_KeyArt</include>
+            </include>
+            <include content="Object_Control" condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,FlixArt)">
+                <param name="control">group</param>
+                <include content="View_Visibility_Common">
+                    <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
+                </include>
+                <include>View_FlixArt</include>
+            </include>
             <nested />
         </include>
         <control type="group">

@@ -118,8 +118,9 @@
 
     <include name="View_Row_Divider">
         <param name="isrounded" default="false" />
+        <param name="hasbottomline">false</param>
         <definition>
-            <include content="Object_Control" condition="Skin.String(DividerStyle,Split)">
+            <include content="Object_Control" condition="Skin.String(DividerStyle,Split) + $PARAM[hasbottomline]">
                 <param name="control" value="group" />
                 <bottom>0</bottom>
                 <height>grid_x04</height>
@@ -167,39 +168,44 @@
             <aspectratio align="right">keep</aspectratio>
             <fadetime>600</fadetime>
             <texture background="true">$VAR[Image_ClearArt]</texture>
-            <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
         </include>
     </include>
 
     <include name="View_FlixArt">
-        <include content="Object_Control">
-            <param name="control" value="image" />
-            <right>0</right>
-            <bottom>divider_bottom</bottom>
-            <width>924</width>
-            <fadetime>1000</fadetime>
-            <aspectratio scalediffuse="false">scale</aspectratio>
-            <texture background="true" diffuse="diffuse/flixart.png" colordiffuse="main_flix">$INFO[ListItem.Art(fanart)]</texture>
-            <visible>$EXP[Exp_ShowSideArt]</visible>
-            <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/fanart.jpg) | Skin.String(BackgroundStyle,None) | Skin.String(BackgroundStyle,Image)</visible>
+        <control type="group">
             <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
             <animation effect="fade" start="100" end="0" time="150">Hidden</animation>
-            <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
-        </include>
+            <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews] | String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)</visible>
+            <include content="Object_Control" condition="Skin.String(DividerStyle,Fade)">
+                <param name="control" value="image" />
+                <fadetime>800</fadetime>
+                <right>0</right>
+                <top>0</top>
+                <height>50%</height>
+                <width>50%</width>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <texture background="true" diffuse="diffuse/flixart-fade.png" colordiffuse="main_flix">$VAR[Image_Foreground_FlixKeyArt]</texture>
+            </include>
+            <include content="Object_Control" condition="!Skin.String(DividerStyle,Fade)">
+                <param name="control" value="image" />
+                <right>0</right>
+                <bottom>divider_bottom</bottom>
+                <width>924</width>
+                <fadetime>800</fadetime>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <texture background="true" diffuse="diffuse/flixart.png" colordiffuse="main_flix">$VAR[Image_Foreground_FlixKeyArt]</texture>
+            </include>
+        </control>
     </include>
 
     <include name="View_KeyArt">
         <include content="Object_Control">
             <param name="control" value="image" />
             <right>0</right>
-            <width>1000</width>
-            <fadetime>1000</fadetime>
+            <width>50%</width>
+            <fadetime>800</fadetime>
             <aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-            <texture background="true" diffuse="diffuse/flixart.png" colordiffuse="main_flix">$INFO[ListItem.Art(fanart)]</texture>
-            <visible>$EXP[Exp_ShowSideArt]</visible>
-            <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/fanart.jpg) | Skin.String(BackgroundStyle,None) | Skin.String(BackgroundStyle,Image)</visible>
-            <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
-            <animation effect="fade" start="100" end="0" time="150">Hidden</animation>
+            <texture background="true" diffuse="diffuse/flixart.png" colordiffuse="main_flix">$VAR[Image_Foreground_FlixKeyArt]</texture>
         </include>
     </include>
 

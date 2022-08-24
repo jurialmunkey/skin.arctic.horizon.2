@@ -101,9 +101,10 @@
 
     <include name="View_Visibility_Common">
         <param name="animation_include">Animation_Common</param>
+        <param name="visible_infodialogs">!$EXP[Exp_InfoDialogs]</param>
         <definition>
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
+            <visible>$PARAM[visible_infodialogs]</visible>
+            <!-- <visible>!Integer.IsEqual(Container.NumItems,0)</visible> -->
             <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(1120)">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
             <include>$PARAM[animation_include]</include>
@@ -151,7 +152,10 @@
             <include>Animation_Foreground_FadeInOut</include>
             <include>View_Furniture_Row_Top</include>
             <include>View_Furniture_Combined_Top</include>
-            <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
+            <control type="group">
+                <visible>$EXP[Exp_RowViews] | $EXP[Exp_CombinedViews]</visible>
+                <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,ClearArt)">View_ClearArt</include>
+            </control>
         </control>
         <control type="group">
             <include>Animation_Foreground_SlideUp</include>
@@ -207,13 +211,7 @@
                 <visible>!$EXP[Exp_CombinedViews]</visible>
             </control>
             <include content="Background_Main">
-                <control type="group">
-                    <include content="View_Visibility_Common">
-                        <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
-                    </include>
-                    <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,KeyArt)">View_KeyArt</include>
-                    <include condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,FlixArt)">View_FlixArt</include>
-                </control>
+
             </include>
 
             <control type="group">
