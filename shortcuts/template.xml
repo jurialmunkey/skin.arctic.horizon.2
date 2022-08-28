@@ -101,8 +101,46 @@
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[97]">97</property>
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[98]">98</property>
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[99]">99</property>
+
+        <!-- Fullscreen Widget -->
         <property name="isFullscreenWidget" tag="property" attribute="name|widgetPath">True</property>
         <property name="isFullscreenWidget">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Poster">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Square">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Landscape">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Big Landscape">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Banner">False</property>
+        <property name="isFullscreenStandard">True</property>
+
+        <!-- Fullscreen Widget Style -->
+        <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Square">List_Square_Row</property>
+        <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Landscape">List_Landscape_Row</property>
+        <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Big Landscape">List_BigLandscape_Row</property>
+        <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Banner">List_Banner_Row</property>
+        <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Poster">List_Poster_Row</property>
+        <property name="FullscreenWidgetStyle">List_Poster_Row</property>
+
+        <!-- Fullscreen Widget Content -->
+        <property name="FullscreenWidgetPath" tag="property" attribute="name|widgetPath" />
+        <property name="FullscreenWidgetName" tag="property" attribute="name|widgetName" />
+        <property name="FullscreenWidgetName">$LOCALIZE[31105]</property>
+        <property name="FullscreenWidgetTarget" tag="property" attribute="name|widgetTarget" />
+        <property name="FullscreenWidgetSortby" tag="property" attribute="name|widgetSortby" />
+        <property name="FullscreenWidgetSortorder" tag="property" attribute="name|widgetSortorder" />
+
+        <!-- Fullscreen Widget Content -->
+        <property name="FullscreenWidgetLimit" tag="property" attribute="name|widgetLimit" value="auto">99999</property>
+        <property name="FullscreenWidgetLimit" tag="property" attribute="name|widgetLimit" />
+        <property name="isFullscreenAutoScroll" tag="property" attribute="name|widgetAutoScroll">True</property>
+        <property name="isFullscreenAutoScroll">False</property>
+        <property name="isFullscreenAutoLimit" tag="property" attribute="name|widgetLimit" value="auto">True</property>
+        <property name="isFullscreenAutoLimit">False</property>
+        <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Square">6</property>
+        <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Landscape">4</property>
+        <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Landscape">3</property>
+        <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
+        <property name="FullscreenWidgetAutoLimit">7</property>
+
         <property name="isSubmenuBumper" tag="property" attribute="name|widgetPath.SubmenuBumper">True</property>
         <property name="isSubmenuBumper">False</property>
         <property name="isSubmenuBumperCustom" tag="property" attribute="name|widgetPath.SubmenuBumper" value="Submenu">False</property>
@@ -129,10 +167,11 @@
         <controls>
             <include content="Object_Control" condition="$SKINSHORTCUTS[includeCondition]">
                 <param name="control">group</param>
-                <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
+
                 <include content="Animation_LeftRight">
                     <param name="visible" value="[String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
                 </include>
+                <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) | !String.IsEmpty(Window(Home).Property(WidgetWait))</visible>
                 <control type="grouplist" id="$PYTHON[int(mainmenuid) * 1000 + 400]">
                     <animation effect="slide" end="0,120" condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 400]).NumItems,1) + $SKINSHORTCUTS[isFullscreenWidget]">Conditional</animation>
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
@@ -144,14 +183,14 @@
                     <ondown condition="!String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
                     <ondown condition="String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
 
-                    <control type="group" id="$PYTHON[int(mainmenuid) * 1000 + 500]">
+                    <include content="Object_Control" condition="$SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]">
+                        <param name="control">group</param>
+                        <param name="id">$PYTHON[int(mainmenuid) * 1000 + 500]</param>
                         <top>fullscreenwidget_buttongroup_t</top>
                         <height>fullscreenwidget_buttongroup_h</height>
-                        <visible>$SKINSHORTCUTS[isFullscreenWidget]</visible>
                         <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
                         <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
                         <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
-
                         <include content="Info_Panel">
                             <param name="plotwidth" value="info_plot_w" />
                             <param name="plotheight" value="info_plot_h" />
@@ -163,7 +202,6 @@
                             <top>fullscreenwidget_infopanel_t</top>
                             <left>view_pad</left>
                         </include>
-
                         <control type="grouplist" id="$PYTHON[int(mainmenuid) * 1000 + 599]">
                             <left>40</left>
                             <orientation>horizontal</orientation>
@@ -206,10 +244,65 @@
                                 <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
                             </include>
                         </control>
-                    </control>
+                    </include>
                     <control type="group" id="$PYTHON[int(mainmenuid) * 1000 + 600]">
                         <height>widget_tbump_h</height>
                     </control>
+                    <include content="Object_Control" condition="$SKINSHORTCUTS[isFullscreenWidget] + ![$SKINSHORTCUTS[isFullscreenStandard]]">
+                        <param name="control">group</param>
+                        <param name="id">$PYTHON[int(mainmenuid) * 1000 + 597]</param>
+                        <height>infowidget_main_t</height>
+                        <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
+                        <include content="Info_Panel" condition="!Skin.HasSetting(Widgets.ExpandedHeader)">
+                            <param name="plotheight">info_plot_small_h</param>
+                            <param name="controltype">label</param>
+                            <param name="line_id">0</param>
+                            <param name="container" value="Container(301)." />
+                            <height>infowidget_main_t</height>
+                            <width>info_panel_w</width>
+                            <top>-400</top>
+                            <left>view_pad</left>
+                        </include>
+                        <include content="Info_Panel" condition="Skin.HasSetting(Widgets.ExpandedHeader)">
+                            <param name="plotheight">info_plot_h</param>
+                            <param name="controltype">label</param>
+                            <param name="line_id">0</param>
+                            <param name="container" value="Container(301)." />
+                            <height>infowidget_main_t</height>
+                            <width>info_panel_w</width>
+                            <top>-400</top>
+                            <left>view_pad</left>
+                        </include>
+                    </include>
+                    <include content="Widget_Poster" condition="$SKINSHORTCUTS[isFullscreenWidget] + ![$SKINSHORTCUTS[isFullscreenStandard]]">
+                        <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 500]" />
+                        <param name="id" value="301" />
+                        <param name="label" value="$SKINSHORTCUTS[FullscreenWidgetName]" />
+                        <param name="include" value="$SKINSHORTCUTS[FullscreenWidgetStyle]" />
+                        <param name="labelvisible">!Skin.HasSetting(Widgets.ExpandedHeader)</param>
+                        <param name="visible" value="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])" />
+                        <param name="busy_visible" value="Integer.IsEqual(Container(301).NumItems,0)" />
+                        <include content="Object_ContentDynamic" condition="!$SKINSHORTCUTS[isFullscreenAutoLimit]">
+                            <param name="sortby">$SKINSHORTCUTS[FullscreenWidgetSortby]</param>
+                            <param name="sortorder">$SKINSHORTCUTS[FullscreenWidgetSortorder]</param>
+                            <param name="target">$SKINSHORTCUTS[FullscreenWidgetTarget]</param>
+                            <param name="limit">$SKINSHORTCUTS[FullscreenWidgetLimit]</param>
+                            <param name="content">$SKINSHORTCUTS[FullscreenWidgetPath]</param>
+                        </include>
+                        <include content="Object_ContentDynamic" condition="$SKINSHORTCUTS[isFullscreenAutoLimit]">
+                            <param name="sortby">$SKINSHORTCUTS[FullscreenWidgetSortby]</param>
+                            <param name="sortorder">$SKINSHORTCUTS[FullscreenWidgetSortorder]</param>
+                            <param name="target">$SKINSHORTCUTS[FullscreenWidgetTarget]</param>
+                            <param name="limit">$SKINSHORTCUTS[FullscreenWidgetAutoLimit]</param>
+                            <param name="content">$SKINSHORTCUTS[FullscreenWidgetPath]</param>
+                        </include>
+                        <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isFullscreenAutoScroll]">
+                            <param name="condition" value="!Control.HasFocus(301)" />
+                        </include>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                        <onfocus>SetProperty(Slide.WidgetInfoStyle,Full,Home)</onfocus>
+                        <onfocus condition="Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[FullscreenWidgetName],Home)</onfocus>
+                    </include>
                     <skinshortcuts insert="widgets">items</skinshortcuts>
                     <include content="Widget_Submenu" condition="$SKINSHORTCUTS[isSubmenuBumper]">
                         <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 798]" />
@@ -246,10 +339,10 @@
             </include>
             <include content="Object_WallFade" condition="$SKINSHORTCUTS[includeCondition]">
                 <param name="id">$PYTHON[int(mainmenuid) * 1000 + 400]</param>
-                <param name="altvisible_top">Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PYTHON[int(mainmenuid) * 1000 + 601])</param>
+                <param name="altvisible_top">!$EXP[Exp_HomeBarVisible] + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503])</param>
                 <param name="altvisible_bottom">[!String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle)) + $SKINSHORTCUTS[isSubmenuBumper]]</param>
                 <param name="direction_buttons">true</param>
-                <param name="visible_top">![Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503]) | Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PYTHON[int(mainmenuid) * 1000 + 601])]</param>
+                <param name="visible_top">![[Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) + String.IsEmpty(Container(300).ListItem.Property(widgetPath))] | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503]) | Control.HasFocus(301)]</param>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
                 <visible>!Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 400]).NumItems,1)</visible>
@@ -749,8 +842,18 @@
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[97]">97</property>
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[98]">98</property>
         <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[99]">99</property>
+        <property name="isFullscreenWidget" tag="property" attribute="name|widgetPath">True</property>
+        <property name="isFullscreenWidget">False</property>
+
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Poster">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Square">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Landscape">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Big Landscape">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Banner">False</property>
+        <property name="isFullscreenStandard">True</property>
         <controls>
-            <ondown condition="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])">$PYTHON[int(mainmenuid) * 1000 + 599]</ondown>
+            <ondown condition="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + $SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]">$PYTHON[int(mainmenuid) * 1000 + 599]</ondown>
+            <ondown condition="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + ![$SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]]">$PYTHON[int(mainmenuid) * 1000 + 600]</ondown>
         </controls>
     </other>
 
@@ -763,8 +866,15 @@
         <property name="widgetLimit" tag="property" attribute="name|widgetLimit" value="auto">99999</property>
         <property name="widgetLimit" tag="property" attribute="name|widgetLimit" />
         <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
+
+        <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Poster">False</property>
+        <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Square">False</property>
+        <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Landscape">False</property>
+        <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Big Landscape">False</property>
+        <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Banner">False</property>
         <property name="includeCondition" tag="visible" />
         <property name="includeCondition">True</property>
+
         <controls>
             <include content="Object_Control" condition="$SKINSHORTCUTS[includeCondition]">
                 <param name="control">list</param>
@@ -783,7 +893,14 @@
                 </include>
                 <itemlayout width="1920" height="1080" />
                 <focusedlayout width="1920" height="1080" />
-                <content target="$SKINSHORTCUTS[widgetTarget]" sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]" limit="$SKINSHORTCUTS[widgetLimit]">$SKINSHORTCUTS[widgetPath]</content>
+
+                <include content="Object_ContentDynamic">
+                    <param name="content">$SKINSHORTCUTS[widgetPath]</param>
+                    <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                    <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
+                    <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
+                    <param name="limit">$SKINSHORTCUTS[widgetLimit]</param>
+                </include>
             </include>
         </controls>
     </other>

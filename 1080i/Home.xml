@@ -17,11 +17,10 @@
         <include>Background_ExtraFanart</include>
         <include>Background_Main</include>
 
-
         <!-- Fullscreen Widget -->
         <control type="group">
             <visible>Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
-            <visible>!String.IsEmpty(Container(300).ListItem.Property(widgetPath))</visible>
+            <visible>$EXP[Exp_FullscreenWidgetStandard]</visible>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
             <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
@@ -116,8 +115,7 @@
             <param name="control">group</param>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <visible>!$EXP[Exp_HomeBarVisible]</visible>
-            <visible>String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)</visible>
-            <visible>!String.IsEmpty(Window(Home).Property(Slide.WidgetContainer))</visible>
+            <visible>[String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + !String.IsEmpty(Window(Home).Property(Slide.WidgetContainer))] | [Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + !String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen) + !String.IsEmpty(Container(300).ListItem.Property(widgetStyle))]</visible>
             <include>Furniture_Bottom</include>
             <animation effect="fade" start="0" end="100" time="400" delay="200" reversible="false">Visible</animation>
         </include>
@@ -189,14 +187,23 @@
                 <onleft condition="!Skin.HasSetting(Home.DisableSearchMenu) + String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">ActivateWindow(1114)</onleft>
                 <onleft condition="Skin.HasSetting(Home.DisableSearchMenu) + String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(OptionsMenuFocused,303,Home)</onleft>
                 <onleft condition="Skin.HasSetting(Home.DisableSearchMenu) + String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetFocus(303)</onleft>
-                <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
-                <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">Control.Move(300,-1)</onleft>
                 <onright condition="String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetProperty(OptionsMenuFocused,303,Home)</onright>
                 <onright condition="String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetFocus(303)</onright>
+
+
+                <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(AnimationDirection,Left)</onleft>
+                <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">SetProperty(WidgetWait,1)</onleft>
+                <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">Control.Move(300,-1)</onleft>
+                <onleft condition="!String.IsEmpty(Container(300).ListItemNoWrap(-1).Label)">AlarmClock(WidgetWait,ClearProperty(WidgetWait),00:00,silent)</onleft>
+
                 <onright condition="!String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetProperty(AnimationDirection,Right)</onright>
+                <onright condition="!String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">SetProperty(WidgetWait,1)</onright>
                 <onright condition="!String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">Control.Move(300,1)</onright>
+                <onright condition="!String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">AlarmClock(WidgetWait,ClearProperty(WidgetWait),00:00,silent)</onright>
+
                 <onfocus>ClearProperty(OptionsMenuFocused,Home)</onfocus>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+
                 <onup condition="!Skin.HasSetting(DisableSubmenuOnUp)">SetFocus(302,0,absolute)</onup>
                 <oninfo>SetFocus(302,0,absolute)</oninfo>
                 <onclick>SetProperty(MenuSelect,1)</onclick>
