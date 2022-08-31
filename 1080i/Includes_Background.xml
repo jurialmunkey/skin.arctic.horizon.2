@@ -58,82 +58,91 @@
     </include>
 
     <include name="Background_Blur">
-        <control type="group">
-            <include content="Background_NotVideo">
-                <param name="fade_end" value="70" />
-            </include>
+        <include condition="!Skin.HasSetting(UseLargerFlixArt)">_Background_Blur</include>
+        <include condition="Skin.HasSetting(UseLargerFlixArt)" content="_Background_Blur">
+            <param name="flixart_size">flixart_size_l</param>
+        </include>
+    </include>
+    <include name="_Background_Blur">
+        <param name="flixart_size">flixart_size_s</param>
+        <definition>
+            <control type="group">
+                <include content="Background_NotVideo">
+                    <param name="fade_end" value="70" />
+                </include>
 
-            <!-- Standard Blur -->
-            <include content="Object_Control" condition="!Skin.String(ForegroundStyle,FlixArt) + !Skin.String(ForegroundStyle,KeyArt)">
-                <param name="control" value="image" />
-                <fadetime>800</fadetime>
-                <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
-            </include>
-
-            <!-- KeyArt (Offset Blur) -->
-            <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt)" >
-                <param name="control" value="group" />
-                <control type="image">
-                    <right>75%</right>
+                <!-- Standard Blur -->
+                <include content="Object_Control" condition="!Skin.String(ForegroundStyle,FlixArt) + !Skin.String(ForegroundStyle,KeyArt)">
+                    <param name="control" value="image" />
                     <fadetime>800</fadetime>
-                    <width>100%</width>
-                    <texture background="true" flipx="true">$VAR[Image_Background_Blur]</texture>
-                </control>
-                <control type="image">
-                    <left>25%</left>
-                    <fadetime>800</fadetime>
-                    <width>100%</width>
-                    <texture background="true">$VAR[Image_Background_Blur]</texture>
-                </control>
-            </include>
+                    <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
+                </include>
 
-            <!-- FlixArt (Quadrant Blur) -->
-            <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt)" >
-                <param name="control" value="group" />
-                <!-- Left -->
-                <control type="group">
-                    <right>flixart_size</right>
-                    <width>150%</width>
-                    <!-- Top  -->
+                <!-- KeyArt (Offset Blur) -->
+                <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt)" >
+                    <param name="control" value="group" />
                     <control type="image">
+                        <right>75%</right>
                         <fadetime>800</fadetime>
-                        <height>flixart_size</height>
-                        <texture background="true" flipx="true" flipy="false">$VAR[Image_Background_Blur]</texture>
+                        <width>100%</width>
+                        <texture background="true" flipx="true">$VAR[Image_Background_Blur]</texture>
                     </control>
-                    <!-- Bottom -->
                     <control type="image">
+                        <left>25%</left>
                         <fadetime>800</fadetime>
-                        <bottom>0</bottom>
-                        <top>flixart_size</top>
-                        <texture background="true" flipx="true" flipy="true">$VAR[Image_Background_Blur]</texture>
+                        <width>100%</width>
+                        <texture background="true">$VAR[Image_Background_Blur]</texture>
                     </control>
-                </control>
+                </include>
 
-                <!-- Right -->
-                <control type="group">
-                    <right>0</right>
-                    <width>flixart_size</width>
-                    <!-- Top  -->
-                    <control type="image">
-                        <fadetime>800</fadetime>
-                        <height>flixart_size</height>
-                        <texture background="true" flipx="false" flipy="false">$VAR[Image_Background_Blur]</texture>
+                <!-- FlixArt (Quadrant Blur) -->
+                <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt)" >
+                    <param name="control" value="group" />
+                    <!-- Left -->
+                    <control type="group">
+                        <right>$PARAM[flixart_size]</right>
+                        <width>150%</width>
+                        <!-- Top  -->
+                        <control type="image">
+                            <fadetime>800</fadetime>
+                            <height>$PARAM[flixart_size]</height>
+                            <texture background="true" flipx="true" flipy="false">$VAR[Image_Background_Blur]</texture>
+                        </control>
+                        <!-- Bottom -->
+                        <control type="image">
+                            <fadetime>800</fadetime>
+                            <bottom>0</bottom>
+                            <top>$PARAM[flixart_size]</top>
+                            <texture background="true" flipx="true" flipy="true">$VAR[Image_Background_Blur]</texture>
+                        </control>
                     </control>
-                    <!-- Bottom -->
-                    <control type="image">
-                        <fadetime>800</fadetime>
-                        <bottom>0</bottom>
-                        <top>flixart_size</top>
-                        <texture background="true" flipx="false" flipy="true">$VAR[Image_Background_Blur]</texture>
-                    </control>
-                </control>
 
-            </include>
-            <include content="Object_Control">
-                <param name="control" value="image" />
-                <texture colordiffuse="main_bg_45">common/bg.jpg</texture>
-            </include>
-        </control>
+                    <!-- Right -->
+                    <control type="group">
+                        <right>0</right>
+                        <width>$PARAM[flixart_size]</width>
+                        <!-- Top  -->
+                        <control type="image">
+                            <fadetime>800</fadetime>
+                            <height>$PARAM[flixart_size]</height>
+                            <texture background="true" flipx="false" flipy="false">$VAR[Image_Background_Blur]</texture>
+                        </control>
+                        <!-- Bottom -->
+                        <control type="image">
+                            <fadetime>800</fadetime>
+                            <bottom>0</bottom>
+                            <top>$PARAM[flixart_size]</top>
+                            <texture background="true" flipx="false" flipy="true">$VAR[Image_Background_Blur]</texture>
+                        </control>
+                    </control>
+
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="main_bg_45">common/bg.jpg</texture>
+                </include>
+            </control>
+        </definition>
     </include>
 
 
@@ -237,6 +246,7 @@
                 <include content="View_Visibility_Common">
                     <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
                     <param name="visible_infodialogs">true</param>
+                    <param name="visible_widgets">true</param>
                 </include>
                 <include>View_KeyArt</include>
             </include>
@@ -244,8 +254,12 @@
                 <param name="control">group</param>
                 <include content="View_Visibility_Common">
                     <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
+                    <param name="visible_widgets">true</param>
                 </include>
-                <include>View_FlixArt</include>
+                <include condition="!Skin.HasSetting(UseLargerFlixArt)">View_FlixArt</include>
+                <include condition="Skin.HasSetting(UseLargerFlixArt)" content="View_FlixArt">
+                    <param name="flixart_size">flixart_size_l</param>
+                </include>
             </include>
             <nested />
         </include>
