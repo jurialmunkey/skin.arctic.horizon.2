@@ -7,6 +7,7 @@
     <include name="Object_CenterTop"><centertop>$PARAM[centertop]</centertop></include>
     <include name="Object_Bottom"><bottom>$PARAM[bottom]</bottom></include>
     <include name="Object_CenterBottom"><centerbottom>$PARAM[centerbottom]</centerbottom></include>
+    <include name="Object_BorderSize"><bordersize>$PARAM[bordersize]</bordersize></include>
     <include name="Object_Height"><height>$PARAM[height]</height></include>
     <include name="Object_Width"><width>$PARAM[width]</width></include>
     <include name="Object_Font"><font>$PARAM[font]</font></include>
@@ -1235,7 +1236,8 @@
         <param name="haslabel" default="true" />
         <param name="visible" default="true" />
         <definition>
-            <control type="group">
+            <include content="Object_Control" condition="!Skin.HasSetting(Home.IconicMenu)">
+                <param name="control" value="group" />
                 <visible>$PARAM[visible]</visible>
                 <centertop>50%</centertop>
                 <height>70</height>
@@ -1249,7 +1251,23 @@
                     <include condition="$PARAM[selected]">$PARAM[fo_texture]</include>
                     <texture border="35" colordiffuse="$PARAM[color_bg]">$PARAM[nf_texture]</texture>
                 </include>
-            </control>
+            </include>
+            <include content="Object_Control" condition="Skin.HasSetting(Home.IconicMenu)">
+                <param name="control" value="group" />
+                <visible>$PARAM[visible]</visible>
+                <centertop>50%</centertop>
+                <height>70</height>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                    <texture border="54" colordiffuse="shadow_hard">$PARAM[sh_texture]</texture>
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <include condition="$PARAM[selected]">$PARAM[fo_texture]</include>
+                    <texture border="30,0,30,0" colordiffuse="$PARAM[color_bg]">$PARAM[nf_texture]</texture>
+                </include>
+            </include>
             <include content="Object_Control" condition="$PARAM[haslabel]">
                 <param name="control" value="group" />
                 <visible>$PARAM[visible]</visible>
@@ -1258,6 +1276,9 @@
                     <height>60</height>
                     <width>80</width>
                     <aspectratio>keep</aspectratio>
+                    <include content="Object_BorderSize" condition="Skin.HasSetting(Home.IconicMenu)">
+                        <param name="bordersize">4</param>
+                    </include>
                     <texture colordiffuse="$PARAM[color_fg]">$INFO[ListItem.Icon]</texture>
                 </control>
                 <control type="label">
@@ -1283,6 +1304,7 @@
         <param name="color_nf" default="dialog_fg" />
         <param name="color_bg" default="dialog_bg_100" />
         <param name="altfocus" default="false" />
+        <param name="iconic">[Skin.HasSetting(Home.IconicMenu)]</param>
         <definition>
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
@@ -1300,11 +1322,72 @@
                             <height>60</height>
                             <width>80</width>
                             <aspectratio>keep</aspectratio>
+                            <include content="Object_BorderSize" condition="$PARAM[iconic]">
+                                <param name="bordersize">4</param>
+                            </include>
                             <texture colordiffuse="$PARAM[color_nf]_70">$INFO[ListItem.Icon]</texture>
                         </control>
                     </control>
                 </itemlayout>
-                <focusedlayout height="120" width="$PARAM[focus_w]" condition="![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
+                <focusedlayout height="120" width="100" condition="$PARAM[iconic]">
+                    <control type="group">
+                        <left>40</left>
+                        <right>-40</right>
+                        <control type="group">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <width>80</width>
+                            <visible>![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
+                            <control type="group">
+                                <width>60</width>
+                                <centerleft>50%</centerleft>
+                                <control type="image">
+                                    <include content="Dimension_Padding"><param name="pad" value="-29" /></include>
+                                    <texture colordiffuse="shadow_hard" border="54">shadows/circle_shadow.png</texture>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <texture colordiffuse="$PARAM[color_bg]">common/circle.png</texture>
+                                <aspectratio>keep</aspectratio>
+                                <bordersize>-5</bordersize>
+                            </control>
+                            <control type="image">
+                                <aspectratio>keep</aspectratio>
+                                <include content="Object_BorderSize" condition="$PARAM[iconic]">
+                                    <param name="bordersize">4</param>
+                                </include>
+                                <texture colordiffuse="$PARAM[color]_70">$INFO[ListItem.Icon]</texture>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <centertop>50%</centertop>
+                            <height>60</height>
+                            <width>80</width>
+                            <visible>[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
+                            <control type="group">
+                                <width>60</width>
+                                <centerleft>50%</centerleft>
+                                <control type="image">
+                                    <include content="Dimension_Padding"><param name="pad" value="-29" /></include>
+                                    <texture colordiffuse="shadow_hard" border="54">shadows/circle_shadow.png</texture>
+                                </control>
+                            </control>
+                            <control type="image">
+                                <texture flipy="true">special://profile/addon_data/script.texturemaker/ArcticHorizon/circle_v.png</texture>
+                                <aspectratio>keep</aspectratio>
+                                <bordersize>-5</bordersize>
+                            </control>
+                            <control type="image">
+                                <aspectratio>keep</aspectratio>
+                                <include content="Object_BorderSize" condition="$PARAM[iconic]">
+                                    <param name="bordersize">4</param>
+                                </include>
+                                <texture colordiffuse="$VAR[ColorSelected]">$INFO[ListItem.Icon]</texture>
+                            </control>
+                        </control>
+                    </control>
+                </focusedlayout>
+                <focusedlayout height="120" width="$PARAM[focus_w]" condition="!$PARAM[iconic] + ![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
                     <control type="group">
                         <left>40</left>
                         <right>-20</right>
@@ -1315,7 +1398,7 @@
                         </include>
                     </control>
                 </focusedlayout>
-                <focusedlayout height="120" width="$PARAM[focus_w]" condition="[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
+                <focusedlayout height="120" width="$PARAM[focus_w]" condition="!$PARAM[iconic] + [Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
                     <control type="group">
                         <left>40</left>
                         <right>-20</right>
