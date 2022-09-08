@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
+
     <variable name="Path_DiscoverWidget">
         <value condition="Integer.IsEqual(Container(590).NumItems,6)">$INFO[Container(590).ListItemAbsolute(0).FolderPath,,&amp;nextpage=False&amp;sort_by=popularity.desc]</value>
         <value>$INFO[Container(590).ListItemAbsolute(0).FolderPath,,&amp;nextpage=False]</value>
@@ -182,6 +183,19 @@
 
     <variable name="Path_Seasons">
         <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)">plugin://plugin.video.themoviedb.helper/?info=seasons&amp;type=tv&amp;fanarttv=false$VAR[Path_Param_Query]</value>
+    </variable>
+
+    <variable name="Path_Wikipedia_Title">
+        <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.TVShowTitle]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Label]</value>
+    </variable>
+
+    <variable name="Path_Wikipedia_Type">
+        <value condition="String.IsEqual(ListItem.DBType,tvshow)">tv</value>
+        <value condition="String.IsEqual(ListItem.DBType,season)">tv</value>
+        <value condition="String.IsEqual(ListItem.DBType,episode)">tv</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie)">movie</value>
     </variable>
 
 </includes>
