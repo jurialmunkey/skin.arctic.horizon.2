@@ -5,64 +5,77 @@
     <controls>
         <include content="DialogInfo_MainGroup">
             <visible>!ControlGroup(6000).HasFocus()</visible>
-            <include content="DialogInfo_LeftGroup">
-                <param name="height">infodialog_poster_w</param>
-                <param name="diffuse">diffuse/square_w544_h544.png</param>
-                <include>DialogInfo_MusicArt</include>
-                <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-            </include>
 
-            <include content="DialogInfo_RightGroup">
-                <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-                <!-- Info -->
-                <control type="group">
-                    <visible>!Control.HasFocus(61)</visible>
-                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                    <include content="Animation_DialogInfo_Recommendations">
-                        <param name="condition">ControlGroup(6000).HasFocus()</param>
-                    </include>
-
-                    <!-- Info -->
-                    <include content="Info_Panel">
-                        <param name="plotheight" value="info_plot_large_h" />
-                    </include>
-
-                    <!-- Button Group -->
-                    <include content="DialogInfo_ButtonGroup">
-                        <param name="include">Items_DialogVideoInfo_MenuBar</param>
-                    </include>
-
-                    <!-- Track Details -->
-                    <include content="DialogInfo_MusicTracks" condition="String.IsEqual(ListItem.DBType,album)">
-                        <param name="id">50</param>
-                    </include>
-                    <include content="DialogInfo_MusicTracks" condition="String.IsEqual(ListItem.DBType,artist)">
-                        <param name="id">5050</param>
-                        <param name="detailed">true</param>
-                        <content target="music" sortby="playcount" sortorder="descending">$INFO[ListItem.Artist,musicdb://songs/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22songs%22%7D]</content>
-                    </include>
-
-                    <!-- Codecs -->
-                    <include>DialogInfo_Codecs</include>
-
-                    <!-- Mouse Nav Button -->
-                    <include content="DialogInfo_MouseNavArrow">
-                        <visible>!Integer.IsEqual(Container(50).NumItems,0)</visible>
-                    </include>
-                </control>
-
-                <!-- Trailer and Plot -->
-                <include>DialogInfo_VideoTrailer</include>
-                <include content="DialogInfo_PlotBox">
-                    <param name="label">$VAR[Label_Plot]</param>
+            <control type="group">
+                <visible>!Window.IsActive(script-tmdbhelper-wikipedia.xml)</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
+                    <effect type="slide" start="-320" end="0" time="400" delay="400" tween="cubic" easing="out" />
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" start="100" end="0" time="300" tween="sine" easing="out" />
+                    <effect type="slide" start="0" end="-320" time="300" tween="cubic" easing="out" />
+                </animation>
+                <include content="DialogInfo_LeftGroup">
+                    <param name="height">infodialog_poster_w</param>
+                    <param name="diffuse">diffuse/square_w544_h544.png</param>
+                    <include>DialogInfo_MusicArt</include>
                 </include>
-            </include>
 
-            <include>Furniture_Top_Left</include>
+                <include content="DialogInfo_RightGroup">
+                    <!-- Info -->
+                    <control type="group">
+                        <visible>!Control.HasFocus(61)</visible>
+                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                        <include content="Animation_DialogInfo_Recommendations">
+                            <param name="condition">ControlGroup(6000).HasFocus()</param>
+                        </include>
+
+                        <!-- Info -->
+                        <include content="Info_Panel">
+                            <param name="plotheight" value="info_plot_large_h" />
+                        </include>
+
+                        <!-- Button Group -->
+                        <include content="DialogInfo_ButtonGroup">
+                            <param name="include">Items_DialogVideoInfo_MenuBar</param>
+                        </include>
+
+                        <!-- Track Details -->
+                        <include content="DialogInfo_MusicTracks" condition="String.IsEqual(ListItem.DBType,album)">
+                            <param name="id">50</param>
+                        </include>
+                        <include content="DialogInfo_MusicTracks" condition="String.IsEqual(ListItem.DBType,artist)">
+                            <param name="id">5050</param>
+                            <param name="detailed">true</param>
+                            <content target="music" sortby="playcount" sortorder="descending">$INFO[ListItem.Artist,musicdb://songs/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22songs%22%7D]</content>
+                        </include>
+
+                        <!-- Codecs -->
+                        <include>DialogInfo_Codecs</include>
+
+                        <!-- Mouse Nav Button -->
+                        <include content="DialogInfo_MouseNavArrow">
+                            <visible>!Integer.IsEqual(Container(50).NumItems,0)</visible>
+                        </include>
+                    </control>
+
+                    <!-- Trailer and Plot -->
+                    <include>DialogInfo_VideoTrailer</include>
+                    <include content="DialogInfo_PlotBox">
+                        <param name="label">$VAR[Label_Plot]</param>
+                    </include>
+                </include>
+            </control>
+            <control type="group">
+                <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
+                <include>Furniture_Top_Left</include>
+            </control>
         </include>
 
         <control type="group">
             <visible>!Window.IsVisible(1120)</visible>
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
             <include>Furniture_Top_Right</include>
         </control>
 
