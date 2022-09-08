@@ -6,50 +6,59 @@
     <controls>
 
         <include content="DialogInfo_MainGroup">
-            <include content="DialogInfo_LeftGroup">
-                <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-            </include>
-            <include content="DialogInfo_RightGroup">
-                <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-                <!-- Info -->
-                <control type="group">
-                    <visible>!Control.HasFocus(61)</visible>
-                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                    <include>Animation_DialogInfo_Recommendations</include>
+            <control type="group">
+                <visible>!Window.IsActive(script-tmdbhelper-wikipedia.xml)</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
+                    <effect type="slide" start="-320" end="0" time="400" delay="400" tween="cubic" easing="out" />
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" start="100" end="0" time="300" tween="sine" easing="out" />
+                    <effect type="slide" start="0" end="-320" time="300" tween="cubic" easing="out" />
+                </animation>
+                <include content="DialogInfo_LeftGroup">
+                </include>
+                <include content="DialogInfo_RightGroup">
+                    <!-- Info -->
+                    <control type="group">
+                        <visible>!Control.HasFocus(61)</visible>
+                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                        <include>Animation_DialogInfo_Recommendations</include>
 
-                    <!-- Video Info -->
-                    <include content="Info_Panel" condition="!$EXP[Exp_IsPersonInfo]">
-                        <param name="plotheight" value="info_plot_large_h" />
-                    </include>
+                        <!-- Video Info -->
+                        <include content="Info_Panel" condition="!$EXP[Exp_IsPersonInfo]">
+                            <param name="plotheight" value="info_plot_large_h" />
+                        </include>
 
-                    <!-- Person Info -->
-                    <include content="Info_Panel" condition="$EXP[Exp_IsPersonInfo]">
-                        <param name="plotheight" value="info_plot_person_h" />
-                    </include>
+                        <!-- Person Info -->
+                        <include content="Info_Panel" condition="$EXP[Exp_IsPersonInfo]">
+                            <param name="plotheight" value="info_plot_person_h" />
+                        </include>
 
-                    <!-- Button Group -->
-                    <include content="DialogInfo_ButtonGroup" condition="!$EXP[Exp_IsPersonInfo]">
-                        <param name="include">Items_DialogVideoInfo_MenuBar</param>
-                    </include>
-                    <include condition="$EXP[Exp_IsPersonInfo]">DialogInfo_ButtonHidden</include>
+                        <!-- Button Group -->
+                        <include content="DialogInfo_ButtonGroup" condition="!$EXP[Exp_IsPersonInfo]">
+                            <param name="include">Items_DialogVideoInfo_MenuBar</param>
+                        </include>
+                        <include condition="$EXP[Exp_IsPersonInfo]">DialogInfo_ButtonHidden</include>
 
-                    <!-- Video Details -->
-                    <include content="DialogInfo_VideoDetails" condition="!$EXP[Exp_IsPersonInfo]">
-                        <top>grid_x48</top>
-                        <bottom>grid_x08</bottom>
-                    </include>
+                        <!-- Video Details -->
+                        <include content="DialogInfo_VideoDetails" condition="!$EXP[Exp_IsPersonInfo]">
+                            <top>grid_x48</top>
+                            <bottom>grid_x08</bottom>
+                        </include>
 
-                    <!-- Codecs -->
-                    <include>DialogInfo_Codecs</include>
+                        <!-- Codecs -->
+                        <include>DialogInfo_Codecs</include>
 
-                    <!-- Mouse Nav Button -->
-                    <include>DialogInfo_MouseNavArrow</include>
-                </control>
+                        <!-- Mouse Nav Button -->
+                        <include>DialogInfo_MouseNavArrow</include>
+                    </control>
 
-                <!-- Trailer and Plot -->
-                <include>DialogInfo_VideoTrailer</include>
-                <include>DialogInfo_PlotBox</include>
-            </include>
+                    <!-- Trailer and Plot -->
+                    <include>DialogInfo_VideoTrailer</include>
+                    <include>DialogInfo_PlotBox</include>
+                </include>
+            </control>
             <control type="group">
                 <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
                 <include>Furniture_Top_Left</include>
