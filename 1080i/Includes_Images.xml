@@ -20,7 +20,8 @@
     </variable>
 
     <variable name="Image_Background_Fanart">
-        <value condition="$EXP[Exp_IsPersonInfo]">common/blur2.png</value>
+        <value condition="Window.IsVisible(script-tmdbhelper-wikipedia.xml) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Wikipedia.Backdrop))">$INFO[Window(Home).Property(TMDbHelper.Wikipedia.Backdrop)]</value>
+        <value condition="$EXP[Exp_IsPersonInfo] | Window.IsVisible(script-tmdbhelper-wikipedia.xml)">common/blur2.png</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + $EXP[Exp_HasExtraFanart] + !String.IsEmpty(Control.GetLabel(99998))">$INFO[Control.GetLabel(99998)]</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(Container(300).ListItem.Property(widgetPath)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),301) + $EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Container(301).ListItem.Art(fanart))">$INFO[Container(301).ListItem.Art(fanart)]</value>
