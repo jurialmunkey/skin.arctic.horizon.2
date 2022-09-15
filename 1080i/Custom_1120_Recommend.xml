@@ -24,7 +24,9 @@
 
         <control type="group">
             <include>Animation_Recommendations_Window</include>
-            <control type="grouplist" id="6000">
+            <include content="Object_Control" condition="!Skin.HasSetting(Recommendations.UseLocal)">
+                <param name="control">grouplist</param>
+                <param name="id">6000</param>
                 <onup>Close</onup>
                 <ondown>330</ondown>
                 <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
@@ -64,23 +66,6 @@
                     </include>
                     <onback>SetFocus(5000)</onback>
                 </include>
-                <!-- <include content="Widget_Stacked" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableSeasons)">
-                    <param name="spacerid">5201</param>
-                    <param name="groupid">5101</param>
-                    <param name="id">5001</param>
-                    <param name="widgetspacerid">5202</param>
-                    <param name="widgetgroupid">5102</param>
-                    <param name="widgetid">5002</param>
-                    <param name="label">$LOCALIZE[20373]$INFO[Container(5001).ListItem.Season, ,]</param>
-                    <param name="visible">!String.IsEmpty(Window.Property(Path.Seasons))</param>
-                    <param name="include">List_Landscape_Row</param>
-                    <param name="expand_plot">false</param>
-                    <content>$INFO[Window.Property(Path.Seasons)]</content>
-                    <onclick>Close</onclick>
-                    <onclick condition="!Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(5001).ListItem.FolderPath]),00:01,silent)</onclick>
-                    <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container(5001).ListItem.FolderPath]),00:01,silent)</onclick>
-                </include> -->
-
                 <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableCollections)">
                     <param name="groupid" value="5103" />
                     <param name="id" value="5003" />
@@ -370,29 +355,13 @@
                     <onclick condition="!Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(5094).ListItem.FolderPath]),00:01,silent)</onclick>
                     <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container(5094).ListItem.FolderPath]),00:01,silent)</onclick>
                 </include>
-                <!-- <include content="Widget_Stacked" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableSeasons)">
-                    <param name="spacerid">5296</param>
-                    <param name="groupid">5196</param>
-                    <param name="id">5096</param>
-                    <param name="widgetspacerid">5297</param>
-                    <param name="widgetgroupid">5197</param>
-                    <param name="widgetid">5097</param>
-                    <param name="label">$LOCALIZE[20373]$INFO[Container(5096).ListItem.Season, ,]</param>
-                    <param name="visible">!String.IsEmpty(Window.Property(Path.Seasons))</param>
-                    <param name="include">List_Landscape_Row</param>
-                    <param name="height">660</param>
-                    <content>$INFO[Window.Property(Path.Seasons)]</content>
-                    <onclick>Close</onclick>
-                    <onclick condition="!Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(5096).ListItem.FolderPath]),00:01,silent)</onclick>
-                    <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container(5096).ListItem.FolderPath]),00:01,silent)</onclick>
-                </include> -->
-                <!-- <include content="Object_Control">
-                    <param name="control" value="group" />
-                    <param name="id" value="6199" />
-                    <height>widget_sbump_h</height>
-                    <visible>String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle))</visible>
-                </include> -->
-            </control>
+            </include>
+
+            <include condition="Skin.HasSetting(Recommendations.UseLocal)" content="DialogInfo_LocalRecommendations">
+                <onup>Close</onup>
+                <ondown>330</ondown>
+            </include>
+
             <include content="Object_WallFade">
                 <param name="id" value="6000" />
                 <param name="direction_buttons">true</param>
