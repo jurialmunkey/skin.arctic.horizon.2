@@ -129,16 +129,12 @@
             <param name="usegrouplist" value="false" />
             <param name="nib_pos" value="420" />
             <param name="useanimation" value="false" />
-            <include content="Object_Left" condition="Skin.HasSetting(Home.IconicMenu) + Skin.HasSetting(Home.DisableSearchMenu)">
+            <include content="Object_Left" condition="Skin.HasSetting(Home.DisableSearchMenu)">
                 <param name="left">40</param>
             </include>
-            <include content="Object_Left" condition="Skin.HasSetting(Home.IconicMenu) + !Skin.HasSetting(Home.DisableSearchMenu)">
+            <include content="Object_Left" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
                 <param name="left">140</param>
             </include>
-            <include content="Object_Left" condition="!Skin.HasSetting(Home.IconicMenu) + Skin.HasSetting(Home.DisableSearchMenu)">
-                <param name="left">80</param>
-            </include>
-            <left>180</left>
             <animation effect="slide" start="0" end="100" condition="Container(300).Position(1)">Conditional</animation>
             <animation effect="slide" start="0" end="200" condition="Container(300).Position(2)">Conditional</animation>
             <animation effect="slide" start="0" end="300" condition="Container(300).Position(3)">Conditional</animation>
@@ -183,11 +179,8 @@
         <include content="Object_MenuBar_Group">
             <param name="overlay" value="false" />
             <param name="colordiffuse" value="main_fg_12" />
-            <param name="backing">!Skin.HasSetting(Home.IconicMenu)</param>
-            <include content="Object_Left" condition="Skin.HasSetting(Home.IconicMenu)">
-                <param name="left">40</param>
-            </include>
-            <left>80</left>
+            <param name="backing">False</param>
+            <left>40</left>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <visible>$EXP[Exp_HomeBarVisible]</visible>
             <animation effect="fade" start="100" end="0" condition="Window.Next(1114)">Conditional</animation>
@@ -228,9 +221,7 @@
                 <height>60</height>
                 <centertop>50%</centertop>
                 <aspectratio>keep</aspectratio>
-                <include content="Object_BorderSize" condition="Skin.HasSetting(Home.IconicMenu)">
-                    <param name="bordersize">4</param>
-                </include>
+                <bordersize>4</bordersize>
                 <texture colordiffuse="main_fg_70">special://skin/extras/icons/search.png</texture>
             </include>
             <include content="Object_MenuBar_List">
@@ -259,22 +250,12 @@
 
         <control type="group">
             <visible>Window.Next(1114)</visible>
-            <include content="Object_Left" condition="Skin.HasSetting(Home.IconicMenu)">
-                <param name="left">40</param>
-            </include>
-            <left>view_pad</left>
+            <left>40</left>
             <top>60</top>
             <height>view_pad</height>
             <control type="group">
                 <left>20</left>
                 <width>740</width>
-                <include content="Object_MenuBar_Group_Texture" condition="!Skin.HasSetting(Home.IconicMenu)">
-                    <param name="colordiffuse" value="main_fg_12" />
-                    <left>-20</left>
-                    <right>-20</right>
-                    <height>60</height>
-                    <centertop>50%</centertop>
-                </include>
                 <control type="group">
                     <height>70</height>
                     <centertop>50%</centertop>
@@ -286,9 +267,7 @@
                     <control type="image">
                         <left>10</left>
                         <width>60</width>
-                        <include content="Object_BorderSize" condition="Skin.HasSetting(Home.IconicMenu)">
-                            <param name="bordersize">4</param>
-                        </include>
+                        <bordersize>4</bordersize>
                         <aspectratio>keep</aspectratio>
                         <texture colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/search.png</texture>
                     </control>
