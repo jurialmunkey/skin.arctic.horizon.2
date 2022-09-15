@@ -59,16 +59,31 @@
                     <include>DialogInfo_PlotBox</include>
                 </include>
             </control>
-            <control type="group">
-                <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-                <include>Furniture_Top_Left</include>
-            </control>
+        </include>
+
+        <include condition="Skin.HasSetting(Recommendations.UseLocal)" content="DialogInfo_LocalRecommendations">
+            <onup>5000</onup>
+            <ondown>330</ondown>
+            <visible>ControlGroup(6000).HasFocus()</visible>
+            <include>Animation_Recommendations_Visible</include>
+        </include>
+
+        <include content="Object_Control" condition="Skin.HasSetting(Recommendations.UseLocal)">
+            <param name="control">group</param>
+            <visible>ControlGroup(6000).HasFocus()</visible>
+            <include>Animation_FadeIn</include>
+            <include>Animation_FadeOut</include>
+            <include content="Object_WallFade">
+                <param name="id" value="6000" />
+                <param name="direction_buttons">true</param>
+            </include>
         </include>
 
         <control type="group">
             <visible>!Window.IsVisible(1120)</visible>
             <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
             <include>Furniture_Top_Right</include>
+            <include>Furniture_Top_Left</include>
         </control>
 
         <include content="Object_Options_Menu">

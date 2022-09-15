@@ -4,7 +4,7 @@
     <!-- Main Group for DialogInfo -->
     <include name="DialogInfo_MainGroup">
         <control type="group">
-            <visible>!Window.IsActive(1120) + !Control.HasFocus(50)</visible>
+            <visible>!Window.IsActive(1120) + !ControlGroup(6000).HasFocus()</visible>
             <animation effect="slide" start="0" end="-infodialog_left_w" time="800" tween="cubic" easing="out" reversible="false">Hidden</animation>
             <animation effect="slide" end="0" start="-infodialog_left_w" time="800" tween="cubic" easing="out" reversible="false">Visible</animation>
             <nested />
@@ -358,10 +358,162 @@
     <include name="DialogInfo_RecommendationsButton">
         <include content="Object_Hidden_Button">
             <param name="id">7002</param>
-            <include content="Action_Recommendations_OnFocus">
+            <onfocus condition="Skin.HasSetting(Recommendations.UseLocal)">SetFocus(50)</onfocus>
+            <include content="Action_Recommendations_OnFocus" condition="!Skin.HasSetting(Recommendations.UseLocal)">
                 <onfocus>SetFocus(5000)</onfocus>
             </include>
         </include>
+    </include>
+
+    <include name="DialogInfo_LocalRecommendations">
+        <control type="grouplist" id="6000">
+            <nested />
+            <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                <effect type="slide" end="0,-20" time="60" tween="sine" />
+                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+            </animation>
+            <orientation>vertical</orientation>
+            <control type="group" id="6100">
+                <height>widget_tbump_h</height>
+            </control>
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableCast)">
+                <param name="groupid" value="5050" />
+                <param name="id" value="50" />
+                <param name="label" value="$LOCALIZE[206]" />
+                <param name="detailed">true</param>
+                <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
+                <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+                <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + [[!Skin.HasSetting(Info.DisableCollections) + !String.IsEqual(ListItem.DBType,tvshow)] | [!Skin.HasSetting(Info.DisableSeasons) + String.IsEqual(ListItem.DBType,tvshow)]]">
+                <param name="groupid" value="6300" />
+                <param name="id" value="6200" />
+                <param name="label" value="$LOCALIZE[31108]" />
+                <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
+                <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <content target="videos">$VAR[Path_Library_Collections]</content>
+                <include content="Action_Widget_Play_Click">
+                    <param name="id">6200</param>
+                </include>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableYear)">
+                <param name="groupid" value="6301" />
+                <param name="id" value="6201" />
+                <param name="label" value="$INFO[ListItem.Year,$LOCALIZE[31060] ,]" />
+                <param name="visible">!String.IsEmpty(ListItem.Year)</param>
+                <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6201,Home)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6201,Home)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <content target="videos">$VAR[Path_Library_FromYear]</content>
+                <include content="Action_LibraryInfoWidget_Click">
+                    <param name="id">6201</param>
+                </include>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
+                <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableGenre)">
+                <param name="groupid" value="6302" />
+                <param name="id" value="6202" />
+                <param name="label" value="$INFO[ListItem.Genre]" />
+                <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
+                <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6202,Home)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6202,Home)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <content target="videos">$VAR[Path_Library_FromGenre]</content>
+                <include content="Action_LibraryInfoWidget_Click">
+                    <param name="id">6202</param>
+                </include>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
+                <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableStudio)">
+                <param name="groupid" value="6303" />
+                <param name="id" value="6203" />
+                <param name="label" value="$INFO[ListItem.Studio]" />
+                <param name="visible">!String.IsEmpty(ListItem.Studio)</param>
+                <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6203,Home)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6203,Home)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <content target="videos">$VAR[Path_Library_FromStudio]</content>
+                <include content="Action_LibraryInfoWidget_Click">
+                    <param name="id">6203</param>
+                </include>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
+                <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableDirector)">
+                <param name="groupid" value="6304" />
+                <param name="id" value="6204" />
+                <param name="label" value="$INFO[ListItem.Director,$LOCALIZE[31225] ,]" />
+                <param name="visible">!String.IsEmpty(ListItem.Director)</param>
+                <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6204,Home)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6204,Home)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <content target="videos">$VAR[Path_Library_FromDirector]</content>
+                <include content="Action_LibraryInfoWidget_Click">
+                    <param name="id">6204</param>
+                </include>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
+                <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableWriter)">
+                <param name="groupid" value="6305" />
+                <param name="id" value="6205" />
+                <param name="label" value="$INFO[ListItem.Writer,$LOCALIZE[31224] ,]" />
+                <param name="visible">!String.IsEmpty(ListItem.Writer)</param>
+                <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6205,Home)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6205,Home)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <content target="videos">$VAR[Path_Library_FromWriter]</content>
+                <include content="Action_LibraryInfoWidget_Click">
+                    <param name="id">6205</param>
+                </include>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
+                <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <control type="button" id="330">
+                <width>1</width>
+                <height>1</height>
+                <left>-1000</left>
+                <onfocus>SetFocus(6000)</onfocus>
+                <onclick>SetFocus(6000)</onclick>
+                <visible allowhiddenfocus="true">Control.HasFocus(330)</visible>
+                <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+            </control>
+        </control>
     </include>
 
     <!-- File Path for Management -->
