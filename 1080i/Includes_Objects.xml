@@ -747,6 +747,7 @@
                     <include content="Dimension_Padding"><param name="pad" value="0" /></include>
                     <texture colordiffuse="$VAR[ColorWatchedProgress]">$VAR[Defs_PercentPlayed$PARAM[affix],progress/circle/p,.png]</texture>
                     <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <visible>String.IsEmpty($PARAM[listitem].Property(role))</visible>
                 </include>
                 <control type="image">
                     <texture>$VAR[Image_Overlay_Backing$PARAM[affix],,-fg.png]</texture>
@@ -760,9 +761,10 @@
                     <texture colordiffuse="$VAR[ColorWatchedProgress]">indicator/checkmark.png</texture>
                     <visible>!Skin.HasSetting(Indicator.DisableWatched)</visible>
                     <visible>String.IsEqual($PARAM[listitem].Overlay,OverlayWatched.png) | [!String.IsEmpty($PARAM[listitem].PlayCount) + !Integer.IsEqual($PARAM[listitem].PlayCount,0) + !String.IsEqual($PARAM[listitem].DBType,song) + !String.IsEqual($PARAM[listitem].DBType,album) + !String.IsEqual($PARAM[listitem].DBType,artist) + !String.IsEqual($PARAM[listitem].DBType,image) + !String.IsEqual($PARAM[listitem].DBType,addon)]</visible>
-                    <visible>Integer.IsEqual($PARAM[listitem].Property(UnWatchedEpisodes),0) | Skin.HasSetting(Indicator.DisableEpisodes)</visible>
+                    <visible>Integer.IsEqual($PARAM[listitem].Property(UnWatchedEpisodes),0)  | Skin.HasSetting(Indicator.DisableEpisodes)</visible>
                     <visible>!$PARAM[listitem].IsRecording + !$PARAM[listitem].HasTimer</visible>
                     <visible>!$PARAM[listitem].IsResumable | Skin.HasSetting(Indicator.DisableProgress)</visible>
+                    <visible>String.IsEmpty($PARAM[listitem].Property(role))</visible>
                 </control>
                 <control type="label">
                     <font>font_unwatched</font>
@@ -770,7 +772,16 @@
                     <aligny>center</aligny>
                     <textcolor>panel_fg_100</textcolor>
                     <label>$INFO[$PARAM[listitem].Property(UnWatchedEpisodes)]</label>
-                    <visible>Integer.IsGreater($PARAM[listitem].Property(UnWatchedEpisodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(Indicator.DisableEpisodes)</visible>
+                    <visible>!Integer.IsEqual($PARAM[listitem].Property(UnWatchedEpisodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(Indicator.DisableEpisodes)</visible>
+                    <visible>![!String.IsEmpty($PARAM[listitem].Property(role)) + !Integer.IsEqual($PARAM[listitem].Property(Episodes),0)]</visible>
+                </control>
+                <control type="label">
+                    <font>font_unwatched</font>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <textcolor>panel_fg_100</textcolor>
+                    <label>$INFO[$PARAM[listitem].Property(Episodes)]</label>
+                    <visible>!String.IsEmpty($PARAM[listitem].Property(role)) + !Integer.IsEqual($PARAM[listitem].Property(Episodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(Indicator.DisableEpisodes)</visible>
                 </control>
             </control>
         </definition>
