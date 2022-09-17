@@ -12,7 +12,6 @@
                     <param name="font">font_infotitle_light</param>
                 </include>
                 <font>font_infotitle</font>
-                <animation effect="fade" start="0" end="100" time="1" delay="800" reversible="true">Visible</animation>
                 <nested />
             </control>
         </definition>
@@ -20,26 +19,30 @@
     <include name="Info_Title_Logo">
         <param name="templogo_visible">false</param>
         <definition>
-            <include content="Info_Title_Label">
-                <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                <visible>!$PARAM[visible]</visible>
-                <visible>!$PARAM[templogo_visible]</visible>
-            </include>
-            <control type="image">
+            <control type="group">
                 <height>80</height>
-                <aspectratio align="left">keep</aspectratio>
-                <fadetime>0</fadetime>
-                <texture background="true">$VAR[Image_CropLogo]</texture>
-                <animation effect="fade" start="0" end="100" time="1" delay="1000" reversible="false">Visible</animation>
                 <visible>!$PARAM[visible]</visible>
-                <visible>$PARAM[templogo_visible]</visible>
+                <animation effect="fade" start="0" end="100" time="200" delay="800" reversible="true">Visible</animation>
+                <animation effect="fade" start="100" end="0" delay="0" time="200" reversible="true">Hidden</animation>
+                <include content="Info_Title_Label">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <visible>!$PARAM[templogo_visible]</visible>
+                </include>
+                <control type="image">
+                    <height>80</height>
+                    <aspectratio align="left">keep</aspectratio>
+                    <fadetime>200</fadetime>
+                    <texture background="true">$VAR[Image_CropLogo_Fallback]</texture>
+                    <visible>$PARAM[templogo_visible]</visible>
+                </control>
             </control>
             <control type="image">
                 <height>80</height>
                 <aspectratio align="left">keep</aspectratio>
-                <fadetime>0</fadetime>
+                <fadetime>200</fadetime>
                 <texture background="true">$VAR[Image_CropLogo_Main]</texture>
-                <animation effect="fade" start="100" end="0" delay="1000" time="1" reversible="false">Hidden</animation>
+                <animation effect="fade" start="0" end="100" time="200" delay="0" reversible="true">Visible</animation>
+                <animation effect="fade" start="100" end="0" delay="800" time="200" reversible="true">Hidden</animation>
                 <visible>$PARAM[visible]</visible>
             </control>
         </definition>
@@ -65,7 +68,7 @@
                 <!-- Other -->
                 <include content="Info_Title_Logo" condition="Skin.HasSetting(TMDbHelper.EnableCrop) + !$EXP[Exp_RecommendationDialogs]">
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                    <param name="visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.FileNameAndPath)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FileNameAndPath),$PARAM[container]ListItem.FileNameAndPath)] | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.FileNameAndPath)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FolderPath),$PARAM[container]ListItem.FolderPath)]]]</param>
+                    <param name="visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [[!String.IsEmpty($PARAM[container]ListItem.FileNameAndPath)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FileNameAndPath),$PARAM[container]ListItem.FileNameAndPath)] | [String.IsEmpty($PARAM[container]ListItem.FileNameAndPath)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FolderPath),$PARAM[container]ListItem.FolderPath)]]]</param>
                     <param name="templogo_visible">[!String.IsEmpty($PARAM[container]ListItem.Art(clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(tvshow.clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo))]</param>
                 </include>
 
