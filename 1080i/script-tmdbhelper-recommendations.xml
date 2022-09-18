@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog">
+    <defaultcontrol always="true">6000</defaultcontrol>
+
+    <onload condition="!Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(TMDbHelper.ServicePause,1)</onload>
+    <onload condition="Skin.HasSetting(Recommendations.ExpandPlot)">ClearProperty(TMDbHelper.ServicePause)</onload>
+    <onload condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onload>
+
+    <onload>SetProperty(BackupSlide.WidgetContainer,$INFO[Window(Home).Property(TMDBHelper.WidgetContainer)],Home)</onload>
+    <onload>SetProperty(BackupSlide.WidgetInfoStyle,$INFO[Window(Home).Property(Slide.WidgetInfoStyle)],Home)</onload>
+    <onload>SetProperty(BackupSlide.WidgetContainer,$INFO[Window(Home).Property(Slide.WidgetContainer)],Home)</onload>
+
+    <onload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onload>
+    <onload>ClearProperty(Slide.WidgetInfoStyle,Home)</onload>
+    <onload>ClearProperty(Slide.WidgetContainer,Home)</onload>
+
+    <onunload>SetProperty(TMDbHelper.WidgetContainer,$INFO[Window(Home).Property(BackupSlide.WidgetContainer)],Home)</onunload>
+    <onunload>SetProperty(Slide.WidgetInfoStyle,$INFO[Window(Home).Property(BackupSlide.WidgetInfoStyle)],Home)</onunload>
+    <onunload>SetProperty(Slide.WidgetContainer,$INFO[Window(Home).Property(BackupSlide.WidgetContainer)],Home)</onunload>
+
+    <onunload>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunload>
+    <onunload condition="!String.IsEmpty(Window(Home).Property(Recommendations.CropLogo))">SetProperty(TMDbHelper.ListItem.CropImage,$ESCINFO[Window(Home).Property(Recommendations.CropLogo)],Home)</onunload>
+    <onunload condition="!String.IsEmpty(Window(Home).Property(Recommendations.FileNameAndPath))">SetProperty(TMDbHelper.ListItem.FileNameAndPath,$ESCINFO[Window.Property(Recommendations.FileNameAndPath)],Home)</onunload>
+    <onunload>ClearProperty(Recommendations.CropLogo,Home)</onunload>
+    <onunload>ClearProperty(Recommendations.FileNameAndPath,Home)</onunload>
+
+    <include>Action_ClearContext_OnUnload</include>
+
+    <controls>
+
+        <control type="group">
+            <include>Animation_Recommendations_Window</include>
+            <include content="Object_Control" condition="!String.IsEqual(Window(Home).Property(Recommendations.TMDbType),tmdb_type=person)">
+                <param name="control">grouplist</param>
+                <param name="id">6000</param>
+                <onup>Close</onup>
+                <ondown>330</ondown>
+                <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                    <effect type="slide" end="0,-20" time="60" tween="sine" />
+                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+                </animation>
+                <orientation>vertical</orientation>
+                <control type="group" id="6100">
+                    <height>widget_tbump_h</height>
+                </control>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableCast)">
+                    <param name="groupid">5100</param>
+                    <param name="id">5000</param>
+                    <param name="label">$LOCALIZE[206]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5000_Visible))</param>
+                    <include content="Widget_Recs_Basic"><param name="id">5000</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableSeasons)">
+                    <param name="groupid">5101</param>
+                    <param name="id">5001</param>
+                    <param name="label">$LOCALIZE[33054]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5001_Visible))</param>
+                    <param name="detailed">true</param>
+                    <include content="Widget_Recs_Basic"><param name="id">5000</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableCollections)">
+                    <param name="groupid">5102</param>
+                    <param name="id">5002</param>
+                    <param name="label">$INFO[Window(Home).Property(Recommendations.Collection)]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5002_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5002</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableRecommendations)">
+                    <param name="groupid">5103</param>
+                    <param name="id">5003</param>
+                    <param name="label">$LOCALIZE[31018]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5003_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5003</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableSimilar)">
+                    <param name="groupid">5104</param>
+                    <param name="id">5004</param>
+                    <param name="label">$LOCALIZE[31021]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5004_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5004</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableYear)">
+                    <param name="groupid">5105</param>
+                    <param name="id">5005</param>
+                    <param name="label">$INFO[Window(Home).Property(Recommendations.Year),$LOCALIZE[31060] ,]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5005_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5005</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableGenre)">
+                    <param name="groupid">5106</param>
+                    <param name="id">5006</param>
+                    <param name="label">$INFO[Window(Home).Property(Recommendations.Genre)]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5006_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5006</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableStudio)">
+                    <param name="groupid">5107</param>
+                    <param name="id">5007</param>
+                    <param name="label">$INFO[Window(Home).Property(Recommendations.Studio)]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5007_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5007</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableDirector)">
+                    <param name="groupid">5108</param>
+                    <param name="id">5008</param>
+                    <param name="label">$INFO[Window(Home).Property(Recommendations.Director),$LOCALIZE[31225] ,]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5008_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5008</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableWriter)">
+                    <param name="groupid">5109</param>
+                    <param name="id">5009</param>
+                    <param name="label">$INFO[Window(Home).Property(Recommendations.Writer),$LOCALIZE[31224] ,]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5009_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5009</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableCrew)">
+                    <param name="groupid">5110</param>
+                    <param name="id">5010</param>
+                    <param name="label">$LOCALIZE[31019]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5010_Visible))</param>
+                    <include content="Widget_Recs_Basic"><param name="id">5010</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableUpNext)">
+                    <param name="groupid">5111</param>
+                    <param name="id">5011</param>
+                    <param name="label">$LOCALIZE[31196]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5011_Visible))</param>
+                    <param name="include">List_Landscape_Row</param>
+                    <param name="icon">$INFO[ListItem.Icon]</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5011</param></include>
+                </include>
+
+                <!-- Videos -->
+
+                <!-- Artwork Widgets -->
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisablePosters)">
+                    <param name="groupid">5191</param>
+                    <param name="id">5091</param>
+                    <param name="label">$LOCALIZE[31070]</param>
+                    <param name="include">List_Poster_Row</param>
+                    <param name="icon">$INFO[ListItem.Icon]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5091_Visible))</param>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableFanart)">
+                    <param name="groupid">5192</param>
+                    <param name="id">5092</param>
+                    <param name="label">$LOCALIZE[20445]</param>
+                    <param name="include">List_Landscape_Row</param>
+                    <param name="icon">$INFO[ListItem.Icon]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5092_Visible))</param>
+                </include>
+
+                <!-- Reviews -->
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisableReviews)">
+                    <param name="spacerid">5293</param>
+                    <param name="groupid">5193</param>
+                    <param name="id">5093</param>
+                    <param name="label">$LOCALIZE[31215]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5093_Visible))</param>
+                    <param name="include">List_Reviews_Row</param>
+                </include>
+
+                <!-- Keywords -->
+                <include content="Widget_Stacked" condition="!Skin.HasSetting(Info.DisableKeywords)">
+                    <param name="spacerid">5294</param>
+                    <param name="groupid">5194</param>
+                    <param name="id">5094</param>
+                    <param name="widgetspacerid">5295</param>
+                    <param name="widgetgroupid">5195</param>
+                    <param name="widgetid">5095</param>
+                    <param name="label">$LOCALIZE[21861][CAPITALIZE]$INFO[Container(5094).ListItem.Label, ,][/CAPITALIZE]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5094_Visible))</param>
+                    <param name="height">widget_stack_h</param>
+                </include>
+            </include>
+            <include content="Object_Control" condition="String.IsEqual(Window(Home).Property(Recommendations.TMDbType),tmdb_type=person)">
+                <param name="control">grouplist</param>
+                <param name="id">6000</param>
+                <onup>Close</onup>
+                <ondown>330</ondown>
+                <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                    <effect type="slide" end="0,-20" time="60" tween="sine" />
+                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+                </animation>
+                <orientation>vertical</orientation>
+                <control type="group" id="6100">
+                    <height>widget_tbump_h</height>
+                </control>
+                <include content="Widget_Poster">
+                    <param name="groupid">5100</param>
+                    <param name="id">5000</param>
+                    <param name="label">$LOCALIZE[31066]</param>
+                    <param name="detailed">true</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5000_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5000</param></include>
+                </include>
+                <include content="Widget_Poster">
+                    <param name="groupid">5101</param>
+                    <param name="id">5001</param>
+                    <param name="label">$LOCALIZE[31067]</param>
+                    <param name="detailed">true</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5001_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5001</param></include>
+                </include>
+                <include content="Widget_Poster">
+                    <param name="groupid">5102</param>
+                    <param name="id">5002</param>
+                    <param name="label">$LOCALIZE[31068]</param>
+                    <param name="detailed">true</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5002_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5002</param></include>
+                </include>
+                <include content="Widget_Poster">
+                    <param name="groupid">5103</param>
+                    <param name="id">5003</param>
+                    <param name="label">$LOCALIZE[31069]</param>
+                    <param name="detailed">true</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5003_Visible))</param>
+                    <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                    <include content="Widget_Recs_Expand"><param name="id">5003</param></include>
+                </include>
+                <include content="Widget_Poster" condition="!Skin.HasSetting(Info.DisablePosters)">
+                    <param name="groupid">5191</param>
+                    <param name="id">5091</param>
+                    <param name="label">$LOCALIZE[31070]</param>
+                    <param name="include">List_Poster_Row</param>
+                    <param name="icon">$INFO[ListItem.Icon]</param>
+                    <param name="visible">!String.IsEmpty(Window.Property(List_5091_Visible))</param>
+                </include>
+            </include>
+            <include content="Object_WallFade">
+                <param name="id" value="6000" />
+                <param name="direction_buttons">true</param>
+            </include>
+            <control type="group">
+                <left>view_pad</left>
+                <top>60</top>
+                <height>view_pad</height>
+                <width>info_panel_w</width>
+                <include content="Info_Title">
+                    <param name="colordiffuse" value="main_fg" />
+                </include>
+            </control>
+        </control>
+
+        <include>Furniture_Top_Right</include>
+
+        <control type="button" id="330">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(6000)</onfocus>
+            <onclick>SetFocus(6000)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(330)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+
+        <include content="Dialog_ImageViewer">
+            <param name="buttonid" value="5292" />
+            <param name="listid" value="5092" />
+            <param name="art" value="PicturePath" />
+        </include>
+        <include content="Dialog_ImageViewer">
+            <param name="buttonid" value="5291" />
+            <param name="listid" value="5091" />
+            <param name="art" value="PicturePath" />
+        </include>
+    </controls>
+</window>
