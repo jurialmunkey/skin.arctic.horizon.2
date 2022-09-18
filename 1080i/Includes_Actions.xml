@@ -156,6 +156,16 @@
         <onclick>SetFocus(5000)</onclick>
     </include>
 
+    <include name="Action_LibraryInfoWidget_Click">
+        <definition>
+            <onclick>SetFocus(50)</onclick>
+            <onclick>SetFocus(5000)</onclick>
+            <onclick condition="Window.IsVisible(1120)">Close</onclick>
+            <onclick condition="String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie)">AlarmClock(redirect,RunScript(plugin.video.themoviedb.helper,add_path='"$INFO[Container($PARAM[id]).ListItem.Title,videodb://movies/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D]"',call_auto=1190),00:01,silent)</onclick>
+            <onclick condition="String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)">AlarmClock(redirect,RunScript(plugin.video.themoviedb.helper,add_path='"$INFO[Container($PARAM[id]).ListItem.TVShowTitle,videodb://tvshows/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22tvshows%22%7D]"',call_auto=1190),00:01,silent)</onclick>
+        </definition>
+    </include>
+
     <include name="Action_Widget_Click">
         <include>Action_Widget_Refocus_Click</include>
         <onclick>SetProperty(TMDbHelper.HideView,1,Home)</onclick>
@@ -213,6 +223,7 @@
         <onfocus>SetProperty(Title,"$VAR[Label_Title]",1120)</onfocus>
 
         <onfocus>SetProperty(CropLogo,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.CropImage)],1120)</onfocus>
+        <onfocus>SetProperty(FileNameAndPath,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.FileNameAndPath)],1120)</onfocus>
 
         <nested />
 

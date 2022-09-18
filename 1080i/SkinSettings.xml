@@ -230,13 +230,15 @@
                                 <onclick>Skin.ToggleSetting(PVR.DisableOnBackMenu)</onclick>
                                 <selected>!Skin.HasSetting(PVR.DisableOnBackMenu)</selected>
                             </include>
-                            <include content="Dialog_Settings_Button" description="Pressing Up opens Submenu">
+                            <include content="Dialog_Settings_Button" description="Pressing Up from HomeMenu">
                                 <param name="id" value="3002" />
-                                <param name="control" value="radiobutton" />
+                                <param name="control" value="button" />
                                 <label>$LOCALIZE[31179]</label>
+                                <label2>$VAR[Label_Setting_HomeMenuUp]</label2>
                                 <visible>Container(3).HasFocus(3)</visible>
-                                <onclick>Skin.ToggleSetting(DisableSubmenuOnUp)</onclick>
-                                <selected>!Skin.HasSetting(DisableSubmenuOnUp)</selected>
+                                <onclick condition="String.IsEmpty(Skin.String(HomeMenu.OnUp))">Skin.SetString(HomeMenu.OnUp,PowerMenu)</onclick>
+                                <onclick condition="Skin.String(HomeMenu.OnUp,PowerMenu)">Skin.SetString(HomeMenu.OnUp,None)</onclick>
+                                <onclick condition="Skin.String(HomeMenu.OnUp,None)">Skin.Reset(HomeMenu.OnUp)</onclick>
                             </include>
                             <include content="Dialog_Settings_Button" description="Pressing Down from Scrollbar">
                                 <param name="id" value="3003" />
