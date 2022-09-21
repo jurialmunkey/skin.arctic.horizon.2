@@ -95,7 +95,9 @@
                     <top>80</top>
                     <height>280</height>
                     <visible>$PARAM[busy_visible]</visible>
-                    <include>Animation_FadeIn_Delay</include>
+                    <animation type="Visible" reversible="false">
+                        <effect type="fade" start="0" end="100" time="400" delay="600"/>
+                    </animation>
                     <include content="Object_BusySpinner">
                         <param name="colordiffuse">main_fg</param>
                         <param name="label">$LOCALIZE[31023] $PARAM[label]</param>
@@ -133,6 +135,7 @@
         <param name="altvisible">false</param>
         <param name="include">List_Poster_Row</param>
         <param name="busy_visible">true</param>
+        <param name="busy_isupdating">false</param>
         <param name="usewidgetlabel">false</param>
         <param name="infowidget">false</param>
         <param name="height">widget_items_h</param>
@@ -142,7 +145,7 @@
                 <param name="label">$PARAM[label]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="visible">[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</param>
-                <param name="busy_visible">Container($PARAM[id]).IsUpdating + $PARAM[busy_visible]</param>
+                <param name="busy_visible">[Container($PARAM[id]).IsUpdating | $PARAM[busy_isupdating]] + $PARAM[busy_visible]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
                 <param name="infowidget">$PARAM[infowidget]</param>
                 <param name="infowidget_full">$PARAM[infowidget_full]</param>
@@ -240,7 +243,6 @@
 
     <include name="Widget_Stacked">
         <param name="content_affix">&amp;nextpage=false</param>
-        <param name="widget_onclick_include">Action_Widget_Click</param>
         <param name="expand_plot">Skin.HasSetting(Recommendations.ExpandPlot)</param>
         <param name="include_widgetspacer">true</param>
         <definition>
@@ -281,6 +283,7 @@
                 <onfocus condition="![$PARAM[expand_plot]]">ClearProperty(Slide.WidgetContainer,Home)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                 <animation effect="fade" start="100" end="0" time="0" condition="Container($PARAM[id]).IsUpdating">Conditional</animation>
+                <onclick>noop</onclick>
                 <content>$INFO[Container($PARAM[id]).ListItem.FolderPath,,$PARAM[content_affix]]</content>
                 <content>
                     <item>
@@ -289,7 +292,6 @@
                         <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,0) | String.IsEmpty(Container($PARAM[id]).ListItem.FolderPath) | !Container($PARAM[id]).ListItem.IsFolder</visible>
                     </item>
                 </content>
-                <include content="$PARAM[widget_onclick_include]"><param name="id">$PARAM[widgetid]</param></include>
             </include>
         </definition>
     </include>

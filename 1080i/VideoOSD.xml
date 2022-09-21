@@ -148,10 +148,10 @@
                     <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
                     <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
                     <onclick>Action(Close)</onclick>
-                    <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;imdb_id=$INFO[VideoPlayer.IMDBNumber],call_auto=1190,return)</onclick>
-                    <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + !String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;tmdb_id=$INFO[VideoPlayer.IMDBNumber],call_auto=1190,return)</onclick>
-                    <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.IMDBNumber)">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;query='"$INFO[Player.Title]"',call_auto=1190,return)</onclick>
-                    <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)]">RunScript(plugin.video.themoviedb.helper,add_path=plugin://plugin.video.themoviedb.helper/?info=details&amp;type=tv&amp;query='"$INFO[VideoPlayer.TvShowTitle]"',call_auto=1190,return)</onclick>
+                    <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,imdb_id=$INFO[VideoPlayer.IMDBNumber],window_id=1191)</onclick>
+                    <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + !String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,tmdb_id=$INFO[VideoPlayer.IMDBNumber],window_id=1191)</onclick>
+                    <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.IMDBNumber)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,query='"$INFO[Player.Title]"',window_id=1191)</onclick>
+                    <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)]">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,query='"$INFO[Player.TvShowTitle]"',window_id=1191)</onclick>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose" value="true" />
@@ -360,7 +360,7 @@
                     <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
                     <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
                     <onclick>Action(Close)</onclick>
-                    <onclick>RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container(6501).ListItem.FolderPath],call_auto=1190,return)</onclick>
+                    <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=person,tmdb_id=$INFO[Container(6501).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
                 </include>
                 <include content="Object_BusySpinner">
                     <param name="colordiffuse" value="dialog_fg" />
