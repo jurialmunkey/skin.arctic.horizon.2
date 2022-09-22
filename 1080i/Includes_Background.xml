@@ -58,10 +58,10 @@
     </include>
 
     <include name="Background_Blur">
-        <include condition="!Skin.HasSetting(UseLargerFlixArt)">_Background_Blur</include>
-        <include condition="Skin.HasSetting(UseLargerFlixArt)" content="_Background_Blur">
+        <include content="_Background_Blur">
             <param name="flixart_size">flixart_size_l</param>
         </include>
+        <!-- <include condition="!Skin.HasSetting(UseLargerFlixArt)">_Background_Blur</include> -->
     </include>
     <include name="_Background_Blur">
         <param name="flixart_size">flixart_size_s</param>
@@ -186,6 +186,24 @@
         </definition>
     </include>
 
+    <include name="Background_Stretch">
+        <param name="texture" default="$VAR[Image_Background_FlixKeyArt]" />
+        <definition>
+            <include content="Object_Control">
+                <param name="control" value="image" />
+                <width>192000</width>
+                <height>108000</height>
+                <top>-1080</top>
+                <right>-1920</right>
+                <fadetime>800</fadetime>
+                <texture background="true" colordiffuse="main_flix" flipx="true">$PARAM[texture]</texture>
+                <include content="Background_NotVideo">
+                    <param name="fade_end" value="70" />
+                </include>
+            </include>
+        </definition>
+    </include>
+
     <include name="Background_None">
         <include content="Object_Control" condition="![Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)]">
             <param name="control" value="image" />
@@ -239,7 +257,7 @@
                 <param name="control" value="group" />
                 <include>Animation_Background_FadeInOut</include>
                 <include condition="Skin.String(BackgroundStyle,None)">Background_None</include>
-                <include condition="Skin.String(BackgroundStyle,Image)">Background_Image</include>
+                <include condition="Skin.String(BackgroundStyle,Image)">Background_Stretch</include>
                 <include condition="Skin.String(BackgroundStyle,Fanart)">Background_Fanart</include>
                 <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
                 <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
@@ -258,8 +276,8 @@
                         <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
                         <param name="visible_widgets">true</param>
                     </include>
-                    <include condition="!Skin.HasSetting(UseLargerFlixArt)">View_FlixArt</include>
-                    <include condition="Skin.HasSetting(UseLargerFlixArt)" content="View_FlixArt">
+                    <!-- <include condition="!Skin.HasSetting(UseLargerFlixArt)">View_FlixArt</include> -->
+                    <include content="View_FlixArt">
                         <param name="flixart_size">flixart_size_l</param>
                     </include>
                 </include>
