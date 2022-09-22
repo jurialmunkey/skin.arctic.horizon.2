@@ -160,15 +160,9 @@
         <definition>
             <onclick>SetFocus(50)</onclick>
             <onclick>SetFocus(5000)</onclick>
-            <onclick condition="Window.IsVisible(script-tmdbhelper-recommendations.xml)">Close</onclick>
             <onclick condition="String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie)">AlarmClock(redirect,RunScript(plugin.video.themoviedb.helper,add_path='"$INFO[Container($PARAM[id]).ListItem.Title,videodb://movies/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D]"',call_auto=1190),00:01,silent)</onclick>
             <onclick condition="String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)">AlarmClock(redirect,RunScript(plugin.video.themoviedb.helper,add_path='"$INFO[Container($PARAM[id]).ListItem.TVShowTitle,videodb://tvshows/titles/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22tvshows%22%7D]"',call_auto=1190),00:01,silent)</onclick>
         </definition>
-    </include>
-
-    <include name="Action_Widget_Click">
-        <onclick>AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190),00:01,silent)</onclick>
-        <onclick>Close</onclick>
     </include>
 
     <include name="Action_Widget_Play_Click">
@@ -187,20 +181,10 @@
     </include>
 
     <include name="Action_Recommendations_OnFocus">
-        <onfocus>SetProperty(Recommendations.Collection,$ESCINFO[ListItem.Set],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.Director,$VAR[Path_FromDirector_Name],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.Writer,$VAR[Path_FromWriter_Screenplay],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.Genre,$ESCINFO[ListItem.Genre],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.Studio,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.Name)],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.Year,$ESCINFO[ListItem.Year],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.Fanart,$ESCINFO[ListItem.Art(fanart)],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.Title,"$VAR[Label_Title]",Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.TMDbType,$VAR[Path_Recs_Type],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.Youtube,$VAR[Path_Youtube],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.CropLogo,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.CropImage)],Home)</onfocus>
-        <onfocus>SetProperty(Recommendations.FileNameAndPath,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.FileNameAndPath)],Home)</onfocus>
+        <!-- winprop_Youtube=$VAR[Path_Youtube] -->
+
         <nested />
-        <onfocus condition="String.IsEqual(ListItem.DBtype,movie) | String.IsEqual(ListItem.DBtype,tvshow) | String.IsEqual(ListItem.DBtype,season) | String.IsEqual(ListItem.DBtype,episode) | String.IsEqual(ListItem.DBtype,set) | $EXP[Exp_IsPersonInfo]">Runscript(plugin.video.themoviedb.helper,recommendations=$VAR[Path_Recs],$VAR[Path_Recs_Query],$VAR[Path_Recs_Type],context=ActivateWindow(1113))</onfocus>
+        <onfocus condition="String.IsEqual(ListItem.DBtype,movie) | String.IsEqual(ListItem.DBtype,tvshow) | String.IsEqual(ListItem.DBtype,season) | String.IsEqual(ListItem.DBtype,episode) | String.IsEqual(ListItem.DBtype,set) | $EXP[Exp_IsPersonInfo]">Runscript(plugin.video.themoviedb.helper,recommendations=$VAR[Path_Recs],$VAR[Path_Recs_Query],$VAR[Path_Recs_Type],context=ActivateWindow(1113),window_id=1191,setproperty=HideView,winprop_clearlogo='$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.CropImage)]',winprop_Collection='$ESCINFO[ListItem.Set]',winprop_Director='"$VAR[Path_FromDirector_Name]"',winprop_Writer='"$VAR[Path_FromWriter_Screenplay]"',winprop_Genre='$ESCINFO[ListItem.Genre]',winprop_Studio='$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.Name)]',winprop_Year='$ESCINFO[ListItem.Year]',winprop_Fanart='$ESCINFO[ListItem.Art(fanart)]',winprop_Title='"$VAR[Label_Title]"')</onfocus>
     </include>
 
     <include name="Action_Settings_Onload">
@@ -221,7 +205,7 @@
         <definition>
             <onload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onload>
             <onload>SetProperty(TMDbHelper.Blur.SourceImage,$PARAM[sourceimage],Home)</onload>
-            <onload>SetProperty(TMDbHelper.Blur.Fallback,common/blur2.png,Home)</onload>
+            <onload>SetProperty(TMDbHelper.Blur.Fallback,background/blur2.png,Home)</onload>
         </definition>
     </include>
     <include name="Action_Blur_Onload">
