@@ -169,8 +169,7 @@
                     <content target="videos">$INFO[Window.Property(Youtube)]</content>
                     <onclick>PlayMedia($INFO[Container(5020).ListItem.FolderPath],False,1)</onclick>
                     <onclick>SetProperty(HasTrailer,$INFO[Container(5020).ListItem.FolderPath],Home)</onclick>
-                    <onclick>Action(Close)</onclick>
-                    <onclick>AlarmClock(refocus,SetFocus(7001),00:01,silent)</onclick>
+                    <onclick>SetFocus(7001)</onclick>
                     <include content="Widget_Recs_Basic"><param name="id">5020</param></include>
                 </include>
 
@@ -312,6 +311,7 @@
                 <param name="id" value="6000" />
                 <param name="direction_buttons">true</param>
             </include>
+
             <control type="group">
                 <left>view_pad</left>
                 <top>60</top>
@@ -334,6 +334,23 @@
         </control>
 
         <include>Furniture_Top_Right</include>
+
+        <include content="Object_Control">
+            <param name="control">group</param>
+            <param name="padding">true</param>
+            <param name="pad">grid_x04</param>
+            <visible>Control.HasFocus(7001)</visible>
+            <visible>Player.HasVideo</visible>
+            <include>Animation_Right_Delay</include>
+            <control type="image">
+                <include>Texture_Shadow_40</include>
+                <texture colordiffuse="black" border="10">common/box.png</texture>
+            </control>
+            <control type="videowindow" />
+            <include content="DialogInfo_VideoTrailerButton">
+                <param name="onback">5020</param>
+            </include>
+        </include>
 
         <control type="button" id="330">
             <width>1</width>
