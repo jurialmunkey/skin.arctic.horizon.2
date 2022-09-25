@@ -2,13 +2,46 @@
 <includes>
 
     <variable name="Image_Background_Blur">
+	
+        <!-- BACK001 - START Add Home screen backgrounds -->
+        <!-- value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.BlurImage))">background/blur2.png</value-->		
+		<value condition="$EXP[Exp_HomeWindow_PVR]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\PVR.png</value>
+		<value condition="$EXP[Exp_HomeWindow_OnDemand]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\On Demand.jpg</value>
+		<value condition="$EXP[Exp_HomeWindow_Videos]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Video.jpg</value>
+		<value condition="$EXP[Exp_HomeWindow_Music]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Music.jpg</value>
+		<value condition="$EXP[Exp_HomeWindow_Weather]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Weather.jpg</value>	
+		<value condition="$EXP[Exp_HomeWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Home.jpg</value>
+		<!-- BACK001 - END Add Home screen backgrounds -->
+		
+		<!-- BACK001 - Ensure thumbs do not apply to "Library" screens, MyPrograms.xml (10001) -->
+		<value condition="$EXP[Exp_MusicWindow] + !String.StartsWith(Container.Folderpath,musicdb)">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Music.jpg</value>		
+		<value condition="String.Contains(Container.Folderpath,watchlist)">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\On Demand.jpg</value>	
+		<value condition="$EXP[Exp_SystemWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\System.png</value>
+		<!-- BACK001 - Ensure thumbs do not apply to "Library" screens, MyPrograms.xml (10001) -->
+		
+		<!-- BACK001 - START Add conditions for Poster and Thumb blur images -->
+		<value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(poster))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
+		<value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(thumb))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
+		<value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Poster))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
+		<value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Thumb))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
+		<!-- BACK001 - END Add conditions for Poster and Thumb blur images -->	
+	
         <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.BlurImage))">background/blur2.png</value>
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(tvshow.fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(artist.fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.TVShow.Fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
-        <value>background/blur2.png</value>
+        <!-- BACK001 - START Add conditions for other screens without blur images -->
+		<value condition="$EXP[Exp_PVRWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\PVR.png</value>
+		<value condition="$EXP[Exp_OnDemandWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\On Demand.jpg</value>	
+		<value condition="$EXP[Exp_VideoWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Video.jpg</value>
+		<value condition="$EXP[Exp_MusicWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Music.jpg</value>
+		<value condition="$EXP[Exp_WeatherWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Weather.jpg</value>
+		<value condition="$EXP[Exp_SystemWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\System.png</value>
+		<value>special://userdata/customisations\Skin Images\AH2 Backgrounds\Fallback.jpg</value>
+		<!-- value>background/blur2.png</value -->
+		<!-- BACK001 - END Add conditions for other screens without blur images -->
     </variable>
 
     <variable name="Image_Foreground_FlixKeyArt">

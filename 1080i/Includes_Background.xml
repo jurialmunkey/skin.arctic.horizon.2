@@ -75,7 +75,8 @@
                 <include content="Object_Control" condition="!Skin.String(ForegroundStyle,FlixArt) + !Skin.String(ForegroundStyle,KeyArt)">
                     <param name="control" value="image" />
                     <fadetime>800</fadetime>
-                    <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</texture>
+                    <!-- BACK001 - texture changed from $INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]-->
+                    <texture background="true">$VAR[Image_Background_Blur]</texture>
                 </include>
 
                 <!-- KeyArt (Offset Blur) -->
@@ -175,14 +176,29 @@
     <include name="Background_Image">
         <param name="texture" default="background/blur2.png" />
         <definition>
-            <include content="Object_Control">
+            <!-- BACK001 - START Disable standard Background_Image -->
+            <!-- include content="Object_Control">
                 <param name="control" value="image" />
                 <aspectratio>scale</aspectratio>
                 <texture background="true" colordiffuse="main_back">$PARAM[texture]</texture>
                 <include content="Background_NotVideo">
                     <param name="fade_end" value="70" />
                 </include>
+            </include -->
+			
+			<!-- Use custom Image Background and overlay from Background_Blur -->		
+			<include content="Object_Control">
+				<param name="control" value="image" />
+				<texture>$VAR[ImageSkinBackground]</texture>				
+			</include>
+			<!-- BACK001 - END Disable standard Background_Image -->
+			
+			<!-- BACK001 - START Reinstate standard code removed by version 0.4.6 -->
+			<include content="Object_Control">
+                <param name="control" value="image" />
+                <texture colordiffuse="main_bg_45">background/bg.jpg</texture>
             </include>
+			<!-- BACK001 - END of Reinstate standard code removed by version 0.4.6 -->
         </definition>
     </include>
 
@@ -282,14 +298,16 @@
                     </include>
                 </include>
                 <nested />
-            </include>
-            <control type="group">
-                <include>Animation_Background_FadeInOut</include>
-                <include content="Object_Control" condition="Skin.String(DividerStyle,Fade) | String.IsEmpty(Skin.String(DividerStyle))" >
-                    <param name="control" value="image" />
-                    <texture colordiffuse="main_bg_100">background/floor.png</texture>
-                </include>
-            </control>
+            </include>			
+            <!-- BACK001 - START Disable overlay at bottom of Main Background -->
+			<!-- control type="group">
+				<include>Animation_Background_FadeInOut</include>
+				<include content="Object_Control" condition="Skin.String(DividerStyle,Fade) | String.IsEmpty(Skin.String(DividerStyle))" >
+					<param name="control" value="image" />
+					<texture colordiffuse="main_bg_100">common/floor.png</texture>
+				</include>
+			</control -->
+			<!-- BACK001 - END Disable overlay at bottom of Main Background -->
         </definition>
     </include>
 
