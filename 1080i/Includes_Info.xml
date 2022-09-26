@@ -64,7 +64,7 @@
                 <!-- Other -->
                 <include content="Info_Title_Logo" condition="Skin.HasSetting(TMDbHelper.EnableCrop)">
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                    <param name="visible">[[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) + [[!String.IsEmpty($PARAM[container]ListItem.FileNameAndPath)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FileNameAndPath),$PARAM[container]ListItem.FileNameAndPath)] | [String.IsEmpty($PARAM[container]ListItem.FileNameAndPath)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.FolderPath),$PARAM[container]ListItem.FolderPath)]]]]</param>
+                    <param name="visible">[!String.IsEmpty(Container(99950).ListItem.Art(cropimage)) + String.IsEmpty(Window(Home).Property(TMDBHelper.IsUpdating))]</param>
                     <param name="templogo_visible">[[!String.IsEmpty($PARAM[container]ListItem.Art(clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(tvshow.clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo))]]</param>
                 </include>
 
@@ -394,8 +394,8 @@
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player] + Skin.HasSetting(Infoline.EnableGenre)">
                         <param name="controltype" value="$PARAM[controltype]" />
-                        <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]" />
-                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Property(Genre.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)) + [String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,movie)]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Genre.1.Name)]" />
+                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Property(Genre.1.Name)) + !String.IsEmpty(Container(99950).ListItem.Property(Genre.1.Name)) + [String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,movie)]" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
 
@@ -420,20 +420,20 @@
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
-                        <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Duration_H),, $LOCALIZE[31074] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Duration_M),, $LOCALIZE[31073]]" />
-                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Duration)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration),0) + !Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration_H),0) + !Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration_M),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Duration_H),, $LOCALIZE[31074] ]$INFO[Container(99950).ListItem.Property(Duration_M),, $LOCALIZE[31073]]" />
+                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Container(99950).ListItem.Property(Duration)) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_M),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
-                        <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Duration_M),, $LOCALIZE[31073]]" />
-                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Duration)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration),0) + Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration_H),0) + !Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration_M),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Duration_M),, $LOCALIZE[31073]]" />
+                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Container(99950).ListItem.Property(Duration)) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_M),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
-                        <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Duration_H),, $LOCALIZE[31074]]" />
-                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Duration)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration),0) + Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration_M), 0) + !Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration_H),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Duration_H),, $LOCALIZE[31074]]" />
+                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Container(99950).ListItem.Property(Duration)) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + Integer.IsEqual(Container(99950).ListItem.Property(Duration_M), 0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
 
@@ -462,20 +462,20 @@
                     <!-- Person Info -->
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
-                        <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Gender)]" />
-                        <param name="visible" value="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Gender))" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Gender)]" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Gender))" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
-                        <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Age),, $LOCALIZE[31057]]" />
-                        <param name="visible" value="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Age))" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Age),, $LOCALIZE[31057]]" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Age))" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
-                        <param name="label" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Department)]" />
-                        <param name="visible" value="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Department))" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Department)]" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Department))" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
 
@@ -664,7 +664,7 @@
         <param name="icon_height">32</param>
         <param name="icon_top">0</param>
         <param name="icon_colordiffuse">ffffffff</param>
-        <param name="is_updating">$EXP[Exp_TMDbHelper_IsUpdating]</param>
+        <param name="is_updating">[!String.IsEmpty(Window(Home).Property(TMDBHelper.IsUpdatingRating))]</param>
         <param name="is_varlabel">false</param>
         <param name="is_autohide">false</param>
         <definition>
@@ -762,8 +762,8 @@
                     <param name="label_fallback"> </param>
                     <param name="is_updating">False</param>
                     <param name="is_varlabel">true</param>
-                    <param name="label" value="  $INFO[Window(Home).Property(TMDbHelper.ListItem.Born),, ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Birthday),(,)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Deathday), ($LOCALIZE[21897] ,)]   " />
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Birthday))</visible>
+                    <param name="label" value="  $INFO[Container(99950).ListItem.Property(Born),, ]$INFO[Container(99950).ListItem.Property(Birthday),(,)]$INFO[Container(99950).ListItem.Property(Deathday), ($LOCALIZE[21897] ,)]   " />
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Birthday))</visible>
                 </include>
                 <include content="Info_Ratings_Item">
                     <param name="include_condition">[true]</param>
@@ -862,7 +862,7 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableMetacritic)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/metacritic.png</param>
-                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].MetaCritic_Rating)</param>
+                    <param name="label">Container(99950).ListItem.Property(MetaCritic_Rating)</param>
                     <param name="label_fallback">−−</param>
                     <param name="label_suffix">%   </param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
@@ -873,7 +873,7 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableTrakt)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/trakt.png</param>
-                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Trakt_Rating)</param>
+                    <param name="label">Container(99950).ListItem.Property(Trakt_Rating)</param>
                     <param name="label_fallback">−.−</param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[trakt]</visible>
@@ -883,7 +883,7 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableTMDB)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/tmdb.png</param>
-                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].TMDb_Rating)</param>
+                    <param name="label">Container(99950).ListItem.Property(TMDb_Rating)</param>
                     <param name="label_fallback">−.−</param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[tmdb]</visible>
@@ -893,7 +893,7 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesUser)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes_UserMeter]</param>
-                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_UserMeter)</param>
+                    <param name="label">Container(99950).ListItem.Property(RottenTomatoes_UserMeter)</param>
                     <param name="label_fallback">−−</param>
                     <param name="label_suffix">%   </param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
@@ -904,7 +904,7 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesCritic)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes]</param>
-                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].RottenTomatoes_Rating)</param>
+                    <param name="label">Container(99950).ListItem.Property(RottenTomatoes_Rating)</param>
                     <param name="label_fallback">−−</param>
                     <param name="label_suffix">%   </param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
@@ -917,7 +917,7 @@
                     <param name="icon">flags/$PARAM[directory]/ratings/imdb.png</param>
                     <param name="icon_top">1</param>
                     <param name="icon_width">52</param>
-                    <param name="label">Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].IMDb_Rating)</param>
+                    <param name="label">Container(99950).ListItem.Property(IMDb_Rating)</param>
                     <param name="label_fallback">−.−</param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[imdb]</visible>
@@ -930,8 +930,8 @@
                     <width>auto</width>
                     <height>28</height>
                     <font>font_mini</font>
-                    <label>$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Top250),#,   ]</label>
-                    <visible>!Integer.IsEqual(Window(home).Property(TMDbHelper.$PARAM[tmdbtype].Top250),0)</visible>
+                    <label>$INFO[Container(99950).ListItem.Property(Top250),#,   ]</label>
+                    <visible>!Integer.IsEqual(Container(99950).ListItem.Property(Top250),0)</visible>
                     <visible>[$PARAM[imdb]] + [$PARAM[top250]]</visible>
                 </include>
 
@@ -939,30 +939,30 @@
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableOscar)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/oscar.png</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Oscar_Wins), x,   ]</param>
+                    <param name="label">$INFO[Container(99950).ListItem.Property(Oscar_Wins), x,   ]</param>
                     <param name="is_varlabel">true</param>
                     <visible>$PARAM[oscars]</visible>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Oscar_Wins))</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Oscar_Wins))</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableOscar)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/goldenglobe.png</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].GoldenGlobe_Wins), x,   ]</param>
+                    <param name="label">$INFO[Container(99950).ListItem.Property(GoldenGlobe_Wins), x,   ]</param>
                     <param name="is_varlabel">true</param>
                     <visible>$PARAM[oscars]</visible>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].GoldenGlobe_Wins))</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(GoldenGlobe_Wins))</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableOscar)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/emmy.png</param>
-                    <param name="label">$INFO[Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Emmy_Wins), x,   ]</param>
+                    <param name="label">$INFO[Container(99950).ListItem.Property(Emmy_Wins), x,   ]</param>
                     <param name="is_varlabel">true</param>
                     <visible>$PARAM[oscars]</visible>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[tmdbtype].Emmy_Wins))</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Emmy_Wins))</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
@@ -977,8 +977,7 @@
                     <param name="label_fallback"> </param>
                     <param name="is_updating">False</param>
                     <param name="is_varlabel">true</param>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))</visible>
-                    <visible>!$EXP[Exp_TMDbHelper_IsUpdating]</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Status) | !String.IsEmpty(Container(99950).ListItem.Property(Status))</visible>
                     <visible>$PARAM[releasestatus]</visible>
                 </include>
 
@@ -1162,7 +1161,7 @@
                     <centertop>50%</centertop>
                     <aspectratio>keep</aspectratio>
                     <texture background="True" diffuse="diffuse/provider.png">flags/justwatch2.png</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Provider.1.Icon))</visible>
                     <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)</visible>
                 </include>
                 <include content="Info_Provider"><param name="pos" value="1" /></include>
@@ -1378,8 +1377,8 @@
             <height>40</height>
             <centertop>50%</centertop>
             <aspectratio>keep</aspectratio>
-            <texture background="true" diffuse="diffuse/provider.png">$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.$PARAM[pos].Icon)]</texture>
-            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.$PARAM[pos].Icon))</visible>
+            <texture background="true" diffuse="diffuse/provider.png">$INFO[Container(99950).ListItem.Property(Provider.$PARAM[pos].Icon)]</texture>
+            <visible>!String.IsEmpty(Container(99950).ListItem.Property(Provider.$PARAM[pos].Icon))</visible>
             <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)</visible>
         </include>
     </include>
@@ -1423,7 +1422,7 @@
                         <aligny>top</aligny>
                         <textcolor>$PARAM[colordiffuse]_70</textcolor>
                         <font>font_plotbox</font>
-                        <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]]</visible>
+                        <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),person)]]]</visible>
                     </include>
                     <control type="group">
                         <top>3</top>
@@ -1508,7 +1507,7 @@
                             <param name="releasestatus">[[[![$PARAM[shortline]] + String.IsEqual($PARAM[container]ListItem.DBType,movie) + !Skin.HasSetting(Ratings.DisableMovieRelease)] | [[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)] + !Skin.HasSetting(Ratings.DisableTvRelease)]]]</param>
                             <centertop>50%</centertop>
                             <visible>$PARAM[ratings]</visible>
-                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),tv)]]]</visible>
+                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]]</visible>
                         </include>
 
                         <include content="Info_MiscLine">
@@ -1516,7 +1515,7 @@
                             <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                             <centertop>50%</centertop>
                             <visible>$PARAM[ratings]</visible>
-                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]</visible>
+                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),person)]]</visible>
                         </include>
 
                         <control type="group">
@@ -1533,7 +1532,7 @@
                                 <visible>$PARAM[ratings]</visible>
                                 <visible>$PARAM[details]</visible>
                                 <visible>$PARAM[plotbox]</visible>
-                                <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]]</visible>
+                                <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),person)]]]</visible>
                                 <top>-3</top>
                                 <bottom>3</bottom>
                             </include>
@@ -1545,7 +1544,7 @@
                                 <aligny>top</aligny>
                                 <textcolor>$PARAM[colordiffuse]_70</textcolor>
                                 <font>font_plotbox</font>
-                                <visible>![$PARAM[ratings] + [[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDBHelper.ListItem.TMDb_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),person)]]]]</visible>
+                                <visible>![$PARAM[ratings] + [[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),person)]]]]</visible>
                                 <visible>$PARAM[details]</visible>
                                 <visible>$PARAM[plotbox]</visible>
                                 <top>-63</top>
