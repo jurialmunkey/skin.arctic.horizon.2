@@ -203,8 +203,10 @@
             <!-- Episodes Pop-up -->
             <include content="OSD_Menu_Back">
                 <param name="arrow_pos" value="700" />
-                <visible>Control.HasFocus(6400) | Control.HasFocus(6401)</visible>
-                <visible>Container(6401).IsUpdating | !Integer.IsEqual(Container(6401).NumItems,0)</visible>
+                <!-- PVR015 -  + !VideoPlayer.Content(livetv) added to visible tag -->
+                <visible>[Control.HasFocus(6400) | Control.HasFocus(6401)] + !VideoPlayer.Content(livetv)</visible>
+				<!-- PVR015 -  + !VideoPlayer.Content(livetv) added to visible tag -->
+                <visible>[Container(6401).IsUpdating | !Integer.IsEqual(Container(6401).NumItems,0)] + !VideoPlayer.Content(livetv)</visible>
                 <include>Animation_SlideIn_Dialog</include>
                 <left>40</left>
                 <width>1040</width>
