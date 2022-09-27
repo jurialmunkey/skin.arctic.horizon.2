@@ -6,9 +6,8 @@
     </coordinates>
     <onload condition="$EXP[Exp_ContextMenu_QuickBar] + !$EXP[Exp_ContextMenu_HasBasic]">AlarmClock(refocusContext,SetFocus(8001),00:00,silent)</onload>
 
-    <include>ContextMenu_ListItemOnload</include>
-
     <controls>
+        <include>Defs_TMDbHelper_Loader</include>
         <include content="Object_Overlay">
             <param name="delay" value="300" />
         </include>
@@ -20,6 +19,7 @@
             </include>
             <include>Animation_FadeOut</include>
             <include>Dimension_Context</include>
+
             <include content="Dialog_ContextMenu_Header">
                 <visible>!$EXP[Exp_ContextMenu_HasBasic]</visible>
             </include>
@@ -29,31 +29,23 @@
 
             <control type="group">
                 <!-- Slide Over if Square -->
-                <animation effect="slide" end="context_slide_sq" condition="$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
                 <animation effect="slide" end="context_slide_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
 
                 <!-- Poster Image -->
                 <control type="group">
-                    <visible>$EXP[Exp_ContextMenu_HasPoster]</visible>
+                    <visible>$EXP[Exp_ContextMenu_HasPoster] | $EXP[Exp_ContextMenu_HasIcon]</visible>
                     <include content="Dialog_Background">
                         <param name="overlay" value="true" />
                         <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
                         <include content="Dialog_Context_Image">
                             <param name="diffuse" value="diffuse/poster_w435_h640.png" />
+                            <visible>$EXP[Exp_ContextMenu_HasPoster]</visible>
                         </include>
-                    </include>
-                </control>
-
-                <!-- Square Image -->
-                <control type="group">
-                    <left>context_icon_sq_l</left>
-                    <visible>$EXP[Exp_ContextMenu_HasIcon]</visible>
-                    <include content="Dialog_Background">
-                        <param name="overlay" value="true" />
-                        <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
                         <include content="Dialog_Context_Image">
                             <param name="aspectratio" value="keep" />
-                            <param name="diffuse" value="diffuse/square_w640_h640.png" />
+                            <param name="diffuse" value="diffuse/square_w435_h435.png" />
+                            <param name="height">435</param>
+                            <visible>!$EXP[Exp_ContextMenu_HasPoster]</visible>
                         </include>
                     </include>
                 </control>
@@ -177,6 +169,5 @@
             <param name="control" value="button" />
             <width>context_icon_w</width>
         </include>
-
     </controls>
 </window>
