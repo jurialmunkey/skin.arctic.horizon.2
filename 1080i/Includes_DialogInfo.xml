@@ -123,6 +123,7 @@
             <param name="control">group</param>
             <bottom>-grid_x08</bottom>
             <height>grid_x14</height>
+            <right>190</right>
             <nested />
             <include content="Object_NavButton">
                 <param name="flipy">true</param>
@@ -155,8 +156,8 @@
                 <include content="Object_InfoCircle">
                     <param name="icon" value="$VAR[Image_CreatorIcon]" />
                     <param name="role" value="$LOCALIZE[31065]" />
-                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator)]" />
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator))</visible>
+                    <param name="name" value="$INFO[Container(99950).ListItem.Property(Creator)]" />
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Creator))</visible>
                 </include>
                 <include content="Object_InfoCircle">
                     <param name="icon" value="special://skin/extras/icons/director.png" />
@@ -173,15 +174,15 @@
                 <include content="Object_InfoCircle">
                     <param name="icon" value="special://skin/extras/icons/trophy.png" />
                     <param name="role" value="$LOCALIZE[31064]" />
-                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]" />
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))</visible>
+                    <param name="name" value="$INFO[Container(99950).ListItem.Property(Awards)]" />
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Awards))</visible>
                 </include>
                 <include content="Object_InfoCircle">
                     <param name="icon" value="special://skin/extras/icons/coins.png" />
                     <param name="role" value="$LOCALIZE[31264] / $LOCALIZE[31265]" />
-                    <param name="name" value="$INFO[Window(Home).Property(TMDbHelper.ListItem.Revenue),, $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Budget)]" />
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Revenue)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Budget))</visible>
-                    <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Budget),$0)</visible>
+                    <param name="name" value="$INFO[Container(99950).ListItem.Property(Revenue),, $LOCALIZE[19159] ]$INFO[Container(99950).ListItem.Property(Budget)]" />
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Revenue)) | !String.IsEmpty(Container(99950).ListItem.Property(Budget))</visible>
+                    <visible>!String.IsEqual(Container(99950).ListItem.Property(Budget),$0)</visible>
                 </include>
                 <include content="Object_InfoCircle">
                     <param name="icon" value="special://skin/extras/icons/genre.png" />
@@ -269,46 +270,48 @@
 
     <!-- Trailer Control Button -->
     <include name="DialogInfo_VideoTrailerButton">
-        <control type="button" id="7001">
-            <texturefocus />
-            <texturenofocus />
-            <font />
-            <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</onunfocus>
-            <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onunfocus>
-            <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onunfocus>
-            <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</onleft>
-            <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
-            <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onleft>
-            <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</onright>
-            <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
-            <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onright>
-            <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</onup>
-            <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
-            <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onup>
-            <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus(5000)</ondown>
-            <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
-            <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</ondown>
-            <onback>5000</onback>
-            <onback>ClearProperty(HasTrailer,Home)</onback>
-            <onback condition="Player.HasVideo">Stop</onback>
-            <oninfo>SetFocus(5000)</oninfo>
-            <oninfo>ClearProperty(HasTrailer,Home)</oninfo>
-            <oninfo condition="Player.HasVideo">Stop</oninfo>
-            <onclick condition="Player.HasVideo">Fullscreen</onclick>
-            <onclick>ClearProperty(HasTrailer,Home)</onclick>
-            <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onleft>
-            <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepBack</onleft>
-            <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
-            <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onright>
-            <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepForward</onright>
-            <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
-            <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onup>
-            <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepForward</onup>
-            <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
-            <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</ondown>
-            <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepBack</ondown>
-            <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
-        </control>
+        <definition>
+            <control type="button" id="7001">
+                <texturefocus />
+                <texturenofocus />
+                <font />
+                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onunfocus>
+                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onunfocus>
+                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onunfocus>
+                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onleft>
+                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
+                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onleft>
+                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onright>
+                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
+                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onright>
+                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onup>
+                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
+                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onup>
+                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</ondown>
+                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
+                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</ondown>
+                <onback>$PARAM[onback]</onback>
+                <onback>ClearProperty(HasTrailer,Home)</onback>
+                <onback condition="Player.HasVideo">Stop</onback>
+                <oninfo>SetFocus($PARAM[onback])</oninfo>
+                <oninfo>ClearProperty(HasTrailer,Home)</oninfo>
+                <oninfo condition="Player.HasVideo">Stop</oninfo>
+                <onclick condition="Player.HasVideo">Fullscreen</onclick>
+                <onclick>ClearProperty(HasTrailer,Home)</onclick>
+                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onleft>
+                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepBack</onleft>
+                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
+                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onright>
+                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepForward</onright>
+                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
+                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onup>
+                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepForward</onup>
+                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
+                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</ondown>
+                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepBack</ondown>
+                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
+            </control>
+        </definition>
     </include>
 
     <!-- Fake Fullscreen Trailer -->

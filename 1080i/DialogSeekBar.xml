@@ -13,6 +13,15 @@
     <onload condition="Player.Paused + !String.IsEmpty(Window(Home).Property(OSDExtendedInfo))">PlayerControl(Play)</onload>
     <onload condition="Player.Paused + !String.IsEmpty(Window(Home).Property(OSDExtendedInfo))">ClearProperty(OSDExtendedInfo,Home)</onload>
     <controls>
+
+        <include content="Object_Control">
+            <param name="control" value="image" />
+            <texture colordiffuse="panel_bg">background/floor.png</texture>
+            <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include>Animation_FadeOut</include>
+        </include>
+
         <include content="Object_Control">
             <param name="control" value="image" />
             <texture colordiffuse="panel_bg">background/floor.png</texture>
@@ -27,12 +36,13 @@
                 <include>OSD_Progress_Bar</include>
                 <include>OSD_Progress_Labels</include>
                 <include>OSD_Progress_Details</include>
-                <include condition="Skin.HasSetting(OSD.DisableCodecs)">Animation_OSD_Seekbar_NoCodecs</include>
+                <include>Animation_OSD_Seekbar_NoCodecs</include>
+                <include>Animation_OSD_ExpandInfo</include>
             </control>
 
             <!-- Top Left Label -->
             <control type="group">
-                <visible>[VideoPlayer.Content(episodes) + !String.IsEmpty(VideoPlayer.Title)] | [VideoPlayer.Content(movies) + !String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00)] | [VideoPlayer.Content(livetv) + !String.IsEmpty(VideoPlayer.ChannelNumberLabel)]</visible>
+                <visible>[VideoPlayer.Content(episodes) + !String.IsEmpty(VideoPlayer.Title)] | [VideoPlayer.Content(movies) + !String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00)] | [VideoPlayer.Content(livetv) + !String.IsEmpty(VideoPlayer.ChannelNumberLabel)] | [VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Studio)]</visible>
                 <include content="Object_ShadowSpot">
                     <include>Dimension_HeaderTitleShadow</include>
                 </include>
@@ -40,23 +50,6 @@
                     <param name="label">$VAR[Label_OSD_HeaderEpisodeChapter]</param>
                 </include>
             </control>
-
-            <!-- Codecs -->
-            <include content="Object_Control" condition="!Skin.HasSetting(OSD.DisableCodecs)">
-                <param name="control">group</param>
-                <height>60</height>
-                <left>view_pad</left>
-                <right>view_pad</right>
-                <bottom>view_pad</bottom>
-                <align>center</align>
-                <visible>!Window.IsVisible(videoosd)</visible>
-                <animation effect="fade" start="0" end="100" time="300">Visible</animation>
-                <animation effect="fade" end="0" start="100" time="300">Hidden</animation>
-                <!-- <animation effect="zoom" end="125" condition="true">Conditional</animation> -->
-                <include content="OSD_Codecs">
-                    <centertop>50%</centertop>
-                </include>
-            </include>
         </include>
 
         <!-- Music Seekbar -->

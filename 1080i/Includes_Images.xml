@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Image_OSD_PosterImage">
+        <value condition="!String.IsEmpty(Player.Art(poster))">$INFO[Player.Art(poster)]</value>
+        <value condition="!String.IsEmpty(Player.Art(tvshow.poster))">$INFO[Player.Art(tvshow.poster)]</value>
+    </variable>
+
     <variable name="Image_Background_Blur">
-        <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.BlurImage))">background/blur2.png</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(tvshow.fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),ListItem.Art(artist.fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.TVShow.Fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage)]</value>
+        <value condition="String.IsEmpty(Container(99950).ListItem.Art(blurimage))">background/blur2.png</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),ListItem.Art(tvshow.fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),ListItem.Art(artist.fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),Container(99950).ListItem.Art(tvshow.fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
         <value>background/blur2.png</value>
     </variable>
 
@@ -16,7 +21,7 @@
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Fanart)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Fanart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(fanart)) + String.IsEqual(Container(99950).ListItem.Art(blurimage.original),Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(fanart)]</value>
     </variable>
 
     <variable name="Image_Background_FlixKeyArt">
@@ -24,7 +29,7 @@
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Fanart)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),Window(Home).Property(TMDbHelper.ListItem.Fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Fanart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(fanart)) + String.IsEqual(Container(99950).ListItem.Art(blurimage.original),Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(fanart)]</value>
     </variable>
 
     <variable name="Image_Background_Fanart">
@@ -37,7 +42,7 @@
         <value condition="Window.IsMedia + Control.IsVisible(502) + Control.HasFocus(503) + !String.IsEmpty(Container(503).ListItem.Art(fanart))">$INFO[Container(503).ListItem.Art(fanart)]</value>
         <value condition="Window.IsMedia + Control.IsVisible(512) + Control.HasFocus(513) + !String.IsEmpty(Container(513).ListItem.Art(fanart))">$INFO[Container(513).ListItem.Art(fanart)]</value>
         <value condition="Window.IsMedia + Control.IsVisible(522) + Control.HasFocus(523) + !String.IsEmpty(Container(523).ListItem.Art(fanart))">$INFO[Container(523).ListItem.Art(fanart)]</value>
-        <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Fanart)) + [!$EXP[Exp_WidgetWindow] | String.IsEqual(Container.ListItem.Title,Window(Home).Property(TMDBHelper.ListItem.Title))]">$INFO[Window(Home).Property(TMDbHelper.ListItem.Fanart)]</value>
+        <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Container(99950).ListItem.Art(fanart)) + [!$EXP[Exp_WidgetWindow] | String.IsEqual(Container.ListItem.Title,Container(99950).ListItem.Title)]">$INFO[Container(99950).ListItem.Art(fanart)]</value>
         <value>background/blur2.png</value>
     </variable>
 
@@ -59,7 +64,7 @@
     <variable name="Image_PVRPoster">
         <value condition="!String.IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.poster))">$INFO[ListItem.Art(tvshow.poster)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Poster)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(poster))">$INFO[Container(99950).ListItem.Art(poster)]</value>
     </variable>
 
     <variable name="Image_GenreIcon">
@@ -160,24 +165,38 @@
         <value condition="!String.IsEmpty(ListItem.Studio)">$INFO[ListItem.Studio,resource://resource.images.studios.coloured/,.png]</value>
     </variable>
 
-    <variable name="Image_DirectorIcon">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director.1.Thumb)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Director.1.Role),Director)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Director.1.Thumb)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director.2.Thumb)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Director.2.Role),Director)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Director.2.Thumb)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director.3.Thumb)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Director.3.Role),Director)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Director.3.Thumb)]</value>
+    <variable name="Image_OSD_DirectorIcon">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Director.1.Thumb)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Director.1.Role),Director)">$INFO[Window(Home).Property(TMDbHelper.Player.Director.1.Thumb)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Director.2.Thumb)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Director.2.Role),Director)">$INFO[Window(Home).Property(TMDbHelper.Player.Director.2.Thumb)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Director.3.Thumb)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Director.3.Role),Director)">$INFO[Window(Home).Property(TMDbHelper.Player.Director.3.Thumb)]</value>
         <value>special://skin/extras/icons/video-addons.png</value>
     </variable>
 
+    <variable name="Image_DirectorIcon">
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Director.1.Thumb)) + String.IsEqual(Container(99950).ListItem.Property(Director.1.Role),Director)">$INFO[Container(99950).ListItem.Property(Director.1.Thumb)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Director.2.Thumb)) + String.IsEqual(Container(99950).ListItem.Property(Director.2.Role),Director)">$INFO[Container(99950).ListItem.Property(Director.2.Thumb)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Director.3.Thumb)) + String.IsEqual(Container(99950).ListItem.Property(Director.3.Role),Director)">$INFO[Container(99950).ListItem.Property(Director.3.Thumb)]</value>
+        <value>special://skin/extras/icons/video-addons.png</value>
+    </variable>
+
+    <variable name="Image_OSD_WriterIcon">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Writer.1.Thumb)) + [String.IsEqual(Window(Home).Property(TMDbHelper.Player.Writer.1.Role),Writer) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Writer.1.Role),Screenplay)]">$INFO[Window(Home).Property(TMDbHelper.Player.Writer.1.Thumb)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Writer.2.Thumb)) + [String.IsEqual(Window(Home).Property(TMDbHelper.Player.Writer.2.Role),Writer) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Writer.2.Role),Screenplay)]">$INFO[Window(Home).Property(TMDbHelper.Player.Writer.2.Thumb)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Writer.3.Thumb)) + [String.IsEqual(Window(Home).Property(TMDbHelper.Player.Writer.3.Role),Writer) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Writer.3.Role),Screenplay)]">$INFO[Window(Home).Property(TMDbHelper.Player.Writer.3.Thumb)]</value>
+        <value>special://skin/extras/icons/write.png</value>
+    </variable>
+
     <variable name="Image_WriterIcon">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.1.Thumb)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.1.Role),Writer) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.1.Role),Screenplay)]">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.1.Thumb)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.2.Thumb)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.2.Role),Writer) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.2.Role),Screenplay)]">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.2.Thumb)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.3.Thumb)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.3.Role),Writer) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.3.Role),Screenplay)]">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.3.Thumb)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Writer.1.Thumb)) + [String.IsEqual(Container(99950).ListItem.Property(Writer.1.Role),Writer) | String.IsEqual(Container(99950).ListItem.Property(Writer.1.Role),Screenplay)]">$INFO[Container(99950).ListItem.Property(Writer.1.Thumb)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Writer.2.Thumb)) + [String.IsEqual(Container(99950).ListItem.Property(Writer.2.Role),Writer) | String.IsEqual(Container(99950).ListItem.Property(Writer.2.Role),Screenplay)]">$INFO[Container(99950).ListItem.Property(Writer.2.Thumb)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Writer.3.Thumb)) + [String.IsEqual(Container(99950).ListItem.Property(Writer.3.Role),Writer) | String.IsEqual(Container(99950).ListItem.Property(Writer.3.Role),Screenplay)]">$INFO[Container(99950).ListItem.Property(Writer.3.Thumb)]</value>
         <value>special://skin/extras/icons/write.png</value>
     </variable>
 
     <variable name="Image_CreatorIcon">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator.1.Thumb))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.1.Thumb)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator.2.Thumb))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.2.Thumb)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator.3.Thumb))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.3.Thumb)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Creator.1.Thumb))">$INFO[Container(99950).ListItem.Property(Creator.1.Thumb)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Creator.2.Thumb))">$INFO[Container(99950).ListItem.Property(Creator.2.Thumb)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Creator.3.Thumb))">$INFO[Container(99950).ListItem.Property(Creator.3.Thumb)]</value>
         <value>special://skin/extras/icons/person.png</value>
     </variable>
 
@@ -195,7 +214,7 @@
 
     <variable name="Image_CropLogo_Main">
         <value condition="!String.IsEmpty(Window.Property(clearlogo))">$INFO[Window.Property(clearlogo)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(cropimage))">$INFO[Container(99950).ListItem.Art(cropimage)]</value>
         <value>$VAR[Image_CropLogo_Fallback]</value>
     </variable>
 
@@ -219,8 +238,8 @@
         <value condition="!String.IsEmpty(ListItem.Art(clearart))">$INFO[ListItem.Art(clearart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.clearart))">$INFO[ListItem.Art(tvshow.clearart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(artist.clearart))">$INFO[ListItem.Art(artist.clearart)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.clearart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.clearart)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.tvshow.clearart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.tvshow.clearart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(clearart))">$INFO[Container(99950).ListItem.Art(clearart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(tvshow.clearart))">$INFO[Container(99950).ListItem.Art(tvshow.clearart)]</value>
     </variable>
 
     <variable name="Image_AddonInfo_Enable">
@@ -243,13 +262,16 @@
     </variable>
 
     <variable name="Image_ContextFanart">
-        <value condition="!String.IsEmpty(Window(Home).Property(ContextMenu.Fanart))">$INFO[Window(Home).Property(ContextMenu.Fanart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_fanart))">$INFO[Container(99950).ListItem.Property(base_fanart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(tvshow.fanart))">$INFO[Container(99950).ListItem.Art(tvshow.fanart)]</value>
     </variable>
 
     <variable name="Image_ContextPoster">
-        <value condition="!String.IsEmpty(Window(Home).Property(ContextMenu.Poster))">$INFO[Window(Home).Property(ContextMenu.Poster)]</value>
-        <value condition="$EXP[Exp_ContextMenu_HasPoster]">$INFO[Window(Home).Property(TMDbHelper.ListItem.Poster)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(ContextMenu.Icon))">$INFO[Window(Home).Property(ContextMenu.Icon)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_poster))">$INFO[Container(99950).ListItem.Property(base_poster)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(poster))">$INFO[Container(99950).ListItem.Art(poster)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(tvshow.poster))">$INFO[Container(99950).ListItem.Art(tvshow.poster)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_icon))">$INFO[Container(99950).ListItem.Property(base_icon)]</value>
         <value>fallback/kodi-logo.png</value>
     </variable>
 
@@ -286,31 +308,17 @@
     </variable>
 
     <variable name="Image_ListItem_RottenTomatoes">
-        <value condition="String.IsEqual(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Image),certified)">certified.png</value>
-        <value condition="String.IsEqual(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Image),fresh)">rtfresh.png</value>
-        <value condition="String.IsEqual(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Image),rotten)">rtrotten.png</value>
-        <value condition="String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating))">rtfresh.png</value>
-        <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating),59)">rtfresh.png</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Property(RottenTomatoes_Image),certified)">certified.png</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Property(RottenTomatoes_Image),fresh)">rtfresh.png</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Property(RottenTomatoes_Image),rotten)">rtrotten.png</value>
+        <value condition="String.IsEmpty(Container(99950).ListItem.Property(RottenTomatoes_Rating))">rtfresh.png</value>
+        <value condition="Integer.IsGreater(Container(99950).ListItem.Property(RottenTomatoes_Rating),59)">rtfresh.png</value>
         <value>rtfresh.png</value>
     </variable>
-    <variable name="Image_Player_RottenTomatoes">
-        <value condition="String.IsEqual(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Image),certified)">certified.png</value>
-        <value condition="String.IsEqual(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Image),fresh)">rtfresh.png</value>
-        <value condition="String.IsEqual(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Image),rotten)">rtrotten.png</value>
-        <value condition="String.IsEmpty(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Rating))">rtfresh.png</value>
-        <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.Player.RottenTomatoes_Rating),59)">rtfresh.png</value>
-        <value>rtrotten.png</value>
-    </variable>
-
     <variable name="Image_ListItem_RottenTomatoes_UserMeter">
-        <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter),59) | String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter))">popcorn.png</value>
+        <value condition="Integer.IsGreater(Container(99950).ListItem.Property(RottenTomatoes_UserMeter),59) | String.IsEmpty(Container(99950).ListItem.Property(RottenTomatoes_UserMeter))">popcorn.png</value>
         <value>popcorn_spilt.png</value>
     </variable>
-    <variable name="Image_Player_RottenTomatoes_UserMeter">
-        <value condition="Integer.IsGreater(Window(home).Property(TMDbHelper.Player.RottenTomatoes_UserMeter),59) | String.IsEmpty(Window(home).Property(TMDbHelper.Player.RottenTomatoes_UserMeter))">popcorn.png</value>
-        <value>popcorn_spilt.png</value>
-    </variable>
-
     <variable name="Image_Overlay_List">
         <value condition="$EXP[Exp_HasWatchedProgress]" />
 

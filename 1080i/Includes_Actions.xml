@@ -101,10 +101,10 @@
         <definition>
             <onleft condition="Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(300,9999,absolute)</onleft>
             <onright condition="Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(300,0,absolute)</onright>
-            <onback condition="Skin.HasSetting(Home.DisableSearchMenu)">300</onback>
-            <onback condition="!Skin.HasSetting(Home.DisableSearchMenu)">300</onback>
-            <onleft condition="!Skin.HasSetting(Home.DisableSearchMenu)">300</onleft>
-            <onright condition="!Skin.HasSetting(Home.DisableSearchMenu)">300</onright>
+            <onback condition="Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(300)</onback>
+            <onback condition="!Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(300)</onback>
+            <onleft condition="!Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(300)</onleft>
+            <onright condition="!Skin.HasSetting(Home.DisableSearchMenu)">SetFocus(300)</onright>
         </definition>
     </include>
 
@@ -133,19 +133,6 @@
         <ondown condition="[Container.HasNext | Container.HasPrevious] + Control.IsVisible(51)">SetFocus(516)</ondown>
         <ondown condition="[Container.HasNext | Container.HasPrevious] + Control.IsVisible(52)">SetFocus(526)</ondown>
         <ondown condition="[Container.HasNext | Container.HasPrevious] + Control.IsVisible(57)">SetFocus(576)</ondown>
-    </include>
-
-    <include name="Action_ClearContext_OnUnload">
-        <onunload>ClearProperty(ContextMenu.Label,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.DBType,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.Fanart,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.Poster,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.Icon,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.Title,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.Year,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.Tagline,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.Plot,Home)</onunload>
-        <onunload>ClearProperty(ContextMenu.Params,Home)</onunload>
     </include>
 
     <include name="Action_Widget_Refocus_Click">
@@ -181,10 +168,8 @@
     </include>
 
     <include name="Action_Recommendations_OnFocus">
-        <!-- winprop_Youtube=$VAR[Path_Youtube] -->
-
         <nested />
-        <onfocus condition="String.IsEqual(ListItem.DBtype,movie) | String.IsEqual(ListItem.DBtype,tvshow) | String.IsEqual(ListItem.DBtype,season) | String.IsEqual(ListItem.DBtype,episode) | String.IsEqual(ListItem.DBtype,set) | $EXP[Exp_IsPersonInfo]">Runscript(plugin.video.themoviedb.helper,recommendations=$VAR[Path_Recs],$VAR[Path_Recs_Query],$VAR[Path_Recs_Type],context=ActivateWindow(1113),window_id=1191,setproperty=HideView,winprop_clearlogo='$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.CropImage)]',winprop_Collection='$ESCINFO[ListItem.Set]',winprop_Director='"$VAR[Path_FromDirector_Name]"',winprop_Writer='"$VAR[Path_FromWriter_Screenplay]"',winprop_Genre='$ESCINFO[ListItem.Genre]',winprop_Studio='$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.Name)]',winprop_Year='$ESCINFO[ListItem.Year]',winprop_Fanart='$ESCINFO[ListItem.Art(fanart)]',winprop_Title='"$VAR[Label_Title]"')</onfocus>
+        <onfocus condition="String.IsEqual(ListItem.DBtype,movie) | String.IsEqual(ListItem.DBtype,tvshow) | String.IsEqual(ListItem.DBtype,season) | String.IsEqual(ListItem.DBtype,episode) | String.IsEqual(ListItem.DBtype,set) | $EXP[Exp_IsPersonInfo]">Runscript(plugin.video.themoviedb.helper,recommendations=$VAR[Path_Recs],$VAR[Path_Recs_Query],$VAR[Path_Recs_Type],context=ActivateWindow(1113),window_id=1191,setproperty=HideView,winprop_clearlogo='$ESCINFO[Container(99950).ListItem.Art(cropimage)]',winprop_Collection='$ESCINFO[ListItem.Set]',winprop_Director='"$VAR[Path_FromDirector_Name]"',winprop_Writer='"$VAR[Path_FromWriter_Screenplay]"',winprop_Genre='$ESCINFO[ListItem.Genre]',winprop_Studio='$ESCINFO[Container(99950).ListItem.Property(Studio.1.Name)]',winprop_Year='$ESCINFO[ListItem.Year]',winprop_Youtube=$VAR[Path_Youtube],winprop_Fanart='$ESCINFO[ListItem.Art(fanart)]',winprop_Title='"$VAR[Label_Title]"')</onfocus>
     </include>
 
     <include name="Action_Settings_Onload">
