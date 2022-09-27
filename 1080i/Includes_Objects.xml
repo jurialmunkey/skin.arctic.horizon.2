@@ -181,12 +181,13 @@
 
     <include name="Object_NavButton">
         <param name="flipy">false</param>
+        <param name="centerleft">50%</param>
         <definition>
             <include content="Object_Control">
                 <param name="control">group</param>
                 <width>60</width>
                 <height>60</height>
-                <centerleft>50%</centerleft>
+                <centerleft>$PARAM[centerleft]</centerleft>
                 <include content="Object_CenterBottom" condition="$PARAM[flipy]">
                     <param name="centerbottom">40</param>
                 </include>
@@ -439,6 +440,49 @@
                     <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
                 </include>
             </include>
+        </definition>
+    </include>
+
+    <include name="Object_InfoCircle_Horizontal">
+        <param name="bordersize" default="2" />
+        <param name="max">400</param>
+        <definition>
+            <control type="group">
+                <height>grid_x06</height>
+                <width>grid_x06</width>
+                <nested />
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <bordersize>$PARAM[bordersize]</bordersize>
+                    <bordertexture colordiffuse="panel_fg_100">common/circle.png</bordertexture>
+                    <texture colordiffuse="panel_bg">common/circle.png</texture>
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <bordersize>$PARAM[bordersize]</bordersize>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="common/circle.png" colordiffuse="panel_fg_100">$PARAM[icon]</texture>
+                </include>
+            </control>
+            <control type="label">
+                <left>-40</left>
+                <font>font_mini_bold</font>
+                <label>$PARAM[role]</label>
+                <textcolor>panel_fg_100</textcolor>
+                <height>grid_x03</height>
+                <width>280</width>
+                <nested />
+            </control>
+            <control type="label">
+                <left>-340</left>
+                <font>font_mini</font>
+                <label>$PARAM[name]</label>
+                <textcolor>panel_fg_70</textcolor>
+                <height>grid_x03</height>
+                <top>grid_x03</top>
+                <width max="$PARAM[max]">auto</width>
+                <nested />
+            </control>
         </definition>
     </include>
 
