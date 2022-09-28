@@ -154,13 +154,15 @@
                         <ondown condition="String.IsEmpty(Window(Home).Property(OSDExpandInfo))">SetProperty(OSDExpandInfo,1,Home)</ondown>
                         <ondown condition="!String.IsEmpty(Window(Home).Property(OSDExpandInfo))">SetFocus(6501,0,absolute)</ondown>
                         <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
+
                         <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
                         <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
                         <onclick>Action(Close)</onclick>
+
                         <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,imdb_id=$INFO[VideoPlayer.IMDBNumber],window_id=1191)</onclick>
                         <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + !String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,tmdb_id=$INFO[VideoPlayer.IMDBNumber],window_id=1191)</onclick>
                         <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.IMDBNumber)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,query='"$INFO[Player.Title]"',window_id=1191)</onclick>
-                        <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)]">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,query='"$INFO[VideoPlayer.TvShowTitle]"',window_id=1191)</onclick>
+                        <onclick condition="VideoPlayer.Content(episodes)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=tv,query='"$INFO[VideoPlayer.TvShowTitle]"',episode_year=$INFO[VideoPlayer.Year],window_id=1191)</onclick>
                     </include>
                     <include content="OSD_Button">
                         <param name="autoclose" value="true" />
