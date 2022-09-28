@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="OSD_Episodes_Layout">
+        <param name="selected">false</param>
+        <param name="fg_layer">true</param>
+        <param name="bg_layer">true</param>
+        <param name="diffuse">diffuse/landscape_w356_h200.png</param>
+        <param name="icon">$VAR[Image_Landscape]</param>
+        <param name="misc">0</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_Control">
+                    <param name="control" value="group" />
+                    <include content="Object_ItemBack">
+                        <param name="selected" value="$PARAM[selected]" />
+                        <param name="shadow_colordiffuse" value="$PARAM[shadow_colordiffuse]" />
+                    </include>
+                    <include content="Object_Control" condition="$PARAM[selected] + Skin.HasSetting(Widgets.OpaqueFocus)">
+                        <param name="control">image</param>
+                        <texture colordiffuse="main_item" diffuse="$PARAM[diffuse]">common/white.png</texture>
+                        <visible>$EXP[Exp_IsPVRItem]</visible>
+                    </include>
+                    <control type="image">
+                        <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                        <visible>$EXP[Exp_IsPVRItem]</visible>
+                        <bordersize>20</bordersize>
+                    </control>
+                    <control type="image">
+                        <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <visible>![$EXP[Exp_IsPVRItem]]</visible>
+                    </control>
+                    <include content="Object_Control">
+                        <param name="control">image</param>
+                        <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Clearlogo]</texture>
+                        <aspectratio scalediffuse="false" align="left">keep</aspectratio>
+                        <bordersize>20</bordersize>
+                        <visible>!$EXP[Exp_HasArtLandscape]</visible>
+                        <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>
+                    </include>
+                </include>
+                <include content="Object_Control">
+                    <param name="control" value="group" />
+                    <include content="Object_Control">
+                        <param name="control" value="image" />
+                        <texture border="10" colordiffuse="bbffffff">diffuse/poster_fade.png</texture>
+                    </include>
+                    <control type="group">
+                        <control type="label">
+                            <font>font_statusbar_bold</font>
+                            <textcolor>panel_fg_90</textcolor>
+                            <label>$VAR[Label_OSD_EpisodeLabel]</label>
+                            <height>20</height>
+                            <bottom>50</bottom>
+                            <textoffsetx>20</textoffsetx>
+                        </control>
+                        <control type="label">
+                            <font>font_statusbar</font>
+                            <textcolor>panel_fg_70</textcolor>
+                            <label>$VAR[Label_OSD_EpisodeLabel2]</label>
+                            <height>20</height>
+                            <bottom>20</bottom>
+                            <textoffsetx>20</textoffsetx>
+                        </control>
+                    </control>
+                </include>
+                <include content="Object_Control" condition="!$PARAM[selected] + Skin.HasSetting(Glass.BorderOutline)">
+                    <param name="control" value="image" />
+                    <texture colordiffuse="overlay_line" border="10">common/box-outline.png</texture>
+                </include>
+                <include content="Object_SelectBox" condition="$PARAM[fg_layer] + $PARAM[selected]">
+                    <param name="indicator" value="false" />
+                    <param name="focusbounce" value="true" />
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="OSD_Episodes_Arrows">
+        <control type="group">
+            <nested />
+            <height>200</height>
+            <top>0</top>
+            <width>1148</width>
+            <control type="image">
+                <centerleft>-40</centerleft>
+                <centertop>50%</centertop>
+                <width>16</width>
+                <height>16</height>
+                <texture flipx="true" colordiffuse="panel_fg_70">arrows/arrow-small-right.png</texture>
+            </control>
+            <control type="image">
+                <centerright>-40</centerright>
+                <centertop>50%</centertop>
+                <width>16</width>
+                <height>16</height>
+                <texture flipx="false" colordiffuse="panel_fg_70">arrows/arrow-small-right.png</texture>
+            </control>
+        </control>
+    </include>
+
+    <include name="OSD_Episodes">
+        <include content="OSD_CastInfo_ExpandGroup">
+            <param name="condition">[Control.HasFocus(6400) | Control.HasFocus(6401)]</param>
+
+            <!-- Episodes List -->
+            <include content="List_Core">
+                <param name="orientation" value="horizontal" />
+                <param name="controltype" value="wraplist" />
+                <param name="id" value="6401" />
+                <param name="item_w" value="427" />
+                <param name="item_h" value="240" />
+                <param name="itemlayout_w" value="467" />
+                <param name="itemlayout_h" value="280" />
+                <param name="itemlayout_include" value="OSD_Episodes_Layout" />
+                <param name="offset_y" value="40" />
+                <param name="offset_x">40</param>
+                <content>$VAR[Path_OSD_Episodes]</content>
+                <focusposition>0</focusposition>
+                <height>360</height>
+                <top>-40</top>
+                <onup>6400</onup>
+                <left>-40</left>
+                <width>1441</width>
+                <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
+                <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+                <visible allowhiddenfocus="true">Control.HasFocus(6401)</visible>
+            </include>
+
+            <control type="group">
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+                <visible allowhiddenfocus="true">Control.HasFocus(6401)</visible>
+
+                <include content="OSD_Episodes_Arrows">
+                    <width>1361</width>
+                    <height>240</height>
+                    <include content="Object_BusySpinner">
+                        <param name="colordiffuse" value="panel_fg" />
+                        <visible>Container(6401).IsUpdating + Integer.IsEqual(Container(6401).NumItems,0)</visible>
+                    </include>
+                </include>
+
+                <!-- Info Box -->
+                <control type="textbox">
+                    <top>280</top>
+                    <width>1080</width>
+                    <label>[COLOR=panel_fg_100][B]$INFO[Container(6401).ListItem.Season,S,]$INFO[Container(6401).ListItem.Episode,E, ]$INFO[Container(6401).ListItem.Title,, ~ ][/B][/COLOR]$INFO[Container(6401).ListItem.Plot]</label>
+                    <font>font_plotbox_mini</font>
+                    <textcolor>panel_fg_70</textcolor>
+                    <height>80</height>
+                </control>
+            </control>
+
+        </include>
+    </include>
+</includes>

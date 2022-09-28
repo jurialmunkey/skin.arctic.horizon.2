@@ -1,89 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <defaultcontrol always="true">2</defaultcontrol>
-    <onload>AlarmClock(refocus,SetFocus(11),00:00,silent)</onload>
     <controls>
-        <include content="OSD_Menu_Back">
-            <param name="arrow_pos" value="1050" />
-            <include>Animation_SlideIn_Dialog</include>
-            <left>40</left>
-            <width>1390</width>
-            <height>620</height>
-            <include content="Object_MenuHeader">
-                <param name="label" value="$LOCALIZE[298]" />
-            </include>
-            <include content="List_Landscape_Row">
+        <control type="group">
+            <height>360</height>
+            <bottom>view_pad</bottom>
+            <left>view_pad</left>
+            <right>view_pad</right>
+
+            <animation reversible="false" type="WindowOpen">
+                <effect type="slide" end="0" start="0,320" time="300" tween="sine" easing="out" />
+                <effect type="fade" start="0" end="100" time="300" delay="150" />
+            </animation>
+
+            <animation reversible="false" type="WindowClose">
+                <effect type="slide" start="0" end="0,320" time="400" tween="sine" easing="inout" />
+                <effect type="fade" end="0" start="100" time="300" />
+            </animation>
+
+            <!-- Episodes List -->
+            <include content="List_Core">
+                <param name="orientation" value="horizontal" />
+                <param name="controltype" value="wraplist" />
                 <param name="id" value="11" />
-                <param name="movement" value="2" />
-                <param name="textcolor" value="dialog_fg" />
-                <param name="offset_x" value="40" />
+                <param name="item_w" value="427" />
+                <param name="item_h" value="240" />
+                <param name="itemlayout_w" value="467" />
+                <param name="itemlayout_h" value="280" />
+                <param name="itemlayout_include" value="OSD_Episodes_Layout" />
                 <param name="offset_y" value="40" />
-                <param name="shadow_colordiffuse" value="shadow_soft" />
-                <onup>9000</onup>
-                <height>400</height>
-                <bottom>0</bottom>
-                <ondown>Close</ondown>
+                <param name="offset_x">40</param>
+                <focusposition>0</focusposition>
+                <height>360</height>
+                <top>-40</top>
+                <onup>6400</onup>
+                <left>-40</left>
+                <width>1441</width>
+                <onup>Close</onup>
+                <ondown>2</ondown>
             </include>
-            <control type="grouplist" id="9000">
+
+            <include content="OSD_Episodes_Arrows">
+                <width>1361</width>
+                <height>200</height>
+            </include>
+
+            <control type="grouplist">
+                <height>grid_x06</height>
+                <bottom>-10</bottom>
                 <orientation>horizontal</orientation>
-                <top>100</top>
-                <height>160</height>
-                <left>0</left>
-                <right>0</right>
-                <itemgap>40</itemgap>
-                <ondown>11</ondown>
-                <control type="group" id="9002">
-                    <left>40</left>
-                    <top>40</top>
-                    <height>grid_x08</height>
-                    <width>410</width>
-                    <include content="Object_Shadow_40">
-                        <param name="colordiffuse" value="shadow_soft" />
-                    </include>
-                </control>
-                <control type="button" id="2" description="Add Bookmark">
-                    <left>-450</left>
-                    <top>40</top>
-                    <height>grid_x08</height>
-                    <width>410</width>
-                    <label>$LOCALIZE[294]</label>
-                    <texturenofocus colordiffuse="main_fg_12" border="10">common/box.png</texturenofocus>
-                </control>
-                <control type="group" id="9003">
-                    <top>40</top>
-                    <height>grid_x08</height>
-                    <width>410</width>
-                    <include content="Object_Shadow_40">
-                        <param name="colordiffuse" value="shadow_soft" />
-                    </include>
-                </control>
-                <control type="button" id="3" description="Clear Bookmarks">
-                    <left>-450</left>
-                    <top>40</top>
-                    <height>grid_x08</height>
-                    <width>410</width>
-                    <label>$LOCALIZE[296]</label>
-                    <texturenofocus colordiffuse="main_fg_12" border="10">common/box.png</texturenofocus>
-                </control>
-                <control type="group" id="9004">
-                    <top>40</top>
-                    <height>grid_x08</height>
-                    <width>410</width>
-                    <include content="Object_Shadow_40">
-                        <param name="colordiffuse" value="shadow_soft" />
-                    </include>
-                    <visible>Control.IsEnabled(4)</visible>
-                </control>
-                <control type="button" id="4" description="Set Thumb">
-                    <left>-450</left>
-                    <top>40</top>
-                    <height>grid_x08</height>
-                    <width>410</width>
-                    <label>$LOCALIZE[20406]</label>
-                    <texturenofocus colordiffuse="main_fg_12" border="10">common/box.png</texturenofocus>
-                    <visible>Control.IsEnabled(4)</visible>
-                </control>
+                <itemgap>30</itemgap>
+                <onup>11</onup>
+
+                <include content="OSD_Button">
+                    <param name="icon" value="special://skin/extras/icons/plus.png" />
+                    <param name="visible" value="Control.IsEnabled(2)" />
+                    <param name="id" value="2" />
+                    <param name="groupid" value="9002" />
+                </include>
+                <include content="OSD_Button">
+                    <param name="icon" value="special://skin/extras/icons/trash-can.png" />
+                    <param name="visible" value="Control.IsEnabled(3)" />
+                    <param name="id" value="3" />
+                    <param name="groupid" value="9003" />
+                </include>
+                <include content="OSD_Button">
+                    <param name="icon" value="special://skin/extras/icons/image.png" />
+                    <param name="visible" value="Control.IsEnabled(4)" />
+                    <param name="id" value="4" />
+                    <param name="groupid" value="9004" />
+                </include>
             </control>
-        </include>
+        </control>
     </controls>
 </window>

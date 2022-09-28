@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="OSD_CastInfo_ExpandGroup">
+        <control type="group">
+            <height>360</height>
+            <bottom>-240</bottom>
+            <left>view_pad</left>
+            <right>view_pad</right>
+            <nested />
+        </control>
+    </include>
+
+    <include name="OSD_CastInfo_HintText">
+        <control type="group">
+            <nested />
+            <bottom>0</bottom>
+            <height>40</height>
+            <left>view_pad</left>
+            <include>Animation_FadeIn_Delay</include>
+            <include content="Object_NavButton">
+                <param name="centerleft">10</param>
+                <param name="flipy">true</param>
+            </include>
+            <control type="label">
+                <font>font_statusbar</font>
+                <textcolor>panel_fg_70</textcolor>
+                <label>$PARAM[label]</label>
+                <height>20</height>
+                <top>-10</top>
+                <left>40</left>
+            </control>
+        </control>
+    </include>
+
+    <include name="OSD_CastInfo_DirectorWriter">
+        <control type="grouplist">
+            <top>310</top>
+            <orientation>horizontal</orientation>
+            <itemgap>grid_x06</itemgap>
+            <width>1380</width>
+            <height>grid_x06</height>
+            <include content="Object_InfoCircle_Horizontal">
+                <param name="icon" value="$VAR[Image_OSD_DirectorIcon]" />
+                <param name="role" value="$LOCALIZE[20339]" />
+                <param name="name" value="$VAR[Label_OSD_DirectorName]" />
+                <param name="max">560</param>
+                <visible>!String.IsEmpty(VideoPlayer.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Director.1.Name))</visible>
+            </include>
+            <include content="Object_InfoCircle_Horizontal">
+                <param name="icon" value="$VAR[Image_OSD_WriterIcon]" />
+                <param name="role" value="$LOCALIZE[20417]" />
+                <param name="name" value="$VAR[Label_OSD_WriterName]" />
+                <param name="max">560</param>
+                <visible>!String.IsEmpty(VideoPlayer.Writer) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Writer.1.Name))</visible>
+            </include>
+        </control>
+    </include>
+
+    <include name="OSD_CastInfo">
+        <include content="OSD_CastInfo_ExpandGroup">
+            <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+            <visible>Control.HasFocus(6500) | Control.HasFocus(6501)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include>Animation_FadeOut</include>
+
+            <!-- Director and Writer Details -->
+            <include>OSD_CastInfo_DirectorWriter</include>
+
+            <!-- Info Box -->
+            <control type="group">
+                <top>0</top>
+                <visible>!Control.HasFocus(6501)</visible>
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+                <control type="group">
+                    <width>190</width>
+                    <height>280</height>
+                    <control type="image">
+                        <include>Texture_Shadow_40</include>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture background="true" diffuse="diffuse/poster_w190_h280.png">$VAR[Image_OSD_PosterImage]</texture>
+                    </control>
+                </control>
+                <control type="grouplist">
+                    <top>0</top>
+                    <left>230</left>
+                    <orientation>vertical</orientation>
+                    <width>880</width>
+                    <itemgap>0</itemgap>
+                    <control type="label">
+                        <label>$LOCALIZE[207]</label>
+                        <font>font_mini_bold</font>
+                        <textcolor>panel_fg_100</textcolor>
+                        <height>40</height>
+                    </control>
+                    <control type="textbox">
+                        <label>$INFO[VideoPlayer.Plot]</label>
+                        <font>font_plotbox_mini</font>
+                        <textcolor>panel_fg_70</textcolor>
+                        <height>80</height>
+                    </control>
+                    <control type="label">
+                        <top>10</top>
+                        <label>$LOCALIZE[206]</label>
+                        <font>font_mini_bold</font>
+                        <textcolor>panel_fg_100</textcolor>
+                        <height>40</height>
+                        <visible>!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.Cast.1.Name))</visible>
+                    </control>
+                    <control type="textbox">
+                        <label>$INFO[Window(Home).Property(TMDBHelper.Player.Cast.1.Name)]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.1.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.2.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.2.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.3.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.3.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.4.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.4.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.5.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.5.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.6.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.6.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.7.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.7.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.8.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.8.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.9.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.9.Role), as ,]</label>
+                        <font>font_plotbox_mini</font>
+                        <textcolor>panel_fg_70</textcolor>
+                        <height>110</height>
+                        <visible>!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.Cast.1.Name))</visible>
+                    </control>
+                </control>
+                <control type="grouplist">
+                    <left>1190</left>
+                    <orientation>vertical</orientation>
+                    <itemgap>0</itemgap>
+                    <control type="label">
+                        <label>$LOCALIZE[31064]</label>
+                        <font>font_mini_bold</font>
+                        <textcolor>panel_fg_100</textcolor>
+                        <height>40</height>
+                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards))</visible>
+                    </control>
+                    <control type="textbox">
+                        <label>$INFO[Window(Home).Property(TMDbHelper.Player.Awards),,[CR]]$INFO[Window(Home).Property(TMDbHelper.Player.Revenue),$LOCALIZE[31264] , $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.Player.Budget)]</label>
+                        <font>font_plotbox_mini</font>
+                        <textcolor>panel_fg_70</textcolor>
+                        <height>80</height>
+                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards))</visible>
+                    </control>
+                    <control type="label">
+                        <top>10</top>
+                        <label>$LOCALIZE[31024]</label>
+                        <font>font_mini_bold</font>
+                        <textcolor>panel_fg_100</textcolor>
+                        <height>40</height>
+                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
+                    </control>
+                    <control type="textbox">
+                        <label>$INFO[Window(Home).Property(TMDBHelper.Player.rottentomatoes_consensus)]</label>
+                        <font>font_plotbox_mini</font>
+                        <textcolor>panel_fg_70</textcolor>
+                        <height>120</height>
+                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
+                    </control>
+                </control>
+                <include content="OSD_CastInfo_HintText">
+                    <param name="label">$LOCALIZE[31293]</param>
+                    <bottom>-80</bottom>
+                    <left>0</left>
+                    <visible>!Control.HasFocus(6501)</visible>
+                </include>
+            </control>
+
+            <!-- Cast List -->
+            <include content="List_Core">
+                <param name="orientation" value="horizontal" />
+                <param name="controltype" value="wraplist" />
+                <param name="id" value="6501" />
+                <param name="item_w" value="190" />
+                <param name="item_h" value="280" />
+                <param name="itemlayout_w" value="230" />
+                <param name="itemlayout_h" value="320" />
+                <param name="itemlayout_include" value="Layout_Poster" />
+                <param name="offset_y" value="40" />
+                <param name="offset_x">40</param>
+                <content>$VAR[Path_OSD_Cast]</content>
+                <focusposition>0</focusposition>
+                <height>360</height>
+                <top>-40</top>
+                <onup>6500</onup>
+                <left>-40</left>
+                <width>960</width>
+                <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
+                <onclick>Action(Close)</onclick>
+                <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=person,tmdb_id=$INFO[Container(6501).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
+                <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+                <visible allowhiddenfocus="true">Control.HasFocus(6501)</visible>
+                <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+            </include>
+
+
+            <control type="group">
+                <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+                <visible>Control.HasFocus(6501)</visible>
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+                <include content="OSD_Episodes_Arrows">
+                    <width>880</width>
+                    <height>280</height>
+                    <include content="Object_BusySpinner">
+                        <param name="colordiffuse" value="panel_fg" />
+                        <visible>Container(6501).IsUpdating + Integer.IsEqual(Container(6501).NumItems,0)</visible>
+                    </include>
+                </include>
+                <!-- Cast Member Details -->
+                <control type="group">
+                    <top>0</top>
+                    <control type="grouplist">
+                        <left>960</left>
+                        <orientation>vertical</orientation>
+                        <itemgap>0</itemgap>
+                        <control type="label">
+                            <label>$INFO[Container(6501).ListItem.Label]</label>
+                            <font>font_mini_bold</font>
+                            <textcolor>panel_fg_100</textcolor>
+                            <height>40</height>
+                        </control>
+                        <control type="label">
+                            <label>$INFO[Container(6501).ListItem.Property(role)]</label>
+                            <font>font_plotbox_mini</font>
+                            <textcolor>panel_fg_70</textcolor>
+                            <height>35</height>
+                        </control>
+                        <control type="textbox">
+                            <top>20</top>
+                            <label>$INFO[Container(6501).ListItem.Property(Biography)]</label>
+                            <font>font_plotbox_mini</font>
+                            <textcolor>panel_fg_70</textcolor>
+                            <height>190</height>
+                        </control>
+                    </control>
+                </control>
+            </control>
+        </include>
+    </include>
+</includes>
