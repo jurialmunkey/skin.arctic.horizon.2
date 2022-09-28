@@ -18,10 +18,23 @@
                 <effect type="fade" end="0" start="100" time="300" />
             </animation>
 
+            <control type="group">
+                <width>427</width>
+                <height>240</height>
+                <include>Object_ItemBack</include>
+                <control type="image">
+                    <width>128</width>
+                    <height>128</height>
+                    <centerleft>50%</centerleft>
+                    <centertop>50%</centertop>
+                    <texture colordiffuse="panel_fg_70">special://skin/extras/icons/image.png</texture>
+                </control>
+            </control>
+
             <!-- Episodes List -->
             <include content="List_Core">
                 <param name="orientation" value="horizontal" />
-                <param name="controltype" value="wraplist" />
+                <param name="controltype" value="fixedlist" />
                 <param name="id" value="11" />
                 <param name="item_w" value="427" />
                 <param name="item_h" value="240" />
@@ -31,6 +44,7 @@
                 <param name="offset_y" value="40" />
                 <param name="offset_x">40</param>
                 <focusposition>0</focusposition>
+                <movement>0</movement>
                 <height>360</height>
                 <top>-40</top>
                 <onup>6400</onup>
@@ -41,8 +55,9 @@
             </include>
 
             <include content="OSD_Episodes_Arrows">
+                <param name="id">11</param>
                 <width>1361</width>
-                <height>200</height>
+                <height>240</height>
             </include>
 
             <control type="grouplist">
@@ -60,7 +75,7 @@
                 </include>
                 <include content="OSD_Button">
                     <param name="icon" value="special://skin/extras/icons/trash-can.png" />
-                    <param name="visible" value="Control.IsEnabled(3)" />
+                    <param name="visible" value="Control.IsEnabled(3) + !Integer.IsEqual(Container(11).NumItems,0)" />
                     <param name="id" value="3" />
                     <param name="groupid" value="9003" />
                 </include>
