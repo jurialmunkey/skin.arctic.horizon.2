@@ -34,17 +34,17 @@
     </variable>
 
     <variable name="Path_Recs_Collection">
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Set)">info=collection&amp;tmdb_type=collection&amp;query=$ESCINFO[ListItem.Set]</value>
-        <value condition="ListItem.IsCollection + !String.IsEmpty(ListItem.Title)">info=collection&amp;tmdb_type=collection&amp;query=$ESCINFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Set)">info=collection&amp;tmdb_type=collection&amp;query=$WINPROP[Set]</value>
+        <value condition="ListItem.IsCollection + !String.IsEmpty(ListItem.Title)">info=collection&amp;tmdb_type=collection&amp;query=$WINPROP[Title]</value>
     </variable>
 
     <variable name="Path_Recs_Year">
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Year)">info=discover&amp;type=movie&amp;primary_release_year=$INFO[ListItem.Year]&amp;exclude_key=title&amp;exclude_value=$ESCINFO[ListItem.Title]</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Year)">info=discover&amp;type=tv&amp;first_air_date_year=$INFO[ListItem.Year]&amp;exclude_key=title&amp;exclude_value=$ESCINFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Year)">info=discover&amp;type=movie&amp;primary_release_year=$WINPROP[Year]&amp;exclude_key=title&amp;exclude_value=$WINPROP[Title]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Year)">info=discover&amp;type=tv&amp;first_air_date_year=$WINPROP[Year]&amp;exclude_key=title&amp;exclude_value=$WINPROP[Title]</value>
     </variable>
 
     <variable name="Path_Recs_Genre">
-        <value condition="!String.IsEmpty(ListItem.Genre)">info=discover&amp;with_genres=$ESCINFO[ListItem.Genre]&amp;exclude_key=title&amp;exclude_value=$ESCINFO[ListItem.Title]$VAR[Path_Param_Type,&amp;,]</value>
+        <value condition="!String.IsEmpty(ListItem.Genre)">info=discover&amp;with_genres=$WINPROP[Genre]&amp;exclude_key=title&amp;exclude_value=$WINPROP[Title]$VAR[Path_Param_Type,&amp;,]</value>
     </variable>
 
     <variable name="Path_Recs_Season">
@@ -56,8 +56,8 @@
     </variable>
 
     <variable name="Path_Recs_Studio">
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(Container(99950).ListItem.Property(Studio.1.TMDB_ID))">info=discover&amp;type=movie&amp;with_companies=$INFO[Container(99950).ListItem.Property(Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$ESCINFO[ListItem.Title]</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Container(99950).ListItem.Property(Studio.1.TMDB_ID))">info=discover&amp;type=tv&amp;with_networks=$INFO[Container(99950).ListItem.Property(Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$ESCINFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(Container(99950).ListItem.Property(Studio.1.TMDB_ID))">info=discover&amp;type=movie&amp;with_companies=$INFO[Container(99950).ListItem.Property(Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$WINPROP[Title]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Container(99950).ListItem.Property(Studio.1.TMDB_ID))">info=discover&amp;type=tv&amp;with_networks=$INFO[Container(99950).ListItem.Property(Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$WINPROP[Title]</value>
     </variable>
 
     <variable name="Path_Recs_Director_Name">
@@ -65,7 +65,7 @@
         <value condition="!String.IsEmpty(ListItem.Director)">$ESCINFO[ListItem.Director]</value>
     </variable>
     <variable name="Path_Recs_Director">
-        <value condition="String.IsEqual(ListItem.DBType,movie)">info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director$VAR[Path_Recs_Director_Name,&amp;query=,]&amp;exclude_key=title&amp;exclude_value=$ESCINFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie)">info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;query=$WINPROP[Director]&amp;exclude_key=title&amp;exclude_value=$WINPROP[Title]</value>
     </variable>
 
     <variable name="Path_Recs_Type">
@@ -80,10 +80,10 @@
     <variable name="Path_Recs_Query">
         <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Property(imdb_id))">imdb_id=$INFO[ListItem.Property(imdb_id)]</value>
         <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.IMDBNumber) + String.StartsWith(ListItem.IMDBNumber,tt)">imdb_id=$INFO[ListItem.IMDBNumber]</value>
-        <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.TvShowTitle)">query='$ESCINFO[ListItem.TvShowTitle]'$INFO[ListItem.Year,$COMMAepisode_year=,]</value>
+        <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.TvShowTitle)">query=$WINPROP[Title]$INFO[ListItem.Year,$COMMAepisode_year=,]</value>
         <value condition="$EXP[Exp_IsPersonInfo] + !String.IsEmpty(ListItem.Property(tmdb_id))">tmdb_id=$INFO[ListItem.Property(tmdb_id)]</value>
-        <value condition="!String.IsEmpty(ListItem.Title)">query='$ESCINFO[ListItem.Title]'$INFO[ListItem.Year,$COMMAyear=,]</value>
-        <value condition="!String.IsEmpty(ListItem.Label)">query='$ESCINFO[ListItem.Label]'</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">query=$WINPROP[Title]$INFO[ListItem.Year,$COMMAyear=,]</value>
+        <value condition="!String.IsEmpty(ListItem.Label)">query=$WINPROP[Title]</value>
     </variable>
 
     <variable name="Path_Recs_Writer_Screenplay">
@@ -101,7 +101,7 @@
     </variable>
 
     <variable name="Path_Recs_Writer">
-        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(Container(99950).ListItem.Property(Writer.1.name))">$VAR[Path_Recs_Writer_Screenplay,info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Writer&amp;query=,]&amp;exclude_key=title&amp;exclude_value=$ESCINFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(Container(99950).ListItem.Property(Writer.1.name))">info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Writer&amp;query=$WINPROP[Writer]&amp;exclude_key=title&amp;exclude_value=$WINPROP[Writer]</value>
     </variable>
 
     <variable name="Path_Library_Collections">

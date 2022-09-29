@@ -169,7 +169,16 @@
 
     <include name="Action_Recommendations_OnFocus">
         <nested />
-        <onfocus condition="String.IsEqual(ListItem.DBtype,movie) | String.IsEqual(ListItem.DBtype,tvshow) | String.IsEqual(ListItem.DBtype,season) | String.IsEqual(ListItem.DBtype,episode) | String.IsEqual(ListItem.DBtype,set) | $EXP[Exp_IsPersonInfo]">Runscript(plugin.video.themoviedb.helper,recommendations=$VAR[Path_Recs],$VAR[Path_Recs_Query],$VAR[Path_Recs_Type],context=ActivateWindow(1113),window_id=1191,setproperty=HideView,winprop_clearlogo='$ESCINFO[Container(99950).ListItem.Art(cropimage)]',winprop_Collection='$ESCINFO[ListItem.Set]',winprop_Director='"$VAR[Path_FromDirector_Name]"',winprop_Writer='"$VAR[Path_FromWriter_Screenplay]"',winprop_Genre='$ESCINFO[ListItem.Genre]',winprop_Studio='$ESCINFO[Container(99950).ListItem.Property(Studio.1.Name)]',winprop_Year='$ESCINFO[ListItem.Year]',winprop_Youtube=$VAR[Path_Youtube],winprop_Fanart='$ESCINFO[ListItem.Art(fanart)]',winprop_Title='"$VAR[Label_Title]"')</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Set,'$ESCINFO[ListItem.Set]',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Director,'"$VAR[Path_FromDirector_Name]"',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Writer,'"$VAR[Path_FromWriter_Screenplay]"',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Studio,'$ESCINFO[Container(99950).ListItem.Property(Studio.1.Name)]',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Genre,'$ESCINFO[ListItem.Genre]',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Year,'$ESCINFO[ListItem.Year]',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Youtube,'"$VAR[Path_Youtube]"',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Fanart,'$ESCINFO[ListItem.Art(fanart)]',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Title,'"$VAR[Label_Title]"',Home)</onfocus>
+        <onfocus condition="String.IsEqual(ListItem.DBtype,movie) | String.IsEqual(ListItem.DBtype,tvshow) | String.IsEqual(ListItem.DBtype,season) | String.IsEqual(ListItem.DBtype,episode) | String.IsEqual(ListItem.DBtype,set) | $EXP[Exp_IsPersonInfo]">Runscript(plugin.video.themoviedb.helper,recommendations=$VAR[Path_Recs],$VAR[Path_Recs_Query],$VAR[Path_Recs_Type],context=ActivateWindow(1113),window_id=1191,setproperty=HideView,winprop_clearlogo='$ESCINFO[Container(99950).ListItem.Art(cropimage)]',winprop_Collection=$WINPROP[Set],winprop_Director=$WINPROP[Director],winprop_Writer=$WINPROP[Writer],winprop_Genre=$WINPROP[Genre],winprop_Studio=$WINPROP[Studio],winprop_Year=$WINPROP[Year],winprop_Youtube=$WINPROP[Youtube],winprop_Fanart=$WINPROP[Fanart],winprop_Title=$WINPROP[Title])</onfocus>
     </include>
 
     <include name="Action_Settings_Onload">
