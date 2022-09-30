@@ -21,31 +21,33 @@
         <definition>
             <control type="group">
                 <height>80</height>
-                <visible>!$PARAM[visible]</visible>
-                <animation effect="fade" start="0" end="100" time="200" delay="800" reversible="true">Visible</animation>
+                <visible>![$PARAM[mainlogo_visible]]</visible>
+                <animation effect="fade" start="0" end="100" time="200" delay="400" reversible="true">Visible</animation>
                 <animation effect="fade" start="100" end="0" delay="0" time="200" reversible="true">Hidden</animation>
                 <include content="Info_Title_Label">
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                    <visible>!$PARAM[templogo_visible]</visible>
+                    <visible>![$PARAM[templogo_visible]]</visible>
                 </include>
                 <control type="image">
                     <height>80</height>
+                    <width>75%</width>
                     <aspectratio align="left">keep</aspectratio>
                     <fadetime>200</fadetime>
-                    <width>75%</width>
-                    <texture background="true">$VAR[Image_CropLogo_Fallback]</texture>
+                    <texture background="true">$PARAM[templogo_texture]</texture>
                     <visible>$PARAM[templogo_visible]</visible>
                 </control>
             </control>
-            <control type="image">
-                <height>80</height>
-                <width>75%</width>
-                <aspectratio align="left">keep</aspectratio>
-                <fadetime>200</fadetime>
-                <texture background="true">$VAR[Image_CropLogo_Main]</texture>
+            <control type="group">
                 <animation effect="fade" start="0" end="100" time="200" delay="0" reversible="true">Visible</animation>
-                <animation effect="fade" start="100" end="0" delay="800" time="200" reversible="true">Hidden</animation>
-                <visible>$PARAM[visible]</visible>
+                <animation effect="fade" start="100" end="0" delay="400" time="200" reversible="true">Hidden</animation>
+                <visible>$PARAM[mainlogo_visible]</visible>
+                <control type="image">
+                    <height>80</height>
+                    <width>75%</width>
+                    <aspectratio align="left">keep</aspectratio>
+                    <fadetime>200</fadetime>
+                    <texture background="true">$PARAM[mainlogo_texture]</texture>
+                </control>
             </control>
         </definition>
     </include>
@@ -54,6 +56,8 @@
         <param name="colordiffuse" default="main_fg" />
         <param name="container" default="" />
         <param name="width" default="info_plot_w" />
+        <param name="mainlogo_visible">[!String.IsEmpty(Container(99950).ListItem.Art(cropimage)) | !String.IsEmpty(Container(99950).ListItem.Property(base_clearlogo))]</param>
+        <param name="mainlogo_texture">$VAR[Image_CropLogo]</param>
         <definition>
             <control type="group">
                 <height>80</height>
@@ -62,14 +66,14 @@
                 <include content="Info_Title_Label" condition="!Skin.HasSetting(TMDbHelper.EnableCrop)">
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 </include>
-
                 <!-- Other -->
                 <include content="Info_Title_Logo" condition="Skin.HasSetting(TMDbHelper.EnableCrop)">
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                    <param name="visible">[!String.IsEmpty(Container(99950).ListItem.Art(cropimage)) + String.IsEmpty(Window(Home).Property(TMDBHelper.IsUpdating))]</param>
-                    <param name="templogo_visible">[[!String.IsEmpty($PARAM[container]ListItem.Art(clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(tvshow.clearlogo)) | !String.IsEmpty($PARAM[container]ListItem.Art(artist.clearlogo))]]</param>
+                    <param name="mainlogo_visible">$PARAM[mainlogo_visible]</param>
+                    <param name="mainlogo_texture">$PARAM[mainlogo_texture]</param>
+                    <param name="templogo_visible">$PARAM[templogo_visible]</param>
+                    <param name="templogo_texture">$PARAM[templogo_texture]</param>
                 </include>
-
             </control>
         </definition>
     </include>
@@ -86,18 +90,6 @@
                 <centertop>52%</centertop>
                 <visible>$PARAM[visible]</visible>
             </control>
-            <!-- <control type="$PARAM[controltype]">
-                <aligny>center</aligny>
-                <label>•</label>
-                <textcolor>$VAR[ColorHighlight]</textcolor>
-                <font>$PARAM[font]</font>
-                <width>auto</width>
-                <textoffsetx>0</textoffsetx>
-                <visible>$PARAM[visible]</visible>
-                <texturefocus />
-                <texturenofocus />
-            </control> -->
-            <!-- <control type="label"> -->
             <control type="$PARAM[controltype]">
                 <width>auto</width>
                 <aligny>center</aligny>
@@ -835,10 +827,6 @@
                 <align>$PARAM[align]</align>
                 <itemgap>4</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
-                <!-- <include content="Info_StarRating">
-                    <left>-16</left>
-                </include> -->
-
                 <include content="Info_Ratings_Item">
                     <param name="include_condition">!Skin.HasSetting(Ratings.DisableStarRating)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
@@ -1045,25 +1033,6 @@
                 <width>100</width>
                 <visible>false</visible>
             </control>
-
-            <!-- Kodi Logo -->
-            <!-- <control type="image">
-                <left>-10</left>
-                <width>64</width>
-                <height>64</height>
-                <centertop>50%</centertop>
-                <aspectratio>keep</aspectratio>
-                <texture colordiffuse="$VAR[ColorHighlight]">special://skin/extras/icons/kodi.png</texture>
-            </control>
-            <control type="label">
-                <left>-20</left>
-                <height>32</height>
-                <textcolor>main_fg_100</textcolor>
-                <width>auto</width>
-                <centertop>52%</centertop>
-                <label>KODI</label>
-                <font>font_logo</font>
-            </control> -->
 
             <!-- Playable Items -->
             <control type="grouplist">
@@ -1478,8 +1447,9 @@
                     </control>
                     <include content="Info_Title" condition="$PARAM[title]">
                         <param name="colordiffuse" value="$PARAM[colordiffuse]" />
-                        <param name="container" value="$PARAM[container]" />
                         <param name="width" value="$PARAM[plotwidth]" />
+                        <param name="templogo_visible">[!String.IsEmpty($PARAM[container]ListItem.Art(clearlogo))]</param>
+                        <param name="templogo_texture">$INFO[$PARAM[container]ListItem.Art(clearlogo)]</param>
                     </include>
                     <control type="group">
                         <height>40</height>
