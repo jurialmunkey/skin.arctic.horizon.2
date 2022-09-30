@@ -34,6 +34,116 @@
         </control>
     </include>
 
+    <include name="OSD_Codecs_Mono">
+        <definition>
+            <control type="grouplist">
+                <nested />
+                <orientation>horizontal</orientation>
+                <itemgap>29</itemgap>
+                <usecontrolcoords>true</usecontrolcoords>
+                <align>center</align>
+                <!-- Resolution -->
+                <include content="Object_Control">
+                    <param name="control">group</param>
+                    <centertop>50%</centertop>
+                    <width>42</width>
+                    <height>44</height>
+                    <control type="image">
+                        <centerleft>50%</centerleft>
+                        <centertop>50%</centertop>
+                        <width>64</width>
+                        <height>44</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture fallback="flags/generic.png" colordiffuse="$PARAM[color_fg]">flags/monochrome/resolution/$INFO[VideoPlayer.VideoResolution].png</texture>
+                    </control>
+                    <visible>!String.IsEmpty(VideoPlayer.VideoResolution)</visible>
+                </include>
+                <!-- AspectRatio -->
+                <include content="Info_Codec_MonoStack">
+                    <param name="icon">special://skin/extras/icons/eye2.png</param>
+                    <param name="visible">!String.IsEmpty(VideoPlayer.VideoAspect)</param>
+                    <param name="label">$INFO[VideoPlayer.VideoAspect,,:1]</param>
+                    <param name="color_fg">$PARAM[color_fg]</param>
+                    <param name="color_bg">$PARAM[color_bg]</param>
+                </include>
+                <!-- FPS Rate -->
+                <control type="group">
+                    <width>48</width>
+                    <height>48</height>
+                    <centertop>50%</centertop>
+                    <visible>!String.IsEmpty(Player.Process(VideoFPS)) + Integer.IsGreater(Player.Process(VideoFPS),0)</visible>
+                    <control type="image">
+                        <width>64</width>
+                        <centerleft>50%</centerleft>
+                        <texture colordiffuse="$PARAM[color_fg]">flags/monochrome/other/fps.png</texture>
+                        <aspectratio align="center">keep</aspectratio>
+                    </control>
+                    <control type="label">
+                        <height>24</height>
+                        <bottom>3</bottom>
+                        <width>64</width>
+                        <centerleft>50%</centerleft>
+                        <textcolor>$PARAM[color_fg]</textcolor>
+                        <font>font_fps</font>
+                        <label>$INFO[Player.Process(VideoFPS)]</label>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                    </control>
+                </control>
+                <!-- Audio Codec -->
+                <include content="Object_Control">
+                    <param name="control">group</param>
+                    <centertop>50%</centertop>
+                    <width>60</width>
+                    <height>48</height>
+                    <control type="image">
+                        <centerleft>50%</centerleft>
+                        <centertop>50%</centertop>
+                        <width>100</width>
+                        <height>48</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture fallback="flags/generic.png" colordiffuse="$PARAM[color_fg]">$VAR[Image_OSD_AudioCodec_Mono]</texture>
+                    </control>
+                    <visible>!String.IsEmpty(VideoPlayer.AudioCodec)</visible>
+                </include>
+                <!-- Audio Channels -->
+                <include content="Object_Control">
+                    <param name="control">group</param>
+                    <centertop>50%</centertop>
+                    <width>71</width>
+                    <height>32</height>
+                    <control type="image">
+                        <left>0</left>
+                        <centertop>50%</centertop>
+                        <width>32</width>
+                        <height>32</height>
+                        <aspectratio align="left">keep</aspectratio>
+                        <texture fallback="flags/generic.png" colordiffuse="$PARAM[color_fg]">flags/monochrome/channels/$INFO[VideoPlayer.AudioChannels].png</texture>
+                    </control>
+                    <control type="label">
+                        <font>font_videocodec_bold</font>
+                        <textcolor>$PARAM[color_fg]</textcolor>
+                        <align>center</align>
+                        <height>16</height>
+                        <width>64</width>
+                        <right>-16</right>
+                        <top>0</top>
+                        <label>$VAR[Label_OSD_AudioChannels]</label>
+                    </control>
+                    <control type="image">
+                        <right>-16</right>
+                        <bottom>-24</bottom>
+                        <width>64</width>
+                        <height>64</height>
+                        <aspectratio align="right">keep</aspectratio>
+                        <texture colordiffuse="$PARAM[color_bg]">special://skin/extras/icons/soundwave.png</texture>
+                    </control>
+                    <visible>!String.IsEmpty(VideoPlayer.AudioChannels)</visible>
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <include name="OSD_Stream_Selector_Layout">
         <param name="selected" default="false" />
         <param name="color_fg" default="dialog_fg_70" />
@@ -423,7 +533,7 @@
     <include name="OSD_Codecs">
         <param name="infohide" default="true" />
         <param name="align" default="left" />
-        <param name="directory" default="$VAR[Texture_ColorMode_Dir]" />
+        <param name="directory" default="color" />
         <definition>
             <control type="grouplist">
                 <nested />

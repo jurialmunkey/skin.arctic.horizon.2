@@ -247,7 +247,7 @@
                     <include>Animation_SlideIn_Dialog</include>
                     <right>40</right>
                     <width>480</width>
-                    <height>580</height>
+                    <height>620</height>
                     <include content="Object_MenuHeader">
                         <param name="label" value="$LOCALIZE[33063]" />
                     </include>
@@ -275,14 +275,40 @@
                             <label>$LOCALIZE[298]</label>
                             <onclick>ActivateWindow(125)</onclick>
                         </include>
-                        <include content="Dialog_Menu_Button">
+                        <control type="group" id="6804">
+                            <height>40</height>
+                            <left>grid_x04</left>
+                            <right>grid_x04</right>
+                            <control type="image">
+                                <centertop>50%</centertop>
+                                <height>1</height>
+                                <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                            </control>
+                        </control>
+                        <include content="Dialog_Settings_Button">
                             <param name="id" value="6805" />
-                            <param name="groupid" value="6895" />
                             <param name="control" value="button" />
-                            <param name="icon" value="special://skin/extras/icons/sysinfo.png" />
-                            <label>$LOCALIZE[10116]</label>
+                            <label />
+                            <font />
                             <onclick>Action(PlayerProcessInfo)</onclick>
                         </include>
+                        <control type="group" id="6895">
+                            <height>grid_x08</height>
+                            <top>-grid_x08</top>
+                            <left>-2</left>
+                            <right>2</right>
+                            <visible>Control.IsEnabled(6805) + Control.IsVisible(6805)</visible>
+                            <include content="OSD_Codecs_Mono">
+                                <param name="color_fg">dialog_fg_70</param>
+                                <param name="color_bg">dialog_fg_30</param>
+                                <visible>!Control.HasFocus(6805)</visible>
+                            </include>
+                            <include content="OSD_Codecs_Mono">
+                                <param name="color_fg">$VAR[ColorSelected]</param>
+                                <param name="color_bg">$VAR[ColorSelected_50]</param>
+                                <visible>Control.HasFocus(6805)</visible>
+                            </include>
+                        </control>
                     </control>
                     <control type="group">
                         <bottom>20</bottom>
