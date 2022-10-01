@@ -190,8 +190,8 @@
                         <top>fullscreenwidget_buttongroup_t</top>
                         <height>fullscreenwidget_buttongroup_h</height>
                         <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
-                        <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
-                        <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
+                        <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
+                        <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
                         <include content="Info_Panel">
                             <param name="plotwidth" value="info_plot_w" />
                             <param name="plotheight" value="info_plot_h" />
@@ -226,7 +226,7 @@
                                 <onclick>SetFocus(301)</onclick>
                                 <onclick>Action(Select)</onclick>
                                 <onclick condition="!Container(301).ListItem.IsFolder">SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</onclick>
-                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
                                 <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
                             </include>
                             <include content="Object_Info_Button">
@@ -241,7 +241,7 @@
                                 <onclick>SetFocus(301)</onclick>
                                 <onclick>Action(Info)</onclick>
                                 <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</onclick>
-                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
                                 <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
                             </include>
                         </control>
@@ -300,7 +300,7 @@
                         <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isFullscreenAutoScroll]">
                             <param name="condition" value="!Control.HasFocus(301)" />
                         </include>
-                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,Full,Home)</onfocus>
                         <onunfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onunfocus>
                         <onfocus condition="Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[FullscreenWidgetName],Home)</onfocus>
@@ -324,7 +324,7 @@
                         <include content="Object_ContentInclude" condition="![$SKINSHORTCUTS[isSubmenuBumperCustom]]">
                             <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</param>
                         </include>
-                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698],Home)</onfocus>
+                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698])</onfocus>
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                         <onunfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onunfocus>
                         <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
@@ -346,7 +346,7 @@
                 <param name="altvisible_bottom">[!String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle)) + $SKINSHORTCUTS[isSubmenuBumper]]</param>
                 <param name="direction_buttons">true</param>
                 <param name="visible_top">![[Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) + String.IsEmpty(Container(300).ListItem.Property(widgetPath))] | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503]) | Control.HasFocus(301) | [String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedHeader)]]</param>
-                <param name="visible_bottom">![[String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter) + [!Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)]]]</param>
+                <param name="visible_bottom">![[String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter) + [!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)]]]</param>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>!$EXP[Exp_RecommendationDialogs]</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
@@ -596,7 +596,7 @@
                     <include content="Object_ContentInclude" condition="$SKINSHORTCUTS[isSubmenu]">
                         <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</param>
                     </include>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfoFull] + ![$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[widgetName],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfoFull] + [$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,[CAPITALIZE]$INFO[Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.Property(widget)][/CAPITALIZE],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
@@ -887,7 +887,7 @@
                 <param name="id">301</param>
                 <preloaditems>2</preloaditems>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
                 <onup>SetFocus(300)</onup>
                 <ondown>SetFocus(300)</ondown>
                 <onback>SetFocus(300)</onback>
@@ -1161,7 +1161,7 @@
                         <param name="content">$INFO[Control.GetLabel(9099).index(1),$SKINSHORTCUTS[widgetPath],$SKINSHORTCUTS[widgetPath2]]</param>
                     </include>
                     <onback>SetFocus(5000)</onback>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[5000 + int(id)],Home)</onfocus>
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[5000 + int(id)])</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[5000 + int(id)],Home)</onfocus>
                     <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>

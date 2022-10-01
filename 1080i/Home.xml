@@ -4,11 +4,9 @@
     <include>Action_Blur_Onload</include>
     <onload>Skin.SetString(TMDbHelper.MonitorContainer,99950)</onload>
     <onload>ClearProperty(TMDbHelper.HideView,Home)</onload>
-    <onload>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onload>
-    <onunload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onunload>
+    <onload>SetProperty(TMDbHelper.WidgetContainer,301)</onload>
     <onunload>ClearProperty(MenuSelect,Home)</onunload>
     <onunload>ClearProperty(AnimationDirection,Home)</onunload>
-
     <onload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onload>
     <onload condition="Control.HasFocus(301) + !String.IsEmpty(Window(Home).Property(FullscreenWidgetRefocus))">SetFocus($INFO[Window(Home).Property(FullscreenWidgetRefocus)])</onload>
     <onload condition="Control.HasFocus(301) + String.IsEmpty(Window(Home).Property(FullscreenWidgetRefocus))">SetFocus(300)</onload>
@@ -21,7 +19,7 @@
 
         <!-- Fullscreen Widget -->
         <control type="group">
-            <visible>Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)</visible>
+            <visible>Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</visible>
             <visible>$EXP[Exp_FullscreenWidgetStandard]</visible>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <visible>!$EXP[Exp_RecommendationDialogs]</visible>
@@ -106,7 +104,7 @@
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <visible>!$EXP[Exp_HomeBarVisible]</visible>
             <visible>!$EXP[Exp_RecommendationDialogs]</visible>
-            <visible>[String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + !String.IsEmpty(Window(Home).Property(Slide.WidgetContainer))] | [Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + !String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen) + !String.IsEmpty(Container(300).ListItem.Property(widgetStyle))]</visible>
+            <visible>[String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + !String.IsEmpty(Window(Home).Property(Slide.WidgetContainer))] | [Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen) + !String.IsEmpty(Container(300).ListItem.Property(widgetStyle))]</visible>
             <include>Furniture_Bottom</include>
             <animation effect="fade" start="0" end="100" time="400" delay="200" reversible="false">Visible</animation>
         </include>
@@ -197,7 +195,7 @@
                 <onright condition="!String.IsEmpty(Container(300).ListItemNoWrap(1).Label)">AlarmClock(WidgetWait,ClearProperty(WidgetWait),00:00,silent)</onright>
 
                 <onfocus>ClearProperty(OptionsMenuFocused,Home)</onfocus>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
 
                 <onup condition="String.IsEmpty(Skin.String(HomeMenu.OnUp))">SetFocus(302,0,absolute)</onup>
                 <onup condition="Skin.String(HomeMenu.OnUp,PowerMenu)">SetProperty(OptionsMenuFocused,303,Home)</onup>
@@ -223,7 +221,7 @@
                 <param name="color_nf" value="main_fg" />
                 <param name="altfocus" value="Control.HasFocus(399)" />
                 <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetFocus(399)</onfocus>
-                <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
                 <include content="Object_Left" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
                     <param name="left">80</param>
                 </include>

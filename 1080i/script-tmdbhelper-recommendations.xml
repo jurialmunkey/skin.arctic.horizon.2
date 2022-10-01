@@ -6,13 +6,10 @@
     <onload condition="!Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(TMDbHelper.ServicePause,1)</onload>
     <onload condition="Skin.HasSetting(Recommendations.ExpandPlot)">ClearProperty(TMDbHelper.ServicePause)</onload>
     <onload condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onload>
-    <onload>SetProperty(BackupSlide.WidgetContainer,$INFO[Window(Home).Property(TMDBHelper.WidgetContainer)],Home)</onload>
     <onload>SetProperty(BackupSlide.WidgetInfoStyle,$INFO[Window(Home).Property(Slide.WidgetInfoStyle)],Home)</onload>
     <onload>SetProperty(BackupSlide.WidgetContainer,$INFO[Window(Home).Property(Slide.WidgetContainer)],Home)</onload>
-    <onload>ClearProperty(TMDbHelper.WidgetContainer,Home)</onload>
     <onload>ClearProperty(Slide.WidgetInfoStyle,Home)</onload>
     <onload>ClearProperty(Slide.WidgetContainer,Home)</onload>
-    <onunload>SetProperty(TMDbHelper.WidgetContainer,$INFO[Window(Home).Property(BackupSlide.WidgetContainer)],Home)</onunload>
     <onunload>SetProperty(Slide.WidgetInfoStyle,$INFO[Window(Home).Property(BackupSlide.WidgetInfoStyle)],Home)</onunload>
     <onunload>SetProperty(Slide.WidgetContainer,$INFO[Window(Home).Property(BackupSlide.WidgetContainer)],Home)</onunload>
     <onunload>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunload>
@@ -317,7 +314,6 @@
                 <height>view_pad</height>
                 <width>info_panel_w</width>
                 <include content="Info_Title">
-                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="mainlogo_visible">[!String.IsEmpty(Window.Property(clearlogo))]</param>
                     <param name="mainlogo_texture">$INFO[Window.Property(clearlogo)]</param>
                 </include>
@@ -328,8 +324,6 @@
 
         <include content="Object_Control">
             <param name="control">group</param>
-            <param name="padding">true</param>
-            <param name="pad">grid_x04</param>
             <visible>Control.HasFocus(7001)</visible>
             <visible>Player.HasVideo</visible>
             <include>Animation_Right_Delay</include>
@@ -337,10 +331,47 @@
                 <include>Texture_Shadow_40</include>
                 <texture colordiffuse="black" border="10">common/box.png</texture>
             </control>
-            <control type="videowindow" />
-            <include content="DialogInfo_VideoTrailerButton">
-                <param name="onback">5020</param>
-            </include>
+            <control type="group">
+                <bottom>160</bottom>
+                <top>80</top>
+                <control type="videowindow" />
+            </control>
+
+            <control type="group">
+                <centerbottom>80</centerbottom>
+                <left>80</left>
+                <right>80</right>
+                <height>10</height>
+                <control type="progress" id="499">
+                    <info>Player.Progress</info>
+                    <height>10</height>
+                </control>
+                <control type="progress">
+                    <height>10</height>
+                    <info>Player.Progress</info>
+                    <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
+                    <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
+                    <midtexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
+                    <righttexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
+                    <include content="Defs_Progress_Colorfade">
+                        <param name="id" value="499" />
+                    </include>
+                </control>
+                <control type="slider" id="7001">
+                    <info>Player.Progress</info>
+                    <texturesliderbar/>
+                    <textureslidernib/>
+                    <textureslidernibfocus/>
+                    <height>10</height>
+                    <action>seek</action>
+                    <onback>Stop</onback>
+                    <onback>5020</onback>
+                    <onup>Stop</onup>
+                    <onup>5020</onup>
+                    <ondown>Stop</ondown>
+                    <ondown>5020</ondown>
+                </control>
+            </control>
         </include>
 
         <control type="button" id="330">
