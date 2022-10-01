@@ -181,8 +181,8 @@
                     <orientation>vertical</orientation>
                     <onup>SetFocus(300)</onup>
                     <ondown>ClearProperty(330_FocusBounce,Home)</ondown>
-                    <ondown condition="!String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
-                    <ondown condition="String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
+                    <ondown condition="!String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
+                    <ondown condition="String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
 
                     <include content="Object_Control" condition="$SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]">
                         <param name="control">group</param>
@@ -301,8 +301,8 @@
                             <param name="condition" value="!Control.HasFocus(301)" />
                         </include>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
-                        <onfocus>SetProperty(Slide.WidgetInfoStyle,Full,Home)</onfocus>
-                        <onunfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onunfocus>
+                        <onfocus>SetProperty(Slide.WidgetInfoStyle,Full)</onfocus>
+                        <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
                         <onfocus condition="Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[FullscreenWidgetName],Home)</onfocus>
                     </include>
                     <skinshortcuts insert="widgets">items</skinshortcuts>
@@ -325,9 +325,9 @@
                             <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</param>
                         </include>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698])</onfocus>
-                        <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
-                        <onunfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onunfocus>
-                        <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                        <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo])</onfocus>
+                        <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
+                        <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                         <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
                         <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
                         <onback>SetFocus(300)</onback>
@@ -343,10 +343,10 @@
             <include content="Object_WallFade" condition="$SKINSHORTCUTS[includeCondition]">
                 <param name="id">$PYTHON[int(mainmenuid) * 1000 + 400]</param>
                 <param name="altvisible_top">!$EXP[Exp_HomeBarVisible] + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503])</param>
-                <param name="altvisible_bottom">[!String.IsEmpty(Window(Home).Property(Slide.WidgetInfoStyle)) + $SKINSHORTCUTS[isSubmenuBumper]]</param>
+                <param name="altvisible_bottom">[!String.IsEmpty(Window.Property(Slide.WidgetInfoStyle)) + $SKINSHORTCUTS[isSubmenuBumper]]</param>
                 <param name="direction_buttons">true</param>
-                <param name="visible_top">![[Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) + String.IsEmpty(Container(300).ListItem.Property(widgetPath))] | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503]) | Control.HasFocus(301) | [String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedHeader)]]</param>
-                <param name="visible_bottom">![[String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter) + [!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)]]]</param>
+                <param name="visible_top">![[Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) + String.IsEmpty(Container(300).ListItem.Property(widgetPath))] | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) | Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503]) | Control.HasFocus(301) | [String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedHeader)]]</param>
+                <param name="visible_bottom">![[String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter) + [!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)]]]</param>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>!$EXP[Exp_RecommendationDialogs]</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
@@ -599,10 +599,10 @@
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfoFull] + ![$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[widgetName],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfoFull] + [$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,[CAPITALIZE]$INFO[Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.Property(widget)][/CAPITALIZE],Home)</onfocus>
-                    <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
-                    <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
-                    <onunfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onunfocus>
-                    <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                    <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])</onfocus>
+                    <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo])</onfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                     <onunfocus>ClearProperty(Slide.WidgetTitle,Home)</onunfocus>
                     <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
                     <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
@@ -1162,9 +1162,9 @@
                     </include>
                     <onback>SetFocus(5000)</onback>
                     <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[5000 + int(id)])</onfocus>
-                    <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[5000 + int(id)],Home)</onfocus>
-                    <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
-                    <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                    <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[5000 + int(id)])</onfocus>
+                    <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo])</onfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                     <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1))</visible></item></content>
                     <include content="Object_ContentItem" condition="Skin.HasSetting(Home.EnableShowMoreWidget) + $SKINSHORTCUTS[widgetShowMore] + !$SKINSHORTCUTS[isAutoLimit]">
                         <param name="label">$LOCALIZE[31253]...</param>
