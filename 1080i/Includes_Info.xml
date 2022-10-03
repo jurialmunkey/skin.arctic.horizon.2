@@ -1013,14 +1013,24 @@
     </include>
 
     <include name="Info_Codec_LabelIcon">
-        <control type="image">
-            <nested />
-            <centertop>50%</centertop>
-            <width>64</width>
-            <height>64</height>
-            <aspectratio align="left">keep</aspectratio>
-            <texture colordiffuse="main_fg_90">$PARAM[icon]</texture>
-        </control>
+        <param name="bordersize">0</param>
+        <definition>
+            <include content="Object_Control">
+                <param name="control">group</param>
+                <nested />
+                <centertop>50%</centertop>
+                <width>40</width>
+                <height>40</height>
+                <control type="image">
+                    <texture colordiffuse="main_fg_90">common/circle.png</texture>
+                </control>
+                <control type="image">
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="main_bg_90">$PARAM[icon]</texture>
+                    <bordersize>$PARAM[bordersize]</bordersize>
+                </control>
+            </include>
+        </definition>
     </include>
 
     <include name="Info_Codec_LabelLabel">
@@ -1034,7 +1044,7 @@
             <textcolor>main_fg_90</textcolor>
             <texturefocus />
             <texturenofocus />
-            <font>font_small</font>
+            <font>font_mini</font>
             <textoffsetx>0</textoffsetx>
         </control>
     </include>
@@ -1042,6 +1052,7 @@
     <include name="Info_Codec_Label">
         <include content="Info_Codec_LabelIcon">
             <param name="icon" value="$PARAM[icon]" />
+            <param name="bordersize" value="$PARAM[bordersize]" />
             <nested />
         </include>
         <include content="Info_Codec_LabelLabel">
@@ -1292,15 +1303,13 @@
                 <nested />
                 <orientation>horizontal</orientation>
                 <align>$PARAM[align]</align>
-                <itemgap>20</itemgap>
+                <itemgap>30</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
-                <left>-8</left>
-                <right>-8</right>
                 <visible>![[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,video)] + !$EXP[Exp_IsPersonInfo]]</visible>
 
                 <!-- TvShow Total Episodes / Seasons -->
                 <include content="Info_Codec_Label">
-                    <param name="icon" value="special://skin/extras/icons/database.png" />
+                    <param name="icon" value="special://skin/extras/icons/share-nodes.png" />
                     <param name="label" value="$INFO[ListItem.Property(TotalSeasons),[B],[/B] $LOCALIZE[33054]]" />
                     <visible>String.IsEqual(ListItem.DBType,tvshow)</visible>
                     <visible>!String.IsEmpty(ListItem.Property(TotalSeasons))</visible>
@@ -1308,7 +1317,7 @@
 
                 <!-- Season Total Episodes and Unwatched -->
                 <include content="Info_Codec_Label">
-                    <param name="icon" value="special://skin/extras/icons/database.png" />
+                    <param name="icon" value="special://skin/extras/icons/square-poll-horizontal.png" />
                     <param name="label" value="$INFO[ListItem.Property(TotalEpisodes),[B],[/B] $LOCALIZE[20360]   ]$INFO[ListItem.Property(WatchedEpisodes),[B],[/B] $LOCALIZE[16102]]" />
                     <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>
                     <visible>!String.IsEmpty(ListItem.Property(TotalEpisodes))</visible>
@@ -1354,28 +1363,13 @@
                 </include>
 
                 <!-- Addon Origin -->
-                <control type="group">
-                    <centertop>55%</centertop>
-                    <width>64</width>
-                    <height>64</height>
-                    <control type="image">
-                        <bordersize>16</bordersize>
-                        <aspectratio align="left">keep</aspectratio>
-                        <texture colordiffuse="main_fg_90">$VAR[Image_AddonsOrigin]</texture>
-                    </control>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="$VAR[Image_AddonsOrigin]" />
+                    <param name="label" value="$INFO[ListItem.AddonOrigin]" />
+                    <param name="bordersize">8</param>
                     <visible>Container.Content(addons)</visible>
                     <visible>!String.IsEmpty(ListItem.AddonOrigin)</visible>
-                </control>
-                <control type="label">
-                    <left>-10</left>
-                    <centertop>47%</centertop>
-                    <width>auto</width>
-                    <height>64</height>
-                    <label>$INFO[ListItem.AddonOrigin]</label>
-                    <textcolor>main_fg_90</textcolor>
-                    <visible>Container.Content(addons)</visible>
-                    <visible>!String.IsEmpty(ListItem.AddonOrigin)</visible>
-                </control>
+                </include>
 
                 <!-- Addon Creator -->
                 <include content="Info_Codec_Label">
