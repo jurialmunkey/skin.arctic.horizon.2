@@ -465,19 +465,37 @@
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
                         <param name="label" value="$INFO[Container(99950).ListItem.Property(Gender)]" />
-                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Gender))" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Gender)) + String.IsEmpty($PARAM[container]ListItem.Property(Gender))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Gender)]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Gender))" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
                         <param name="label" value="$INFO[Container(99950).ListItem.Property(Age),, $LOCALIZE[31057]]" />
-                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Age))" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Age)) + String.IsEmpty($PARAM[container]ListItem.Property(Age))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Age),, $LOCALIZE[31057]]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Age))" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
                     <include content="Info_Line_Label" condition="!$PARAM[player]">
                         <param name="controltype" value="$PARAM[controltype]" />
                         <param name="label" value="$INFO[Container(99950).ListItem.Property(Department)]" />
-                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Department))" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Department)) + String.IsEmpty($PARAM[container]ListItem.Property(Department))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Department)]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Department))" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
 
@@ -761,7 +779,21 @@
                     <param name="is_updating">False</param>
                     <param name="is_varlabel">true</param>
                     <param name="label" value="  $INFO[Container(99950).ListItem.Property(Born),, ]$INFO[Container(99950).ListItem.Property(Birthday),(,)]$INFO[Container(99950).ListItem.Property(Deathday), ($LOCALIZE[21897] ,)]   " />
-                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Birthday))</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Birthday)) + String.IsEmpty($PARAM[container]ListItem.Property(Birthday))</visible>
+                </include>
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">[true]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/calendar.png</param>
+                    <param name="icon_colordiffuse">FF2FBD84</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">32</param>
+                    <param name="icon_height">32</param>
+                    <param name="label_fallback"> </param>
+                    <param name="is_updating">False</param>
+                    <param name="is_varlabel">true</param>
+                    <param name="label" value="  $INFO[$PARAM[container]ListItem.Property(Born),, ]$INFO[$PARAM[container]ListItem.Property(Birthday),(,)]$INFO[$PARAM[container]ListItem.Property(Deathday), ($LOCALIZE[21897] ,)]   " />
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.Property(Birthday))</visible>
                 </include>
                 <include content="Info_Ratings_Item">
                     <param name="include_condition">[true]</param>
@@ -1429,7 +1461,7 @@
                         <aligny>top</aligny>
                         <textcolor>$PARAM[colordiffuse]_70</textcolor>
                         <font>font_plotbox</font>
-                        <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),person)]]]</visible>
+                        <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual($PARAM[container]ListItem.Property(TMDB_Type),person)]]]</visible>
                     </include>
                     <control type="group">
                         <top>3</top>
@@ -1523,7 +1555,7 @@
                             <param name="colordiffuse" value="$PARAM[colordiffuse]" />
                             <centertop>50%</centertop>
                             <visible>$PARAM[ratings]</visible>
-                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),person)]]</visible>
+                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual($PARAM[container]ListItem.Property(TMDB_Type),person)]]</visible>
                         </include>
 
                         <control type="group">
@@ -1540,7 +1572,7 @@
                                 <visible>$PARAM[ratings]</visible>
                                 <visible>$PARAM[details]</visible>
                                 <visible>$PARAM[plotbox]</visible>
-                                <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),person)]]]</visible>
+                                <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual($PARAM[container]ListItem.Property(TMDB_Type),person)]]]</visible>
                                 <top>-3</top>
                                 <bottom>3</bottom>
                             </include>
@@ -1552,7 +1584,7 @@
                                 <aligny>top</aligny>
                                 <textcolor>$PARAM[colordiffuse]_70</textcolor>
                                 <font>font_plotbox</font>
-                                <visible>![$PARAM[ratings] + [[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),person)]]]]</visible>
+                                <visible>![$PARAM[ratings] + [[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual($PARAM[container]ListItem.Property(TMDB_Type),person)]]]]</visible>
                                 <visible>$PARAM[details]</visible>
                                 <visible>$PARAM[plotbox]</visible>
                                 <top>-63</top>
