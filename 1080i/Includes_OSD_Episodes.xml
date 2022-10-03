@@ -58,6 +58,7 @@
                             <height>20</height>
                             <bottom>50</bottom>
                             <textoffsetx>20</textoffsetx>
+                            <selectedcolor>panel_fg_90</selectedcolor>
                         </control>
                         <control type="label">
                             <font>font_statusbar</font>
@@ -66,6 +67,7 @@
                             <height>20</height>
                             <bottom>20</bottom>
                             <textoffsetx>20</textoffsetx>
+                            <selectedcolor>panel_fg_90</selectedcolor>
                         </control>
                     </control>
                 </include>
@@ -108,8 +110,6 @@
 
     <include name="OSD_Episodes">
         <include content="OSD_CastInfo_ExpandGroup">
-            <param name="condition">[Control.HasFocus(6400) | Control.HasFocus(6401)]</param>
-
             <!-- Episodes List -->
             <include content="List_Core">
                 <param name="orientation" value="horizontal" />
@@ -128,19 +128,20 @@
                 <height>360</height>
                 <top>-40</top>
                 <onup>6400</onup>
+                <ondown>ActivateWindow(125)</ondown>
                 <left>-40</left>
                 <width>1441</width>
                 <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
                 <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
                 <include>Animation_FadeIn_Delay</include>
                 <include>Animation_FadeOut</include>
-                <visible allowhiddenfocus="true">Control.HasFocus(6401)</visible>
+                <visible allowhiddenfocus="true">Control.HasFocus(6401) + !Window.IsVisible(125)</visible>
             </include>
 
             <control type="group">
                 <include>Animation_FadeIn_Delay</include>
                 <include>Animation_FadeOut</include>
-                <visible allowhiddenfocus="true">Control.HasFocus(6401)</visible>
+                <visible allowhiddenfocus="true">Control.HasFocus(6401) + !Window.IsVisible(125)</visible>
 
                 <include content="OSD_Episodes_Arrows">
                     <param name="id">6401</param>
