@@ -18,15 +18,10 @@
             <param name="control" value="group" />
             <control type="group">
                 <visible>$EXP[Exp_RowViews]</visible>
-                <include>View_Row_Divider</include>
             </control>
             <include content="Object_Control" condition="$EXP[Exp_View_58_Include]" >
                 <param name="control" value="group" />
                 <visible>Control.IsVisible(58)</visible>
-                <include content="View_Row_Divider">
-                    <height>560</height>
-                    <bottom>180</bottom>
-                </include>
             </include>
             <include condition="$EXP[Exp_View_50_Include]">View_050_Square_Row</include>
             <include condition="$EXP[Exp_View_51_Include]">View_051_Landscape_Row</include>
@@ -34,49 +29,6 @@
             <include condition="$EXP[Exp_View_57_Include]">View_057_BigLandscape_Row</include>
             <include condition="$EXP[Exp_View_58_Include]">View_058_BigPoster_Row</include>
         </include>
-    </include>
-
-    <include name="View_Row_Divider">
-        <param name="isrounded" default="false" />
-        <param name="hasbottomline">false</param>
-        <definition>
-            <include content="Object_Control" condition="Skin.String(DividerStyle,Split) + $PARAM[hasbottomline]">
-                <param name="control" value="group" />
-                <bottom>0</bottom>
-                <height>grid_x04</height>
-                <include content="Object_DividerPanel">
-                    <param name="shadow_top" value="true" />
-                    <param name="flipy" value="true" />
-                    <bottom>-200</bottom>
-                    <left>-200</left>
-                    <right>-200</right>
-                </include>
-            </include>
-            <include content="Object_Control" condition="Skin.String(DividerStyle,Split)">
-                <param name="control" value="group" />
-                <nested />
-                <height>divider_bottom</height>
-                <bottom>0</bottom>
-
-                <include content="Object_DividerPanel" condition="![$PARAM[isrounded]]">
-                    <param name="shadow_top" value="true" />
-                    <param name="shadow_bottom" value="true" />
-                    <top>0</top>
-                    <bottom>160</bottom>
-                    <left>-200</left>
-                    <right>-200</right>
-                </include>
-
-                <include content="Object_DividerPanel_Rounded" condition="$PARAM[isrounded]">
-                    <param name="shadow_top" value="true" />
-                    <param name="shadow_bottom" value="true" />
-                    <top>0</top>
-                    <bottom>160</bottom>
-                    <left>40</left>
-                    <right>40</right>
-                </include>
-            </include>
-        </definition>
     </include>
 
     <include name="View_ClearArt">
@@ -97,7 +49,7 @@
             <control type="group">
                 <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
                 <animation effect="fade" start="100" end="0" time="150">Hidden</animation>
-                <include content="Object_Control" condition="Skin.String(DividerStyle,Fade)">
+                <include content="Object_Control">
                     <param name="control" value="image" />
                     <fadetime>800</fadetime>
                     <right>0</right>
@@ -106,15 +58,6 @@
                     <width>$PARAM[flixart_size]</width>
                     <aspectratio scalediffuse="false">scale</aspectratio>
                     <texture background="true" diffuse="diffuse/flixart-fade.png" colordiffuse="main_flix">$VAR[Image_Foreground_FlixKeyArt]</texture>
-                </include>
-                <include content="Object_Control" condition="!Skin.String(DividerStyle,Fade)">
-                    <param name="control" value="image" />
-                    <right>0</right>
-                    <bottom>divider_bottom</bottom>
-                    <width>924</width>
-                    <fadetime>800</fadetime>
-                    <aspectratio scalediffuse="false">scale</aspectratio>
-                    <texture background="true" diffuse="diffuse/flixart.png" colordiffuse="main_flix">$VAR[Image_Foreground_FlixKeyArt]</texture>
                 </include>
             </control>
         </definition>
