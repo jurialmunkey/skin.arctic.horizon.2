@@ -1080,6 +1080,7 @@
     </include>
 
     <include name="Info_Codecs_MonoIcon">
+        <param name="colordiffuse">main_fg_90</param>
         <definition>
             <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                 <param name="control">group</param>
@@ -1092,7 +1093,7 @@
                     <width>$PARAM[iconwidth]</width>
                     <height>$PARAM[iconheight]</height>
                     <aspectratio>keep</aspectratio>
-                    <texture fallback="flags/generic.png" colordiffuse="main_fg_90">flags/color/$PARAM[icon]</texture>
+                    <texture fallback="flags/generic.png" colordiffuse="$PARAM[colordiffuse]">flags/color/$PARAM[icon]</texture>
                 </control>
                 <visible>$PARAM[visible]</visible>
             </include>
@@ -1141,31 +1142,35 @@
     </include>
 
     <include name="Info_Codecs_StackedText">
-        <control type="group">
-            <height>30</height>
-            <width>64</width>
-            <centertop>50%</centertop>
-            <nested />
-            <control type="label">
-                <height>14</height>
-                <label>$PARAM[toplabel]</label>
-                <font>font_videocodec_bold</font>
-                <textcolor>$PARAM[topcolor]</textcolor>
-                <align>center</align>
-                <width>80</width>
-                <centerleft>50%</centerleft>
+        <param name="topcolor">df2091ea</param>
+        <param name="bottomcolor">main_fg_90</param>
+        <definition>
+            <control type="group">
+                <height>30</height>
+                <width>64</width>
+                <centertop>50%</centertop>
+                <nested />
+                <control type="label">
+                    <height>14</height>
+                    <label>$PARAM[toplabel]</label>
+                    <font>font_videocodec_bold</font>
+                    <textcolor>$PARAM[topcolor]</textcolor>
+                    <align>center</align>
+                    <width>80</width>
+                    <centerleft>50%</centerleft>
+                </control>
+                <control type="label">
+                    <bottom>0</bottom>
+                    <height>12</height>
+                    <label>$PARAM[bottomlabel]</label>
+                    <font>font_fps</font>
+                    <textcolor>$PARAM[bottomcolor]</textcolor>
+                    <align>center</align>
+                    <width>60</width>
+                    <centerleft>50%</centerleft>
+                </control>
             </control>
-            <control type="label">
-                <bottom>0</bottom>
-                <height>12</height>
-                <label>$PARAM[bottomlabel]</label>
-                <font>font_fps</font>
-                <textcolor>$PARAM[bottomcolor]</textcolor>
-                <align>center</align>
-                <width>60</width>
-                <centerleft>50%</centerleft>
-            </control>
-        </control>
+        </definition>
     </include>
 
     <include name="Info_Codecs">
@@ -1208,8 +1213,6 @@
                 <include content="Info_Codecs_StackedText">
                     <param name="toplabel">$INFO[ListItem.VideoCodec]</param>
                     <param name="bottomlabel">$INFO[ListItem.VideoAspect,,:1]</param>
-                    <param name="topcolor">df2091ea</param>
-                    <param name="bottomcolor">main_fg_90</param>
                     <visible>!String.IsEmpty(ListItem.VideoCodec)</visible>
                     <visible>!String.IsEmpty(ListItem.VideoAspect)</visible>
                 </include>
