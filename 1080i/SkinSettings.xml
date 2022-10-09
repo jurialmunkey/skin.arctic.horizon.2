@@ -278,6 +278,18 @@
                                 <onclick>SetProperty(ReplaceWindow,skinsettings,Home)</onclick>
                                 <onclick>ReplaceWindow(1197)</onclick>
                             </include>
+                            <include content="Dialog_Settings_Button" description="Clock Minimal">
+                                <param name="id" value="4003" />
+                                <param name="control" value="radiobutton" />
+                                <label>-  $LOCALIZE[13014]</label>
+                                <visible>Container(3).HasFocus(4)</visible>
+                                <onclick>Skin.ToggleSetting(Furniture.UseMinimalClock)</onclick>
+                                <selected>Skin.HasSetting(Furniture.UseMinimalClock)</selected>
+                                <enable>!Skin.HasSetting(Furniture.DisableRightHeader)</enable>
+                                <!-- Reset window -->
+                                <onclick>SetProperty(ReplaceWindow,skinsettings,Home)</onclick>
+                                <onclick>ReplaceWindow(1197)</onclick>
+                            </include>
                             <include content="Dialog_Settings_Button" description="Weather clock">
                                 <param name="id" value="4008" />
                                 <param name="control" value="radiobutton" />
@@ -286,7 +298,7 @@
                                 <onclick condition="!Skin.String(WeatherClock,Small)">Skin.SetString(WeatherClock,Small)</onclick>
                                 <onclick condition="Skin.String(WeatherClock,Small)">Skin.Reset(WeatherClock)</onclick>
                                 <selected>Skin.String(WeatherClock,Small)</selected>
-                                <enable>!Skin.HasSetting(Furniture.DisableRightHeader)</enable>
+                                <enable>!Skin.HasSetting(Furniture.DisableRightHeader) + !Skin.HasSetting(Furniture.UseMinimalClock)</enable>
                             </include>
                             <include content="Dialog_Settings_Button" description="Profile image">
                                 <param name="id" value="4009" />
@@ -298,7 +310,7 @@
                                 <!-- Reset window -->
                                 <onclick>SetProperty(ReplaceWindow,skinsettings,Home)</onclick>
                                 <onclick>ReplaceWindow(1197)</onclick>
-                                <enable>!Skin.HasSetting(Furniture.DisableRightHeader)</enable>
+                                <enable>!Skin.HasSetting(Furniture.DisableRightHeader) + !Skin.HasSetting(Furniture.UseMinimalClock)</enable>
                             </include>
                             <include content="Dialog_Settings_Label" description="Footer">
                                 <param name="id" value="4099" />
