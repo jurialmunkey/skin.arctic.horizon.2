@@ -64,183 +64,331 @@
         </control>
     </include>
 
+    <include name="OSD_CastInfo_NavButtons">
+        <control type="grouplist" id="6530">
+            <top>310</top>
+            <orientation>horizontal</orientation>
+            <itemgap>30</itemgap>
+            <width>1380</width>
+            <height>grid_x08</height>
+            <onup>6539</onup>
+            <include content="OSD_Button">
+                <param name="icon" value="special://skin/extras/icons/film.png" />
+                <param name="visible" value="true" />
+                <param name="id" value="6531" />
+                <param name="groupid" value="6541" />
+                <onfocus>SetProperty(CastMemberList,plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;limit=50&amp;tmdb_type=person&amp;tmdb_id=$INFO[Container(6501).ListItem.Property(TMDb_ID)]$VAR[Path_Param_Widget])</onfocus>
+                <onfocus>SetProperty(CastMemberType,$LOCALIZE[342])</onfocus>
+            </include>
+            <include content="OSD_Button">
+                <param name="icon" value="special://skin/extras/icons/tv.png" />
+                <param name="visible" value="true" />
+                <param name="id" value="6532" />
+                <param name="groupid" value="6542" />
+                <onfocus>SetProperty(CastMemberList,plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;limit=50&amp;tmdb_type=person&amp;tmdb_id=$INFO[Container(6501).ListItem.Property(TMDb_ID)]$VAR[Path_Param_Widget])</onfocus>
+                <onfocus>SetProperty(CastMemberType,$LOCALIZE[20343])</onfocus>
+            </include>
+            <include content="Object_InfoCircle_Horizontal">
+                <param name="icon" value="$INFO[Container(6501).ListItem.Icon]" />
+                <param name="role" value="$INFO[Container(6501).ListItem.Label]" />
+                <param name="name">$INFO[Container(6539).NumItems,, ]$INFO[Window.Property(CastMemberType)]</param>
+                <param name="max">560</param>
+                <param name="top_label_left">-10</param>
+                <param name="bottom_label_left">-310</param>
+            </include>
+        </control>
+    </include>
+
+    <include name="OSD_CastInfo_Details">
+        <control type="group">
+            <top>0</top>
+            <control type="grouplist">
+                <left>1190</left>
+                <orientation>vertical</orientation>
+                <itemgap>0</itemgap>
+                <control type="group">
+                    <height>75</height>
+                    <control type="group">
+                        <centertop>50%</centertop>
+                        <height>grid_x06</height>
+                        <control type="group">
+                            <height>grid_x06</height>
+                            <width>grid_x06</width>
+                            <include content="Object_Control">
+                                <param name="control" value="image" />
+                                <bordersize>2</bordersize>
+                                <bordertexture colordiffuse="panel_fg_100">common/circle.png</bordertexture>
+                                <texture colordiffuse="panel_bg">common/circle.png</texture>
+                            </include>
+                            <include content="Object_Control">
+                                <param name="control" value="image" />
+                                <bordersize>2</bordersize>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <texture diffuse="common/circle.png" colordiffuse="panel_fg_100">$PARAM[icon]</texture>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <left>grid_x08</left>
+                            <control type="label">
+                                <label>$PARAM[mainlabel]</label>
+                                <font>font_mini_bold</font>
+                                <textcolor>panel_fg_100</textcolor>
+                                <height>grid_x03</height>
+                            </control>
+                            <control type="label">
+                                <label>$PARAM[sublabel]</label>
+                                <font>font_plotbox_mini</font>
+                                <textcolor>panel_fg_70</textcolor>
+                                <height>grid_x03</height>
+                                <top>grid_x03</top>
+                            </control>
+                        </control>
+                    </control>
+                </control>
+                <control type="textbox">
+                    <top>20</top>
+                    <label>$PARAM[plotlabel]</label>
+                    <font>font_plotbox_mini</font>
+                    <textcolor>panel_fg_70</textcolor>
+                    <height>190</height>
+                </control>
+            </control>
+        </control>
+    </include>
+
     <include name="OSD_CastInfo">
         <include content="OSD_CastInfo_ExpandGroup">
             <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-            <visible>Control.HasFocus(6500) | Control.HasFocus(6501)</visible>
             <include>Animation_FadeIn_Delay</include>
             <include>Animation_FadeOut</include>
 
-            <!-- Director and Writer Details -->
-            <include>OSD_CastInfo_DirectorWriter</include>
-
-            <!-- Info Box -->
             <control type="group">
-                <top>0</top>
-                <visible>!Control.HasFocus(6501)</visible>
+                <visible>Control.HasFocus(6500) | Control.HasFocus(6501)</visible>
                 <include>Animation_FadeIn_Delay</include>
                 <include>Animation_FadeOut</include>
+
+                <!-- Director and Writer Details -->
+                <include>OSD_CastInfo_DirectorWriter</include>
+
+                <!-- Info Box -->
                 <control type="group">
-                    <width>190</width>
-                    <height>grid_x28</height>
-                    <control type="image">
-                        <include>Texture_Shadow_40</include>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <texture background="true" diffuse="diffuse/poster_w190_h280.png">$VAR[Image_OSD_PosterImage]</texture>
-                    </control>
-                </control>
-                <control type="grouplist">
                     <top>0</top>
-                    <left>230</left>
-                    <orientation>vertical</orientation>
-                    <width>880</width>
-                    <itemgap>0</itemgap>
-                    <height>grid_x28</height>
-                    <control type="label">
-                        <label>$LOCALIZE[207]</label>
-                        <font>font_mini_bold</font>
-                        <textcolor>panel_fg_100</textcolor>
-                        <height>40</height>
-                    </control>
-                    <control type="textbox">
-                        <label fallback="19055">$INFO[VideoPlayer.Plot]</label>
-                        <font>font_plotbox_mini</font>
-                        <textcolor>panel_fg_70</textcolor>
-                        <height max="150">auto</height>
-                    </control>
-                    <control type="label">
-                        <top>12</top>
-                        <label fallback="515">$INFO[VideoPlayer.Tagline]</label>
-                        <font>font_mini_bold</font>
-                        <textcolor>panel_fg_100</textcolor>
-                        <height>40</height>
-                        <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
-                    </control>
-                    <control type="textbox">
-                        <label fallback="19055">$INFO[VideoPlayer.Genre]</label>
-                        <font>font_plotbox_mini</font>
-                        <textcolor>panel_fg_70</textcolor>
-                        <height>40</height>
-                        <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
-                    </control>
-                </control>
-                <control type="grouplist">
-                    <left>1190</left>
-                    <orientation>vertical</orientation>
-                    <itemgap>0</itemgap>
-                    <height>grid_x28</height>
-                    <control type="label">
-                        <label>$LOCALIZE[31064]</label>
-                        <font>font_mini_bold</font>
-                        <textcolor>panel_fg_100</textcolor>
-                        <height>40</height>
-                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Budget))</visible>
-                    </control>
-                    <control type="textbox">
-                        <label>$INFO[Window(Home).Property(TMDbHelper.Player.Awards),,[CR]]$INFO[Window(Home).Property(TMDbHelper.Player.Revenue),$LOCALIZE[31264] , $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.Player.Budget)]</label>
-                        <font>font_plotbox_mini</font>
-                        <textcolor>panel_fg_70</textcolor>
-                        <height>auto</height>
-                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Budget))</visible>
-                    </control>
-                    <control type="label">
-                        <top>12</top>
-                        <label>$LOCALIZE[31024]</label>
-                        <font>font_mini_bold</font>
-                        <textcolor>panel_fg_100</textcolor>
-                        <height>40</height>
-                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
-                    </control>
-                    <control type="textbox">
-                        <label>$INFO[Window(Home).Property(TMDBHelper.Player.rottentomatoes_consensus)]</label>
-                        <font>font_plotbox_mini</font>
-                        <textcolor>panel_fg_70</textcolor>
-                        <height>auto</height>
-                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
-                    </control>
-                </control>
-                <include content="OSD_CastInfo_HintText">
-                    <param name="label">$LOCALIZE[31293]</param>
-                    <bottom>-80</bottom>
-                    <left>0</left>
                     <visible>!Control.HasFocus(6501)</visible>
-                </include>
-            </control>
-
-            <!-- Cast List -->
-            <include content="List_Core">
-                <param name="orientation" value="horizontal" />
-                <param name="controltype" value="fixedlist" />
-                <param name="id" value="6501" />
-                <param name="item_w" value="190" />
-                <param name="item_h" value="280" />
-                <param name="itemlayout_w" value="230" />
-                <param name="itemlayout_h" value="320" />
-                <param name="itemlayout_include" value="Layout_Poster" />
-                <param name="offset_y" value="40" />
-                <param name="offset_x">40</param>
-                <content>$VAR[Path_OSD_Cast]</content>
-                <focusposition>0</focusposition>
-                <movement>4</movement>
-                <height>360</height>
-                <top>-40</top>
-                <onup>6500</onup>
-                <left>-40</left>
-                <width>1190</width>
-                <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
-                <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
-                <onclick>Action(Close)</onclick>
-                <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=person,tmdb_id=$INFO[Container(6501).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
-                <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-                <visible allowhiddenfocus="true">Control.HasFocus(6501)</visible>
-                <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
-                <include>Animation_FadeIn_Delay</include>
-                <include>Animation_FadeOut</include>
-            </include>
-
-
-            <control type="group">
-                <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-                <visible>Control.HasFocus(6501)</visible>
-                <include>Animation_FadeIn_Delay</include>
-                <include>Animation_FadeOut</include>
-                <include content="OSD_Episodes_Arrows">
-                    <param name="id">6501</param>
-                    <width>1110</width>
-                    <height>280</height>
-                    <include content="Object_BusySpinner">
-                        <param name="colordiffuse" value="panel_fg" />
-                        <visible>Container(6501).IsUpdating + Integer.IsEqual(Container(6501).NumItems,0)</visible>
-                    </include>
-                </include>
-                <!-- Cast Member Details -->
-                <control type="group">
-                    <top>0</top>
+                    <include>Animation_FadeIn_Delay</include>
+                    <include>Animation_FadeOut</include>
+                    <control type="group">
+                        <width>190</width>
+                        <height>grid_x28</height>
+                        <control type="image">
+                            <include>Texture_Shadow_40</include>
+                            <aspectratio scalediffuse="false">scale</aspectratio>
+                            <texture background="true" diffuse="diffuse/poster_w190_h280.png">$VAR[Image_OSD_PosterImage]</texture>
+                        </control>
+                    </control>
                     <control type="grouplist">
-                        <left>1190</left>
+                        <top>0</top>
+                        <left>230</left>
                         <orientation>vertical</orientation>
+                        <width>880</width>
                         <itemgap>0</itemgap>
+                        <height>grid_x28</height>
                         <control type="label">
-                            <label>$INFO[Container(6501).ListItem.Label]</label>
+                            <label>$LOCALIZE[207]</label>
                             <font>font_mini_bold</font>
                             <textcolor>panel_fg_100</textcolor>
                             <height>40</height>
                         </control>
-                        <control type="label">
-                            <label>$INFO[Container(6501).ListItem.Property(role)]</label>
+                        <control type="textbox">
+                            <label fallback="19055">$INFO[VideoPlayer.Plot]</label>
                             <font>font_plotbox_mini</font>
                             <textcolor>panel_fg_70</textcolor>
-                            <height>35</height>
+                            <height max="150">auto</height>
+                        </control>
+                        <control type="label">
+                            <top>12</top>
+                            <label fallback="515">$INFO[VideoPlayer.Tagline]</label>
+                            <font>font_mini_bold</font>
+                            <textcolor>panel_fg_100</textcolor>
+                            <height>40</height>
+                            <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
                         </control>
                         <control type="textbox">
-                            <top>20</top>
-                            <label>$INFO[Container(6501).ListItem.Property(Biography)]</label>
+                            <label fallback="19055">$INFO[VideoPlayer.Genre]</label>
                             <font>font_plotbox_mini</font>
                             <textcolor>panel_fg_70</textcolor>
-                            <height>190</height>
+                            <height>40</height>
+                            <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
                         </control>
                     </control>
+                    <control type="grouplist">
+                        <left>1190</left>
+                        <orientation>vertical</orientation>
+                        <itemgap>0</itemgap>
+                        <height>grid_x28</height>
+                        <control type="label">
+                            <label>$LOCALIZE[31064]</label>
+                            <font>font_mini_bold</font>
+                            <textcolor>panel_fg_100</textcolor>
+                            <height>40</height>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Budget))</visible>
+                        </control>
+                        <control type="textbox">
+                            <label>$INFO[Window(Home).Property(TMDbHelper.Player.Awards),,[CR]]$INFO[Window(Home).Property(TMDbHelper.Player.Revenue),$LOCALIZE[31264] , $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.Player.Budget)]</label>
+                            <font>font_plotbox_mini</font>
+                            <textcolor>panel_fg_70</textcolor>
+                            <height>auto</height>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Budget))</visible>
+                        </control>
+                        <control type="label">
+                            <top>12</top>
+                            <label>$LOCALIZE[31024]</label>
+                            <font>font_mini_bold</font>
+                            <textcolor>panel_fg_100</textcolor>
+                            <height>40</height>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
+                        </control>
+                        <control type="textbox">
+                            <label>$INFO[Window(Home).Property(TMDBHelper.Player.rottentomatoes_consensus)]</label>
+                            <font>font_plotbox_mini</font>
+                            <textcolor>panel_fg_70</textcolor>
+                            <height>auto</height>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
+                        </control>
+                    </control>
+                    <include content="OSD_CastInfo_HintText">
+                        <param name="label">$LOCALIZE[31293]</param>
+                        <bottom>-80</bottom>
+                        <left>0</left>
+                        <visible>!Control.HasFocus(6501)</visible>
+                    </include>
                 </control>
+
+                <!-- Cast List -->
+                <control type="list" id="6502">
+                    <left>-1920</left>
+                    <width>1</width>
+                    <height>1</height>
+                    <orientation>vertical</orientation>
+                    <itemlayout />
+                    <focusedlayout />
+                    <content>plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=person&amp;tmdb_id=$INFO[Container(6501).ListItem.Property(tmdb_id)]</content>
+                    <visible>!String.IsEmpty(Container(6501).ListItem.Property(tmdb_id))</visible>
+                </control>
+                <include content="List_Core">
+                    <param name="orientation" value="horizontal" />
+                    <param name="controltype" value="fixedlist" />
+                    <param name="id" value="6501" />
+                    <param name="item_w" value="190" />
+                    <param name="item_h" value="280" />
+                    <param name="itemlayout_w" value="230" />
+                    <param name="itemlayout_h" value="320" />
+                    <param name="itemlayout_include" value="Layout_Poster" />
+                    <param name="offset_y" value="40" />
+                    <param name="offset_x">40</param>
+                    <content>$VAR[Path_OSD_Cast]</content>
+                    <focusposition>0</focusposition>
+                    <movement>4</movement>
+                    <height>360</height>
+                    <top>-40</top>
+                    <onup>6500</onup>
+                    <ondown>SetFocus(6531)</ondown>
+                    <ondown>SetFocus(6539)</ondown>
+                    <left>-40</left>
+                    <width>1190</width>
+                    <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                    <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
+                    <onclick>Action(Close)</onclick>
+                    <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=person,tmdb_id=$INFO[Container(6501).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+                    <visible allowhiddenfocus="true">Control.HasFocus(6501)</visible>
+                    <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
+                    <include>Animation_FadeIn_Delay</include>
+                    <include>Animation_FadeOut</include>
+                </include>
+
+                <control type="group">
+                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+                    <visible>Control.HasFocus(6501)</visible>
+                    <include>Animation_FadeIn_Delay</include>
+                    <include>Animation_FadeOut</include>
+                    <include content="OSD_Episodes_Arrows">
+                        <param name="id">6501</param>
+                        <width>1110</width>
+                        <height>280</height>
+                        <include content="Object_BusySpinner">
+                            <param name="colordiffuse" value="panel_fg" />
+                            <visible>Container(6501).IsUpdating + Integer.IsEqual(Container(6501).NumItems,0)</visible>
+                        </include>
+                    </include>
+                    <!-- Cast Member Details -->
+                    <include content="OSD_CastInfo_Details">
+                        <param name="icon">$INFO[Container(6501).ListItem.Icon]</param>
+                        <param name="mainlabel">$INFO[Container(6501).ListItem.Label]</param>
+                        <param name="sublabel">$INFO[Container(6501).ListItem.Property(role),$LOCALIZE[20347] ,]</param>
+                        <param name="plotlabel">$VAR[Label_OSD_CastMember_Bio]</param>
+                    </include>
+
+                </control>
+            </control>
+
+            <control type="group">
+                <visible>ControlGroup(6530).HasFocus() | Control.HasFocus(6539)</visible>
+                <include>Animation_FadeIn_Delay</include>
+                <include>Animation_FadeOut</include>
+                <include>OSD_CastInfo_NavButtons</include>
+
+                <!-- Starring in List -->
+                <include content="List_Core">
+                    <param name="orientation" value="horizontal" />
+                    <param name="controltype" value="fixedlist" />
+                    <param name="id" value="6539" />
+                    <param name="item_w" value="190" />
+                    <param name="item_h" value="280" />
+                    <param name="itemlayout_w" value="230" />
+                    <param name="itemlayout_h" value="320" />
+                    <param name="itemlayout_include" value="Layout_Poster" />
+                    <param name="offset_y" value="40" />
+                    <param name="offset_x">40</param>
+                    <param name="detailed">true</param>
+                    <param name="indicator">false</param>
+                    <content>$INFO[Window.Property(CastMemberList)]</content>
+                    <focusposition>0</focusposition>
+                    <movement>4</movement>
+                    <height>360</height>
+                    <top>-40</top>
+                    <onup>SetFocus(6501)</onup>
+                    <ondown>SetFocus(6530)</ondown>
+                    <left>-40</left>
+                    <width>1190</width>
+                    <animation effect="fade" start="100" end="20" time="200" delay="0" condition="Container(6539).IsUpdating">Conditional</animation>
+                    <!-- <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                    <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
+                    <onclick>Action(Close)</onclick>
+                    <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=person,tmdb_id=$INFO[Container(6501).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+                    <visible allowhiddenfocus="true">Control.HasFocus(6501)</visible>
+                    <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
+                    <include>Animation_FadeIn_Delay</include>
+                    <include>Animation_FadeOut</include> -->
+                </include>
+
+                <include content="OSD_Episodes_Arrows">
+                    <param name="id">6539</param>
+                    <width>1110</width>
+                    <height>280</height>
+                    <include content="Object_BusySpinner">
+                        <param name="colordiffuse" value="panel_fg" />
+                        <visible>Container(6539).IsUpdating</visible>
+                    </include>
+                </include>
+
+                <!-- Movie Starring in Details -->
+                <include content="OSD_CastInfo_Details">
+                    <param name="icon">$INFO[Container(6539).ListItem.Icon]</param>
+                    <param name="mainlabel">$INFO[Container(6539).ListItem.Label]$INFO[Container(6539).ListItem.Year, (,)]</param>
+                    <param name="sublabel">$INFO[Container(6539).ListItem.Property(role),$LOCALIZE[20347] ,]</param>
+                    <param name="plotlabel">$INFO[Container(6539).ListItem.Plot]</param>
+                </include>
             </control>
         </include>
     </include>
