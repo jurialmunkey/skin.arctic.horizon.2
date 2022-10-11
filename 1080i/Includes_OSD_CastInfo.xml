@@ -79,6 +79,7 @@
                 <param name="groupid" value="6541" />
                 <onfocus>SetProperty(CastMemberList,plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;limit=50&amp;tmdb_type=person&amp;tmdb_id=$INFO[Container(6501).ListItem.Property(TMDb_ID)]$VAR[Path_Param_Widget])</onfocus>
                 <onfocus>SetProperty(CastMemberType,$LOCALIZE[342])</onfocus>
+                <onfocus>SetProperty(CastMemberParamType,movie)</onfocus>
             </include>
             <include content="OSD_Button">
                 <param name="icon" value="special://skin/extras/icons/tv.png" />
@@ -87,6 +88,7 @@
                 <param name="groupid" value="6542" />
                 <onfocus>SetProperty(CastMemberList,plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;limit=50&amp;tmdb_type=person&amp;tmdb_id=$INFO[Container(6501).ListItem.Property(TMDb_ID)]$VAR[Path_Param_Widget])</onfocus>
                 <onfocus>SetProperty(CastMemberType,$LOCALIZE[20343])</onfocus>
+                <onfocus>SetProperty(CastMemberParamType,tv)</onfocus>
             </include>
             <include content="Object_InfoCircle_Horizontal">
                 <param name="icon" value="$INFO[Container(6501).ListItem.Icon]" />
@@ -291,8 +293,9 @@
                     <height>360</height>
                     <top>-40</top>
                     <onup>6500</onup>
+                    <onfocus>SetProperty(CastMemberList,plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;limit=50&amp;tmdb_type=person&amp;tmdb_id=$INFO[Container(6501).ListItem.Property(TMDb_ID)]$VAR[Path_Param_Widget])</onfocus>
                     <ondown>SetFocus(6531)</ondown>
-                    <ondown>SetFocus(6539)</ondown>
+                    <ondown condition="!Integer.IsEqual(Container(6539).NumItems,0)">SetFocus(6539)</ondown>
                     <left>-40</left>
                     <width>1190</width>
                     <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
@@ -361,16 +364,16 @@
                     <left>-40</left>
                     <width>1190</width>
                     <animation effect="fade" start="100" end="20" time="200" delay="0" condition="Container(6539).IsUpdating">Conditional</animation>
+                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+                    <visible>!String.IsEmpty(Window.Property(CastMemberList))</visible>
                     <visible allowhiddenfocus="true">Control.HasFocus(6539) | ControlGroup(6530).HasFocus()</visible>
-                    <!-- <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                    <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
                     <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
                     <onclick>Action(Close)</onclick>
-                    <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=person,tmdb_id=$INFO[Container(6501).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
-                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-                    <visible allowhiddenfocus="true">Control.HasFocus(6501)</visible>
+                    <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=$INFO[Window.Property(CastMemberParamType)],tmdb_id=$INFO[Container(6539).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
                     <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
                     <include>Animation_FadeIn_Delay</include>
-                    <include>Animation_FadeOut</include> -->
+                    <include>Animation_FadeOut</include>
                 </include>
 
                 <include content="OSD_Episodes_Arrows">
