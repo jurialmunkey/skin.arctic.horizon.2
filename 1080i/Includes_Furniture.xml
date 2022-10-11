@@ -22,12 +22,17 @@
     <include name="Furniture_Top_Left">
         <param name="label" default="$VAR[Label_Header_Main]" />
         <param name="enabled">!Skin.HasSetting(Furniture.DisableLeftHeader)</param>
+        <param name="minimal">Skin.HasSetting(Furniture.UseMinimalClock)</param>
         <definition>
             <include content="Furniture_Topbar_Group" condition="$PARAM[enabled]">
                 <include content="Furniture_Gutters">
-                    <include content="Furniture_MainLabel">
+                     <include content="Furniture_MainLabel" condition="!$PARAM[minimal]">
                         <param name="id" value="$PARAM[id]" />
                         <aligny>center</aligny>
+                        <label>$PARAM[label]</label>
+                    </include>
+                    <include content="Furniture_MenuLabel" condition="$PARAM[minimal]">
+                        <param name="id" value="$PARAM[id]" />
                         <label>$PARAM[label]</label>
                     </include>
                 </include>
@@ -146,27 +151,15 @@
     </include>
 
     <include name="Furniture_Clock_Small">
-        <control type="group">
-            <width>600</width>
+        <control type="label">
             <nested />
-            <control type="label">
-                <font>font_small</font>
-                <textcolor>main_fg_100</textcolor>
-                <label>$INFO[System.Time]</label>
-                <right>00</right>
-                <align>right</align>
-                <width>300</width>
-                <height>10</height>
-                <centertop>48%</centertop>
-            </control>
-            <!-- <control type="image">
-                <right>0</right>
-                <width>60</width>
-                <height>60</height>
-                <texture colordiffuse="main_fg_90">$VAR[Image_MuteBug]</texture>
-            </control> -->
+            <align>$PARAM[align]</align>
+            <font>font_small</font>
+            <textcolor>main_fg_100</textcolor>
+            <label>$INFO[System.Time]</label>
         </control>
     </include>
+
 
     <include name="Furniture_Clock_Big">
         <control type="group">
