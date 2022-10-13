@@ -426,16 +426,17 @@
         <param name="colordiffuse" default="panel_fg_12" />
         <param name="texture" default="common/panel-256-box.png" />
         <param name="shadow">true</param>
+        <param name="condition">true</param>
         <definition>
             <include content="Object_Control">
                 <param name="control" value="group" />
-                <include content="Object_Control">
+                <include content="Object_Control" condition="$PARAM[condition]">
                     <param name="control" value="image" />
                     <include condition="$PARAM[shadow]">Texture_Shadow_40</include>
                     <texture colordiffuse="$PARAM[colordiffuse]" border="12">$PARAM[texture]</texture>
                 </include>
                 <nested />
-                <include content="Object_Control" condition="Skin.HasSetting(Glass.BorderOutline)">
+                <include content="Object_Control" condition="Skin.HasSetting(Glass.BorderOutline) + $PARAM[condition]">
                     <param name="control" value="image" />
                     <texture colordiffuse="overlay_line" border="12">common/box-outline.png</texture>
                 </include>
