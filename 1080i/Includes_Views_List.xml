@@ -33,6 +33,7 @@
                         <param name="right">40</param>
                     </include>
                     <include content="Object_GlassPanel">
+                        <param name="condition">!Skin.HasSetting(Glass.DisableListPanels)</param>
                         <include content="Object_Left" condition="!$PARAM[flipside]">
                             <param name="left">$PARAM[right]</param>
                         </include>
@@ -53,8 +54,10 @@
                                 <param name="visible">$EXP[Exp_View_Special] + $EXP[Exp_View_$PARAM[id]]</param>
                             </include>
                             <viewtype label="$PARAM[viewtype_label]">list</viewtype>
-                            <onleft>63</onleft>
-                            <onright>menu</onright>
+                            <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">63</onleft>
+                            <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">menu</onright>
+                            <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">menu</onleft>
+                            <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">63</onright>
                             <pagecontrol>63</pagecontrol>
                             <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                         </include>
@@ -134,6 +137,7 @@
                 <height>$PARAM[height]</height>
                 <bottom>0</bottom>
                 <include content="Object_GlassPanel">
+                    <param name="condition">!Skin.HasSetting(Glass.DisableListPanels)</param>
                     <include content="Object_Right" condition="$PARAM[flipside]">
                         <param name="right">grid_x04</param>
                     </include>
@@ -152,8 +156,10 @@
                             <param name="visible">$EXP[Exp_View_Special] + $EXP[Exp_View_$PARAM[id]]</param>
                         </include>
                         <viewtype label="$PARAM[viewtype_label]">list</viewtype>
-                        <onleft>$PARAM[scrollbar_id]</onleft>
-                        <onright>menu</onright>
+                        <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[scrollbar_id]</onleft>
+                        <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">menu</onright>
+                        <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">menu</onleft>
+                        <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[scrollbar_id]</onright>
                         <pagecontrol>$PARAM[scrollbar_id]</pagecontrol>
                         <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                     </include>
@@ -214,7 +220,7 @@
             <param name="width" value="grid_x48" />
             <param name="viewtype_label" value="$LOCALIZE[31121]" />
             <param name="diffuse" value="diffuse/square_w480_h480.png" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
+            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
         </include>
     </include>
     <include name="View_507_Square_Infolist">
@@ -225,21 +231,21 @@
             <param name="include" value="List_Infolist" />
             <param name="viewtype_label" value="$LOCALIZE[31143]" />
             <param name="diffuse" value="diffuse/square_w480_h480.png" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
+            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
         </include>
     </include>
     <include name="View_508_Square_Playlist">
         <include content="View_List_PlayList">
             <param name="id" value="508" />
             <param name="viewtype_label" value="$LOCALIZE[31193]" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
+            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
         </include>
     </include>
 
     <include name="View_558_MediaInfo_List">
         <param name="id">558</param>
         <param name="viewtype_label">$LOCALIZE[31276]</param>
-        <param name="flipside">!Skin.HasSetting(Lists.FlipSide)</param>
+        <param name="flipside">!Skin.HasSetting(Lists.MirrorAlignment)</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
@@ -280,7 +286,7 @@
             <param name="width" value="853" />
             <param name="viewtype_label" value="$LOCALIZE[31122]" />
             <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
+            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
         </include>
     </include>
     <include name="View_517_Landscape_Infolist">
@@ -291,7 +297,7 @@
             <param name="include" value="List_Infolist" />
             <param name="viewtype_label" value="$LOCALIZE[31144]" />
             <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
+            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
         </include>
     </include>
 </includes>

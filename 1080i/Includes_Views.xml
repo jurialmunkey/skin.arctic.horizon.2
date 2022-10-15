@@ -34,7 +34,7 @@
 
     <include name="View_Furniture_Scrollbar_V">
         <param name="onright">50</param>
-        <param name="onleft">noop</param>
+        <param name="onleft">menu</param>
         <param name="id">63</param>
         <definition>
             <control type="group">
@@ -51,8 +51,10 @@
                         <centerleft>50%</centerleft>
                     </control>
                     <control type="scrollbar" id="$PARAM[id]">
-                        <onleft>$PARAM[onleft]</onleft>
-                        <onright>$PARAM[onright]</onright>
+                        <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onleft]</onleft>
+                        <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onright]</onright>
+                        <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onright]</onleft>
+                        <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onleft]</onright>
                         <orientation>vertical</orientation>
                         <texturesliderbackground />
                         <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
@@ -66,10 +68,16 @@
     <include name="View_Furniture_Scrollbars">
         <include content="View_Furniture_Scrollbar_V">
             <top>view_top</top>
+            <include content="Object_Right" condition="Skin.HasSetting(Lists.MirrorAlignment)">
+                <param name="right">0</param>
+            </include>
         </include>
         <include content="View_Furniture_Scrollbar_V">
             <param name="id">64</param>
             <height>grid_x48</height>
+            <include content="Object_Right" condition="Skin.HasSetting(Lists.MirrorAlignment)">
+                <param name="right">0</param>
+            </include>
         </include>
         <include content="Furniture_Bottombar_Group">
             <control type="group">
@@ -215,7 +223,7 @@
                 <param name="id" value="50" />
                 <param name="viewtype_label" value="$LOCALIZE[559]" />
                 <param name="isviewtype" value="false" />
-                <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
+                <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
             </include>
             <control type="group">
                 <width>view_pad</width>
