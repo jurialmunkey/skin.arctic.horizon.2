@@ -623,6 +623,83 @@
         </definition>
     </include>
 
+    <include name="Layout_MediaList_TrackTemplate">
+        <param name="selected">false</param>
+        <definition>
+            <control type="label">
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <textcolor>main_fg_70</textcolor>
+                <selectedcolor>main_fg_70</selectedcolor>
+                <label>$INFO[ListItem.Label]</label>
+                <align>left</align>
+                <font>font_small_bold</font>
+                <bottom>3</bottom>
+            </control>
+            <control type="label">
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <textcolor>main_fg_70</textcolor>
+                <selectedcolor>main_fg_70</selectedcolor>
+                <label>$INFO[ListItem.Label2]</label>
+                <align>right</align>
+                <font>font_small</font>
+                <bottom>3</bottom>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Layout_MediaList_SongList">
+        <param name="selected">false</param>
+        <definition>
+            <control type="label">
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <textcolor>main_fg_70</textcolor>
+                <selectedcolor>main_fg_70</selectedcolor>
+                <label>$VAR[Label_ListTrackNumber]</label>
+                <align>center</align>
+                <font>font_small</font>
+                <bottom>3</bottom>
+                <width>80</width>
+                <left>-20</left>
+            </control>
+            <control type="label">
+                <left>80</left>
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <textcolor>main_fg_70</textcolor>
+                <selectedcolor>main_fg_70</selectedcolor>
+                <label>$INFO[ListItem.Title]</label>
+                <font>font_small_bold</font>
+                <bottom>3</bottom>
+            </control>
+            <control type="label">
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <textcolor>main_fg_70</textcolor>
+                <selectedcolor>main_fg_70</selectedcolor>
+                <label>$VAR[Label_ListArtist]</label>
+                <font>font_small</font>
+                <align>right</align>
+                <bottom>3</bottom>
+                <right>200</right>
+            </control>
+            <control type="image">
+                <right>100</right>
+                <centertop>48%</centertop>
+                <width>71</width>
+                <height>48</height>
+                <aspectratio>keep</aspectratio>
+                <texture fallback="flags/generic.png">flags/color/audio/$INFO[ListItem.FileExtension].png</texture>
+            </control>
+            <control type="label">
+                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                <textcolor>main_fg_70</textcolor>
+                <selectedcolor>main_fg_70</selectedcolor>
+                <label>$INFO[ListItem.Duration]</label>
+                <font>font_small</font>
+                <align>right</align>
+                <bottom>3</bottom>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_MediaList">
         <param name="detailed" default="false" />
         <param name="selected" default="false" />
@@ -704,56 +781,11 @@
                     </control>
                     <control type="group">
                         <visible>String.IsEqual(ListItem.DBType,song)</visible>
-                        <include content="Object_Control">
-                            <param name="control" value="label" />
-                            <include condition="$PARAM[selected]">Color_SelectedText</include>
-                            <textcolor>main_fg_70</textcolor>
-                            <selectedcolor>main_fg_70</selectedcolor>
-                            <label>$VAR[Label_ListTrackNumber]</label>
-                            <align>center</align>
-                            <font>font_small</font>
-                            <bottom>3</bottom>
-                            <width>80</width>
-                            <left>-20</left>
+                        <include content="Layout_MediaList_SongList" condition="!Skin.HasSetting(Songs.UseTrackTemplate)">
+                            <param name="selected">$PARAM[selected]</param>
                         </include>
-                        <include content="Object_Control">
-                            <param name="control" value="label" />
-                            <left>80</left>
-                            <include condition="$PARAM[selected]">Color_SelectedText</include>
-                            <textcolor>main_fg_70</textcolor>
-                            <selectedcolor>main_fg_70</selectedcolor>
-                            <label>$INFO[ListItem.Title]</label>
-                            <font>font_small_bold</font>
-                            <bottom>3</bottom>
-                        </include>
-                        <include content="Object_Control">
-                            <param name="control" value="label" />
-                            <include condition="$PARAM[selected]">Color_SelectedText</include>
-                            <textcolor>main_fg_70</textcolor>
-                            <selectedcolor>main_fg_70</selectedcolor>
-                            <label>$VAR[Label_ListArtist]</label>
-                            <font>font_small</font>
-                            <align>right</align>
-                            <bottom>3</bottom>
-                            <right>200</right>
-                        </include>
-                        <control type="image">
-                            <right>100</right>
-                            <centertop>48%</centertop>
-                            <width>71</width>
-                            <height>48</height>
-                            <aspectratio>keep</aspectratio>
-                            <texture fallback="flags/generic.png">flags/color/audio/$INFO[ListItem.FileExtension].png</texture>
-                        </control>
-                        <include content="Object_Control">
-                            <param name="control" value="label" />
-                            <include condition="$PARAM[selected]">Color_SelectedText</include>
-                            <textcolor>main_fg_70</textcolor>
-                            <selectedcolor>main_fg_70</selectedcolor>
-                            <label>$INFO[ListItem.Duration]</label>
-                            <font>font_small</font>
-                            <align>right</align>
-                            <bottom>3</bottom>
+                        <include content="Layout_MediaList_TrackTemplate" condition="Skin.HasSetting(Songs.UseTrackTemplate)">
+                            <param name="selected">$PARAM[selected]</param>
                         </include>
                     </control>
                 </control>
