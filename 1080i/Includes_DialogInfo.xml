@@ -246,53 +246,71 @@
                 <texture colordiffuse="black" border="12">common/box.png</texture>
             </control>
             <control type="videowindow" />
-            <include>DialogInfo_VideoTrailerButton</include>
+            <include>DialogInfo_VideoTrailerControl</include>
         </include>
     </include>
 
     <!-- Trailer Control Button -->
-    <include name="DialogInfo_VideoTrailerButton">
+    <include name="DialogInfo_VideoTrailerControl">
         <param name="onback">5000</param>
         <definition>
+            <control type="group">
+                <bottom>0</bottom>
+                <height>10</height>
+                <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused</visible>
+                <include>Animation_FadeIn</include>
+                <include>Animation_FadeOut</include>
+                <control type="progress" id="499">
+                    <info>Player.SeekBar</info>
+                    <height>10</height>
+                </control>
+                <control type="progress">
+                    <height>10</height>
+                    <info>Player.SeekBar</info>
+                    <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
+                    <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
+                    <midtexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
+                    <righttexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
+                    <include content="Defs_Progress_Colorfade">
+                        <param name="id" value="499" />
+                    </include>
+                </control>
+            </control>
             <control type="button" id="7001">
-                <texturefocus />
                 <texturenofocus />
-                <font />
-                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onunfocus>
-                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onunfocus>
-                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onunfocus>
-                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onleft>
-                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
-                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onleft>
-                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onright>
-                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
-                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onright>
-                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onup>
-                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
-                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onup>
-                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</ondown>
-                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
-                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</ondown>
-                <onback>$PARAM[onback]</onback>
-                <onback>ClearProperty(HasTrailer,Home)</onback>
-                <onback condition="Player.HasVideo">Stop</onback>
+                <texturefocus />
+
                 <oninfo>SetFocus($PARAM[onback])</oninfo>
                 <oninfo>ClearProperty(HasTrailer,Home)</oninfo>
                 <oninfo condition="Player.HasVideo">Stop</oninfo>
-                <onclick condition="Player.HasVideo">Fullscreen</onclick>
-                <onclick>ClearProperty(HasTrailer,Home)</onclick>
-                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onleft>
-                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepBack</onleft>
-                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
-                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onright>
-                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepForward</onright>
-                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
-                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onup>
-                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepForward</onup>
-                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
-                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</ondown>
-                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepBack</ondown>
-                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
+
+                <onback>SetFocus($PARAM[onback])</onback>
+                <onback>ClearProperty(HasTrailer,Home)</onback>
+                <onback condition="Player.HasVideo">Stop</onback>
+
+                <onclick condition="!Player.HasVideo">SetFocus($PARAM[onback])</onclick>
+                <onclick condition="!Player.HasVideo">ClearProperty(HasTrailer,Home)</onclick>
+                <onclick condition="Player.HasVideo">PlayerControl(Play)</onclick>
+
+                <onunfocus>SetFocus($PARAM[onback])</onunfocus>
+                <onunfocus>ClearProperty(HasTrailer,Home)</onunfocus>
+                <onunfocus condition="Player.HasVideo">Stop</onunfocus>
+
+                <onleft condition="!Player.HasVideo">SetFocus($PARAM[onback])</onleft>
+                <onleft condition="!Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
+                <onleft condition="Player.HasVideo">StepBack</onleft>
+
+                <onright condition="!Player.HasVideo">SetFocus($PARAM[onback])</onright>
+                <onright condition="!Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
+                <onright condition="Player.HasVideo">StepForward</onright>
+
+                <onup condition="!Player.HasVideo">SetFocus($PARAM[onback])</onup>
+                <onup condition="!Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
+                <onup condition="Player.HasVideo">BigStepForward</onup>
+
+                <ondown condition="!Player.HasVideo">SetFocus($PARAM[onback])</ondown>
+                <ondown condition="!Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
+                <ondown condition="Player.HasVideo">BigStepBack</ondown>
             </control>
         </definition>
     </include>
@@ -307,7 +325,7 @@
                 <texture colordiffuse="black">common/white.png</texture>
             </control>
             <control type="videowindow" />
-            <include>DialogInfo_VideoTrailerButton</include>
+            <include>DialogInfo_VideoTrailerControl</include>
         </include>
     </include>
 
