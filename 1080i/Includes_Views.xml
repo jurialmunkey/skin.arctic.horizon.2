@@ -164,42 +164,61 @@
         <control type="group">
             <visible>![$EXP[Exp_View_Special]]</visible>
             <visible>Control.IsVisible(590)</visible>
-            <include content="List_Poster_Row">
+            <include content="List_Poster_Wall">
                 <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
                 <param name="id" value="591" />
-                <height>divider_bottom</height>
-                <bottom>40</bottom>
-                <onup>SetFocus(590)</onup>
-                <ondown>SetFocus(590)</ondown>
+                <param name="offset_y">40</param>
+                <param name="misc">20</param>
+                <top>160</top>
+                <bottom>180</bottom>
+                <preloaditems>0</preloaditems>
+                <left>514.28</left>
+                <onleft>SetFocus(590)</onleft>
+                <onright>SetFocus(590)</onright>
                 <content target="videos">$VAR[Path_DiscoverWidget]</content>
                 <visible allowhiddenfocus="true">!Container(591).IsUpdating</visible>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,591)</onfocus>
             </include>
-            <include content="Info_Panel">
-                <param name="plotwidth" value="info_plot_w" />
-                <param name="plotheight" value="info_plot_h" />
-                <param name="container" value="Container(591)." />
-                <param name="line_id" value="99591" />
-                <top>view_top</top>
-                <width>info_panel_w</width>
-                <left>view_pad</left>
-            </include>
             <include content="List_Button_Row">
-                <param name="id" value="590" />
-                <param name="itemlayout_h" value="120" />
-                <param name="item_h" value="80" />
-                <param name="itemlayout_w" value="360" />
-                <param name="item_w" value="320" />
+                <param name="id">590</param>
+                <param name="orientation">vertical</param>
+                <param name="offset_y">40</param>
+                <param name="item_w">474.28</param>
+                <param name="itemlayout_w">514.28</param>
+                <param name="itemlayout_include">Layout_DiscoverButton</param>
+                <focusposition>1</focusposition>
                 <movement>4</movement>
-                <preloaditems>2</preloaditems>
-                <height>240</height>
-                <bottom>0</bottom>
-                <onup>591</onup>
-                <ondown condition="Container(590).HasNext">SetFocus(590,5)</ondown>
-                <ondown condition="!Container(590).HasNext">SetFocus(590,0,absolute)</ondown>
+                <top>160</top>
+                <bottom>180</bottom>
+                <onright>591</onright>
+                <preloaditems>0</preloaditems>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,591)</onfocus>
                 <visible>!$EXP[Exp_View_Special]</visible>
             </include>
+
+            <include content="Furniture_Bottombar_Group">
+                <include content="Furniture_Gutters">
+                    <control type="grouplist">
+                        <hitrect x="0" y="0" w="0" h="0" />
+                        <orientation>horizontal</orientation>
+                        <itemgap>30</itemgap>
+                        <height>grid_x08</height>
+                        <centertop>50%</centertop>
+                        <usecontrolcoords>true</usecontrolcoords>
+                        <include content="Info_Codec_Label">
+                            <param name="icon" value="special://skin/extras/icons/grip.png" />
+                            <param name="label" value="$INFO[Container(591).ListItem.Property(total_results),[B],[/B] $LOCALIZE[31153]  ]" />
+                            <visible>!String.IsEmpty(Container(591).ListItem.Property(total_results))</visible>
+                        </include>
+                        <include content="Info_Codec_Label">
+                            <param name="icon" value="special://skin/extras/icons/square-poll-horizontal.png" />
+                            <param name="label" value="$INFO[Container(591).ListItem.Property(total_pages),[B],[/B] [CAPITALIZE]$LOCALIZE[31110][/CAPITALIZE]  ]" />
+                            <visible>!String.IsEmpty(Container(591).ListItem.Property(total_pages))</visible>
+                        </include>
+                    </control>
+                </include>
+            </include>
+
         </control>
 
     </include>
