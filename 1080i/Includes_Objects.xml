@@ -887,10 +887,10 @@
         <control type="group">
             <visible>$PARAM[visible]</visible>
             <control type="image">
-                <texture colordiffuse="$PARAM[colordiffuse_back]" border="128,0,0,0">$PARAM[texture]</texture>
+                <texture colordiffuse="$PARAM[colordiffuse_back]" border="80,0,0,0">$PARAM[texture]</texture>
             </control>
             <control type="image">
-                <left>80</left>
+                <left>48</left>
                 <centertop>50%</centertop>
                 <width>64</width>
                 <height>64</height>
@@ -908,27 +908,27 @@
         <param name="invertcolor" default="false" />
         <definition>
             <control type="group" id="$PARAM[groupid]">
-                <left>-28</left>
-                <width>150</width>
+                <left>0</left>
+                <width>120</width>
                 <height>256</height>
                 <visible>$PARAM[visible]</visible>
                 <include content="Object_Info_Button_Left" condition="!$PARAM[invertcolor]">
                     <param name="visible" value="Control.HasFocus($PARAM[id]) | $PARAM[focused]" />
-                    <param name="texture" value="common/$PARAM[texturename]left.png" />
+                    <param name="texture" value="special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]main_h_x.png" />
                     <param name="icon" value="$PARAM[icon]" />
                     <param name="colordiffuse_icon" value="$VAR[ColorSelected]" />
-                    <param name="colordiffuse_back" value="$VAR[ColorHighlight]" />
+                    <param name="colordiffuse_back" value="white" />
                 </include>
                 <include content="Object_Info_Button_Left" condition="$PARAM[invertcolor]">
                     <param name="visible" value="Control.HasFocus($PARAM[id]) | $PARAM[focused]" />
-                    <param name="texture" value="common/$PARAM[texturename]left.png" />
+                    <param name="texture" value="common/$PARAM[texturename]main_x.png" />
                     <param name="icon" value="$PARAM[icon]" />
                     <param name="colordiffuse_icon" value="panel_bg" />
                     <param name="colordiffuse_back" value="panel_fg_100" />
                 </include>
                 <include content="Object_Info_Button_Left">
                     <param name="visible" value="![Control.HasFocus($PARAM[id]) | $PARAM[focused]]" />
-                    <param name="texture" value="common/$PARAM[texturename]left.png" />
+                    <param name="texture" value="common/$PARAM[texturename]main_x.png" />
                     <param name="icon" value="$PARAM[icon]" />
                     <param name="colordiffuse_icon" value="main_fg_70" />
                     <param name="colordiffuse_back" value="main_fg_12" />
@@ -941,13 +941,13 @@
                 <height>256</height>
                 <include content="Object_TextureFocus" condition="$PARAM[invertcolor]">
                     <param name="colordiffuse">panel_fg_100</param>
-                    <param name="texture">common/$PARAM[texturename]right_x.png</param>
+                    <param name="texture">common/$PARAM[texturename]main_y.png</param>
                 </include>
                 <include content="Object_FocusedColor" condition="$PARAM[invertcolor]">
                     <param name="focusedcolor">panel_bg</param>
                 </include>
-                <texturenofocus colordiffuse="main_fg_12">common/$PARAM[texturename]right_x.png</texturenofocus>
-                <texturefocus>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]right_h_x.png</texturefocus>
+                <texturenofocus colordiffuse="main_fg_12">common/$PARAM[texturename]main_y.png</texturenofocus>
+                <texturefocus>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]main_h_y.png</texturefocus>
                 <font>font_mini_bold</font>
                 <label>$PARAM[label]</label>
                 <align>left</align>
@@ -963,15 +963,56 @@
                 <height>256</height>
                 <control type="image">
                     <visible>![Control.HasFocus($PARAM[id]) | $PARAM[focused]]</visible>
-                    <texture colordiffuse="main_fg_12">common/$PARAM[texturename]right_y.png</texture>
+                    <texture colordiffuse="main_fg_12">common/$PARAM[texturename]main_z.png</texture>
                 </control>
                 <control type="image">
                     <visible>Control.HasFocus($PARAM[id]) | $PARAM[focused]</visible>
                     <include content="Object_Texture" condition="$PARAM[invertcolor]">
                         <param name="colordiffuse">panel_fg_100</param>
-                        <param name="texture">common/$PARAM[texturename]right_y.png</param>
+                        <param name="texture">common/$PARAM[texturename]main_z.png</param>
                     </include>
-                    <texture>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]right_h_y.png</texture>
+                    <texture>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]main_h_z.png</texture>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_Info_Button_Circle">
+        <param name="visible" default="true" />
+        <param name="control" default="button" />
+        <param name="width" default="auto" />
+        <param name="focused" default="false" />
+        <param name="itemgap" default="60" />
+        <param name="texturename" default="menu" />
+        <param name="invertcolor" default="false" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <visible>$PARAM[visible]</visible>
+                <width>150</width>
+                <height>150</height>
+                <centertop>50%</centertop>
+                <texturefocus flipy="true">special://profile/addon_data/script.texturemaker/ArcticHorizon/circlebutton_h.png</texturefocus>
+                <texturenofocus colordiffuse="main_fg_12">common/circlebutton.png</texturenofocus>
+                <nested />
+            </control>
+            <control type="group" id="$PARAM[groupid]">
+                <left>-50</left>
+                <width>110</width>
+                <visible>$PARAM[visible]</visible>
+                <control type="group">
+                    <width>70</width>
+                    <height>70</height>
+                    <centertop>50%</centertop>
+                    <control type="image">
+                        <visible>Control.HasFocus($PARAM[id])</visible>
+                        <bordersize>3</bordersize>
+                        <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                    </control>
+                    <control type="image">
+                        <visible>!Control.HasFocus($PARAM[id])</visible>
+                        <bordersize>3</bordersize>
+                        <texture colordiffuse="main_fg_70">$PARAM[icon]</texture>
+                    </control>
                 </control>
             </control>
         </definition>
