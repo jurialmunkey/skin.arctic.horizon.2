@@ -44,15 +44,14 @@
             <visible>Window.IsVisible(DialogBusy.xml) | [[Window.IsVisible(1190) | Window.IsVisible(1191)] + !$EXP[Exp_InfoDialogs]]</visible>
             <animation effect="fade" start="0" end="100" time="5000" tween="cubic" easing="inout" reversible="true">Visible</animation>
             <animation effect="fade" start="100" end="0" time="1000" tween="cubic" easing="inout" reversible="true">Hidden</animation>
-            <animation effect="fade" start="100" end="0" time="1000" tween="cubic" easing="inout" reversible="false" condition="![Window.IsVisible(DialogBusy.xml) | [[Window.IsVisible(1190) | Window.IsVisible(1191)] + !$EXP[Exp_InfoDialogs]]]">Conditional</animation>
             <include content="Background_Image">
                 <param name="texture" value="background/blur2.png" />
             </include>
             <control type="multiimage">
-                <animation effect="fade" start="100" end="15" condition="true">Conditional</animation>
                 <timeperimage>50</timeperimage>
                 <aspectratio align="center" aligny="center">stretch</aspectratio>
                 <fadetime>10</fadetime>
+                <colordiffuse>27ffffff</colordiffuse>
                 <imagepath>resource://resource.images.arctic.waves/</imagepath>
                 <randomize>false</randomize>
             </control>
@@ -68,9 +67,7 @@
         <param name="flixart_size">flixart_size_s</param>
         <definition>
             <control type="group">
-                <include content="Background_NotVideo">
-                    <param name="fade_end" value="70" />
-                </include>
+                <include>Background_NotVideo</include>
 
                 <!-- Standard Blur -->
                 <include content="Object_Control" condition="!Skin.String(ForegroundStyle,FlixArt) + !Skin.String(ForegroundStyle,KeyArt)">
@@ -136,11 +133,6 @@
                             <texture background="true" flipx="false" flipy="true">$VAR[Image_Background_Blur]</texture>
                         </control>
                     </control>
-
-                </include>
-                <include content="Object_Control">
-                    <param name="control" value="image" />
-                    <texture colordiffuse="main_bg_45">background/bg.jpg</texture>
                 </include>
             </control>
         </definition>
@@ -159,31 +151,24 @@
     </include>
 
     <include name="Background_Fanart">
-        <control type="group">
-            <control type="image">
-                <fadetime>600</fadetime>
-                <aspectratio>scale</aspectratio>
-                <texture background="true">$VAR[Image_Background_Fanart]</texture>
-                <include>Background_NotVideo</include>
-            </control>
-            <include content="Object_Control">
-                <param name="control" value="image" />
-                <texture colordiffuse="main_bg_60">background/bg.jpg</texture>
-            </include>
+        <control type="image">
+            <fadetime>600</fadetime>
+            <aspectratio>scale</aspectratio>
+            <texture background="true">$VAR[Image_Background_Fanart]</texture>
+            <include>Background_NotVideo</include>
         </control>
     </include>
 
     <include name="Background_Image">
         <param name="texture" default="background/blur2.png" />
         <definition>
-            <include content="Object_Control">
-                <param name="control" value="image" />
+            <control type="image">
                 <aspectratio>scale</aspectratio>
                 <texture background="true" colordiffuse="main_back">$PARAM[texture]</texture>
                 <include content="Background_NotVideo">
                     <param name="fade_end" value="70" />
                 </include>
-            </include>
+            </control>
         </definition>
     </include>
 
@@ -197,10 +182,8 @@
                 <right>-3840</right>
                 <top>-2160</top>
                 <fadetime>800</fadetime>
-                <texture background="true" colordiffuse="main_flix" flipx="true">$PARAM[texture]</texture>
-                <include content="Background_NotVideo">
-                    <param name="fade_end" value="70" />
-                </include>
+                <texture background="true" flipx="true">$PARAM[texture]</texture>
+                <include>Background_NotVideo</include>
             </include>
         </definition>
     </include>
@@ -208,25 +191,22 @@
     <include name="Background_None">
         <include content="Object_Control" condition="![Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)]">
             <param name="control" value="image" />
-            <texture colordiffuse="main_back">background/bg.jpg</texture>
-            <include content="Background_NotVideo">
-                <param name="fade_end" value="70" />
-            </include>
+            <texture colordiffuse="main_back">common/white.png</texture>
+            <include>Background_NotVideo</include>
         </include>
-        <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)">
+        <!-- <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)">
             <param name="control" value="image" />
-            <texture colordiffuse="main_bg_100">background/bg.jpg</texture>
-            <include content="Background_NotVideo">
-                <param name="fade_end" value="70" />
-            </include>
-        </include>
+            <texture colordiffuse="main_bg_100">common/white.png</texture>
+            <include>Background_NotVideo</include>
+        </include> -->
     </include>
 
     <include name="Background_NotVideo">
         <param name="fade_end" default="0" />
         <definition>
-            <animation effect="fade" start="100" end="$PARAM[fade_end]" time="400" tween="sine" easing="out" reversible="false" condition="$EXP[Exp_HasBackgroundVideo]">Conditional</animation>
-            <animation effect="fade" start="$PARAM[fade_end]" end="100" time="400" tween="sine" easing="out" reversible="false" condition="!$EXP[Exp_HasBackgroundVideo]">Conditional</animation>
+            <visible>!$EXP[Exp_HasBackgroundVideo]</visible>
+            <animation effect="fade" start="100" end="0" time="400" tween="sine" easing="out" reversible="false">Hidden</animation>
+            <animation effect="fade" start="0" end="100" time="400" tween="sine" easing="out" reversible="false">Visible</animation>
         </definition>
     </include>
 
@@ -244,8 +224,32 @@
         </include>
     </include>
 
+    <include name="Background_FlixKeyArt">
+        <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt)">
+            <param name="control">group</param>
+            <include>Background_NotVideo</include>
+            <include content="View_Visibility_Common">
+                <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
+                <param name="visible_infodialogs">true</param>
+                <param name="visible_widgets">true</param>
+            </include>
+            <include>View_KeyArt</include>
+        </include>
+        <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt)">
+            <param name="control">group</param>
+            <include>Background_NotVideo</include>
+            <include content="View_Visibility_Common">
+                <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
+                <param name="visible_widgets">true</param>
+            </include>
+            <include content="View_FlixArt">
+                <param name="flixart_size">flixart_size_l</param>
+            </include>
+        </include>
+    </include>
+
     <include name="Background_Main">
-        <param name="plain_background">$EXP[Exp_SettingsDialogs]</param>
+        <param name="plain_background">false</param>
         <definition>
             <include>Background_Video</include>
             <include content="Object_Control" condition="$PARAM[plain_background]">
@@ -262,36 +266,19 @@
                 <include condition="Skin.String(BackgroundStyle,Fanart)">Background_Fanart</include>
                 <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
                 <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
-                <include content="Object_Control" condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,KeyArt)">
-                    <param name="control">group</param>
-                    <include>Background_NotVideo</include>
-                    <include content="View_Visibility_Common">
-                        <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
-                        <param name="visible_infodialogs">true</param>
-                        <param name="visible_widgets">true</param>
-                    </include>
-                    <include>View_KeyArt</include>
-                </include>
-                <include content="Object_Control" condition="!Skin.String(BackgroundStyle,Fanart) + Skin.String(ForegroundStyle,FlixArt)">
-                    <param name="control">group</param>
-                    <include>Background_NotVideo</include>
-                    <include content="View_Visibility_Common">
-                        <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
-                        <param name="visible_widgets">true</param>
-                    </include>
-                    <include content="View_FlixArt">
-                        <param name="flixart_size">flixart_size_l</param>
-                    </include>
-                </include>
+                <include condition="!Skin.String(BackgroundStyle,Fanart)">Background_FlixKeyArt</include>
                 <nested />
             </include>
-            <control type="group">
+            <include content="Object_Control" condition="Skin.String(BackgroundStyle,Fanart)">
+                <param name="control">image</param>
+                <texture colordiffuse="main_bg_100">background/combined_fanart.png</texture>
                 <include>Animation_Background_FadeInOut</include>
-                <include content="Object_Control">
-                    <param name="control" value="image" />
-                    <texture colordiffuse="main_bg_100">background/floor.png</texture>
-                </include>
-            </control>
+            </include>
+            <include content="Object_Control" condition="!Skin.String(BackgroundStyle,Fanart)">
+                <param name="control">image</param>
+                <texture colordiffuse="main_bg_100">background/combined_flixart.png</texture>
+                <include>Animation_Background_FadeInOut</include>
+            </include>
         </definition>
     </include>
 
