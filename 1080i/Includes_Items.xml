@@ -35,7 +35,7 @@
             <param name="sliceid" value="5202" />
             <param name="label" value="$INFO[Control.GetLabel(6)]" />
             <param name="icon" value="$VAR[Image_AddonInfo_Install]" />
-            <param name="visible" value="Control.IsEnabled(6)" />
+            <param name="visible" value="Control.IsEnabled(6) + !Skin.HasSetting(KioskMode.Management)" />
             <onclick>SendClick(6)</onclick>
         </include>
         <include content="Object_Info_Button" description="Enable">
@@ -44,16 +44,17 @@
             <param name="sliceid" value="5203" />
             <param name="label" value="$INFO[Control.GetLabel(7)]" />
             <param name="icon" value="$VAR[Image_AddonInfo_Enable]" />
-            <param name="visible" value="Control.IsEnabled(7)" />
+            <param name="visible" value="Control.IsEnabled(7) + !Skin.HasSetting(KioskMode.Management)" />
             <onclick>SendClick(7)</onclick>
         </include>
-        <include content="Object_Info_Button">
-            <param name="id" value="5004" />
-            <param name="groupid" value="5104" />
-            <param name="sliceid" value="5204" />
+        <include content="Object_Info_Button_Circle">
+            <param name="id" value="5006" />
+            <param name="groupid" value="5106" />
+            <param name="sliceid" value="5206" />
             <param name="label" value="$LOCALIZE[31002]" />
             <param name="icon" value="special://skin/extras/icons/settings.png" />
-            <onclick>menu</onclick>
+            <param name="visible">!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)</param>
+            <onclick>SetFocus(9000)</onclick>
         </include>
     </include>
 
@@ -82,13 +83,22 @@
             <param name="label" value="$LOCALIZE[19687]" />
             <param name="visible" value="[Window.IsActive(PVRGuideInfo) | Window.IsActive(PVRRecordingInfo)] + Control.IsEnabled(8) + Control.IsVisible(8)" />
         </include>
-        <include content="Object_Info_Button">
+        <include content="Object_Info_Button_Circle">
             <param name="id" value="4" />
             <param name="groupid" value="5107" />
             <param name="sliceid" value="5207" />
             <param name="icon" value="special://skin/extras/icons/search.png" />
             <param name="label" value="$LOCALIZE[19003]" />
             <param name="visible" value="[Window.IsActive(PVRGuideInfo) | Window.IsActive(PVRRecordingInfo)] + Control.IsEnabled(4) + Control.IsVisible(4)" />
+        </include>
+        <include content="Object_Info_Button_Circle">
+            <param name="id" value="5006" />
+            <param name="groupid" value="5106" />
+            <param name="sliceid" value="5206" />
+            <param name="label" value="$LOCALIZE[31002]" />
+            <param name="icon" value="special://skin/extras/icons/settings.png" />
+            <param name="visible">!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)</param>
+            <onclick>SetFocus(9000)</onclick>
         </include>
     </include>
 
@@ -148,7 +158,7 @@
             <onclick condition="!String.IsEmpty(ListItem.Trailer)">SetProperty(HasTrailer,$INFO[ListItem.Trailer],Home)</onclick>
             <onclick>SetFocus(7001)</onclick>
         </include>
-        <include content="Object_Info_Button">
+        <include content="Object_Info_Button_Circle">
             <param name="id" value="5003" />
             <param name="groupid" value="5103" />
             <param name="sliceid" value="5203" />
@@ -161,7 +171,7 @@
             <onclick condition="Window.IsVisible(1190)">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_id=1114)</onclick>
             <onclick condition="!Window.IsVisible(1190)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,builtin=ActivateWindow(1114),after=True)</onclick>
         </include>
-        <include content="Object_Info_Button">
+        <include content="Object_Info_Button_Circle">
             <param name="id" value="5004" />
             <param name="groupid" value="5104" />
             <param name="sliceid" value="5204" />
@@ -171,13 +181,22 @@
             <onclick condition="!String.IsEmpty(ListItem.Property(tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
             <onclick condition="String.IsEmpty(ListItem.Property(tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Container(99950).ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
         </include>
-        <include content="Object_Info_Button">
+        <include content="Object_Info_Button_Circle">
             <param name="id" value="5005" />
             <param name="groupid" value="5105" />
             <param name="sliceid" value="5205" />
             <param name="label" value="Wiki" />
             <param name="icon" value="special://skin/extras/icons/globe.png" />
             <onclick>runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
+        </include>
+        <include content="Object_Info_Button_Circle">
+            <param name="id" value="5006" />
+            <param name="groupid" value="5106" />
+            <param name="sliceid" value="5206" />
+            <param name="label" value="$LOCALIZE[31002]" />
+            <param name="icon" value="special://skin/extras/icons/settings.png" />
+            <param name="visible">!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)</param>
+            <onclick>SetFocus(9000)</onclick>
         </include>
     </include>
 
@@ -405,6 +424,7 @@
             <onclick condition="!$EXP[Exp_PVRWindows]">Runscript(script.skinvariables,action=buildviews,contentid=$VAR[Items_ViewMode_Switch],pluginname=$INFO[Container.PluginName])</onclick>
             <onclick condition="$EXP[Exp_PVRWindows]">SendClick(2)</onclick>
             <visible>!Window.IsVisible(MyPVRSearch.xml) + !Window.IsVisible(MyPVRTimers.xml) + !Window.IsVisible(MyPVRRecordings.xml)</visible>
+            <visible>!Skin.HasSetting(KioskMode.Viewtypes)</visible>
         </include>
         <include content="Dialog_Menu_Button" description="Sort method">
             <param name="id" value="9003" />
@@ -779,7 +799,7 @@
             <onclick>SetFocus(50)</onclick>
             <onclick>Filter</onclick>
         </include>
-        <include content="Dialog_Menu_Button" description="Update Library">
+        <include content="Dialog_Menu_Button" description="Addon Settings">
             <param name="id" value="9005" />
             <param name="groupid" value="9105" />
             <param name="control" value="button" />
@@ -787,6 +807,7 @@
             <label>$LOCALIZE[10140]</label>
             <onclick>Addon.OpenSettings($INFO[Container.PluginName])</onclick>
             <visible>!String.IsEmpty(Container.PluginName)</visible>
+            <visible>!Skin.HasSetting(KioskMode.Management)</visible>
         </include>
         <include content="Dialog_Menu_Button" description="Update Library">
             <param name="id" value="20" />
@@ -795,6 +816,7 @@
             <param name="icon" value="special://skin/extras/icons/update.png" />
             <label>$LOCALIZE[653]</label>
             <visible>String.IsEmpty(Container.PluginName)</visible>
+            <visible>!Skin.HasSetting(KioskMode.Management)</visible>
         </include>
         <include content="Dialog_Menu_Button" description="Background Customisation">
             <param name="id" value="9001" />
@@ -804,6 +826,7 @@
             <onclick>SetFocus(50)</onclick>
             <onclick>ActivateWindow(1112)</onclick>
             <label>$LOCALIZE[31007]</label>
+            <visible>!Skin.HasSetting(KioskMode.Viewtypes)</visible>
         </include>
         <include>Items_QuickNav_NowPlaying</include>
     </include>
