@@ -172,21 +172,18 @@
     </include>
 
     <include name="Widget_SideStack">
-        <param name="visible">true</param>
-        <param name="altvisible">false</param>
         <param name="include">List_Landscape_Row</param>
-        <param name="busy_visible">true</param>
-        <param name="busy_isupdating">false</param>
         <param name="usewidgetlabel">false</param>
         <param name="infowidget">false</param>
         <param name="height">widget_items_h</param>
+        <param name="node_w">450</param>
         <definition>
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">[CAPITALIZE]$INFO[Container($PARAM[nodeid]).ListItem.Label][/CAPITALIZE] ($PARAM[label])</param>
                 <param name="id">$PARAM[id]</param>
-                <param name="visible">[Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</param>
-                <param name="busy_visible">[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating | $PARAM[busy_isupdating]] + $PARAM[busy_visible]</param>
+                <param name="visible">[Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0)]</param>
+                <param name="busy_visible">[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
                 <param name="infowidget">$PARAM[infowidget]</param>
                 <param name="infowidget_full">$PARAM[infowidget_full]</param>
@@ -198,34 +195,16 @@
                 </include>
                 <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
                 <control type="group">
-                    <width>450</width>
+                    <width>$PARAM[node_w]</width>
                     <height>320</height>
                     <top>100</top>
-                    <animation effect="slide" start="0" end="490" time="400" tween="quadratic" reversible="false" condition="Control.HasFocus($PARAM[nodeid])">Conditional</animation>
-                <animation effect="slide" end="0" start="490" time="400" tween="quadratic" reversible="false" condition="!Control.HasFocus($PARAM[nodeid])">Conditional</animation>
-                    <visible>!Container($PARAM[id]).HasPrevious</visible>
+                    <animation effect="slide" start="0" end="$PARAM[node_w]" time="400" tween="quadratic" reversible="false" condition="Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+                    <animation effect="slide" end="0" start="$PARAM[node_w]" time="400" tween="quadratic" reversible="false" condition="!Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+                    <visible>!Container($PARAM[id]).HasPrevious | Control.HasFocus($PARAM[nodeid])</visible>
                     <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
-                    <animation effect="slide" start="0" end="-490" condition="true">Conditional</animation>
-                    <!-- <control type="label">
-                        <top>-70</top>
-                        <height>30</height>
-                        <aligny>center</aligny>
-                        <textcolor>main_fg_30</textcolor>
-                        <label>$PARAM[label]</label>
-                        <font>font_small</font>
-                        <visible>!Control.HasFocus($PARAM[nodeid])</visible>
-                    </control>
-                    <control type="label">
-                        <top>-70</top>
-                        <height>30</height>
-                        <aligny>center</aligny>
-                        <textcolor>main_fg_100</textcolor>
-                        <label>$PARAM[label]</label>
-                        <font>font_menulabel</font>
-                        <visible>Control.HasFocus($PARAM[nodeid])</visible>
-                    </control> -->
-
+                    <animation effect="slide" start="0" end="-$PARAM[node_w]" condition="true">Conditional</animation>
                     <control type="group">
+                        <right>40</right>
                         <animation condition="!Container($PARAM[nodeid]).OnNext" effect="slide" start="0" end="0,-80" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
                         <animation condition="!Container($PARAM[nodeid]).OnPrevious" effect="slide" start="0" end="0,80" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
 
@@ -282,14 +261,29 @@
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="item_w">$PARAM[item_w]</param>
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
+
+                <content>
+                    <item>
+                        <property name="blankitem">true</property>
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + !String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(blankitem))]</visible>
+                    </item>
+                </content>
+
                 <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]">$INFO[Container($PARAM[nodeid]).ListItem.FolderPath]</content>
-                <visible>!Container($PARAM[nodeid]).IsUpdating + Container($PARAM[nodeid]).ListItem.IsFolder</visible>
+
+
+
                 <top>widget_items_t</top>
                 <height>$PARAM[height]</height>
                 <orientation>horizontal</orientation>
-                <animation effect="fade" start="100" end="0" time="0" condition="[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating] + $PARAM[busy_visible]">Conditional</animation>
-                <visible>[Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) | $PARAM[altvisible]]</visible>
-                <visible>$PARAM[visible]</visible>
+
+                <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0)] + Container($PARAM[nodeid]).ListItem.IsFolder + !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) + !String.IsEmpty(Container($PARAM[nodeid]).ListItem.FolderPath)</visible>
+
+                <animation effect="fade" start="100" end="0" time="400" reversible="true" condition="[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating | [Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + !String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(blankitem))]]]">Conditional</animation>
+                <animation effect="fade" start="0" end="100" time="400" reversible="true" condition="![Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating | [Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + !String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(blankitem))]]]">Conditional</animation>
+
+                <!-- <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) | Container($PARAM[nodeid]).IsUpdating | $PARAM[altvisible]]</visible> -->
+                <!-- <visible>$PARAM[visible]</visible> -->
                 <include content="Widget_SlideAnimation">
                     <param name="infowidget_full">$PARAM[infowidget_full]</param>
                     <param name="infowidget">$PARAM[infowidget]</param>
@@ -299,8 +293,9 @@
                 <onleft>$PARAM[nodeid]</onleft>
                 <onright>SetFocus($PARAM[id],0,absolute)</onright>
                 <onright>$PARAM[nodeid]</onright>
-                <animation effect="slide" start="0" end="490" time="400" tween="quadratic" reversible="false" condition="Control.HasFocus($PARAM[nodeid])">Conditional</animation>
-                <animation effect="slide" end="0" start="490" time="400" tween="quadratic" reversible="false" condition="!Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+                <animation effect="slide" start="0" end="$PARAM[node_w]" time="400" tween="quadratic" reversible="false" condition="Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+                <animation effect="slide" end="0" start="$PARAM[node_w]" time="400" tween="quadratic" reversible="false" condition="!Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+                <nested />
             </include>
         </definition>
     </include>
