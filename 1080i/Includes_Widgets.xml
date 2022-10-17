@@ -129,6 +129,182 @@
         </definition>
     </include>
 
+    <include name="Widget_SideStack_Node">
+        <param name="selected">false</param>
+        <definition>
+            <control type="group">
+                <height>grid_x08</height>
+                <control type="group">
+                    <include content="Dimension_Padding" condition="$PARAM[selected]">
+                        <param name="pad">-5</param>
+                    </include>
+                    <include content="Object_ItemBack">
+                        <param name="selected">$PARAM[selected]</param>
+                    </include>
+                </control>
+                <control type="label">
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <label>$PARAM[label]</label>
+                    <textcolor>main_fg_70</textcolor>
+                    <font>font_mini_bold</font>
+                    <left>30</left>
+                    <right>30</right>
+                    <height>20</height>
+                    <centertop>50%</centertop>
+                </control>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <include name="Widget_SideStack_NodeList">
+        <control type="wraplist" id="$PARAM[nodeid]">
+            <orientation>vertical</orientation>
+            <itemlayout width="1" height="1" />
+            <focusedlayout width="1" height="1" />
+            <width>1</width>
+            <height>1</height>
+            <left>-1920</left>
+            <onright>SetFocus($PARAM[id],0,absolute)</onright>
+            <onleft>SetFocus($PARAM[id],9999,absolute)</onleft>
+            <nested />
+        </control>
+    </include>
+
+    <include name="Widget_SideStack">
+        <param name="visible">true</param>
+        <param name="altvisible">false</param>
+        <param name="include">List_Landscape_Row</param>
+        <param name="busy_visible">true</param>
+        <param name="busy_isupdating">false</param>
+        <param name="usewidgetlabel">false</param>
+        <param name="infowidget">false</param>
+        <param name="height">widget_items_h</param>
+        <definition>
+            <include content="Widget_Label">
+                <param name="groupid">$PARAM[groupid]</param>
+                <param name="label">[CAPITALIZE]$INFO[Container($PARAM[nodeid]).ListItem.Label][/CAPITALIZE] ($PARAM[label])</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="visible">[Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</param>
+                <param name="busy_visible">[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating | $PARAM[busy_isupdating]] + $PARAM[busy_visible]</param>
+                <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
+                <param name="infowidget">$PARAM[infowidget]</param>
+                <param name="infowidget_full">$PARAM[infowidget_full]</param>
+                <param name="labelvisible">$PARAM[labelvisible]</param>
+                <include content="Widget_SlideAnimation">
+                    <param name="infowidget_full">$PARAM[infowidget_full]</param>
+                    <param name="infowidget">$PARAM[infowidget]</param>
+                    <param name="id">$PARAM[id]</param>
+                </include>
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+                <control type="group">
+                    <width>450</width>
+                    <height>320</height>
+                    <top>100</top>
+                    <animation effect="slide" start="0" end="490" time="400" tween="quadratic" reversible="false" condition="Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+                <animation effect="slide" end="0" start="490" time="400" tween="quadratic" reversible="false" condition="!Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+                    <visible>!Container($PARAM[id]).HasPrevious</visible>
+                    <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+                    <animation effect="slide" start="0" end="-490" condition="true">Conditional</animation>
+                    <!-- <control type="label">
+                        <top>-70</top>
+                        <height>30</height>
+                        <aligny>center</aligny>
+                        <textcolor>main_fg_30</textcolor>
+                        <label>$PARAM[label]</label>
+                        <font>font_small</font>
+                        <visible>!Control.HasFocus($PARAM[nodeid])</visible>
+                    </control>
+                    <control type="label">
+                        <top>-70</top>
+                        <height>30</height>
+                        <aligny>center</aligny>
+                        <textcolor>main_fg_100</textcolor>
+                        <label>$PARAM[label]</label>
+                        <font>font_menulabel</font>
+                        <visible>Control.HasFocus($PARAM[nodeid])</visible>
+                    </control> -->
+
+                    <control type="group">
+                        <animation condition="!Container($PARAM[nodeid]).OnNext" effect="slide" start="0" end="0,-80" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
+                        <animation condition="!Container($PARAM[nodeid]).OnPrevious" effect="slide" start="0" end="0,80" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
+
+                        <!-- Top -->
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem(-2).Label]</param>
+                            <top>-120</top>
+                            <visible>Container($PARAM[nodeid]).OnNext</visible>
+                            <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
+                        </include>
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem(-1).Label]</param>
+                            <top>0</top>
+                            <visible>!Container($PARAM[nodeid]).OnPrevious</visible>
+                            <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
+                        </include>
+
+                        <!-- Center -->
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem.Label]</param>
+                            <centertop>50%</centertop>
+                            <visible>!Control.HasFocus($PARAM[nodeid])</visible>
+                        </include>
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem.Label]</param>
+                            <param name="selected">true</param>
+                            <visible>Control.HasFocus($PARAM[nodeid])</visible>
+                            <centertop>50%</centertop>
+                        </include>
+
+                        <!-- Bottom -->
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem(1).Label]</param>
+                            <bottom>0</bottom>
+                            <visible>!Container($PARAM[nodeid]).OnNext</visible>
+                            <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
+                        </include>
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem(2).Label]</param>
+                            <bottom>-120</bottom>
+                            <visible>Container($PARAM[nodeid]).OnPrevious</visible>
+                            <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
+                        </include>
+                    </control>
+
+                </control>
+            </include>
+            <include content="$PARAM[include]">
+                <param name="id">$PARAM[id]</param>
+                <param name="context_button">true</param>
+                <param name="icon">$PARAM[icon]</param>
+                <param name="detailed">$PARAM[detailed]</param>
+                <param name="item_h">$PARAM[item_h]</param>
+                <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                <param name="item_w">$PARAM[item_w]</param>
+                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
+                <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]">$INFO[Container($PARAM[nodeid]).ListItem.FolderPath]</content>
+                <visible>!Container($PARAM[nodeid]).IsUpdating + Container($PARAM[nodeid]).ListItem.IsFolder</visible>
+                <top>widget_items_t</top>
+                <height>$PARAM[height]</height>
+                <orientation>horizontal</orientation>
+                <animation effect="fade" start="100" end="0" time="0" condition="[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating] + $PARAM[busy_visible]">Conditional</animation>
+                <visible>[Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) | $PARAM[altvisible]]</visible>
+                <visible>$PARAM[visible]</visible>
+                <include content="Widget_SlideAnimation">
+                    <param name="infowidget_full">$PARAM[infowidget_full]</param>
+                    <param name="infowidget">$PARAM[infowidget]</param>
+                    <param name="id">$PARAM[id]</param>
+                </include>
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+                <onleft>$PARAM[nodeid]</onleft>
+                <onright>SetFocus($PARAM[id],0,absolute)</onright>
+                <onright>$PARAM[nodeid]</onright>
+                <animation effect="slide" start="0" end="490" time="400" tween="quadratic" reversible="false" condition="Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+                <animation effect="slide" end="0" start="490" time="400" tween="quadratic" reversible="false" condition="!Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+            </include>
+        </definition>
+    </include>
+
     <include name="Widget_Poster">
         <param name="visible">true</param>
         <param name="altvisible">false</param>

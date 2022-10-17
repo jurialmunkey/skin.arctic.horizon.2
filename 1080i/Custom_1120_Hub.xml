@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="window" id="1120">
+    <defaultcontrol>6000</defaultcontrol>
+    <controls>
+        <include>Defs_TMDbHelper_Loader</include>
+        <include>Background_ExtraFanart</include>
+        <include>Background_Main</include>
+
+        <control type="grouplist" id="6000">
+            <orientation>vertical</orientation>
+            <include>Animation_Common</include>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+            <control type="group" id="6100">
+                <height>widget_tbump_h</height>
+            </control>
+            <include content="Widget_SideStack">
+                <param name="id">5000</param>
+                <param name="groupid">5100</param>
+                <param name="nodeid">5200</param>
+                <param name="grouplistid">5300</param>
+                <param name="label">Playlist</param>
+            </include>
+            <include content="Widget_SideStack">
+                <param name="id">5001</param>
+                <param name="groupid">5101</param>
+                <param name="nodeid">5201</param>
+                <param name="grouplistid">5301</param>
+                <param name="label">Genre</param>
+            </include>
+            <include content="Widget_SideStack">
+                <param name="id">5002</param>
+                <param name="groupid">5102</param>
+                <param name="nodeid">5202</param>
+                <param name="grouplistid">5302</param>
+                <param name="label">Studio</param>
+            </include>
+            <include content="Widget_SideStack">
+                <param name="id">5003</param>
+                <param name="groupid">5103</param>
+                <param name="nodeid">5203</param>
+                <param name="grouplistid">5303</param>
+                <param name="label">Director</param>
+            </include>
+            <include content="Widget_SideStack">
+                <param name="id">5004</param>
+                <param name="groupid">5104</param>
+                <param name="nodeid">5204</param>
+                <param name="grouplistid">5304</param>
+                <param name="label">Year</param>
+            </include>
+        </control>
+
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5000</param>
+            <param name="nodeid">5200</param>
+            <content target="videos">special://skin/extras/hub/movies</content>
+        </include>
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5001</param>
+            <param name="nodeid">5201</param>
+            <content sortby="label" sortorder="ascending" target="videos">videodb://movies/genres/</content>
+        </include>
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5002</param>
+            <param name="nodeid">5202</param>
+            <content sortby="label" sortorder="ascending" target="videos">videodb://movies/studios/</content>
+        </include>
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5003</param>
+            <param name="nodeid">5203</param>
+            <content sortby="label" sortorder="ascending" target="videos">videodb://movies/directors/</content>
+        </include>
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5004</param>
+            <param name="nodeid">5204</param>
+            <content sortby="year" sortorder="descending" target="videos">videodb://movies/years/</content>
+        </include>
+
+        <include content="Object_WallFade">
+            <param name="id" value="6000" />
+            <param name="direction_buttons">true</param>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+        </include>
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Furniture_Top</include>
+        </control>
+    </controls>
+</window>
