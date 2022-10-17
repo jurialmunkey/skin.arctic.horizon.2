@@ -7,6 +7,16 @@
         <include>Background_Main</include>
 
         <control type="grouplist" id="6000">
+            <onup>340</onup>
+            <ondown>330</ondown>
+            <animation type="Conditional" condition="Control.IsVisible(340)" reversible="false">
+                <effect type="slide" end="0,20" time="60" tween="sine" />
+                <effect type="slide" end="0,-20" time="180" tween="sine" delay="80" />
+            </animation>
+            <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                <effect type="slide" end="0,-20" time="60" tween="sine" />
+                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+            </animation>
             <orientation>vertical</orientation>
             <include>Animation_Common</include>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
@@ -14,6 +24,20 @@
             <control type="group" id="6100">
                 <height>widget_tbump_h</height>
             </control>
+
+            <include content="Widget_Submenu">
+                <param name="groupid" value="4901" />
+                <param name="id" value="4900" />
+                <param name="spacerid" value="4902" />
+                <param name="buttonid" value="4903" />
+                <param name="label" value="Submenu" />
+                <param name="include" value="List_Button_Row" />
+                <param name="detailed">false</param>
+                <param name="infowidget" value="false" />
+                <content target="videos">plugin://plugin.video.themoviedb.helper/?info=dir_movie</content>
+                <!-- <content target="videos">addons://sources/video/</content> -->
+            </include>
+
             <include content="Widget_SideStack">
                 <param name="id">5000</param>
                 <param name="groupid">5001</param>
@@ -56,6 +80,25 @@
                 <param name="grouplistid">5503</param>
                 <param name="label">Keyword</param>
             </include>
+
+
+
+            <include content="Widget_Submenu">
+                <param name="groupid" value="5901" />
+                <param name="id" value="5900" />
+                <param name="spacerid" value="5902" />
+                <param name="buttonid" value="5903" />
+                <param name="label" value="Apps" />
+                <param name="include" value="List_Apps_Row" />
+                <param name="detailed">false</param>
+                <param name="infowidget" value="false" />
+                <content target="videos">addons://sources/video/</content>
+                <!-- <content target="videos">plugin://plugin.video.themoviedb.helper/?info=dir_movie</content> -->
+                <!-- <content><include>skinshortcuts-group-movies</include></content> -->
+            </include>
+            <control type="group" id="5904">
+                <height>widget_sbump_h</height>
+            </control>
         </control>
 
         <include content="Widget_SideStack_NodeList">
@@ -95,6 +138,25 @@
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
         </include>
+
+        <control type="button" id="330">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(6000)</onfocus>
+            <onclick>SetFocus(6000)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(330)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+        <control type="button" id="340">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(6000)</onfocus>
+            <onclick>SetFocus(6000)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(340)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Furniture_Top</include>
