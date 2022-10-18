@@ -43,7 +43,13 @@
                 <param name="groupid">5001</param>
                 <param name="nodeid">5002</param>
                 <param name="grouplistid">5003</param>
-                <param name="label">Playlist</param>
+                <param name="label">Trakt</param>
+                <onback condition="!Integer.IsEqual(Container(5000).ListItem.CurrentItem,1)">6000</onback>
+                <onback condition="!Integer.IsEqual(Container(5000).ListItem.CurrentItem,1)">SetFocus(5000,0,absolute)</onback>
+                <onback condition="Integer.IsEqual(Container(5000).ListItem.CurrentItem,1)">5002</onback>
+                <focusposition>1</focusposition>
+                <movement>1</movement>
+                <animation effect="slide" start="0" end="-450" condition="Integer.IsLess(Container(5000).NumItems,3)">Conditional</animation>
             </include>
             <include content="Widget_SideStack">
                 <param name="id">5100</param>
@@ -51,20 +57,38 @@
                 <param name="nodeid">5102</param>
                 <param name="grouplistid">5103</param>
                 <param name="label">Genre</param>
+                <onback condition="!Integer.IsEqual(Container(5100).ListItem.CurrentItem,1)">6000</onback>
+                <onback condition="!Integer.IsEqual(Container(5100).ListItem.CurrentItem,1)">SetFocus(5100,0,absolute)</onback>
+                <onback condition="Integer.IsEqual(Container(5100).ListItem.CurrentItem,1)">5102</onback>
+                <focusposition>1</focusposition>
+                <movement>1</movement>
+                <animation effect="slide" start="0" end="-450" condition="Integer.IsLess(Container(5100).NumItems,3)">Conditional</animation>
             </include>
             <include content="Widget_SideStack">
                 <param name="id">5200</param>
                 <param name="groupid">5201</param>
                 <param name="nodeid">5202</param>
                 <param name="grouplistid">5203</param>
-                <param name="label">Studio</param>
+                <param name="label">Lists</param>
+                <onback condition="!Integer.IsEqual(Container(5200).ListItem.CurrentItem,1)">6000</onback>
+                <onback condition="!Integer.IsEqual(Container(5200).ListItem.CurrentItem,1)">SetFocus(5200,0,absolute)</onback>
+                <onback condition="Integer.IsEqual(Container(5200).ListItem.CurrentItem,1)">5202</onback>
+                <focusposition>1</focusposition>
+                <movement>1</movement>
+                <animation effect="slide" start="0" end="-450" condition="Integer.IsLess(Container(5200).NumItems,3)">Conditional</animation>
             </include>
             <include content="Widget_SideStack">
                 <param name="id">5300</param>
                 <param name="groupid">5301</param>
                 <param name="nodeid">5302</param>
                 <param name="grouplistid">5303</param>
-                <param name="label">Director</param>
+                <param name="label">Providers</param>
+                <onback condition="!Integer.IsEqual(Container(5300).ListItem.CurrentItem,1)">6000</onback>
+                <onback condition="!Integer.IsEqual(Container(5300).ListItem.CurrentItem,1)">SetFocus(5300,0,absolute)</onback>
+                <onback condition="Integer.IsEqual(Container(5300).ListItem.CurrentItem,1)">5302</onback>
+                <focusposition>1</focusposition>
+                <movement>1</movement>
+                <animation effect="slide" start="0" end="-450" condition="Integer.IsLess(Container(5300).NumItems,3)">Conditional</animation>
             </include>
             <include content="Widget_SideStack">
                 <param name="id">5400</param>
@@ -72,6 +96,12 @@
                 <param name="nodeid">5402</param>
                 <param name="grouplistid">5403</param>
                 <param name="label">Year</param>
+                <onback condition="!Integer.IsEqual(Container(5400).ListItem.CurrentItem,1)">6000</onback>
+                <onback condition="!Integer.IsEqual(Container(5400).ListItem.CurrentItem,1)">SetFocus(5400,0,absolute)</onback>
+                <onback condition="Integer.IsEqual(Container(5400).ListItem.CurrentItem,1)">5402</onback>
+                <focusposition>1</focusposition>
+                <movement>1</movement>
+                <animation effect="slide" start="0" end="-450" condition="Integer.IsLess(Container(5400).NumItems,3)">Conditional</animation>
             </include>
             <include content="Widget_SideStack">
                 <param name="id">5500</param>
@@ -79,6 +109,12 @@
                 <param name="nodeid">5502</param>
                 <param name="grouplistid">5503</param>
                 <param name="label">Keyword</param>
+                <onback condition="!Integer.IsEqual(Container(5500).ListItem.CurrentItem,1)">6000</onback>
+                <onback condition="!Integer.IsEqual(Container(5500).ListItem.CurrentItem,1)">SetFocus(5500,0,absolute)</onback>
+                <onback condition="Integer.IsEqual(Container(5500).ListItem.CurrentItem,1)">5502</onback>
+                <focusposition>1</focusposition>
+                <movement>1</movement>
+                <animation effect="slide" start="0" end="-450" condition="Integer.IsLess(Container(5500).NumItems,3)">Conditional</animation>
             </include>
 
 
@@ -93,8 +129,6 @@
                 <param name="detailed">false</param>
                 <param name="infowidget" value="false" />
                 <content target="videos">addons://sources/video/</content>
-                <!-- <content target="videos">plugin://plugin.video.themoviedb.helper/?info=dir_movie</content> -->
-                <!-- <content><include>skinshortcuts-group-movies</include></content> -->
             </include>
             <control type="group" id="5904">
                 <height>widget_sbump_h</height>
@@ -104,22 +138,60 @@
         <include content="Widget_SideStack_NodeList">
             <param name="id">5000</param>
             <param name="nodeid">5002</param>
-            <content target="videos">special://skin/extras/hub/movies</content>
+            <content>
+                <item>
+                    <label>Watchlist</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_watchlist&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+                <item>
+                    <label>In Progress</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_inprogress&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+                <item>
+                    <label>Recently Watched</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+                <item>
+                    <label>Recommendations</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_recommendations&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+            </content>
         </include>
         <include content="Widget_SideStack_NodeList">
             <param name="id">5100</param>
             <param name="nodeid">5102</param>
-            <content sortby="label" sortorder="ascending" target="videos">plugin://plugin.video.themoviedb.helper/?info=genres&amp;tmdb_type=movie</content>
+            <content sortby="label" sortorder="ascending" target="videos">plugin://plugin.video.themoviedb.helper/?info=genres&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</content>
         </include>
         <include content="Widget_SideStack_NodeList">
             <param name="id">5200</param>
             <param name="nodeid">5202</param>
-            <content sortby="label" sortorder="ascending" target="videos">videodb://movies/studios/</content>
+            <content>
+                <item>
+                    <label>Popular</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=popular&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+                <item>
+                    <label>Top Rated</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=top_rated&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+                <item>
+                    <label>Trending</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trending_week&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+                <item>
+                    <label>In Theatres</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=now_playing&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+                <item>
+                    <label>Upcoming</label>
+                    <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=upcoming&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</property>
+                </item>
+            </content>
         </include>
         <include content="Widget_SideStack_NodeList">
             <param name="id">5300</param>
             <param name="nodeid">5302</param>
-            <content sortby="label" sortorder="ascending" target="videos">videodb://movies/directors/</content>
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=watch_providers&amp;tmdb_type=movie&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</content>
         </include>
         <include content="Widget_SideStack_NodeList">
             <param name="id">5400</param>
@@ -129,7 +201,7 @@
         <include content="Widget_SideStack_NodeList">
             <param name="id">5500</param>
             <param name="nodeid">5502</param>
-            <content sortby="label" sortorder="ascending" target="videos">plugin://plugin.video.themoviedb.helper/?info=all_items&amp;tmdb_type=keyword</content>
+            <content sortby="label" sortorder="ascending" target="videos">plugin://plugin.video.themoviedb.helper/?info=all_items&amp;tmdb_type=keyword&amp;nextpage=false&amp;fanarttv=false&amp;cacheonly=true</content>
         </include>
 
         <include content="Object_WallFade">
