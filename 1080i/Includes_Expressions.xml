@@ -29,7 +29,18 @@
 
     <expression name="Exp_HasPagesItems">[[Control.HasFocus(60) | Control.HasFocus(63) | Control.HasFocus(64) | Control.HasFocus(65)]]</expression>
 
-    <expression name="Exp_HasBackgroundFanart">[Window.IsVisible(MyPVRGuide.xml) | Window.IsMedia | $EXP[Exp_InfoDialogs] | [Skin.HasSetting(HomeFanart) + [Window.IsActive(1114) | Window.IsActive(Home) | Window.IsVisible(1120) | Window.IsVisible(1121) | Window.IsVisible(1122)]]]</expression>
+    <expression name="Exp_HasBackgroundFanart">[[[$EXP[Exp_IsMediaWindow] | $EXP[Exp_HasBackgroundFanart_Widgets]] + !$EXP[Exp_InfoDialogs]] | $EXP[Exp_HasBackgroundFanart_InfoDialogs]]</expression>
+
+    <expression name="Exp_HasBackgroundFanart_InfoDialogs">[$EXP[Exp_InfoDialogs] + !Skin.HasSetting(Info.EnableSimpleBackground)]</expression>
+
+    <expression name="Exp_HasBackgroundFanart_Widgets">[$EXP[Exp_IsWidgetWindow] +  [Skin.HasSetting(Widgets.DisableSimpleBackground) | [!Skin.HasSetting(Widgets.DisableExpandedBackground) + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)]]]</expression>
+
+    <expression name="Exp_IsWidgetWindow">[Window.IsActive(1114) | Window.IsActive(Home) | Window.IsVisible(1120) | Window.IsVisible(1121) | Window.IsVisible(1122)]</expression>
+
+    <expression name="Exp_IsMediaWindow">[Window.IsMedia | Window.IsVisible(MyPVRGUide.xml) | Window.IsVisible(MyPVRChannels.xml)]</expression>
+
+
+    <expression name="Exp_IsCurrentServiceItem">[String.IsEqual(Container(99950).ListItem.Property(FolderPath),ListItem.FolderPath) | String.IsEqual(Container(99950).ListItem.Property(FileNameAndPath),ListItem.FileNameAndPath)]</expression>
 
     <expression name="Exp_HasExtraFanart">[Skin.HasSetting(Background.ExtraFanart) + [!String.IsEmpty(ListItem.Art(fanart1)) | !String.IsEmpty(ListItem.Art(tvshow.fanart1))]]</expression>
 
@@ -54,8 +65,6 @@
     <expression name="Exp_ContextMenu_HasIcon">[!$EXP[Exp_ContextMenu_HasPoster] + !String.IsEmpty(Container(99950).ListItem.Property(base_icon))]</expression>
 
     <expression name="Exp_FullscreenWidgetStandard">[!String.IsEmpty(Container(300).ListItem.Property(widgetPath)) + [String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen) | String.IsEmpty(Container(300).ListItem.Property(widgetStyle))]]</expression>
-
-    <expression name="Exp_ShowSideArt">[Window.IsMedia | String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) | Window.IsVisible(1191)]</expression>
 
     <expression name="Exp_PVRWindows">[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRRecordings.xml) | Window.IsVisible(MyPVRSearch.xml)]</expression>
 

@@ -58,6 +58,37 @@
         </control>
     </include>
 
+    <include name="Background_FlixArt">
+        <param name="flixart_size">flixart_size_s</param>
+        <definition>
+            <control type="group">
+                <animation effect="fade" start="0" end="100" time="1000">Visible</animation>
+                <animation effect="fade" start="100" end="0" time="150">Hidden</animation>
+                <include content="Object_Control">
+                    <param name="control" value="image" />
+                    <fadetime>400</fadetime>
+                    <right>0</right>
+                    <top>0</top>
+                    <height>$PARAM[flixart_size]</height>
+                    <width>$PARAM[flixart_size]</width>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture background="true" diffuse="diffuse/flixart-fade.png">$VAR[Image_Foreground_FlixKeyArt]</texture>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Background_KeyArt">
+        <include content="Object_Control">
+            <param name="control" value="image" />
+            <right>0</right>
+            <width>50%</width>
+            <fadetime>400</fadetime>
+            <aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
+            <texture background="true" diffuse="diffuse/flixart.png">$VAR[Image_Foreground_FlixKeyArt]</texture>
+        </include>
+    </include>
+
     <include name="Background_Blur">
         <include content="_Background_Blur">
             <param name="flixart_size">flixart_size_l</param>
@@ -72,7 +103,7 @@
                 <!-- Standard Blur -->
                 <include content="Object_Control" condition="!Skin.String(ForegroundStyle,FlixArt) + !Skin.String(ForegroundStyle,KeyArt)">
                     <param name="control" value="image" />
-                    <fadetime>800</fadetime>
+                    <fadetime>600</fadetime>
                     <texture background="true">$INFO[Container(99950).ListItem.Art(blurimage)]</texture>
                 </include>
 
@@ -81,13 +112,13 @@
                     <param name="control" value="group" />
                     <control type="image">
                         <right>75%</right>
-                        <fadetime>800</fadetime>
+                        <fadetime>600</fadetime>
                         <width>100%</width>
                         <texture background="true" flipx="true">$VAR[Image_Background_Blur]</texture>
                     </control>
                     <control type="image">
                         <left>25%</left>
-                        <fadetime>800</fadetime>
+                        <fadetime>600</fadetime>
                         <width>100%</width>
                         <texture background="true">$VAR[Image_Background_Blur]</texture>
                     </control>
@@ -103,13 +134,13 @@
                         <width>150%</width>
                         <!-- Top  -->
                         <control type="image">
-                            <fadetime>800</fadetime>
+                            <fadetime>600</fadetime>
                             <height>$PARAM[flixart_size]</height>
                             <texture background="true" flipx="true" flipy="false">$VAR[Image_Background_Blur]</texture>
                         </control>
                         <!-- Bottom -->
                         <control type="image">
-                            <fadetime>800</fadetime>
+                            <fadetime>600</fadetime>
                             <bottom>0</bottom>
                             <top>$PARAM[flixart_size]</top>
                             <texture background="true" flipx="true" flipy="true">$VAR[Image_Background_Blur]</texture>
@@ -122,13 +153,13 @@
                         <width>$PARAM[flixart_size]</width>
                         <!-- Top  -->
                         <control type="image">
-                            <fadetime>800</fadetime>
+                            <fadetime>600</fadetime>
                             <height>$PARAM[flixart_size]</height>
                             <texture background="true" flipx="false" flipy="false">$VAR[Image_Background_Blur]</texture>
                         </control>
                         <!-- Bottom -->
                         <control type="image">
-                            <fadetime>800</fadetime>
+                            <fadetime>600</fadetime>
                             <bottom>0</bottom>
                             <top>$PARAM[flixart_size]</top>
                             <texture background="true" flipx="false" flipy="true">$VAR[Image_Background_Blur]</texture>
@@ -148,7 +179,7 @@
             <imagepath colordiffuse="main_back">$VAR[Image_StartUp]</imagepath>
             <randomize>true</randomize>
             <timeperimage>20000</timeperimage>
-            <fadetime>400</fadetime>
+            <fadetime>600</fadetime>
         </include>
     </include>
 
@@ -183,7 +214,7 @@
                 <height>216000</height>
                 <right>-3840</right>
                 <top>-2160</top>
-                <fadetime>800</fadetime>
+                <fadetime>600</fadetime>
                 <texture background="true" flipx="true">$PARAM[texture]</texture>
                 <include>Background_NotVideo</include>
             </include>
@@ -192,11 +223,6 @@
 
     <include name="Background_None">
         <include condition="![Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)]">Background_Image</include>
-        <!-- <include content="Object_Control" condition="![Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)]">
-            <param name="control" value="image" />
-            <texture colordiffuse="main_back">common/white.png</texture>
-            <include>Background_NotVideo</include>
-        </include> -->
     </include>
 
     <include name="Background_NotVideo">
@@ -222,26 +248,26 @@
         </include>
     </include>
 
-    <include name="Background_FlixKeyArt">
+    <include name="Background_ForegroundArtwork">
         <include content="Object_Control" condition="Skin.String(ForegroundStyle,KeyArt)">
             <param name="control">group</param>
             <include>Background_NotVideo</include>
             <include content="View_Visibility_Common">
                 <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
-                <param name="visible_infodialogs">!$EXP[Exp_InfoDialogs] | Skin.HasSetting(Background.UseFlixArtInfo)</param>
+                <param name="visible_infodialogs">true</param>
                 <param name="visible_widgets">true</param>
             </include>
-            <include>View_KeyArt</include>
+            <include>Background_KeyArt</include>
         </include>
         <include content="Object_Control" condition="Skin.String(ForegroundStyle,FlixArt)">
             <param name="control">group</param>
             <include>Background_NotVideo</include>
             <include content="View_Visibility_Common">
                 <param name="animation_include">Animation_Foreground_Visible_FadeInOut</param>
-                <param name="visible_infodialogs">!$EXP[Exp_InfoDialogs] | Skin.HasSetting(Background.UseFlixArtInfo)</param>
+                <param name="visible_infodialogs">true</param>
                 <param name="visible_widgets">true</param>
             </include>
-            <include content="View_FlixArt">
+            <include content="Background_FlixArt">
                 <param name="flixart_size">flixart_size_l</param>
             </include>
         </include>
@@ -265,7 +291,7 @@
                 <include condition="Skin.String(BackgroundStyle,Fanart)">Background_Fanart</include>
                 <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
                 <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
-                <include condition="!Skin.String(BackgroundStyle,Fanart)">Background_FlixKeyArt</include>
+                <include condition="!Skin.String(BackgroundStyle,Fanart)">Background_ForegroundArtwork</include>
                 <nested />
             </include>
             <include content="Object_Control" condition="Skin.String(BackgroundStyle,Fanart)">
