@@ -22,14 +22,19 @@
         <value>common/null.png</value>
     </variable>
 
-    <variable name="Image_Foreground_FlixKeyArt">
-        <value condition="![$EXP[Exp_HasBackgroundFanart]]">common/null.png</value>
-        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(blurimage)) + $EXP[Exp_IsCurrentServiceItem]">$INFO[Container(99950).ListItem.Art(blurimage.original)]</value>
-        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(blurimage)) + $EXP[Exp_IsCurrentServiceItem]">$INFO[Container(99950).ListItem.Art(blurimage.original)]</value>
-        <value>$VAR[Image_Background_FlixKeyArt]</value>
+    <variable name="Image_Background_Stretch">
+        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">background/blur2.png</value>
+        <value>$VAR[Image_Foreground_FlixArt_Quick]</value>
     </variable>
 
-    <variable name="Image_Background_FlixKeyArt">
+    <variable name="Image_Foreground_FlixArt">
+        <value condition="![$EXP[Exp_HasBackgroundFanart]]">common/null.png</value>
+        <value condition="Skin.String(BackgroundStyle,Blur) + !String.IsEmpty(Container(99950).ListItem.Art(blurimage)) + $EXP[Exp_IsCurrentServiceItem]">$INFO[Container(99950).ListItem.Art(blurimage.original)]</value>
+        <value condition="Skin.String(BackgroundStyle,Blur) + !String.IsEmpty(Container(99950).ListItem.Art(blurimage)) + $EXP[Exp_IsCurrentServiceItem]">$INFO[Container(99950).ListItem.Art(blurimage.original)]</value>
+        <value>$VAR[Image_Foreground_FlixArt_Quick]</value>
+    </variable>
+
+    <variable name="Image_Foreground_FlixArt_Quick">
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart)]</value>
