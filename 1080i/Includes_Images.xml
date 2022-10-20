@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Image_DiffuseType">
+        <value condition="Skin.HasSetting(Glass.DisablePanels)">round_</value>
+    </variable>
+
+    <variable name="Image_CropLogo">
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(cropimage))">$INFO[Container(99950).ListItem.Art(cropimage)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_clearlogo))">$INFO[Container(99950).ListItem.Property(base_clearlogo)]</value>
+    </variable>
+
     <variable name="Image_OSD_PosterImage">
         <value condition="!String.IsEmpty(Player.Art(poster))">$INFO[Player.Art(poster)]</value>
         <value condition="!String.IsEmpty(Player.Art(tvshow.poster))">$INFO[Player.Art(tvshow.poster)]</value>
     </variable>
 
     <variable name="Image_Background_Blur">
-        <value condition="String.IsEmpty(Container(99950).ListItem.Art(blurimage))">background/blur2.png</value>
-        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
-        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),ListItem.Art(tvshow.fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
-        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),ListItem.Art(artist.fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
-        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
-        <value condition="String.IsEqual(Container(99950).ListItem.Art(blurimage.original),Container(99950).ListItem.Art(tvshow.fanart))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
-        <value>background/blur2.png</value>
+        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">background/blur2.png</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(blurimage))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(blurimage))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
+        <value>common/null.png</value>
     </variable>
 
-    <variable name="Image_Foreground_FlixKeyArt">
-        <value condition="!$EXP[Exp_ShowSideArt]" />
+    <variable name="Image_Background_Stretch">
+        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">background/blur2.png</value>
+        <value>$VAR[Image_Foreground_FlixArt_Quick]</value>
+    </variable>
+
+    <variable name="Image_Foreground_FlixArt">
+        <value condition="![$EXP[Exp_HasBackgroundFanart]]">common/null.png</value>
+        <value condition="Skin.String(BackgroundStyle,Blur) + !String.IsEmpty(Container(99950).ListItem.Art(blurimage))">$INFO[Container(99950).ListItem.Art(blurimage.original)]</value>
+        <value condition="Skin.String(BackgroundStyle,Blur) + !String.IsEmpty(Container(99950).ListItem.Art(blurimage))">$INFO[Container(99950).ListItem.Art(blurimage.original)]</value>
+        <value>$VAR[Image_Foreground_FlixArt_Quick]</value>
+    </variable>
+
+    <variable name="Image_Foreground_FlixArt_Quick">
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart)]</value>
-        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(fanart)) + String.IsEqual(Container(99950).ListItem.Art(blurimage.original),Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(fanart)]</value>
-    </variable>
-
-    <variable name="Image_Background_FlixKeyArt">
-        <value condition="!$EXP[Exp_ShowSideArt]">background/blur2.png</value>
-        <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
-        <value condition="!String.IsEmpty(ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart)]</value>
-        <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart)]</value>
-        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(fanart)) + String.IsEqual(Container(99950).ListItem.Art(blurimage.original),Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(fanart)]</value>
     </variable>
 
     <variable name="Image_Background_Fanart">
@@ -37,7 +46,7 @@
         <value condition="$EXP[Exp_IsPersonInfo] | Window.IsVisible(script-tmdbhelper-wikipedia.xml)">background/blur2.png</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + $EXP[Exp_HasExtraFanart] + !String.IsEmpty(Control.GetLabel(99998))">$INFO[Control.GetLabel(99998)]</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
-        <value condition="!String.IsEmpty(Container(300).ListItem.Property(widgetPath)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),301) + $EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Container(301).ListItem.Art(fanart))">$INFO[Container(301).ListItem.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Container(300).ListItem.Property(widgetPath)) + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Container(301).ListItem.Art(fanart))">$INFO[Container(301).ListItem.Art(fanart)]</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(ListItem.EPGEventIcon) + !Skin.HasSetting(PVR.DisableEPGEventIconFanart)">$INFO[ListItem.EPGEventIcon]</value>
         <value condition="Window.IsMedia + Control.IsVisible(502) + Control.HasFocus(503) + !String.IsEmpty(Container(503).ListItem.Art(fanart))">$INFO[Container(503).ListItem.Art(fanart)]</value>
         <value condition="Window.IsMedia + Control.IsVisible(512) + Control.HasFocus(513) + !String.IsEmpty(Container(513).ListItem.Art(fanart))">$INFO[Container(513).ListItem.Art(fanart)]</value>
@@ -102,7 +111,7 @@
     </variable>
 
     <variable name="Image_VideoInfo_PlayButton">
-        <value condition="ListItem.IsFolder">special://skin/extras/icons/folder.png</value>
+        <value condition="$EXP[Exp_InfoDialog_IsFolder]">special://skin/extras/icons/folder.png</value>
         <value>special://skin/extras/icons/play3.png</value>
     </variable>
 
@@ -135,8 +144,15 @@
     </variable>
 
     <variable name="Image_VideoQuality_Main">
-        <value condition="!$EXP[Exp_InfoDialogs] + Window.IsVisible(Home) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">$VAR[Image_VideoQuality_C301]</value>
+        <value condition="!$EXP[Exp_InfoDialogs] + Window.IsVisible(Home) + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)">$VAR[Image_VideoQuality_C301]</value>
         <value>$VAR[Image_VideoQuality_Parent]</value>
+    </variable>
+
+    <variable name="Image_OSD_VideoQuality">
+        <value condition="Integer.IsGreater(VideoPlayer.VideoResolution,1080) | String.IsEqual(VideoPlayer.VideoResolution,4K)">flags/quality/4k.png</value>
+        <value condition="Integer.IsGreater(VideoPlayer.VideoResolution,719)">flags/quality/hd.png</value>
+        <value condition="!String.IsEmpty(VideoPlayer.VideoResolution)">flags/quality/sd.png</value>
+        <value condition="True">flags/quality/info.png</value>
     </variable>
 
     <variable name="Image_OSD_PlayPause">
@@ -200,6 +216,11 @@
         <value>special://skin/extras/icons/person.png</value>
     </variable>
 
+    <variable name="Image_OSD_StudioIcon">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Studio.1.Name))">$INFO[Window(Home).Property(TMDbHelper.Player.Studio.1.Name),resource://resource.images.studios.coloured/,.png]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Network.1.Name))">$INFO[Window(Home).Property(TMDbHelper.Player.Network.1.Name),resource://resource.images.studios.coloured/,.png]</value>
+    </variable>
+
     <variable name="Image_OSD_Clearlogo">
         <value condition="!String.IsEmpty(Player.Art(clearlogo))">$INFO[Player.Art(clearlogo)]</value>
         <value condition="!String.IsEmpty(Player.Art(tvshow.clearlogo))">$INFO[Player.Art(tvshow.clearlogo)]</value>
@@ -210,18 +231,6 @@
         <value condition="!String.IsEmpty(ListItem.Art(clearlogo))">$INFO[ListItem.Art(clearlogo)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.clearlogo))">$INFO[ListItem.Art(tvshow.clearlogo)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(artist.clearlogo))">$INFO[ListItem.Art(artist.clearlogo)]</value>
-    </variable>
-
-    <variable name="Image_CropLogo_Main">
-        <value condition="!String.IsEmpty(Window.Property(clearlogo))">$INFO[Window.Property(clearlogo)]</value>
-        <value condition="!String.IsEmpty(Container(99950).ListItem.Art(cropimage))">$INFO[Container(99950).ListItem.Art(cropimage)]</value>
-        <value>$VAR[Image_CropLogo_Fallback]</value>
-    </variable>
-
-    <variable name="Image_CropLogo_Fallback">
-        <value condition="$EXP[Exp_InfoDialogs]">$VAR[Image_CropLogo]</value>
-        <value condition="!$EXP[Exp_InfoDialogs] + Window.IsVisible(Home) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301)">$VAR[Image_CropLogo_C301]</value>
-        <value>$VAR[Image_CropLogo_Parent]</value>
     </variable>
 
     <variable name="Image_MuteBug_Seekbar">
@@ -276,35 +285,40 @@
     </variable>
 
     <variable name="Image_RipSource">
-        <value condition="String.Contains(ListItem.FileNameAndPath,2160p) | String.Contains(ListItem.FileNameAndPath,UHD) | String.Contains(ListItem.FileNameAndPath,UltraHD) | String.Contains(ListItem.FileNameAndPath,Ultra-HD) | String.Contains(ListItem.FileNameAndPath,4K)">flags/$VAR[Texture_ColorMode_Dir]/other/4K.png</value>
-        <value condition="String.Contains(ListItem.FileNameAndPath,blu-ray) | String.Contains(ListItem.FileNameAndPath,bluray) | String.Contains(ListItem.FileNameAndPath,bdrip) | String.Contains(ListItem.FileNameAndPath,bd25) | String.Contains(ListItem.FileNameAndPath,bd50)">flags/$VAR[Texture_ColorMode_Dir]/other/bluray.png</value>
-        <value condition="String.Contains(ListItem.FileNameAndPath,hddvd) | String.Contains(ListItem.FileNameAndPath,hd-dvd)">flags/$VAR[Texture_ColorMode_Dir]/other/hddvd.png</value>
-        <value condition="String.Contains(ListItem.FileNameAndPath,dvd)">flags/$VAR[Texture_ColorMode_Dir]/other/dvd.png</value>
-        <value condition="String.Contains(ListItem.FileNameAndPath,hdtv) | String.Contains(ListItem.FileNameAndPath,pdtv) | String.Contains(ListItem.FileNameAndPath,dsr)">flags/$VAR[Texture_ColorMode_Dir]/other/hdtv.png</value>
-        <value condition="String.Contains(ListItem.FileNameAndPath,sdtv)">flags/$VAR[Texture_ColorMode_Dir]/other/sdtv.png</value>
-        <value condition="String.Contains(ListItem.FileNameAndPath,web-dl) | String.Contains(ListItem.FileNameAndPath,webdl) | String.Contains(ListItem.FileNameAndPath,WEBRip) | String.EndsWith(ListItem.FileNameAndPath,.strm) | [String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)]">flags/$VAR[Texture_ColorMode_Dir]/other/web-dl.png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,2160p) | String.Contains(ListItem.FileNameAndPath,UHD) | String.Contains(ListItem.FileNameAndPath,UltraHD) | String.Contains(ListItem.FileNameAndPath,Ultra-HD) | String.Contains(ListItem.FileNameAndPath,4K)">other/4K.png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,blu-ray) | String.Contains(ListItem.FileNameAndPath,bluray) | String.Contains(ListItem.FileNameAndPath,bdrip) | String.Contains(ListItem.FileNameAndPath,bd25) | String.Contains(ListItem.FileNameAndPath,bd50)">other/bluray.png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,hddvd) | String.Contains(ListItem.FileNameAndPath,hd-dvd)">other/hddvd.png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,dvd)">other/dvd.png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,hdtv) | String.Contains(ListItem.FileNameAndPath,pdtv) | String.Contains(ListItem.FileNameAndPath,dsr)">other/hdtv.png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,sdtv)">other/sdtv.png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,web-dl) | String.Contains(ListItem.FileNameAndPath,webdl) | String.Contains(ListItem.FileNameAndPath,WEBRip) | String.EndsWith(ListItem.FileNameAndPath,.strm) | [String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)]">other/web-dl.png</value>
         <value>common/null.png</value>
     </variable>
     <variable name="Image_OSD_RipSource">
-        <value condition="String.Contains(Player.FileNameAndPath,2160p) | String.Contains(Player.FileNameAndPath,UHD) | String.Contains(Player.FileNameAndPath,UltraHD) | String.Contains(Player.FileNameAndPath,Ultra-HD) | String.Contains(Player.FileNameAndPath,4K)">flags/$VAR[Texture_ColorMode_Dir]/other/4K.png</value>
-        <value condition="String.Contains(Player.FileNameAndPath,blu-ray) | String.Contains(Player.FileNameAndPath,bluray) | String.Contains(Player.FileNameAndPath,bdrip) | String.Contains(Player.FileNameAndPath,bd25) | String.Contains(Player.FileNameAndPath,bd50)">flags/$VAR[Texture_ColorMode_Dir]/other/bluray.png</value>
-        <value condition="String.Contains(Player.FileNameAndPath,hddvd) | String.Contains(Player.FileNameAndPath,hd-dvd)">flags/$VAR[Texture_ColorMode_Dir]/other/hddvd.png</value>
-        <value condition="String.Contains(Player.FileNameAndPath,dvd)">flags/$VAR[Texture_ColorMode_Dir]/other/dvd.png</value>
-        <value condition="String.Contains(Player.FileNameAndPath,hdtv) | String.Contains(Player.FileNameAndPath,pdtv) | String.Contains(Player.FileNameAndPath,dsr)">flags/$VAR[Texture_ColorMode_Dir]/other/hdtv.png</value>
-        <value condition="String.Contains(Player.FileNameAndPath,sdtv)">flags/$VAR[Texture_ColorMode_Dir]/other/sdtv.png</value>
-        <value condition="String.Contains(Player.FileNameAndPath,web-dl) | String.Contains(Player.FileNameAndPath,webdl) | String.Contains(Player.FileNameAndPath,WEBRip) | String.EndsWith(Player.FileNameAndPath,.strm) | [String.IsEmpty(VideoPlayer.VideoCodec) + String.IsEmpty(VideoPlayer.AudioCodec)]">flags/$VAR[Texture_ColorMode_Dir]/other/web-dl.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,2160p) | String.Contains(Player.FileNameAndPath,UHD) | String.Contains(Player.FileNameAndPath,UltraHD) | String.Contains(Player.FileNameAndPath,Ultra-HD) | String.Contains(Player.FileNameAndPath,4K)">other/4K.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,blu-ray) | String.Contains(Player.FileNameAndPath,bluray) | String.Contains(Player.FileNameAndPath,bdrip) | String.Contains(Player.FileNameAndPath,bd25) | String.Contains(Player.FileNameAndPath,bd50)">other/bluray.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,hddvd) | String.Contains(Player.FileNameAndPath,hd-dvd)">other/hddvd.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,dvd)">other/dvd.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,hdtv) | String.Contains(Player.FileNameAndPath,pdtv) | String.Contains(Player.FileNameAndPath,dsr)">other/hdtv.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,sdtv)">other/sdtv.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,web-dl) | String.Contains(Player.FileNameAndPath,webdl) | String.Contains(Player.FileNameAndPath,WEBRip) | String.EndsWith(Player.FileNameAndPath,.strm) | [String.IsEmpty(VideoPlayer.VideoCodec) + String.IsEmpty(VideoPlayer.AudioCodec)]">other/web-dl.png</value>
         <value>common/null.png</value>
     </variable>
 
     <variable name="Image_AudioCodec">
-        <value condition="String.Contains(ListItem.FileNameAndPath,atmos)">flags/$VAR[Texture_ColorMode_Dir]/audio/atmos.png</value>
-        <value condition="String.Contains(ListItem.FileNameAndPath,dtsx) | String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dts:x)">flags/$VAR[Texture_ColorMode_Dir]/audio/dtsx.png</value>
-        <value>flags/$VAR[Texture_ColorMode_Dir]/audio/$INFO[ListItem.AudioCodec].png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,atmos)">audio/atmos.png</value>
+        <value condition="String.Contains(ListItem.FileNameAndPath,dtsx) | String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dts:x)">audio/dtsx.png</value>
+        <value>audio/$INFO[ListItem.AudioCodec].png</value>
     </variable>
     <variable name="Image_OSD_AudioCodec">
-        <value condition="String.Contains(Player.FileNameAndPath,atmos)">flags/$VAR[Texture_ColorMode_Dir]/audio/atmos.png</value>
-        <value condition="String.Contains(Player.FileNameAndPath,dtsx) | String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dts:x)">flags/$VAR[Texture_ColorMode_Dir]/audio/dtsx.png</value>
-        <value>flags/$VAR[Texture_ColorMode_Dir]/audio/$INFO[VideoPlayer.AudioCodec].png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,atmos)">audio/atmos.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,dtsx) | String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dts:x)">audio/dtsx.png</value>
+        <value>audio/$INFO[VideoPlayer.AudioCodec].png</value>
+    </variable>
+    <variable name="Image_OSD_AudioCodec_Mono">
+        <value condition="String.Contains(Player.FileNameAndPath,atmos)">flags/monochrome/audio/atmos.png</value>
+        <value condition="String.Contains(Player.FileNameAndPath,dtsx) | String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dts:x)">flags/monochrome/audio/dtsx.png</value>
+        <value>flags/monochrome/audio/$INFO[VideoPlayer.AudioCodec].png</value>
     </variable>
 
     <variable name="Image_ListItem_RottenTomatoes">

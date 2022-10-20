@@ -34,72 +34,191 @@
 
     <include name="View_Furniture_Scrollbar_V">
         <param name="onright">50</param>
-        <param name="onleft">noop</param>
+        <param name="onleft">menu</param>
+        <param name="id">63</param>
         <definition>
             <control type="group">
                 <nested />
                 <width>view_pad</width>
                 <bottom>view_top</bottom>
-                <control type="scrollbar" id="61">
-                    <onleft>$PARAM[onleft]</onleft>
-                    <onright>$PARAM[onright]</onright>
-                    <orientation>vertical</orientation>
-                    <width>8</width>
+                <control type="group">
+                    <width>10</width>
                     <centerleft>50%</centerleft>
-                    <include content="Object_TextureSliderBackground" condition="!Skin.String(DividerStyle,Fade)">
-                        <param name="colordiffuse">00ffffff</param>
-                        <param name="border">4</param>
-                        <param name="texture">scrollbar/scrollv_line.png</param>
-                    </include>
-                    <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
-                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
-                    <include>Texture_Scrollbar_V</include>
-                    <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
+                    <visible allowhiddenfocus="true">Control.HasFocus($PARAM[id])</visible>
+                    <control type="image">
+                        <texture colordiffuse="main_fg_12">common/white.png</texture>
+                        <width>1</width>
+                        <centerleft>50%</centerleft>
+                    </control>
+                    <control type="scrollbar" id="$PARAM[id]">
+                        <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onleft]</onleft>
+                        <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onright]</onright>
+                        <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onright]</onleft>
+                        <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onleft]</onright>
+                        <orientation>vertical</orientation>
+                        <texturesliderbackground />
+                        <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
+                        <include>Texture_Scrollbar_V</include>
+                    </control>
                 </control>
             </control>
         </definition>
+    </include>
+
+    <include name="View_Furniture_Scrollbars">
+        <include content="View_Furniture_Scrollbar_V">
+            <top>view_top</top>
+            <include content="Object_Right" condition="Skin.HasSetting(Lists.MirrorAlignment)">
+                <param name="right">0</param>
+            </include>
+        </include>
+        <include content="View_Furniture_Scrollbar_V">
+            <param name="id">64</param>
+            <height>grid_x48</height>
+            <include content="Object_Right" condition="Skin.HasSetting(Lists.MirrorAlignment)">
+                <param name="right">0</param>
+            </include>
+        </include>
+        <include content="Furniture_Bottombar_Group">
+            <control type="group">
+                <height>10</height>
+                <centertop>-40</centertop>
+                <visible allowhiddenfocus="true">Control.HasFocus(60) | Control.HasFocus(65)</visible>
+                <control type="image">
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                    <height>1</height>
+                    <centertop>50%</centertop>
+                </control>
+                <control type="scrollbar" id="60">
+                    <onup>50</onup>
+                    <orientation>horizontal</orientation>
+                    <texturesliderbackground />
+                    <texturesliderbar border="4">special://profile/addon_data/script.texturemaker/ArcticHorizon/scrollh_h.png</texturesliderbar>
+                    <include>Texture_Scrollbar_H</include>
+                    <ondown>50</ondown>
+                    <onback>50</onback>
+                    <showonepage>true</showonepage>
+                    <include condition="!Skin.String(Rows.OnDown,Wall)">Action_Row_Recommendations_OnDown</include>
+                    <include condition="Skin.String(Rows.OnDown,Wall)">Action_Row_WallView_OnDown</include>
+                </control>
+            </control>
+            <include content="Object_Hidden_Button">
+                <param name="id" value="65" />
+                <onright>SetFocus(50)</onright>
+                <onright>Action(nextletter)</onright>
+                <onright condition="!Container.HasNext | String.IsEqual(ListItem.SortLetter,Z)">Action(jumpsms2)</onright>
+                <onright condition="!Container.HasNext | String.IsEqual(ListItem.SortLetter,Z)">Action(prevletter)</onright>
+                <onright condition="!Container.HasNext | String.IsEqual(ListItem.SortLetter,Z)">Action(prevletter)</onright>
+                <onright condition="!Container.HasNext | String.IsEqual(ListItem.SortLetter,Z)">Action(prevletter)</onright>
+                <onright>SetFocus(65)</onright>
+                <onleft>SetFocus(50)</onleft>
+                <onleft>Action(prevletter)</onleft>
+                <onleft condition="!Container.HasPrevious">Action(PageUp)</onleft>
+                <onleft condition="!Container.HasPrevious">Action(Left)</onleft>
+                <onleft>SetFocus(65)</onleft>
+                <onup>50</onup>
+                <ondown>50</ondown>
+                <onback>50</onback>
+                <include condition="!Skin.String(Rows.OnDown,Wall)">Action_Row_Recommendations_OnDown</include>
+                <include condition="Skin.String(Rows.OnDown,Wall)">Action_Row_WallView_OnDown</include>
+            </include>
+            <include content="Object_Control" condition="!Skin.HasSetting(DisableAlphabetScrollbar)">
+                <param name="control" value="grouplist" />
+                <visible>$EXP[Exp_AlphabetVisible]</visible>
+                <orientation>horizontal</orientation>
+                <centertop>50%</centertop>
+                <height>40</height>
+                <itemgap>26.15</itemgap>
+                <include>Object_AlphabetNumber</include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="A" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="B" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="C" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="D" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="E" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="F" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="G" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="H" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="I" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="J" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="K" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="L" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="M" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="N" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="O" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="P" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="Q" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="R" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="S" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="T" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="U" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="V" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="W" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="X" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="Y" /></include>
+                <include content="Object_AlphabetLetter"><param name="letter" value="Z" /></include>
+            </include>
+        </include>
     </include>
 
     <include name="View_Furniture_Discover">
         <control type="group">
             <visible>![$EXP[Exp_View_Special]]</visible>
             <visible>Control.IsVisible(590)</visible>
-            <include content="List_Poster_Row">
+            <include content="List_Poster_Wall">
                 <param name="detailed" value="String.IsEqual(ListItem.DBType,video)" />
                 <param name="id" value="591" />
-                <height>divider_bottom</height>
-                <bottom>40</bottom>
-                <onup>SetFocus(590)</onup>
-                <ondown>SetFocus(590)</ondown>
+                <param name="offset_y">40</param>
+                <param name="misc">20</param>
+                <top>160</top>
+                <bottom>180</bottom>
+                <preloaditems>0</preloaditems>
+                <left>514.28</left>
+                <onleft>SetFocus(590)</onleft>
+                <onright>SetFocus(590)</onright>
                 <content target="videos">$VAR[Path_DiscoverWidget]</content>
                 <visible allowhiddenfocus="true">!Container(591).IsUpdating</visible>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,591,Home)</onfocus>
-            </include>
-            <include content="Info_Panel">
-                <param name="plotwidth" value="info_plot_w" />
-                <param name="plotheight" value="info_plot_h" />
-                <param name="container" value="Container(591)." />
-                <param name="line_id" value="99591" />
-                <top>view_top</top>
-                <width>info_panel_w</width>
-                <left>view_pad</left>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,591)</onfocus>
             </include>
             <include content="List_Button_Row">
-                <param name="id" value="590" />
-                <param name="itemlayout_h" value="120" />
-                <param name="item_h" value="80" />
-                <param name="itemlayout_w" value="360" />
-                <param name="item_w" value="320" />
+                <param name="id">590</param>
+                <param name="orientation">vertical</param>
+                <param name="offset_y">40</param>
+                <param name="item_w">474.28</param>
+                <param name="itemlayout_w">514.28</param>
+                <param name="itemlayout_include">Layout_DiscoverButton</param>
+                <focusposition>1</focusposition>
                 <movement>4</movement>
-                <preloaditems>2</preloaditems>
-                <height>240</height>
-                <bottom>0</bottom>
-                <onup>591</onup>
-                <ondown condition="Container(590).HasNext">SetFocus(590,5)</ondown>
-                <ondown condition="!Container(590).HasNext">SetFocus(590,0,absolute)</ondown>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,591,Home)</onfocus>
+                <top>160</top>
+                <bottom>180</bottom>
+                <onright>591</onright>
+                <preloaditems>0</preloaditems>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,591)</onfocus>
                 <visible>!$EXP[Exp_View_Special]</visible>
             </include>
+
+            <include content="Furniture_Bottombar_Group">
+                <include content="Furniture_Gutters">
+                    <control type="grouplist">
+                        <hitrect x="0" y="0" w="0" h="0" />
+                        <orientation>horizontal</orientation>
+                        <itemgap>30</itemgap>
+                        <height>grid_x08</height>
+                        <centertop>50%</centertop>
+                        <usecontrolcoords>true</usecontrolcoords>
+                        <include content="Info_Codec_Label">
+                            <param name="icon" value="special://skin/extras/icons/grip.png" />
+                            <param name="label" value="$INFO[Container(591).ListItem.Property(total_results),[B],[/B] $LOCALIZE[31153]  ]" />
+                            <visible>!String.IsEmpty(Container(591).ListItem.Property(total_results))</visible>
+                        </include>
+                        <include content="Info_Codec_Label">
+                            <param name="icon" value="special://skin/extras/icons/square-poll-horizontal.png" />
+                            <param name="label" value="$INFO[Container(591).ListItem.Property(total_pages),[B],[/B] [CAPITALIZE]$LOCALIZE[31110][/CAPITALIZE]  ]" />
+                            <visible>!String.IsEmpty(Container(591).ListItem.Property(total_pages))</visible>
+                        </include>
+                    </control>
+                </include>
+            </include>
+
         </control>
 
     </include>
@@ -110,8 +229,7 @@
         <param name="visible_widgets">!Integer.IsEqual(Container.NumItems,0)</param>
         <definition>
             <visible>$PARAM[visible_infodialogs]</visible>
-            <visible>$PARAM[visible_widgets]</visible>
-            <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(script-tmdbhelper-recommendations.xml)">Conditional</animation>
+            <animation effect="fade" start="100" end="0" time="400" condition="Window.IsVisible(script-tmdbhelper-recommendations.xml) | ![$PARAM[visible_widgets]]">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
             <include>$PARAM[animation_include]</include>
         </definition>
@@ -124,7 +242,7 @@
                 <param name="id" value="50" />
                 <param name="viewtype_label" value="$LOCALIZE[559]" />
                 <param name="isviewtype" value="false" />
-                <param name="flipside" value="!Skin.HasSetting(Lists.FlipSide)" />
+                <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
             </include>
             <control type="group">
                 <width>view_pad</width>
@@ -135,11 +253,6 @@
                     <orientation>vertical</orientation>
                     <width>8</width>
                     <centerleft>50%</centerleft>
-                    <include content="Object_TextureSliderBackground" condition="!Skin.String(DividerStyle,Fade)">
-                        <param name="colordiffuse">00ffffff</param>
-                        <param name="border">4</param>
-                        <param name="texture">scrollbar/scrollv_line.png</param>
-                    </include>
                     <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
                     <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
                     <include>Texture_Scrollbar_V</include>
@@ -171,6 +284,7 @@
                 <include>View_Furniture_Row_Bottom</include>
                 <include>View_Furniture_Combined_Bottom</include>
                 <include>View_Furniture_Discover</include>
+                <include>View_Furniture_Scrollbars</include>
             </control>
             <control type="group">
                 <visible>!$EXP[Exp_ScrollViews]</visible>
@@ -184,6 +298,18 @@
                 <include>Furniture_Bottom_Right</include>
             </control>
         </control>
+    </include>
+
+    <include name="View_ClearArt">
+        <include content="Object_Control" condition="!Skin.String(BackgroundStyle,Fanart)">
+            <param name="control" value="image" />
+            <bottom>divider_bottom</bottom>
+            <right>view_pad</right>
+            <top>view_top</top>
+            <aspectratio align="right">keep</aspectratio>
+            <fadetime>600</fadetime>
+            <texture background="true">$VAR[Image_ClearArt]</texture>
+        </include>
     </include>
 
     <include name="View_Main">

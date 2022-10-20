@@ -4,10 +4,6 @@
         <include content="Object_Control" condition="$EXP[Exp_View_500_Include] | $EXP[Exp_View_510_Include] | $EXP[Exp_View_520_Include] | $EXP[Exp_View_540_Include] | $EXP[Exp_View_570_Include] | $EXP[Exp_View_580_Include] | $EXP[Exp_View_550_Include]">
             <param name="control" value="group" />
             <visible>$EXP[Exp_WallViews]</visible>
-            <include content="View_Row_Divider">
-                <param name="isrounded" value="true" />
-                <height>920</height>
-            </include>
             <include condition="$EXP[Exp_View_500_Include]">View_500_Wall_Square_Vertical</include>
             <include condition="$EXP[Exp_View_510_Include]">View_510_Wall_Landscape_Vertical</include>
             <include condition="$EXP[Exp_View_520_Include]">View_520_Wall_Poster_Vertical</include>
@@ -15,9 +11,6 @@
             <include condition="$EXP[Exp_View_570_Include]">View_570_Wall_BigLandscape_Vertical</include>
             <include condition="$EXP[Exp_View_580_Include]">View_580_Wall_BigPoster_Vertical</include>
             <include condition="$EXP[Exp_View_550_Include]">View_550_InfoWall_Poster_Vertical</include>
-            <include content="View_Furniture_Scrollbar_V">
-                <top>view_top</top>
-            </include>
         </include>
     </include>
 
@@ -33,10 +26,12 @@
             <visible>$EXP[Exp_View_Special]</visible>
             <visible>$EXP[Exp_View_$PARAM[id]]</visible>
             <viewtype label="$PARAM[viewtype_label]">icon</viewtype>
-            <onright>menu</onright>
-            <onleft>61</onleft>
-            <pagecontrol>61</pagecontrol>
-            <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
+            <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">63</onleft>
+            <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">menu</onright>
+            <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">menu</onleft>
+            <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">63</onright>
+            <pagecontrol>63</pagecontrol>
+            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
         </include>
     </include>
 
@@ -81,7 +76,7 @@
     </include>
 
     <include name="View_550_InfoWall_Poster_Vertical">
-        <param name="flipside">!Skin.HasSetting(Lists.FlipSide)</param>
+        <param name="flipside">!Skin.HasSetting(Lists.MirrorAlignment)</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible(550)</visible>
@@ -121,7 +116,7 @@
     </include>
 
     <include name="View_580_Wall_BigPoster_Vertical">
-        <param name="flipside">!Skin.HasSetting(Lists.FlipSide)</param>
+        <param name="flipside">!Skin.HasSetting(Lists.MirrorAlignment)</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible(580)</visible>
@@ -204,9 +199,11 @@
                 <visible>$EXP[Exp_View_Special]</visible>
                 <visible>$EXP[Exp_View_540]</visible>
                 <viewtype label="$LOCALIZE[20459]">list</viewtype>
-                <pagecontrol>61</pagecontrol>
-                <onleft>61</onleft>
-                <onright>menu</onright>
+                <pagecontrol>64</pagecontrol>
+                <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">64</onleft>
+                <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">menu</onright>
+                <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">menu</onleft>
+                <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">64</onright>
             </include>
         </control>
     </include>

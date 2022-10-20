@@ -34,6 +34,98 @@
         </control>
     </include>
 
+    <include name="OSD_Codecs_FPS">
+        <control type="group">
+            <width>48</width>
+            <height>48</height>
+            <centertop>50%</centertop>
+            <visible>!String.IsEmpty(Player.Process(VideoFPS)) + Integer.IsGreater(Player.Process(VideoFPS),0)</visible>
+            <control type="image">
+                <width>64</width>
+                <centerleft>50%</centerleft>
+                <texture colordiffuse="$PARAM[color_fg_70]">flags/$PARAM[directory]/other/fps.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+            </control>
+            <control type="label">
+                <height>24</height>
+                <bottom>3</bottom>
+                <width>64</width>
+                <centerleft>50%</centerleft>
+                <textcolor>$PARAM[color_fg_70]</textcolor>
+                <font>font_fps</font>
+                <label>$INFO[Player.Process(VideoFPS)]</label>
+                <align>center</align>
+                <aligny>center</aligny>
+            </control>
+        </control>
+    </include>
+
+    <include name="OSD_Codecs_Mono">
+        <definition>
+            <control type="grouplist">
+                <nested />
+                <orientation>horizontal</orientation>
+                <itemgap>29</itemgap>
+                <usecontrolcoords>true</usecontrolcoords>
+                <align>center</align>
+                <!-- Resolution -->
+                <include content="Object_Control">
+                    <param name="control">group</param>
+                    <centertop>50%</centertop>
+                    <width>42</width>
+                    <height>44</height>
+                    <control type="image">
+                        <centerleft>50%</centerleft>
+                        <centertop>50%</centertop>
+                        <width>64</width>
+                        <height>44</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture fallback="flags/generic.png" colordiffuse="$PARAM[color_fg_90]">flags/monochrome/resolution/$INFO[VideoPlayer.VideoResolution].png</texture>
+                    </control>
+                    <visible>!String.IsEmpty(VideoPlayer.VideoResolution)</visible>
+                </include>
+                <!-- AspectRatio -->
+                <include content="Info_Codecs_StackedText">
+                    <param name="toplabel">$INFO[VideoPlayer.VideoCodec]</param>
+                    <param name="bottomlabel">$INFO[VideoPlayer.VideoAspect,,:1]</param>
+                    <param name="topcolor">$PARAM[color_fg_70]</param>
+                    <param name="bottomcolor">$PARAM[color_fg_70]</param>
+                    <visible>!String.IsEmpty(VideoPlayer.VideoCodec)</visible>
+                    <visible>!String.IsEmpty(VideoPlayer.VideoAspect)</visible>
+                </include>
+                <!-- FPS Rate -->
+                <include content="OSD_Codecs_FPS">
+                    <param name="color_fg_70">$PARAM[color_fg_70]</param>
+                    <param name="directory">monochrome</param>
+                </include>
+
+                <!-- Audio Codec -->
+                <include content="Object_Control">
+                    <param name="control">group</param>
+                    <centertop>50%</centertop>
+                    <width>60</width>
+                    <height>48</height>
+                    <control type="image">
+                        <centerleft>50%</centerleft>
+                        <centertop>50%</centertop>
+                        <width>100</width>
+                        <height>48</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture fallback="flags/generic.png" colordiffuse="$PARAM[color_fg_90]">$VAR[Image_OSD_AudioCodec_Mono]</texture>
+                    </control>
+                    <visible>!String.IsEmpty(VideoPlayer.AudioCodec)</visible>
+                </include>
+                <!-- Audio Channels -->
+                <include content="Info_Codec_AudioChannels">
+                    <param name="type">VideoPlayer</param>
+                    <param name="channelscolor">$PARAM[color_fg_70]</param>
+                    <param name="iconcolor">$PARAM[color_fg_70]</param>
+                    <param name="imagecolor">$PARAM[color_fg_30]</param>
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <include name="OSD_Stream_Selector_Layout">
         <param name="selected" default="false" />
         <param name="color_fg" default="dialog_fg_70" />
@@ -423,108 +515,91 @@
     <include name="OSD_Codecs">
         <param name="infohide" default="true" />
         <param name="align" default="left" />
-        <param name="directory" default="$VAR[Texture_ColorMode_Dir]" />
+        <param name="directory" default="color" />
         <definition>
             <control type="grouplist">
                 <nested />
                 <orientation>horizontal</orientation>
                 <align>$PARAM[align]</align>
-                <itemgap>20</itemgap>
+                <itemgap>30</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
-                <left>-8</left>
-                <right>-8</right>
 
-                <control type="image">
-                    <fadetime>100</fadetime>
-                    <centertop>50%</centertop>
-                    <width>64</width>
-                    <height>42</height>
-                    <aspectratio align="left">keep</aspectratio>
-                    <texture fallback="flags/generic.png">flags/$PARAM[directory]/resolution/$INFO[VideoPlayer.VideoResolution].png</texture>
-                    <visible>!String.IsEmpty(VideoPlayer.VideoResolution)</visible>
-                </control>
-                <control type="image">
-                    <fadetime>100</fadetime>
-                    <centertop>50%</centertop>
-                    <width>71</width>
-                    <height>48</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture fallback="flags/generic.png">flags/$PARAM[directory]/source/$INFO[VideoPlayer.VideoCodec].png</texture>
+                <include content="Info_Codec_LabelIcon">
+                    <param name="icon" value="special://skin/extras/icons/video-addons.png" />
+                </include>
+
+                <!-- Resolution -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="icon">resolution/$INFO[VideoPlayer.VideoResolution].png</param>
+                    <param name="colordiffuse">panel_fg_100</param>
+                    <param name="basewidth">42</param>
+                    <param name="iconwidth">64</param>
+                    <param name="iconheight">44</param>
+                    <param name="visible">!String.IsEmpty(VideoPlayer.VideoResolution)</param>
+                </include>
+
+                <!-- Codec / Aspect -->
+                <include content="Info_Codecs_StackedText">
+                    <param name="toplabel">$INFO[VideoPlayer.VideoCodec]</param>
+                    <param name="bottomlabel">$INFO[VideoPlayer.VideoAspect,,:1]</param>
+                    <param name="bottomcolor">panel_fg_100</param>
                     <visible>!String.IsEmpty(VideoPlayer.VideoCodec)</visible>
-                </control>
-                <control type="image">
-                    <fadetime>100</fadetime>
-                    <centertop>50%</centertop>
-                    <width>71</width>
-                    <height>48</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture fallback="flags/generic.png">flags/$PARAM[directory]/aspectratio/$INFO[VideoPlayer.VideoAspect].png</texture>
                     <visible>!String.IsEmpty(VideoPlayer.VideoAspect)</visible>
-                </control>
-                <control type="group">
-                    <width>71</width>
-                    <height>48</height>
-                    <centertop>50%</centertop>
-                    <visible>!String.IsEmpty(Player.Process(VideoFPS)) + Integer.IsGreater(Player.Process(VideoFPS),0)</visible>
-                    <control type="image">
-                        <texture colordiffuse="panel_fg_100">flags/$PARAM[directory]/other/fps.png</texture>
-                        <aspectratio align="center">keep</aspectratio>
-                    </control>
-                    <control type="label">
-                        <height>24</height>
-                        <bottom>2</bottom>
-                        <textcolor>panel_fg_100</textcolor>
-                        <font>font_fps</font>
-                        <label>$INFO[Player.Process(VideoFPS)]</label>
-                        <align>center</align>
-                        <aligny>center</aligny>
-                    </control>
-                </control>
-                <control type="image">
-                    <fadetime>100</fadetime>
-                    <centertop>50%</centertop>
-                    <width>71</width>
-                    <height>48</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture fallback="flags/generic.png">$VAR[Image_OSD_AudioCodec]</texture>
-                    <visible>!String.IsEmpty(VideoPlayer.AudioCodec)</visible>
-                </control>
-                <control type="image">
-                    <fadetime>100</fadetime>
-                    <centertop>50%</centertop>
-                    <width>71</width>
-                    <height>32</height>
-                    <aspectratio>center</aspectratio>
-                    <texture fallback="flags/generic.png">flags/$PARAM[directory]/channels/$INFO[VideoPlayer.AudioChannels].png</texture>
-                    <visible>!String.IsEmpty(VideoPlayer.AudioChannels)</visible>
-                </control>
-                <control type="image">
-                    <fadetime>100</fadetime>
-                    <centertop>50%</centertop>
-                    <width>64</width>
-                    <height>56</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture>flags/$PARAM[directory]/other/3D.png</texture>
-                    <visible>VideoPlayer.IsStereoscopic</visible>
-                </control>
-                <control type="image">
-                    <fadetime>100</fadetime>
-                    <centertop>50%</centertop>
-                    <width>71</width>
-                    <height>56</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture>flags/$PARAM[directory]/other/HDR.png</texture>
-                    <visible>String.Contains(Player.FileNameAndPath,HDR)</visible>
-                </control>
-                <control type="image">
-                    <fadetime>100</fadetime>
-                    <centertop>50%</centertop>
-                    <width>71</width>
-                    <height>56</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture>$VAR[Image_OSD_RipSource]</texture>
-                    <visible>[String.Contains(Player.FileNameAndPath,2160p) | String.Contains(Player.FileNameAndPath,UHD) | String.Contains(Player.FileNameAndPath,UltraHD) | String.Contains(Player.FileNameAndPath,Ultra-HD) | String.Contains(Player.FileNameAndPath,4K) | String.Contains(Player.FileNameAndPath,blu-ray) | String.Contains(Player.FileNameAndPath,bluray) | String.Contains(Player.FileNameAndPath,bdrip) | String.Contains(Player.FileNameAndPath,bd25) | String.Contains(Player.FileNameAndPath,bd50) | String.Contains(Player.FileNameAndPath,hddvd) | String.Contains(Player.FileNameAndPath,hd-dvd) | String.Contains(Player.FileNameAndPath,dvd) | String.Contains(Player.FileNameAndPath,hdtv) | String.Contains(Player.FileNameAndPath,pdtv) | String.Contains(Player.FileNameAndPath,dsr) | String.Contains(Player.FileNameAndPath,sdtv) | String.Contains(Player.FileNameAndPath,web-dl) | String.Contains(Player.FileNameAndPath,webdl) | String.Contains(Player.FileNameAndPath,WEBRip) | String.EndsWith(Player.FileNameAndPath,.strm) | [String.IsEmpty(VideoPlayer.VideoCodec) + String.IsEmpty(VideoPlayer.AudioCodec)]]</visible>
-                </control>
+                </include>
+
+                <!-- FPS Rate -->
+                <include content="OSD_Codecs_FPS">
+                    <param name="color_fg_70">panel_fg_100</param>
+                    <param name="directory">color</param>
+                </include>
+
+                <!-- AudioCodec -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="colordiffuse">panel_fg_100</param>
+                    <param name="icon">$VAR[Image_OSD_AudioCodec]</param>
+                    <param name="basewidth">56</param>
+                    <param name="iconwidth">100</param>
+                    <param name="iconheight">48</param>
+                    <param name="visible">!String.IsEmpty(VideoPlayer.AudioCodec)</param>
+                </include>
+
+                <!-- Audio Channels -->
+                <include content="Info_Codec_AudioChannels">
+                    <param name="type">VideoPlayer</param>
+                    <param name="channelscolor">panel_fg_90</param>
+                    <param name="iconcolor">panel_fg_90</param>
+                    <param name="imagecolor">dfce953a</param>
+                </include>
+
+                <!-- 3d Stereoscopic -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="colordiffuse">panel_fg_100</param>
+                    <param name="icon">other/3D.png</param>
+                    <param name="basewidth">48</param>
+                    <param name="iconwidth">64</param>
+                    <param name="iconheight">56</param>
+                    <param name="visible">VideoPlayer.IsStereoscopic</param>
+                </include>
+
+                <!-- RipSource -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="colordiffuse">panel_fg_100</param>
+                    <param name="icon">$VAR[Image_OSD_RipSource]</param>
+                    <param name="basewidth">54</param>
+                    <param name="iconwidth">71</param>
+                    <param name="iconheight">56</param>
+                    <param name="visible">[String.Contains(Player.FileNameAndPath,2160p) | String.Contains(Player.FileNameAndPath,UHD) | String.Contains(Player.FileNameAndPath,UltraHD) | String.Contains(Player.FileNameAndPath,Ultra-HD) | String.Contains(Player.FileNameAndPath,4K) | String.Contains(Player.FileNameAndPath,blu-ray) | String.Contains(Player.FileNameAndPath,bluray) | String.Contains(Player.FileNameAndPath,bdrip) | String.Contains(Player.FileNameAndPath,bd25) | String.Contains(Player.FileNameAndPath,bd50) | String.Contains(Player.FileNameAndPath,hddvd) | String.Contains(Player.FileNameAndPath,hd-dvd) | String.Contains(Player.FileNameAndPath,dvd) | String.Contains(Player.FileNameAndPath,hdtv) | String.Contains(Player.FileNameAndPath,pdtv) | String.Contains(Player.FileNameAndPath,dsr) | String.Contains(Player.FileNameAndPath,sdtv) | String.Contains(Player.FileNameAndPath,web-dl) | String.Contains(Player.FileNameAndPath,webdl) | String.Contains(Player.FileNameAndPath,WEBRip) | String.EndsWith(Player.FileNameAndPath,.strm) | [String.IsEmpty(VideoPlayer.VideoCodec) + String.IsEmpty(VideoPlayer.AudioCodec)]]</param>
+                </include>
+
+                <!-- HDR -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="colordiffuse">panel_fg_100</param>
+                    <param name="icon">other/HDR.png</param>
+                    <param name="basewidth">48</param>
+                    <param name="iconwidth">80</param>
+                    <param name="iconheight">56</param>
+                    <param name="visible">String.Contains(VideoPlayer.FileNameAndPath,HDR)</param>
+                </include>
 
             </control>
         </definition>

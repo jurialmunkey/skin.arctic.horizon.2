@@ -35,7 +35,7 @@
             <param name="sliceid" value="5202" />
             <param name="label" value="$INFO[Control.GetLabel(6)]" />
             <param name="icon" value="$VAR[Image_AddonInfo_Install]" />
-            <param name="visible" value="Control.IsEnabled(6)" />
+            <param name="visible" value="Control.IsEnabled(6) + !Skin.HasSetting(KioskMode.Management)" />
             <onclick>SendClick(6)</onclick>
         </include>
         <include content="Object_Info_Button" description="Enable">
@@ -44,16 +44,17 @@
             <param name="sliceid" value="5203" />
             <param name="label" value="$INFO[Control.GetLabel(7)]" />
             <param name="icon" value="$VAR[Image_AddonInfo_Enable]" />
-            <param name="visible" value="Control.IsEnabled(7)" />
+            <param name="visible" value="Control.IsEnabled(7) + !Skin.HasSetting(KioskMode.Management)" />
             <onclick>SendClick(7)</onclick>
         </include>
-        <include content="Object_Info_Button">
-            <param name="id" value="5004" />
-            <param name="groupid" value="5104" />
-            <param name="sliceid" value="5204" />
+        <include content="Object_Info_Button_Circle">
+            <param name="id" value="5006" />
+            <param name="groupid" value="5106" />
+            <param name="sliceid" value="5206" />
             <param name="label" value="$LOCALIZE[31002]" />
             <param name="icon" value="special://skin/extras/icons/settings.png" />
-            <onclick>menu</onclick>
+            <param name="visible">!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)</param>
+            <onclick>SetFocus(9000)</onclick>
         </include>
     </include>
 
@@ -82,13 +83,22 @@
             <param name="label" value="$LOCALIZE[19687]" />
             <param name="visible" value="[Window.IsActive(PVRGuideInfo) | Window.IsActive(PVRRecordingInfo)] + Control.IsEnabled(8) + Control.IsVisible(8)" />
         </include>
-        <include content="Object_Info_Button">
+        <include content="Object_Info_Button_Circle">
             <param name="id" value="4" />
             <param name="groupid" value="5107" />
             <param name="sliceid" value="5207" />
             <param name="icon" value="special://skin/extras/icons/search.png" />
             <param name="label" value="$LOCALIZE[19003]" />
             <param name="visible" value="[Window.IsActive(PVRGuideInfo) | Window.IsActive(PVRRecordingInfo)] + Control.IsEnabled(4) + Control.IsVisible(4)" />
+        </include>
+        <include content="Object_Info_Button_Circle">
+            <param name="id" value="5006" />
+            <param name="groupid" value="5106" />
+            <param name="sliceid" value="5206" />
+            <param name="label" value="$LOCALIZE[31002]" />
+            <param name="icon" value="special://skin/extras/icons/settings.png" />
+            <param name="visible">!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)</param>
+            <onclick>SetFocus(9000)</onclick>
         </include>
     </include>
 
@@ -109,6 +119,22 @@
         <onclick condition="ListItem.IsFolder + Window.IsVisible(MyVideoNav.xml) + !String.IsEmpty(ListItem.DBID) + ListItem.IsCollection">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[ListItem.DBID,videodb://movies/sets/,/])</onclick>
     </include>
 
+    <include name="Items_DialogVideoInfo_MenuBar_PlayButton_Action_1191">
+        <!-- Play Item -->
+        <onclick condition="!$EXP[Exp_InfoDialog_IsFolder] + !String.IsEmpty(ListItem.FileNameAndPath)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,after=True,builtin='PlayMedia($ESCINFO[ListItem.FileNameAndPath])')</onclick>
+        <onclick condition="!$EXP[Exp_InfoDialog_IsFolder] + String.IsEmpty(ListItem.FileNameAndPath)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,after=True,builtin='PlayMedia($ESCINFO[ListItem.FolderPath])')</onclick>
+
+        <!-- Browse by updating Media Window -->
+        <onclick condition="$EXP[Exp_InfoDialog_IsFolder] + Window.IsVisible(MyVideoNav.xml) + String.IsEmpty(ListItem.DBID)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,after=True,builtin='Container.Update($ESCINFO[ListItem.FolderPath])')</onclick>
+        <onclick condition="$EXP[Exp_InfoDialog_IsFolder] + Window.IsVisible(MyVideoNav.xml) + !String.IsEmpty(ListItem.DBID) + String.IsEqual(ListItem.DBType,tvshow)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,after=True,builtin='Container.Update($ESCINFO[ListItem.DBID,videodb://tvshows/titles/,/])')</onclick>
+        <onclick condition="$EXP[Exp_InfoDialog_IsFolder] + Window.IsVisible(MyVideoNav.xml) + !String.IsEmpty(ListItem.DBID) + ListItem.IsCollection">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,after=True,builtin='Container.Update($ESCINFO[ListItem.DBID,videodb://movies/sets/,/])')</onclick>
+
+        <!-- Browse by activating Media Window -->
+        <onclick condition="$EXP[Exp_InfoDialog_IsFolder] + !Window.IsVisible(MyVideoNav.xml) + String.IsEmpty(ListItem.DBID)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,after=True,builtin='ActivateWindow(videos,$INFO[ListItem.FolderPath],return)')</onclick>
+        <onclick condition="$EXP[Exp_InfoDialog_IsFolder] + !Window.IsVisible(MyVideoNav.xml) + !String.IsEmpty(ListItem.DBID) + String.IsEqual(ListItem.DBType,tvshow)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,after=True,builtin='ActivateWindow(videos,$INFO[ListItem.DBID,videodb://tvshows/titles/,/],return)')</onclick>
+        <onclick condition="$EXP[Exp_InfoDialog_IsFolder] + Window.IsVisible(MyVideoNav.xml) + !String.IsEmpty(ListItem.DBID) + ListItem.IsCollection">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,after=True,builtin='ActivateWindow(videos,$INFO[ListItem.DBID,videodb://movies/sets/,/],return)')</onclick>
+    </include>
+
     <include name="Items_DialogVideoInfo_MenuBar">
         <include content="Object_Info_Button">
             <param name="id" value="5001" />
@@ -117,7 +143,7 @@
             <param name="label" value="$VAR[Label_VideoInfo_PlayButton]" />
             <param name="icon" value="$VAR[Image_VideoInfo_PlayButton]" />
             <include condition="Window.IsVisible(1190)">Items_DialogVideoInfo_MenuBar_PlayButton_Action_1190</include>
-            <onclick condition="!Window.IsVisible(1190)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,builtin=SendClick(8))</onclick>
+            <include condition="!Window.IsVisible(1190)">Items_DialogVideoInfo_MenuBar_PlayButton_Action_1191</include>
         </include>
         <include content="Object_Info_Button">
             <param name="id" value="5002" />
@@ -132,7 +158,7 @@
             <onclick condition="!String.IsEmpty(ListItem.Trailer)">SetProperty(HasTrailer,$INFO[ListItem.Trailer],Home)</onclick>
             <onclick>SetFocus(7001)</onclick>
         </include>
-        <include content="Object_Info_Button">
+        <include content="Object_Info_Button_Circle">
             <param name="id" value="5003" />
             <param name="groupid" value="5103" />
             <param name="sliceid" value="5203" />
@@ -142,27 +168,38 @@
             <onclick condition="!String.IsEmpty(ListItem.TvShowTitle)">SetProperty(CustomSearchTerm,$ESCINFO[ListItem.TvShowTitle],Home)</onclick>
             <onclick condition="String.IsEmpty(ListItem.TvShowTitle) + !String.IsEmpty(ListItem.Title)">SetProperty(CustomSearchTerm,$ESCINFO[ListItem.Title],Home)</onclick>
             <onclick condition="String.IsEmpty(ListItem.TvShowTitle) + String.IsEmpty(ListItem.Title)">SetProperty(CustomSearchTerm,$ESCINFO[ListItem.Label],Home)</onclick>
-
             <onclick condition="Window.IsVisible(1190)">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_id=1114)</onclick>
             <onclick condition="!Window.IsVisible(1190)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,builtin=ActivateWindow(1114),after=True)</onclick>
         </include>
-        <include content="Object_Info_Button">
+        <include content="Object_Info_Button_Circle">
             <param name="id" value="5004" />
             <param name="groupid" value="5104" />
             <param name="sliceid" value="5204" />
             <param name="label" value="Trakt" />
             <param name="icon" value="special://skin/extras/icons/watchlist.png" />
-            <param name="visible" value="[!String.IsEmpty(ListItem.Property(tmdb_id)) | !String.IsEmpty(Container(99950).ListItem.Property(tmdb_id))] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth))" />
-            <onclick condition="!String.IsEmpty(ListItem.Property(tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
-            <onclick condition="String.IsEmpty(ListItem.Property(tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Container(99950).ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
+            <param name="visible" value="[!String.IsEmpty(ListItem.Property(tmdb_id)) | !String.IsEmpty(Container(99950).ListItem.Property(tmdb_id))] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth))" />
+            <onclick condition="!String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEqual(ListItem.DBType,episode)">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
+            <onclick condition="String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEqual(ListItem.DBType,episode)">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Container(99950).ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</onclick>
+
+            <onclick condition="!String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEqual(ListItem.DBType,episode)">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],season=$INFO[ListItem.Season],episode=$INFO[ListItem.Episode],cache_refresh)</onclick>
+            <onclick condition="String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEqual(ListItem.DBType,episode)">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Container(99950).ListItem.Property(tmdb_id)],$VAR[Path_Param_Type],season=$INFO[ListItem.Season],episode=$INFO[ListItem.Episode],cache_refresh)</onclick>
         </include>
-        <include content="Object_Info_Button">
+        <include content="Object_Info_Button_Circle">
             <param name="id" value="5005" />
             <param name="groupid" value="5105" />
             <param name="sliceid" value="5205" />
             <param name="label" value="Wiki" />
             <param name="icon" value="special://skin/extras/icons/globe.png" />
             <onclick>runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
+        </include>
+        <include content="Object_Info_Button_Circle">
+            <param name="id" value="5006" />
+            <param name="groupid" value="5106" />
+            <param name="sliceid" value="5206" />
+            <param name="label" value="$LOCALIZE[31002]" />
+            <param name="icon" value="special://skin/extras/icons/settings.png" />
+            <param name="visible">!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)</param>
+            <onclick>SetFocus(9000)</onclick>
         </include>
     </include>
 
@@ -390,6 +427,7 @@
             <onclick condition="!$EXP[Exp_PVRWindows]">Runscript(script.skinvariables,action=buildviews,contentid=$VAR[Items_ViewMode_Switch],pluginname=$INFO[Container.PluginName])</onclick>
             <onclick condition="$EXP[Exp_PVRWindows]">SendClick(2)</onclick>
             <visible>!Window.IsVisible(MyPVRSearch.xml) + !Window.IsVisible(MyPVRTimers.xml) + !Window.IsVisible(MyPVRRecordings.xml)</visible>
+            <visible>!Skin.HasSetting(KioskMode.Viewtypes)</visible>
         </include>
         <include content="Dialog_Menu_Button" description="Sort method">
             <param name="id" value="9003" />
@@ -764,7 +802,7 @@
             <onclick>SetFocus(50)</onclick>
             <onclick>Filter</onclick>
         </include>
-        <include content="Dialog_Menu_Button" description="Update Library">
+        <include content="Dialog_Menu_Button" description="Addon Settings">
             <param name="id" value="9005" />
             <param name="groupid" value="9105" />
             <param name="control" value="button" />
@@ -772,6 +810,7 @@
             <label>$LOCALIZE[10140]</label>
             <onclick>Addon.OpenSettings($INFO[Container.PluginName])</onclick>
             <visible>!String.IsEmpty(Container.PluginName)</visible>
+            <visible>!Skin.HasSetting(KioskMode.Management)</visible>
         </include>
         <include content="Dialog_Menu_Button" description="Update Library">
             <param name="id" value="20" />
@@ -780,6 +819,7 @@
             <param name="icon" value="special://skin/extras/icons/update.png" />
             <label>$LOCALIZE[653]</label>
             <visible>String.IsEmpty(Container.PluginName)</visible>
+            <visible>!Skin.HasSetting(KioskMode.Management)</visible>
         </include>
         <include content="Dialog_Menu_Button" description="Background Customisation">
             <param name="id" value="9001" />
@@ -789,6 +829,7 @@
             <onclick>SetFocus(50)</onclick>
             <onclick>ActivateWindow(1112)</onclick>
             <label>$LOCALIZE[31007]</label>
+            <visible>!Skin.HasSetting(KioskMode.Viewtypes)</visible>
         </include>
         <include>Items_QuickNav_NowPlaying</include>
     </include>
@@ -1517,47 +1558,6 @@
             <visible>Visualisation.HasPresets</visible>
             <label>$LOCALIZE[31214]</label>
         </include>
-
-
-    </include>
-
-
-    <include name="Items_Settings_Background">
-        <include content="Dialog_Settings_Button" description="Positional widgets show background">
-            <param name="id" value="8001" />
-            <param name="control" value="radiobutton" />
-            <label>$LOCALIZE[31176]</label>
-            <onclick>Skin.ToggleSetting(HomeFanart)</onclick>
-            <selected>!Skin.HasSetting(HomeFanart)</selected>
-        </include>
-        <include content="Dialog_Settings_Button" description="Use EPGEventIcon for PVR window backgrounds">
-            <param name="id" value="8002" />
-            <param name="control" value="radiobutton" />
-            <label>$LOCALIZE[31190]</label>
-            <onclick>Skin.ToggleSetting(PVR.DisableEPGEventIconFanart)</onclick>
-            <selected>!Skin.HasSetting(PVR.DisableEPGEventIconFanart)</selected>
-        </include>
-        <include content="Dialog_Settings_Button" description="Use extrafanart where available">
-            <param name="id" value="8003" />
-            <param name="control" value="radiobutton" />
-            <label>$LOCALIZE[31226]</label>
-            <onclick>Skin.ToggleSetting(Background.DisableExtraFanart)</onclick>
-            <selected>!Skin.HasSetting(Background.DisableExtraFanart)</selected>
-        </include>
-        <include content="Dialog_Settings_Button" description="Use videowindow for background">
-            <param name="id" value="8004" />
-            <param name="control" value="radiobutton" />
-            <label>$LOCALIZE[31204]</label>
-            <onclick>Skin.ToggleSetting(UseBackgroundVideo)</onclick>
-            <selected>Skin.HasSetting(UseBackgroundVideo)</selected>
-        </include>
-        <!-- <include content="Dialog_Settings_Button" description="Use larger flixart size">
-            <param name="id" value="8005" />
-            <param name="control" value="radiobutton" />
-            <label>$LOCALIZE[31288]</label>
-            <onclick>Skin.ToggleSetting(UseLargerFlixArt)</onclick>
-            <selected>Skin.HasSetting(UseLargerFlixArt)</selected>
-        </include> -->
     </include>
 
     <include name="Items_Settings_CustomStartup">
@@ -1634,6 +1634,271 @@
             <onclick>Close</onclick>
             <onclick>Skin.SetString(AutoScrollTime,10m)</onclick>
         </include>
+    </include>
+
+
+    <include name="Items_HubNode_MovieYears">
+        <item>
+            <label>2020-2029</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=2020-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=2020-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>2010-2019</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=2010-01-01&amp;primary_release_date.lte=2020-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=2010-01-01&amp;primary_release_date.lte=2020-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>2000-2009</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=2000-01-01&amp;primary_release_date.lte=2010-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=2000-01-01&amp;primary_release_date.lte=2010-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1990-1999</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1990-01-01&amp;primary_release_date.lte=2000-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1990-01-01&amp;primary_release_date.lte=2000-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1980-1989</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1980-01-01&amp;primary_release_date.lte=1990-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1980-01-01&amp;primary_release_date.lte=1990-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1970-1979</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1970-01-01&amp;primary_release_date.lte=1980-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1970-01-01&amp;primary_release_date.lte=1980-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1960-1969</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1960-01-01&amp;primary_release_date.lte=1970-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1960-01-01&amp;primary_release_date.lte=1970-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1950-1959</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1950-01-01&amp;primary_release_date.lte=1960-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1950-01-01&amp;primary_release_date.lte=1960-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1940-1949</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1940-01-01&amp;primary_release_date.lte=1950-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1940-01-01&amp;primary_release_date.lte=1950-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1930-1939</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1930-01-01&amp;primary_release_date.lte=1940-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.gte=1930-01-01&amp;primary_release_date.lte=1940-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1880-1929</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.lte=1930-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_date.lte=1930-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=movie&amp;with_id=True,return)</onclick>
+        </item>
+    </include>
+
+    <include name="Items_HubNode_MovieTMDb">
+        <item>
+            <label>$LOCALIZE[31166]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=popular&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=popular&amp;tmdb_type=movie,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31091]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=top_rated&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=top_rated&amp;tmdb_type=movie,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31310]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trending_week&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trending_week&amp;tmdb_type=movie,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31312]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=now_playing&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=now_playing&amp;tmdb_type=movie,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31313]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=upcoming&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=upcoming&amp;tmdb_type=movie,return)</onclick>
+        </item>
+    </include>
+
+    <include name="Items_HubNode_MovieTrakt">
+        <item>
+            <label>$LOCALIZE[31306]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_watchlist&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_watchlist&amp;tmdb_type=movie,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[575]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_inprogress&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_inprogress&amp;tmdb_type=movie,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31307]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=movie,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31018]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_recommendations&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_recommendations&amp;tmdb_type=movie,return)</onclick>
+        </item>
+    </include>
+
+    <include name="Items_HubNode_TVShowTrakt">
+        <item>
+            <label>$LOCALIZE[31306]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_watchlist&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_watchlist&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[575]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_inprogress&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_inprogress&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31307]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31308]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_calendar&amp;days=8&amp;startdate=-7&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31309]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_calendar&amp;days=7&amp;startdate=1&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31018]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_recommendations&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_recommendations&amp;tmdb_type=tv,return)</onclick>
+        </item>
+    </include>
+
+    <include name="Items_HubNode_TVShowTMDb">
+        <item>
+            <label>$LOCALIZE[31166]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=popular&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=popular&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31091]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=top_rated&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=top_rated&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31310]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trending_week&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trending_week&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31311]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=on_the_air&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=on_the_air&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31167]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=trakt_anticipated&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=trakt_anticipated&amp;tmdb_type=tv,return)</onclick>
+        </item>
+    </include>
+
+    <include name="Items_HubNode_TVShowYears">
+        <item>
+            <label>2020-2029</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=2020-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=2020-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>2010-2019</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=2010-01-01&amp;first_air_date.lte=2020-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=2010-01-01&amp;first_air_date.lte=2020-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>2000-2009</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=2000-01-01&amp;first_air_date.lte=2010-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=2000-01-01&amp;first_air_date.lte=2010-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1990-1999</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1990-01-01&amp;first_air_date.lte=2000-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1990-01-01&amp;first_air_date.lte=2000-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1980-1989</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1980-01-01&amp;first_air_date.lte=1990-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1980-01-01&amp;first_air_date.lte=1990-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1970-1979</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1970-01-01&amp;first_air_date.lte=1980-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1970-01-01&amp;first_air_date.lte=1980-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1960-1969</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1960-01-01&amp;first_air_date.lte=1970-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1960-01-01&amp;first_air_date.lte=1970-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1950-1959</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1950-01-01&amp;first_air_date.lte=1960-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1950-01-01&amp;first_air_date.lte=1960-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+        <item>
+            <label>1940-1949</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1940-01-01&amp;first_air_date.lte=1950-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date.gte=1940-01-01&amp;first_air_date.lte=1950-01-01&amp;sort_by=popularity.desc&amp;tmdb_type=tv&amp;with_id=True,return)</onclick>
+        </item>
+    </include>
+
+    <include name="Items_HubNode_RandomGenre">
+        <item>
+            <label>$LOCALIZE[31319]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=random_genres&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=random_genres&amp;tmdb_type=movie,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31320]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=random_genres&amp;tmdb_type=tv&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=random_genres&amp;tmdb_type=tv,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31321]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=random_keyword&amp;tmdb_type=movie&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=random_genres&amp;tmdb_type=movie,return)</onclick>
+        </item>
+    </include>
+
+    <include name="Items_HubNode_RandomTMDb">
+        <item>
+            <label>$LOCALIZE[31166]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=random_popular&amp;tmdb_type=both&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=random_popular&amp;tmdb_type=both,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31316]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=random_mostplayed&amp;tmdb_type=both&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=random_mostplayed&amp;tmdb_type=both,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31310]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=random_trending&amp;tmdb_type=both&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=random_trending&amp;tmdb_type=both,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31317]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=random_mostviewers&amp;tmdb_type=both&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=random_mostviewers&amp;tmdb_type=both,return)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31167]</label>
+            <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=random_anticipated&amp;tmdb_type=both&amp;fanarttv=false&amp;cacheonly=true</property>
+            <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=random_anticipated&amp;tmdb_type=both,return)</onclick>
+        </item>
     </include>
 
 </includes>

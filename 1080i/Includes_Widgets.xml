@@ -6,7 +6,6 @@
         <param name="infowidget">false</param>
         <param name="labelvisible">true</param>
         <param name="infowidget_full">false</param>
-        <param name="divider_h">400</param>
         <definition>
             <control type="group" id="$PARAM[groupid]">
                 <nested />
@@ -30,15 +29,15 @@
                     <visible>$PARAM[labelvisible]</visible>
                 </control>
                 <control type="label">
-                    <top>20</top>
-                    <height>40</height>
+                    <top>30</top>
+                    <height>30</height>
                     <aligny>center</aligny>
                     <textcolor>main_fg_100</textcolor>
                     <include content="Object_Label" condition="$PARAM[usewidgetlabel]">
                         <param name="label">[CAPITALIZE]$INFO[Container($PARAM[id]).ListItem.Property(widget)][/CAPITALIZE]</param>
                     </include>
                     <label>$PARAM[label]</label>
-                    <font>font_medium_bold</font>
+                    <font>font_menulabel</font>
                     <visible>Control.HasFocus($PARAM[id])</visible>
                     <visible>$PARAM[labelvisible]</visible>
                     <visible>![$PARAM[infowidget_full]] | !Skin.HasSetting(Widgets.ExpandedHeader)</visible>
@@ -113,20 +112,204 @@
         <definition>
 
 
-            <animation effect="fade" time="300" start="100" end="0" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsGreater(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedHeader)">Conditional</animation>
-            <animation effect="fade" time="300" start="0" end="100" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsGreater(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedHeader)]">Conditional</animation>
+            <animation effect="fade" time="300" start="100" end="0" reversible="false" condition="!Integer.IsEqual(Window.Property(Slide.WidgetContainer),0) + Integer.IsGreater(Window.Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedHeader)">Conditional</animation>
+            <animation effect="fade" time="300" start="0" end="100" reversible="false" condition="![!Integer.IsEqual(Window.Property(Slide.WidgetContainer),0) + Integer.IsGreater(Window.Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedHeader)]">Conditional</animation>
 
-            <animation effect="fade" time="300" start="100" end="0" reversible="false" condition="[[!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id])] | [Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),301) + !Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PARAM[id])]] + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter)">Conditional</animation>
-            <animation effect="fade" time="300" start="0" end="100" reversible="false" condition="![[[!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id])] | [Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),301) + !Integer.IsEqual(Window(Home).Property(TMDbHelper.WidgetContainer),$PARAM[id])]] + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter)]">Conditional</animation>
+            <animation effect="fade" time="300" start="100" end="0" reversible="false" condition="[[!Integer.IsEqual(Window.Property(Slide.WidgetContainer),0) + Integer.IsLess(Window.Property(Slide.WidgetContainer),$PARAM[id])] | [Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id])]] + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter)">Conditional</animation>
+            <animation effect="fade" time="300" start="0" end="100" reversible="false" condition="![[[!Integer.IsEqual(Window.Property(Slide.WidgetContainer),0) + Integer.IsLess(Window.Property(Slide.WidgetContainer),$PARAM[id])] | [Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id])]] + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter)]">Conditional</animation>
 
-            <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_next_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
-            <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_next_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
+            <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_next_t" reversible="false" condition="!Integer.IsEqual(Window.Property(Slide.WidgetContainer),0) + Integer.IsLess(Window.Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+            <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_next_t" reversible="false" condition="![!Integer.IsEqual(Window.Property(Slide.WidgetContainer),0) + Integer.IsLess(Window.Property(Slide.WidgetContainer),$PARAM[id]) + !String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
-            <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_mext_t" reversible="false" condition="!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
-            <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_mext_t" reversible="false" condition="![!Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),0) + Integer.IsLess(Window(Home).Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window(Home).Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
+            <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_mext_t" reversible="false" condition="!Integer.IsEqual(Window.Property(Slide.WidgetContainer),0) + Integer.IsLess(Window.Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">Conditional</animation>
+            <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_mext_t" reversible="false" condition="![!Integer.IsEqual(Window.Property(Slide.WidgetContainer),0) + Integer.IsLess(Window.Property(Slide.WidgetContainer),$PARAM[id]) + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)]">Conditional</animation>
 
             <animation effect="slide" time="400" tween="quadratic" start="0" end="0,infowidget_main_t" reversible="false" condition="$PARAM[infowidget_full] + Control.HasFocus($PARAM[id])">Conditional</animation>
             <animation effect="slide" time="400" tween="quadratic" end="0" start="0,infowidget_main_t" reversible="false" condition="$PARAM[infowidget_full] + !Control.HasFocus($PARAM[id])">Conditional</animation>
+        </definition>
+    </include>
+
+    <include name="Widget_SideStack_Node">
+        <param name="selected">false</param>
+        <definition>
+            <control type="group">
+                <height>grid_x08</height>
+                <control type="group">
+                    <include content="Dimension_Padding" condition="$PARAM[selected]">
+                        <param name="pad">-5</param>
+                    </include>
+                    <include content="Object_ItemBack">
+                        <param name="selected">$PARAM[selected]</param>
+                    </include>
+                </control>
+                <control type="label">
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <label>$PARAM[label]</label>
+                    <textcolor>main_fg_70</textcolor>
+                    <font>font_mini_bold</font>
+                    <left>30</left>
+                    <right>30</right>
+                    <height>20</height>
+                    <centertop>50%</centertop>
+                </control>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <include name="Widget_SideStack_NodeList">
+        <control type="wraplist" id="$PARAM[nodeid]">
+            <orientation>vertical</orientation>
+            <itemlayout width="1" height="1" />
+            <focusedlayout width="1" height="1" />
+            <width>1</width>
+            <height>1</height>
+            <left>-1920</left>
+            <onright>SetFocus($PARAM[id],0,absolute)</onright>
+            <onleft>SetFocus($PARAM[id],9999,absolute)</onleft>
+            <nested />
+        </control>
+    </include>
+
+    <include name="Widget_SideStack_Animation">
+        <animation effect="slide" start="0" end="$PARAM[node_w]" time="400" tween="quadratic" reversible="false" condition="Control.HasFocus($PARAM[nodeid])">Conditional</animation>
+        <animation effect="slide" end="0" start="$PARAM[node_w]" time="400" tween="quadratic" reversible="false" condition="![Control.HasFocus($PARAM[nodeid])]">Conditional</animation>
+        <!-- <animation effect="slide" start="0" end="$PARAM[node_w]" time="400" tween="quadratic" reversible="false" condition="Control.HasFocus($PARAM[nodeid]) | Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,1)">Conditional</animation>
+        <animation effect="slide" end="0" start="$PARAM[node_w]" time="400" tween="quadratic" reversible="false" condition="![Control.HasFocus($PARAM[nodeid]) | Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,1)]">Conditional</animation> -->
+    </include>
+
+    <include name="Widget_SideStack">
+        <param name="include">List_Landscape_Row</param>
+        <param name="usewidgetlabel">false</param>
+        <param name="infowidget">false</param>
+        <param name="height">widget_items_h</param>
+        <param name="node_w">450</param>
+        <definition>
+            <include content="Widget_Label">
+                <param name="groupid">$PARAM[groupid]</param>
+                <param name="label">[CAPITALIZE]$INFO[Container($PARAM[nodeid]).ListItem.Label][/CAPITALIZE] ($PARAM[label])</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="visible">[[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0)] + !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) + [[!String.IsEmpty(Container($PARAM[nodeid]).ListItem.FolderPath) + Container($PARAM[nodeid]).ListItem.IsFolder] | !String.IsEmpty(Container($PARAM[nodeid]).ListItem.Property(folderpath))]]</param>
+                <param name="busy_visible">[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating]</param>
+                <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
+                <param name="infowidget">$PARAM[infowidget]</param>
+                <param name="infowidget_full">$PARAM[infowidget_full]</param>
+                <param name="labelvisible">$PARAM[labelvisible]</param>
+                <include content="Widget_SlideAnimation">
+                    <param name="infowidget_full">$PARAM[infowidget_full]</param>
+                    <param name="infowidget">$PARAM[infowidget]</param>
+                    <param name="id">$PARAM[id]</param>
+                </include>
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+                <control type="group">
+                    <width>$PARAM[node_w]</width>
+                    <height>320</height>
+                    <top>100</top>
+                    <include content="Widget_SideStack_Animation">
+                        <param name="node_w">$PARAM[node_w]</param>
+                        <param name="nodeid">$PARAM[nodeid]</param>
+                        <param name="id">$PARAM[id]</param>
+                    </include>
+                    <visible>!Container($PARAM[id]).HasPrevious | Control.HasFocus($PARAM[nodeid])</visible>
+                    <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+                    <animation effect="slide" start="0" end="-$PARAM[node_w]" condition="true">Conditional</animation>
+                    <control type="group">
+                        <right>40</right>
+                        <animation condition="!Container($PARAM[nodeid]).OnNext" effect="slide" start="0" end="0,-80" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
+                        <animation condition="!Container($PARAM[nodeid]).OnPrevious" effect="slide" start="0" end="0,80" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
+
+                        <!-- Top -->
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem(-2).Label]</param>
+                            <top>-120</top>
+                            <visible>Container($PARAM[nodeid]).OnNext</visible>
+                            <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
+                        </include>
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem(-1).Label]</param>
+                            <top>0</top>
+                            <visible>!Container($PARAM[nodeid]).OnPrevious</visible>
+                            <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
+                        </include>
+
+                        <!-- Center -->
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem.Label]</param>
+                            <centertop>50%</centertop>
+                            <visible>!Control.HasFocus($PARAM[nodeid])</visible>
+                        </include>
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem.Label]</param>
+                            <param name="selected">true</param>
+                            <visible>Control.HasFocus($PARAM[nodeid])</visible>
+                            <centertop>50%</centertop>
+                        </include>
+
+                        <!-- Bottom -->
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem(1).Label]</param>
+                            <bottom>0</bottom>
+                            <visible>!Container($PARAM[nodeid]).OnNext</visible>
+                            <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
+                        </include>
+                        <include content="Widget_SideStack_Node">
+                            <param name="label">$INFO[Container($PARAM[nodeid]).ListItem(2).Label]</param>
+                            <bottom>-120</bottom>
+                            <visible>Container($PARAM[nodeid]).OnPrevious</visible>
+                            <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
+                        </include>
+                    </control>
+
+                </control>
+            </include>
+            <include content="$PARAM[include]">
+                <param name="id">$PARAM[id]</param>
+                <param name="context_button">true</param>
+                <param name="icon">$PARAM[icon]</param>
+                <param name="detailed">$PARAM[detailed]</param>
+                <param name="item_h">$PARAM[item_h]</param>
+                <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                <param name="item_w">$PARAM[item_w]</param>
+                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
+
+                <content>
+                    <item>
+                        <property name="blankitem">true</property>
+                        <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + !String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(blankitem))]</visible>
+                    </item>
+                </content>
+
+                <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]">$INFO[Container($PARAM[nodeid]).ListItem.FolderPath]</content>
+                <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]">$INFO[Container($PARAM[nodeid]).ListItem.Property(folderpath)]</content>
+
+
+
+                <top>widget_items_t</top>
+                <height>$PARAM[height]</height>
+                <orientation>horizontal</orientation>
+
+                <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0)] + !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) + [[!String.IsEmpty(Container($PARAM[nodeid]).ListItem.FolderPath) + Container($PARAM[nodeid]).ListItem.IsFolder] | !String.IsEmpty(Container($PARAM[nodeid]).ListItem.Property(folderpath))]</visible>
+
+                <animation effect="fade" start="100" end="0" time="400" reversible="true" condition="[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating | [Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + !String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(blankitem))]]]">Conditional</animation>
+                <animation effect="fade" start="0" end="100" time="400" reversible="true" condition="![Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating | [Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + !String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(blankitem))]]]">Conditional</animation>
+
+                <include content="Widget_SlideAnimation">
+                    <param name="infowidget_full">$PARAM[infowidget_full]</param>
+                    <param name="infowidget">$PARAM[infowidget]</param>
+                    <param name="id">$PARAM[id]</param>
+                </include>
+
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+                <onleft>$PARAM[nodeid]</onleft>
+                <onright>SetFocus($PARAM[id],0,absolute)</onright>
+                <onright>$PARAM[nodeid]</onright>
+                <include content="Widget_SideStack_Animation">
+                    <param name="node_w">$PARAM[node_w]</param>
+                    <param name="nodeid">$PARAM[nodeid]</param>
+                    <param name="id">$PARAM[id]</param>
+                </include>
+                <nested />
+            </include>
         </definition>
     </include>
 
@@ -150,7 +333,6 @@
                 <param name="infowidget">$PARAM[infowidget]</param>
                 <param name="infowidget_full">$PARAM[infowidget_full]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
-                <param name="divider_h">$PARAM[divider_h]</param>
                 <include content="Widget_SlideAnimation">
                     <param name="infowidget_full">$PARAM[infowidget_full]</param>
                     <param name="infowidget">$PARAM[infowidget]</param>
@@ -200,7 +382,6 @@
         <param name="visible">true</param>
         <param name="altvisible">false</param>
         <param name="include">List_Button_Row</param>
-        <param name="divider_h">200</param>
         <param name="item_h">120</param>
         <param name="itemlayout_h">160</param>
         <param name="detailed">true</param>
@@ -224,7 +405,6 @@
                 <param name="visible">$PARAM[visible]</param>
                 <param name="altvisible">$PARAM[altvisible]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
-                <param name="divider_h">$PARAM[divider_h]</param>
                 <hitrect x="0" y="360" w="1920" h="$PARAM[itemlayout_h]" />
                 <movement>6</movement>
                 <nested />
@@ -260,10 +440,10 @@
                 <param name="item_w">217.14</param>
                 <param name="itemlayout_w">257.14</param>
                 <nested />
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
-                <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
-                <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
+                <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
+                <onfocus>ClearProperty(Slide.WidgetContainer)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <onback>$PARAM[onback]</onback>
                 <movement>6</movement>
             </include>
@@ -276,12 +456,12 @@
                 <param name="labelvisible">false</param>
                 <param name="include">$PARAM[include]</param>
                 <param name="height">$PARAM[height]</param>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[widgetid],Home)</onfocus>
-                <onfocus condition="$PARAM[expand_plot]">SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
-                <onfocus condition="$PARAM[expand_plot]">SetProperty(Slide.WidgetContainer,$PARAM[widgetid],Home)</onfocus>
-                <onfocus condition="![$PARAM[expand_plot]]">ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
-                <onfocus condition="![$PARAM[expand_plot]]">ClearProperty(Slide.WidgetContainer,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[widgetid])</onfocus>
+                <onfocus condition="$PARAM[expand_plot]">SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+                <onfocus condition="$PARAM[expand_plot]">SetProperty(Slide.WidgetContainer,$PARAM[widgetid])</onfocus>
+                <onfocus condition="![$PARAM[expand_plot]]">ClearProperty(Slide.WidgetInfoStyle)</onfocus>
+                <onfocus condition="![$PARAM[expand_plot]]">ClearProperty(Slide.WidgetContainer)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <animation effect="fade" start="100" end="0" time="0" condition="Container($PARAM[id]).IsUpdating">Conditional</animation>
                 <onclick>noop</onclick>
                 <content>$INFO[Container($PARAM[id]).ListItem.FolderPath,,$PARAM[content_affix]]</content>
@@ -297,16 +477,16 @@
     </include>
 
     <include name="Widget_Recs_Basic">
-        <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
-        <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
-        <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
-        <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+        <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
+        <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
+        <onfocus>ClearProperty(Slide.WidgetContainer)</onfocus>
+        <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
     </include>
 
     <include name="Widget_Recs_Expand">
-        <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
-        <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,$PARAM[id],Home)</onfocus>
-        <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
-        <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+        <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
+        <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,$PARAM[id])</onfocus>
+        <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+        <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
     </include>
 </includes>

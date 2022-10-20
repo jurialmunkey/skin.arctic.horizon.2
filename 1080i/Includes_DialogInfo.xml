@@ -40,23 +40,12 @@
     <!-- Right Group for DialogInfo -->
     <include name="DialogInfo_RightGroup">
         <param name="left" default="infodialog_left_w" />
-        <param name="left_divider" default="infodialog_divider_left_w" />
         <definition>
             <control type="group">
-                <include content="Object_Left" condition="!Skin.String(DividerStyle,Split)">
-                    <param name="left">$PARAM[left]</param>
-                </include>
-                <include content="Object_Left" condition="Skin.String(DividerStyle,Split)">
-                    <param name="left">$PARAM[left_divider]</param>
-                </include>
+                <left>$PARAM[left]</left>
                 <include>Dimension_Info</include>
                 <include content="Animation_Right_Delay">
                     <param name="windowopen_condition">String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))</param>
-                </include>
-                <include content="Object_DividerPanel" condition="Skin.String(DividerStyle,Split)">
-                    <param name="shadow_left" value="true" />
-                    <left>-80</left>
-                    <right>-$PARAM[left]</right>
                 </include>
                 <nested />
             </control>
@@ -76,17 +65,10 @@
                 <orientation>horizontal</orientation>
                 <height>256</height>
                 <centertop>50%</centertop>
-                <onleft>noop</onleft>
-
-                <!-- Open Manage Menu -->
-                <onright condition="!Integer.IsEqual(Container(9000).NumItems,0)">SetFocus(9000)</onright>
-                <onright condition="Integer.IsEqual(Container(9000).NumItems,0)">noop</onright>
-
                 <!-- Open Plotbox (and reset scroll position) -->
                 <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
                 <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
                 <onup>61</onup>
-
                 <!-- Open Recommendations -->
                 <ondown>7002</ondown>
 
@@ -261,55 +243,74 @@
             <include>Animation_Right_Delay</include>
             <control type="image">
                 <include>Texture_Shadow_40</include>
-                <texture colordiffuse="black" border="10">common/box.png</texture>
+                <texture colordiffuse="black" border="12">common/box.png</texture>
             </control>
             <control type="videowindow" />
-            <include>DialogInfo_VideoTrailerButton</include>
+            <include>DialogInfo_VideoTrailerControl</include>
         </include>
     </include>
 
     <!-- Trailer Control Button -->
-    <include name="DialogInfo_VideoTrailerButton">
+    <include name="DialogInfo_VideoTrailerControl">
+        <param name="onback">5000</param>
         <definition>
+            <control type="group">
+                <bottom>0</bottom>
+                <height>10</height>
+                <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused</visible>
+                <include>Animation_FadeIn</include>
+                <include>Animation_FadeOut</include>
+                <control type="progress" id="499">
+                    <info>Player.SeekBar</info>
+                    <height>10</height>
+                </control>
+                <control type="progress">
+                    <height>10</height>
+                    <info>Player.SeekBar</info>
+                    <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
+                    <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
+                    <midtexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
+                    <righttexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
+                    <include content="Defs_Progress_Colorfade">
+                        <param name="id" value="499" />
+                    </include>
+                </control>
+            </control>
             <control type="button" id="7001">
-                <texturefocus />
                 <texturenofocus />
-                <font />
-                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onunfocus>
-                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onunfocus>
-                <onunfocus condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onunfocus>
-                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onleft>
-                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
-                <onleft condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onleft>
-                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onright>
-                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
-                <onright condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onright>
-                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</onup>
-                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
-                <onup condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</onup>
-                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">SetFocus($PARAM[onback])</ondown>
-                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) | !Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
-                <ondown condition="!Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Stop</ondown>
+                <texturefocus />
+
+                <oninfo>$PARAM[onback]</oninfo>
+                <oninfo>ClearProperty(HasTrailer,Home)</oninfo>
+                <oninfo condition="Player.HasVideo">Stop</oninfo>
+
                 <onback>$PARAM[onback]</onback>
                 <onback>ClearProperty(HasTrailer,Home)</onback>
                 <onback condition="Player.HasVideo">Stop</onback>
-                <oninfo>SetFocus($PARAM[onback])</oninfo>
-                <oninfo>ClearProperty(HasTrailer,Home)</oninfo>
-                <oninfo condition="Player.HasVideo">Stop</oninfo>
-                <onclick condition="Player.HasVideo">Fullscreen</onclick>
-                <onclick>ClearProperty(HasTrailer,Home)</onclick>
-                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onleft>
-                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepBack</onleft>
-                <onleft condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
-                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onright>
-                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">StepForward</onright>
-                <onright condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
-                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</onup>
-                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepForward</onup>
-                <onup condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</onup>
-                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">Fullscreen</ondown>
-                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">BigStepBack</ondown>
-                <ondown condition="Skin.HasSetting(VideoInfo.FullscreenTrailer) + Player.HasVideo">ClearProperty(HasTrailer,Home)</ondown>
+
+                <onclick condition="!Player.HasVideo">SetFocus($PARAM[onback])</onclick>
+                <onclick condition="!Player.HasVideo">ClearProperty(HasTrailer,Home)</onclick>
+                <onclick condition="Player.HasVideo">PlayerControl(Play)</onclick>
+
+                <onunfocus>SetFocus($PARAM[onback])</onunfocus>
+                <onunfocus>ClearProperty(HasTrailer,Home)</onunfocus>
+                <onunfocus condition="Player.HasVideo">Stop</onunfocus>
+
+                <onleft condition="!Player.HasVideo">SetFocus($PARAM[onback])</onleft>
+                <onleft condition="!Player.HasVideo">ClearProperty(HasTrailer,Home)</onleft>
+                <onleft condition="Player.HasVideo">StepBack</onleft>
+
+                <onright condition="!Player.HasVideo">SetFocus($PARAM[onback])</onright>
+                <onright condition="!Player.HasVideo">ClearProperty(HasTrailer,Home)</onright>
+                <onright condition="Player.HasVideo">StepForward</onright>
+
+                <onup>SetFocus($PARAM[onback])</onup>
+                <onup>ClearProperty(HasTrailer,Home)</onup>
+                <onup condition="Player.HasVideo">Stop</onup>
+
+                <ondown>SetFocus($PARAM[onback])</ondown>
+                <ondown>ClearProperty(HasTrailer,Home)</ondown>
+                <ondown condition="Player.HasVideo">Stop</ondown>
             </control>
         </definition>
     </include>
@@ -324,7 +325,7 @@
                 <texture colordiffuse="black">common/white.png</texture>
             </control>
             <control type="videowindow" />
-            <include>DialogInfo_VideoTrailerButton</include>
+            <include>DialogInfo_VideoTrailerControl</include>
         </include>
     </include>
 
@@ -388,10 +389,10 @@
                 <param name="id" value="50" />
                 <param name="label" value="$LOCALIZE[206]" />
                 <param name="detailed">true</param>
-                <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
-                <onfocus>ClearProperty(Slide.WidgetContainer,Home)</onfocus>
-                <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
+                <onfocus>ClearProperty(Slide.WidgetContainer)</onfocus>
+                <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <onback>50</onback>
                 <onback>SetFocus(5000)</onback>
             </include>
@@ -400,9 +401,9 @@
                 <param name="groupid" value="6300" />
                 <param name="id" value="6200" />
                 <param name="label" value="$LOCALIZE[31108]" />
-                <onfocus>ClearProperty(TMDbHelper.WidgetContainer,Home)</onfocus>
-                <onfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_Collections]</content>
                 <include content="Action_Widget_Play_Click">
                     <param name="id">6200</param>
@@ -417,10 +418,10 @@
                 <param name="label" value="$INFO[ListItem.Year,$LOCALIZE[31060] ,]" />
                 <param name="visible">!String.IsEmpty(ListItem.Year)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
-                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6201,Home)</onfocus>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6201,Home)</onfocus>
-                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6201)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6201)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_FromYear]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6201</param>
@@ -437,10 +438,10 @@
                 <param name="label" value="$INFO[ListItem.Genre]" />
                 <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
-                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6202,Home)</onfocus>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6202,Home)</onfocus>
-                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6202)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6202)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_FromGenre]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6202</param>
@@ -457,10 +458,10 @@
                 <param name="label" value="$INFO[ListItem.Studio]" />
                 <param name="visible">!String.IsEmpty(ListItem.Studio)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
-                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6203,Home)</onfocus>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6203,Home)</onfocus>
-                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6203)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6203)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_FromStudio]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6203</param>
@@ -477,10 +478,10 @@
                 <param name="label" value="$INFO[ListItem.Director,$LOCALIZE[31225] ,]" />
                 <param name="visible">!String.IsEmpty(ListItem.Director)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
-                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6204,Home)</onfocus>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6204,Home)</onfocus>
-                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6204)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6204)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_FromDirector]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6204</param>
@@ -497,10 +498,10 @@
                 <param name="label" value="$INFO[ListItem.Writer,$LOCALIZE[31224] ,]" />
                 <param name="visible">!String.IsEmpty(ListItem.Writer)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
-                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6205,Home)</onfocus>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6205,Home)</onfocus>
-                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot,Home)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6205)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6205)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_FromWriter]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6205</param>

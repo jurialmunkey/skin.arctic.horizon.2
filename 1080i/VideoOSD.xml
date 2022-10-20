@@ -17,667 +17,355 @@
         <control type="group">
             <visible>!Window.IsActive(DialogPlayerProcessInfo.xml)</visible>
             <visible>!Window.IsVisible(DialogSlider.xml)</visible>
-
             <include>Animation_OSD_ExpandInfo</include>
-
-            <!-- Left Side Buttons -->
-            <control type="grouplist" id="6000">
-                <centerbottom>70</centerbottom>
-                <height>120</height>
-                <left>view_pad</left>
-                <right>view_pad</right>
-                <orientation>horizontal</orientation>
-                <itemgap>30</itemgap>
-                <onleft>6800</onleft>
-                <onright>6901</onright>
-                <animation effect="fade" time="200" start="100" end="0" condition="[Control.HasFocus(6500) | Control.HasFocus(6501)]" reversible="false">Conditional</animation>
-                <animation effect="fade" time="200" delay="200" end="100" start="0" condition="![Control.HasFocus(6500) | Control.HasFocus(6501)]" reversible="false">Conditional</animation>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="true" />
-                    <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6100" />
-                    <param name="groupid" value="6199" />
-                    <onclick>PlayerControl(Play)</onclick>
-                    <onup condition="Player.Paused">PlayerControl(Play)</onup>
-                    <ondown condition="Player.Paused">PlayerControl(Play)</ondown>
-                    <onup condition="!Player.Forwarding32x">PlayerControl(Forward)</onup>
-                    <onup condition="!Player.Forwarding32x">SetProperty(PlayerSpeedControl,1)</onup>
-                    <ondown condition="!Player.Rewinding32x">PlayerControl(Rewind)</ondown>
-                    <ondown condition="!Player.Rewinding32x">SetProperty(PlayerSpeedControl,1)</ondown>
-                    <onunfocus>ClearProperty(PlayerSpeedControl)</onunfocus>
-                    <onunfocus condition="Player.Forwarding | Player.Rewinding">PlayerControl(Play)</onunfocus>
-                </include>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="true" />
-                    <param name="icon" value="osd/jump-back.png" />
-                    <param name="id" value="6200" />
-                    <param name="groupid" value="6299" />
-                    <onclick>Seek(-10)</onclick>
-                    <onup>Action(StepForward)</onup>
-                    <ondown>Action(StepBack)</ondown>
-                </include>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="true" />
-                    <param name="icon" value="osd/jump-forward.png" />
-                    <param name="id" value="6300" />
-                    <param name="groupid" value="6399" />
-                    <onclick>Seek(10)</onclick>
-                    <onup>Action(StepForward)</onup>
-                    <ondown>Action(StepBack)</ondown>
-                </include>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="true" />
-                    <param name="icon" value="$VAR[Image_OSD_NextStop]" />
-                    <param name="id" value="6400" />
-                    <param name="groupid" value="6499" />
-                    <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength) + !Skin.HasSetting(OSD.AlwaysDisplayStop)">PlayerControl(Next)</onclick>
-                    <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength) | Skin.HasSetting(OSD.AlwaysDisplayStop)">PlayerControl(Stop)</onclick>
-                    <include condition="!VideoPlayer.Content(livetv)">Action_OSD_EpisodeList_Refocus</include>
-                    <onup condition="VideoPlayer.Content(livetv)">6401</onup>
-                </include>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="PVR.CanRecordPlayingChannel + VideoPlayer.Content(livetv)" />
-                    <param name="icon" value="osd/record.png" />
-                    <param name="id" value="6900" />
-                    <param name="groupid" value="6990" />
-                    <label>[CR][CR][CR]$VAR[Label_OSD_PVR_Recording]</label>
-                    <textcolor>panel_fg_100</textcolor>
-                    <focusedcolor>panel_fg_100</focusedcolor>
-                    <shadowcolor>shadow_hard</shadowcolor>
-                    <font>font_osd_lang</font>
-                    <align>center</align>
-                    <aligny>top</aligny>
-                    <textoffsetx>0</textoffsetx>
-                    <onclick>PVR.ToggleRecordPlayingChannel</onclick>
-                </include>
-            </control>
-
-            <!-- Playback Speed Display -->
-            <include content="OSD_Menu_Back">
-                <param name="arrow_pos" value="410" />
-                <visible>!Window.IsVisible(DialogSlider.xml)</visible>
-                <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
-                <visible>!Window.IsVisible(DialogSettings.xml)</visible>
-                <visible>Control.HasFocus(6100)</visible>
-                <visible>Player.Forwarding | Player.Rewinding | !String.IsEmpty(Window.Property(PlayerSpeedControl))</visible>
-                <include>Animation_SlideIn_Dialog</include>
-                <left>40</left>
-                <width>480</width>
-                <height>200</height>
-                <control type="group">
-                    <bottom>20</bottom>
-                    <height>160</height>
-                    <left>grid_x04</left>
-                    <right>grid_x04</right>
-                    <include content="OSD_TempoControl">
-                        <param name="istempo">false</param>
-                    </include>
-                </control>
-            </include>
-
-            <!-- Right Side Buttons -->
-            <control type="grouplist" id="6001">
-                <centerbottom>70</centerbottom>
-                <height>120</height>
-                <left>view_pad</left>
-                <right>view_pad</right>
-                <orientation>horizontal</orientation>
-                <itemgap>30</itemgap>
-                <align>right</align>
-                <onleft>6900</onleft>
-                <onright>6100</onright>
-                 <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="VideoPlayer.Content(livetv)" />
-                    <param name="icon" value="osd/playlist.png" />
-                    <param name="id" value="6901" />
-                    <param name="groupid" value="6991" />
-                    <onclick>Dialog.Close(VideoOSD)</onclick>
-                    <onclick>ActivateWindow(PVROSDChannels)</onclick>
-                    <onup condition="VideoPlayer.HasEPG">Dialog.Close(VideoOSD)</onup>
-                    <onup condition="VideoPlayer.HasEPG">ActivateWindow(pvrchannelguide)</onup>
-                </include>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="true" />
-                    <param name="icon" value="osd/info.png" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6500" />
-                    <param name="groupid" value="6599" />
-                    <onup>ClearProperty(OSDExpandInfo,Home)</onup>
-                    <ondown condition="String.IsEmpty(Window(Home).Property(OSDExpandInfo))">SetProperty(OSDExpandInfo,1,Home)</ondown>
-                    <ondown condition="!String.IsEmpty(Window(Home).Property(OSDExpandInfo))">SetFocus(6501)</ondown>
-                    <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
-                    <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
-                    <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
-                    <onclick>Action(Close)</onclick>
-                    <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,imdb_id=$INFO[VideoPlayer.IMDBNumber],window_id=1191)</onclick>
-                    <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + !String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,tmdb_id=$INFO[VideoPlayer.IMDBNumber],window_id=1191)</onclick>
-                    <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.IMDBNumber)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,query='"$INFO[Player.Title]"',window_id=1191)</onclick>
-                    <onclick condition="[VideoPlayer.Content(tvshows) | VideoPlayer.Content(episodes)]">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,query='"$INFO[VideoPlayer.TvShowTitle]"',window_id=1191)</onclick>
-                </include>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="true" />
-                    <param name="icon" value="osd/audio-settings.png" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6600" />
-                    <param name="groupid" value="6699" />
-                    <label>[CR][CR][CR]$INFO[VideoPlayer.AudioLanguage,[UPPERCASE],[/UPPERCASE]]</label>
-                    <textcolor>panel_fg_100</textcolor>
-                    <focusedcolor>panel_fg_100</focusedcolor>
-                    <shadowcolor>shadow_hard</shadowcolor>
-                    <font>font_osd_lang</font>
-                    <align>center</align>
-                    <aligny>top</aligny>
-                    <textoffsetx>0</textoffsetx>
-                    <onclick>ActivateWindow(osdaudiosettings)</onclick>
-                    <onup>6601</onup>
-                </include>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="true" />
-                    <param name="icon" value="osd/subs.png" />
-                    <param name="id" value="6700" />
-                    <param name="groupid" value="6799" />
-                    <label>[CR][CR][CR]$VAR[Label_OSD_SubtitlesLanguage]</label>
-                    <textcolor>panel_fg_100</textcolor>
-                    <focusedcolor>panel_fg_100</focusedcolor>
-                    <shadowcolor>shadow_hard</shadowcolor>
-                    <font>font_osd_lang</font>
-                    <align>center</align>
-                    <aligny>top</aligny>
-                    <textoffsetx>0</textoffsetx>
-                    <onclick>ActivateWindow(osdsubtitlesettings)</onclick>
-                    <onup>6701</onup>
-                </include>
-                <include content="OSD_Button">
-                    <param name="autoclose" value="true" />
-                    <param name="visible" value="true" />
-                    <param name="icon" value="osd/settings.png" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6800" />
-                    <param name="groupid" value="6899" />
-                    <onup>7800</onup>
-                    <onclick>ActivateWindow(osdvideosettings)</onclick>
-                </include>
-            </control>
-
-            <!-- Episodes Pop-up -->
-            <include content="OSD_Menu_Back">
-                <param name="arrow_pos" value="700" />
-                <visible>Control.HasFocus(6400) | Control.HasFocus(6401)</visible>
-                <visible>Container(6401).IsUpdating | !Integer.IsEqual(Container(6401).NumItems,0)</visible>
-                <include>Animation_SlideIn_Dialog</include>
-                <left>40</left>
-                <width>1040</width>
-                <include content="Object_Height" condition="VideoPlayer.Content(livetv)">
-                    <param name="height">740</param>
-                </include>
-                <height>540</height>
-                <include content="Object_MenuHeader" condition="VideoPlayer.Content(movies)">
-                    <param name="label" value="$LOCALIZE[559]" />
-                </include>
-                <include content="Object_MenuHeader" condition="VideoPlayer.Content(episodes)">
-                    <param name="label" value="$INFO[VideoPlayer.TvShowTitle,,: ]$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]" />
-                </include>
-                <include content="Object_MenuHeader" condition="VideoPlayer.Content(livetv)">
-                    <param name="label" value="$LOCALIZE[19287]" />
-                </include>
-                <control type="fixedlist" id="6401">
-                    <animation effect="slide" end="0,-80" condition="Integer.IsLess(Container(6401).NumItems,3)">Conditional</animation>
-                    <top>120</top>
-                    <bottom>20</bottom>
-                    <include condition="!VideoPlayer.Content(livetv)">Action_OSD_EpisodeList_OnUnFocus</include>
-                    <onleft>6400</onleft>
-                    <onright>6400</onright>
-                    <onback>6400</onback>
-                    <include content="Object_FocusPosition" condition="VideoPlayer.Content(livetv)">
-                        <param name="focusposition">2</param>
-                    </include>
-                    <include content="Object_Movement" condition="VideoPlayer.Content(livetv)">
-                        <param name="movement">2</param>
-                    </include>
-                    <focusposition>1</focusposition>
-                    <movement>1</movement>
-                    <orientation>vertical</orientation>
-                    <onclick>PlayMedia($INFO[Container(6401).ListItem.FileNameAndPath])</onclick>
-                    <itemlayout height="80" condition="!VideoPlayer.Content(livetv)">
-                        <include content="Object_Control">
-                            <param name="control" value="label" />
-                            <textcolor>dialog_fg_70</textcolor>
-                            <selectedcolor>dialog_fg_70</selectedcolor>
-                            <label>$VAR[Label_OSD_EpisodeLabel]</label>
-                            <font>font_small_bold</font>
-                            <textoffsetx>40</textoffsetx>
-                        </include>
-                    </itemlayout>
-                    <itemlayout height="120" condition="VideoPlayer.Content(livetv)">
-                        <include content="Layout_PVRRecordings">
-                            <param name="selected" value="false" />
-                            <param name="item_h" value="120" />
-                            <param name="textoffsetx" value="grid_x04" />
-                            <param name="misc" value="20" />
-                            <param name="textcolor" value="dialog_fg" />
-                            <param name="detailed" value="true" />
-                        </include>
-                    </itemlayout>
-                    <focusedlayout height="120" condition="VideoPlayer.Content(livetv)">
-                        <control type="group">
-                            <visible>!Control.HasFocus(6401)</visible>
-                            <include content="Layout_PVRRecordings">
-                                <param name="selected" value="false" />
-                                <param name="item_h" value="120" />
-                                <param name="textoffsetx" value="grid_x04" />
-                                <param name="misc" value="20" />
-                                <param name="textcolor" value="dialog_fg" />
-                                <param name="detailed" value="true" />
-                            </include>
-                        </control>
-                        <control type="group">
-                            <visible>Control.HasFocus(6401)</visible>
-                            <include content="Layout_PVRRecordings">
-                                <param name="selected" value="true" />
-                                <param name="item_h" value="120" />
-                                <param name="textoffsetx" value="grid_x04" />
-                                <param name="misc" value="20" />
-                                <param name="textcolor" value="dialog_fg" />
-                                <param name="detailed" value="true" />
-                            </include>
-                        </control>
-                    </focusedlayout>
-                    <focusedlayout height="80" condition="!VideoPlayer.Content(livetv) + !Control.HasFocus(6401) + !String.IsEqual(Container(6401).ListItem.Title,Player.Title)">
-                        <include content="Object_Control">
-                            <param name="control" value="label" />
-                            <textcolor>dialog_fg_70</textcolor>
-                            <selectedcolor>dialog_fg_70</selectedcolor>
-                            <label>$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, ]$INFO[ListItem.Title]</label>
-                            <font>font_small_bold</font>
-                            <textoffsetx>40</textoffsetx>
-                        </include>
-                    </focusedlayout>
-                    <focusedlayout height="240" condition="!VideoPlayer.Content(livetv) + [Control.HasFocus(6401) | String.IsEqual(Container(6401).ListItem.Title,Player.Title)]">
-                        <control type="group">
-                            <visible>!Control.HasFocus(6401)</visible>
-                            <include content="Layout_OSDEpisodes">
-                                <param name="selected" value="false" />
-                            </include>
-                        </control>
-                        <control type="group">
-                            <visible>Control.HasFocus(6401)</visible>
-                            <include content="Layout_OSDEpisodes">
-                                <param name="selected" value="true" />
-                            </include>
-                        </control>
-                    </focusedlayout>
-                    <content>$VAR[Path_OSD_Episodes]</content>
-                </control>
-                <include content="Object_BusySpinner">
-                    <param name="colordiffuse" value="dialog_fg" />
-                    <visible>Container(6401).IsUpdating + Integer.IsEqual(Container(6401).NumItems,0)</visible>
-                </include>
-            </include>
-
-            <!-- Audio Tracks -->
-            <include content="OSD_Stream_Selector">
-                <param name="id" value="6601" />
-                <param name="buttonid" value="6600" />
-                <param name="stream_type" value="audio" />
-                <param name="header" value="$LOCALIZE[292]" />
-                <param name="nibpos" value="250" />
-                <param name="method" value="set_player_audiostream" />
-            </include>
-
-            <!-- Subtitles -->
-            <include content="OSD_Stream_Selector">
-                <param name="id" value="6701" />
-                <param name="buttonid" value="6700" />
-                <param name="stream_type" value="subtitle" />
-                <param name="header" value="$LOCALIZE[287]" />
-                <param name="nibpos" value="160" />
-                <param name="width" value="640" />
-                <param name="method" value="set_player_subtitle" />
-                <param name="enabled" value="VideoPlayer.SubtitlesEnabled" />
-                <param name="toggle" value="true" />
-            </include>
-
-            <!-- Settings -->
-            <include content="OSD_Menu_Back">
-                <param name="arrow_pos" value="70" />
-                <visible>!Window.IsVisible(DialogSlider.xml)</visible>
-                <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
-                <visible>!Window.IsVisible(DialogSettings.xml)</visible>
-                <visible>Control.HasFocus(6800) | ControlGroup(6801).HasFocus() | Control.HasFocus(7800)</visible>
-                <include>Animation_SlideIn_Dialog</include>
-                <right>40</right>
-                <width>480</width>
-                <height>500</height>
-                <include content="Object_MenuHeader">
-                    <param name="label" value="$LOCALIZE[33063]" />
-                </include>
-                <control type="grouplist" id="6801">
-                    <top>120</top>
-                    <bottom>20</bottom>
-                    <ondown>7800</ondown>
+            <control type="group">
+                <animation effect="fade" time="200" start="100" end="0" condition="$EXP[Exp_OSD_ExpandInfo]" reversible="false">Conditional</animation>
+                <animation effect="fade" time="200" delay="200" end="100" start="0" condition="!$EXP[Exp_OSD_ExpandInfo]" reversible="false">Conditional</animation>
+                <!-- Left Side Buttons -->
+                <control type="grouplist" id="6000">
+                    <centerbottom>70</centerbottom>
+                    <height>120</height>
+                    <left>view_pad</left>
+                    <right>view_pad</right>
+                    <orientation>horizontal</orientation>
+                    <itemgap>30</itemgap>
                     <onleft>6800</onleft>
-                    <onright>6800</onright>
-                    <onup>noop</onup>
-                    <orientation>vertical</orientation>
-                    <include content="Dialog_Menu_Button">
-                        <param name="id" value="6802" />
-                        <param name="groupid" value="6892" />
-                        <param name="control" value="button" />
-                        <param name="icon" value="special://skin/extras/icons/videoplay.png" />
-                        <label>$LOCALIZE[13395]</label>
+                    <onright>6901</onright>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
+                        <param name="visible" value="true" />
+                        <param name="id" value="6100" />
+                        <param name="groupid" value="6199" />
+                        <onclick>PlayerControl(Play)</onclick>
+                        <onup condition="Player.Paused">PlayerControl(Play)</onup>
+                        <ondown condition="Player.Paused">PlayerControl(Play)</ondown>
+                        <onup condition="!Player.Forwarding32x">PlayerControl(Forward)</onup>
+                        <onup condition="!Player.Forwarding32x">SetProperty(PlayerSpeedControl,1)</onup>
+                        <ondown condition="!Player.Rewinding32x">PlayerControl(Rewind)</ondown>
+                        <ondown condition="!Player.Rewinding32x">SetProperty(PlayerSpeedControl,1)</ondown>
+                        <onunfocus>ClearProperty(PlayerSpeedControl)</onunfocus>
+                        <onunfocus condition="Player.Forwarding | Player.Rewinding">PlayerControl(Play)</onunfocus>
+                    </include>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="osd/jump-back.png" />
+                        <param name="id" value="6200" />
+                        <param name="groupid" value="6299" />
+                        <onclick>Seek(-10)</onclick>
+                        <onup>Action(StepForward)</onup>
+                        <ondown>Action(StepBack)</ondown>
+                    </include>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="osd/jump-forward.png" />
+                        <param name="id" value="6300" />
+                        <param name="groupid" value="6399" />
+                        <onclick>Seek(10)</onclick>
+                        <onup>Action(StepForward)</onup>
+                        <ondown>Action(StepBack)</ondown>
+                    </include>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="$VAR[Image_OSD_NextStop]" />
+                        <param name="id" value="6400" />
+                        <param name="groupid" value="6499" />
+                        <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength) + !Skin.HasSetting(OSD.AlwaysDisplayStop)">PlayerControl(Next)</onclick>
+                        <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength) | Skin.HasSetting(OSD.AlwaysDisplayStop)">PlayerControl(Stop)</onclick>
+                        <ondown condition="!Integer.IsEqual(Container(6401).NumItems,0)">SetFocus(6401)</ondown>
+                        <ondown condition="Integer.IsEqual(Container(6401).NumItems,0)">ActivateWindow(125)</ondown>
+                    </include>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="PVR.CanRecordPlayingChannel + VideoPlayer.Content(livetv)" />
+                        <param name="icon" value="osd/record.png" />
+                        <param name="id" value="6900" />
+                        <param name="groupid" value="6990" />
+                        <label>[CR][CR][CR]$VAR[Label_OSD_PVR_Recording]</label>
+                        <textcolor>panel_fg_100</textcolor>
+                        <focusedcolor>panel_fg_100</focusedcolor>
+                        <shadowcolor>shadow_hard</shadowcolor>
+                        <font>font_osd_lang</font>
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <textoffsetx>0</textoffsetx>
+                        <onclick>PVR.ToggleRecordPlayingChannel</onclick>
+
+                    </include>
+                </control>
+
+                <!-- Playback Speed Display -->
+                <include content="OSD_Menu_Back">
+                    <param name="arrow_pos" value="410" />
+                    <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+                    <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
+                    <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                    <visible>Control.HasFocus(6100)</visible>
+                    <visible>Player.Forwarding | Player.Rewinding | !String.IsEmpty(Window.Property(PlayerSpeedControl))</visible>
+                    <include>Animation_SlideIn_Dialog</include>
+                    <left>40</left>
+                    <width>480</width>
+                    <height>200</height>
+                    <control type="group">
+                        <bottom>20</bottom>
+                        <height>160</height>
+                        <left>grid_x04</left>
+                        <right>grid_x04</right>
+                        <include content="OSD_TempoControl">
+                            <param name="istempo">false</param>
+                        </include>
+                    </control>
+                </include>
+
+                <!-- Right Side Buttons -->
+                <control type="grouplist" id="6001">
+                    <centerbottom>70</centerbottom>
+                    <height>120</height>
+                    <left>view_pad</left>
+                    <right>view_pad</right>
+                    <orientation>horizontal</orientation>
+                    <itemgap>30</itemgap>
+                    <align>right</align>
+                    <onleft>6900</onleft>
+                    <onright>6100</onright>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="VideoPlayer.Content(livetv)" />
+                        <param name="icon" value="osd/playlist.png" />
+                        <param name="id" value="6901" />
+                        <param name="groupid" value="6991" />
+                        <onclick>Dialog.Close(VideoOSD)</onclick>
+                        <onclick>ActivateWindow(PVROSDChannels)</onclick>
+                        <onup condition="VideoPlayer.HasEPG">Dialog.Close(VideoOSD)</onup>
+                        <onup condition="VideoPlayer.HasEPG">ActivateWindow(pvrchannelguide)</onup>
+                    </include>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="osd/info.png" />
+                        <param name="visible" value="true" />
+                        <param name="id" value="6500" />
+                        <param name="groupid" value="6599" />
+                        <onup>ClearProperty(OSDExpandInfo,Home)</onup>
+                        <ondown condition="String.IsEmpty(Window(Home).Property(OSDExpandInfo))">SetProperty(OSDExpandInfo,1,Home)</ondown>
+                        <ondown condition="!String.IsEmpty(Window(Home).Property(OSDExpandInfo))">SetFocus(6501,0,absolute)</ondown>
+                        <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
+
+                        <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                        <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
+                        <onclick>Action(Close)</onclick>
+
+                        <onfocus>SetProperty(TMDbHelper.WinProp.Player.Title,'"$INFO[Player.Title]"',Home)</onfocus>
+                        <onfocus>SetProperty(TMDbHelper.WinProp.VideoPlayer.TvShowTitle,'"$INFO[VideoPlayer.TvShowTitle]"',Home)</onfocus>
+
+                        <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,imdb_id=$INFO[VideoPlayer.IMDBNumber],window_id=1191)</onclick>
+                        <onclick condition="VideoPlayer.Content(movies) + !String.IsEmpty(VideoPlayer.IMDBNumber) + !String.StartsWith(VideoPlayer.IMDBNumber,tt)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,tmdb_id=$INFO[VideoPlayer.IMDBNumber],window_id=1191)</onclick>
+                        <onclick condition="VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.IMDBNumber)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=movie,query=$WINPROP[Player.Title],window_id=1191)</onclick>
+                        <onclick condition="VideoPlayer.Content(episodes)">RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=tv,query=$WINPROP[VideoPlayer.TvShowTitle],episode_year=$INFO[VideoPlayer.Year],window_id=1191)</onclick>
+                    </include>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="osd/audio-settings.png" />
+                        <param name="visible" value="true" />
+                        <param name="id" value="6600" />
+                        <param name="groupid" value="6699" />
+                        <label>[CR][CR][CR]$INFO[VideoPlayer.AudioLanguage,[UPPERCASE],[/UPPERCASE]]</label>
+                        <textcolor>panel_fg_100</textcolor>
+                        <focusedcolor>panel_fg_100</focusedcolor>
+                        <shadowcolor>shadow_hard</shadowcolor>
+                        <font>font_osd_lang</font>
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <textoffsetx>0</textoffsetx>
+                        <onclick>ActivateWindow(osdaudiosettings)</onclick>
+                        <onup>6601</onup>
+                    </include>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="osd/subs.png" />
+                        <param name="id" value="6700" />
+                        <param name="groupid" value="6799" />
+                        <label>[CR][CR][CR]$VAR[Label_OSD_SubtitlesLanguage]</label>
+                        <textcolor>panel_fg_100</textcolor>
+                        <focusedcolor>panel_fg_100</focusedcolor>
+                        <shadowcolor>shadow_hard</shadowcolor>
+                        <font>font_osd_lang</font>
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <textoffsetx>0</textoffsetx>
+                        <onclick>ActivateWindow(osdsubtitlesettings)</onclick>
+                        <onup>6701</onup>
+                    </include>
+                    <include content="OSD_Button">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="osd/settings.png" />
+                        <param name="visible" value="true" />
+                        <param name="id" value="6800" />
+                        <param name="groupid" value="6899" />
+                        <onup>7800</onup>
                         <onclick>ActivateWindow(osdvideosettings)</onclick>
                     </include>
-                    <include content="Dialog_Menu_Button">
-                        <param name="id" value="6805" />
-                        <param name="groupid" value="6895" />
-                        <param name="control" value="button" />
-                        <param name="icon" value="special://skin/extras/icons/bookmark.png" />
-                        <label>$LOCALIZE[298]</label>
-                        <onclick>ActivateWindow(125)</onclick>
-                    </include>
-                </control>
-                <control type="group">
-                    <bottom>20</bottom>
-                    <height>160</height>
-                    <left>grid_x04</left>
-                    <right>grid_x04</right>
-                    <control type="image">
-                        <centertop>-20</centertop>
-                        <height>1</height>
-                        <texture colordiffuse="dialog_fg_12">common/white.png</texture>
-                    </control>
-                    <include content="Dialog_Menu_Button">
-                        <left>-grid_x04</left>
-                        <right>-grid_x04</right>
-                        <param name="id" value="7800" />
-                        <param name="groupid" value="7890" />
-                        <param name="control" value="button" />
-                        <param name="icon" value="" />
-                        <onup>6805</onup>
-                        <ondown>6800</ondown>
-                        <height>160</height>
-                        <onleft condition="Player.Paused">PlayerControl(Play)</onleft>
-                        <onright condition="Player.Paused">PlayerControl(Play)</onright>
-                        <onleft condition="Player.TempoEnabled">PlayerControl(TempoDown)</onleft>
-                        <onright condition="Player.TempoEnabled">PlayerControl(TempoUp)</onright>
-                        <onright condition="!Player.TempoEnabled + !Player.Forwarding32x">PlayerControl(Forward)</onright>
-                        <onleft condition="!Player.TempoEnabled + !Player.Rewinding32x">PlayerControl(Rewind)</onleft>
-                    </include>
-
-                    <include content="OSD_TempoControl">
-                        <param name="istempo">Player.TempoEnabled</param>
-                        <visible>!Control.HasFocus(7800)</visible>
-                    </include>
-                    <include content="OSD_TempoControl">
-                        <param name="istempo">Player.TempoEnabled</param>
-                        <param name="selected">true</param>
-                        <visible>Control.HasFocus(7800)</visible>
-                    </include>
-                </control>
-            </include>
-
-
-            <!-- Cast and Info -->
-            <control type="group">
-                <animation effect="fade" time="200" start="100" end="0" condition="![Control.HasFocus(6500) | Control.HasFocus(6501)]" reversible="false">Conditional</animation>
-                <animation effect="fade" time="200" delay="200" end="100" start="0" condition="[Control.HasFocus(6500) | Control.HasFocus(6501)]" reversible="false">Conditional</animation>
-                <height>360</height>
-                <bottom>-240</bottom>
-                <left>view_pad</left>
-                <right>view_pad</right>
-
-                <control type="grouplist">
-                    <top>-10</top>
-                    <orientation>horizontal</orientation>
-                    <itemgap>grid_x06</itemgap>
-                    <width>1380</width>
-                    <include content="Object_InfoCircle_Horizontal">
-                        <param name="icon" value="$VAR[Image_OSD_DirectorIcon]" />
-                        <param name="role" value="$LOCALIZE[20339]" />
-                        <param name="name" value="$INFO[VideoPlayer.Director]" />
-                        <param name="max">560</param>
-                        <visible>!String.IsEmpty(VideoPlayer.Director)</visible>
-                    </include>
-                    <include content="Object_InfoCircle_Horizontal">
-                        <param name="icon" value="$VAR[Image_OSD_WriterIcon]" />
-                        <param name="role" value="$LOCALIZE[20417]" />
-                        <param name="name" value="$INFO[VideoPlayer.Writer]" />
-                        <param name="max">560</param>
-                        <visible>!String.IsEmpty(VideoPlayer.Writer)</visible>
-                    </include>
                 </control>
 
-                <control type="group">
-                    <top>80</top>
-                    <height>40</height>
-                    <visible>Control.HasFocus(6500)</visible>
-                    <visible>String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-                    <include>Animation_FadeIn_Delay</include>
-                    <include content="Object_NavButton">
-                        <param name="centerleft">10</param>
-                        <param name="flipy">true</param>
-                    </include>
-                    <control type="label">
-                        <font>font_statusbar</font>
-                        <textcolor>panel_fg_70</textcolor>
-                        <label>$LOCALIZE[31293]</label>
-                        <height>20</height>
-                        <top>-10</top>
-                        <left>40</left>
-                    </control>
-                </control>
-
-                <control type="group">
-                    <top>400</top>
-                    <height>40</height>
-                    <include>Animation_FadeIn_Delay</include>
-                    <visible>Control.HasFocus(6500)</visible>
-                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-                    <include content="Object_NavButton">
-                        <param name="centerleft">10</param>
-                        <param name="flipy">true</param>
-                    </include>
-                    <control type="label">
-                        <font>font_statusbar</font>
-                        <textcolor>panel_fg_70</textcolor>
-                        <label>$LOCALIZE[31293]</label>
-                        <height>20</height>
-                        <top>-10</top>
-                        <left>40</left>
-                    </control>
-                </control>
-
-                <control type="group">
-                    <top>80</top>
-                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-                    <visible>!Control.HasFocus(6501)</visible>
-                    <include>Animation_FadeIn_Delay</include>
-                    <include>Animation_FadeOut</include>
-                    <control type="group">
-                        <width>190</width>
-                        <height>280</height>
-                        <control type="image">
-                            <include>Texture_Shadow_40</include>
-                            <aspectratio scalediffuse="false">scale</aspectratio>
-                            <texture background="true" diffuse="diffuse/poster_w190_h280.png">$VAR[Image_OSD_PosterImage]</texture>
-                        </control>
-                    </control>
-                    <control type="grouplist">
-                        <left>230</left>
-                        <orientation>vertical</orientation>
-                        <width>880</width>
-                        <itemgap>10</itemgap>
-                        <control type="label">
-                            <label>$LOCALIZE[207]</label>
-                            <font>font_mini_bold</font>
-                            <textcolor>panel_fg_100</textcolor>
-                            <height>40</height>
-                        </control>
-                        <control type="textbox">
-                            <label>$INFO[VideoPlayer.Plot]</label>
-                            <font>font_plotbox_mini</font>
-                            <textcolor>panel_fg_70</textcolor>
-                            <height>80</height>
-                        </control>
-                        <control type="label">
-                            <top>10</top>
-                            <label>$LOCALIZE[206]</label>
-                            <font>font_mini_bold</font>
-                            <textcolor>panel_fg_100</textcolor>
-                            <height>40</height>
-                            <visible>!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.Cast.1.Name))</visible>
-                        </control>
-                        <control type="textbox">
-                            <label>$INFO[Window(Home).Property(TMDBHelper.Player.Cast.1.Name)]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.1.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.2.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.2.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.3.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.3.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.4.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.4.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.5.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.5.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.6.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.6.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.7.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.7.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.8.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.8.Role), as ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.9.Name),  •  ,]$INFO[Window(Home).Property(TMDBHelper.Player.Cast.9.Role), as ,]</label>
-                            <font>font_plotbox_mini</font>
-                            <textcolor>panel_fg_70</textcolor>
-                            <height>80</height>
-                            <visible>!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.Cast.1.Name))</visible>
-                        </control>
-                    </control>
-
-                    <control type="grouplist">
-                        <left>1190</left>
-                        <orientation>vertical</orientation>
-                        <itemgap>10</itemgap>
-                        <control type="label">
-                            <label>$LOCALIZE[31064]</label>
-                            <font>font_mini_bold</font>
-                            <textcolor>panel_fg_100</textcolor>
-                            <height>40</height>
-                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards))</visible>
-                        </control>
-                        <control type="textbox">
-                            <label>$INFO[Window(Home).Property(TMDbHelper.Player.Awards),,[CR]]$INFO[Window(Home).Property(TMDbHelper.Player.Revenue),$LOCALIZE[31264] , $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.Player.Budget)]</label>
-                            <font>font_plotbox_mini</font>
-                            <textcolor>panel_fg_70</textcolor>
-                            <height>80</height>
-                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards))</visible>
-                        </control>
-                        <control type="label">
-                            <top>10</top>
-                            <label>$LOCALIZE[31024]</label>
-                            <font>font_mini_bold</font>
-                            <textcolor>panel_fg_100</textcolor>
-                            <height>40</height>
-                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
-                        </control>
-                        <control type="textbox">
-                            <label>$INFO[Window(Home).Property(TMDBHelper.Player.rottentomatoes_consensus)]</label>
-                            <font>font_plotbox_mini</font>
-                            <textcolor>panel_fg_70</textcolor>
-                            <height>120</height>
-                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
-                        </control>
-                    </control>
-                </control>
-
-                <control type="group">
-                    <top>80</top>
-                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-                    <visible>Control.HasFocus(6501)</visible>
-                    <include>Animation_FadeIn_Delay</include>
-                    <include>Animation_FadeOut</include>
-                    <control type="grouplist">
-                        <left>960</left>
-                        <orientation>vertical</orientation>
-                        <itemgap>10</itemgap>
-                        <control type="label">
-                            <label>$INFO[Container(6501).ListItem.Label]</label>
-                            <font>font_mini_bold</font>
-                            <textcolor>panel_fg_100</textcolor>
-                            <height>40</height>
-                        </control>
-                        <control type="textbox">
-                            <label>$INFO[Container(6501).ListItem.Property(role)]</label>
-                            <font>font_plotbox_mini</font>
-                            <textcolor>panel_fg_70</textcolor>
-                            <height>40</height>
-                        </control>
-                        <control type="label">
-                            <top>15</top>
-                            <label>$LOCALIZE[21887]</label>
-                            <font>font_mini_bold</font>
-                            <textcolor>panel_fg_100</textcolor>
-                            <height>40</height>
-                            <visible>!String.IsEmpty(Container(6501).ListItem.Property(Biography))</visible>
-                        </control>
-                        <control type="textbox">
-                            <label>$INFO[Container(6501).ListItem.Property(Biography)]</label>
-                            <font>font_plotbox_mini</font>
-                            <textcolor>panel_fg_70</textcolor>
-                            <height>240</height>
-                            <visible>!String.IsEmpty(Container(6501).ListItem.Property(Biography))</visible>
-                        </control>
-                    </control>
-                </control>
-
-                <include content="List_Core">
-                    <param name="orientation" value="horizontal" />
-                    <param name="controltype" value="wraplist" />
-                    <param name="id" value="6501" />
-                    <param name="item_w" value="190" />
-                    <param name="item_h" value="280" />
-                    <param name="itemlayout_w" value="230" />
-                    <param name="itemlayout_h" value="320" />
-                    <param name="itemlayout_include" value="Layout_Poster" />
-                    <param name="offset_y" value="40" />
-                    <param name="offset_x">40</param>
-                    <param name="diffuse" value="diffuse/poster_w190_h280.png" />
-                    <content>$VAR[Path_OSD_Cast]</content>
-                    <focusposition>0</focusposition>
-                    <height>360</height>
-                    <top>40</top>
-                    <onup>6500</onup>
-                    <left>-40</left>
-                    <width>960</width>
-                    <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
-                    <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
-                    <onclick>Action(Close)</onclick>
-                    <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=person,tmdb_id=$INFO[Container(6501).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
-                    <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
-                    <visible allowhiddenfocus="true">Control.HasFocus(6501)</visible>
-                    <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
-                    <include>Animation_FadeIn_Delay</include>
-                    <include>Animation_FadeOut</include>
+                <!-- Audio Tracks -->
+                <include content="OSD_Stream_Selector">
+                    <param name="id" value="6601" />
+                    <param name="buttonid" value="6600" />
+                    <param name="stream_type" value="audio" />
+                    <param name="header" value="$LOCALIZE[292]" />
+                    <param name="nibpos" value="250" />
+                    <param name="method" value="set_player_audiostream" />
                 </include>
 
-                <control type="group">
-                    <visible>Control.HasFocus(6501)</visible>
-                    <height>280</height>
-                    <top>80</top>
-                    <width>880</width>
-                    <include content="Object_BusySpinner">
-                        <param name="colordiffuse" value="panel_fg" />
-                        <visible>Container(6501).IsUpdating + Integer.IsEqual(Container(6501).NumItems,0)</visible>
+                <!-- Subtitles -->
+                <include content="OSD_Stream_Selector">
+                    <param name="id" value="6701" />
+                    <param name="buttonid" value="6700" />
+                    <param name="stream_type" value="subtitle" />
+                    <param name="header" value="$LOCALIZE[287]" />
+                    <param name="nibpos" value="160" />
+                    <param name="width" value="640" />
+                    <param name="method" value="set_player_subtitle" />
+                    <param name="enabled" value="VideoPlayer.SubtitlesEnabled" />
+                    <param name="toggle" value="true" />
+                </include>
+
+                <!-- Settings -->
+                <include content="OSD_Menu_Back">
+                    <param name="arrow_pos" value="70" />
+                    <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+                    <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
+                    <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                    <visible>Control.HasFocus(6800) | ControlGroup(6801).HasFocus() | Control.HasFocus(7800)</visible>
+                    <include>Animation_SlideIn_Dialog</include>
+                    <right>40</right>
+                    <width>480</width>
+                    <height>620</height>
+                    <include content="Object_MenuHeader">
+                        <param name="label" value="$LOCALIZE[33063]" />
                     </include>
-                    <control type="image">
-                        <centerleft>-40</centerleft>
-                        <centertop>50%</centertop>
-                        <width>16</width>
-                        <height>16</height>
-                        <texture flipx="true" colordiffuse="panel_fg_70">arrows/arrow-small-right.png</texture>
+                    <control type="grouplist" id="6801">
+                        <top>120</top>
+                        <bottom>20</bottom>
+                        <ondown>7800</ondown>
+                        <onleft>6800</onleft>
+                        <onright>6800</onright>
+                        <onup>noop</onup>
+                        <orientation>vertical</orientation>
+                        <include content="Dialog_Menu_Button">
+                            <param name="id" value="6802" />
+                            <param name="groupid" value="6892" />
+                            <param name="control" value="button" />
+                            <param name="icon" value="special://skin/extras/icons/videoplay.png" />
+                            <label>$LOCALIZE[13395]</label>
+                            <onclick>ActivateWindow(osdvideosettings)</onclick>
+                        </include>
+                        <include content="Dialog_Menu_Button">
+                            <param name="id" value="6803" />
+                            <param name="groupid" value="6893" />
+                            <param name="control" value="button" />
+                            <param name="icon" value="special://skin/extras/icons/bookmark.png" />
+                            <label>$LOCALIZE[298]</label>
+                            <onclick>ActivateWindow(125)</onclick>
+                        </include>
+                        <control type="group" id="6804">
+                            <height>40</height>
+                            <left>grid_x04</left>
+                            <right>grid_x04</right>
+                            <control type="image">
+                                <centertop>50%</centertop>
+                                <height>1</height>
+                                <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                            </control>
+                        </control>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="6805" />
+                            <param name="control" value="button" />
+                            <label />
+                            <font />
+                            <onclick>Action(PlayerProcessInfo)</onclick>
+                        </include>
+                        <control type="group" id="6895">
+                            <height>grid_x08</height>
+                            <top>-grid_x08</top>
+                            <left>-2</left>
+                            <right>2</right>
+                            <visible>Control.IsEnabled(6805) + Control.IsVisible(6805)</visible>
+                            <include content="OSD_Codecs_Mono">
+                                <param name="color_fg_90">dialog_fg_80</param>
+                                <param name="color_fg_70">dialog_fg_70</param>
+                                <param name="color_fg_30">dialog_fg_30</param>
+                                <visible>!Control.HasFocus(6805)</visible>
+                            </include>
+                            <include content="OSD_Codecs_Mono">
+                                <param name="color_fg_90">$VAR[ColorSelected]</param>
+                                <param name="color_fg_70">$VAR[ColorSelected]</param>
+                                <param name="color_fg_30">$VAR[ColorSelected_50]</param>
+                                <visible>Control.HasFocus(6805)</visible>
+                            </include>
+                        </control>
                     </control>
-                    <control type="image">
-                        <centerright>-40</centerright>
-                        <centertop>50%</centertop>
-                        <width>16</width>
-                        <height>16</height>
-                        <texture flipx="false" colordiffuse="panel_fg_70">arrows/arrow-small-right.png</texture>
+                    <control type="group">
+                        <bottom>20</bottom>
+                        <height>160</height>
+                        <left>grid_x04</left>
+                        <right>grid_x04</right>
+                        <control type="image">
+                            <centertop>-20</centertop>
+                            <height>1</height>
+                            <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                        </control>
+                        <include content="Dialog_Menu_Button">
+                            <left>-grid_x04</left>
+                            <right>-grid_x04</right>
+                            <param name="id" value="7800" />
+                            <param name="groupid" value="7890" />
+                            <param name="control" value="button" />
+                            <param name="icon" value="" />
+                            <onup>6805</onup>
+                            <ondown>6800</ondown>
+                            <height>160</height>
+                            <onleft condition="Player.Paused">PlayerControl(Play)</onleft>
+                            <onright condition="Player.Paused">PlayerControl(Play)</onright>
+                            <onleft condition="Player.TempoEnabled">PlayerControl(TempoDown)</onleft>
+                            <onright condition="Player.TempoEnabled">PlayerControl(TempoUp)</onright>
+                            <onright condition="!Player.TempoEnabled + !Player.Forwarding32x">PlayerControl(Forward)</onright>
+                            <onleft condition="!Player.TempoEnabled + !Player.Rewinding32x">PlayerControl(Rewind)</onleft>
+                        </include>
+                        <include content="OSD_TempoControl">
+                            <param name="istempo">Player.TempoEnabled</param>
+                            <visible>!Control.HasFocus(7800)</visible>
+                        </include>
+                        <include content="OSD_TempoControl">
+                            <param name="istempo">Player.TempoEnabled</param>
+                            <param name="selected">true</param>
+                            <visible>Control.HasFocus(7800)</visible>
+                        </include>
                     </control>
-                </control>
+                </include>
             </control>
+
+            <!-- Cast and Info -->
+            <include>OSD_CastInfo</include>
+
+            <!-- Episodes Up Next List -->
+            <include>OSD_Episodes</include>
         </control>
+
+        <include content="OSD_CastInfo_HintText">
+            <param name="label">$VAR[Label_OSD_HintText]</param>
+            <visible>Control.HasFocus(6500) | Control.HasFocus(6400) | Control.HasFocus(6401) | Control.HasFocus(6501)</visible>
+            <visible>!$EXP[Exp_OSD_ExpandInfo] | [[Control.HasFocus(6401) | Control.HasFocus(6501)] + !Window.IsVisible(125)]</visible>
+            <include>Animation_FadeOut</include>
+            <include>Animation_FadeIn_Delay</include>
+        </include>
 
         <control type="slider">
             <left>view_pad</left>

@@ -22,12 +22,17 @@
     <include name="Furniture_Top_Left">
         <param name="label" default="$VAR[Label_Header_Main]" />
         <param name="enabled">!Skin.HasSetting(Furniture.DisableLeftHeader)</param>
+        <param name="minimal">Skin.HasSetting(Furniture.UseMinimalClock)</param>
         <definition>
             <include content="Furniture_Topbar_Group" condition="$PARAM[enabled]">
                 <include content="Furniture_Gutters">
-                    <include content="Furniture_MainLabel">
+                     <include content="Furniture_MainLabel" condition="!$PARAM[minimal]">
                         <param name="id" value="$PARAM[id]" />
                         <aligny>center</aligny>
+                        <label>$PARAM[label]</label>
+                    </include>
+                    <include content="Furniture_MidiLabel" condition="$PARAM[minimal]">
+                        <param name="id" value="$PARAM[id]" />
                         <label>$PARAM[label]</label>
                     </include>
                 </include>
@@ -36,7 +41,7 @@
     </include>
 
     <include name="Furniture_Top_Right">
-        <param name="minimal" default="false" />
+        <param name="minimal">Skin.HasSetting(Furniture.UseMinimalClock)</param>
         <param name="enabled">!Skin.HasSetting(Furniture.DisableRightHeader)</param>
         <definition>
             <control type="group">
@@ -109,7 +114,7 @@
     </include>
 
     <include name="Furniture_Bottom_Right">
-        <param name="enabled">!Skin.HasSetting(Furniture.DisableRightFooter)</param>
+        <param name="enabled">true</param>
         <definition>
             <include content="Furniture_Bottombar_Group" condition="$PARAM[enabled]">
                 <include content="Furniture_Gutters">
@@ -146,21 +151,15 @@
     </include>
 
     <include name="Furniture_Clock_Small">
-        <control type="group">
-            <width>600</width>
+        <control type="label">
             <nested />
-            <orientation>horizontal</orientation>
             <align>$PARAM[align]</align>
-            <itemgap>10</itemgap>
-            <control type="label">
-                <font>font_small</font>
-                <textcolor>main_fg_100</textcolor>
-                <label>$INFO[System.Time]</label>
-                <align>$PARAM[align]</align>
-                <width>auto</width>
-            </control>
+            <font>font_small</font>
+            <textcolor>main_fg_100</textcolor>
+            <label>$INFO[System.Time]</label>
         </control>
     </include>
+
 
     <include name="Furniture_Clock_Big">
         <control type="group">
@@ -271,6 +270,14 @@
     <include name="Furniture_MainLabel">
         <control type="label" id="$PARAM[id]">
             <font>font_mainlabel</font>
+            <textcolor>main_fg_100</textcolor>
+            <nested />
+        </control>
+    </include>
+
+    <include name="Furniture_MidiLabel">
+        <control type="label" id="$PARAM[id]">
+            <font>font_midilabel</font>
             <textcolor>main_fg_100</textcolor>
             <nested />
         </control>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="window" id="1122">
+    <defaultcontrol>6000</defaultcontrol>
+    <onload>SetFocus(300,2,absolute)</onload>
+    <onload condition="Window.Previous(1121)">SetFocus(399)</onload>
+    <onload condition="!Window.Previous(1121)">SetFocus(6000)</onload>
+    <controls>
+        <include>Defs_TMDbHelper_Loader</include>
+        <include>Background_ExtraFanart</include>
+        <include>Background_Main</include>
+
+        <include content="Hub_Grouplist">
+
+            <param name="l_window_id">1121</param>
+            <param name="r_window_id">1123</param>
+
+            <param name="submenu_label">TMDbHelper</param>
+            <param name="submenu_content">plugin://plugin.video.themoviedb.helper/?info=dir_random</param>
+
+            <include content="Hub_Widget_SideStack">
+                <param name="id">500</param>
+                <param name="label">$LOCALIZE[31166] $LOCALIZE[31020]</param>
+                <param name="target">videos</param>
+            </include>
+            <!-- <include content="Hub_Widget_SideStack">
+                <param name="id">510</param>
+                <param name="label">$INFO[Container(5100).ListItem.Property(widget)]</param>
+                <param name="target">videos</param>
+            </include>
+            <include content="Hub_Widget_SideStack">
+                <param name="id">520</param>
+                <param name="label">$LOCALIZE[31318]</param>
+                <param name="target">videos</param>
+            </include> -->
+            <include content="Hub_Widget_SideStack">
+                <param name="id">530</param>
+                <param name="label">$LOCALIZE[31310] $LOCALIZE[31020]</param>
+                <param name="target">videos</param>
+            </include>
+            <include content="Hub_Widget_SideStack">
+                <param name="id">540</param>
+                <param name="label">$LOCALIZE[31322] $LOCALIZE[31020]</param>
+                <param name="target">videos</param>
+            </include>
+            <include content="Hub_Widget_SideStack">
+                <param name="id">550</param>
+                <param name="label">$LOCALIZE[31323] $LOCALIZE[31020]</param>
+                <param name="target">videos</param>
+            </include>
+
+        </include>
+
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5000</param>
+            <param name="nodeid">5002</param>
+            <content target="videos" sortby="random">plugin://plugin.video.themoviedb.helper/?info=trakt_popularlists&amp;fanarttv=false&amp;cacheonly=true&amp;nextpage=false</content>
+        </include>
+        <!-- <include content="Widget_SideStack_NodeList">
+            <param name="id">5100</param>
+            <param name="nodeid">5102</param>
+            <content><include>Items_HubNode_RandomGenre</include></content>
+        </include>
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5200</param>
+            <param name="nodeid">5202</param>
+            <content><include>Items_HubNode_RandomTMDb</include></content>
+        </include> -->
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5300</param>
+            <param name="nodeid">5302</param>
+            <content target="videos" sortby="random">plugin://plugin.video.themoviedb.helper/?info=trakt_trendinglists&amp;fanarttv=false&amp;cacheonly=true&amp;nextpage=false</content>
+        </include>
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5400</param>
+            <param name="nodeid">5402</param>
+            <content target="videos" sortby="random">plugin://plugin.video.themoviedb.helper/?info=trakt_likedlists&amp;fanarttv=false&amp;cacheonly=true&amp;nextpage=false</content>
+        </include>
+        <include content="Widget_SideStack_NodeList">
+            <param name="id">5500</param>
+            <param name="nodeid">5502</param>
+            <content target="videos" sortby="random">plugin://plugin.video.themoviedb.helper/?info=trakt_mylists&amp;fanarttv=false&amp;cacheonly=true&amp;nextpage=false</content>
+        </include>
+
+        <include>Hub_Furniture</include>
+
+        <include content="Hub_Menu">
+            <include content="Object_Hidden_Button">
+                <param name="id" value="399" />
+                <onleft>Control.Move(300,-1)</onleft>
+                <onleft>ReplaceWindow(1121)</onleft>
+                <ondown>6000</ondown>
+                <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/,return)</onclick>
+            </include>
+        </include>
+    </controls>
+</window>
