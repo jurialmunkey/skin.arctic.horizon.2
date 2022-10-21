@@ -304,6 +304,8 @@
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,Full)</onfocus>
                         <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
                         <onfocus condition="Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[FullscreenWidgetName],Home)</onfocus>
+                        <onback condition="!Integer.IsEqual(Container(301).ListItem.CurrentItem,1)">SetFocus(301,0,absolute)</onback>
+                        <onback condition="Integer.IsEqual(Container(301).ListItem.CurrentItem,1)">SetFocus(300)</onback>
                     </include>
                     <skinshortcuts insert="widgets">items</skinshortcuts>
                     <include content="Widget_Submenu" condition="$SKINSHORTCUTS[isSubmenuBumper]">
@@ -328,9 +330,8 @@
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo])</onfocus>
                         <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
                         <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-                        <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
-                        <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
-                        <onback>SetFocus(300)</onback>
+                        <onback condition="!Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).ListItem.CurrentItem,1)">SetFocus($PYTHON[int(mainmenuid) * 1000 + 698],0,absolute)</onback>
+                        <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).ListItem.CurrentItem,1)">SetFocus(300)</onback>
                     </include>
                     <include content="Object_Control" condition="$SKINSHORTCUTS[isSubmenuBumper]">
                         <param name="control" value="group" />
@@ -340,17 +341,7 @@
                     </include>
                 </control>
             </include>
-            <include content="Object_WallFade" condition="$SKINSHORTCUTS[includeCondition]">
-                <param name="id">$PYTHON[int(mainmenuid) * 1000 + 400]</param>
-                <param name="altvisible_top">!$EXP[Exp_HomeBarVisible] + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503])</param>
-                <param name="altvisible_bottom">[!String.IsEmpty(Window.Property(Slide.WidgetInfoStyle)) + $SKINSHORTCUTS[isSubmenuBumper]]</param>
-                <param name="direction_buttons">true</param>
-                <param name="visible_top">[[Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) + !String.IsEmpty(Container(300).ListItem.Property(widgetPath)) + !String.IsEmpty(Container(300).ListItem.Property(widgetStyle)) + !String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen)] | [!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) + !Control.HasFocus(301) + ![String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedHeader)] + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503])]]</param>
-                <param name="visible_bottom">![[String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + Skin.HasSetting(Widgets.ExpandedFooter) + [!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)]]]</param>
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <visible>!$EXP[Exp_RecommendationDialogs]</visible>
-                <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
-            </include>
+
         </controls>
         <items insert="widgets">
             <condition tag="property" attribute="name|list" />
@@ -602,9 +593,13 @@
                     <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
                     <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                     <onunfocus>ClearProperty(Slide.WidgetTitle,Home)</onunfocus>
-                    <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
-                    <onback>SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
-                    <onback>SetFocus(300)</onback>
+
+                    <onback condition="!Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.CurrentItem,1)">SetFocus($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],0,absolute)</onback>
+                    <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.CurrentItem,1)">SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
+                    <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.CurrentItem,1)">SetFocus(301)</onback>
+                    <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.CurrentItem,1)">SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
+                    <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.CurrentItem,1)">SetFocus(300)</onback>
+
                 </include>
             </controls>
         </items>
@@ -744,6 +739,237 @@
             </controls>
         </items>
     </submenu>
+
+    <other include="wallfade-top-visible">
+        <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[1]">1</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[2]">2</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[3]">3</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[4]">4</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[5]">5</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[6]">6</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[7]">7</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[8]">8</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[9]">9</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[10]">10</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[11]">11</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[12]">12</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[13]">13</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[14]">14</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[15]">15</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[16]">16</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[17]">17</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[18]">18</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[19]">19</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[20]">20</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[21]">21</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[22]">22</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[23]">23</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[24]">24</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[25]">25</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[26]">26</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[27]">27</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[28]">28</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[29]">29</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[30]">30</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[31]">31</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[32]">32</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[33]">33</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[34]">34</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[35]">35</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[36]">36</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[37]">37</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[38]">38</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[39]">39</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[40]">40</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[41]">41</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[42]">42</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[43]">43</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[44]">44</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[45]">45</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[46]">46</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[47]">47</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[48]">48</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[49]">49</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[50]">50</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[51]">51</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[52]">52</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[53]">53</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[54]">54</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[55]">55</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[56]">56</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[57]">57</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[58]">58</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[59]">59</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[60]">60</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[61]">61</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[62]">62</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[63]">63</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[64]">64</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[65]">65</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[66]">66</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[67]">67</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[68]">68</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[69]">69</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[70]">70</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[71]">71</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[72]">72</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[73]">73</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[74]">74</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[75]">75</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[76]">76</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[77]">77</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[78]">78</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[79]">79</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[80]">80</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[81]">81</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[82]">82</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[83]">83</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[84]">84</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[85]">85</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[86]">86</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[87]">87</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[88]">88</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[89]">89</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[90]">90</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[91]">91</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[92]">92</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[93]">93</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[94]">94</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[95]">95</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[96]">96</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[97]">97</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[98]">98</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[99]">99</property>
+        <property name="isFullscreenWidget" tag="property" attribute="name|widgetPath">True</property>
+        <property name="isFullscreenWidget">False</property>
+
+        <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Poster">True</property>
+        <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Square">True</property>
+        <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Landscape">True</property>
+        <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Big Landscape">True</property>
+        <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Banner">True</property>
+        <property name="isFullscreenExpanded">False</property>
+
+        <controls>
+
+            <!-- Selected Menu Visibility -->
+            <visible>!String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) | [String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + Container($PYTHON[int(mainmenuid) * 1000 + 400]).HasPrevious]</visible>
+
+            <!-- Hide on first widget unless fullscreen is expanded -->
+            <visible>!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 601]) | [$SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenExpanded]]</visible>
+
+            <!-- Hide on fullscreen widget -->
+            <visible>!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 501]) + !Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 503]) + !Control.HasFocus(301)</visible>
+        </controls>
+    </other>
+
+    <other include="wallfade-bottom-visible">
+        <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[1]">1</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[2]">2</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[3]">3</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[4]">4</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[5]">5</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[6]">6</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[7]">7</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[8]">8</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[9]">9</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[10]">10</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[11]">11</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[12]">12</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[13]">13</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[14]">14</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[15]">15</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[16]">16</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[17]">17</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[18]">18</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[19]">19</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[20]">20</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[21]">21</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[22]">22</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[23]">23</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[24]">24</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[25]">25</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[26]">26</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[27]">27</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[28]">28</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[29]">29</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[30]">30</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[31]">31</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[32]">32</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[33]">33</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[34]">34</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[35]">35</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[36]">36</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[37]">37</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[38]">38</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[39]">39</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[40]">40</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[41]">41</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[42]">42</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[43]">43</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[44]">44</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[45]">45</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[46]">46</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[47]">47</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[48]">48</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[49]">49</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[50]">50</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[51]">51</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[52]">52</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[53]">53</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[54]">54</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[55]">55</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[56]">56</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[57]">57</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[58]">58</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[59]">59</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[60]">60</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[61]">61</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[62]">62</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[63]">63</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[64]">64</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[65]">65</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[66]">66</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[67]">67</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[68]">68</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[69]">69</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[70]">70</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[71]">71</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[72]">72</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[73]">73</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[74]">74</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[75]">75</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[76]">76</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[77]">77</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[78]">78</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[79]">79</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[80]">80</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[81]">81</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[82]">82</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[83]">83</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[84]">84</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[85]">85</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[86]">86</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[87]">87</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[88]">88</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[89]">89</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[90]">90</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[91]">91</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[92]">92</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[93]">93</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[94]">94</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[95]">95</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[96]">96</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[97]">97</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[98]">98</property>
+        <property name="mainmenuid" tag="property" attribute="name|id" value="$NUMBER[99]">99</property>
+        <controls>
+            <!-- Selected Menu Visibility -->
+            <visible>!String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) | [String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + Container($PYTHON[int(mainmenuid) * 1000 + 400]).HasNext]</visible>
+        </controls>
+    </other>
 
     <other include="menubar">
         <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>

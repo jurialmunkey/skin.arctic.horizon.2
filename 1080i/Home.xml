@@ -93,6 +93,63 @@
             <include>skinshortcuts-template-widgets</include>
         </control>
 
+        <!-- Fade -->
+        <control type="group">
+            <animation effect="fade" reversible="false" start="0" end="100" time="400">WindowOpen</animation>
+            <animation effect="fade" reversible="false" start="100" end="0" time="400">WindowClose</animation>
+            <control type="image">
+                <animation effect="fade" reversible="false" start="0" end="100" time="200">Visible</animation>
+                <animation effect="fade" reversible="false" start="100" end="0" time="200">Hidden</animation>
+                <include>skinshortcuts-template-wallfade-top-visible</include>
+                <visible>!String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) | !Skin.HasSetting(Widgets.ExpandedHeader)</visible>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>!$EXP[Exp_RecommendationDialogs]</visible>
+                <height>200</height>
+                <texture>common/dim-top-bezier.png</texture>
+            </control>
+
+            <control type="group">
+                <centertop>70</centertop>
+                <height>140</height>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>!$EXP[Exp_RecommendationDialogs]</visible>
+                <visible>!Control.HasFocus(399) + !Control.HasFocus(300) + !Control.HasFocus(302)</visible>
+                <animation effect="fade" reversible="false" start="0" end="100" time="200">Visible</animation>
+                <animation effect="fade" reversible="false" start="100" end="0" time="200">Hidden</animation>
+                <include content="Object_NavButton">
+                    <param name="id">320</param>
+                    <param name="flipy">false</param>
+                </include>
+            </control>
+
+            <control type="group">
+                <animation effect="fade" reversible="false" start="0" end="100" time="200">Visible</animation>
+                <animation effect="fade" reversible="false" start="100" end="0" delay="400" time="200">Hidden</animation>
+                <include>skinshortcuts-template-wallfade-bottom-visible</include>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>!$EXP[Exp_RecommendationDialogs]</visible>
+                <control type="image">
+                    <height>200</height>
+                    <bottom>0</bottom>
+                    <texture flipy="true">common/dim-top-bezier.png</texture>
+                    <visible>!String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) | !Skin.HasSetting(Widgets.ExpandedFooter)</visible>
+                    <animation effect="fade" reversible="false" start="0" end="100" time="200">Visible</animation>
+                    <animation effect="fade" reversible="false" start="100" end="0" delay="400" time="200">Hidden</animation>
+                </control>
+                <control type="group">
+                    <centerbottom>70</centerbottom>
+                    <height>140</height>
+                    <include content="Object_NavButton">
+                        <param name="id">320</param>
+                        <param name="flipy">true</param>
+                    </include>
+                </control>
+            </control>
+
+
+        </control>
+
+
         <!-- Right Header -->
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
