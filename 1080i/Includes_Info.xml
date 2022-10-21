@@ -426,6 +426,12 @@
                         <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Container(99950).ListItem.Property(Duration)) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + Integer.IsEqual(Container(99950).ListItem.Property(Duration_M), 0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[ListItem.Duration,,]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Duration) + Container.Content(files)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
 
                     <!-- End Time -->
                     <include content="Info_Line_Label" condition="!$PARAM[player] + Skin.HasSetting(Infoline.EnableEndTime) + ![$PARAM[shortline]]">
