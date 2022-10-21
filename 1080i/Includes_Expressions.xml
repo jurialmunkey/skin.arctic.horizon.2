@@ -33,7 +33,9 @@
 
     <expression name="Exp_HasBackgroundFanart_InfoDialogs">[$EXP[Exp_InfoDialogs] + !Skin.HasSetting(Info.EnableSimpleBackground)]</expression>
 
-    <expression name="Exp_HasBackgroundFanart_Widgets">[$EXP[Exp_IsWidgetWindow] +  [Skin.HasSetting(Widgets.DisableSimpleBackground) | [!Skin.HasSetting(Widgets.DisableExpandedBackground) + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)]]]</expression>
+    <expression name="Exp_HasBackgroundFanart_Widgets">[$EXP[Exp_IsWidgetWindow] + [Skin.HasSetting(Widgets.DisableSimpleBackground) | [!Skin.HasSetting(Widgets.DisableExpandedBackground) + $EXP[Exp_IsExpandedWidget]]]]</expression>
+
+    <expression name="Exp_IsExpandedWidget">[String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) | [Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !String.IsEmpty(Container(300).ListItem.Property(WidgetPath)) + !String.IsEmpty(Container(300).ListItem.Property(WidgetStyle)) + !String.IsEqual(Container(300).ListItem.Property(WidgetPath),Fullscreen)]]</expression>
 
     <expression name="Exp_IsWidgetWindow">[Window.IsActive(1114) | Window.IsActive(Home) | Window.IsVisible(1120) | Window.IsVisible(1121) | Window.IsVisible(1122)]</expression>
 
