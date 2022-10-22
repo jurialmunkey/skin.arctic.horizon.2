@@ -36,21 +36,25 @@
     </include>
 
     <include name="Hub_Widget_SideStack">
-        <include content="Widget_SideStack">
-            <param name="id">$PARAM[id]0</param>
-            <param name="groupid">$PARAM[id]1</param>
-            <param name="nodeid">$PARAM[id]2</param>
-            <param name="grouplistid">$PARAM[id]3</param>
-            <param name="label">$PARAM[label]</param>
-            <param name="target">$PARAM[target]</param>
-            <param name="infowidget">true</param>
-            <onback condition="!Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">6000</onback>
-            <onback condition="!Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">SetFocus($PARAM[id]0,0,absolute)</onback>
-            <onback condition="Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">SetFocus(4900)</onback>
-            <onback condition="Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">399</onback>
-            <onfocus>SetProperty(Slide.WidgetContainer,$PARAM[id]0)</onfocus>
-            <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-        </include>
+        <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+        <definition>
+            <include content="Widget_SideStack">
+                <param name="id">$PARAM[id]0</param>
+                <param name="groupid">$PARAM[id]1</param>
+                <param name="nodeid">$PARAM[id]2</param>
+                <param name="grouplistid">$PARAM[id]3</param>
+                <param name="label">$PARAM[label]</param>
+                <param name="target">$PARAM[target]</param>
+                <param name="infowidget">$PARAM[infowidget]</param>
+                <param name="include">$PARAM[include]</param>
+                <onback condition="!Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">6000</onback>
+                <onback condition="!Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">SetFocus($PARAM[id]0,0,absolute)</onback>
+                <onback condition="Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">SetFocus(4900)</onback>
+                <onback condition="Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">399</onback>
+                <onfocus condition="$PARAM[infowidget]">SetProperty(Slide.WidgetContainer,$PARAM[id]0)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
+            </include>
+        </definition>
     </include>
 
     <include name="Hub_Grouplist">

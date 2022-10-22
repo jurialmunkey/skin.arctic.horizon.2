@@ -322,6 +322,8 @@
         <param name="usewidgetlabel">false</param>
         <param name="infowidget">false</param>
         <param name="height">widget_items_h</param>
+        <param name="oversized">false</param>
+        <param name="spacertop">160</param>
         <definition>
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -373,6 +375,14 @@
                     <param name="infowidget">$PARAM[infowidget]</param>
                     <param name="id">$PARAM[id]</param>
                 </include>
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+            </include>
+            <include content="Object_Control" condition="$PARAM[oversized]">
+                <param name="control">group</param>
+                <param name="id">$PARAM[spacerid]</param>
+                <top>$PARAM[spacertop]</top>
+                <height>0</height>
+                <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</visible>
                 <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
             </include>
         </definition>
