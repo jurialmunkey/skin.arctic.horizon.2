@@ -83,7 +83,7 @@
 
         <include>Hub_Furniture</include>
 
-        <include content="Hub_Menu">
+        <include content="Hub_Menu" condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">
             <include content="Object_Hidden_Button">
                 <param name="id" value="399" />
                 <onleft>Control.Move(300,-1)</onleft>
@@ -91,8 +91,18 @@
                 <onright>Control.Move(300,1)</onright>
                 <onright>ReplaceWindow(1122)</onright>
                 <ondown>6000</ondown>
+                <onup>Close</onup>
                 <onclick>ActivateWindow(videos,plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=tv,return)</onclick>
             </include>
+        </include>
+
+        <include content="Object_Hidden_Button" condition="Skin.HasSetting(Hubs.DisableQuickSwitch)">
+            <param name="id" value="399" />
+            <onfocus>SetFocus(4900)</onfocus>
+        </include>
+
+        <include content="Furniture_Top_Left" condition="Skin.HasSetting(Hubs.DisableQuickSwitch)">
+            <param name="label">$LOCALIZE[20343]</param>
         </include>
     </controls>
 </window>

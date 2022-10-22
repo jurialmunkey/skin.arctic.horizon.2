@@ -162,6 +162,16 @@
         <property name="mainmenuLabel" tag="label" />
         <property name="mainmenuPath" tag="onclick" />
 
+        <property name="widgetEndRowAction" tag="property" attribute="name|widgetEndRowAction" value="31314">ActivateWindow(1120)</property>
+        <property name="widgetEndRowAction" tag="property" attribute="name|widgetEndRowAction" value="31315">ActivateWindow(1121)</property>
+        <property name="widgetEndRowAction" tag="property" attribute="name|widgetEndRowAction" value="31331">ActivateWindow(1122)</property>
+        <property name="widgetEndRowAction" tag="property" attribute="name|widgetEndRowAction" value="31328">ActivateWindow(1130)</property>
+        <property name="widgetEndRowAction" tag="property" attribute="name|widgetEndRowAction" value="31329">ActivateWindow(1131)</property>
+
+        <property name="isWidgetEndRowAction" tag="property" attribute="name|widgetEndRowAction">True</property>
+        <property name="isWidgetEndRowAction">False</property>
+
+
         <property name="includeCondition" tag="visible" />
         <property name="includeCondition">True</property>
         <controls>
@@ -180,9 +190,10 @@
                     <include>Animation_Foreground_FadeInOut</include>
                     <orientation>vertical</orientation>
                     <onup>SetFocus(300)</onup>
-                    <ondown>ClearProperty(330_FocusBounce,Home)</ondown>
-                    <ondown condition="!String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
-                    <ondown condition="String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
+                    <ondown condition="$SKINSHORTCUTS[isWidgetEndRowAction]">$SKINSHORTCUTS[widgetEndRowAction]</ondown>
+                    <ondown condition="![$SKINSHORTCUTS[isWidgetEndRowAction]]">ClearProperty(330_FocusBounce,Home)</ondown>
+                    <ondown condition="![$SKINSHORTCUTS[isWidgetEndRowAction]] + !String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
+                    <ondown condition="![$SKINSHORTCUTS[isWidgetEndRowAction]] + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
 
                     <include content="Object_Control" condition="$SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]">
                         <param name="control">group</param>
