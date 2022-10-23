@@ -220,12 +220,18 @@
         <param name="direction_buttons">false</param>
         <definition>
             <control type="image">
-                <height>view_top</height>
-                <texture>common/dim-top-curve.png</texture>
+                <height>200</height>
+                <texture>common/dim-top-bezier.png</texture>
                 <animation type="Visible" reversible="false">
                     <effect type="fade" start="0" end="100" time="400"/>
                 </animation>
                 <animation type="Hidden" reversible="false">
+                    <effect type="fade" end="0" start="100" time="400"/>
+                </animation>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400"/>
+                </animation>
+                <animation type="WindowClose" reversible="false">
                     <effect type="fade" end="0" start="100" time="400"/>
                 </animation>
                 <visible>$PARAM[visible_top]</visible>
@@ -234,12 +240,18 @@
             </control>
             <control type="image">
                 <bottom>0</bottom>
-                <height>view_top</height>
-                <texture flipy="true">common/dim-top-curve.png</texture>
+                <height>200</height>
+                <texture flipy="true">common/dim-top-bezier.png</texture>
                 <animation type="Visible" reversible="false">
                     <effect type="fade" start="0" end="100" time="400"/>
                 </animation>
                 <animation type="Hidden" reversible="false">
+                    <effect type="fade" end="0" start="100" time="400"/>
+                </animation>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400"/>
+                </animation>
+                <animation type="WindowClose" reversible="false">
                     <effect type="fade" end="0" start="100" time="400"/>
                 </animation>
                 <visible>$PARAM[visible_bottom]</visible>
@@ -482,39 +494,57 @@
         </definition>
     </include>
 
+    <include name="Object_InfoCircle_Image">
+        <param name="bordersize">2</param>
+        <param name="aspectratio">scale</param>
+        <param name="colordiffuse">main_bg_90</param>
+        <definition>
+            <control type="image">
+                <width>50</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
+                <texture diffuse="diffuse/circle_50.png" colordiffuse="$PARAM[colordiffuse]">$PARAM[icon]</texture>
+            </control>
+        </definition>
+    </include>
+
     <include name="Object_InfoCircle">
-        <param name="bordersize" default="2" />
+        <param name="bordersize">2</param>
+        <param name="aspectratio">scale</param>
+        <param name="colordiffuse">main_bg_90</param>
         <definition>
             <control type="group">
-                <height>grid_x06</height>
-                <include content="Object_Control">
-                    <param name="control" value="image" />
-                    <width>grid_x06</width>
-                    <bordersize>$PARAM[bordersize]</bordersize>
-                    <bordertexture colordiffuse="main_fg_90">common/circle.png</bordertexture>
-                    <texture colordiffuse="main_item">common/circle.png</texture>
-                </include>
-                <include content="Object_Control">
-                    <param name="control" value="image" />
-                    <width>grid_x06</width>
-                    <bordersize>$PARAM[bordersize]</bordersize>
-                    <aspectratio scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="common/circle.png" colordiffuse="main_fg_90">$PARAM[icon]</texture>
-                </include>
+                <left>40</left>
+                <height>50</height>
+                <control type="group">
+                    <width>50</width>
+                    <control type="image">
+                        <include content="Dimension_Padding"><param name="pad">-40</param></include>
+                        <bordersize>40</bordersize>
+                        <bordertexture colordiffuse="shadow_hard">shadows/circle_50-shadow-40.png</bordertexture>
+                        <texture colordiffuse="main_fg_90">diffuse/circle_50.png</texture>
+                    </control>
+                    <include content="Object_InfoCircle_Image">
+                        <param name="bordersize">$PARAM[bordersize]</param>
+                        <param name="aspectratio">$PARAM[aspectratio]</param>
+                        <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="icon">$PARAM[icon]</param>
+                    </include>
+                </control>
                 <nested />
                 <control type="label">
                     <left>grid_x08</left>
                     <font>font_mini_bold</font>
                     <label>$PARAM[role]</label>
                     <textcolor>main_fg_90</textcolor>
-                    <height>30</height>
+                    <height>35%</height>
                 </control>
                 <control type="label">
                     <left>grid_x08</left>
                     <font>font_mini</font>
                     <label>$PARAM[name]</label>
                     <textcolor>main_fg_70</textcolor>
-                    <height>grid_x03</height>
+                    <height>50%</height>
                     <bottom>0</bottom>
                 </control>
             </control>
@@ -941,7 +971,7 @@
                 </include>
                 <texturenofocus colordiffuse="main_fg_12">common/$PARAM[texturename]main_y.png</texturenofocus>
                 <texturefocus>special://profile/addon_data/script.texturemaker/ArcticHorizon/$PARAM[texturename]main_h_y.png</texturefocus>
-                <font>font_mini_bold</font>
+                <font>font_genrelabel</font>
                 <label>$PARAM[label]</label>
                 <align>left</align>
                 <textoffsetx>0</textoffsetx>
@@ -998,12 +1028,12 @@
                     <centertop>50%</centertop>
                     <control type="image">
                         <visible>Control.HasFocus($PARAM[id])</visible>
-                        <bordersize>3</bordersize>
+                        <bordersize>6</bordersize>
                         <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
                     </control>
                     <control type="image">
                         <visible>!Control.HasFocus($PARAM[id])</visible>
-                        <bordersize>3</bordersize>
+                        <bordersize>6</bordersize>
                         <texture colordiffuse="main_fg_70">$PARAM[icon]</texture>
                     </control>
                 </control>
