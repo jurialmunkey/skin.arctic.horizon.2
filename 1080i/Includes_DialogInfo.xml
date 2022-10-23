@@ -55,7 +55,7 @@
     <!-- Button Group for DialogInfo -->
     <include name="DialogInfo_ButtonGroup">
         <control type="group">
-            <top>360</top>
+            <top>355</top>
             <height>70</height>
             <include content="Object_Control">
                 <param name="control" value="grouplist" />
@@ -119,27 +119,44 @@
         <control type="group">
             <nested />
             <control type="grouplist">
-                <width>grid_x40</width>
+                <left>-grid_x04</left>
+                <top>-grid_x04</top>
+                <width>grid_x44</width>
                 <height>gird_x24</height>
                 <orientation>vertical</orientation>
-                <itemgap>grid_x02</itemgap>
+                <itemgap>grid_x03</itemgap>
+                <control type="group">
+                    <top>10</top>
+                </control>
                 <include content="Object_InfoCircle">
-                    <param name="icon" value="$VAR[Image_DirectorIcon]" />
+                    <param name="icon">special://skin/extras/icons/video-addons.png</param>
                     <param name="role" value="$LOCALIZE[20339]" />
                     <param name="name" value="$INFO[ListItem.Director]" />
                     <visible>!String.IsEmpty(ListItem.Director)</visible>
+                    <include content="Object_InfoCircle_Image">
+                        <param name="colordiffuse">white</param>
+                        <param name="icon">$VAR[Image_DirectorIcon]</param>
+                    </include>
                 </include>
                 <include content="Object_InfoCircle">
-                    <param name="icon" value="$VAR[Image_WriterIcon]" />
+                    <param name="icon">special://skin/extras/icons/write.png</param>
                     <param name="role" value="$LOCALIZE[20417]" />
                     <param name="name" value="$INFO[ListItem.Writer]" />
                     <visible>!String.IsEmpty(ListItem.Writer)</visible>
+                    <include content="Object_InfoCircle_Image">
+                        <param name="colordiffuse">white</param>
+                        <param name="icon">$VAR[Image_WriterIcon]</param>
+                    </include>
                 </include>
                 <include content="Object_InfoCircle">
-                    <param name="icon" value="$VAR[Image_CreatorIcon]" />
+                    <param name="icon">special://skin/extras/icons/person.png</param>
                     <param name="role" value="$LOCALIZE[31065]" />
                     <param name="name" value="$INFO[Container(99950).ListItem.Property(Creator)]" />
                     <visible>!String.IsEmpty(Container(99950).ListItem.Property(Creator))</visible>
+                    <include content="Object_InfoCircle_Image">
+                        <param name="colordiffuse">white</param>
+                        <param name="icon">$VAR[Image_CreatorIcon]</param>
+                    </include>
                 </include>
                 <include content="Object_InfoCircle">
                     <param name="icon" value="special://skin/extras/icons/director.png" />
@@ -149,10 +166,14 @@
                 </include>
             </control>
             <control type="grouplist">
-                <left>grid_x44</left>
+                <left>grid_x40</left>
+                <top>-grid_x04</top>
                 <orientation>vertical</orientation>
-                <itemgap>grid_x02</itemgap>
-                <height>grid_x24</height>
+                <itemgap>grid_x03</itemgap>
+                <height>grid_x28</height>
+                <control type="group">
+                    <top>10</top>
+                </control>
                 <include content="Object_InfoCircle">
                     <param name="icon" value="special://skin/extras/icons/trophy.png" />
                     <param name="role" value="$LOCALIZE[31064]" />
@@ -184,10 +205,10 @@
             <param name="bordersize" value="4" />
             <right>grid_x04</right>
             <control type="label">
-                <width>grid_x06</width>
-                <height>grid_x06</height>
+                <width>50</width>
+                <height>50</height>
                 <font>font_mini_bold</font>
-                <textcolor>panel_fg_90</textcolor>
+                <textcolor>main_bg_90</textcolor>
                 <label>$INFO[ListItem.TrackNumber]</label>
                 <align>center</align>
                 <aligny>center</aligny>
@@ -201,10 +222,10 @@
             <param name="bordersize">4</param>
             <right>grid_x04</right>
             <control type="label">
-                <width>grid_x06</width>
-                <height>grid_x06</height>
+                <width>50</width>
+                <height>50</height>
                 <font>font_mini_bold</font>
-                <textcolor>panel_fg_90</textcolor>
+                <textcolor>main_bg_90</textcolor>
                 <label>$INFO[ListItem.CurrentItem]</label>
                 <align>center</align>
                 <aligny>center</aligny>
@@ -219,16 +240,28 @@
                 <param name="id" value="$PARAM[id]" />
                 <nested />
                 <orientation>horizontal</orientation>
-                <top>grid_x48</top>
-                <height>grid_x24</height>
-                <right>0</right>
-                <itemlayout height="grid_x08" width="380">
-                    <include condition="!$PARAM[detailed]">DialogInfo_MusicTracks_ItemLayout</include>
-                    <include condition="$PARAM[detailed]">DialogInfo_MusicAllTracks_ItemLayout</include>
+                <top>430</top>
+                <left>-80</left>
+                <height>grid_x28</height>
+                <itemlayout height="grid_x08" width="400">
+                    <control type="group">
+                        <top>grid_x04</top>
+                        <left>grid_x04</left>
+                        <right>-grid_x04</right>
+                        <bottom>-grid_x04</bottom>
+                        <include condition="!$PARAM[detailed]">DialogInfo_MusicTracks_ItemLayout</include>
+                        <include condition="$PARAM[detailed]">DialogInfo_MusicAllTracks_ItemLayout</include>
+                    </control>
                 </itemlayout>
-                <focusedlayout height="grid_x08" width="380">
-                    <include condition="!$PARAM[detailed]">DialogInfo_MusicTracks_ItemLayout</include>
-                    <include condition="$PARAM[detailed]">DialogInfo_MusicAllTracks_ItemLayout</include>
+                <focusedlayout height="grid_x08" width="400">
+                    <control type="group">
+                        <top>grid_x04</top>
+                        <left>grid_x04</left>
+                        <right>-grid_x04</right>
+                        <bottom>-grid_x04</bottom>
+                        <include condition="!$PARAM[detailed]">DialogInfo_MusicTracks_ItemLayout</include>
+                        <include condition="$PARAM[detailed]">DialogInfo_MusicAllTracks_ItemLayout</include>
+                    </control>
                 </focusedlayout>
             </include>
         </definition>
