@@ -1,0 +1,1635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="Info_Title_Label">
+        <definition>
+            <control type="label">
+                <aligny>center</aligny>
+                <height>80</height>
+                <label>$VAR[Label_Title_Main]</label>
+                <textcolor>$PARAM[colordiffuse]_100</textcolor>
+                <include content="Object_Font" condition="Skin.HasSetting(UseLightFont)">
+                    <param name="font">font_infotitle_light</param>
+                </include>
+                <font>font_infotitle</font>
+                <nested />
+            </control>
+        </definition>
+    </include>
+    <include name="Info_Title_Logo">
+        <definition>
+            <control type="group">
+                <height>80</height>
+                <visible>![$PARAM[mainlogo_visible]]</visible>
+                <animation effect="fade" start="0" end="100" time="200" delay="400" reversible="true">Visible</animation>
+                <animation effect="fade" start="100" end="0" delay="0" time="200" reversible="true">Hidden</animation>
+                <include content="Info_Title_Label">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                </include>
+            </control>
+            <control type="group">
+                <animation effect="fade" start="0" end="100" time="200" delay="0" reversible="true">Visible</animation>
+                <animation effect="fade" start="100" end="0" delay="400" time="200" reversible="true">Hidden</animation>
+                <visible>$PARAM[mainlogo_visible]</visible>
+                <control type="image">
+                    <height>80</height>
+                    <width>75%</width>
+                    <aspectratio align="left">keep</aspectratio>
+                    <fadetime>200</fadetime>
+                    <texture background="true">$PARAM[mainlogo_texture]</texture>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Title">
+        <param name="colordiffuse" default="main_fg" />
+        <param name="container" default="" />
+        <param name="width" default="info_plot_w" />
+        <param name="mainlogo_visible">[!String.IsEmpty(Container(99950).ListItem.Art(cropimage)) | !String.IsEmpty(Container(99950).ListItem.Property(base_clearlogo))]</param>
+        <param name="mainlogo_texture">$VAR[Image_CropLogo]</param>
+        <definition>
+            <control type="group">
+                <height>80</height>
+                <width>$PARAM[width]</width>
+                <!-- Title Only -->
+                <include content="Info_Title_Label" condition="!Skin.HasSetting(TMDbHelper.EnableCrop)">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                </include>
+                <!-- Other -->
+                <include content="Info_Title_Logo" condition="Skin.HasSetting(TMDbHelper.EnableCrop)">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="mainlogo_visible">$PARAM[mainlogo_visible]</param>
+                    <param name="mainlogo_texture">$PARAM[mainlogo_texture]</param>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Line_Label">
+        <param name="font" default="font_mini_bold" />
+        <param name="controltype" default="button" />
+        <definition>
+            <control type="image">
+                <texture flipy="true">special://profile/addon_data/script.texturemaker/ArcticHorizon/circle_v.png</texture>
+                <aspectratio>keep</aspectratio>
+                <width>8</width>
+                <height>8</height>
+                <centertop>52%</centertop>
+                <visible>$PARAM[visible]</visible>
+            </control>
+            <control type="$PARAM[controltype]">
+                <width>auto</width>
+                <aligny>center</aligny>
+                <label>$PARAM[label]</label>
+                <textcolor>$PARAM[textcolor]</textcolor>
+                <font>$PARAM[font]</font>
+                <visible>$PARAM[visible]</visible>
+                <textoffsetx>0</textoffsetx>
+                <texturefocus />
+                <texturenofocus />
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Line_StarRating_Star">
+        <control type="group">
+            <height>44</height>
+            <width>44</width>
+            <control type="image">
+                <colordiffuse>$PARAM[textcolor]</colordiffuse>
+                <aspectratio>keep</aspectratio>
+                <texture>flags/star10.png</texture>
+                <animation effect="fade" end="33" condition="true">Conditional</animation>
+            </control>
+            <control type="image">
+                <colordiffuse>$PARAM[textcolor]</colordiffuse>
+                <aspectratio>keep</aspectratio>
+                <texture>flags/star5.png</texture>
+                <visible>Integer.IsGreater($PARAM[rating],$PARAM[half]) + !Integer.IsGreater($PARAM[rating],$PARAM[full])</visible>
+            </control>
+            <control type="image">
+                <colordiffuse>$PARAM[textcolor]</colordiffuse>
+                <aspectratio>keep</aspectratio>
+                <texture>flags/star10.png</texture>
+                <visible>Integer.IsGreater($PARAM[rating],$PARAM[full])</visible>
+            </control>
+        </control>
+    </include>
+
+    <include name="Info_Line_StarRating">
+        <control type="image">
+            <texture flipy="true">special://profile/addon_data/script.texturemaker/ArcticHorizon/circle_v.png</texture>
+            <aspectratio>keep</aspectratio>
+            <width>8</width>
+            <height>8</height>
+            <centertop>52%</centertop>
+            <visible>$PARAM[visible]</visible>
+        </control>
+        <control type="grouplist">
+            <left>-10</left>
+            <height>44</height>
+            <width>144</width>
+            <centertop>50%</centertop>
+            <orientation>horizontal</orientation>
+            <itemgap>-16</itemgap>
+            <include content="Info_Line_StarRating_Star">
+                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="rating">$PARAM[rating]</param>
+                <param name="half">0</param>
+                <param name="full">1</param>
+            </include>
+            <include content="Info_Line_StarRating_Star">
+                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="rating">$PARAM[rating]</param>
+                <param name="half">2</param>
+                <param name="full">3</param>
+            </include>
+            <include content="Info_Line_StarRating_Star">
+                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="rating">$PARAM[rating]</param>
+                <param name="half">4</param>
+                <param name="full">5</param>
+            </include>
+            <include content="Info_Line_StarRating_Star">
+                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="rating">$PARAM[rating]</param>
+                <param name="half">6</param>
+                <param name="full">7</param>
+            </include>
+            <include content="Info_Line_StarRating_Star">
+                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="rating">$PARAM[rating]</param>
+                <param name="half">8</param>
+                <param name="full">9</param>
+            </include>
+        </control>
+    </include>
+
+    <include name="Info_Line">
+        <param name="colordiffuse" default="main_fg" />
+        <param name="container" default="" />
+        <param name="id" default="99000" />
+        <param name="player" default="false" />
+        <param name="controltype" default="button" />
+        <param name="shortline" default="false" />
+        <param name="starrating" default="false" />
+        <definition>
+            <control type="grouplist">
+                <hitrect x="0" y="0" w="0" h="0" />
+                <height>80</height>
+                <orientation>horizontal</orientation>
+                <itemgap>10</itemgap>
+                <include content="Object_Control" condition="$PARAM[player]">
+                    <param name="control">image</param>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture colordiffuse="$PARAM[colordiffuse]_90">$VAR[Image_OSD_VideoQuality]</texture>
+                    <centertop>52%</centertop>
+                    <width>37</width>
+                    <height>24</height>
+                </include>
+                <include content="Object_Control" condition="!$PARAM[player]">
+                    <param name="control">image</param>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture colordiffuse="$PARAM[colordiffuse]_90">$VAR[Image_VideoQuality_Main]</texture>
+                    <centertop>52%</centertop>
+                    <width>37</width>
+                    <height>24</height>
+                </include>
+                <control type="grouplist">
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <orientation>horizontal</orientation>
+                    <height>80</height>
+                    <itemgap>10</itemgap>
+                    <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+                    <visible>Window.IsMedia</visible>
+                    <include content="Info_Line_Label">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$LOCALIZE[14022]" />
+                        <param name="visible" value="Control.IsVisible(99999) | $EXP[Exp_CombinedViews]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(503).NumItems,, ][CAPITALIZE]$INFO[Container(503).ListItemAbsolute(0).DBType,, ]$LOCALIZE[31022][/CAPITALIZE]" />
+                        <param name="visible" value="Control.IsVisible(502)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(513).NumItems,, ][CAPITALIZE]$INFO[Container(513).ListItemAbsolute(0).DBType,, ]$LOCALIZE[31022][/CAPITALIZE]" />
+                        <param name="visible" value="Control.IsVisible(512)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(523).NumItems,, ][CAPITALIZE]$INFO[Container(523).ListItemAbsolute(0).DBType,, ]$LOCALIZE[31022][/CAPITALIZE]" />
+                        <param name="visible" value="Control.IsVisible(522)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$LOCALIZE[20094]" />
+                        <param name="visible" value="!Control.IsVisible(99999) + !$EXP[Exp_CombinedViews] + !String.IsEmpty(Container.PluginName)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[System.AddonVersion(Container.PluginName),v,]" />
+                        <param name="visible" value="!Control.IsVisible(99999) + !$EXP[Exp_CombinedViews] + !String.IsEmpty(Container.PluginName)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                </control>
+                <control type="grouplist" id="$PARAM[id]">
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <orientation>horizontal</orientation>
+                    <height>80</height>
+                    <itemgap>10</itemgap>
+
+                    <include content="Info_Line_StarRating" condition="$PARAM[starrating]">
+                        <param name="textcolor">$PARAM[colordiffuse]_90</param>
+                        <param name="rating">$PARAM[container]ListItem.Rating</param>
+                    </include>
+
+                    <!-- Player Info -->
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[VideoPlayer.ChannelName]" />
+                        <param name="visible" value="!String.IsEmpty(VideoPlayer.ChannelName)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$LOCALIZE[20359] $INFO[VideoPlayer.Season,,x]$INFO[VideoPlayer.Episode]" />
+                        <param name="visible" value="!String.IsEmpty(VideoPlayer.Episode) + Integer.IsGreater(VideoPlayer.Episode,9)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$LOCALIZE[20359] $INFO[VideoPlayer.Season,,x]$INFO[VideoPlayer.Episode,0,]" />
+                        <param name="visible" value="!String.IsEmpty(VideoPlayer.Episode) + !Integer.IsGreater(VideoPlayer.Episode,9)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[VideoPlayer.Studio]" />
+                        <param name="visible" value="VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Studio)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[VideoPlayer.Year]" />
+                        <param name="visible" value="!String.IsEmpty(VideoPlayer.Year) + String.IsEmpty(VideoPlayer.Premiered)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[VideoPlayer.Premiered]" />
+                        <param name="visible" value="!String.IsEmpty(VideoPlayer.Premiered)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[VideoPlayer.MPAA]" />
+                        <param name="visible" value="!String.IsEmpty(VideoPlayer.MPAA)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$VAR[Label_PlayerFinishes,$LOCALIZE[31072] ,]" />
+                        <param name="visible" value="!String.IsEmpty(Player.FinishTime)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$VAR[Label_PlayerStatus]" />
+                        <param name="visible" value="$EXP[Exp_HasPlayerStatus]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+
+                    <!-- Media Info -->
+                    <!-- PVR Channel Name -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.ChannelName]" />
+                        <param name="visible" value="[$EXP[Exp_IsPVRItem]] + !String.IsEmpty($PARAM[container]ListItem.ChannelName)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Season / Episode -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$LOCALIZE[20359] $INFO[$PARAM[container]ListItem.Season,,x]$INFO[$PARAM[container]ListItem.Episode]" />
+                        <param name="visible" value="![$PARAM[shortline]] + !String.IsEmpty($PARAM[container]ListItem.Episode) + Integer.IsGreater($PARAM[container]ListItem.Episode,9) + [String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_IsPVRItem]]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$LOCALIZE[20359] $INFO[$PARAM[container]ListItem.Season,,x]$INFO[$PARAM[container]ListItem.Episode,0,]" />
+                        <param name="visible" value="![$PARAM[shortline]] + !String.IsEmpty($PARAM[container]ListItem.Episode) + !Integer.IsGreater($PARAM[container]ListItem.Episode,9) + [String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_IsPVRItem]]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$LOCALIZE[20373] $INFO[$PARAM[container]ListItem.Season]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Season) + String.IsEqual($PARAM[container]ListItem.DBType,season)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- PVR Start End -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.StartTime]$INFO[$PARAM[container]ListItem.EndTime, - ,]" />
+                        <param name="visible" value="[$EXP[Exp_IsPVRItem]] + !String.IsEmpty($PARAM[container]ListItem.StartTime)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Album -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Album]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Album) + [String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Year / Premiered -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Year]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Year) + [![String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video)] | String.IsEmpty($PARAM[container]ListItem.Premiered)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Premiered]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Premiered) + [String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- MPAA -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.MPAA]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.MPAA)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Genres -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player] + Skin.HasSetting(Infoline.EnableGenre)">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Genre.1.Name)]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Genre.1.Name)) + [String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,movie)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player] + Skin.HasSetting(Infoline.EnableGenre)">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Genre.1.Name)]" />
+                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Property(Genre.1.Name)) + !String.IsEmpty(Container(99950).ListItem.Property(Genre.1.Name)) + [String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,movie)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Duration Info -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Duration(h),, $LOCALIZE[31074] ]$INFO[$PARAM[container]ListItem.Duration(m),, $LOCALIZE[31073]]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Duration) + !Integer.IsEqual($PARAM[container]ListItem.Duration(h),0) + !Integer.IsEqual($PARAM[container]ListItem.Duration(m),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEmpty($PARAM[container]ListItem.DBType)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Duration(m),, $LOCALIZE[31073]]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Duration) + Integer.IsEqual($PARAM[container]ListItem.Duration(h),0) + !Integer.IsEqual($PARAM[container]ListItem.Duration(m),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEmpty($PARAM[container]ListItem.DBType)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Duration(h),, $LOCALIZE[31074]]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Duration) + !Integer.IsEqual($PARAM[container]ListItem.Duration(h),0) + Integer.IsEqual($PARAM[container]ListItem.Duration(m),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEmpty($PARAM[container]ListItem.DBType)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Duration_H),, $LOCALIZE[31074] ]$INFO[Container(99950).ListItem.Property(Duration_M),, $LOCALIZE[31073]]" />
+                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Container(99950).ListItem.Property(Duration)) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_M),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Duration_M),, $LOCALIZE[31073]]" />
+                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Container(99950).ListItem.Property(Duration)) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_M),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Duration_H),, $LOCALIZE[31074]]" />
+                        <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Duration) + !String.IsEmpty(Container(99950).ListItem.Property(Duration)) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + Integer.IsEqual(Container(99950).ListItem.Property(Duration_M), 0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- End Time -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player] + Skin.HasSetting(Infoline.EnableEndTime) + ![$PARAM[shortline]]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.EndTime,$LOCALIZE[31267] ,]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.EndTime) + !String.IsEqual($PARAM[container]ListItem.EndTime,System.Time) + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,episode)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Albums / Artists -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Artist_Gender)]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Gender)) + !String.IsEqual($PARAM[container]ListItem.DBType,album) + !String.IsEqual($PARAM[container]ListItem.DBType,song)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Artist_YearsActive)]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Artist_YearsActive)) + !String.IsEqual($PARAM[container]ListItem.DBType,album) + !String.IsEqual($PARAM[container]ListItem.DBType,song)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Person Info -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Gender)]" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Gender)) + String.IsEmpty($PARAM[container]ListItem.Property(Gender))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Gender)]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Gender))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Age),, $LOCALIZE[31057]]" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Age)) + String.IsEmpty($PARAM[container]ListItem.Property(Age))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Age),, $LOCALIZE[31057]]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Age))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[Container(99950).ListItem.Property(Department)]" />
+                        <param name="visible" value="!String.IsEmpty(Container(99950).ListItem.Property(Department)) + String.IsEmpty($PARAM[container]ListItem.Property(Department))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Department)]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Property(Department))" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Addon Info -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.AddonType]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.AddonType)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.AddonVersion,v,]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.AddonVersion)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.AddonLifecycleType]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.AddonLifecycleType) + !String.IsEqual($PARAM[container]ListItem.AddonLifecycleType,$LOCALIZE[630])" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+
+                    <!-- Picture Info -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.PictureResolution]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.PictureResolution)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.PictureColour]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.PictureResolution) + !String.IsEmpty($PARAM[container]ListItem.PictureColour)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <include content="Info_Line_Label" condition="!$PARAM[player]">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Size]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.PictureResolution) + !String.IsEmpty($PARAM[container]ListItem.Size)" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                </control>
+                <nested />
+            </control>
+
+        </definition>
+    </include>
+
+    <include name="Info_StarRating">
+        <param name="rating_prop" default="ListItem.Rating" />
+        <param name="colordiffuse" default="main_fg" />
+        <definition>
+            <control type="group">
+                <nested />
+                <width>256</width>
+                <control type="group">
+                    <centertop>50%</centertop>
+                    <height>67</height>
+                    <control type="grouplist">
+                        <hitrect x="0" y="0" w="0" h="0" />
+                        <orientation>horizontal</orientation>
+                        <height>64</height>
+                        <itemgap>-16</itemgap>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <texture colordiffuse="$PARAM[colordiffuse]_30">flags/star10.png</texture>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <texture colordiffuse="$PARAM[colordiffuse]_30">flags/star10.png</texture>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <texture colordiffuse="$PARAM[colordiffuse]_30">flags/star10.png</texture>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <texture colordiffuse="$PARAM[colordiffuse]_30">flags/star10.png</texture>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <texture colordiffuse="$PARAM[colordiffuse]_30">flags/star10.png</texture>
+                        </control>
+                    </control>
+                    <control type="grouplist">
+                        <hitrect x="0" y="0" w="0" h="0" />
+                        <orientation>horizontal</orientation>
+                        <height>64</height>
+                        <itemgap>-16</itemgap>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Half</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star5.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],1)">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Half</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star5.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],3)">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Half</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star5.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],5)">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Half</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star5.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],7)">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Half</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star5.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],9)">Conditional</animation>
+                        </control>
+                    </control>
+                    <control type="grouplist">
+                        <hitrect x="0" y="0" w="0" h="0" />
+                        <orientation>horizontal</orientation>
+                        <height>64</height>
+                        <itemgap>-16</itemgap>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Full</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star10.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],10) + !String.StartsWith($PARAM[rating_prop],9) + !String.StartsWith($PARAM[rating_prop],8) + !String.StartsWith($PARAM[rating_prop],7) + !String.StartsWith($PARAM[rating_prop],6) + !String.StartsWith($PARAM[rating_prop],5) + !String.StartsWith($PARAM[rating_prop],4) + !String.StartsWith($PARAM[rating_prop],3) + !String.StartsWith($PARAM[rating_prop],2)">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Full</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star10.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],10) + !String.StartsWith($PARAM[rating_prop],9) + !String.StartsWith($PARAM[rating_prop],8) + !String.StartsWith($PARAM[rating_prop],7) + !String.StartsWith($PARAM[rating_prop],6) + !String.StartsWith($PARAM[rating_prop],5) + !String.StartsWith($PARAM[rating_prop],4)">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Full</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star10.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],10) + !String.StartsWith($PARAM[rating_prop],9) + !String.StartsWith($PARAM[rating_prop],8) + !String.StartsWith($PARAM[rating_prop],7) + !String.StartsWith($PARAM[rating_prop],6)">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Full</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star10.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],10) + !String.StartsWith($PARAM[rating_prop],9) + !String.StartsWith($PARAM[rating_prop],8)">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <height>64</height>
+                            <width>64</width>
+                            <include>Texture_Star_Full</include>
+                            <texture colordiffuse="$PARAM[colordiffuse]_100">flags/star10.png</texture>
+                            <animation effect="fade" start="100" end="0" condition="!String.StartsWith($PARAM[rating_prop],10)">Conditional</animation>
+                        </control>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Ratings_Item">
+        <param name="include_condition">false</param>
+        <param name="colordiffuse">main_fg</param>
+        <param name="label_fallback"></param>
+        <param name="label_width">auto</param>
+        <param name="label_prefix">[COLOR=00ffffff].[/COLOR]</param>
+        <param name="label_suffix">[COLOR=00ffffff]...[/COLOR]</param>
+        <param name="icon_width">32</param>
+        <param name="icon_height">32</param>
+        <param name="icon_top">0</param>
+        <param name="icon_colordiffuse">ffffffff</param>
+        <param name="back_colordiffuse">ffffffff</param>
+        <param name="backing">false</param>
+        <param name="is_updating">[!String.IsEmpty(Window(Home).Property(TMDBHelper.IsUpdatingRating))]</param>
+        <param name="is_varlabel">false</param>
+        <param name="is_autohide">false</param>
+        <definition>
+            <include content="Object_Control" condition="$PARAM[include_condition]">
+                <param name="control" value="group" />
+                <top>$PARAM[icon_top]</top>
+                <width>$PARAM[icon_width]</width>
+                <height>$PARAM[icon_height]</height>
+                <include content="Object_Control" condition="$PARAM[backing]">
+                    <param name="control">image</param>
+                    <!-- <texture>special://profile/addon_data/script.texturemaker/ArcticHorizon/softcircle_h.png</texture> -->
+                    <texture colordiffuse="$PARAM[back_colordiffuse]">flags/softcircle.png</texture>
+                </include>
+                <control type="image">
+                    <texture colordiffuse="$PARAM[icon_colordiffuse]">$PARAM[icon]</texture>
+                </control>
+                <include content="Object_Visible" condition="$PARAM[is_autohide]">
+                    <param name="visible">!String.IsEmpty($PARAM[label])</param>
+                </include>
+                <nested />
+            </include>
+            <include content="Object_Control" condition="$PARAM[include_condition]">
+                <param name="control" value="label" />
+                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                <centertop>50%</centertop>
+                <width>$PARAM[label_width]</width>
+                <height>20</height>
+                <align>left</align>
+                <font>font_mini</font>
+                <include content="Object_Label" condition="$PARAM[is_varlabel]">
+                    <param name="fallback">$PARAM[label_fallback]</param>
+                    <param name="label">$PARAM[label]</param>
+                </include>
+                <label fallback="$PARAM[label_prefix]$PARAM[label_fallback]$PARAM[label_suffix]">$INFO[$PARAM[label],$PARAM[label_prefix],$PARAM[label_suffix]]</label>
+                <visible>!$PARAM[is_updating]</visible>
+                <include content="Object_Visible" condition="$PARAM[is_autohide]">
+                    <param name="visible">!String.IsEmpty($PARAM[label])</param>
+                </include>
+                <nested />
+            </include>
+            <include content="Object_Control" condition="$PARAM[include_condition]">
+                <param name="control" value="label" />
+                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                <centertop>50%</centertop>
+                <width>$PARAM[label_width]</width>
+                <height>20</height>
+                <align>left</align>
+                <font>font_mini</font>
+                <label>$PARAM[label_prefix]$PARAM[label_fallback]$PARAM[label_suffix]</label>
+                <visible>$PARAM[is_updating]</visible>
+                <include content="Object_Visible" condition="$PARAM[is_autohide]">
+                    <param name="visible">!String.IsEmpty($PARAM[label])</param>
+                </include>
+                <nested />
+            </include>
+        </definition>
+    </include>
+
+    <include name="Info_MiscLine">
+        <param name="directory">color</param>
+        <param name="align">left</param>
+        <param name="tmdbtype">ListItem</param>
+        <param name="colordiffuse">main_fg</param>
+        <definition>
+            <control type="grouplist">
+                <hitrect x="0" y="0" w="0" h="0" />
+                <nested />
+                <height>32</height>
+                <orientation>horizontal</orientation>
+                <align>$PARAM[align]</align>
+                <itemgap>4</itemgap>
+                <usecontrolcoords>true</usecontrolcoords>
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">[true]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">special://skin/extras/icons/location-dot.png</param>
+                    <param name="icon_colordiffuse">black</param>
+                    <param name="back_colordiffuse">ff74fbe6</param>
+                    <param name="backing">true</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">31</param>
+                    <param name="icon_height">31</param>
+                    <param name="label_fallback"> </param>
+                    <param name="is_updating">False</param>
+                    <param name="is_varlabel">true</param>
+                    <param name="label" value="  $INFO[$PARAM[container]ListItem.Property(Artist_Formed)]$INFO[$PARAM[container]ListItem.Property(Artist_Disbanded), ($LOCALIZE[21896] ,)]$INFO[$PARAM[container]ListItem.Property(Artist_Born)]$INFO[$PARAM[container]ListItem.Property(Artist_Died), ($LOCALIZE[21896] ,)]   " />
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Born)) | !String.IsEmpty($PARAM[container]ListItem.Property(Artist_Formed))</visible>
+                </include>
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">[true]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">special://skin/extras/icons/location-dot.png</param>
+                    <param name="icon_colordiffuse">black</param>
+                    <param name="back_colordiffuse">ff74fbe6</param>
+                    <param name="backing">true</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">31</param>
+                    <param name="icon_height">31</param>
+                    <param name="label_fallback"> </param>
+                    <param name="is_updating">False</param>
+                    <param name="is_varlabel">true</param>
+                    <param name="label" value="  $INFO[Container(99950).ListItem.Property(Born),, ]$INFO[Container(99950).ListItem.Property(Birthday),(,)]$INFO[Container(99950).ListItem.Property(Deathday), ($LOCALIZE[21897] ,)]   " />
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Birthday)) + String.IsEmpty($PARAM[container]ListItem.Property(Birthday))</visible>
+                </include>
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">[true]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">special://skin/extras/icons/location-dot.png</param>
+                    <param name="icon_colordiffuse">black</param>
+                    <param name="back_colordiffuse">ff74fbe6</param>
+                    <param name="backing">true</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">31</param>
+                    <param name="icon_height">31</param>
+                    <param name="label_fallback"> </param>
+                    <param name="is_updating">False</param>
+                    <param name="is_varlabel">true</param>
+                    <param name="label" value="  $INFO[$PARAM[container]ListItem.Property(Born),, ]$INFO[$PARAM[container]ListItem.Property(Birthday),(,)]$INFO[$PARAM[container]ListItem.Property(Deathday), ($LOCALIZE[21897] ,)]   " />
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.Property(Birthday))</visible>
+                </include>
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">[true]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">special://skin/extras/icons/tower-cell.png</param>
+                    <param name="icon_colordiffuse">black</param>
+                    <param name="back_colordiffuse">ff74e6fb</param>
+                    <param name="backing">true</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">31</param>
+                    <param name="icon_height">31</param>
+                    <param name="label_fallback"> </param>
+                    <param name="is_updating">False</param>
+                    <param name="is_varlabel">true</param>
+                    <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Album_Label),  ,   ]" />
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.Property(Album_Label))</visible>
+                </include>
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">[true]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">special://skin/extras/icons/music.png</param>
+                    <param name="icon_colordiffuse">black</param>
+                    <param name="back_colordiffuse">ffe6fb74</param>
+                    <param name="backing">true</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">31</param>
+                    <param name="icon_height">31</param>
+                    <param name="label_fallback"> </param>
+                    <param name="is_updating">False</param>
+                    <param name="is_varlabel">true</param>
+                    <param name="label" value=" $INFO[$PARAM[container]ListItem.Property(Artist_Genre), ,]$INFO[$PARAM[container]ListItem.Property(Artist_Mood), ,]$INFO[$PARAM[container]ListItem.Property(Artist_Style), ,]$INFO[$PARAM[container]ListItem.Property(Album_Genre), ,]$INFO[$PARAM[container]ListItem.Property(Album_Mood), ,]$INFO[$PARAM[container]ListItem.Property(Album_Style), ,]   " />
+                     <visible>!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Genre)) | !String.IsEmpty($PARAM[container]ListItem.Property(Artist_Mood)) | !String.IsEmpty($PARAM[container]ListItem.Property(Artist_Style)) | !String.IsEmpty($PARAM[container]ListItem.Property(Album_Genre)) | !String.IsEmpty($PARAM[container]ListItem.Property(Album_Mood)) | !String.IsEmpty($PARAM[container]ListItem.Property(Album_Style))</visible>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Ratings">
+        <param name="directory">color</param>
+        <param name="align">left</param>
+        <param name="rottentomatoes">true</param>
+        <param name="usermeter">true</param>
+        <param name="star">true</param>
+        <param name="user">true</param>
+        <param name="imdb">true</param>
+        <param name="tmdb">true</param>
+        <param name="tvdb">true</param>
+        <param name="trakt">true</param>
+        <param name="metacritic">true</param>
+        <param name="oscars">true</param>
+        <param name="top250">true</param>
+        <param name="releasestatus">true</param>
+        <param name="tmdbtype">ListItem</param>
+        <param name="userrating">ListItem.UserRating</param>
+        <param name="starrating">ListItem.Rating</param>
+        <param name="colordiffuse">main_fg</param>
+        <definition>
+            <control type="grouplist">
+                <hitrect x="0" y="0" w="0" h="0" />
+                <nested />
+                <height>32</height>
+                <orientation>horizontal</orientation>
+                <align>$PARAM[align]</align>
+                <itemgap>4</itemgap>
+                <usecontrolcoords>true</usecontrolcoords>
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableStarRating)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">special://skin/extras/icons/kodi.png</param>
+                    <param name="icon_colordiffuse">ff12b2e7</param>
+                    <param name="icon_top">-16</param>
+                    <param name="icon_width">64</param>
+                    <param name="icon_height">64</param>
+                    <param name="label">$PARAM[starrating]</param>
+                    <param name="label_fallback">−.−</param>
+                    <param name="is_updating">False</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
+                    <left>-16</left>
+                    <visible>$PARAM[star]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">Skin.HasSetting(Ratings.EnableUserRating)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/user_rating.png</param>
+                    <!-- <param name="icon_colordiffuse">ff0087E2</param> -->
+                    <param name="label">$INFO[$PARAM[userrating],[COLOR=00ffffff].[/COLOR],.0[COLOR=00ffffff]...[/COLOR]]</param>
+                    <param name="label_fallback">[COLOR=00ffffff].[/COLOR]−.−[COLOR=00ffffff]...[/COLOR]</param>
+                    <param name="is_varlabel">true</param>
+                    <param name="is_updating">False</param>
+                    <visible>$PARAM[user]</visible>
+                    <visible>!Skin.HasSetting(Ratings.AutoHide) | !String.IsEmpty($PARAM[userrating])</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableMetacritic)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/metacritic.png</param>
+                    <param name="label">Container(99950).ListItem.Property(MetaCritic_Rating)</param>
+                    <param name="label_fallback">−−</param>
+                    <param name="label_suffix">%   </param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
+                    <visible>$PARAM[metacritic]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableTrakt)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/trakt.png</param>
+                    <param name="label">Container(99950).ListItem.Property(Trakt_Rating)</param>
+                    <param name="label_fallback">−.−</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
+                    <visible>$PARAM[trakt]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableTMDB)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/tmdb.png</param>
+                    <param name="label">Container(99950).ListItem.Property(TMDb_Rating)</param>
+                    <param name="label_fallback">−.−</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
+                    <visible>$PARAM[tmdb]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesCritic)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes]</param>
+                    <param name="label">Container(99950).ListItem.Property(RottenTomatoes_Rating)</param>
+                    <param name="label_fallback">−−</param>
+                    <param name="label_suffix">%   </param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
+                    <visible>$PARAM[rottentomatoes]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesUser)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes_UserMeter]</param>
+                    <param name="label">Container(99950).ListItem.Property(RottenTomatoes_UserMeter)</param>
+                    <param name="label_fallback">−−</param>
+                    <param name="label_suffix">%   </param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
+                    <visible>$PARAM[usermeter]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableIMDb)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/imdb.png</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">52</param>
+                    <param name="label">Container(99950).ListItem.Property(IMDb_Rating)</param>
+                    <param name="label_fallback">−.−</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
+                    <visible>$PARAM[imdb]</visible>
+                </include>
+                <include content="Object_Control" condition="!Skin.HasSetting(DisableIMDBRating) + !Skin.HasSetting(Ratings.DisableIMDbTop250)">
+                    <param name="control" value="label" />
+                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                    <left>-10</left>
+                    <top>2</top>
+                    <width>auto</width>
+                    <height>28</height>
+                    <font>font_mini</font>
+                    <label>$INFO[Container(99950).ListItem.Property(Top250),#,   ]</label>
+                    <visible>!Integer.IsEqual(Container(99950).ListItem.Property(Top250),0)</visible>
+                    <visible>[$PARAM[imdb]] + [$PARAM[top250]]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableOscar)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/oscar.png</param>
+                    <param name="label">$INFO[Container(99950).ListItem.Property(Oscar_Wins), x,   ]</param>
+                    <param name="is_varlabel">true</param>
+                    <visible>$PARAM[oscars]</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Oscar_Wins))</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableOscar)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/goldenglobe.png</param>
+                    <param name="label">$INFO[Container(99950).ListItem.Property(GoldenGlobe_Wins), x,   ]</param>
+                    <param name="is_varlabel">true</param>
+                    <visible>$PARAM[oscars]</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(GoldenGlobe_Wins))</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableOscar)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/emmy.png</param>
+                    <param name="label">$INFO[Container(99950).ListItem.Property(Emmy_Wins), x,   ]</param>
+                    <param name="is_varlabel">true</param>
+                    <visible>$PARAM[oscars]</visible>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Property(Emmy_Wins))</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">[!Skin.HasSetting(Ratings.DisableTvRelease) | !Skin.HasSetting(Ratings.DisableMovieRelease)]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">special://skin/extras/icons/bolt.png</param>
+                    <param name="icon_colordiffuse">black</param>
+                    <param name="back_colordiffuse">fffb74e6</param>
+                    <param name="backing">true</param>
+                    <param name="icon_top">1</param>
+                    <param name="icon_width">31</param>
+                    <param name="icon_height">31</param>
+                    <param name="label">$VAR[Label_NextAired, ,   ]</param>
+                    <param name="label_fallback"> </param>
+                    <param name="is_updating">False</param>
+                    <param name="is_varlabel">true</param>
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Status) | !String.IsEmpty(Container(99950).ListItem.Property(Status))</visible>
+                    <visible>$PARAM[releasestatus]</visible>
+                </include>
+
+
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Codec_LabelIcon">
+        <param name="bordersize">0</param>
+        <definition>
+            <include content="Object_Control">
+                <param name="control">group</param>
+                <nested />
+                <centertop>50%</centertop>
+                <width>40</width>
+                <height>40</height>
+                <control type="image">
+                    <include>Texture_Shadow_Provider</include>
+                    <texture colordiffuse="main_fg_90">diffuse/provider_circle.png</texture>
+                </control>
+                <control type="image">
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="main_bg_90">$PARAM[icon]</texture>
+                    <bordersize>$PARAM[bordersize]</bordersize>
+                </control>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Info_Codec_LabelLabel">
+        <control type="label">
+            <nested />
+            <left>-10</left>
+            <centertop>50%</centertop>
+            <width>auto</width>
+            <height>20</height>
+            <label>$PARAM[label]</label>
+            <textcolor>main_fg_90</textcolor>
+            <texturefocus />
+            <texturenofocus />
+            <font>font_mini</font>
+            <textoffsetx>0</textoffsetx>
+        </control>
+    </include>
+
+    <include name="Info_Codec_Label">
+        <include content="Info_Codec_LabelIcon">
+            <param name="icon" value="$PARAM[icon]" />
+            <param name="bordersize" value="$PARAM[bordersize]" />
+            <nested />
+        </include>
+        <include content="Info_Codec_LabelLabel">
+            <param name="label" value="$PARAM[label]" />
+            <nested />
+        </include>
+    </include>
+
+    <include name="Info_Codecs_MonoIcon">
+        <param name="colordiffuse">main_fg_90</param>
+        <definition>
+            <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
+                <param name="control">group</param>
+                <centertop>50%</centertop>
+                <width>$PARAM[basewidth]</width>
+                <height>40</height>
+                <control type="image">
+                    <centerleft>50%</centerleft>
+                    <centertop>50%</centertop>
+                    <width>$PARAM[iconwidth]</width>
+                    <height>$PARAM[iconheight]</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture fallback="flags/generic.png" colordiffuse="$PARAM[colordiffuse]">flags/color/$PARAM[icon]</texture>
+                </control>
+                <visible>$PARAM[visible]</visible>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Info_Codec_AudioChannels">
+        <param name="type">ListItem</param>
+        <param name="shadowcolor">00ffffff</param>
+        <definition>
+            <include content="Object_Control">
+                <param name="control">group</param>
+                <centertop>50%</centertop>
+                <width>71</width>
+                <height>32</height>
+                <control type="image">
+                    <left>2</left>
+                    <centertop>50%</centertop>
+                    <width>32</width>
+                    <height>32</height>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture fallback="flags/generic.png" colordiffuse="$PARAM[iconcolor]">flags/monochrome/channels/$INFO[$PARAM[type].AudioChannels].png</texture>
+                </control>
+                <control type="label">
+                    <font>font_videocodec_bold</font>
+                    <textcolor>$PARAM[channelscolor]</textcolor>
+                    <align>center</align>
+                    <height>16</height>
+                    <shadowcolor>$PARAM[shadowcolor]</shadowcolor>
+                    <width>64</width>
+                    <right>-18</right>
+                    <top>0</top>
+                    <label>$VAR[Label_$PARAM[type]_AudioChannels]</label>
+                </control>
+                <control type="image">
+                    <right>-18</right>
+                    <bottom>-24</bottom>
+                    <width>64</width>
+                    <height>64</height>
+                    <aspectratio align="right">keep</aspectratio>
+                    <texture colordiffuse="$PARAM[imagecolor]">special://skin/extras/icons/soundwave.png</texture>
+                </control>
+                <visible>!String.IsEmpty($PARAM[type].AudioChannels)</visible>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Info_Codecs_StackedText">
+        <param name="topcolor">df2091ea</param>
+        <param name="bottomcolor">main_fg_90</param>
+        <definition>
+            <control type="group">
+                <height>30</height>
+                <width>60</width>
+                <centertop>50%</centertop>
+                <nested />
+                <control type="label">
+                    <height>14</height>
+                    <label>$PARAM[toplabel]</label>
+                    <font>font_videocodec_bold</font>
+                    <textcolor>$PARAM[topcolor]</textcolor>
+                    <align>center</align>
+                    <width>80</width>
+                    <centerleft>50%</centerleft>
+                </control>
+                <control type="label">
+                    <bottom>0</bottom>
+                    <height>12</height>
+                    <label>$PARAM[bottomlabel]</label>
+                    <font>font_fps</font>
+                    <textcolor>$PARAM[bottomcolor]</textcolor>
+                    <align>center</align>
+                    <width>60</width>
+                    <centerleft>50%</centerleft>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Codecs">
+        <param name="infohide" default="true" />
+        <param name="align" default="left" />
+        <param name="directory" default="color" />
+        <definition>
+            <control type="label" id="99995">
+                <label>$VAR[Image_RipSource]</label>
+                <left>-1920</left>
+                <width>100</width>
+                <visible>false</visible>
+            </control>
+
+            <!-- Standard Codecs -->
+            <control type="grouplist">
+                <hitrect x="0" y="0" w="0" h="0" />
+                <nested />
+                <orientation>horizontal</orientation>
+                <align>$PARAM[align]</align>
+                <itemgap>30</itemgap>
+                <height>grid_x08</height>
+                <centertop>50%</centertop>
+                <usecontrolcoords>true</usecontrolcoords>
+                <visible>!String.IsEmpty(ListItem.VideoCodec) | !String.IsEmpty(ListItem.VideoResolution)</visible>
+                <include content="Info_Codec_LabelIcon">
+                    <param name="icon" value="special://skin/extras/icons/video-addons.png" />
+                </include>
+
+                <!-- Resolution -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="icon">resolution/$INFO[ListItem.VideoResolution].png</param>
+                    <param name="basewidth">42</param>
+                    <param name="iconwidth">64</param>
+                    <param name="iconheight">44</param>
+                    <param name="visible">!String.IsEmpty(ListItem.VideoResolution)</param>
+                </include>
+
+                <!-- Codec / Aspect -->
+                <include content="Info_Codecs_StackedText">
+                    <param name="toplabel">$INFO[ListItem.VideoCodec]</param>
+                    <param name="bottomlabel">$INFO[ListItem.VideoAspect,,:1]</param>
+                    <visible>!String.IsEmpty(ListItem.VideoCodec)</visible>
+                    <visible>!String.IsEmpty(ListItem.VideoAspect)</visible>
+                </include>
+
+                <!-- AudioCodec -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="icon">$VAR[Image_AudioCodec]</param>
+                    <param name="basewidth">56</param>
+                    <param name="iconwidth">100</param>
+                    <param name="iconheight">48</param>
+                    <param name="visible">!String.IsEmpty(ListItem.AudioCodec)</param>
+                </include>
+
+                <!-- Audio Channels -->
+                <include content="Info_Codec_AudioChannels">
+                    <param name="type">ListItem</param>
+                    <param name="channelscolor">main_fg_90</param>
+                    <param name="iconcolor">main_fg_90</param>
+                    <param name="imagecolor">dfce953a</param>
+                </include>
+
+                <!-- 3d Stereoscopic -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="icon">other/3D.png</param>
+                    <param name="basewidth">48</param>
+                    <param name="iconwidth">64</param>
+                    <param name="iconheight">56</param>
+                    <param name="visible">ListItem.IsStereoscopic</param>
+                </include>
+
+                <!-- RipSource -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="icon">$VAR[Image_RipSource]</param>
+                    <param name="basewidth">54</param>
+                    <param name="iconwidth">71</param>
+                    <param name="iconheight">56</param>
+                    <param name="visible">!String.IsEqual(Control.GetLabel(99995),common/null.png)</param>
+                </include>
+
+                <!-- HDR -->
+                <include content="Info_Codecs_MonoIcon">
+                    <param name="icon">other/HDR.png</param>
+                    <param name="basewidth">48</param>
+                    <param name="iconwidth">80</param>
+                    <param name="iconheight">56</param>
+                    <param name="visible">String.Contains(ListItem.FileNameAndPath,HDR)</param>
+                </include>
+
+                <!-- Audio / Subs Divider -->
+                <include content="Info_Codec_LabelIcon">
+                    <param name="icon" value="special://skin/extras/icons/language.png" />
+                    <left>20</left>
+                    <visible>[!String.IsEmpty(ListItem.Property(AudioLanguage.1)) + !Skin.HasSetting(Codecs.DisableAudioLanguageFlags)] | [!String.IsEmpty(ListItem.Property(SubtitleLanguage.1)) + !Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)]</visible>
+                </include>
+                <!-- Audio Languages -->
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
+                    <param name="property" value="ListItem.Property(AudioLanguage.1)" />
+                    <param name="icon" value="flags/subs.png" />
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
+                    <param name="property" value="ListItem.Property(AudioLanguage.2)" />
+                    <param name="icon" value="flags/subs.png" />
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
+                    <param name="property" value="ListItem.Property(AudioLanguage.3)" />
+                    <param name="icon" value="flags/subs.png" />
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
+                    <param name="property" value="ListItem.Property(AudioLanguage.4)" />
+                    <param name="icon" value="flags/subs.png" />
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
+                    <param name="property" value="ListItem.Property(AudioLanguage.5)" />
+                    <param name="icon" value="flags/subs.png" />
+                </include>
+
+                <!-- Subtitle Languages -->
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
+                    <param name="property" value="ListItem.Property(SubtitleLanguage.1)" />
+                    <param name="icon" value="flags/subtitles.png" />
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
+                    <param name="property" value="ListItem.Property(SubtitleLanguage.2)" />
+                    <param name="icon" value="flags/subtitles.png" />
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
+                    <param name="property" value="ListItem.Property(SubtitleLanguage.3)" />
+                    <param name="icon" value="flags/subtitles.png" />
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
+                    <param name="property" value="ListItem.Property(SubtitleLanguage.4)" />
+                    <param name="icon" value="flags/subtitles.png" />
+                </include>
+                <include content="Info_Language" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
+                    <param name="property" value="ListItem.Property(SubtitleLanguage.5)" />
+                    <param name="icon" value="flags/subtitles.png" />
+                </include>
+            </control>
+
+            <!-- Folder Items -->
+            <control type="grouplist">
+                <hitrect x="0" y="0" w="0" h="0" />
+                <nested />
+                <orientation>horizontal</orientation>
+                <align>$PARAM[align]</align>
+                <itemgap>30</itemgap>
+                <height>grid_x08</height>
+                <centertop>50%</centertop>
+                <usecontrolcoords>true</usecontrolcoords>
+                <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.VideoResolution)</visible>
+
+                <!-- Providers -->
+                <include content="Info_Codec_LabelIcon" condition="!Skin.HasSetting(Codecs.DisableMediaProviderIcons)">
+                    <param name="icon" value="special://skin/extras/icons/justwatch.png" />
+                    <visible>[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)]</visible>
+                </include>
+                <include content="Info_Provider"><param name="pos" value="1" /></include>
+                <include content="Info_Provider"><param name="pos" value="2" /></include>
+                <include content="Info_Provider"><param name="pos" value="3" /></include>
+                <include content="Info_Provider"><param name="pos" value="4" /></include>
+                <include content="Info_Provider"><param name="pos" value="5" /></include>
+                <include content="Info_Provider"><param name="pos" value="6" /></include>
+                <include content="Info_Provider"><param name="pos" value="7" /></include>
+                <include content="Info_Provider"><param name="pos" value="8" /></include>
+
+                <!-- TvShow Total Episodes / Seasons -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/share-nodes.png" />
+                    <param name="label" value="$INFO[ListItem.Property(TotalSeasons),[B],[/B] $LOCALIZE[33054]]" />
+                    <visible>String.IsEqual(ListItem.DBType,tvshow)</visible>
+                    <visible>!String.IsEmpty(ListItem.Property(TotalSeasons))</visible>
+                </include>
+
+                <!-- Season Total Episodes and Unwatched -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/square-poll-horizontal.png" />
+                    <param name="label" value="$INFO[ListItem.Property(TotalEpisodes),[B],[/B] $LOCALIZE[20360]   ]$INFO[ListItem.Property(WatchedEpisodes),[B],[/B] $LOCALIZE[16102]]" />
+                    <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>
+                    <visible>!String.IsEmpty(ListItem.Property(TotalEpisodes))</visible>
+                </include>
+
+                <!-- Total Duration Songs View -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container.NumNonFolderItems,[B],[/B] $LOCALIZE[134]]" />
+                    <visible>!String.IsEmpty(Container.NumNonFolderItems)</visible>
+                    <visible>Container.Content(songs)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/clock.png" />
+                    <param name="label" value="$INFO[Container.Totaltime,[B],[/B] $LOCALIZE[31142]]" />
+                    <visible>!String.IsEmpty(Container.Totaltime)</visible>
+                    <visible>Container.Content(songs)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+
+                <!-- Total Duration Albums View -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container(99999).NumNonFolderItems,[B],[/B] $LOCALIZE[134]]" />
+                    <visible>Container.Content(albums)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/clock.png" />
+                    <param name="label" value="$INFO[ListItem.Property(Album_Duration),[B],[/B] $LOCALIZE[31142]]" />
+                    <visible>Container.Content(albums)</visible>
+                    <visible>!String.IsEmpty(ListItem.Property(Album_Duration))</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+
+                <!-- Total Albums in Artists View -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container(99999).NumItems,[B],[/B] $LOCALIZE[132]]" />
+                    <visible>Container.Content(artists)</visible>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+
+                <!-- Addon Origin -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="$VAR[Image_AddonsOrigin]" />
+                    <param name="label" value="$INFO[ListItem.AddonOrigin]" />
+                    <param name="bordersize">8</param>
+                    <visible>Container.Content(addons)</visible>
+                    <visible>!String.IsEmpty(ListItem.AddonOrigin)</visible>
+                </include>
+
+                <!-- Addon Creator -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/person.png" />
+                    <param name="label" value="$INFO[ListItem.AddonCreator]" />
+                    <visible>Container.Content(addons)</visible>
+                    <visible>!String.IsEmpty(ListItem.AddonCreator)</visible>
+                </include>
+
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Language">
+        <control type="group">
+            <centertop>50%</centertop>
+            <width>20</width>
+            <height>40</height>
+            <control type="image">
+                <centerleft>50%</centerleft>
+                <centertop>50%</centertop>
+                <width>48</width>
+                <height>48</height>
+                <aspectratio>keep</aspectratio>
+                <texture diffuse="flags/color/language/diffuse.png">$INFO[$PARAM[property],flags/color/language/,.png]</texture>
+            </control>
+            <control type="image">
+                <centerbottom>10%</centerbottom>
+                <centerright>10%</centerright>
+                <width>20</width>
+                <height>20</height>
+                <texture colordiffuse="main_fg_100">$PARAM[icon]</texture>
+            </control>
+            <visible>!String.IsEmpty($PARAM[property])</visible>
+        </control>
+    </include>
+
+    <include name="Info_Provider">
+        <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaProviderIcons)">
+            <param name="control">group</param>
+            <width>40</width>
+            <height>40</height>
+            <centertop>50%</centertop>
+            <control type="image">
+                <include>Texture_Shadow_Provider</include>
+                <texture background="true" diffuse="diffuse/provider_circle.png">$INFO[Container(99950).ListItem.Property(Provider.$PARAM[pos].Icon)]</texture>
+            </control>
+            <visible>!String.IsEmpty(Container(99950).ListItem.Property(Provider.$PARAM[pos].Icon))</visible>
+            <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)</visible>
+            <visible>[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)]</visible>
+        </include>
+    </include>
+
+    <include name="Info_Studio">
+        <control type="grouplist">
+            <align>right</align>
+            <orientation>horizontal</orientation>
+            <itemgap>30</itemgap>
+            <height>80</height>
+            <nested />
+            <centertop>50%</centertop>
+            <include content="Object_Control" condition="!Skin.HasSetting(Furniture.DisableRightFooter)">
+                <param name="control">image</param>
+                <width>studio_logo_w</width>
+                <height>80</height>
+                <aspectratio align="right">keep</aspectratio>
+                <texture>$VAR[Image_CombinedStudio]</texture>
+                <visible>!String.IsEmpty(ListItem.Studio) | !String.IsEmpty(ListItem.Property(Network))</visible>
+                <centertop>50%</centertop>
+            </include>
+            <include content="Object_Control" condition="!String.IsEmpty(Skin.String(MPAA_Country))">
+                <param name="control">image</param>
+                <width>40</width>
+                <height>40</height>
+                <aspectratio align="center">keep</aspectratio>
+                <texture>$VAR[MPAA_ImageConvert,flags/color/mpaa/,]</texture>
+                <centertop>50%</centertop>
+                <visible>!String.IsEmpty(ListItem.MPAA)</visible>
+            </include>
+        </control>
+    </include>
+
+    <include name="Info_Panel_Mini">
+        <param name="container" default="" />
+        <param name="plotheight" default="info_plot_h" />
+        <param name="plotwidth" default="info_plot_w" />
+        <param name="colordiffuse" default="main_fg" />
+        <param name="plotlabel">$VAR[Label_Plot_Main]</param>
+        <param name="shortline" default="false" />
+        <definition>
+            <control type="group">
+                <nested />
+                <control type="grouplist">
+                    <top>0</top>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <orientation>vertical</orientation>
+                    <itemgap>0</itemgap>
+                    <control type="group" description="Avoid grouplist chop with spacer">
+                        <height>20</height>
+                    </control>
+                    <include content="Object_Control">
+                        <param name="control" value="textbox" />
+                        <height>$PARAM[plotheight]</height>
+                        <width>$PARAM[plotwidth]</width>
+                        <label>$PARAM[plotlabel]</label>
+                        <aligny>top</aligny>
+                        <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                        <font>font_plotbox</font>
+                        <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual($PARAM[container]ListItem.Property(TMDB_Type),person)]]]</visible>
+                    </include>
+                    <control type="group">
+                        <top>3</top>
+                        <height>40</height>
+                        <include content="Info_Line">
+                            <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                            <param name="container" value="$PARAM[container]" />
+                            <param name="id" value="$PARAM[line_id]" />
+                            <param name="controltype" value="$PARAM[controltype]" />
+                            <param name="widget_label" value="$PARAM[widget_label]" />
+                            <param name="shortline" value="$PARAM[shortline]" />
+                            <centertop>50%</centertop>
+                        </include>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Panel">
+        <param name="container" default="" />
+        <param name="plotbox" default="true" />
+        <param name="plotheight" default="info_plot_h" />
+        <param name="plotwidth" default="info_plot_w" />
+        <param name="colordiffuse" default="main_fg" />
+        <param name="ratings" default="true" />
+        <param name="ratingsheight" default="80" />
+        <param name="details" default="true" />
+        <param name="title" default="true" />
+        <param name="infoline" default="true" />
+        <param name="plotlabel">$VAR[Label_Plot_Main]</param>
+        <param name="shortline" default="false" />
+        <definition>
+            <control type="group">
+                <nested />
+                <control type="grouplist">
+                    <top>-20</top>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <orientation>vertical</orientation>
+                    <itemgap>0</itemgap>
+                    <control type="group" description="Avoid grouplist chop with spacer">
+                        <height>20</height>
+                    </control>
+                    <include content="Info_Title" condition="$PARAM[title]">
+                        <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                        <param name="width" value="$PARAM[plotwidth]" />
+                    </include>
+                    <control type="group">
+                        <height>40</height>
+                        <visible>$PARAM[infoline]</visible>
+                        <include content="Info_Line" condition="$PARAM[infoline]">
+                            <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                            <param name="container" value="$PARAM[container]" />
+                            <param name="id" value="$PARAM[line_id]" />
+                            <param name="controltype" value="$PARAM[controltype]" />
+                            <param name="widget_label" value="$PARAM[widget_label]" />
+                            <param name="shortline" value="$PARAM[shortline]" />
+                            <centertop>50%</centertop>
+                        </include>
+                    </control>
+
+                    <!-- Ratings -->
+                    <include content="Object_Control">
+                        <param name="control" value="group" />
+                        <height>$PARAM[ratingsheight]</height>
+                        <visible>$PARAM[details]</visible>
+                        <include content="Info_Ratings">
+                            <param name="container">$PARAM[container]</param>
+                            <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                            <param name="userrating" value="$PARAM[container]ListItem.UserRating" />
+                            <param name="starrating" value="$PARAM[container]ListItem.Rating" />
+                            <param name="star">![$PARAM[shortline]] + !$EXP[Exp_PVRWindows]</param>
+                            <param name="rottentomatoes">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="usermeter">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="imdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="tmdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="trakt">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="metacritic">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="oscars">[![$PARAM[shortline]] | String.IsEqual($PARAM[container]ListItem.DBType,movie)]</param>
+                            <param name="top250">[![$PARAM[shortline]] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | $EXP[Exp_PVRWindows]]]</param>
+                            <param name="releasestatus">[[[![$PARAM[shortline]] + String.IsEqual($PARAM[container]ListItem.DBType,movie) + !Skin.HasSetting(Ratings.DisableMovieRelease)] | [[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)] + !Skin.HasSetting(Ratings.DisableTvRelease)]]]</param>
+                            <centertop>50%</centertop>
+                            <visible>$PARAM[ratings]</visible>
+                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]]</visible>
+                        </include>
+
+                        <include content="Info_MiscLine">
+                            <param name="container">$PARAM[container]</param>
+                            <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+                            <centertop>50%</centertop>
+                            <visible>$PARAM[ratings]</visible>
+                            <visible>[String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual($PARAM[container]ListItem.Property(TMDB_Type),person)]]</visible>
+                        </include>
+
+                        <control type="group">
+                            <height>$PARAM[plotheight]</height>
+                            <bottom>-$PARAM[plotheight]</bottom>
+                            <!-- Ratings + Plot -->
+                            <include content="Object_Control">
+                                <param name="control" value="textbox" />
+                                <width>$PARAM[plotwidth]</width>
+                                <label>$PARAM[plotlabel]</label>
+                                <aligny>top</aligny>
+                                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                                <font>font_plotbox</font>
+                                <visible>$PARAM[ratings]</visible>
+                                <visible>$PARAM[details]</visible>
+                                <visible>$PARAM[plotbox]</visible>
+                                <visible>[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual($PARAM[container]ListItem.Property(TMDB_Type),person)]]]</visible>
+                                <top>-3</top>
+                                <bottom>3</bottom>
+                            </include>
+                            <!-- No Ratings + Plot -->
+                            <include content="Object_Control">
+                                <param name="control" value="textbox" />
+                                <width>$PARAM[plotwidth]</width>
+                                <label>$PARAM[plotlabel]</label>
+                                <aligny>top</aligny>
+                                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                                <font>font_plotbox</font>
+                                <visible>![$PARAM[ratings] + [[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + [String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),movie) | String.IsEqual(Container(99950).ListItem.Property(TMDB_Type),tv)]]] | [String.IsEqual($PARAM[container]ListItem.DBType,artist) | String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song) | [String.IsEqual($PARAM[container]ListItem.DBType,video) + String.IsEqual($PARAM[container]ListItem.Property(TMDB_Type),person)]]]]</visible>
+                                <visible>$PARAM[details]</visible>
+                                <visible>$PARAM[plotbox]</visible>
+                                <top>-63</top>
+                                <bottom>23</bottom>
+                            </include>
+                        </control>
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+</includes>

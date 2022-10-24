@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <include name="Dialog_Background">
+        <param name="shadows" default="true" />
+        <param name="overlay" default="false" />
+        <param name="overlay_texture" default="special://skin/fanart.jpg" />
+        <param name="overlay_fallback" default="special://skin/fanart.jpg" />
+        <param name="overlay_colordiffuse" default="overlay_hard" />
+        <param name="overlay_visible" default="true" />
+        <param name="overlay_animation" default="true" />
+        <definition>
+            <control type="group">
+                <control type="image">
+                    <include condition="$PARAM[shadows]">Texture_Shadow_20</include>
+                    <include>Texture_Dialog</include>
+                </control>
+                <include content="Object_Control" condition="$PARAM[overlay]">
+                    <param name="control" value="image" />
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture background="true" colordiffuse="$PARAM[overlay_colordiffuse]" diffuse="diffuse/dialog_w1760_h800.png" fallback="$PARAM[overlay_fallback]">$PARAM[overlay_texture]</texture>
+                    <include condition="$PARAM[overlay_animation]">Animation_FadeIn_Delay</include>
+                    <include condition="$PARAM[overlay_animation]">Animation_FadeOut</include>
+                    <visible>$PARAM[overlay_visible]</visible>
+                </include>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+
+    <include name="Dialog_Context_Image">
+        <param name="right" default="context_icon_w" />
+        <param name="icon" default="$VAR[Image_ContextPoster]" />
+        <param name="height">100%</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <right>$PARAM[right]</right>
+                <include content="Dialog_Overlay">
+                    <param name="flipx" value="true" />
+                </include>
+                <include content="Object_Separator">
+                    <right>0</right>
+                </include>
+                <include content="Dialog_Group">
+                    <include content="Object_BigPoster">
+                        <param name="diffuse" value="$PARAM[diffuse]" />
+                        <param name="icon" value="$PARAM[icon]" />
+                        <param name="colordiffuse" value="shadow_soft" />
+                        <param name="posterback_colordiffuse" value="$PARAM[posterback_colordiffuse]" />
+                        <param name="aspectratio" value="$PARAM[aspectratio]" />
+                        <height>$PARAM[height]</height>
+                    </include>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Nib">
+        <param name="nib_pos">70</param>
+        <definition>
+            <control type="image">
+                <top>-16</top>
+                <centerright>$PARAM[nib_pos]</centerright>
+                <height>16</height>
+                <width>16</width>
+                <texture colordiffuse="dialog_bg_100">arrows/arrow-menu-up.png</texture>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_AddonInfo_Details">
+        <control type="group">
+            <left>40</left>
+            <right>40</right>
+            <height>40</height>
+            <visible>$PARAM[visible]</visible>
+            <control type="image">
+                <height>40</height>
+                <width>40</width>
+                <texture colordiffuse="dialog_fg_90">$PARAM[icon]</texture>
+            </control>
+            <control type="label">
+                <left>60</left>
+                <align>left</align>
+                <label>$PARAM[label]</label>
+            </control>
+        </control>
+    </include>
+
+    <include name="Dialog_ContextMenu_Header">
+        <include content="Dialog_Header">
+            <param name="id" value="7000" />
+            <nested />
+            <label>$VAR[Label_ContextMenu_Title]</label>
+        </include>
+    </include>
+
+    <include name="Dialog_SettingsCategory_Background">
+        <include content="Dialog_Background">
+            <param name="overlay" value="false" />
+            <param name="overlay_animation" value="false" />
+            <include>Dimension_Info</include>
+            <include content="Animation_WindowTransition_Settings">
+                <param name="windowopen_left">Window.Previous(EventLog.xml)</param>
+                <param name="windowclose_left">Window.Next(EventLog.xml)</param>
+            </include>
+            <animation type="Conditional" reversible="false"  condition="Window.IsVisible(DialogAddonSettings.xml)">
+                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="-320,0" time="300" delay="0" tween="cubic" easing="out" />
+            </animation>
+            <animation type="Conditional" reversible="false"  condition="!Window.IsVisible(DialogAddonSettings.xml)">
+                <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
+                <effect type="slide" start="-320,0" end="0" time="400" delay="400" tween="cubic" easing="out" />
+            </animation>
+            <include>Dialog_Overlay_Settings</include>
+            <nested />
+        </include>
+    </include>
+
+    <include name="Dialog_SettingsCategory_ChangerGroup">
+        <param name="changer_onright" default="3" />
+        <definition>
+            <control type="group">
+                <top>grid_x04</top>
+                <bottom>grid_x04</bottom>
+                <include content="Dialog_Settings_Changer">
+                    <onright>$PARAM[changer_onright]</onright>
+                </include>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_SettingsCategory_LeftGroup">
+        <param name="header_condition" default="true" />
+        <param name="header_label" default="$LOCALIZE[166]" />
+        <param name="header_id" default="" />
+        <definition>
+            <control type="group">
+                <left>grid_x08</left>
+                <include content="Dialog_Settings_Label" condition="$PARAM[header_condition]">
+                    <param name="control" value="label" />
+                    <param name="id" value="$PARAM[header_id]" />
+                    <label>$PARAM[header_label]</label>
+                </include>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_SettingsCategory_RightGroup">
+        <param name="scrollbar_onleft" default="5" />
+        <param name="info_id" default="6" />
+        <param name="info_label" default="" />
+        <param name="info_condition" default="true" />
+        <definition>
+            <control type="group">
+                <left>settings_category_w</left>
+                <nested />
+                <include content="Dialog_Settings_InfoText" condition="$PARAM[info_condition]">
+                    <param name="id" value="$PARAM[info_id]" />
+                    <param name="label" value="$PARAM[info_label]" />
+                </include>
+                <control type="scrollbar" id="61">
+                    <width>8</width>
+                    <top>-grid_x04</top>
+                    <bottom>-grid_x04</bottom>
+                    <onleft>$PARAM[scrollbar_onleft]</onleft>
+                    <right>0</right>
+                    <showonepage>false</showonepage>
+                    <animation effect="fade" condition="!Control.HasFocus(61)" start="100" end="0" time="200">Conditional</animation>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Group">
+        <param name="control" default="group" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <left>grid_x04</left>
+                <right>grid_x04</right>
+                <bottom>grid_x04</bottom>
+                <top>grid_x04</top>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Info_Screenshots">
+        <param name="header" default="$LOCALIZE[20008]" />
+        <param name="header_id" default="5000" />
+        <param name="id" default="50" />
+        <param name="content" default="Items_Null" />
+        <param name="onback" default="7000" />
+        <definition>
+            <include content="Dialog_Background">
+                <param name="overlay" value="false" />
+                <centerleft>50%</centerleft>
+                <width>1573.33</width>
+                <height>880</height>
+                <centertop>600</centertop>
+                <include>Animation_Up_Delay</include>
+                <visible>Control.HasFocus($PARAM[id])</visible>
+                <include content="Dialog_Header">
+                    <param name="id" value="$PARAM[header_id]" />
+                    <label>$PARAM[header]</label>
+                </include>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse" value="dialog_fg" />
+                    <visible>Container($PARAM[id]).IsUpdating</visible>
+                </include>
+                <include content="Dialog_Group">
+                    <include content="Dialog_Outline_Box">
+                        <control type="list" id="$PARAM[id]">
+                            <onback>$PARAM[onback]</onback>
+                            <onup>$PARAM[onback]</onup>
+                            <ondown>$PARAM[onback]</ondown>
+                            <orientation>horizontal</orientation>
+                            <itemlayout width="1493.33">
+                                <control type="image">
+                                    <texture background="true">$INFO[ListItem.Icon]</texture>
+                                </control>
+                            </itemlayout>
+                            <focusedlayout width="1493.33">
+                                <control type="image">
+                                    <texture background="true">$INFO[ListItem.Icon]</texture>
+                                </control>
+                            </focusedlayout>
+                            <include>$PARAM[content]</include>
+                        </control>
+                    </include>
+                    <control type="image">
+                        <include content="Dimension_Padding"><param name="pad" value="-10" /></include>
+                        <texture colordiffuse="dialog_bg_100" border="20">common/selectbox.png</texture>
+                    </control>
+                </include>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Dialog_Overlay_Settings">
+        <control type="group">
+            <left>grid_x08</left>
+            <include>Dialog_Overlay</include>
+            <include>Object_Separator</include>
+            <control type="group">
+                <left>settings_category_w</left>
+                <include>Dialog_Overlay</include>
+                <include>Object_Separator</include>
+            </control>
+        </control>
+    </include>
+
+    <include name="Dialog_Overlay_Buttons">
+        <control type="group">
+            <right>0</right>
+            <width>dialog_buttongroup_w</width>
+            <include>Dialog_Overlay</include>
+            <include>Object_Separator</include>
+        </control>
+    </include>
+
+    <include name="Dialog_Group_NoHeader">
+        <include content="Dialog_Group">
+            <nested />
+            <top>grid_x04</top>
+        </include>
+    </include>
+
+    <include name="Dialog_Header">
+        <param name="id" default="1" />
+        <definition>
+            <control type="label" id="$PARAM[id]">
+                <nested />
+                <textcolor>main_fg_100</textcolor>
+                <top>-grid_x12</top>
+                <height>grid_x12</height>
+                <font>font_mainlabel</font>
+                <align>center</align>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Textbox">
+        <param name="id" default="9" />
+        <definition>
+            <control type="textbox" id="$PARAM[id]">
+                <nested />
+                <font>font_plotbox</font>
+                <textcolor>dialog_fg_70</textcolor>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Button_Grouplist_Bottom">
+        <control type="grouplist">
+            <nested />
+            <left>grid_x04</left>
+            <right>grid_x04</right>
+            <bottom>grid_x04</bottom>
+            <height>grid_x08</height>
+            <align>center</align>
+            <orientation>horizontal</orientation>
+            <itemgap>grid_x04</itemgap>
+        </control>
+    </include>
+
+    <include name="Dialog_Lang_Button">
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="$PARAM[id]" />
+            <param name="control" value="$PARAM[control]" />
+            <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].Language))</visible>
+            <textoffsetx>grid_x04</textoffsetx>
+            <label>$INFO[Window(Home).Property($PARAM[language].Language),[UPPERCASE],[/UPPERCASE]]$INFO[Window(Home).Property($PARAM[language].Name), | ,]</label>
+            <onclick condition="$PARAM[issubtitle] + String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex))">Action(ShowSubtitles)</onclick>
+            <onclick condition="$PARAM[issubtitle] + !String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex))">RunScript(plugin.video.themoviedb.helper,set_player_subtitle=$INFO[Window(Home).Property($PARAM[language].Index)])</onclick>
+            <onclick condition="!$PARAM[issubtitle]">RunScript(plugin.video.themoviedb.helper,set_player_audiostream=$INFO[Window(Home).Property($PARAM[language].Index)])</onclick>
+            <onclick>Close</onclick>
+            <!-- <onclick>Dialog.Close(videoosd,true)</onclick> -->
+            <!-- <onclick>SetProperty(OSD_Refocus,$PARAM[id],home)</onclick> -->
+            <!-- <onclick>ActivateWindow(videoosd)</onclick> -->
+            <nested />
+        </include>
+        <control type="grouplist" id="$PARAM[groupid]">
+            <visible>Control.IsVisible($PARAM[id])</visible>
+            <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].Language))</visible>
+            <height>grid_x08</height>
+            <top>-grid_x08</top>
+            <right>grid_x04</right>
+            <orientation>horizontal</orientation>
+            <align>right</align>
+            <itemgap>20</itemgap>
+            <left>grid_x02</left>
+            <control type="label">
+                <width>auto</width>
+                <label>$LOCALIZE[39111]</label>
+                <visible>String.IsEqual(Window(Home).Property($PARAM[language].IsOriginal),True)</visible>
+                <bottom>2</bottom>
+                <font>font_statusbar_bold</font>
+                <textcolor>dialog_fg_70</textcolor>
+            </control>
+            <control type="label">
+                <width>auto</width>
+                <label>$LOCALIZE[39105]</label>
+                <visible>String.IsEqual(Window(Home).Property($PARAM[language].IsDefault),True)</visible>
+                <bottom>2</bottom>
+                <font>font_statusbar_bold</font>
+                <textcolor>dialog_fg_70</textcolor>
+            </control>
+            <control type="label">
+                <width>auto</width>
+                <label>$LOCALIZE[39106]</label>
+                <visible>String.IsEqual(Window(Home).Property($PARAM[language].IsForced),True)</visible>
+                <bottom>2</bottom>
+                <font>font_statusbar_bold</font>
+                <textcolor>dialog_fg_70</textcolor>
+            </control>
+            <control type="label">
+                <width>auto</width>
+                <label>$INFO[Window(Home).Property($PARAM[language].codec)]</label>
+                <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].codec))</visible>
+                <bottom>2</bottom>
+                <font>font_statusbar_bold</font>
+                <textcolor>dialog_fg_70</textcolor>
+            </control>
+            <control type="label">
+                <width>auto</width>
+                <label>$INFO[Window(Home).Property($PARAM[language].channels),, $LOCALIZE[10127]]</label>
+                <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].channels))</visible>
+                <bottom>2</bottom>
+                <font>font_statusbar_bold</font>
+                <textcolor>dialog_fg_70</textcolor>
+            </control>
+            <control type="label">
+                <width>auto</width>
+                <label>$INFO[Window(Home).Property($PARAM[language].bitrate),, bps]</label>
+                <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].bitrate))</visible>
+                <bottom>2</bottom>
+                <font>font_statusbar_bold</font>
+                <textcolor>dialog_fg_70</textcolor>
+            </control>
+            <control type="image">
+                <top>-1</top>
+                <bottom>1</bottom>
+                <width>grid_x08</width>
+                <bordersize>22</bordersize>
+                <aspectratio align="right">keep</aspectratio>
+                <texture colordiffuse="dialog_fg_70">flags/cc.png</texture>
+                <animation effect="fade" end="33" condition="!String.IsEqual(Window(Home).Property($PARAM[language].IsImpaired),True)">Conditional</animation>
+            </control>
+            <control type="image">
+                <width>grid_x08</width>
+                <bordersize>28</bordersize>
+                <aspectratio align="right">keep</aspectratio>
+                <texture colordiffuse="dialog_fg_70">buttons/check-on.png</texture>
+                <visible>[String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex)) + $PARAM[issubtitle] + VideoPlayer.SubtitlesEnabled] | [String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.AudioStreams.CurrentIndex)) + !$PARAM[issubtitle]]</visible>
+            </control>
+            <control type="image">
+                <width>grid_x08</width>
+                <bordersize>28</bordersize>
+                <aspectratio align="right">keep</aspectratio>
+                <texture colordiffuse="dialog_fg_70">buttons/check-off.png</texture>
+                <visible>[[!String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.Subtitles.CurrentIndex)) | !VideoPlayer.SubtitlesEnabled] + $PARAM[issubtitle]] | [!String.IsEqual(Window(Home).Property($PARAM[language].Index),Window(home).Property(TMDbHelper.Player.AudioStreams.CurrentIndex)) + !$PARAM[issubtitle]]</visible>
+            </control>
+            <control type="image">
+                <width>grid_x08</width>
+                <bordersize>18</bordersize>
+                <aspectratio align="right">keep</aspectratio>
+                <texture>$INFO[Window(Home).Property($PARAM[language].Language),flags/color/language/,.png]</texture>
+            </control>
+
+        </control>
+    </include>
+
+    <include name="Dialog_Menu_Button">
+        <param name="bordersize" default="10" />
+        <definition>
+            <include content="Dialog_Settings_Button">
+                <param name="id" value="$PARAM[id]" />
+                <param name="control" value="$PARAM[control]" />
+                <visible>Control.IsEnabled($PARAM[id])</visible>
+                <textoffsetx>grid_x04</textoffsetx>
+                <textwidth>356</textwidth>
+                <radioposx>340</radioposx>
+                <nested />
+            </include>
+            <control type="group" id="$PARAM[groupid]">
+                <width>grid_x08</width>
+                <height>grid_x08</height>
+                <top>-grid_x08</top>
+                <right>grid_x02</right>
+                <visible>Control.IsEnabled($PARAM[id]) + Control.IsVisible($PARAM[id])</visible>
+                <control type="image">
+                    <right>0</right>
+                    <bordersize>$PARAM[bordersize]</bordersize>
+                    <aspectratio align="right">keep</aspectratio>
+                    <texture colordiffuse="dialog_fg_70">$PARAM[icon]</texture>
+                    <visible>!Control.HasFocus($PARAM[id])</visible>
+                </control>
+                <control type="image">
+                    <right>0</right>
+                    <bordersize>$PARAM[bordersize]</bordersize>
+                    <aspectratio align="right">keep</aspectratio>
+                    <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                    <visible>Control.HasFocus($PARAM[id])</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Settings_Button">
+        <param name="control" default="button" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <align>left</align>
+                <font>font_small</font>
+                <height>grid_x08</height>
+                <textoffsetx>grid_x04</textoffsetx>
+                <texturenofocus />
+                <alttexturenofocus />
+                <include>Texture_Highlight_Focus</include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Settings_Label">
+        <param name="control" default="label" />
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <align>left</align>
+                <font>font_hintlabel</font>
+                <top>grid_x04</top>
+                <height>grid_x04</height>
+                <textoffsetx>grid_x04</textoffsetx>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Settings_Level">
+        <control type="group">
+            <bottom>0</bottom>
+            <height>grid_x08</height>
+            <width>settings_category_w</width>
+            <include content="Dialog_Settings_Button">
+                <param name="id" value="20" />
+                <param name="control" value="button" />
+                <description>Default Setting Button</description>
+                <onclick>SettingsLevelChange</onclick>
+                <font>font_statusbar</font>
+                <onup>3</onup>
+                <onleft>300</onleft>
+                <textoffsetx>92</textoffsetx>
+            </include>
+            <control type="image">
+                <left>30</left>
+                <width>52</width>
+                <aspectratio aligny="center">keep</aspectratio>
+                <texture colordiffuse="dialog_fg_30">osd/settings.png</texture>
+                <visible>!Control.HasFocus(20)</visible>
+            </control>
+            <control type="image">
+                <left>30</left>
+                <width>52</width>
+                <aspectratio aligny="center">keep</aspectratio>
+                <texture colordiffuse="$VAR[ColorSelected]">osd/settings.png</texture>
+                <visible>Control.HasFocus(20)</visible>
+            </control>
+        </control>
+    </include>
+
+    <include name="Dialog_Settings_InfoText">
+        <param name="visible" default="!Control.HasFocus(300)" />
+        <definition>
+            <control type="group">
+                <bottom>0</bottom>
+                <left>grid_x04</left>
+                <right>grid_x04</right>
+                <height>grid_x08</height>
+                <visible>$PARAM[visible]</visible>
+                <control type="image">
+                    <centertop>50%</centertop>
+                    <height>32</height>
+                    <width>32</width>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture colordiffuse="dialog_fg_70">buttons/info.png</texture>
+                </control>
+                <control type="textbox" id="$PARAM[id]">
+                    <left>54</left>
+                    <height>90</height>
+                    <centertop>50%</centertop>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <font>font_statusbar</font>
+                    <aligny>center</aligny>
+                    <label>$PARAM[label]</label>
+                </control>
+                <control type="textbox">
+                    <left>54</left>
+                    <height>90</height>
+                    <centertop>50%</centertop>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <font>font_statusbar</font>
+                    <aligny>center</aligny>
+                    <label>$LOCALIZE[19055]</label>
+                    <visible>String.IsEmpty(Control.GetLabel($PARAM[id]))</visible>
+                </control>
+
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Settings_Changer">
+        <param name="id" default="30000" />
+        <definition>
+            <control type="grouplist" id="$PARAM[id]">
+                <nested />
+                <width>grid_x08</width>
+                <orientation>vertical</orientation>
+                <include>Items_Settings_Changer</include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Settings_Changer_Button">
+        <param name="width">80</param>
+        <definition>
+            <control type="togglebutton" id="$PARAM[button_id]">
+                <width>$PARAM[width]</width>
+                <height>$PARAM[width]</height>
+                <include>Texture_Highlight_ToggleButton_FakeFocus</include>
+                <onclick>ReplaceWindow($PARAM[window])</onclick>
+                <usealttexture>Window.IsActive($PARAM[window])</usealttexture>
+                <onfocus condition="!Window.IsVisible($PARAM[window])">ReplaceWindow($PARAM[window])</onfocus>
+            </control>
+            <control type="group" id="$PARAM[group_id]">
+                <top>-$PARAM[width]</top>
+                <width>$PARAM[width]</width>
+                <height>$PARAM[width]</height>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="10" /></include>
+                    <texture colordiffuse="dialog_fg_30">$PARAM[icon]</texture>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad" value="10" /></include>
+                    <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                    <visible>Window.IsActive($PARAM[window]) | Control.HasFocus($PARAM[button_id])</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Overlay">
+        <param name="flipx" default="false" />
+        <param name="flipy" default="false" />
+        <param name="texture" default="common/dialog_overlay.png" />
+        <param name="colordiffuse" default="dialog_panel" />
+        <definition>
+            <control type="image">
+                <nested />
+                <texture colordiffuse="$PARAM[colordiffuse]" border="12" flipx="$PARAM[flipx]" flipy="$PARAM[flipy]">$PARAM[texture]</texture>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Overlay_V">
+        <include content="Dialog_Overlay">
+            <param name="texture" value="common/dialog_overlay_v.png" />
+            <param name="flipx" value="$PARAM[flipx]" />
+            <param name="flipy" value="$PARAM[flipy]" />
+            <param name="colordiffuse" value="$PARAM[colordiffuse]" />
+            <nested />
+        </include>
+    </include>
+
+
+    <include name="Dialog_Outline">
+        <include content="Object_Control">
+            <param name="control" value="image" />
+            <texture colordiffuse="shadow_line" border="12">common/box-outline.png</texture>
+        </include>
+    </include>
+    <include name="Dialog_Box">
+        <include content="Object_Shadow_40">
+            <param name="colordiffuse" value="shadow_soft" />
+        </include>
+        <control type="image">
+            <texture colordiffuse="shadow_flat" border="12">common/box.png</texture>
+        </control>
+    </include>
+    <include name="Dialog_Outline_Box">
+        <param name="outline" default="true" />
+        <definition>
+            <include>Dialog_Box</include>
+            <nested />
+            <include condition="$PARAM[outline]">Dialog_Outline</include>
+        </definition>
+    </include>
+
+    <include name="Dialog_Scrollbar">
+        <param name="id" default="61" />
+        <definition>
+            <control type="scrollbar" id="$PARAM[id]">
+                <nested />
+                <right>-5</right>
+                <width>10</width>
+                <animation effect="fade" condition="!Control.HasFocus($PARAM[id]) + !Skin.HasSetting(TouchMode)" start="100" end="0" time="200">Conditional</animation>
+            </control>
+        </definition>
+    </include>
+
+    <variable name="Dialog_Discover_Year_Content">
+        <value condition="String.IsEqual(Window.Property(TMDbType),movie)">$INFO[Skin.String(Discover_MinYear),&amp;primary_release_date.gte=,-01-01]$INFO[Skin.String(Discover_MaxYear),&amp;primary_release_date.lte=,-01-01]</value>
+        <value condition="String.IsEqual(Window.Property(TMDbType),tv)">$INFO[Skin.String(Discover_MinYear),&amp;first_air_date.gte=,-01-01]$INFO[Skin.String(Discover_MaxYear),&amp;first_air_date.lte=,-01-01]</value>
+    </variable>
+
+
+    <include name="Dialog_ImageViewer">
+        <param name="listid" default="5006" />
+        <param name="buttonid" default="9506" />
+        <param name="art" default="Art(poster)" />
+        <definition>
+            <include content="Object_Hidden_Button">
+                <param name="id" value="$PARAM[buttonid]" />
+                <onleft>Control.Move($PARAM[listid],-1)</onleft>
+                <onright>Control.Move($PARAM[listid],1)</onright>
+                <onback>$PARAM[listid]</onback>
+                <onup>$PARAM[listid]</onup>
+                <ondown>$PARAM[listid]</ondown>
+            </include>
+            <control type="group">
+                <include>Animation_FadeIn</include>
+                <include>Animation_FadeOut</include>
+                <include>Object_Overlay</include>
+                <include>Object_Overlay</include>
+                <visible>Control.HasFocus($PARAM[buttonid])</visible>
+                <control type="group">
+                    <animation effect="slide" tween="quadratic" end="-1920" start="0" time="400" condition="!Container($PARAM[listid]).OnNext" reversible="false">Conditional</animation>
+                    <animation effect="slide" tween="quadratic" end="1920" start="0" time="400" condition="!Container($PARAM[listid]).OnPrevious" reversible="false">Conditional</animation>
+
+                    <control type="image">
+                        <left>-1920</left>
+                        <width>1920</width>
+                        <aspectratio>keep</aspectratio>
+                        <texture background="true">$INFO[Container($PARAM[listid]).ListItem(-1).$PARAM[art]]</texture>
+                    </control>
+                    <control type="image">
+                        <width>1920</width>
+                        <aspectratio>keep</aspectratio>
+                        <texture background="true">$INFO[Container($PARAM[listid]).ListItem.$PARAM[art]]</texture>
+                    </control>
+                    <control type="image">
+                        <right>-1920</right>
+                        <width>1920</width>
+                        <aspectratio>keep</aspectratio>
+                        <texture background="true">$INFO[Container($PARAM[listid]).ListItem(1).$PARAM[art]]</texture>
+                    </control>
+                </control>
+
+                <control type="group">
+                    <visible>System.IdleTime(3)</visible>
+                    <animation effect="fade" start="0" end="100" time="500" reversible="false">Visible</animation>
+                    <control type="image">
+                        <width>120</width>
+                        <height>120</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="panel_fg_70" flipx="true">arrows/arrow-240.png</texture>
+                    </control>
+                    <control type="image">
+                        <right>0</right>
+                        <width>120</width>
+                        <height>120</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="panel_fg_70" flipx="false">arrows/arrow-240.png</texture>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_MusicInfoAlbumArt">
+        <param name="discart_top" default="272" />
+        <param name="discart_spin" default="true" />
+        <param name="discart_image" default="$VAR[Image_DiscArt]" />
+        <param name="width" default="544" />
+        <param name="diffuse" default="diffuse/square_w544_h544.png" />
+        <definition>
+            <control type="group">
+                <width>$PARAM[width]</width>
+                <control type="image">
+                    <top>$PARAM[discart_top]</top>
+                    <height>$PARAM[width]</height>
+                    <texture background="true">$PARAM[discart_image]</texture>
+                    <aspectratio>keep</aspectratio>
+                    <bordersize>40</bordersize>
+                    <animation effect="rotate" condition="$PARAM[discart_spin]" start="0" end="360" loop="true" time="50000" center="auto">Conditional</animation>
+                    <fadetime>300</fadetime>
+                </control>
+                <include content="Object_BigPoster">
+                    <param name="diffuse" value="$PARAM[diffuse]" />
+                    <param name="icon" value="$PARAM[icon]" />
+                    <height>$PARAM[width]</height>
+                </include>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+</includes>

@@ -20,34 +20,36 @@
             <control type="group">
                 <width>640</width>
                 <control type="group">
-                    <top>dialog_pad</top>
-                    <bottom>dialog_pad</bottom>
+                    <top>grid_x04</top>
+                    <bottom>grid_x04</bottom>
                     <control type="list" id="211">
                         <orientation>vertical</orientation>
-                        <itemlayout width="640" height="row_height">
+                        <itemlayout width="640" height="grid_x08">
                             <include content="Layout_SkinShortcuts">
-                                <param name="selected" value="false" />
+                                <param name="selected">false</param>
+                                <param name="detailed">true</param>
                             </include>
                         </itemlayout>
-                        <focusedlayout width="640" height="row_height">
+                        <focusedlayout width="640" height="grid_x08">
                             <include content="Layout_SkinShortcuts">
-                                <param name="selected" value="true" />
+                                <param name="selected">true</param>
+                                <param name="detailed">true</param>
                             </include>
                         </focusedlayout>
                     </control>
                     <control type="group">
                         <right>40</right>
-                        <height>row_height</height>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,0)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,1)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,2)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,3)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,4)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,5)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,6)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,7)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,8)">Conditional</animation>
-                        <animation effect="slide" end="0,row_height" condition="Integer.IsGreater(Container(211).Position,9)">Conditional</animation>
+                        <height>grid_x08</height>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,0)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,1)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,2)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,3)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,4)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,5)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,6)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,7)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,8)">Conditional</animation>
+                        <animation effect="slide" end="0,grid_x08" condition="Integer.IsGreater(Container(211).Position,9)">Conditional</animation>
                         <control type="grouplist" id="9200">
                             <centertop>50%</centertop>
                             <height>32</height>
@@ -97,8 +99,8 @@
                 <include>Dialog_Overlay</include>
                 <include>Object_Separator</include>
                 <control type="group">
-                    <top>dialog_pad</top>
-                    <bottom>dialog_pad</bottom>
+                    <top>grid_x04</top>
+                    <bottom>grid_x04</bottom>
                     <control type="grouplist" id="9100">
                         <onleft>304</onleft>
                         <orientation>vertical</orientation>
@@ -127,6 +129,7 @@
                             <onclick>SetProperty(custom-grouping,widget)</onclick>
                             <onclick>SendClick(401)</onclick>
                             <visible>String.EndsWith(Window.Property(groupname),.1)</visible>
+                            <include>Action_SkinShortcuts_ContentType_AutoSetOnUnFocus</include>
                         </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="4101" />
@@ -136,9 +139,19 @@
                             <onclick>SetProperty(custom-grouping,customsearchdefaultitems)</onclick>
                             <onclick>SendClick(401)</onclick>
                             <visible>String.IsEqual(Window.Property(groupname),searchmenu)</visible>
+                            <include>Action_SkinShortcuts_ContentType_AutoSetOnUnFocus</include>
                         </include>
-
-
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="4307" />
+                            <param name="control" value="button" />
+                            <description>Action</description>
+                            <label>$LOCALIZE[31081]</label>
+                            <onclick>SetProperty(custom-grouping,widget)</onclick>
+                            <onclick>SendClick(307)</onclick>
+                            <label2>$INFO[Container(211).ListItem.Property(Path)]</label2>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.EndsWith(Window.Property(groupname),.1)</visible>
+                        </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="307" />
                             <param name="control" value="button" />
@@ -182,24 +195,33 @@
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
-                            <param name="id" value="312" />
+                            <param name="id" value="9312" />
                             <param name="control" value="button" />
-                            <description>Fullscreen widget (standard widget button)</description>
-                            <label> - $LOCALIZE[31102]</label>
+                            <description>Fullscreen widget</description>
+                            <onclick>SetProperty(SkinShortcutsDialogType,$LOCALIZE[31102],Home)</onclick>
+                            <onclick>AlarmClock(RefocusDialog,SetFocus(312),00:00,silent)</onclick>
+                            <label>$LOCALIZE[31102]</label>
                             <label2>$INFO[Container(211).ListItem.Property(widgetPath)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
-                            <param name="id" value="9906" />
-                            <param name="control" value="radiobutton" />
+                            <param name="id" value="9916" />
+                            <param name="control" value="button" />
                             <description>Submenu bumper</description>
-                            <label> - $LOCALIZE[1034] $LOCALIZE[31173]</label>
-                            <selected>String.IsEmpty(Container(211).ListItem.Property(disableSubmenuBumper))</selected>
-                            <onclick>SetProperty(customProperty,disableSubmenuBumper)</onclick>
-                            <onclick condition="String.IsEmpty(Container(211).ListItem.Property(disableSubmenuBumper))">SetProperty(customValue,1)</onclick>
-                            <onclick condition="!String.IsEmpty(Container(211).ListItem.Property(disableSubmenuBumper)) + String.IsEqual(Container(211).ListItem.Property(disableSubmenuBumper),1)">ClearProperty(customValue)</onclick>
-                            <onclick>SendClick(404)</onclick>
+                            <label>$LOCALIZE[31229]</label>
+                            <label2>$INFO[Container(211).ListItem.Property(widgetPath.SubmenuBumper)]</label2>
+                            <onclick>SetProperty(SkinShortcutsDialogType,$LOCALIZE[31229],Home)</onclick>
+                            <onclick>AlarmClock(RefocusDialog,SetFocus(9906),00:00,silent)</onclick>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="9915" />
+                            <param name="control" value="button" />
+                            <description>End row action</description>
+                            <label>$LOCALIZE[31330]</label>
+                            <label2>$INFO[Container(211).ListItem.Property(widgetEndRowAction)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
                         </include>
@@ -224,6 +246,7 @@
                             <label2>$INFO[Container(211).ListItem.Property(widgetTarget)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
+                            <include>Action_SkinShortcuts_ContentType_AutoSetOnFocus</include>
                         </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="9903" />
@@ -244,15 +267,6 @@
                             <visible>String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
-                            <param name="id" value="9907" />
-                            <param name="control" value="button" />
-                            <description>Item limit</description>
-                            <label>$LOCALIZE[31188]</label>
-                            <label2>$INFO[Container(211).ListItem.Property(widgetLimit)]</label2>
-                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
-                            <visible>String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
-                        </include>
-                        <include content="Dialog_Settings_Button">
                             <param name="id" value="9905" />
                             <param name="control" value="button" />
                             <description>Expand Info</description>
@@ -260,13 +274,29 @@
                             <label2>$INFO[Container(211).ListItem.Property(widgetInfo)]</label2>
                             <selected>!String.IsEmpty(Container(211).ListItem.Property(widgetInfo))</selected>
                             <onclick>SetProperty(customProperty,widgetInfo)</onclick>
-                            <onclick condition="String.IsEmpty(Container(211).ListItem.Property(widgetInfo))">SetProperty(customValue,Plot+Ratings)</onclick>
+                            <onclick condition="String.IsEmpty(Container(211).ListItem.Property(widgetInfo))">SetProperty(customValue,Plot)</onclick>
                             <onclick condition="!String.IsEmpty(Container(211).ListItem.Property(widgetInfo)) + !String.IsEqual(Container(211).ListItem.Property(widgetInfo),Full)">SetProperty(customValue,Full)</onclick>
                             <onclick condition="!String.IsEmpty(Container(211).ListItem.Property(widgetInfo)) + String.IsEqual(Container(211).ListItem.Property(widgetInfo),Full)">ClearProperty(customValue)</onclick>
                             <onclick>SendClick(404)</onclick>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.EndsWith(Window.Property(groupname),.1)</visible>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(widgetAspect),Button) + !String.IsEqual(Container(211).ListItem.Property(widgetAspect),Apps) + !String.IsEqual(Container(211).ListItem.Property(list),Submenu)</visible>
                         </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="9909" />
+                            <param name="control" value="radiobutton" />
+                            <description>Expand Info</description>
+                            <label>$LOCALIZE[31134]</label>
+                            <selected>!String.IsEmpty(Container(211).ListItem.Property(widgetInfo))</selected>
+                            <onclick>SetProperty(customProperty,widgetInfo)</onclick>
+                            <onclick condition="String.IsEmpty(Container(211).ListItem.Property(widgetInfo))">SetProperty(customValue,Plot)</onclick>
+                            <onclick condition="!String.IsEmpty(Container(211).ListItem.Property(widgetInfo))">ClearProperty(customValue)</onclick>
+                            <onclick>SendClick(404)</onclick>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.IsEqual(Window.Property(groupname),searchmenu)</visible>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(widgetAspect),Button) + !String.IsEqual(Container(211).ListItem.Property(widgetAspect),Apps) + !String.IsEqual(Container(211).ListItem.Property(list),Submenu)</visible>
+                        </include>
+
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="9908" />
                             <param name="control" value="radiobutton" />
@@ -280,7 +310,15 @@
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.EndsWith(Window.Property(groupname),.1)</visible>
                         </include>
-
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="9907" />
+                            <param name="control" value="button" />
+                            <description>Item limit</description>
+                            <label>$LOCALIZE[31188]</label>
+                            <label2>$INFO[Container(211).ListItem.Property(widgetLimit)]</label2>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
+                        </include>
 
 
                         <!-- Reset -->
@@ -293,6 +331,122 @@
 
                     </control>
                 </control>
+            </control>
+        </include>
+
+        <include content="Object_Overlay">
+            <param name="windowanimation">false</param>
+            <include>Animation_FadeIn</include>
+            <visible>ControlGroup(8000).HasFocus()</visible>
+        </include>
+        <include content="Dialog_Background">
+            <include content="Animation_SlideIn_Dialog_Conditional">
+                <param name="delay">150</param>
+                <param name="condition">ControlGroup(8000).HasFocus()</param>
+            </include>
+            <include>Dimension_DialogSkinShortcuts_FullscreenWidget</include>
+            <include content="Dialog_Header">
+                <label>$INFO[Window(Home).Property(SkinShortcutsDialogType)]</label>
+            </include>
+            <control type="grouplist" id="8000">
+                <orientation>vertical</orientation>
+                <top>grid_x04</top>
+                <bottom>grid_x04</bottom>
+                <onleft>9100</onleft>
+                <onright>9100</onright>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="312" />
+                    <param name="control" value="button" />
+                    <description>Fullscreen widget (standard widget button)</description>
+                    <label>$LOCALIZE[31104]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetPath)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9912" />
+                    <param name="control" value="button" />
+                    <onclick>SendClick(9902)</onclick>
+                    <description>Content Type</description>
+                    <label>$LOCALIZE[31106]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetTarget)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9918" />
+                    <param name="control" value="button" />
+                    <description>Fullscreen Style</description>
+                    <label>$LOCALIZE[736]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetStyle)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9913" />
+                    <param name="control" value="button" />
+                    <description>Sort by</description>
+                    <onclick>SendClick(9903)</onclick>
+                    <label>$LOCALIZE[31016]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetSortby)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9914" />
+                    <param name="control" value="button" />
+                    <onclick>SendClick(9904)</onclick>
+                    <description>Sort direction</description>
+                    <label>$LOCALIZE[580]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetSortorder)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9917" />
+                    <param name="control" value="button" />
+                    <onclick>SendClick(9907)</onclick>
+                    <description>Limit</description>
+                    <label>$LOCALIZE[31188]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetLimit)]</label2>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31102])</visible>
+                </include>
+
+                <!-- Submenu Widget -->
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9906" />
+                    <param name="control" value="button" />
+                    <description>Submenu Choose Widget</description>
+                    <label>$LOCALIZE[31104]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetPath.SubmenuBumper)]</label2>
+                    <onclick>SetProperty(widgetID,SubmenuBumper)</onclick>
+                    <onclick>SendClick(312)</onclick>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31229])</visible>
+                </include>
+                <include content="Dialog_Settings_Button">
+                    <param name="id" value="9961" />
+                    <param name="control" value="button" />
+                    <description>Submenu bumper</description>
+                    <label>$LOCALIZE[736]</label>
+                    <label2>$INFO[Container(211).ListItem.Property(widgetAspect.SubmenuBumper)]</label2>
+                    <onclick>SetProperty(customProperty,widgetAspect.SubmenuBumper)</onclick>
+                    <onclick condition="String.IsEmpty(Container(211).ListItem.Property(widgetAspect.SubmenuBumper)) | String.IsEqual(Container(211).ListItem.Property(widgetAspect.SubmenuBumper),Standard)">SetProperty(customValue,Image)</onclick>
+                    <onclick condition="String.IsEqual(Container(211).ListItem.Property(widgetAspect.SubmenuBumper),Image)">SetProperty(customValue,Text)</onclick>
+                    <onclick condition="String.IsEqual(Container(211).ListItem.Property(widgetAspect.SubmenuBumper),Text)">SetProperty(customValue,Standard)</onclick>
+                    <onclick>SendClick(404)</onclick>
+                    <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                    <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                    <visible>String.IsEqual(Window(Home).Property(SkinShortcutsDialogType),$LOCALIZE[31229])</visible>
+                </include>
             </control>
         </include>
 

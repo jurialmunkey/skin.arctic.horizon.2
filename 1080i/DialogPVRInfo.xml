@@ -4,96 +4,66 @@
     <menucontrol>9000</menucontrol>
     <onunload>ClearProperty(HasTrailer,Home)</onunload>
     <controls>
-
+        <include>Defs_TMDbHelper_Loader</include>
         <include condition="Window.IsVisible(fullscreenvideo)">Background_Main</include>
 
-        <control type="group">
-            <animation effect="slide" start="0" end="-big_poster_w" time="800" tween="cubic" easing="out" condition="Window.IsActive(1120)" reversible="false">Conditional</animation>
-            <animation effect="slide" end="0" start="-big_poster_w" time="800" tween="cubic" easing="out" condition="!Window.IsActive(1120)" reversible="false">Conditional</animation>
-            <control type="group">
-                <width>big_poster_w</width>
-                <include>Animation_Left_Delay</include>
-                <control type="group">
-                    <include>Dimension_Info</include>
-                    <include content="Object_BigPoster">
-                        <param name="icon" value="$VAR[Image_ContextPoster]" />
-                        <param name="diffuse" value="diffuse/poster_w544_h800.png" />
-                        <visible>$EXP[Exp_ContextMenu_HasPoster]</visible>
-                    </include>
-                    <include content="Object_BigPoster">
-                        <param name="aspectratio" value="keep" />
-                        <param name="diffuse" value="diffuse/square_w544_h544.png" />
-                        <height>544</height>
-                        <visible>!$EXP[Exp_ContextMenu_HasPoster]</visible>
-                    </include>
-                </control>
-            </control>
+        <include content="DialogInfo_MainGroup">
+            <include content="DialogInfo_LeftGroup">
+                <param name="icon">$VAR[Image_PVRPoster]</param>
+                <param name="poster_visible">!String.IsEmpty(Container(99950).ListItem.Art(poster)) | !String.IsEmpty(ListItem.Art(tvshow.poster)) | !String.IsEmpty(ListItem.Art(poster))</param>
 
-            <include content="Dialog_Info_RightSide">
+                <!-- Use Square when Poster not available -->
+                <include content="Object_BigPoster">
+                    <param name="aspectratio">keep</param>
+                    <param name="diffuse">diffuse/square_w544_h544.png</param>
+                    <top>view_top</top>
+                    <left>view_pad</left>
+                    <height>infodialog_poster_w</height>
+                    <width>infodialog_poster_w</width>
+                    <visible>String.IsEmpty(Container(99950).ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(poster))</visible>
+                </include>
+            </include>
+
+            <include content="DialogInfo_RightGroup">
+                <!-- Info -->
                 <control type="group">
-                    <visible>!Window.IsActive(1120)</visible>
+                    <visible>!Control.HasFocus(61)</visible>
+                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
                     <include>Animation_DialogInfo_Recommendations</include>
-                    <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
-                        <left>-80</left>
+
+                    <!-- Video Info -->
+                    <include content="Info_Panel">
+                        <param name="plotheight" value="info_plot_large_h" />
                     </include>
 
-                    <!-- Info -->
-                    <control type="group">
-                        <visible>!Control.HasFocus(61)</visible>
-                        <include>Dimension_Info</include>
-                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                        <include content="Info_Panel">
-                            <param name="ratings" value="!String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.TMDb_Rating)) | !String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.Trakt_Rating)) | !String.IsEmpty(Window(home).Property(TMDbHelper.ListItem.IMDb_Rating)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))" />
-                            <param name="plotheight" value="120" />
-                            <param name="plotheight_nr" value="160" />
-                        </include>
-                        <control type="group">
-                            <top>360</top>
-                            <height>80</height>
-                            <include content="Object_Control">
-                                <param name="control" value="grouplist" />
-                                <param name="id" value="5000" />
-                                <left>-40</left>
-                                <itemgap>-60</itemgap>
-                                <orientation>horizontal</orientation>
-                                <height>256</height>
-                                <centertop>50%</centertop>
-                                <onleft>noop</onleft>
-                                <onright>menu</onright>
+                    <!-- Button Group -->
+                    <include content="DialogInfo_ButtonGroup">
+                        <param name="include">Items_DialogPVRInfo_MenuBar</param>
+                    </include>
 
-                                <!-- Property to reset textbox scroll position -->
-                                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
-                                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
-                                <onup>61</onup>
-
-                                <include>Action_Recommendations_OnDown</include>
-                                <include>Items_DialogPVRInfo_MenuBar</include>
-                            </include>
-                        </control>
-                        <include content="Dialog_VideoInfoDetails">
-                            <top>480</top>
-                        </include>
-                    </control>
-
-                    <!-- Trailer -->
-                    <include>Dialog_VideoInfoTrailer</include>
-
-                    <!-- Plot Box -->
-                    <include>Dialog_VideoInfoPlotBox</include>
+                    <!-- Video Details -->
+                    <include content="DialogInfo_VideoDetails">
+                        <top>470</top>
+                        <bottom>grid_x08</bottom>
+                    </include>
 
                     <!-- Codecs -->
-                    <control type="group">
-                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                        <include>Furniture_Bottom</include>
-                    </control>
+                    <include>DialogInfo_Codecs</include>
+
+                    <!-- Mouse Nav Button -->
+                    <!-- <include>DialogInfo_MouseNavArrow</include> -->
                 </control>
+
+                <!-- Trailer and Plot -->
+                <include>DialogInfo_VideoTrailer</include>
+                <include>DialogInfo_PlotBox</include>
             </include>
 
             <include>Furniture_Top_Left</include>
-        </control>
+        </include>
 
         <control type="group">
-            <visible>!Window.IsVisible(1120)</visible>
+            <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
             <include>Furniture_Top_Right</include>
         </control>
 
@@ -101,10 +71,11 @@
             <param name="grouplist_items" value="Items_DialogPVRInfo_Options" />
             <param name="visible" value="!$EXP[Exp_OverlayDialogs]" />
             <param name="onback" value="5000" />
+            <param name="usemousefocus">true</param>
         </include>
 
-        <include>Dialog_VideoInfoTrailerButton</include>
-
-
+        <include>DialogInfo_VideoTrailerFullscreen</include>
+        <include>DialogInfo_RecommendationsButton</include>
+        <include>DialogInfo_FilePathInfo</include>
     </controls>
 </window>

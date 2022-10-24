@@ -3,55 +3,44 @@
     <defaultcontrol>5000</defaultcontrol>
     <menucontrol>9000</menucontrol>
     <controls>
-        <control type="group">
-            <width>big_poster_w</width>
-            <include>Animation_Left_Delay</include>
-            <control type="group">
-                <include>Dimension_Info</include>
-                <include content="Object_BigPoster">
-                    <param name="diffuse" value="diffuse/square_w544_h544.png" />
-                    <height>544</height>
-                </include>
-            </control>
-        </control>
 
-        <include content="Dialog_Info_RightSide">
-            <control type="group">
-                <visible>!Window.IsActive(1113) + !Window.IsActive(1120)</visible>
-                <include>Animation_DialogInfo_Recommendations</include>
-                <include content="Object_Include" condition="![Skin.String(DividerStyle,Split) | Skin.String(DividerStyle,Solid)]">
-                    <left>-80</left>
-                </include>
+        <include content="DialogInfo_MainGroup">
+            <visible>!ControlGroup(6000).HasFocus()</visible>
+            <include content="DialogInfo_LeftGroup">
+                <param name="height">infodialog_poster_w</param>
+                <param name="diffuse">diffuse/square_w544_h544.png</param>
+            </include>
+
+            <include content="DialogInfo_RightGroup">
+                <!-- Info -->
                 <control type="group">
-                    <include>Dimension_Info</include>
-                    <include content="Info_Panel">
-                        <param name="plotheight" value="120" />
-                        <param name="plotheight_nr" value="160" />
+                    <visible>!Control.HasFocus(61)</visible>
+                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                    <include content="Animation_DialogInfo_Recommendations">
+                        <param name="condition">ControlGroup(6000).HasFocus()</param>
                     </include>
+
+                    <!-- Info -->
+                    <include content="Info_Panel">
+                        <param name="plotheight" value="info_plot_large_h" />
+                    </include>
+
+                    <!-- Button Group -->
+                    <include content="DialogInfo_ButtonGroup">
+                        <param name="include">Items_DialogAddonInfo_MenuBar</param>
+                    </include>
+
+                    <!-- Addon Details -->
                     <control type="group">
-                        <top>360</top>
-                        <height>80</height>
-                        <include content="Object_Control">
-                            <param name="control" value="grouplist" />
-                            <param name="id" value="5000" />
-                            <left>-40</left>
-                            <itemgap>-60</itemgap>
-                            <orientation>horizontal</orientation>
-                            <height>256</height>
-                            <centertop>50%</centertop>
-                            <include>Action_Plotbox_OnUp</include>
-                            <onleft>noop</onleft>
-                            <onright>SetFocus(9000)</onright>
-                            <ondown>SetFocus(50)</ondown>
-                            <include>Items_DialogAddonInfo_MenuBar</include>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <top>480</top>
+                        <top>430</top>
+                        <left>-40</left>
                         <control type="grouplist">
-                            <height>240</height>
+                            <height>grid_x28</height>
                             <orientation>vertical</orientation>
-                            <itemgap>20</itemgap>
+                            <itemgap>grid_x03</itemgap>
+                            <control type="group">
+                                <top>10</top>
+                            </control>
                             <include content="Object_InfoCircle">
                                 <param name="icon" value="special://skin/extras/icons/recent.png" />
                                 <param name="role" value="$LOCALIZE[12014]" />
@@ -77,18 +66,46 @@
                             </include>
                         </control>
                     </control>
+
+                    <!-- Codecs -->
+                    <include>DialogInfo_Codecs</include>
+
+                    <!-- Mouse Nav Button -->
+                    <include content="DialogInfo_MouseNavArrow">
+                        <visible>!Integer.IsEqual(Container(50).NumItems,0)</visible>
+                    </include>
                 </control>
-                <include>Furniture_Bottom</include>
-            </control>
+
+                <!-- Trailer and Plot -->
+                <include>DialogInfo_VideoTrailer</include>
+                <include content="DialogInfo_PlotBox">
+                    <param name="label">$VAR[Label_Plot]</param>
+                </include>
+            </include>
+
+            <include>Furniture_Top_Left</include>
         </include>
 
-        <include>Furniture_Top</include>
+        <control type="group">
+            <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
+            <include>Furniture_Top_Right</include>
+        </control>
 
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_DialogAddonInfo_Options" />
             <param name="visible" value="!$EXP[Exp_OverlayDialogs]" />
             <param name="onback" value="5000" />
+            <param name="usemousefocus">true</param>
         </include>
+
+        <include>DialogInfo_VideoTrailerFullscreen</include>
+
+        <include content="Object_Hidden_Button">
+            <param name="id">7002</param>
+            <onfocus>SetFocus(50)</onfocus>
+        </include>
+
+        <include>DialogInfo_FilePathInfo</include>
 
         <include content="Object_Hidden_Button">
             <param name="id" value="6" />

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog">
-    <defaultcontrol always="true">8000</defaultcontrol>
+    <defaultcontrol always="true">8001</defaultcontrol>
     <coordinates>
         <origin x="0" y="0" />
     </coordinates>
     <controls>
+        <include>Defs_TMDbHelper_Loader</include>
         <include content="Object_Overlay">
             <param name="delay" value="300" />
         </include>
@@ -17,36 +18,38 @@
             <include>Animation_FadeOut</include>
             <include>Dimension_Context</include>
             <include>Dialog_ContextMenu_Header</include>
-
-
             <control type="group">
                 <!-- Slide Over if Square -->
-                <animation effect="slide" end="context_slide_sq" condition="!$EXP[Exp_ContextMenu_HasPoster]">Conditional</animation>
-
+                <animation effect="slide" end="context_slide_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
                 <!-- Poster Image -->
                 <control type="group">
-                    <visible>$EXP[Exp_ContextMenu_HasPoster]</visible>
+                    <visible>$EXP[Exp_ContextMenu_HasPoster] | $EXP[Exp_ContextMenu_HasIcon]</visible>
                     <include content="Dialog_Background">
                         <param name="overlay" value="true" />
                         <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
                         <include content="Dialog_Context_Image">
                             <param name="diffuse" value="diffuse/poster_w435_h640.png" />
+                            <visible>$EXP[Exp_ContextMenu_HasPoster]</visible>
+                        </include>
+                        <include content="Dialog_Context_Image">
+                            <param name="aspectratio" value="keep" />
+                            <param name="diffuse" value="diffuse/square_w435_h435.png" />
+                            <param name="height">435</param>
+                            <visible>!$EXP[Exp_ContextMenu_HasPoster]</visible>
                         </include>
                     </include>
                 </control>
 
-                <!-- Square Image -->
+                <!-- No Image -->
                 <control type="group">
-                    <left>context_icon_sq_l</left>
+                    <left>context_icon_w</left>
+                    <bottom>20</bottom>
                     <visible>!$EXP[Exp_ContextMenu_HasPoster]</visible>
-                    <include content="Dialog_Background">
-                        <param name="overlay" value="true" />
-                        <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
-                        <include content="Dialog_Context_Image">
-                            <param name="aspectratio" value="keep" />
-                            <param name="diffuse" value="diffuse/square_w640_h640.png" />
-                        </include>
-                    </include>
+                    <visible>!$EXP[Exp_ContextMenu_HasIcon]</visible>
+                    <control type="image" id="999">
+                        <include>Texture_Shadow_20</include>
+                        <include>Texture_Dialog</include>
+                    </control>
                 </control>
 
                 <!-- Menu -->
@@ -81,7 +84,7 @@
                     </control>
 
                     <!-- Quick Nav -->
-                    <include content="Object_Control" condition="$EXP[Exp_ContextMenu_QuickBar]">
+                    <include content="Object_Control">
                         <param name="control" value="grouplist" />
                         <top>120</top>
                         <height>80</height>
@@ -99,36 +102,33 @@
                     <include content="Object_Control">
                         <param name="control" value="grouplist" />
                         <param name="id" value="996" />
-                        <include content="Object_Include" condition="$EXP[Exp_ContextMenu_QuickBar]">
-                            <top>200</top>
-                        </include>
-                        <top>120</top>
+                        <top>200</top>
                         <bottom>40</bottom>
                         <orientation>vertical</orientation>
                         <itemgap>0</itemgap>
                         <onleft>Close</onleft>
                         <onright>Close</onright>
-                        <include content="Object_Include" condition="$EXP[Exp_ContextMenu_QuickBar]">
-                            <onup>8000</onup>
-                            <ondown>SetFocus(1001)</ondown>
-                            <ondown>SetFocus(8000)</ondown>
-                        </include>
+                        <onup>8000</onup>
+                        <ondown>SetFocus(1001)</ondown>
+                        <ondown>SetFocus(8000)</ondown>
                     </include>
                     <control type="image">
                         <top>-24</top>
                         <centerright>100%</centerright>
                         <height>16</height>
                         <width>16</width>
-                        <texture colordiffuse="$VAR[ColorSelected]" flipy="true">common/arrow-small.png</texture>
+                        <texture colordiffuse="$VAR[ColorSelected]" flipy="true">arrows/arrow-small.png</texture>
                         <visible>Container(996).HasPrevious</visible>
+                        <animation effect="slide" end="context_slide_arrow_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
                     </control>
                     <control type="image">
                         <bottom>-24</bottom>
                         <centerright>100%</centerright>
                         <height>16</height>
                         <width>16</width>
-                        <texture colordiffuse="$VAR[ColorSelected]">common/arrow-small.png</texture>
+                        <texture colordiffuse="$VAR[ColorSelected]">arrows/arrow-small.png</texture>
                         <visible>Container(996).HasNext</visible>
+                        <animation effect="slide" end="context_slide_arrow_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
                     </control>
                 </control>
             </control>
@@ -139,6 +139,5 @@
             <param name="control" value="button" />
             <width>context_icon_w</width>
         </include>
-
     </controls>
 </window>

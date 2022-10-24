@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="Color_SelectedText">
+        <textcolor>$VAR[ColorSelected]</textcolor>
+        <selectedcolor>$VAR[ColorSelected]</selectedcolor>
+    </include>
+
+    <!-- ColorPicker -->
+    <variable name="ColorPickerHex">
+        <value condition="Control.HasFocus(3000)">$INFO[Container(3000).ListItem.Label]</value>
+        <value condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight)">$VAR[ColorHighlight]</value>
+        <value condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient)">$VAR[ColorGradient]</value>
+        <value condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">$VAR[ColorWatchedProgress]</value>
+    </variable>
+
+    <!-- Highlight Color -->
+    <variable name="ColorHighlight">
+        <value condition="!String.IsEmpty(Skin.String(focuscolor.name))">$INFO[Skin.String(focuscolor.name)]</value>
+        <value>ff0091ea</value>
+    </variable>
+
+    <!-- Gradient Color -->
+    <variable name="ColorGradient">
+        <value condition="!Skin.HasSetting(EnableMonochromeHighlight) + !String.IsEmpty(Skin.String(gradientcolor.name))">$INFO[Skin.String(gradientcolor.name)]</value>
+        <value condition="!Skin.HasSetting(EnableMonochromeHighlight)">ff00bfa5</value>
+        <value>$VAR[ColorHighlight]</value>
+    </variable>
+
+    <!-- Watched / Progress Color -->
+    <variable name="ColorWatchedProgress">
+        <value condition="!String.IsEmpty(Skin.String(watchedprogresscolor.name))">$INFO[Skin.String(watchedprogresscolor.name)]</value>
+        <value>ff03b585</value>
+    </variable>
+
+    <!-- EPG Progress Color -->
+    <variable name="ColorEPGProgress">
+        <value condition="Skin.HasSetting(PVR.InvertProgressColor)">main_fg_45</value>
+        <value>main_bg_80</value>
+    </variable>
+    <variable name="ColorPVRProgress">
+        <value condition="Skin.HasSetting(PVR.InvertProgressColor)">main_fg_60</value>
+        <value>main_bg_60</value>
+    </variable>
+
+    <!-- Selected Color -->
+    <variable name="ColorSelected_30">
+        <value condition="Skin.HasSetting(InvertSelectedText)">4d333333</value>
+        <value>4dffffff</value>
+    </variable>
+
+    <variable name="ColorSelected_50">
+        <value condition="Skin.HasSetting(InvertSelectedText)">7f333333</value>
+        <value>7fffffff</value>
+    </variable>
+
+    <variable name="ColorSelected">
+        <value condition="Skin.HasSetting(InvertSelectedText)">ff333333</value>
+        <value>white</value>
+    </variable>
+
+    <!-- Tricks for Settings Changer -->
+    <variable name="ColorSettingsToggleButton">
+        <value condition="ControlGroup(30000).HasFocus() | Control.HasFocus(20)">00ffffff</value>
+        <value>ffffffff</value>
+    </variable>
+
+    <variable name="ColorSettingsToggleButtonText">
+        <value condition="ControlGroup(30000).HasFocus() | Control.HasFocus(20)">dialog_fg_70</value>
+        <value>$VAR[ColorSelected]</value>
+    </variable>
+</includes>

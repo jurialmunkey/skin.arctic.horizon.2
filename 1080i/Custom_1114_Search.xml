@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="window" id="1114">
     <defaultcontrol always="true">9099</defaultcontrol>
+
+    <!-- TESTER -->
+    <!-- Normal -->
     <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm))">RunScript(script.skinvariables,set_editcontrol=9099,window_id=1114,setfocus=340,text=$INFO[Window(Home).Property(CustomSearchTerm)])</onload>
-    <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm))">ClearProperty(CustomSearchTerm,Home)</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm)) + !String.IsEqual(Window(Home).Property(ReplaceWindow),1114)">ClearProperty(CustomSearchTerm,Home)</onload>
     <controls>
+        <include>Defs_TMDbHelper_Loader</include>
+        <include>Background_ExtraFanart</include>
         <include>Background_Main</include>
         <control type="group">
             <include condition="!Window.Previous(Home)">Animation_Foreground_FadeInOut_Delay</include>
             <control type="group">
-                <animation type="WindowOpen" reversible="false" condition="Window.Previous(Home)">
+                <animation type="WindowOpen" reversible="false" condition="Window.Previous(Home) | Window.Previous(1120)">
                     <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="out"/>
                     <effect type="slide" start="-320" end="0" time="400" delay="0" tween="cubic" easing="out" />
                 </animation>
-                <animation type="WindowClose" reversible="false" condition="Window.Next(Home)">
+                <animation type="WindowClose" reversible="false" condition="Window.Next(Home) | Window.Next(1120)">
                     <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
                     <effect type="slide" start="0" end="-320" time="300" delay="0" tween="cubic" easing="out" />
                 </animation>
@@ -32,55 +37,26 @@
                     </animation>
                     <orientation>vertical</orientation>
                     <control type="group" id="6100">
-                        <height>600</height>
+                        <height>widget_tbump_h</height>
                     </control>
                     <include>skinshortcuts-template-search</include>
-
-                    <!-- <include content="Widget_Poster">
-                        <param name="groupid" value="5104" />
-                        <param name="id" value="5004" />
-                        <param name="label" value="$LOCALIZE[31109] $LOCALIZE[342]" />
-                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1)) + !String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))" />
-                        <param name="altvisible" value="Control.HasFocus(340)" />
-                        <content>$INFO[Container(4000).ListItemAbsolute(0).Property(tmdb_id),plugin://plugin.video.themoviedb.helper/?info=discover&amp;tmdb_type=movie&amp;with_id=True&amp;with_keywords=,]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click"><param name="id" value="5004" /></include>
-                        <onback>SetFocus(5004)</onback>
-                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
-                    </include>
-                    <include content="Widget_Poster">
-                        <param name="groupid" value="5105" />
-                        <param name="id" value="5005" />
-                        <param name="label" value="$LOCALIZE[31109] $LOCALIZE[20343]" />
-                        <param name="visible" value="!String.IsEmpty(Control.GetLabel(9099).index(1)) + !String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))" />
-                        <param name="altvisible" value="Control.HasFocus(340)" />
-                        <content>$INFO[Container(4000).ListItemAbsolute(0).Property(tmdb_id),plugin://plugin.video.themoviedb.helper/?info=discover&amp;tmdb_type=tv&amp;with_id=True&amp;with_keywords=,]$VAR[Path_Param_Widget]</content>
-                        <include content="Action_Widget_Click"><param name="id" value="5005" /></include>
-                        <onback>SetFocus(5005)</onback>
-                        <content><item><label>-</label><visible>String.IsEmpty(Control.GetLabel(9099).index(1)) | String.IsEmpty(Container(4000).ListItemAbsolute(0).Property(tmdb_id))</visible></item></content>
-                    </include> -->
                 </control>
             </control>
             <include content="Object_WallFade">
                 <param name="id" value="6000" />
+                <param name="direction_buttons">true</param>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
             </include>
             <control type="group">
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
-                <left>view_pad</left>
+                <left>40</left>
                 <top>60</top>
                 <height>view_pad</height>
                 <control type="group">
                     <left>20</left>
                     <width>740</width>
-                    <include content="Object_MenuBar_Group_Texture">
-                        <param name="colordiffuse" value="main_fg_12" />
-                        <left>-20</left>
-                        <right>-20</right>
-                        <height>60</height>
-                        <centertop>50%</centertop>
-                    </include>
                     <control type="group">
                         <height>70</height>
                         <centertop>50%</centertop>
@@ -97,6 +73,7 @@
                         <control type="image">
                             <left>10</left>
                             <width>60</width>
+                            <bordersize>4</bordersize>
                             <aspectratio>keep</aspectratio>
                             <visible>Control.HasFocus(9099)</visible>
                             <texture colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/search.png</texture>
@@ -104,6 +81,7 @@
                         <control type="image">
                             <left>10</left>
                             <width>60</width>
+                            <bordersize>4</bordersize>
                             <aspectratio>keep</aspectratio>
                             <visible>!Control.HasFocus(9099)</visible>
                             <texture colordiffuse="dialog_fg_70">special://skin/extras/icons/search.png</texture>
@@ -120,7 +98,8 @@
                         <align>left</align>
                         <onright>Close</onright>
                         <onleft>Close</onleft>
-                        <ondown condition="!Integer.IsEqual(Container(6000).NumItems,0)">350</ondown>
+                        <ondown>SetProperty(PreviousSearchTerm,$INFO[Control.GetLabel(9099).index(1)])</ondown>
+                        <ondown condition="!Integer.IsEqual(Container(6000).NumItems,0)">6000</ondown>
                         <ondown condition="Integer.IsEqual(Container(6000).NumItems,0)">340</ondown>
                         <onup>340</onup>
                     </include>
@@ -134,16 +113,23 @@
             <include>Furniture_Top_Right</include>
         </control>
 
+        <control type="group">
+            <include>Furniture_Bottom</include>
+            <visible>String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)</visible>
+            <visible>!String.IsEmpty(Window.Property(Slide.WidgetContainer))</visible>
+            <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+        </control>
+
         <!-- Keyword Finder -->
-        <control type="list" id="4000">
+        <!-- <control type="list" id="4000">
             <top>-1000</top>
             <left>-1000</left>
             <width>1</width>
             <height>1</height>
             <itemlayout />
             <focusedlayout />
-            <content target="videos">$VAR[Path_Adaptive_Search,,&amp;tmdb_type=keyword]$VAR[Path_Param_Widget]</content>
-        </control>
+            <content target="videos">$INFO[Control.GetLabel(9099).index(1),plugin://plugin.video.themoviedb.helper/?info=search&amp;query=,&amp;tmdb_type=keyword]$VAR[Path_Param_Widget]</content>
+        </control> -->
 
 
         <control type="button" id="330">
@@ -163,15 +149,6 @@
             <onclick>SetFocus(9099)</onclick>
             <visible allowhiddenfocus="true">Control.HasFocus(340)</visible>
             <animation effect="fade" time="300" start="0" end="0">Focus</animation>
-        </control>
-        <control type="button" id="350">
-            <width>1</width>
-            <height>1</height>
-            <left>-1000</left>
-            <onfocus>SetFocus(6000)</onfocus>
-            <onclick>SetFocus(6000)</onclick>
-            <visible allowhiddenfocus="true">Control.HasFocus(350)</visible>
-            <animation effect="fade" time="50" start="0" end="0">Focus</animation>
         </control>
     </controls>
 </window>

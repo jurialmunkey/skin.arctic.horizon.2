@@ -1,60 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <controls>
-        <include>Object_Overlay</include>
+        <include condition="!$EXP[Exp_SettingsDialogs]">Object_Overlay</include>
         <include content="Dialog_Background">
-            <include>Animation_SlideIn_Dialog</include>
+            <include content="Animation_SlideIn_Dialog">
+                <param name="windowopen_condition">!$EXP[Exp_SettingsDialogs_Prev]</param>
+            </include>
+            <include content="Animation_WindowTransition_Settings">
+                <param name="windowopen">false</param>
+                <param name="windowclose">false</param>
+                <param name="windowopen_right">$EXP[Exp_SettingsDialogs]</param>
+                <param name="windowclose_right">$EXP[Exp_SettingsDialogs]</param>
+                <param name="windowopen_delay">400</param>
+            </include>
             <include>Dimension_Info</include>
             <include>Dialog_Overlay_Buttons</include>
             <control type="group">
                 <right>0</right>
-                <left>dialog_category_width</left>
+                <left>settings_category_w</left>
                 <include>Dialog_Overlay</include>
                 <include>Object_Separator</include>
             </control>
             <include content="Dialog_Group">
                 <control type="group">
                     <right>0</right>
-                    <width>dialog_button_width</width>
+                    <width>dialog_button_w</width>
 
                     <control type="grouplist" id="9000">
                         <onleft>61</onleft>
                         <itemgap>20</itemgap>
                         <control type="button" id="28" description="OK">
-                            <height>row_height</height>
+                            <height>grid_x08</height>
                         </control>
                         <control type="button" id="29" description="Cancel">
-                            <height>row_height</height>
+                            <height>grid_x08</height>
                         </control>
                         <control type="button" id="30" description="Clear">
-                            <height>row_height</height>
+                            <height>grid_x08</height>
                         </control>
                     </control>
 
                     <control type="image">
-                        <height>dialog_button_width</height>
+                        <height>dialog_button_w</height>
                         <bottom>0</bottom>
                         <texture background="true">$INFO[ListITem.Icon]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <visible>!String.IsEmpty(ListItem.AddonName)</visible>
                     </control>
                 </control>
 
                 <control type="group">
-                    <right>dialog_button_width</right>
+                    <right>dialog_button_w</right>
                     <control type="group">
-                        <left>-dialog_pad</left>
-                        <right>dialog_pad</right>
+                        <left>-grid_x04</left>
+                        <right>grid_x04</right>
                         <control type="grouplist" id="3">
                             <onright>5</onright>
-                            <width>dialog_category_width</width>
+                            <width>settings_category_w</width>
                         </control>
 
                         <control type="group">
-                            <left>dialog_category_width</left>
+                            <left>settings_category_w</left>
                             <control type="grouplist" id="5">
                                 <onleft>3</onleft>
                                 <pagecontrol>61</pagecontrol>
                                 <onright>61</onright>
-                                <bottom>row_height</bottom>
+                                <bottom>grid_x08</bottom>
                             </control>
 
                             <include content="Dialog_Settings_InfoText">
@@ -91,7 +102,7 @@
             <param name="id" value="8" />
             <param name="control" value="radiobutton" />
             <description>Default Setting Button</description>
-            <textwidth>settings_radiobutton_textwidth</textwidth>
+            <textwidth>settings_radiobutton_text_w</textwidth>
         </include>
 
         <include content="Dialog_Settings_Button">
@@ -106,7 +117,7 @@
             <include>Texture_Highlight_Settings_ToggleButton</include>
             <focusedcolor>$VAR[ColorSettingsToggleButtonText]</focusedcolor>
             <altfocusedcolor>$VAR[ColorSettingsToggleButtonText]</altfocusedcolor>
-            <width>dialog_category_width</width>
+            <width>settings_category_w</width>
             <description>Default Category Button</description>
         </include>
 
@@ -124,7 +135,7 @@
             <param name="id" value="13" />
             <param name="control" value="sliderex" />
             <description>Default Setting Button</description>
-            <textwidth>settings_slider_textwidth</textwidth>
+            <textwidth>settings_slider_text_w</textwidth>
         </include>
 
         <include content="Dialog_Settings_Label">

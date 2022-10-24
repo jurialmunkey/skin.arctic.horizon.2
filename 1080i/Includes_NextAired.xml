@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <include name="NextAired">
+        <include>Background_Main</include>
+
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Animation_Common</include>
+
+            <include content="NextAired_HorizontalCalendar" condition="!Skin.HasSetting(NextAired.Orientation)">
+                <param name="info" value="$PARAM[info]" />
+            </include>
+            <include content="NextAired_VerticalCalendar" condition="Skin.HasSetting(NextAired.Orientation)">
+                <param name="info" value="$PARAM[info]" />
+            </include>
+        </control>
+
+        <include content="Object_Hidden_Button">
+            <param name="id" value="6000" />
+            <description>Fake Button to get back to menu if grouplist is empty</description>
+            <onup>menu</onup>
+            <onleft>menu</onleft>
+            <ondown>menu</ondown>
+            <onright>menu</onright>
+            <onclick>menu</onclick>
+            <visible>Integer.IsEqual(Container(6000).NumItems,0) + !Container(6000).IsUpdating</visible>
+        </include>
+        <include>View_Furniture_Top</include>
+
+        <control type="button" id="330">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(6000)</onfocus>
+            <onclick>SetFocus(6000)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(330)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+
+        <include content="Object_Options_Menu">
+            <param name="grouplist_items" value="Items_NextAired" />
+            <param name="visible" value="!Window.IsVisible(DialogSelect.xml) + !Window.IsVisible(1113)" />
+            <param name="onback" value="6000" />
+            <param name="usemousefocus">true</param>
+        </include>
+    </include>
+
+    <include name="NextAired_HorizontalWidget">
+        <include content="$PARAM[include]">
+            <param name="id" value="$PARAM[id]" />
+            <param name="offset_y" value="280" />
+            <param name="context_button" value="true" />
+            <width>570</width>
+            <left>0</left>
+            <visible>Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+            <nested />
+        </include>
+        <control type="group" id="$PARAM[groupid]">
+            <left>-120</left>
+            <width>0</width>
+            <visible>Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+            <control type="group">
+                <left>-370</left>
+                <width>410</width>
+                <include content="Object_BusySpinner">
+                    <visible>Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+                    <centertop>40%</centertop>
+                </include>
+                <control type="label">
+                    <left>0</left>
+                    <top>200</top>
+                    <height>40</height>
+                    <aligny>center</aligny>
+                    <align>left</align>
+                    <textcolor>main_fg_100</textcolor>
+                    <label>$PARAM[label]</label>
+                    <font>font_small_bold</font>
+                </control>
+
+            </control>
+        </control>
+    </include>
+
+    <include name="NextAired_Widgets">
+        <include content="$PARAM[include]">
+            <param name="include" value="$PARAM[include_style]" />
+            <param name="groupid" value="5100" />
+            <param name="id" value="5000" />
+            <param name="label" value="$INFO[Container(5000).ListItem.Property(widget)]$INFO[Container(5000).ListItem.Property(air_date_short),$COMMA ,]" />
+            <param name="visible" value="true" />
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=$PARAM[info]&amp;reload=$INFO[System.Time(hh)]&amp;startdate=-1&amp;days=1&amp;widget=True&amp;type=episode</content>
+        </include>
+        <include content="$PARAM[include]">
+            <param name="include" value="$PARAM[include_style]" />
+            <param name="groupid" value="5101" />
+            <param name="id" value="5001" />
+            <param name="label" value="$INFO[Container(5001).ListItem.Property(widget)]$INFO[Container(5001).ListItem.Property(air_date_short),$COMMA ,]" />
+            <param name="visible" value="true" />
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=$PARAM[info]&amp;reload=$INFO[System.Time(hh)]&amp;startdate=0&amp;days=1&amp;widget=True&amp;type=episode</content>
+        </include>
+        <include content="$PARAM[include]">
+            <param name="include" value="$PARAM[include_style]" />
+            <param name="groupid" value="5102" />
+            <param name="id" value="5002" />
+            <param name="label" value="$INFO[Container(5002).ListItem.Property(widget)]$INFO[Container(5002).ListItem.Property(air_date_short),$COMMA ,]" />
+            <param name="visible" value="true" />
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=$PARAM[info]&amp;reload=$INFO[System.Time(hh)]&amp;startdate=1&amp;days=1&amp;widget=True&amp;type=episode</content>
+        </include>
+        <include content="$PARAM[include]">
+            <param name="include" value="$PARAM[include_style]" />
+            <param name="groupid" value="5103" />
+            <param name="id" value="5003" />
+            <param name="label" value="$INFO[Container(5003).ListItem.Property(widget)]$INFO[Container(5003).ListItem.Property(air_date_short),$COMMA ,]" />
+            <param name="visible" value="true" />
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=$PARAM[info]&amp;reload=$INFO[System.Time(hh)]&amp;startdate=2&amp;days=1&amp;widget=True&amp;type=episode</content>
+        </include>
+        <include content="$PARAM[include]">
+            <param name="include" value="$PARAM[include_style]" />
+            <param name="groupid" value="5104" />
+            <param name="id" value="5004" />
+            <param name="label" value="$INFO[Container(5004).ListItem.Property(widget)]$INFO[Container(5004).ListItem.Property(air_date_short),$COMMA ,]" />
+            <param name="visible" value="true" />
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=$PARAM[info]&amp;reload=$INFO[System.Time(hh)]&amp;startdate=3&amp;days=1&amp;widget=True&amp;type=episode</content>
+        </include>
+        <include content="$PARAM[include]">
+            <param name="include" value="$PARAM[include_style]" />
+            <param name="groupid" value="5105" />
+            <param name="id" value="5005" />
+            <param name="label" value="$INFO[Container(5005).ListItem.Property(widget)]$INFO[Container(5005).ListItem.Property(air_date_short),$COMMA ,]" />
+            <param name="visible" value="true" />
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=$PARAM[info]&amp;reload=$INFO[System.Time(hh)]&amp;startdate=4&amp;days=1&amp;widget=True&amp;type=episode</content>
+        </include>
+        <include content="$PARAM[include]">
+            <param name="include" value="$PARAM[include_style]" />
+            <param name="groupid" value="5106" />
+            <param name="id" value="5006" />
+            <param name="label" value="$INFO[Container(5006).ListItem.Property(widget)]$INFO[Container(5006).ListItem.Property(air_date_short),$COMMA ,]" />
+            <param name="visible" value="true" />
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=$PARAM[info]&amp;reload=$INFO[System.Time(hh)]&amp;startdate=5&amp;days=1&amp;widget=True&amp;type=episode</content>
+        </include>
+        <include content="$PARAM[include]">
+            <param name="include" value="$PARAM[include_style]" />
+            <param name="groupid" value="5107" />
+            <param name="id" value="5007" />
+            <param name="label" value="$INFO[Container(5007).ListItem.Property(widget)]$INFO[Container(5007).ListItem.Property(air_date_short),$COMMA ,]" />
+            <param name="visible" value="true" />
+            <content target="videos">plugin://plugin.video.themoviedb.helper/?info=$PARAM[info]&amp;reload=$INFO[System.Time(hh)]&amp;startdate=6&amp;days=1&amp;widget=True&amp;type=episode</content>
+        </include>
+    </include>
+
+    <include name="NextAired_VerticalCalendar">
+        <control type="grouplist" id="6000">
+            <onup>menu</onup>
+            <ondown>330</ondown>
+            <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                <effect type="slide" end="0,-20" time="60" tween="sine" />
+                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+            </animation>
+            <orientation>vertical</orientation>
+            <control type="group" id="6100">
+                <height>widget_tbump_h</height>
+            </control>
+            <include content="NextAired_Widgets">
+                <param name="info" value="$PARAM[info]" />
+                <param name="include" value="Widget_Poster" />
+                <param name="include_style" value="List_Landscape_Row" />
+            </include>
+            <!-- <include content="Object_Control">
+                <param name="control" value="group" />
+                <param name="id" value="6199" />
+                <height>widget_sbump_h</height>
+                <visible>String.IsEmpty(Window.Property(Slide.WidgetInfoStyle))</visible>
+            </include> -->
+        </control>
+        <include content="Object_WallFade">
+            <param name="id" value="6000" />
+        </include>
+    </include>
+
+    <include name="NextAired_HorizontalCalendar">
+        <control type="grouplist" id="6000">
+            <onup>menu</onup>
+            <ondown>330</ondown>
+            <bottom>1</bottom>
+            <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                <effect type="slide" end="0,-20" time="60" tween="sine" />
+                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+            </animation>
+            <orientation>horizontal</orientation>
+
+            <include content="NextAired_Widgets">
+                <param name="info" value="$PARAM[info]" />
+                <param name="include" value="NextAired_HorizontalWidget" />
+                <param name="include_style" value="List_Landscape_Wall" />
+            </include>
+
+            <control type="group" id="6100">
+                <width>120</width>
+            </control>
+        </control>
+        <control type="image">
+            <bottom>0</bottom>
+            <height>view_top</height>
+            <texture flipy="true">common/dim-top-bezier.png</texture>
+            <animation type="Visible" reversible="false">
+                <effect type="fade" start="0" end="100" time="400"/>
+            </animation>
+            <animation type="Hidden" reversible="false">
+                <effect type="fade" end="0" start="100" time="400"/>
+            </animation>
+        </control>
+        <control type="image">
+            <top>0</top>
+            <height>280</height>
+            <texture flipy="false">common/dim-top-bezier.png</texture>
+            <animation type="Visible" reversible="false">
+                <effect type="fade" start="0" end="100" time="400"/>
+            </animation>
+            <animation type="Hidden" reversible="false">
+                <effect type="fade" end="0" start="100" time="400"/>
+            </animation>
+        </control>
+    </include>
+</includes>

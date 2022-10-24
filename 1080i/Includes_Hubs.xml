@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="Hub_Furniture">
+        <include content="Object_WallFade">
+            <param name="id" value="6000" />
+            <param name="direction_buttons">true</param>
+            <param name="visible_top">!Control.HasFocus(399) + !Control.HasFocus(4900)</param>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+            <include>Animation_FadeIn</include>
+            <include>Animation_FadeOut</include>
+        </include>
+        <control type="button" id="330">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(6000)</onfocus>
+            <onclick>SetFocus(6000)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(330)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+        <control type="button" id="340">
+            <width>1</width>
+            <height>1</height>
+            <left>-1000</left>
+            <onfocus>SetFocus(6000)</onfocus>
+            <onclick>SetFocus(6000)</onclick>
+            <visible allowhiddenfocus="true">Control.HasFocus(340)</visible>
+            <animation effect="fade" time="300" start="0" end="0">Focus</animation>
+        </control>
+        <control type="group">
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Furniture_Top_Right</include>
+        </control>
+    </include>
+
+    <include name="Hub_Widget_SideStack">
+        <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+        <definition>
+            <include content="Widget_SideStack">
+                <param name="id">$PARAM[id]0</param>
+                <param name="groupid">$PARAM[id]1</param>
+                <param name="nodeid">$PARAM[id]2</param>
+                <param name="grouplistid">$PARAM[id]3</param>
+                <param name="label">$PARAM[label]</param>
+                <param name="target">$PARAM[target]</param>
+                <param name="infowidget">$PARAM[infowidget]</param>
+                <param name="include">$PARAM[include]</param>
+                <onback condition="!Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">6000</onback>
+                <onback condition="!Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">SetFocus($PARAM[id]0,0,absolute)</onback>
+                <onback condition="Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">SetFocus(4900)</onback>
+                <onback condition="Integer.IsEqual(Container($PARAM[id]0).ListItem.CurrentItem,1)">399</onback>
+                <onfocus condition="$PARAM[infowidget]">SetProperty(Slide.WidgetContainer,$PARAM[id]0)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Hub_Grouplist">
+        <control type="grouplist" id="6000">
+            <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
+            <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch)">Close</onup>
+            <ondown>330</ondown>
+            <animation type="Conditional" condition="Control.IsVisible(340)" reversible="false">
+                <effect type="slide" end="0,20" time="60" tween="sine" />
+                <effect type="slide" end="0,-20" time="180" tween="sine" delay="80" />
+            </animation>
+            <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                <effect type="slide" end="0,-20" time="60" tween="sine" />
+                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+            </animation>
+            <orientation>vertical</orientation>
+
+            <animation type="WindowOpen" reversible="false" condition="!Window.Previous(1122) + !Window.Previous(1121) + !Window.Previous(1120) + !Window.Previous(1114)">
+                <effect type="fade" start="0" end="100" time="400" delay="400" tween="sine" easing="out"/>
+            </animation>
+            <animation type="WindowClose" reversible="false" condition="!Window.Next(1122) + !Window.Next(1121) + !Window.Next(1120) + !Window.Next(1114)">
+                <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
+            </animation>
+
+            <animation type="WindowOpen" reversible="false" condition="Window.Previous($PARAM[l_window_id])">
+                <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="out"/>
+                <effect type="slide" start="320" end="0" time="400" delay="0" tween="cubic" easing="out" />
+            </animation>
+            <animation type="WindowClose" reversible="false" condition="Window.Next($PARAM[l_window_id])">
+                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="320" time="300" delay="0" tween="cubic" easing="out" />
+            </animation>
+
+            <animation type="WindowOpen" reversible="false" condition="Window.Previous($PARAM[r_window_id])">
+                <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="out"/>
+                <effect type="slide" start="-320" end="0" time="400" delay="0" tween="cubic" easing="out" />
+            </animation>
+            <animation type="WindowClose" reversible="false" condition="Window.Next($PARAM[r_window_id])">
+                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="-320" time="300" delay="0" tween="cubic" easing="out" />
+            </animation>
+
+            <include>Animation_Common</include>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+
+            <control type="group" id="6100">
+                <height>widget_tbump_h</height>
+            </control>
+
+            <include content="Widget_Submenu">
+                <param name="groupid" value="4901" />
+                <param name="id" value="4900" />
+                <param name="spacerid" value="4902" />
+                <param name="buttonid" value="4903" />
+                <param name="detailed">false</param>
+                <param name="infowidget" value="false" />
+                <param name="label" value="$PARAM[submenu_label]" />
+                <param name="include" value="List_Button_Row" />
+                <content target="videos">$PARAM[submenu_content]</content>
+            </include>
+
+
+            <nested />
+        </control>
+    </include>
+
+    <include name="Hub_Menu">
+        <include content="Object_MenuBar_Group">
+            <param name="overlay" value="false" />
+            <param name="colordiffuse" value="main_fg_12" />
+            <param name="backing">False</param>
+            <param name="animations">False</param>
+            <left>40</left>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>!$EXP[Exp_RecommendationDialogs]</visible>
+
+            <include content="Animation_SlideIn_Dialog">
+                <param name="windowopen_condition" value="!Window.Previous(1114) + !Window.Previous(1120) + !Window.Previous(1121) + !Window.Previous(1122)" />
+            </include>
+            <include content="Animation_FadeOut">
+                <param name="windowclose_condition" value="!Window.Next(1114) + !Window.Next(1120) + !Window.Next(1121) + !Window.Next(1122)" />
+            </include>
+
+            <include content="Object_Control">
+                <param name="control">image</param>
+                <left>20</left>
+                <width>80</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <aspectratio>keep</aspectratio>
+                <bordersize>4</bordersize>
+                <texture colordiffuse="main_fg_70">special://skin/extras/icons/search.png</texture>
+            </include>
+            <include content="Object_MenuBar_List">
+                <param name="id" value="300" />
+                <param name="color_nf" value="main_fg" />
+                <param name="altfocus" value="Control.HasFocus(399)" />
+                <left>80</left>
+                <onfocus>SetFocus(399)</onfocus>
+                <content>
+                    <item>
+                        <label>$LOCALIZE[342]</label>
+                        <icon>special://skin/extras/icons/film.png</icon>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[20343]</label>
+                        <icon>special://skin/extras/icons/tv.png</icon>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31042]</label>
+                        <icon>special://skin/extras/icons/gem-regular.png</icon>
+                    </item>
+                </content>
+            </include>
+            <nested />
+        </include>
+    </include>
+</includes>
