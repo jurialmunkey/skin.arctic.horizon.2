@@ -1335,6 +1335,25 @@
                 <include content="Info_Provider"><param name="pos" value="7" /></include>
                 <include content="Info_Provider"><param name="pos" value="8" /></include>
 
+                <!-- Person Movies / Shows -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/share-nodes.png" />
+                    <param name="label" value="$INFO[ListItem.Appearances,[B],[/B] $LOCALIZE[38026]]" />
+                    <visible>!String.IsEmpty(ListItem.Appearances)</visible>
+                </include>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/square-poll-horizontal.png" />
+                    <param name="label" value="$INFO[container(99950).listitem.property(numitems.tmdb.movies.cast),[B],[/B] $LOCALIZE[20342]   ]$INFO[container(99950).listitem.property(numitems.tmdb.tvshows.cast),[B],[/B] $LOCALIZE[20343]   ]" />
+                    <visible>!String.IsEmpty(container(99950).listitem.property(numitems.tmdb.movies.cast)) | !String.IsEmpty(container(99950).listitem.property(numitems.tmdb.tvshows.cast))</visible>
+                    <visible>String.IsEqual(Container(99950).ListItem.Property(Department),Acting) + !String.IsEqual(ListItem.DBType,director)</visible>
+                </include>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/video-addons.png" />
+                    <param name="label" value="$INFO[container(99950).listitem.property(numitems.tmdb.movies.crew),[B],[/B] $LOCALIZE[20342]   ]$INFO[container(99950).listitem.property(numitems.tmdb.tvshows.crew),[B],[/B] $LOCALIZE[20343]   ]" />
+                    <visible>!String.IsEmpty(container(99950).listitem.property(numitems.tmdb.movies.crew)) | !String.IsEmpty(container(99950).listitem.property(numitems.tmdb.tvshows.crew))</visible>
+                    <visible>!String.IsEqual(Container(99950).ListItem.Property(Department),Acting) | String.IsEqual(ListItem.DBType,director)</visible>
+                </include>
+
                 <!-- TvShow Total Episodes / Seasons -->
                 <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/share-nodes.png" />
