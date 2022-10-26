@@ -1175,7 +1175,8 @@
             </control>
 
             <!-- Standard Codecs -->
-            <control type="grouplist">
+            <include content="Object_Control" condition="!Skin.HasSetting(Codecs.UseTextLabels)">
+                <param name="control">grouplist</param>
                 <hitrect x="0" y="0" w="0" h="0" />
                 <nested />
                 <left>-40</left>
@@ -1304,7 +1305,50 @@
                     <param name="property" value="ListItem.Property(SubtitleLanguage.5)" />
                     <param name="icon" value="flags/subtitles.png" />
                 </include>
-            </control>
+            </include>
+            <include content="Object_Control" condition="Skin.HasSetting(Codecs.UseTextLabels)">
+                <param name="control">grouplist</param>
+                <hitrect x="0" y="0" w="0" h="0" />
+                <nested />
+                <left>-40</left>
+                <orientation>horizontal</orientation>
+                <align>$PARAM[align]</align>
+                <itemgap>30</itemgap>
+                <height>grid_x08</height>
+                <centertop>50%</centertop>
+                <usecontrolcoords>true</usecontrolcoords>
+                <visible>!String.IsEmpty(ListItem.VideoCodec) | !String.IsEmpty(ListItem.VideoResolution)</visible>
+                <control type="group">
+                    <width>10</width>
+                </control>
+
+                <!-- Video Codecs -->
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/video-addons.png" />
+                    <param name="label" value="[B]$INFO[ListItem.VideoCodec,,][/B]$INFO[ListItem.VideoResolution,  ,p]$INFO[ListItem.VideoAspect,  ,:1]" />
+                    <visible>!String.IsEmpty(ListItem.VideoCodec)</visible>
+                </include>
+
+                <!-- Audio with and without Language -->
+                <include content="Info_Codec_Label" condition="Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
+                    <param name="icon" value="special://skin/extras/icons/music.png" />
+                    <param name="label" value="[B]$INFO[ListItem.AudioCodec][/B]$VAR[Label_ListItem_AudioChannels,  ,]" />
+                    <visible>!String.IsEmpty(ListItem.AudioCodec)</visible>
+                </include>
+                <include content="Info_Codec_Label" condition="!Skin.HasSetting(Codecs.DisableAudioLanguageFlags)">
+                    <param name="icon" value="special://skin/extras/icons/music.png" />
+                    <param name="label" value="[B]$INFO[ListItem.AudioCodec][/B]$VAR[Label_ListItem_AudioChannels,  ,]$INFO[ListItem.Property(AudioLanguage.1),  ,]$INFO[ListItem.Property(AudioLanguage.2),  ,]$INFO[ListItem.Property(AudioLanguage.3),  ,]$INFO[ListItem.Property(AudioLanguage.4),  ,]$INFO[ListItem.Property(AudioLanguage.5),  ,]" />
+                    <visible>!String.IsEmpty(ListItem.AudioCodec)</visible>
+                </include>
+
+                <!-- Subs -->
+                <include content="Info_Codec_Label" condition="!Skin.HasSetting(Codecs.DisableSubtitleLanguageFlags)">
+                    <param name="icon" value="special://skin/extras/icons/language.png" />
+                    <param name="label" value="[B][/B]$INFO[ListItem.Property(SubtitleLanguage.1),,  ]$INFO[ListItem.Property(SubtitleLanguage.2),,  ]$INFO[ListItem.Property(SubtitleLanguage.3),,  ]$INFO[ListItem.Property(SubtitleLanguage.4),,  ]$INFO[ListItem.Property(SubtitleLanguage.5),,  ]" />
+                    <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.1))</visible>
+                </include>
+
+            </include>
 
             <!-- Folder Items -->
             <control type="grouplist">
