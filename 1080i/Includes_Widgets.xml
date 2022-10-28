@@ -313,6 +313,149 @@
         </definition>
     </include>
 
+    <include name="Widget_Lovefilm">
+        <param name="visible">true</param>
+        <param name="altvisible">false</param>
+        <param name="include">List_SmallLandscape_Row</param>
+        <param name="height">widget_items_h</param>
+        <definition>
+            <control type="group" id="$PARAM[groupid]">
+                <top>widget_label_t</top>
+                <height>widget_label_h</height>
+                <visible>$PARAM[visible]</visible>
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+                <include content="Widget_SlideAnimation">
+                    <param name="id">$PARAM[id]</param>
+                </include>
+                <control type="group">
+                    <top>20</top>
+                    <height>720</height>
+                    <!-- <control type="image">
+                        <include content="Dimension_Padding"><param name="pad">-40</param></include>
+                        <texture colordiffuse="shadow_hard" border="80">shadows/shadow-40.png</texture>
+                    </control> -->
+
+                    <control type="image">
+                        <right>1280</right>
+                        <width>1280</width>
+                        <aspectratio>stretch</aspectratio>
+                        <fadetime>400</fadetime>
+                        <texture background="true" flipx="true">$INFO[Container($PARAM[id]).ListItem.Art(fanart)]</texture>
+                    </control>
+                    <control type="image">
+                        <width>1280</width>
+                        <right>0</right>
+                        <aspectratio>scale</aspectratio>
+                        <fadetime>400</fadetime>
+                        <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(fanart)]</texture>
+                    </control>
+                    <control type="image">
+                        <width>100</width>
+                        <texture colordiffuse="black">common/white.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>100</left>
+                        <right>-100</right>
+                        <texture>common/dim-side-bezier.png</texture>
+                    </control>
+                    <control type="image">
+                        <texture flipy="true">common/dim-top-bezier.png</texture>
+                    </control>
+                    <include content="Info_Panel">
+                        <param name="container">Container($PARAM[id]).</param>
+                        <param name="line_id">0</param>
+                        <param name="controltype">label</param>
+                        <param name="plotwidth">880</param>
+                        <width>info_panel_w</width>
+                        <height>280</height>
+                        <left>view_pad</left>
+                        <top>80</top>
+                        <visible>Control.Hasfocus($PARAM[id])</visible>
+                        <animation effect="fade" start="0" end="100" delay="400" time="400" reversible="false">Visible</animation>
+                    </include>
+                    <control type="group">
+                        <animation effect="fade" start="0" end="100" delay="0" time="400" reversible="false">Visible</animation>
+                        <animation effect="fade" start="100" end="0" delay="0" time="400" reversible="false">Hidden</animation>
+                        <visible>!Control.Hasfocus($PARAM[id])</visible>
+                        <control type="image">
+                            <height>240</height>
+                            <left>view_pad</left>
+                            <top>80</top>
+                            <width>700</width>
+                            <aspectratio aligny="top" align="center">keep</aspectratio>
+                            <texture background="true">$INFO[Container($PARAM[id]).ListITem.Art(clearlogo)]</texture>
+                            <visible>!String.IsEmpty(Container($PARAM[id]).ListITem.Art(clearlogo))</visible>
+                        </control>
+                        <control type="textbox">
+                            <height>240</height>
+                            <left>view_pad</left>
+                            <top>80</top>
+                            <width>700</width>
+                            <font>font_infotitle</font>
+                            <textcolor>main_fg_100</textcolor>
+                            <aligny>center</aligny>
+                            <align>center</align>
+                            <visible>String.IsEmpty(Container($PARAM[id]).ListITem.Art(clearlogo))</visible>
+                            <label>$INFO[Container($PARAM[id]).ListITem.Title]</label>
+                        </control>
+                    </control>
+                </control>
+                <control type="group">
+                    <top>410</top>
+                    <left>view_pad</left>
+                    <height>30</height>
+                    <control type="label">
+                        <aligny>center</aligny>
+                        <textcolor>main_fg_30</textcolor>
+                        <label>$PARAM[label]</label>
+                        <font>font_small_bold</font>
+                        <visible>!Control.HasFocus($PARAM[id])</visible>
+                    </control>
+                    <control type="label">
+                        <aligny>center</aligny>
+                        <textcolor>main_fg_100</textcolor>
+                        <label>$PARAM[label]</label>
+                        <font>font_menulabel</font>
+                        <visible>Control.HasFocus($PARAM[id])</visible>
+                    </control>
+                </control>
+            </control>
+            <include content="$PARAM[include]">
+                <param name="id">$PARAM[id]</param>
+                <param name="context_button">true</param>
+                <param name="icon">$PARAM[icon]</param>
+                <param name="detailed">$PARAM[detailed]</param>
+                <param name="item_h">$PARAM[item_h]</param>
+                <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                <param name="item_w">$PARAM[item_w]</param>
+                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
+                <nested />
+                <include content="Object_HitRect">
+                    <param name="x">0</param>
+                    <param name="y">360</param>
+                    <param name="w">1920</param>
+                    <param name="h">360</param>
+                </include>
+                <top>widget_items_t</top>
+                <height>$PARAM[height]</height>
+                <animation effect="fade" start="100" end="0" time="0" condition="Container($PARAM[id]).IsUpdating">Conditional</animation>
+                <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]]</visible>
+                <visible>$PARAM[visible]</visible>
+                <include content="Widget_SlideAnimation">
+                    <param name="id">$PARAM[id]</param>
+                </include>
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+            </include>
+            <control type="group" id="$PARAM[spacerid]">
+                <top>280</top>
+                <height>0</height>
+                <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</visible>
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+            </control>
+        </definition>
+    </include>
+
+
     <include name="Widget_Poster">
         <param name="visible">true</param>
         <param name="altvisible">false</param>
