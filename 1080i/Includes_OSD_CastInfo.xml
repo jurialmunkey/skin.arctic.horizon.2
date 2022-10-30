@@ -41,6 +41,14 @@
             <width>1380</width>
             <height>grid_x08</height>
             <include content="Object_InfoCircle_Horizontal">
+                <param name="icon" value="$VAR[Image_OSD_PosterImage]" />
+                <param name="role" value="$INFO[VideoPlayer.ChannelName]" />
+                <param name="name" value="$INFO[VideoPlayer.ChannelNumberLabel,Ch., ]$INFO[VideoPlayer.Title]" />
+                <param name="max">560</param>
+                <param name="aspectratio">keep</param>
+                <visible>!String.IsEmpty(VideoPlayer.ChannelName)</visible>
+            </include>
+            <include content="Object_InfoCircle_Horizontal">
                 <param name="icon" value="$VAR[Image_OSD_DirectorIcon]" />
                 <param name="role" value="$LOCALIZE[20339]" />
                 <param name="name" value="$VAR[Label_OSD_DirectorName]" />
@@ -181,6 +189,7 @@
                     <control type="group">
                         <width>190</width>
                         <height>grid_x28</height>
+                        <visible>!VideoPlayer.Content(livetv)</visible>
                         <control type="image">
                             <include>Texture_Shadow_40</include>
                             <aspectratio scalediffuse="false">scale</aspectratio>
@@ -189,7 +198,9 @@
                     </control>
                     <control type="grouplist">
                         <top>0</top>
-                        <left>230</left>
+                        <include content="Object_Left" condition="!VideoPlayer.Content(livetv)">
+                            <param name="left">230</param>
+                        </include>
                         <orientation>vertical</orientation>
                         <width>880</width>
                         <itemgap>0</itemgap>
@@ -262,6 +273,7 @@
                         <bottom>-80</bottom>
                         <left>0</left>
                         <visible>!Control.HasFocus(6501)</visible>
+                        <visible>!Integer.IsEqual(Container(6501).NumItems,0)</visible>
                     </include>
                 </control>
 
