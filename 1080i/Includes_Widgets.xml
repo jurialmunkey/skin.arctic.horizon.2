@@ -313,6 +313,26 @@
         </definition>
     </include>
 
+    <include name="Widget_Lovefilm_RatingStar">
+        <control type="group">
+            <nested />
+            <width>64</width>
+            <height>64</height>
+            <control type="image">
+                <texture colordiffuse="panel_fg_30">flags/star10.png</texture>
+                <visible>!Integer.IsGreater(Container($PARAM[id]).ListItem.Rating,$PARAM[pos])</visible>
+            </control>
+            <control type="image">
+                <texture colordiffuse="d7ffcd3c">flags/star5.png</texture>
+                <visible>Integer.IsEqual(Container($PARAM[id]).ListItem.Rating,$PARAM[pos])</visible>
+            </control>
+            <control type="image">
+                <texture colordiffuse="d7ffcd3c">flags/star10.png</texture>
+                <visible>Integer.IsGreater(Container($PARAM[id]).ListItem.Rating,$PARAM[pos])</visible>
+            </control>
+        </control>
+    </include>
+
     <include name="Widget_Lovefilm">
         <param name="visible">true</param>
         <param name="altvisible">false</param>
@@ -329,17 +349,13 @@
                 </include>
                 <control type="group">
                     <top>20</top>
-                    <height>720</height>
-                    <!-- <control type="image">
-                        <include content="Dimension_Padding"><param name="pad">-40</param></include>
-                        <texture colordiffuse="shadow_hard" border="80">shadows/shadow-40.png</texture>
-                    </control> -->
-
+                    <height>760</height>
                     <control type="image">
                         <right>1280</right>
                         <width>1280</width>
                         <aspectratio>stretch</aspectratio>
                         <fadetime>400</fadetime>
+                        <bottom>40</bottom>
                         <texture background="true" flipx="true">$INFO[Container($PARAM[id]).ListItem.Art(fanart)]</texture>
                     </control>
                     <control type="image">
@@ -348,6 +364,7 @@
                         <aspectratio>scale</aspectratio>
                         <fadetime>400</fadetime>
                         <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(fanart)]</texture>
+                        <bottom>40</bottom>
                     </control>
                     <control type="image">
                         <width>100</width>
@@ -359,6 +376,12 @@
                         <texture>common/dim-side-bezier.png</texture>
                     </control>
                     <control type="image">
+                        <height>40</height>
+                        <bottom>0</bottom>
+                        <texture colordiffuse="black">common/white.png</texture>
+                    </control>
+                    <control type="image">
+                        <bottom>40</bottom>
                         <texture flipy="true">common/dim-top-bezier.png</texture>
                     </control>
                     <include content="Info_Panel">
@@ -377,20 +400,17 @@
                         <animation effect="fade" start="0" end="100" delay="0" time="400" reversible="false">Visible</animation>
                         <animation effect="fade" start="100" end="0" delay="0" time="400" reversible="false">Hidden</animation>
                         <visible>!Control.Hasfocus($PARAM[id])</visible>
+                        <left>view_pad</left>
+                        <top>80</top>
+                        <width>680</width>
                         <control type="image">
                             <height>240</height>
-                            <left>view_pad</left>
-                            <top>80</top>
-                            <width>700</width>
                             <aspectratio aligny="top" align="center">keep</aspectratio>
                             <texture background="true">$INFO[Container($PARAM[id]).ListITem.Art(clearlogo)]</texture>
                             <visible>!String.IsEmpty(Container($PARAM[id]).ListITem.Art(clearlogo))</visible>
                         </control>
                         <control type="textbox">
                             <height>240</height>
-                            <left>view_pad</left>
-                            <top>80</top>
-                            <width>700</width>
                             <font>font_infotitle</font>
                             <textcolor>main_fg_100</textcolor>
                             <aligny>center</aligny>
@@ -398,10 +418,41 @@
                             <visible>String.IsEmpty(Container($PARAM[id]).ListITem.Art(clearlogo))</visible>
                             <label>$INFO[Container($PARAM[id]).ListITem.Title]</label>
                         </control>
+                        <control type="group">
+                            <centerleft>50%</centerleft>
+                            <top>250</top>
+                            <width>256</width>
+                            <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Rating)</visible>
+                            <include content="Widget_Lovefilm_RatingStar">
+                                <param name="id">$PARAM[id]</param>
+                                <param name="pos">1</param>
+                                <left>0</left>
+                            </include>
+                            <include content="Widget_Lovefilm_RatingStar">
+                                <param name="id">$PARAM[id]</param>
+                                <param name="pos">3</param>
+                                <left>48</left>
+                            </include>
+                            <include content="Widget_Lovefilm_RatingStar">
+                                <param name="id">$PARAM[id]</param>
+                                <param name="pos">5</param>
+                                <left>96</left>
+                            </include>
+                            <include content="Widget_Lovefilm_RatingStar">
+                                <param name="id">$PARAM[id]</param>
+                                <param name="pos">7</param>
+                                <left>144</left>
+                            </include>
+                            <include content="Widget_Lovefilm_RatingStar">
+                                <param name="id">$PARAM[id]</param>
+                                <param name="pos">9</param>
+                                <left>192</left>
+                            </include>
+                        </control>
                     </control>
                 </control>
                 <control type="group">
-                    <top>410</top>
+                    <top>450</top>
                     <left>view_pad</left>
                     <height>30</height>
                     <control type="label">
@@ -447,7 +498,7 @@
                 <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
             </include>
             <control type="group" id="$PARAM[spacerid]">
-                <top>280</top>
+                <top>320</top>
                 <height>0</height>
                 <visible>[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</visible>
                 <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
