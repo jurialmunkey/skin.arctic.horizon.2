@@ -122,7 +122,14 @@
                 <param name="itemlayout_include" value="OSD_Episodes_Layout" />
                 <param name="offset_y" value="40" />
                 <param name="offset_x">40</param>
-                <content>$VAR[Path_OSD_Episodes]</content>
+                <include content="Object_ContentDynamic" condition="VideoPlayer.Content(livetv)">
+                    <param name="sortby">lastplayed</param>
+                    <param name="sortorder">descending</param>
+                    <param name="content">pvr://channels/tv/*</param>
+                </include>
+                <include content="Object_ContentDynamic" condition="!VideoPlayer.Content(livetv)">
+                    <param name="content">$VAR[Path_OSD_Episodes]</param>
+                </include>
                 <focusposition>0</focusposition>
                 <movement>0</movement>
                 <height>360</height>
