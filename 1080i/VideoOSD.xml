@@ -77,7 +77,7 @@
                         <onclick condition="!String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength) + !Skin.HasSetting(OSD.AlwaysDisplayStop)">PlayerControl(Next)</onclick>
                         <onclick condition="String.IsEqual(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength) | Skin.HasSetting(OSD.AlwaysDisplayStop)">PlayerControl(Stop)</onclick>
                         <ondown condition="!Integer.IsEqual(Container(6401).NumItems,0)">SetFocus(6401)</ondown>
-                        <ondown condition="Integer.IsEqual(Container(6401).NumItems,0)">ActivateWindow(125)</ondown>
+                        <ondown condition="Integer.IsEqual(Container(6401).NumItems,0)">ActivateWindow(videobookmarks)</ondown>
                     </include>
                     <include content="OSD_Button">
                         <param name="autoclose" value="true" />
@@ -102,7 +102,8 @@
                 <include content="OSD_Menu_Back">
                     <param name="arrow_pos" value="410" />
                     <visible>!Window.IsVisible(DialogSlider.xml)</visible>
-                    <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
+                    <visible>!Window.IsVisible(videobookmarks)</visible>
+                    <visible>!Window.IsVisible(pvrchannelguide)</visible>
                     <visible>!Window.IsVisible(DialogSettings.xml)</visible>
                     <visible>Control.HasFocus(6100)</visible>
                     <visible>Player.Forwarding | Player.Rewinding | !String.IsEmpty(Window.Property(PlayerSpeedControl))</visible>
@@ -230,7 +231,8 @@
                 <include content="OSD_Menu_Back">
                     <param name="arrow_pos" value="70" />
                     <visible>!Window.IsVisible(DialogSlider.xml)</visible>
-                    <visible>!Window.IsVisible(VideoOSDBookmarks.xml)</visible>
+                    <visible>!Window.IsVisible(videobookmarks)</visible>
+                    <visible>!Window.IsVisible(pvrchannelguide)</visible>
                     <visible>!Window.IsVisible(DialogSettings.xml)</visible>
                     <visible>Control.HasFocus(6800) | ControlGroup(6801).HasFocus() | Control.HasFocus(7800)</visible>
                     <include>Animation_SlideIn_Dialog</include>
@@ -262,7 +264,7 @@
                             <param name="control" value="button" />
                             <param name="icon" value="special://skin/extras/icons/bookmark.png" />
                             <label>$LOCALIZE[298]</label>
-                            <onclick>ActivateWindow(125)</onclick>
+                            <onclick>ActivateWindow(videobookmarks)</onclick>
                         </include>
                         <control type="group" id="6804">
                             <height>40</height>
@@ -351,7 +353,7 @@
         <include content="OSD_CastInfo_HintText">
             <param name="label">$VAR[Label_OSD_HintText]</param>
             <visible>Control.HasFocus(6500) | Control.HasFocus(6400) | Control.HasFocus(6401) | Control.HasFocus(6501)</visible>
-            <visible>!$EXP[Exp_OSD_ExpandInfo] | [[Control.HasFocus(6401) | Control.HasFocus(6501)] + !Window.IsVisible(125)]</visible>
+            <visible>!$EXP[Exp_OSD_ExpandInfo] | [[Control.HasFocus(6401) | Control.HasFocus(6501)] + !Window.IsVisible(videobookmarks) + !Window.IsVisible(pvrchannelguide)]</visible>
             <include>Animation_FadeOut</include>
             <include>Animation_FadeIn_Delay</include>
         </include>
