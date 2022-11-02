@@ -194,6 +194,7 @@
         <param name="id" default="50" />
         <param name="content" default="Items_Null" />
         <param name="onback" default="7000" />
+        <param name="islist" default="true" />
         <definition>
             <include content="Dialog_Background">
                 <param name="overlay" value="false" />
@@ -212,7 +213,7 @@
                     <visible>Container($PARAM[id]).IsUpdating</visible>
                 </include>
                 <include content="Dialog_Group">
-                    <include content="Dialog_Outline_Box">
+                    <include content="Dialog_Outline_Box" condition="$PARAM[islist]">
                         <control type="list" id="$PARAM[id]">
                             <onback>$PARAM[onback]</onback>
                             <onup>$PARAM[onback]</onup>
@@ -229,6 +230,13 @@
                                 </control>
                             </focusedlayout>
                             <include>$PARAM[content]</include>
+                        </control>
+                    </include>
+                    <include content="Dialog_Outline_Box" condition="![$PARAM[islist]]">
+                        <control type="image">
+                            <width>1493.33</width>
+                            <fadetime>400</fadetime>
+                            <texture background="true">$INFO[Container($PARAM[id]).ListItem.Icon]</texture>
                         </control>
                     </include>
                     <control type="image">

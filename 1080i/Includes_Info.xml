@@ -5,7 +5,7 @@
         <definition>
             <control type="label">
                 <aligny>center</aligny>
-                <height>80</height>
+                <height>120</height>
                 <label>$VAR[Label_Title_Main]</label>
                 <textcolor>$PARAM[colordiffuse]_100</textcolor>
                 <include content="Object_Font" condition="Skin.HasSetting(UseLightFont)">
@@ -19,7 +19,7 @@
     <include name="Info_Title_Logo">
         <definition>
             <control type="group">
-                <height>80</height>
+                <height>120</height>
                 <visible>![$PARAM[mainlogo_visible]]</visible>
                 <animation effect="fade" start="0" end="100" time="200" delay="400" reversible="true">Visible</animation>
                 <animation effect="fade" start="100" end="0" delay="0" time="200" reversible="true">Hidden</animation>
@@ -32,7 +32,7 @@
                 <animation effect="fade" start="100" end="0" delay="400" time="200" reversible="true">Hidden</animation>
                 <visible>$PARAM[mainlogo_visible]</visible>
                 <control type="image">
-                    <height>80</height>
+                    <height>120</height>
                     <width>75%</width>
                     <aspectratio align="left">keep</aspectratio>
                     <fadetime>200</fadetime>
@@ -50,7 +50,7 @@
         <param name="mainlogo_texture">$VAR[Image_CropLogo]</param>
         <definition>
             <control type="group">
-                <height>80</height>
+                <height>120</height>
                 <width>$PARAM[width]</width>
                 <!-- Title Only -->
                 <include content="Info_Title_Label" condition="!Skin.HasSetting(TMDbHelper.EnableCrop)">
@@ -1420,14 +1420,14 @@
                     <param name="label" value="$INFO[Container.NumNonFolderItems,[B],[/B] $LOCALIZE[134]]" />
                     <visible>!String.IsEmpty(Container.NumNonFolderItems)</visible>
                     <visible>Container.Content(songs)</visible>
-                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                    <visible>!$EXP[Exp_InfoDialogs] | Window.IsVisible(DialogMusicInfo.xml)</visible>
                 </include>
                 <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/clock.png" />
                     <param name="label" value="$INFO[Container.Totaltime,[B],[/B] $LOCALIZE[31142]]" />
                     <visible>!String.IsEmpty(Container.Totaltime)</visible>
                     <visible>Container.Content(songs)</visible>
-                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                    <visible>!$EXP[Exp_InfoDialogs] | Window.IsVisible(DialogMusicInfo.xml)</visible>
                 </include>
 
                 <!-- Total Duration Albums View -->
@@ -1438,11 +1438,17 @@
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
                 </include>
                 <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container(50).NumNonFolderItems,[B],[/B] $LOCALIZE[134]]" />
+                    <visible>Window.IsVisible(DialogMusicInfo.xml)</visible>
+                    <visible>!String.IsEmpty(Container(50).NumNonFolderItems)</visible>
+                    <visible>String.IsEqual(ListItem.DBType,album)</visible>
+                </include>
+                <include content="Info_Codec_Label">
                     <param name="icon" value="special://skin/extras/icons/clock.png" />
                     <param name="label" value="$INFO[ListItem.Property(Album_Duration),[B],[/B] $LOCALIZE[31142]]" />
-                    <visible>Container.Content(albums)</visible>
+                    <visible>String.IsEqual(ListItem.DBType,album)</visible>
                     <visible>!String.IsEmpty(ListItem.Property(Album_Duration))</visible>
-                    <visible>!$EXP[Exp_InfoDialogs]</visible>
                 </include>
 
                 <!-- Total Albums in Artists View -->
@@ -1451,6 +1457,20 @@
                     <param name="label" value="$INFO[Container(99999).NumItems,[B],[/B] $LOCALIZE[132]]" />
                     <visible>Container.Content(artists)</visible>
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
+                </include>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container(50).NumItems,[B],[/B] $LOCALIZE[132]]" />
+                    <visible>Window.IsVisible(DialogMusicInfo.xml)</visible>
+                    <visible>!String.IsEmpty(Container(50).NumItems)</visible>
+                    <visible>String.IsEqual(ListItem.DBType,artist)</visible>
+                </include>
+                <include content="Info_Codec_Label">
+                    <param name="icon" value="special://skin/extras/icons/songs.png" />
+                    <param name="label" value="$INFO[Container(5050).NumNonFolderItems,[B],[/B] $LOCALIZE[134]]" />
+                    <visible>Window.IsVisible(DialogMusicInfo.xml)</visible>
+                    <visible>!String.IsEmpty(Container(5050).NumNonFolderItems)</visible>
+                    <visible>String.IsEqual(ListItem.DBType,artist)</visible>
                 </include>
 
                 <!-- Addon Origin -->

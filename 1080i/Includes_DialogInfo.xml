@@ -14,7 +14,7 @@
     <!-- Left Group for DialogInfo -->
     <include name="DialogInfo_LeftGroup">
         <param name="poster_visible">true</param>
-        <param name="diffuse">diffuse/poster_w544_h800.png</param>
+        <param name="diffuse">diffuse/poster_w475_h680.png</param>
         <param name="width">infodialog_poster_w</param>
         <param name="height">infodialog_poster_h</param>
         <definition>
@@ -43,7 +43,7 @@
         <definition>
             <control type="group">
                 <left>$PARAM[left]</left>
-                <include>Dimension_Info</include>
+                <include>Dimension_View</include>
                 <include content="Animation_Right_Delay">
                     <param name="windowopen_condition">String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))</param>
                 </include>
@@ -55,22 +55,35 @@
     <!-- Button Group for DialogInfo -->
     <include name="DialogInfo_ButtonGroup">
         <control type="group">
-            <top>350</top>
-            <height>80</height>
+            <top>view_top</top>
+            <left>view_pad</left>
+            <width>60</width>
+            <animation type="WindowOpen" reversible="false">
+                <effect type="fade" start="0" end="100" time="400" delay="500" tween="sine" easing="out"/>
+            </animation>
+            <animation type="WindowClose" reversible="false">
+                <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
+            </animation>
             <include content="Object_Control">
                 <param name="control" value="grouplist" />
-                <param name="id" value="5000" />
-                <left>-40</left>
-                <itemgap>-60</itemgap>
-                <orientation>horizontal</orientation>
-                <height>256</height>
-                <centertop>50%</centertop>
+                <param name="id" value="4000" />
+                <top>0</top>
+                <itemgap>30</itemgap>
+                <orientation>vertical</orientation>
+                <width>60</width>
+                <centerleft>50%</centerleft>
+                <visible allowhiddenfocus="true">ControlGroup(4000).HasFocus()</visible>
+                <animation effect="fade" start="0" end="100" time="400">Visible</animation>
+                <animation effect="fade" start="100" end="0" time="400">Hidden</animation>
                 <!-- Open Plotbox (and reset scroll position) -->
-                <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+                <!-- <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
                 <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
-                <onup>61</onup>
+                <onup>61</onup> -->
                 <!-- Open Recommendations -->
-                <ondown>7002</ondown>
+                <!-- <ondown>7002</ondown> -->
+                <onright>5000</onright>
+                <onleft>5000</onleft>
+                <onback>5000</onback>
 
                 <include>$PARAM[include]</include>
             </include>
@@ -85,7 +98,10 @@
             <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
             <onup>61</onup>
             <ondown>7002</ondown>
-            <onclick>runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=person)</onclick>
+            <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(4000)</onclick>
+            <onclick condition="$EXP[Exp_IsPersonInfo]">runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=person)</onclick>
+            <onleft>4000</onleft>
+            <onright>SetFocus(7003,0,absolute)</onright>
         </include>
     </include>
 
@@ -122,7 +138,7 @@
                 <left>-grid_x04</left>
                 <top>-grid_x04</top>
                 <width>grid_x44</width>
-                <height>270</height>
+                <height>350</height>
                 <orientation>vertical</orientation>
                 <itemgap>grid_x03</itemgap>
                 <control type="group">
@@ -252,10 +268,11 @@
                 <param name="id" value="$PARAM[id]" />
                 <nested />
                 <orientation>horizontal</orientation>
-                <top>430</top>
+                <top>350</top>
                 <left>-80</left>
-                <height>grid_x28</height>
-                <itemlayout height="grid_x08" width="400">
+                <height>grid_x36</height>
+                <width>1120</width>
+                <itemlayout height="grid_x08" width="560">
                     <control type="group">
                         <top>grid_x04</top>
                         <left>grid_x04</left>
@@ -265,7 +282,7 @@
                         <include condition="$PARAM[detailed]">DialogInfo_MusicAllTracks_ItemLayout</include>
                     </control>
                 </itemlayout>
-                <focusedlayout height="grid_x08" width="400">
+                <focusedlayout height="grid_x08" width="560">
                     <control type="group">
                         <top>grid_x04</top>
                         <left>grid_x04</left>
@@ -380,12 +397,13 @@
         <param name="label">$INFO[ListItem.Tagline,[B]$LOCALIZE[202][/B][CR],[CR][CR]]$VAR[Label_Plot,[B]$LOCALIZE[31028][/B][CR],]$VAR[Label_OverlayCritics]$VAR[Label_OverlayAwardsWon]$VAR[Label_OverlayAwardsNominated]</param>
         <definition>
             <control type="group">
-                <include>Info_Title</include>
+                <include content="Info_Title">
+                    <param name="width">100%</param>
+                </include>
                 <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
                 <include content="Object_Control">
                     <param name="control" value="textbox" />
-                    <top>grid_x12</top>
-                    <bottom>grid_x02</bottom>
+                    <top>grid_x16</top>
                     <align>left</align>
                     <textcolor>main_fg_70</textcolor>
                     <font>font_overlay_plotbox</font>
@@ -404,6 +422,73 @@
                 </control>
             </control>
         </definition>
+    </include>
+
+    <include name="DialogInfo_ArtworkGallery">
+        <control type="group">
+            <include>Animation_Right_Delay</include>
+            <visible>Control.HasFocus(7003)</visible>
+            <control type="image">
+                <include>Texture_Shadow_40</include>
+                <texture colordiffuse="black" border="12">common/box.png</texture>
+            </control>
+            <control type="list" id="7003">
+                <orientation>horizontal</orientation>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <onright>-</onright>
+                <!-- <onright condition="!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)">AlarmClock(refocus,SetFocus(9000),00:01,silent)</onright> -->
+                <onleft>5000</onleft>
+                <onback>SetFocus(7003,0,absolute)</onback>
+                <onback>5000</onback>
+                <onup>SetFocus(7003,0,absolute)</onup>
+                <onup>5000</onup>
+                <ondown>SetFocus(7003,0,absolute)</ondown>
+                <ondown>5000</ondown>
+                <itemlayout>
+                    <control type="image">
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture background="true" diffuse="diffuse/landscape_w1220_h680.png">$INFO[ListItem.Icon]</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout>
+                    <control type="image">
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture background="true" diffuse="diffuse/landscape_w1220_h680.png">$INFO[ListItem.Icon]</texture>
+                    </control>
+                </focusedlayout>
+                <content>
+                    <item>
+                        <icon>$INFO[ListItem.Art(thumb)]</icon>
+                        <visible>!String.IsEmpty(ListItem.Art(thumb))</visible>
+                        <visible>!Window.IsVisible(DialogMusicInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[ListItem.Art(fanart)]</icon>
+                        <visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[ListItem.Art(fanart1)]</icon>
+                        <visible>!String.IsEmpty(ListItem.Art(fanart1))</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[ListItem.Art(fanart2)]</icon>
+                        <visible>!String.IsEmpty(ListItem.Art(fanart2))</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[ListItem.Art(fanart3)]</icon>
+                        <visible>!String.IsEmpty(ListItem.Art(fanart3))</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[ListItem.Art(fanart4)]</icon>
+                        <visible>!String.IsEmpty(ListItem.Art(fanart4))</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[ListItem.Art(fanart5)]</icon>
+                        <visible>!String.IsEmpty(ListItem.Art(fanart5))</visible>
+                    </item>
+                </content>
+            </control>
+        </control>
     </include>
 
 
@@ -600,7 +685,7 @@
 
     <!-- Music ExtraArt -->
     <include name="DialogInfo_MusicArt">
-        <param name="discart_top" default="272" />
+        <param name="discart_top" default="231" />
         <param name="discart_spin" default="true" />
         <param name="discart_image" default="$VAR[Image_DiscArt]" />
         <param name="width" default="infodialog_poster_w" />
@@ -610,24 +695,6 @@
                 <bottom>view_pad</bottom>
                 <width>$PARAM[width]</width>
                 <centerleft>50%</centerleft>
-                <control type="group">
-                    <top>$PARAM[width]</top>
-                    <visible>String.IsEmpty(ListItem.Art(discart))</visible>
-                    <visible>String.IsEmpty(ListItem.Art(album.discart))</visible>
-                    <!-- <control type="image">
-                        <top>grid_x04</top>
-                        <centerleft>50%</centerleft>
-                        <texture background="true" colordiffuse="ff555555">$INFO[ListItem.Art(fanart)]</texture>
-                        <aspectratio>scale</aspectratio>
-                    </control> -->
-                    <control type="image">
-                        <top>grid_x04</top>
-                        <centerleft>50%</centerleft>
-                        <texture background="true">$VAR[Image_Clearlogo]</texture>
-                        <aspectratio>keep</aspectratio>
-                        <bordersize>40</bordersize>
-                    </control>
-                </control>
                 <control type="image">
                     <top>$PARAM[discart_top]</top>
                     <height>$PARAM[width]</height>
