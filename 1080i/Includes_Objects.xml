@@ -712,6 +712,7 @@
                 <height>64</height>
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control" value="group" />
+                    <include content="Dimension_Padding" condition="Skin.HasSetting(SelectBox.Thin)"><param name="pad" value="5" /></include>
                     <control type="image">
                         <include content="Dimension_Padding"><param name="pad" value="-32" /></include>
                         <texture colordiffuse="shadow_hard">$VAR[Image_Overlay_Backing$PARAM[affix],,-fo-shadow.png]</texture>
@@ -1242,23 +1243,11 @@
         <param name="selected" default="false" />
         <param name="haslabel" default="true" />
         <param name="visible" default="true" />
-        <param name="squared" default="false" />
         <definition>
-            <include content="_Object_MenuBar_Item" condition="!$PARAM[squared]">
+            <include content="_Object_MenuBar_Item">
                 <param name="fo_texture" value="Texture_Circle_Highlight_H" />
-                <param name="nf_texture" value="common/menu.png" />
+                <param name="nf_texture" value="common/menumain.png" />
                 <param name="sh_texture" value="shadows/menu_shadow.png" />
-                <param name="selected" value="$PARAM[selected]" />
-                <param name="haslabel" value="$PARAM[haslabel]" />
-                <param name="visible" value="$PARAM[visible]" />
-                <param name="color_bg" value="$PARAM[color_bg]" />
-                <param name="color_fg" value="$PARAM[color_fg]" />
-                <param name="font" value="$PARAM[font]" />
-            </include>
-            <include content="_Object_MenuBar_Item" condition="$PARAM[squared]">
-                <param name="fo_texture" value="Texture_Box_Highlight_H" />
-                <param name="nf_texture" value="common/box.png" />
-                <param name="sh_texture" value="shadows/shadow-24.png" />
                 <param name="selected" value="$PARAM[selected]" />
                 <param name="haslabel" value="$PARAM[haslabel]" />
                 <param name="visible" value="$PARAM[visible]" />
@@ -1278,17 +1267,13 @@
                 <param name="control" value="group" />
                 <visible>$PARAM[visible]</visible>
                 <centertop>50%</centertop>
-                <height>70</height>
-                <include content="Object_Control">
-                    <param name="control" value="image" />
-                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
-                    <texture border="59" colordiffuse="shadow_hard">$PARAM[sh_texture]</texture>
-                </include>
-                <include content="Object_Control">
-                    <param name="control" value="image" />
+                <height>256</height>
+                <left>-40</left>
+                <right>-40</right>
+                <control type="image">
                     <include condition="$PARAM[selected]">$PARAM[fo_texture]</include>
-                    <texture border="35" colordiffuse="$PARAM[color_bg]">$PARAM[nf_texture]</texture>
-                </include>
+                    <texture border="80" colordiffuse="$PARAM[color_bg]">$PARAM[nf_texture]</texture>
+                </control>
             </include>
             <include content="Object_Control" condition="$PARAM[haslabel]">
                 <param name="control" value="group" />
@@ -1398,18 +1383,10 @@
                             <height>60</height>
                             <width>80</width>
                             <visible>[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
-                            <control type="group">
-                                <width>60</width>
-                                <centerleft>50%</centerleft>
-                                <control type="image">
-                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
-                                    <texture colordiffuse="shadow_hard" border="54">shadows/circle_shadow.png</texture>
-                                </control>
-                            </control>
                             <control type="image">
-                                <texture flipy="true">special://profile/addon_data/script.texturemaker/ArcticHorizon/circle_v.png</texture>
+                                <texture flipy="true">special://profile/addon_data/script.texturemaker/ArcticHorizon/circlebutton_v.png</texture>
                                 <aspectratio>keep</aspectratio>
-                                <bordersize>-5</bordersize>
+                                <bordersize>-50</bordersize>
                             </control>
                             <control type="image">
                                 <aspectratio>keep</aspectratio>
@@ -1423,23 +1400,12 @@
                     <control type="group">
                         <left>40</left>
                         <right>-20</right>
-                        <!-- <visible>Control.HasFocus(302)</visible> -->
                         <include content="Object_MenuBar_Item">
                             <param name="color_bg" value="$PARAM[color_bg]" />
                             <param name="color_fg" value="$PARAM[color]_70" />
                             <param name="font" value="$PARAM[font]" />
                         </include>
                     </control>
-                    <!-- <control type="group">
-                        <left>40</left>
-                        <right>-20</right>
-                        <visible>!Control.HasFocus(302)</visible>
-                        <include content="Object_MenuBar_Item">
-                            <param name="color_bg" value="$PARAM[color_nf]_12" />
-                            <param name="color_fg" value="$PARAM[color_nf]_70" />
-                            <param name="font" value="$PARAM[font]" />
-                        </include>
-                    </control> -->
                 </focusedlayout>
                 <focusedlayout height="120" width="$PARAM[focus_w]" condition="!$PARAM[iconic] + [Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">
                     <control type="group">
@@ -1834,7 +1800,6 @@
     </include>
 
     <include name="Object_SelectBox">
-        <param name="pad" default="-10" />
         <param name="indicator" default="false" />
         <param name="focusbounce" default="false" />
         <param name="shadow" default="true" />
@@ -1843,12 +1808,13 @@
                 <include condition="$PARAM[focusbounce]">Animation_FocusBounce</include>
                 <include content="Object_Control">
                     <param name="control" value="group" />
-                    <include content="Dimension_Padding"><param name="pad">$PARAM[pad]</param></include>
+                    <include content="Dimension_Padding" condition="!Skin.HasSetting(SelectBox.Thin)"><param name="pad">-10</param></include>
+                    <include content="Dimension_Padding" condition="Skin.HasSetting(SelectBox.Thin)"><param name="pad">-5</param></include>
                     <include condition="$PARAM[shadow]">Object_Shadow_40</include>
-                    <include content="Object_Control">
-                        <param name="control" value="image" />
-                        <include>Texture_SelectBox</include>
-                    </include>
+                    <control type="image">
+                        <include condition="!Skin.HasSetting(SelectBox.Thin)">Texture_SelectBox</include>
+                        <include condition="Skin.HasSetting(SelectBox.Thin)">Texture_SelectBox_Thin</include>
+                    </control>
                 </include>
                 <include content="Object_Indicator" condition="$PARAM[indicator]">
                     <param name="selected" value="true" />
