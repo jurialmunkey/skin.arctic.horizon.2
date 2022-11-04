@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog">
     <defaultcontrol>5000</defaultcontrol>
-    <menucontrol>9000</menucontrol>
+    <menucontrol>4000</menucontrol>
     <controls>
+        <include>Info_Title_Label_Hidden</include>
 
         <include content="DialogInfo_MainGroup">
             <visible>!ControlGroup(6000).HasFocus()</visible>
@@ -12,24 +13,6 @@
                 <param name="include">Items_DialogAddonInfo_MenuBar</param>
             </include>
             <include>DialogInfo_ButtonHidden</include>
-
-            <control type="group">
-                <animation type="WindowOpen" reversible="false">
-                    <effect type="fade" start="0" end="100" time="400" delay="400" tween="sine" easing="out"/>
-                    <effect type="slide" start="0,240" end="0" time="400" delay="400" tween="cubic" easing="out" />
-                </animation>
-                <animation type="WindowClose" reversible="false">
-                    <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
-                </animation>
-                <include content="List_SmallLandscape_Row">
-                    <param name="id">50</param>
-                    <top>view_top</top>
-                    <onup>5000</onup>
-                    <ondown>5000</ondown>
-                    <visible>!Control.HasFocus(61)</visible>
-                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                </include>
-            </control>
 
             <control type="group">
                 <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="ControlGroup(4000).HasFocus()">Conditional</animation>
@@ -44,53 +27,59 @@
                     <!-- Info -->
                     <control type="group">
                         <visible>!Control.HasFocus(61)</visible>
-                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                        <include content="Animation_DialogInfo_Recommendations">
-                            <param name="condition">ControlGroup(6000).HasFocus()</param>
-                        </include>
-
-                        <!-- Info -->
-                        <include content="Info_Panel">
-                            <param name="plotheight" value="161" />
-                        </include>
-
-                        <!-- Addon Details -->
                         <control type="group">
-                            <top>370</top>
-                            <left>-40</left>
-                            <control type="grouplist">
-                                <height>grid_x28</height>
-                                <orientation>horizontal</orientation>
-                                <itemgap>grid_x03</itemgap>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="special://skin/extras/icons/recent.png" />
-                                    <param name="role" value="$LOCALIZE[12014]" />
-                                    <param name="name" value="$VAR[Label_AddonInfo_LastUpdated]" />
-                                    <visible>!String.IsEmpty(ListItem.AddonInstallDate)</visible>
-                                    <visible>String.IsEqual(Control.GetLabel(6),$LOCALIZE[24037])</visible>
-                                    <visible>!String.StartsWith(Container.FolderPath,addons://repository)</visible>
-                                    <top>40</top>
-                                    <width>370</width>
-                                </include>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="special://skin/extras/icons/userrating.png" />
-                                    <param name="role" value="$LOCALIZE[12012]" />
-                                    <param name="name" value="$INFO[ListItem.AddonLastUsed]" />
-                                    <visible>!String.IsEmpty(ListItem.AddonLastUsed)</visible>
-                                    <top>40</top>
-                                    <width>370</width>
-                                </include>
-                                <include content="Object_InfoCircle">
-                                    <param name="icon" value="special://skin/extras/icons/files.png" />
-                                    <param name="role" value="$LOCALIZE[289]" />
-                                    <param name="name" value="$INFO[ListItem.AddonSize]" />
-                                    <visible>!String.IsEmpty(ListItem.AddonSize)</visible>
-                                    <top>40</top>
-                                    <width>370</width>
-                                </include>
-                            </control>
-                        </control>
+                            <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                            <visible>!Control.HasFocus(7003)</visible>
+                            <include content="Animation_DialogInfo_Recommendations">
+                                <param name="condition">ControlGroup(6000).HasFocus()</param>
+                            </include>
 
+                            <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+                            <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
+
+                            <!-- Info -->
+                            <include content="Info_Panel">
+                                <param name="plotheight" value="161" />
+                            </include>
+
+                            <!-- Addon Details -->
+                            <control type="group">
+                                <top>370</top>
+                                <left>-40</left>
+                                <control type="grouplist">
+                                    <height>grid_x28</height>
+                                    <orientation>horizontal</orientation>
+                                    <itemgap>grid_x03</itemgap>
+                                    <include content="Object_InfoCircle">
+                                        <param name="icon" value="special://skin/extras/icons/recent.png" />
+                                        <param name="role" value="$LOCALIZE[12014]" />
+                                        <param name="name" value="$VAR[Label_AddonInfo_LastUpdated]" />
+                                        <visible>!String.IsEmpty(ListItem.AddonInstallDate)</visible>
+                                        <visible>String.IsEqual(Control.GetLabel(6),$LOCALIZE[24037])</visible>
+                                        <visible>!String.StartsWith(Container.FolderPath,addons://repository)</visible>
+                                        <top>40</top>
+                                        <width>370</width>
+                                    </include>
+                                    <include content="Object_InfoCircle">
+                                        <param name="icon" value="special://skin/extras/icons/userrating.png" />
+                                        <param name="role" value="$LOCALIZE[12012]" />
+                                        <param name="name" value="$INFO[ListItem.AddonLastUsed]" />
+                                        <visible>!String.IsEmpty(ListItem.AddonLastUsed)</visible>
+                                        <top>40</top>
+                                        <width>370</width>
+                                    </include>
+                                    <include content="Object_InfoCircle">
+                                        <param name="icon" value="special://skin/extras/icons/files.png" />
+                                        <param name="role" value="$LOCALIZE[289]" />
+                                        <param name="name" value="$INFO[ListItem.AddonSize]" />
+                                        <visible>!String.IsEmpty(ListItem.AddonSize)</visible>
+                                        <top>40</top>
+                                        <width>370</width>
+                                    </include>
+                                </control>
+                            </control>
+
+                        </control>
                     </control>
 
                     <!-- Trailer and Plot -->
@@ -98,6 +87,7 @@
                     <include content="DialogInfo_PlotBox">
                         <param name="label">$VAR[Label_Plot]</param>
                     </include>
+                    <include>DialogInfo_ArtworkGallery</include>
                 </include>
             </control>
 
@@ -107,6 +97,9 @@
         <control type="group">
             <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
             <include>Furniture_Top_Right</include>
+
+            <include>DialogInfo_HintText</include>
+
             <control type="group">
                 <left>view_pad</left>
                 <right>view_pad</right>
@@ -159,9 +152,9 @@
         </include>
 
         <include content="Dialog_Info_Screenshots">
+            <param name="id" value="50" />
             <param name="onback" value="5000" />
             <param name="header_id" value="6000" />
-            <param name="islist">false</param>
         </include>
 
     </controls>

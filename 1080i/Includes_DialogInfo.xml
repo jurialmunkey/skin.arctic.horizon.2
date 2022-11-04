@@ -98,10 +98,13 @@
             <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
             <onup>61</onup>
             <ondown>7002</ondown>
-            <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(4000)</onclick>
+            <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5001)</onclick>
+            <onclick condition="!$EXP[Exp_IsPersonInfo]">Action(Select)</onclick>
+            <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5000)</onclick>
             <onclick condition="$EXP[Exp_IsPersonInfo]">runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=person)</onclick>
             <onleft>4000</onleft>
-            <onright>SetFocus(7003,0,absolute)</onright>
+            <onright condition="!Integer.IsEqual(Container(7003).NumItems,0)">SetFocus(7003,0,absolute)</onright>
+            <onright condition="Integer.IsEqual(Container(7003).NumItems,0)">SetFocus(4000)</onright>
         </include>
     </include>
 
@@ -121,13 +124,83 @@
             <param name="control">group</param>
             <bottom>-grid_x08</bottom>
             <height>grid_x14</height>
-            <right>190</right>
+            <visible>System.IdleTime(1)</visible>
+            <visible>Control.HasFocus(5000)</visible>
+            <include>Animation_FadeIn_Delay</include>
             <nested />
             <include content="Object_NavButton">
                 <param name="flipy">true</param>
                 <param name="id">5000</param>
             </include>
         </include>
+    </include>
+
+    <include name="DialogInfo_HintText">
+        <control type="group">
+            <visible>System.IdleTime(1)</visible>
+            <visible>Control.HasFocus(5000)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <left>60</left>
+            <bottom>10</bottom>
+            <width>60</width>
+            <height>60</height>
+            <control type="image">
+                <texture flipx="true" colordiffuse="main_fg_70">arrows/arrow-small-right.png</texture>
+                <width>16</width>
+                <height>16</height>
+                <centertop>50%</centertop>
+                <left>18</left>
+            </control>
+            <control type="image">
+                <texture flipx="true" colordiffuse="main_fg_70">arrows/arrow-small-right.png</texture>
+                <width>16</width>
+                <height>16</height>
+                <centertop>50%</centertop>
+                <right>18</right>
+            </control>
+            <control type="label">
+                <left>60</left>
+                <bottom>22</bottom>
+                <height>20</height>
+                <font>font_statusbar</font>
+                <label>$LOCALIZE[33063]</label>
+                <textcolor>main_fg_70</textcolor>
+            </control>
+        </control>
+
+        <control type="group">
+            <visible>System.IdleTime(1)</visible>
+            <visible>Control.HasFocus(5000)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <right>60</right>
+            <bottom>10</bottom>
+            <width>60</width>
+            <height>60</height>
+            <control type="image">
+                <texture flipx="false" colordiffuse="main_fg_60">arrows/arrow-small-right.png</texture>
+                <width>16</width>
+                <height>16</height>
+                <centertop>50%</centertop>
+                <left>18</left>
+            </control>
+            <control type="image">
+                <texture flipx="false" colordiffuse="main_fg_60">arrows/arrow-small-right.png</texture>
+                <width>16</width>
+                <height>16</height>
+                <centertop>50%</centertop>
+                <right>18</right>
+            </control>
+            <control type="label">
+                <right>60</right>
+                <width>300</width>
+                <align>right</align>
+                <bottom>22</bottom>
+                <height>20</height>
+                <font>font_statusbar</font>
+                <label>$LOCALIZE[39123]</label>
+                <textcolor>main_fg_70</textcolor>
+            </control>
+        </control>
     </include>
 
     <!-- Additional Video Info Details not included in info line such as Director and Genres -->
@@ -427,23 +500,17 @@
     <include name="DialogInfo_ArtworkGallery">
         <control type="group">
             <include>Animation_Right_Delay</include>
-            <visible>Control.HasFocus(7003)</visible>
+            <visible>Control.HasFocus(7003) | ControlGroup(9000).HasFocus()</visible>
             <control type="image">
                 <include>Texture_Shadow_40</include>
                 <texture colordiffuse="black" border="12">common/box.png</texture>
             </control>
-            <control type="list" id="7003">
-                <orientation>horizontal</orientation>
+            <control type="wraplist" id="7003">
+                <orientation>vertical</orientation>
                 <scrolltime tween="quadratic">400</scrolltime>
-                <onright>-</onright>
-                <!-- <onright condition="!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)">AlarmClock(refocus,SetFocus(9000),00:01,silent)</onright> -->
+                <onright condition="!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)">SetFocus(9000)</onright>
                 <onleft>5000</onleft>
-                <onback>SetFocus(7003,0,absolute)</onback>
                 <onback>5000</onback>
-                <onup>SetFocus(7003,0,absolute)</onup>
-                <onup>5000</onup>
-                <ondown>SetFocus(7003,0,absolute)</ondown>
-                <ondown>5000</ondown>
                 <itemlayout>
                     <control type="image">
                         <aspectratio scalediffuse="false">scale</aspectratio>
@@ -458,9 +525,60 @@
                 </focusedlayout>
                 <content>
                     <item>
+                        <icon>$INFO[Container(50).ListItem.Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItem.Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(1).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(1).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(2).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(2).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(3).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(3).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(4).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(4).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(5).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(5).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(6).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(6).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(7).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(7).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(8).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(8).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(9).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(9).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+
+                    <item>
                         <icon>$INFO[ListItem.Art(thumb)]</icon>
                         <visible>!String.IsEmpty(ListItem.Art(thumb))</visible>
-                        <visible>!Window.IsVisible(DialogMusicInfo.xml)</visible>
+                        <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
                     </item>
                     <item>
                         <icon>$INFO[ListItem.Art(fanart)]</icon>
