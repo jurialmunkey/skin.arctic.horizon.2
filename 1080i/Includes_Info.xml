@@ -1,21 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
-    <include name="Info_Title_Label">
+    <include name="_Info_Title_Label_Hidden">
+        <param name="font">font_infotitle</param>
         <definition>
-            <control type="label">
-                <aligny>center</aligny>
-                <height>120</height>
-                <label>$VAR[Label_Title_Main]</label>
-                <textcolor>$PARAM[colordiffuse]_100</textcolor>
-                <include content="Object_Font" condition="Skin.HasSetting(UseLightFont)">
-                    <param name="font">font_infotitle_light</param>
-                </include>
-                <font>font_infotitle</font>
-                <nested />
+            <control type="group">
+                <left>-1920</left>
+                <width>info_plot_w</width>
+                <control type="textbox" id="99992">
+                    <aligny>top</aligny>
+                    <height>160</height>
+                    <label>$VAR[Label_Title_Main]</label>
+                    <font>$PARAM[font]</font>
+                </control>
+                <control type="textbox" id="99993">
+                    <aligny>top</aligny>
+                    <height>140</height>
+                    <label>$VAR[Label_Title_Main]</label>
+                    <font>$PARAM[font]_doublerow</font>
+                    <width>55%</width>
+                </control>
             </control>
         </definition>
     </include>
+
+    <include name="Info_Title_Label_Hidden">
+        <include content="_Info_Title_Label_Hidden" condition="!Skin.HasSetting(UseLightFont)">
+            <param name="font">font_infotitle</param>
+        </include>
+        <include content="_Info_Title_Label_Hidden" condition="Skin.HasSetting(UseLightFont)">
+            <param name="font">font_infotitle_light</param>
+        </include>
+    </include>
+
+    <include name="_Info_Title_Label">
+        <definition>
+            <control type="group">
+                <width>info_plot_w</width>
+                <control type="label">
+                    <aligny>center</aligny>
+                    <height>120</height>
+                    <top>-5</top>
+                    <label>$VAR[Label_Title_Main]</label>
+                    <textcolor>$PARAM[colordiffuse]_100</textcolor>
+                    <font>$PARAM[font]</font>
+                    <visible>Integer.IsEqual(Container(99992).NumPages,1)</visible>
+                </control>
+                <control type="label">
+                    <wrapmultiline>true</wrapmultiline>
+                    <aligny>center</aligny>
+                    <height>120</height>
+                    <top>-5</top>
+                    <label>$VAR[Label_Title_Main]</label>
+                    <textcolor>$PARAM[colordiffuse]_100</textcolor>
+                    <font>$PARAM[font]_doublerow</font>
+                    <width>55%</width>
+                    <visible>!Integer.IsEqual(Container(99992).NumPages,1)</visible>
+                    <visible>Integer.IsEqual(Container(99993).NumPages,1)</visible>
+                </control>
+                <control type="label">
+                    <wrapmultiline>true</wrapmultiline>
+                    <aligny>center</aligny>
+                    <height>120</height>
+                    <top>-5</top>
+                    <label>$VAR[Label_Title_Main]</label>
+                    <textcolor>$PARAM[colordiffuse]_100</textcolor>
+                    <font>$PARAM[font]_doublerow</font>
+                    <visible>!Integer.IsEqual(Container(99992).NumPages,1)</visible>
+                    <visible>!Integer.IsEqual(Container(99993).NumPages,1)</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_Title_Label">
+        <include content="_Info_Title_Label" condition="!Skin.HasSetting(UseLightFont)">
+            <param name="font">font_infotitle</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <nested />
+        </include>
+        <include content="_Info_Title_Label" condition="Skin.HasSetting(UseLightFont)">
+            <param name="font">font_infotitle_light</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <nested />
+        </include>
+    </include>
+
+
     <include name="Info_Title_Logo">
         <definition>
             <control type="group">
