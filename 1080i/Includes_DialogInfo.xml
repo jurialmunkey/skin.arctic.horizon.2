@@ -626,7 +626,7 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableSeasons) + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season)]">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableSeasons) + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.Property(TotalSeasons),1)]">
                 <param name="groupid" value="6300" />
                 <param name="id" value="6200" />
                 <param name="label" value="$LOCALIZE[31108]" />
@@ -637,7 +637,7 @@
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,6200)</onfocus>
                 <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-                <content target="videos" sortby="episode" sordorder="ascending">$VAR[Path_Library_Collections]</content>
+                <content target="videos">$VAR[Path_Library_Episodes]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6200</param>
                 </include>
@@ -647,7 +647,7 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + [[!Skin.HasSetting(Info.DisableCollections) + [String.IsEqual(ListItem.DBType,movie) | ListItem.IsCollection]] | [!Skin.HasSetting(Info.DisableSeasons) + String.IsEqual(ListItem.DBType,tvshow)]]">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + [[!Skin.HasSetting(Info.DisableCollections) + [String.IsEqual(ListItem.DBType,movie) | ListItem.IsCollection]] | [!Skin.HasSetting(Info.DisableSeasons) + String.IsEqual(ListItem.DBType,tvshow) + !String.IsEqual(ListItem.Property(TotalSeasons),1)]]">
                 <param name="groupid" value="6301" />
                 <param name="id" value="6201" />
                 <param name="label" value="$LOCALIZE[31108]" />

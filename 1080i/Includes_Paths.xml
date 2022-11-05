@@ -106,11 +106,15 @@
     </variable>
 
     <variable name="Path_Library_Collections">
-        <value condition="!String.IsEmpty(ListItem.TvShowDBID) + [[String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Season)] | String.IsEqual(ListItem.DBType,season)]">videodb://tvshows/titles/$INFO[ListItem.TvShowDBID]/$INFO[ListItem.Season]/?tvshowid=$INFO[ListItem.TvShowDBID]</value>
         <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.DBID)">$INFO[ListItem.DBID,videodb://tvshows/titles/,/]</value>
         <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,tvshow) + String.IsEqual(ListItem.Label,ListItem.TvShowTitle)">$INFO[ListItem.FolderPath]</value>
         <value condition="String.IsEqual(ListItem.DBType,movie)">$INFO[ListItem.SetID,videodb://movies/sets/,/]</value>
         <value condition="ListItem.IsCollection">$INFO[ListItem.DBID,videodb://movies/sets/,/]</value>
+    </variable>
+
+    <variable name="Path_Library_Episodes">
+        <value condition="String.IsEqual(ListItem.DBType,tvshow)">videodb://tvshows/titles/$INFO[ListItem.DBID]/-1/-1/?xsp={"order":{"direction":"ascending","ignorefolders":0,"method":"episode"},"type":"episodes"}</value>
+        <value condition="!String.IsEmpty(ListItem.TvShowDBID) + !String.IsEmpty(ListItem.Season)">videodb://tvshows/titles/$INFO[ListItem.TvShowDBID]/$INFO[ListItem.Season]/?xsp={"order":{"direction":"ascending","ignorefolders":0,"method":"episode"},"type":"episodes"}</value>
     </variable>
 
     <variable name="Path_Library_FromStudio">
