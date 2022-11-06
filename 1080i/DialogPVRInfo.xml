@@ -7,43 +7,45 @@
         <include>Defs_TMDbHelper_Loader</include>
         <include condition="Window.IsVisible(fullscreenvideo)">Background_Main</include>
 
+        <!-- Button Group -->
+        <include content="DialogInfo_ButtonGroup">
+            <param name="include">Items_DialogPVRInfo_MenuBar</param>
+        </include>
+        <include>DialogInfo_ButtonHidden</include>
+
         <include content="DialogInfo_MainGroup">
+            <include content="DialogInfo_LeftGroup">
+                <param name="icon">$VAR[Image_PVRPoster]</param>
+                <param name="poster_visible">!String.IsEmpty(Container(99950).ListItem.Art(poster)) | !String.IsEmpty(ListItem.Art(tvshow.poster)) | !String.IsEmpty(ListItem.Art(poster))</param>
 
-            <!-- Button Group -->
-            <include content="DialogInfo_ButtonGroup">
-                <param name="include">Items_DialogPVRInfo_MenuBar</param>
-            </include>
-            <include>DialogInfo_ButtonHidden</include>
-
-            <control type="group">
-                <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="ControlGroup(4000).HasFocus()">Conditional</animation>
-                <animation effect="slide" end="0" start="100" time="400" tween="cubic" easing="out" reversible="false" condition="!ControlGroup(4000).HasFocus()">Conditional</animation>
-                <include content="DialogInfo_LeftGroup">
-                    <param name="icon">$VAR[Image_PVRPoster]</param>
-                    <param name="poster_visible">!String.IsEmpty(Container(99950).ListItem.Art(poster)) | !String.IsEmpty(ListItem.Art(tvshow.poster)) | !String.IsEmpty(ListItem.Art(poster))</param>
-
-                    <!-- Use Square when Poster not available -->
-                    <include content="Object_BigPoster">
-                        <param name="aspectratio">keep</param>
-                        <param name="diffuse">diffuse/square_w480_h480.png</param>
-                        <top>view_top</top>
-                        <left>view_pad</left>
-                        <height>infodialog_poster_w</height>
-                        <width>infodialog_poster_w</width>
-                        <visible>String.IsEmpty(Container(99950).ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(poster))</visible>
-                    </include>
+                <!-- Use Square when Poster not available -->
+                <include content="Object_BigPoster">
+                    <param name="aspectratio">keep</param>
+                    <param name="diffuse">diffuse/square_w480_h480.png</param>
+                    <top>view_top</top>
+                    <left>view_pad</left>
+                    <height>infodialog_poster_w</height>
+                    <width>infodialog_poster_w</width>
+                    <visible>String.IsEmpty(Container(99950).ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(poster))</visible>
                 </include>
+            </include>
+            <include content="DialogInfo_RightGroup">
+                <!-- Info -->
+                <control type="group">
+                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                    <visible>!Control.HasFocus(7003)</visible>
 
-                <include content="DialogInfo_RightGroup">
-                    <!-- Info -->
+                    <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+                    <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
+
+
                     <control type="group">
                         <visible>!Control.HasFocus(61)</visible>
-                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                        <include>Animation_DialogInfo_Recommendations</include>
 
                         <!-- Video Info -->
                         <include content="Info_Panel">
                             <param name="plotheight" value="info_plot_large_h" />
+                            <param name="plotwidth" value="info_plot_w" />
                         </include>
 
                         <!-- Video Details -->
@@ -52,28 +54,19 @@
                             <bottom>grid_x08</bottom>
                         </include>
                     </control>
+                </control>
 
-                    <!-- Trailer and Plot -->
-                    <include>DialogInfo_VideoTrailer</include>
-                    <include>DialogInfo_PlotBox</include>
-                </include>
-            </control>
+                <!-- Trailer and Plot -->
+                <include>DialogInfo_VideoTrailer</include>
+                <include>DialogInfo_PlotBox</include>
+                <include>DialogInfo_ArtworkGallery</include>
 
-            <include>Furniture_Top_Left</include>
+            </include>
         </include>
 
-        <control type="group">
-            <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
-            <include>Furniture_Top_Right</include>
-            <control type="group">
-                <left>view_pad</left>
-                <right>view_pad</right>
-                <height>40</height>
-                <bottom>view_pad</bottom>
-                <include>DialogInfo_Codecs</include>
-                <!-- <include>DialogInfo_MouseNavArrow</include> -->
-            </control>
-        </control>
+        <include content="DialogInfo_Furniture">
+            <param name="downarrow_visible">false</param>
+        </include>
 
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_DialogPVRInfo_Options" />

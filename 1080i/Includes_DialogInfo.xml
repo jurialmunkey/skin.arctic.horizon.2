@@ -4,9 +4,18 @@
     <!-- Main Group for DialogInfo -->
     <include name="DialogInfo_MainGroup">
         <control type="group">
-            <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml) + !ControlGroup(6000).HasFocus()</visible>
-            <animation effect="slide" start="0" end="-infodialog_left_w" time="800" tween="cubic" easing="out" reversible="false">Hidden</animation>
-            <animation effect="slide" end="0" start="-infodialog_left_w" time="800" tween="cubic" easing="out" reversible="false">Visible</animation>
+            <animation effect="fade" start="100" end="0" condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))">Conditional</animation>
+            <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="[ControlGroup(4000).HasFocus()]">Conditional</animation>
+            <animation effect="slide" end="0" start="100" time="400" tween="cubic" easing="out" reversible="false" condition="![ControlGroup(4000).HasFocus()]">Conditional</animation>
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
+            <animation type="Visible" reversible="false">
+                <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
+                <effect type="slide" start="-320" end="0" time="400" delay="400" tween="cubic" easing="out" />
+            </animation>
+            <animation type="Hidden" reversible="false">
+                <effect type="fade" start="100" end="0" time="300" tween="sine" easing="out" />
+                <effect type="slide" start="0" end="-320" time="300" tween="cubic" easing="out" />
+            </animation>
             <nested />
         </control>
     </include>
@@ -20,6 +29,8 @@
         <definition>
             <control type="group">
                 <width>infodialog_left_w</width>
+                <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
+                <visible>!ControlGroup(6000).HasFocus()</visible>
                 <include content="Animation_Left_Delay">
                     <param name="windowopen_condition">String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))</param>
                 </include>
@@ -44,6 +55,8 @@
             <control type="group">
                 <left>$PARAM[left]</left>
                 <include>Dimension_View</include>
+                <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
+                <visible>!ControlGroup(6000).HasFocus()</visible>
                 <include content="Animation_Right_Delay">
                     <param name="windowopen_condition">String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))</param>
                 </include>
@@ -54,39 +67,25 @@
 
     <!-- Button Group for DialogInfo -->
     <include name="DialogInfo_ButtonGroup">
-        <control type="group">
+        <control type="grouplist" id="4000">
             <top>view_top</top>
-            <left>view_pad</left>
+            <itemgap>30</itemgap>
+            <orientation>vertical</orientation>
             <width>60</width>
-            <animation type="WindowOpen" reversible="false">
-                <effect type="fade" start="0" end="100" time="400" delay="500" tween="sine" easing="out"/>
-            </animation>
-            <animation type="WindowClose" reversible="false">
-                <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
-            </animation>
-            <include content="Object_Control">
-                <param name="control" value="grouplist" />
-                <param name="id" value="4000" />
-                <top>0</top>
-                <itemgap>30</itemgap>
-                <orientation>vertical</orientation>
-                <width>60</width>
-                <centerleft>50%</centerleft>
-                <visible allowhiddenfocus="true">ControlGroup(4000).HasFocus()</visible>
-                <animation effect="fade" start="0" end="100" time="400">Visible</animation>
-                <animation effect="fade" start="100" end="0" time="400">Hidden</animation>
-                <!-- Open Plotbox (and reset scroll position) -->
-                <!-- <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
-                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
-                <onup>61</onup> -->
-                <!-- Open Recommendations -->
-                <!-- <ondown>7002</ondown> -->
-                <onright>5000</onright>
-                <onleft>5000</onleft>
-                <onback>5000</onback>
+            <left>view_pad</left>
+            <visible allowhiddenfocus="true">ControlGroup(4000).HasFocus()</visible>
+            <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
+            <visible>!ControlGroup(6000).HasFocus()</visible>
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
+            <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="200">Visible</animation>
+            <animation effect="fade" reversible="false" start="100" end="0" time="200" delay="0">Hidden</animation>
+            <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="600">WindowOpen</animation>
+            <animation effect="fade" reversible="false" start="100" end="0" time="400" delay="0">WindowClose</animation>
 
-                <include>$PARAM[include]</include>
-            </include>
+            <onleft>5000</onleft>
+            <onright>5000</onright>
+
+            <include>$PARAM[include]</include>
         </control>
     </include>
 
@@ -98,31 +97,51 @@
             <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
             <onup>61</onup>
             <ondown>7002</ondown>
+
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5001)</onclick>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">Action(Select)</onclick>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5000)</onclick>
             <onclick condition="$EXP[Exp_IsPersonInfo]">runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=person)</onclick>
             <onleft>4000</onleft>
+
             <onright condition="!Integer.IsEqual(Container(7003).NumItems,0)">SetFocus(7003,0,absolute)</onright>
-            <onright condition="Integer.IsEqual(Container(7003).NumItems,0)">SetFocus(4000)</onright>
+            <onright condition="Integer.IsEqual(Container(7003).NumItems,0)">4000</onright>
         </include>
+    </include>
+
+    <!-- Furniture -->
+    <include name="DialogInfo_Furniture">
+        <control type="group">
+            <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
+            <include content="Furniture_Top_Right">
+                <param name="icon">special://skin/extras/icons/info2.png</param>
+            </include>
+            <include>Furniture_Top_Left</include>
+            <include content="DialogInfo_Codecs">
+                <param name="arrow_visible">$PARAM[downarrow_visible]</param>
+            </include>
+        </control>
     </include>
 
     <!-- Bottom Row Codecs -->
     <include name="DialogInfo_Codecs">
         <control type="group">
-            <height>grid_x08</height>
-            <centerbottom>grid_x02</centerbottom>
-            <include>Info_Codecs</include>
-            <include>Info_Studio</include>
+            <visible>!ControlGroup(6000).HasFocus()</visible>
+            <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
+            <animation effect="fade" start="0" end="100" delay="400" time="400">Visible</animation>
+            <animation effect="fade" start="100" end="0" delay="0" time="400">Hidden</animation>
+            <include>Furniture_Bottom_Left</include>
+            <include content="DialogInfo_MouseNavArrow">
+                <visible>$PARAM[arrow_visible]</visible>
+            </include>
         </control>
     </include>
 
     <!-- Mouse Nav -->
     <include name="DialogInfo_MouseNavArrow">
-        <include content="Object_Control">
-            <param name="control">group</param>
-            <bottom>-grid_x08</bottom>
+        <control type="group">
+            <bottom>0</bottom>
             <height>grid_x14</height>
             <visible>System.IdleTime(1)</visible>
             <visible>Control.HasFocus(5000)</visible>
@@ -132,7 +151,7 @@
                 <param name="flipy">true</param>
                 <param name="id">5000</param>
             </include>
-        </include>
+        </control>
     </include>
 
     <!-- Additional Video Info Details not included in info line such as Director and Genres -->
@@ -432,17 +451,19 @@
     <include name="DialogInfo_ArtworkGallery">
         <control type="group">
             <include>Animation_Right_Delay</include>
-            <visible>Control.HasFocus(7003) | ControlGroup(9000).HasFocus()</visible>
+            <visible>Control.HasFocus(7003)</visible>
             <control type="image">
                 <include>Texture_Shadow_40</include>
                 <texture colordiffuse="black" border="12">common/box.png</texture>
             </control>
-            <control type="wraplist" id="7003">
-                <orientation>vertical</orientation>
+            <control type="list" id="7003">
+                <orientation>horizontal</orientation>
                 <scrolltime tween="quadratic">400</scrolltime>
-                <onright condition="!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)">SetFocus(9000)</onright>
+                <onright>-</onright>
                 <onleft>5000</onleft>
                 <onback>5000</onback>
+                <onup>5000</onup>
+                <ondown>5000</ondown>
                 <itemlayout>
                     <control type="image">
                         <aspectratio scalediffuse="false">scale</aspectratio>

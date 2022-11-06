@@ -4,73 +4,58 @@
     <menucontrol>4000</menucontrol>
     <onunload>ClearProperty(HasTrailer,Home)</onunload>
     <controls>
+
         <include condition="Window.IsVisible(1191)">Background_Main</include>
         <include>Defs_TMDbHelper_Loader</include>
+
+        <!-- Button Group -->
+        <include content="DialogInfo_ButtonGroup">
+            <param name="include">Items_DialogVideoInfo_MenuBar</param>
+        </include>
+        <include>DialogInfo_ButtonHidden</include>
+
         <include content="DialogInfo_MainGroup">
-            <animation effect="fade" start="100" end="0" condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))">Conditional</animation>
-            <control type="group">
-                <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-                <animation type="Visible" reversible="false">
-                    <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
-                    <effect type="slide" start="-320" end="0" time="400" delay="400" tween="cubic" easing="out" />
-                </animation>
-                <animation type="Hidden" reversible="false">
-                    <effect type="fade" start="100" end="0" time="300" tween="sine" easing="out" />
-                    <effect type="slide" start="0" end="-320" time="300" tween="cubic" easing="out" />
-                </animation>
-                <!-- Button Group -->
-                <include content="DialogInfo_ButtonGroup">
-                    <param name="include">Items_DialogVideoInfo_MenuBar</param>
-                </include>
-                <include>DialogInfo_ButtonHidden</include>
-
+            <include content="DialogInfo_LeftGroup">
+            </include>
+            <include content="DialogInfo_RightGroup">
+                <!-- Info -->
                 <control type="group">
-                    <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="ControlGroup(4000).HasFocus()">Conditional</animation>
-                    <animation effect="slide" end="0" start="100" time="400" tween="cubic" easing="out" reversible="false" condition="!ControlGroup(4000).HasFocus()">Conditional</animation>
-                    <include content="DialogInfo_LeftGroup">
-                    </include>
-                    <include content="DialogInfo_RightGroup">
-                        <!-- Info -->
-                        <control type="group">
-                            <visible>!Control.HasFocus(61)</visible>
-                            <control type="group">
-                                <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                                <visible>!Control.HasFocus(7003)</visible>
-                                <include>Animation_DialogInfo_Recommendations</include>
+                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                    <visible>!Control.HasFocus(7003)</visible>
 
-                                <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
-                                <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
-
-                                <!-- Video Info -->
-                                <include content="Info_Panel" condition="!$EXP[Exp_IsPersonInfo]">
-                                    <param name="plotheight" value="info_plot_large_h" />
-                                    <param name="plotwidth" value="info_plot_w" />
-                                </include>
-
-                                <!-- Person Info -->
-                                <include content="Info_Panel" condition="$EXP[Exp_IsPersonInfo]">
-                                    <param name="plotheight" value="info_plot_person_h" />
-                                    <param name="plotwidth" value="info_plot_w" />
-                                </include>
-
-                                <!-- Video Details -->
-                                <include content="DialogInfo_VideoDetails" condition="!$EXP[Exp_IsPersonInfo]">
-                                    <top>390</top>
-                                    <bottom>grid_x08</bottom>
-                                </include>
-                            </control>
-                        </control>
-
-                        <!-- Trailer and Plot -->
-                        <include>DialogInfo_VideoTrailer</include>
-                        <include>DialogInfo_PlotBox</include>
-                        <include>DialogInfo_ArtworkGallery</include>
-
-                    </include>
+                    <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+                    <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
 
 
+                    <control type="group">
+                        <visible>!Control.HasFocus(61)</visible>
+
+                        <!-- Video Info -->
+                        <include content="Info_Panel" condition="!$EXP[Exp_IsPersonInfo]">
+                            <param name="plotheight" value="info_plot_large_h" />
+                            <param name="plotwidth" value="info_plot_w" />
+                        </include>
+
+                        <!-- Person Info -->
+                        <include content="Info_Panel" condition="$EXP[Exp_IsPersonInfo]">
+                            <param name="plotheight" value="info_plot_person_h" />
+                            <param name="plotwidth" value="info_plot_w" />
+                        </include>
+
+                        <!-- Video Details -->
+                        <include content="DialogInfo_VideoDetails" condition="!$EXP[Exp_IsPersonInfo]">
+                            <top>390</top>
+                            <bottom>grid_x08</bottom>
+                        </include>
+                    </control>
                 </control>
-            </control>
+
+                <!-- Trailer and Plot -->
+                <include>DialogInfo_VideoTrailer</include>
+                <include>DialogInfo_PlotBox</include>
+                <include>DialogInfo_ArtworkGallery</include>
+
+            </include>
         </include>
 
         <include condition="Skin.HasSetting(Recommendations.UseLocal)" content="DialogInfo_LocalRecommendations">
@@ -91,23 +76,9 @@
             </include>
         </include>
 
-        <control type="group">
-            <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
-            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-            <include>Furniture_Top_Right</include>
-            <include>Furniture_Top_Left</include>
-
-
-
-            <control type="group">
-                <left>view_pad</left>
-                <right>view_pad</right>
-                <height>40</height>
-                <bottom>view_pad</bottom>
-                <include>DialogInfo_Codecs</include>
-                <include>DialogInfo_MouseNavArrow</include>
-            </control>
-        </control>
+        <include content="DialogInfo_Furniture">
+            <param name="downarrow_visible">true</param>
+        </include>
 
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_DialogVideoInfo_Options" />
