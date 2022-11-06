@@ -80,10 +80,12 @@
             <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="200">Visible</animation>
             <animation effect="fade" reversible="false" start="100" end="0" time="200" delay="0">Hidden</animation>
             <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="600">WindowOpen</animation>
-            <animation effect="fade" reversible="false" start="100" end="0" time="400" delay="0">WindowClose</animation>
+            <animation effect="fade" reversible="false" start="100" end="0" time="100" delay="0">WindowClose</animation>
 
             <onleft>5000</onleft>
             <onright>5000</onright>
+            <onback>5000</onback>
+            <onback condition="Skin.HasSetting(DialogInfo.FocusButtons)">Dialog.Close(movieinformation)</onback>
 
             <include>$PARAM[include]</include>
         </control>
@@ -121,6 +123,30 @@
             <include content="DialogInfo_Codecs">
                 <param name="arrow_visible">$PARAM[downarrow_visible]</param>
             </include>
+            <control type="group">
+                <left>10</left>
+                <width>60</width>
+                <visible>$PARAM[leftarrow_visible]</visible>
+                <visible>System.IdleTime(1)</visible>
+                <visible>Control.HasFocus(5000)</visible>
+                <include>Animation_FadeIn_Delay</include>
+                <include content="Object_NavButton_Horz">
+                    <param name="flipx">true</param>
+                    <param name="id">5000</param>
+                </include>
+            </control>
+            <control type="group">
+                <right>10</right>
+                <width>60</width>
+                <visible>$PARAM[rightarrow_visible]</visible>
+                <visible>System.IdleTime(1)</visible>
+                <visible>Control.HasFocus(5000)</visible>
+                <include>Animation_FadeIn_Delay</include>
+                <include content="Object_NavButton_Horz">
+                    <param name="flipx">false</param>
+                    <param name="id">5000</param>
+                </include>
+            </control>
         </control>
     </include>
 

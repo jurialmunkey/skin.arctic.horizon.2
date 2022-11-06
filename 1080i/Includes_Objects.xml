@@ -187,6 +187,46 @@
         </definition>
     </include>
 
+    <include name="Object_NavButton_Horz">
+        <param name="flipx">false</param>
+        <param name="centertop">50%</param>
+        <definition>
+            <include content="Object_Control">
+                <param name="control">group</param>
+                <width>60</width>
+                <height>60</height>
+                <centertop>$PARAM[centertop]</centertop>
+                <include content="Object_CenterBottom" condition="$PARAM[flipx]">
+                    <param name="centerbottom">40</param>
+                </include>
+                <include content="Object_CenterTop" condition="!$PARAM[flipx]">
+                    <param name="centertop">40</param>
+                </include>
+                <control type="image">
+                    <texture flipx="$PARAM[flipx]" colordiffuse="main_fg_60">arrows/arrow-small-right.png</texture>
+                    <width>16</width>
+                    <height>16</height>
+                    <centertop>50%</centertop>
+                    <left>18</left>
+                </control>
+                <control type="image">
+                    <texture flipx="$PARAM[flipx]" colordiffuse="main_fg_60">arrows/arrow-small-right.png</texture>
+                    <width>16</width>
+                    <height>16</height>
+                    <centertop>50%</centertop>
+                    <right>18</right>
+                </control>
+            </include>
+            <control type="button">
+                <texturefocus />
+                <texturenofocus />
+                <onclick>SetFocus($PARAM[id])</onclick>
+                <onclick condition="$PARAM[flipx]">Action(Left)</onclick>
+                <onclick condition="!$PARAM[flipx]">Action(Right)</onclick>
+            </control>
+        </definition>
+    </include>
+
     <include name="Object_NavButton">
         <param name="flipy">false</param>
         <param name="centerleft">50%</param>
