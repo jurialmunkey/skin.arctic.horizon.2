@@ -31,6 +31,7 @@
                 <width>infodialog_left_w</width>
                 <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
                 <visible>!ControlGroup(6000).HasFocus()</visible>
+                <visible>String.IsEmpty(Window(Home).Property(Recommendations.IsLoading))</visible>
                 <include content="Animation_Left_Delay">
                     <param name="windowopen_condition">String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))</param>
                 </include>
@@ -57,6 +58,7 @@
                 <include>Dimension_View</include>
                 <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
                 <visible>!ControlGroup(6000).HasFocus()</visible>
+                <visible>String.IsEmpty(Window(Home).Property(Recommendations.IsLoading))</visible>
                 <include content="Animation_Right_Delay">
                     <param name="windowopen_condition">String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))</param>
                 </include>
@@ -596,6 +598,8 @@
             <param name="id">7002</param>
             <onfocus condition="Skin.HasSetting(Recommendations.UseLocal)">SetFocus(50)</onfocus>
             <include content="Action_Recommendations_OnFocus" condition="!Skin.HasSetting(Recommendations.UseLocal)">
+                <onfocus>SetProperty(Recommendations.IsLoading,1,Home)</onfocus>
+                <onfocus>AlarmClock(ClearRecLoading,ClearProperty(Recommendations.IsLoading,Home),00:01,silent)</onfocus>
                 <onfocus>SetFocus(5000)</onfocus>
             </include>
         </include>

@@ -25,12 +25,12 @@
     <variable name="Path_Recs">
         <value condition="$EXP[Exp_IsPersonInfo]">5000|info=stars_in_movies&amp;limit=50|true|info||5001|info=stars_in_tvshows&amp;limit=50|true|info||5002|info=crew_in_movies&amp;limit=50|true|info||5003|info=crew_in_tvshows&amp;limit=50|true|info||5091|info=images|true|SetFocus(5291)</value>
 
-        <value condition="String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">$VAR[Path_Recs_Basic]$VAR[Path_Recs_Year,||5005|,|false|info]$VAR[Path_Recs_Genre,||5006|,|false|info]$VAR[Path_Recs_Studio,||5007|,|false|info]$VAR[Path_Recs_Director,||5008|,|false|info]$VAR[Path_Recs_Writer,||5009|,|false|info]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | [Window.IsVisible(DialogPVRInfo.xml) + !String.IsEmpty(Container(99950).ListItem.UniqueID(tmdb))]">$VAR[Path_Recs_Basic]$VAR[Path_Recs_Year,||5005|,|false|info]$VAR[Path_Recs_Genre,||5006|,|false|info]$VAR[Path_Recs_Studio,||5007|,|false|info]$VAR[Path_Recs_Director,||5008|,|false|info]$VAR[Path_Recs_Writer,||5009|,|false|info]</value>
     </variable>
 
     <variable name="Path_Recs_Basic">
-        <value condition="String.IsEqual(ListItem.DBType,movie)">5000|info=cast$VAR[Path_Param_AggregateCast]|true|info$VAR[Path_Recs_Collection,||5002|,|false|info]||5003|info=recommendations|true|info||5004|info=similar|true|info||5091|info=posters|true|SetFocus(5291)||5092|info=fanart|true|SetFocus(5292)||5093|info=trakt_comments|true|text||5094|info=movie_keywords|true|SetFocus(5095,0,absolute)||5010|info=crew$VAR[Path_Param_AggregateCrew]|true|info||5030|info=trakt_inlists|true|browse</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">5000|info=cast$VAR[Path_Param_AggregateCast]|true|info$VAR[Path_Recs_Season,||5001|,|true|browse]||5003|info=recommendations|true|info||5004|info=similar|true|info||5091|info=posters|true|SetFocus(5291)||5092|info=fanart|true|SetFocus(5292)||5093|info=trakt_comments|true|text||5010|info=crew$VAR[Path_Param_AggregateCrew]|true|info$VAR[Path_Recs_UpNext,||5011|,|true|play]||5030|info=trakt_inlists|true|browse</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) | [Window.IsVisible(DialogPVRInfo.xml) + String.IsEqual(Container(99950).ListItem.DBType,movie)]">5000|info=cast$VAR[Path_Param_AggregateCast]|true|info$VAR[Path_Recs_Collection,||5002|,|false|info]||5003|info=recommendations|true|info||5004|info=similar|true|info||5091|info=posters|true|SetFocus(5291)||5092|info=fanart|true|SetFocus(5292)||5093|info=trakt_comments|true|text||5094|info=movie_keywords|true|SetFocus(5095,0,absolute)||5010|info=crew$VAR[Path_Param_AggregateCrew]|true|info||5030|info=trakt_inlists|true|browse</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | [Window.IsVisible(DialogPVRInfo.xml) + [String.IsEqual(Container(99950).ListItem.DBType,tvshow) | String.IsEqual(Container(99950).ListItem.DBType,season) | String.IsEqual(Container(99950).ListItem.DBType,episode)]]">5000|info=cast$VAR[Path_Param_AggregateCast]|true|info$VAR[Path_Recs_Season,||5001|,|true|browse]||5003|info=recommendations|true|info||5004|info=similar|true|info||5091|info=posters|true|SetFocus(5291)||5092|info=fanart|true|SetFocus(5292)||5093|info=trakt_comments|true|text||5010|info=crew$VAR[Path_Param_AggregateCrew]|true|info$VAR[Path_Recs_UpNext,||5011|,|true|play]||5030|info=trakt_inlists|true|browse</value>
     </variable>
 
     <variable name="Path_Recs_Collection">
@@ -45,7 +45,7 @@
     </variable>
 
     <variable name="Path_Recs_Genre">
-        <value condition="!String.IsEmpty(ListItem.Genre)">info=discover&amp;with_genres=$WINPROP[Genre]&amp;exclude_key=title&amp;exclude_value=$WINPROP[Title]$VAR[Path_Param_Type,&amp;,]</value>
+        <value condition="!String.IsEmpty(ListItem.Genre) + !Window.IsVisible(DialogPVRInfo.xml)">info=discover&amp;with_genres=$WINPROP[Genre]&amp;exclude_key=title&amp;exclude_value=$WINPROP[Title]$VAR[Path_Param_Type,&amp;,]</value>
     </variable>
 
     <variable name="Path_Recs_Season">
@@ -76,9 +76,16 @@
         <value condition="String.IsEqual(ListItem.DBType,episode)">tmdb_type=tv</value>
         <value condition="String.IsEqual(ListItem.DBType,set)">tmdb_type=movie</value>
         <value condition="$EXP[Exp_IsPersonInfo]">tmdb_type=person</value>
+        <value condition="Window.IsVisible(DialogPVRInfo.xml) + String.IsEqual(Container(99950).ListItem.DBType,movie)">tmdb_type=movie</value>
+        <value condition="Window.IsVisible(DialogPVRInfo.xml) + String.IsEqual(Container(99950).ListItem.DBType,tvshow)">tmdb_type=tv</value>
+        <value condition="Window.IsVisible(DialogPVRInfo.xml) + String.IsEqual(Container(99950).ListItem.DBType,season)">tmdb_type=tv</value>
+        <value condition="Window.IsVisible(DialogPVRInfo.xml) + String.IsEqual(Container(99950).ListItem.DBType,episode)">tmdb_type=tv</value>
+        <value condition="Window.IsVisible(DialogPVRInfo.xml) + String.IsEqual(Container(99950).ListItem.DBType,set)">tmdb_type=movie</value>
     </variable>
 
     <variable name="Path_Recs_Query">
+        <value condition="Window.IsVisible(DialogPVRInfo.xml) + !String.IsEmpty(Container(99950).ListItem.UniqueId(tvshow.tmdb))">tmdb_id=$INFO[Container(99950).ListItem.UniqueId(tvshow.tmdb)]</value>
+        <value condition="Window.IsVisible(DialogPVRInfo.xml)">tmdb_id=$INFO[Container(99950).ListItem.UniqueId(tmdb)]</value>
         <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Property(imdb_id))">imdb_id=$INFO[ListItem.Property(imdb_id)]</value>
         <value condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.IMDBNumber) + String.StartsWith(ListItem.IMDBNumber,tt)">imdb_id=$INFO[ListItem.IMDBNumber]</value>
         <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.StartsWith(ListItem.Label,Season)] + !String.IsEmpty(ListItem.TvShowTitle)">query=$WINPROP[Title]$INFO[ListItem.Year,$COMMAepisode_year=,]</value>
