@@ -106,10 +106,16 @@
     </variable>
 
     <variable name="Path_Library_Collections">
-        <value condition="!String.IsEmpty(ListItem.DBID) + String.IsEqual(ListItem.DBType,tvshow) + ListItem.IsFolder">$INFO[ListItem.DBID,videodb://tvshows/titles/,/]</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) + ListItem.IsFolder + String.IsEqual(ListItem.Label,ListItem.TvShowTitle)">$INFO[ListItem.FolderPath]</value>
+        <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.DBID)">$INFO[ListItem.DBID,videodb://tvshows/titles/,/]</value>
+        <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,tvshow) + String.IsEqual(ListItem.Label,ListItem.TvShowTitle)">$INFO[ListItem.FolderPath]</value>
         <value condition="String.IsEqual(ListItem.DBType,movie)">$INFO[ListItem.SetID,videodb://movies/sets/,/]</value>
         <value condition="ListItem.IsCollection">$INFO[ListItem.DBID,videodb://movies/sets/,/]</value>
+    </variable>
+
+    <variable name="Path_Library_Episodes">
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + Integer.IsEqual(ListItem.Property(TotalSeasons),1)">videodb://tvshows/titles/$INFO[ListItem.DBID]/-1/-1/</value>
+        <value condition="!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.TvShowDBID) + !String.IsEmpty(ListItem.Season)">videodb://tvshows/titles/$INFO[ListItem.TvShowDBID]/$INFO[ListItem.Season]/</value>
+        <value condition="!Container.IsUpdating(6200) + Container(6200).ListItem.IsFolder">$INFO[Container(6200).ListItem.FolderPath]</value>
     </variable>
 
     <variable name="Path_Library_FromStudio">
@@ -132,7 +138,7 @@
 
     <variable name="Path_Library_FromYear">
         <value condition="String.IsEqual(ListItem.DBType,movie)">videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22year%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Year]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">videodb://tvshows/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22year%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Year]%22%5d%7d%5d%7d%2c%22type%22%3a%22tvshows%22%7d</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">videodb://tvshows/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22year%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Year]%22%5d%7d%5d%7d%2c%22type%22%3a%22tvshows%22%7d</value>
     </variable>
 
     <variable name="Path_DiscoverWidget">
