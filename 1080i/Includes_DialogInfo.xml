@@ -7,15 +7,11 @@
             <animation effect="fade" start="100" end="0" condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))">Conditional</animation>
             <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="[ControlGroup(4000).HasFocus()]">Conditional</animation>
             <animation effect="slide" end="0" start="100" time="400" tween="cubic" easing="out" reversible="false" condition="![ControlGroup(4000).HasFocus()]">Conditional</animation>
+            <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
+            <visible>!ControlGroup(6000).HasFocus()</visible>
+            <visible>String.IsEmpty(Window(Home).Property(Recommendations.IsLoading))</visible>
             <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-            <animation type="Visible" reversible="false">
-                <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
-                <effect type="slide" start="-320" end="0" time="400" delay="400" tween="cubic" easing="out" />
-            </animation>
-            <animation type="Hidden" reversible="false">
-                <effect type="fade" start="100" end="0" time="300" tween="sine" easing="out" />
-                <effect type="slide" start="0" end="-320" time="300" tween="cubic" easing="out" />
-            </animation>
+            <include>Animation_Common</include>
             <nested />
         </control>
     </include>
@@ -29,9 +25,6 @@
         <definition>
             <control type="group">
                 <width>infodialog_left_w</width>
-                <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
-                <visible>!ControlGroup(6000).HasFocus()</visible>
-                <visible>String.IsEmpty(Window(Home).Property(Recommendations.IsLoading))</visible>
                 <include content="Animation_Left_Delay">
                     <param name="windowopen_condition">String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))</param>
                 </include>
@@ -56,9 +49,6 @@
             <control type="group">
                 <left>$PARAM[left]</left>
                 <include>Dimension_View</include>
-                <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
-                <visible>!ControlGroup(6000).HasFocus()</visible>
-                <visible>String.IsEmpty(Window(Home).Property(Recommendations.IsLoading))</visible>
                 <include content="Animation_Right_Delay">
                     <param name="windowopen_condition">String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))</param>
                 </include>
