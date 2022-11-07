@@ -1750,57 +1750,82 @@
                 <include content="Object_ItemBack" condition="$PARAM[selected] | $PARAM[detailed] | !Skin.HasSetting(Glass.DisablePanels)">
                     <param name="selected" value="$PARAM[selected]" />
                 </include>
-                <include content="Object_Control" condition="!$PARAM[detailed]">
-                    <param name="control" value="textbox" />
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <label>$INFO[ListItem.Label]</label>
-                    <textcolor>main_fg_70</textcolor>
-                    <font>font_mini_bold</font>
-                    <left>20</left>
-                    <right>20</right>
-                    <align>center</align>
-                    <aligny>center</aligny>
-                    <top>5</top>
-                    <bottom>5</bottom>
-                </include>
-                <include content="Object_Control" condition="$PARAM[detailed]">
-                    <param name="control" value="label" />
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <label>$INFO[ListItem.Label]</label>
-                    <textcolor>main_fg_70</textcolor>
-                    <font>font_mini_bold</font>
-                    <bottom>20</bottom>
+                <control type="group">
+                    <visible>!String.ISEqual(ListItem.DBType,song)</visible>
+                    <include content="Object_Control" condition="!$PARAM[detailed]">
+                        <param name="control" value="textbox" />
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Label]</label>
+                        <textcolor>main_fg_70</textcolor>
+                        <font>font_mini_bold</font>
+                        <left>20</left>
+                        <right>20</right>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <top>5</top>
+                        <bottom>5</bottom>
+                    </include>
+                    <include content="Object_Control" condition="$PARAM[detailed]">
+                        <param name="control" value="label" />
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Label]</label>
+                        <textcolor>main_fg_70</textcolor>
+                        <font>font_mini_bold</font>
+                        <bottom>20</bottom>
+                        <height>20</height>
+                        <left>20</left>
+                        <right>20</right>
+                        <align>center</align>
+                    </include>
+                    <include content="Object_Control" condition="$PARAM[detailed]">
+                        <param name="control">group</param>
+                        <control type="group">
+                            <visible>!String.IsEqual(ListItem.Property(isSubmenu),True)</visible>
+                            <include content="Object_ItemIcon">
+                                <param name="icon">$PARAM[icon]</param>
+                                <param name="icon_keep">$PARAM[icon]</param>
+                                <param name="diffuse">$PARAM[diffuse]</param>
+                                <param name="is_keep">True</param>
+                                <param name="icon_keep_bordersize">16</param>
+                                <param name="icon_other_bordersize">16</param>
+                                <param name="icon_genre_bordersize">24</param>
+                                <param name="selected">$PARAM[selected]</param>
+                            </include>
+                        </control>
+                        <control type="image">
+                            <visible>String.IsEqual(ListItem.Property(isSubmenu),True)</visible>
+                            <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
+                                <param name="colordiffuse">$VAR[ColorSelected]</param>
+                            </include>
+                            <colordiffuse>main_fg_90</colordiffuse>
+                            <texture background="true">$PARAM[icon]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                        </control>
+                        <bottom>40</bottom>
+                    </include>
+                </control>
+                <control type="group">
+                    <visible>String.ISEqual(ListItem.DBType,song)</visible>
+                    <centertop>50%</centertop>
                     <height>20</height>
                     <left>20</left>
                     <right>20</right>
-                    <align>center</align>
-                </include>
-                <include content="Object_Control" condition="$PARAM[detailed]">
-                    <param name="control">group</param>
-                    <control type="group">
-                        <visible>!String.IsEqual(ListItem.Property(isSubmenu),True)</visible>
-                        <include content="Object_ItemIcon">
-                            <param name="icon">$PARAM[icon]</param>
-                            <param name="icon_keep">$PARAM[icon]</param>
-                            <param name="diffuse">$PARAM[diffuse]</param>
-                            <param name="is_keep">True</param>
-                            <param name="icon_keep_bordersize">16</param>
-                            <param name="icon_other_bordersize">16</param>
-                            <param name="icon_genre_bordersize">24</param>
-                            <param name="selected">$PARAM[selected]</param>
-                        </include>
+                    <control type="label">
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.TrackNumber,,. ]$INFO[ListItem.Title]</label>
+                        <textcolor>main_fg_70</textcolor>
+                        <font>font_mini_bold</font>
+                        <right>80</right>
+                        <align>left</align>
                     </control>
-                    <control type="image">
-                        <visible>String.IsEqual(ListItem.Property(isSubmenu),True)</visible>
-                        <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
-                            <param name="colordiffuse">$VAR[ColorSelected]</param>
-                        </include>
-                        <colordiffuse>main_fg_90</colordiffuse>
-                        <texture background="true">$PARAM[icon]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
+                    <control type="label">
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <label>$INFO[ListItem.Duration]</label>
+                        <textcolor>main_fg_70</textcolor>
+                        <font>font_mini</font>
+                        <align>right</align>
                     </control>
-                    <bottom>40</bottom>
-                </include>
+                </control>
                 <include content="Object_SelectBox" condition="$PARAM[selected]">
                     <param name="indicator" value="false" />
                     <param name="focusbounce" value="true" />
