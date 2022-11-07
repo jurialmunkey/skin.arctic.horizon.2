@@ -113,8 +113,9 @@
     </variable>
 
     <variable name="Path_Library_Episodes">
-        <value condition="String.IsEqual(ListItem.DBType,tvshow)">videodb://tvshows/titles/$INFO[ListItem.DBID]/-1/-1/?xsp={"order":{"direction":"ascending","ignorefolders":0,"method":"episode"},"type":"episodes"}</value>
-        <value condition="!String.IsEmpty(ListItem.TvShowDBID) + !String.IsEmpty(ListItem.Season)">videodb://tvshows/titles/$INFO[ListItem.TvShowDBID]/$INFO[ListItem.Season]/?xsp={"order":{"direction":"ascending","ignorefolders":0,"method":"episode"},"type":"episodes"}</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + Integer.IsEqual(ListItem.Property(TotalSeasons),1)">videodb://tvshows/titles/$INFO[ListItem.DBID]/-1/-1/</value>
+        <value condition="!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.TvShowDBID) + !String.IsEmpty(ListItem.Season)">videodb://tvshows/titles/$INFO[ListItem.TvShowDBID]/$INFO[ListItem.Season]/</value>
+        <value condition="!Container.IsUpdating(6200) + Container(6200).ListItem.IsFolder">$INFO[Container(6200).ListItem.FolderPath]</value>
     </variable>
 
     <variable name="Path_Library_FromStudio">

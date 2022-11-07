@@ -626,38 +626,39 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableSeasons) + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.Property(TotalSeasons),1)]">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + [[!Skin.HasSetting(Info.DisableCollections) + [String.IsEqual(ListItem.DBType,movie) | ListItem.IsCollection]] | [!Skin.HasSetting(Info.DisableSeasons) + String.IsEqual(ListItem.DBType,tvshow) + !Integer.IsEqual(ListItem.Property(TotalSeasons),1)]]">
                 <param name="groupid" value="6300" />
                 <param name="id" value="6200" />
-                <param name="label" value="$LOCALIZE[31108]" />
-                <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
-                <param name="include" value="List_Landscape_Row" />
-                <param name="icon" value="$INFO[ListItem.Icon]" />
-                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6200)</onfocus>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6200)</onfocus>
-                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
-                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-                <content target="videos">$VAR[Path_Library_Episodes]</content>
-                <include content="Action_LibraryInfoWidget_Click">
-                    <param name="id">6200</param>
-                </include>
-                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
-                <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
-                <onback>50</onback>
-                <onback>SetFocus(5000)</onback>
-            </include>
-
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + [[!Skin.HasSetting(Info.DisableCollections) + [String.IsEqual(ListItem.DBType,movie) | ListItem.IsCollection]] | [!Skin.HasSetting(Info.DisableSeasons) + String.IsEqual(ListItem.DBType,tvshow) + !String.IsEqual(ListItem.Property(TotalSeasons),1)]]">
-                <param name="groupid" value="6301" />
-                <param name="id" value="6201" />
                 <param name="label" value="$LOCALIZE[31108]" />
                 <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                 <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_Collections]</content>
                 <include content="Action_Widget_Play_Click">
+                    <param name="id">6200</param>
+                </include>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableSeasons) + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,tvshow)]">
+                <param name="groupid" value="6301" />
+                <param name="id" value="6201" />
+                <param name="label" value="$LOCALIZE[20360]" />
+                <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                <param name="include" value="List_Landscape_Row" />
+                <param name="icon" value="$INFO[ListItem.Icon]" />
+                <param name="altvisible">!Container.IsUpdating(6200) + Container(6200).ListItem.IsFolder</param>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6201)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6201)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
+                <content target="videos">$VAR[Path_Library_Episodes]</content>
+                <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6201</param>
                 </include>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
+                <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
                 <onback>50</onback>
                 <onback>SetFocus(5000)</onback>
             </include>
