@@ -263,6 +263,68 @@
         </include>
     </include>
 
+    <include name="Items_DialogMusicInfo_MenuBar">
+        <include content="OSD_Button">
+            <param name="vertical">true</param>
+            <param name="id" value="5001" />
+            <param name="groupid" value="5101" />
+            <param name="sliceid" value="5201" />
+            <param name="label" value="$VAR[Label_VideoInfo_PlayButton]" />
+            <param name="icon" value="$VAR[Image_VideoInfo_PlayButton]" />
+            <onclick condition="String.IsEmpty(ListItem.DBID) + !String.IsEqual(ListItem.DBType,artist)">PlayMedia($INFO[ListItem.FilenameAndPath])</onclick>
+            <onclick condition="String.IsEqual(ListItem.DBType,artist)">SetFocus(50)</onclick>
+            <onclick condition="System.AddonIsEnabled(script.playalbum) + String.IsEqual(ListItem.DBType,album)">RunScript(script.playalbum,albumid=$INFO[ListItem.DBID])</onclick>
+            <onclick condition="System.AddonIsEnabled(script.playalbum) + String.IsEqual(ListItem.DBType,song)">RunScript(script.playalbum,songid=$INFO[ListItem.DBID])</onclick>
+            <onclick condition="System.HasAddon(script.playalbum) + !System.AddonIsEnabled(script.playalbum) + !String.IsEmpty(ListItem.DBID)">EnableAddon(script.playalbum)</onclick>
+            <onclick condition="!System.HasAddon(script.playalbum) + !String.IsEmpty(ListItem.DBID)">InstallAddon(script.playalbum)</onclick>
+            <include content="OSD_Button_HintLabel">
+                <param name="label">$VAR[Label_VideoInfo_PlayButton]</param>
+            </include>
+        </include>
+        <include content="OSD_Button">
+            <param name="vertical">true</param>
+            <param name="id" value="5003" />
+            <param name="groupid" value="5103" />
+            <param name="sliceid" value="5203" />
+            <param name="label" value="$LOCALIZE[137]" />
+            <param name="icon" value="special://skin/extras/icons/search.png" />
+            <param name="visible" value="true" />
+            <onclick condition="!String.IsEmpty(ListItem.Title)">SetProperty(CustomSearchTerm,$ESCINFO[ListItem.Title],Home)</onclick>
+            <onclick condition="String.IsEmpty(ListItem.Title)">SetProperty(CustomSearchTerm,$ESCINFO[ListItem.Label],Home)</onclick>
+            <onclick condition="Window.IsVisible(1190)">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_id=1114)</onclick>
+            <onclick condition="!Window.IsVisible(1190)">RunScript(plugin.video.themoviedb.helper,recommendations=onaction,window_id=1191,builtin=ActivateWindow(1114),after=True)</onclick>
+            <include content="OSD_Button_HintLabel">
+                <param name="label">$LOCALIZE[137]</param>
+            </include>
+        </include>
+        <include content="OSD_Button">
+            <param name="vertical">true</param>
+            <param name="id" value="5005" />
+            <param name="groupid" value="5105" />
+            <param name="sliceid" value="5205" />
+            <param name="label" value="Wiki" />
+            <param name="icon" value="special://skin/extras/icons/globe.png" />
+            <onclick>runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
+            <include content="OSD_Button_HintLabel">
+                <param name="label">Wiki</param>
+            </include>
+        </include>
+        <include content="OSD_Button">
+            <param name="vertical">true</param>
+            <param name="id" value="5006" />
+            <param name="groupid" value="5106" />
+            <param name="sliceid" value="5206" />
+            <param name="label" value="$LOCALIZE[31002]" />
+            <param name="icon" value="special://skin/extras/icons/settings.png" />
+            <param name="visible">!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)</param>
+            <onclick>SetFocus(9000)</onclick>
+            <include content="OSD_Button_HintLabel">
+                <param name="label">$LOCALIZE[31002]</param>
+            </include>
+        </include>
+    </include>
+
+
     <include name="Items_Settings">
         <content>
             <item id="4">
