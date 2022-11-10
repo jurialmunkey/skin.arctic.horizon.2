@@ -143,4 +143,47 @@
             <param name="viewtype_label" value="$LOCALIZE[31148]" />
         </include>
     </include>
+
+    <include name="View_552_MediaInfo_Combined">
+        <include content="List_Button_Row">
+            <param name="id">552</param>
+            <param name="orientation">vertical</param>
+            <param name="offset_y">40</param>
+            <param name="item_w">560</param>
+            <param name="itemlayout_w">600</param>
+            <param name="itemlayout_include">Layout_DiscoverButton</param>
+            <height>500</height>
+            <bottom>180</bottom>
+            <preloaditems>0</preloaditems>
+            <focusposition>1</focusposition>
+            <movement>2</movement>
+            <onleft>menu</onleft>
+            <onright condition="!Container(553).IsUpdating">553</onright>
+            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+            <visible>$EXP[Exp_View_Special]</visible>
+            <visible>$EXP[Exp_View_552]</visible>
+            <viewtype label="31342">wrap</viewtype>
+            <animation effect="slide" start="0" end="0,-120" condition="Integer.IsLess(Container(552).NumItems,3)">Conditional</animation>
+        </include>
+        <include content="List_Infolist">
+            <param name="id">553</param>
+            <param name="orientation">vertical</param>
+            <param name="offset_y">40</param>
+            <param name="detailed">true</param>
+            <onleft>552</onleft>
+            <left>620</left>
+            <height>500</height>
+            <bottom>160</bottom>
+            <focusposition>1</focusposition>
+            <movement>1</movement>
+            <animation effect="slide" start="0" end="0,-160" condition="Integer.IsLess(Container(553).NumItems,3)">Conditional</animation>
+            <onright>menu</onright>
+            <visible>Container(552).ListItem.IsFolder</visible>
+            <content target="videos" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$INFO[Container(552).ListItem.FolderPath]</content>
+            <visible>Control.IsVisible(552)</visible>
+            <onback>SetFocus(552)</onback>
+            <onfocus>SetProperty(TMDbHelper.WidgetContainer,553)</onfocus>
+            <animation effect="fade" start="100" end="10" time="200" delay="400" condition="Container(553).IsUpdating">Conditional</animation>
+        </include>
+    </include>
 </includes>
