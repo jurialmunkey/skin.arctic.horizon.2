@@ -7,6 +7,10 @@
             <animation effect="fade" start="100" end="0" condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))">Conditional</animation>
             <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="[ControlGroup(4000).HasFocus()]">Conditional</animation>
             <animation effect="slide" end="0" start="100" time="400" tween="cubic" easing="out" reversible="false" condition="![ControlGroup(4000).HasFocus()]">Conditional</animation>
+
+            <animation effect="slide" start="0" end="-540" time="400" tween="cubic" easing="out" reversible="false" condition="[Control.HasFocus(9801) | Control.HasFocus(9802)]">Conditional</animation>
+            <animation effect="slide" end="0" start="-540" time="400" tween="cubic" easing="out" reversible="false" condition="![Control.HasFocus(9801) | Control.HasFocus(9802)]">Conditional</animation>
+
             <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
             <visible>!ControlGroup(6000).HasFocus()</visible>
             <visible>String.IsEmpty(Window(Home).Property(Recommendations.IsLoading))</visible>
@@ -74,7 +78,8 @@
             <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="600">WindowOpen</animation>
             <animation effect="fade" reversible="false" start="100" end="0" time="100" delay="0">WindowClose</animation>
 
-            <onleft>5000</onleft>
+            <onleft condition="!Integer.IsEqual(Container(7003).NumItems,0)">SetFocus(7003)</onleft>
+            <onleft condition="Integer.IsEqual(Container(7003).NumItems,0)">5000</onleft>
             <onright>5000</onright>
             <onback>5000</onback>
             <onback condition="Skin.HasSetting(DialogInfo.FocusButtons)">Dialog.Close(movieinformation)</onback>
@@ -97,9 +102,7 @@
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5000)</onclick>
             <onclick condition="$EXP[Exp_IsPersonInfo]">runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=person)</onclick>
             <onleft>4000</onleft>
-
-            <onright condition="!Integer.IsEqual(Container(7003).NumItems,0)">SetFocus(7003,0,absolute)</onright>
-            <onright condition="Integer.IsEqual(Container(7003).NumItems,0)">4000</onright>
+            <onright>SetFocus(9801)</onright>
         </include>
     </include>
 
@@ -154,6 +157,17 @@
             <include content="DialogInfo_MouseNavArrow">
                 <visible>$PARAM[arrow_visible]</visible>
             </include>
+            <control type="image">
+                <texture colordiffuse="main_fg_80">special://skin/extras/icons/angle-right.png</texture>
+                <width>40</width>
+                <height>40</height>
+                <centerright>40</centerright>
+                <centertop>50%</centertop>
+                <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
+                <visible>System.IdleTime(1)</visible>
+                <visible>Control.HasFocus(5000)</visible>
+                <include>Animation_FadeIn_Delay</include>
+            </control>
         </control>
     </include>
 
@@ -263,6 +277,133 @@
                     <param name="role" value="$LOCALIZE[202]" />
                     <param name="name" value="$VAR[Label_Tagline]" />
                     <visible>!String.IsEmpty(Container(99950).ListItem.Tagline) | !String.IsEmpty(ListItem.Tagline)</visible>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <!-- OnRight ScrollNode -->
+    <include name="DialogInfo_CollectionsNode">
+        <control type="group">
+            <visible>Control.HasFocus(9801) | Control.HasFocus(9802)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include content="List_Button_Row">
+                <param name="id">9801</param>
+                <param name="orientation">vertical</param>
+                <param name="offset_y">40</param>
+                <param name="item_w">560</param>
+                <param name="itemlayout_w">600</param>
+                <param name="itemlayout_include">Layout_DiscoverButton</param>
+                <content target="videos">$VAR[Path_Info_Collections]</content>
+                <onback>5000</onback>
+                <onleft>5000</onleft>
+                <onright>9802</onright>
+                <top>200</top>
+                <bottom>-20</bottom>
+                <left>-80</left>
+                <width>680</width>
+                <preloaditems>0</preloaditems>
+                <focusposition>0</focusposition>
+                <movement>3</movement>
+                <animation effect="fade" start="100" end="0" condition="Container(9801).IsUpdating">Conditional</animation>
+                <content>
+                    <item>
+                        <label>$LOCALIZE[31225] $INFO[Container(99950).ListItem.Property(Director.1.Name)]</label>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"director","operator":"is","value":["$INFO[Container(99950).ListItem.Property(Director.1.Name)]"]}]},"type":"movies"}</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Director.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Property(Studio.1.Name)]</label>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"studio","operator":"is","value":["$INFO[Container(99950).ListItem.Property(Studio.1.Name)]"]}]},"type":"movies"}</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Studio.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Property(Genre.1.Name)]</label>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"genre","operator":"contains","value":["$INFO[Container(99950).ListItem.Property(Genre.1.Name)]"]}]},"type":"movies"}</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Genre.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Property(Genre.2.Name)]</label>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"genre","operator":"contains","value":["$INFO[Container(99950).ListItem.Property(Genre.2.Name)]"]}]},"type":"movies"}</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Genre.2.Name))</visible>
+                    </item>
+
+                    <item>
+                        <label>$LOCALIZE[31225] $INFO[Container(99950).ListItem.Property(Director.1.Name)]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;query=$INFO[Container(99950).ListItem.Property(Director.1.Name)]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Director.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Property(Studio.1.Name)]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;type=movie&amp;with_companies=$INFO[Container(99950).ListItem.Property(Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Studio.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Property(Genre.1.Name)]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;type=movie&amp;with_genres=$INFO[Container(99950).ListItem.Property(Genre.1.Name)]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Genre.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Property(Genre.2.Name)]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;type=movie&amp;with_genres=$INFO[Container(99950).ListItem.Property(Genre.2.Name)]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Genre.2.Name))</visible>
+                    </item>
+                </content>
+            </include>
+            <control type="group">
+                <top>200</top>
+                <left>-80</left>
+                <right>-600</right>
+                <visible>Container(9801).IsUpdating</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400" delay="600"/>
+                </animation>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse">main_fg</param>
+                </include>
+            </control>
+            <include content="List_Infolist">
+                <param name="id">9802</param>
+                <param name="orientation">vertical</param>
+                <param name="offset_y">40</param>
+                <param name="detailed">true</param>
+                <content target="videos">$VAR[Path_CollectionNode_Content]</content>
+                <onleft>9801</onleft>
+                <left>540</left>
+                <right>-600</right>
+                <top>220</top>
+                <bottom>-40</bottom>
+                <visible>!Container.IsUpdating(9801) + [Container(9801).ListItem.IsFolder | !String.IsEmpty(Container(9801).ListItem.Property(folderpath))]</visible>
+                <animation effect="fade" start="100" end="20" delay="600" time="200" condition="Container(9802).IsUpdating">Conditional</animation>
+                <focusposition>0</focusposition>
+                <movement>2</movement>
+            </include>
+            <control type="group">
+                <left>540</left>
+                <right>-600</right>
+                <top>200</top>
+                <visible>Container(9802).IsUpdating</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400" delay="600"/>
+                </animation>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse">main_fg</param>
                 </include>
             </control>
         </control>
@@ -475,14 +616,12 @@
                 <include>Texture_Shadow_40</include>
                 <texture colordiffuse="black" border="12">common/box.png</texture>
             </control>
-            <control type="list" id="7003">
-                <orientation>horizontal</orientation>
+            <control type="wraplist" id="7003">
+                <orientation>vertical</orientation>
                 <scrolltime tween="quadratic">400</scrolltime>
-                <onright>-</onright>
-                <onleft>5000</onleft>
-                <onback>5000</onback>
-                <onup>5000</onup>
-                <ondown>5000</ondown>
+                <onright>4000</onright>
+                <onleft>4000</onleft>
+                <onback>4000</onback>
                 <itemlayout>
                     <control type="image">
                         <aspectratio scalediffuse="false">scale</aspectratio>

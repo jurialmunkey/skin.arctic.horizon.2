@@ -1452,14 +1452,21 @@
                 <left>grid_x04</left>
                 <right>grid_x04</right>
                 <height>$PARAM[item_h]</height>
-                <include content="Object_Control" condition="$PARAM[selected] + Skin.HasSetting(Glass.DisablePanels)">
+                <include content="Object_Control" condition="$PARAM[detailed] + $PARAM[selected]">
+                    <include content="Dimension_Padding"><param name="pad">20</param></include>
+                    <param name="control" value="group" />
+                    <include content="Object_ItemBack">
+                        <param name="selected">true</param>
+                    </include>
+                </include>
+                <include content="Object_Control" condition="!$PARAM[detailed] + $PARAM[selected] + Skin.HasSetting(Glass.DisablePanels)">
                     <param name="control" value="group" />
                     <include>Object_ItemBack</include>
                     <control type="image">
                         <include>Texture_Box_Highlight_H</include>
                     </control>
                 </include>
-                <include content="Object_Control" condition="$PARAM[selected] + !Skin.HasSetting(Glass.DisablePanels)">
+                <include content="Object_Control" condition="!$PARAM[detailed] + $PARAM[selected] + !Skin.HasSetting(Glass.DisablePanels)">
                     <param name="control" value="group" />
                     <control type="image">
                         <include>Texture_Box_Highlight_H</include>
@@ -1506,7 +1513,12 @@
                                 <aspectratio scalediffuse="false">scale</aspectratio>
                             </control>
                         </control>
-                        <include content="Object_Indicator">
+                        <include content="Object_Indicator" condition="$PARAM[detailed]">
+                            <param name="shadow" value="false" />
+                            <right>30</right>
+                            <centerbottom>20</centerbottom>
+                        </include>
+                        <include content="Object_Indicator" condition="!$PARAM[detailed]">
                             <param name="shadow" value="false" />
                             <right>30</right>
                             <centerbottom>26</centerbottom>
@@ -1531,7 +1543,12 @@
                                 <aspectratio scalediffuse="false">scale</aspectratio>
                             </control>
                         </control>
-                        <include content="Object_Indicator">
+                        <include content="Object_Indicator" condition="$PARAM[detailed]">
+                            <param name="shadow" value="false" />
+                            <right>30</right>
+                            <centerbottom>20</centerbottom>
+                        </include>
+                        <include content="Object_Indicator" condition="!$PARAM[detailed]">
                             <param name="shadow" value="false" />
                             <right>30</right>
                             <centerbottom>26</centerbottom>
@@ -1542,6 +1559,16 @@
                         <param name="selected" value="$PARAM[selected]" />
                     </include>
                 </control>
+                <include content="Object_Control" condition="$PARAM[detailed] + $PARAM[selected]">
+                    <include content="Dimension_Padding"><param name="pad">20</param></include>
+                    <param name="control" value="group" />
+                    <include content="Object_SelectBox">
+                        <param name="indicator" value="true" />
+                        <param name="focusbounce" value="true" />
+                        <param name="indicator_reposition">true</param>
+                        <param name="indicator_left">139</param>
+                    </include>
+                </include>
             </control>
         </definition>
     </include>
