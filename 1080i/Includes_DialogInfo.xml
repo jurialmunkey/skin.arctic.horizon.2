@@ -303,37 +303,38 @@
                 <left>-80</left>
                 <width>680</width>
                 <preloaditems>0</preloaditems>
-                <focusposition>0</focusposition>
-                <movement>3</movement>
+                <focusposition>1</focusposition>
+                <movement>2</movement>
+                <animation effect="slide" start="0" end="0,-120" condition="Integer.IsLess(Container(9801).NumItems,3)">Conditional</animation>
                 <animation effect="fade" start="100" end="0" condition="Container(9801).IsUpdating">Conditional</animation>
                 <content>
                     <item>
                         <label>$LOCALIZE[31225] $INFO[Container(99950).ListItem.Property(Director.1.Name)]</label>
-                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"director","operator":"is","value":["$INFO[Container(99950).ListItem.Property(Director.1.Name)]"]}]},"type":"movies"}</property>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"director","operator":"contains","value":["$INFO[Container(99950).ListItem.Property(Director.1.Name)]"]}]},"type":"movies"}</property>
                         <visible>String.IsEqual(ListItem.DBType,movie)</visible>
                         <visible>!String.IsEmpty(ListItem.DBID)</visible>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Property(Director.1.Name))</visible>
                     </item>
                     <item>
+                        <label>$LOCALIZE[31341] $INFO[ListItem.Writer]</label>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"writers","operator":"contains","value":["$INFO[ListItem.Writer]"]}]},"type":"movies"}</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(ListItem.Writer)</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[ListItem.Set]</label>
+                        <property name="folderpath">$INFO[ListItem.SetID,videodb://movies/sets/,/]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(ListItem.SetID)</visible>
+                    </item>
+                    <item>
                         <label>$INFO[Container(99950).ListItem.Property(Studio.1.Name)]</label>
-                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"studio","operator":"is","value":["$INFO[Container(99950).ListItem.Property(Studio.1.Name)]"]}]},"type":"movies"}</property>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"studio","operator":"contains","value":["$INFO[Container(99950).ListItem.Property(Studio.1.Name)]"]}]},"type":"movies"}</property>
                         <visible>String.IsEqual(ListItem.DBType,movie)</visible>
                         <visible>!String.IsEmpty(ListItem.DBID)</visible>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Property(Studio.1.Name))</visible>
-                    </item>
-                    <item>
-                        <label>$INFO[Container(99950).ListItem.Property(Genre.1.Name)]</label>
-                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"genre","operator":"contains","value":["$INFO[Container(99950).ListItem.Property(Genre.1.Name)]"]}]},"type":"movies"}</property>
-                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
-                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
-                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Genre.1.Name))</visible>
-                    </item>
-                    <item>
-                        <label>$INFO[Container(99950).ListItem.Property(Genre.2.Name)]</label>
-                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"genre","operator":"contains","value":["$INFO[Container(99950).ListItem.Property(Genre.2.Name)]"]}]},"type":"movies"}</property>
-                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
-                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
-                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Genre.2.Name))</visible>
                     </item>
 
                     <item>
@@ -344,25 +345,25 @@
                         <visible>!String.IsEmpty(Container(99950).ListItem.Property(Director.1.Name))</visible>
                     </item>
                     <item>
+                        <label>$LOCALIZE[31341] $VAR[Path_FromWriter_Screenplay]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Writer&amp;query=$VAR[Path_FromWriter_Screenplay]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Writer.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Set]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=collection&amp;tmdb_type=collection&amp;tmdb_id=$INFO[Container(99950).ListItem.Property(Set.TMDb_ID)]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Set.TMDb_ID))</visible>
+                    </item>
+                    <item>
                         <label>$INFO[Container(99950).ListItem.Property(Studio.1.Name)]</label>
                         <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;type=movie&amp;with_companies=$INFO[Container(99950).ListItem.Property(Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
                         <visible>String.IsEqual(ListItem.DBType,movie)</visible>
                         <visible>String.IsEmpty(ListItem.DBID)</visible>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Property(Studio.1.Name))</visible>
-                    </item>
-                    <item>
-                        <label>$INFO[Container(99950).ListItem.Property(Genre.1.Name)]</label>
-                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;type=movie&amp;with_genres=$INFO[Container(99950).ListItem.Property(Genre.1.Name)]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
-                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
-                        <visible>String.IsEmpty(ListItem.DBID)</visible>
-                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Genre.1.Name))</visible>
-                    </item>
-                    <item>
-                        <label>$INFO[Container(99950).ListItem.Property(Genre.2.Name)]</label>
-                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;type=movie&amp;with_genres=$INFO[Container(99950).ListItem.Property(Genre.2.Name)]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
-                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
-                        <visible>String.IsEmpty(ListItem.DBID)</visible>
-                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Genre.2.Name))</visible>
                     </item>
                 </content>
             </include>
@@ -391,10 +392,11 @@
                 <bottom>-40</bottom>
                 <visible>!Container.IsUpdating(9801) + [Container(9801).ListItem.IsFolder | !String.IsEmpty(Container(9801).ListItem.Property(folderpath))]</visible>
                 <animation effect="fade" start="100" end="20" delay="600" time="200" condition="Container(9802).IsUpdating">Conditional</animation>
-                <focusposition>0</focusposition>
-                <movement>2</movement>
+                <focusposition>1</focusposition>
+                <movement>1</movement>
                 <onclick>Dialog.Close(12003)</onclick>
                 <onclick>PlayMedia($INFO[Container(9802).ListItem.FileNameAndPath])</onclick>
+                <animation effect="slide" start="0" end="0,-160" condition="Integer.IsLess(Container(9802).NumItems,3)">Conditional</animation>
             </include>
             <control type="group">
                 <left>540</left>
@@ -621,7 +623,7 @@
             <control type="wraplist" id="7003">
                 <orientation>vertical</orientation>
                 <scrolltime tween="quadratic">400</scrolltime>
-                <onright>4000</onright>
+                <onright>5000</onright>
                 <onleft>4000</onleft>
                 <onback>4000</onback>
                 <itemlayout>
