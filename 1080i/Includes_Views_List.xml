@@ -2,7 +2,7 @@
 <includes>
     <include name="View_Furniture_List_Bottom">
         <include content="Object_Control" condition="$EXP[Exp_View_501_Include] | $EXP[Exp_View_511_Include] | $EXP[Exp_View_507_Include] | $EXP[Exp_View_517_Include] | $EXP[Exp_View_552_Include]">
-            <param name="control" value="group" />
+            <param name="control">group</param>
             <visible>$EXP[Exp_ListViews] | Control.IsVisible(552)</visible>
             <include condition="$EXP[Exp_View_501_Include]">View_501_Square_List</include>
             <include condition="$EXP[Exp_View_507_Include]">View_507_Square_Infolist</include>
@@ -11,292 +11,337 @@
             <include condition="$EXP[Exp_View_552_Include]">View_552_MediaInfo_Combined</include>
         </include>
         <include content="Object_Control" condition="$EXP[Exp_View_508_Include] | $EXP[Exp_View_558_Include]">
-            <param name="control" value="group" />
+            <param name="control">group</param>
             <visible>$EXP[Exp_BigListViews]</visible>
             <include condition="$EXP[Exp_View_508_Include]">View_508_Square_Playlist</include>
             <include condition="$EXP[Exp_View_558_Include]">View_558_MediaInfo_List</include>
         </include>
     </include>
-
-    <include name="View_List_Playlist_Main">
-        <param name="isviewtype" default="true" />
-        <param name="flipside" default="false" />
-        <param name="right">info_poster_w</param>
-        <param name="detailed">true</param>
-        <definition>
-            <include content="Object_Control">
-                <param name="control" value="group" />
-                <control type="group">
-                    <include content="Object_Left" condition="!$PARAM[flipside]">
-                        <param name="left">40</param>
-                    </include>
-                    <include content="Object_Right" condition="$PARAM[flipside]">
-                        <param name="right">40</param>
-                    </include>
-                    <include content="Object_GlassPanel">
-                        <include content="Object_Left" condition="!$PARAM[flipside]">
-                            <param name="left">$PARAM[right]</param>
-                        </include>
-                        <include content="Object_Right" condition="$PARAM[flipside]">
-                            <param name="right">$PARAM[right]</param>
-                        </include>
-                        <include content="List_MediaList">
-                            <param name="id" value="$PARAM[id]" />
-                            <param name="detailed" value="$PARAM[detailed]" />
-                            <param name="itemlayout_include" value="Layout_PlayList" />
-                            <param name="item_h" value="113.33" />
-                            <param name="item_w" value="113.33" />
-                            <param name="itemlayout_h" value="113.33" />
-                            <param name="misc" value="5" />
-                            <left>-grid_x04</left>
-                            <right>-grid_x04</right>
-                            <include content="Object_Visible" condition="$PARAM[isviewtype]">
-                                <param name="visible">$EXP[Exp_View_Special] + $EXP[Exp_View_$PARAM[id]]</param>
-                            </include>
-                            <viewtype label="$PARAM[viewtype_label]">list</viewtype>
-                            <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">63</onleft>
-                            <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">menu</onright>
-                            <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">menu</onleft>
-                            <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">63</onright>
-                            <pagecontrol>63</pagecontrol>
-                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                        </include>
-                    </include>
+    <include name="View_List_SortLine">
+        <control type="group">
+            <height>grid_x04</height>
+            <left>grid_x04</left>
+            <right>grid_x04</right>
+            <control type="group">
+                <visible>[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | [String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Episode)] | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album)]</visible>
+                <height>grid_x02</height>
+                <control type="label">
+                    <font>font_tiny</font>
+                    <textcolor>main_fg_30</textcolor>
+                    <label>##</label>
+                    <width>grid_x08</width>
+                    <align>left</align>
                 </control>
-            </include>
-        </definition>
-    </include>
-
-    <include name="View_List_PlayList">
-        <param name="isviewtype" default="true" />
-        <param name="flipside" default="false" />
-        <definition>
-            <control type="group">
-                <visible>Control.IsVisible($PARAM[id])</visible>
-                <include>Dimension_View</include>
-                <include content="View_List_Playlist_Main">
-                    <param name="id">$PARAM[id]</param>
-                    <param name="flipside">$PARAM[flipside]</param>
-                    <param name="isviewtype">$PARAM[isviewtype]</param>
-                </include>
-                <include content="Dialog_MusicInfoAlbumArt">
-                    <param name="discart_top" value="237" />
-                    <param name="width" value="info_poster_w" />
-                    <param name="icon" value="$INFO[ListItem.Icon]" />
-                    <param name="discart_image" value="$VAR[Image_DiscArt]" />
-                    <param name="discart_spin" value="Player.Playing + !Player.Paused" />
-                    <include content="Object_Left" condition="!$PARAM[flipside]">
-                        <param name="left">0</param>
-                    </include>
-                    <include content="Object_Right" condition="$PARAM[flipside]">
-                        <param name="right">0</param>
-                    </include>
-                    <top>0</top>
-                    <visible>String.IsEqual(ListItem.DBtype,song) | String.IsEqual(ListItem.DBtype,album) | String.IsEqual(ListItem.DBtype,artist)</visible>
-                    <control type="image">
-                        <top>info_poster_w</top>
-                        <width>info_poster_w</width>
-                        <texture background="true">$VAR[Image_Clearlogo]</texture>
-                        <aspectratio>keep</aspectratio>
-                        <bordersize>40</bordersize>
-                        <visible>String.IsEmpty(ListItem.Art(discart))</visible>
-                        <visible>String.IsEmpty(ListItem.Art(album.discart))</visible>
-                    </control>
-                </include>
-                <include content="Object_BigPoster">
-                    <param name="diffuse" value="diffuse/poster_w475_h680.png" />
-                    <include content="Object_Left" condition="!$PARAM[flipside]">
-                        <param name="left">0</param>
-                    </include>
-                    <include content="Object_Right" condition="$PARAM[flipside]">
-                        <param name="right">0</param>
-                    </include>
-                    <height>info_poster_h</height>
-                    <width>info_poster_w</width>
-                    <visible>![String.IsEqual(ListItem.DBtype,song) | String.IsEqual(ListItem.DBtype,album) | String.IsEqual(ListItem.DBtype,artist)]</visible>
-                </include>
+                <control type="label">
+                    <font>font_tiny</font>
+                    <textcolor>main_fg_30</textcolor>
+                    <label>$LOCALIZE[369]</label>
+                    <align>left</align>
+                    <left>grid_x12</left>
+                </control>
+                <control type="label">
+                    <font>font_tiny</font>
+                    <textcolor>main_fg_30</textcolor>
+                    <label>$LOCALIZE[557]</label>
+                    <align>left</align>
+                    <left>grid_x68</left>
+                    <visible>$PARAM[detailed]</visible>
+                </control>
+                <control type="label">
+                    <font>font_tiny</font>
+                    <textcolor>main_fg_30</textcolor>
+                    <label>$LOCALIZE[180]</label>
+                    <align>right</align>
+                    <visible>[String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album)]</visible>
+                </control>
+                <control type="label">
+                    <font>font_tiny</font>
+                    <textcolor>main_fg_30</textcolor>
+                    <label>$LOCALIZE[563]</label>
+                    <align>right</align>
+                    <visible>![String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album)]</visible>
+                </control>
             </control>
-        </definition>
+
+            <control type="group">
+                <height>grid_x02</height>
+                <visible>![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | [String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Episode)] | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album)]</visible>
+                <control type="label">
+                    <font>font_tiny</font>
+                    <textcolor>main_fg_30</textcolor>
+                    <label>$INFO[Container.SortMethod,$LOCALIZE[31016]: ,]$INFO[Container.SortOrder, - ,][CAPITALIZE]$INFO[Container.Content,  •  ,][/CAPITALIZE]</label>
+                    <align>left</align>
+                </control>
+            </control>
+
+            <control type="image">
+                <texture colordiffuse="main_fg_12">common/white.png</texture>
+                <height>1</height>
+                <bottom>grid_x01</bottom>
+            </control>
+        </control>
     </include>
 
-    <include name="View_List_List">
-        <param name="isviewtype">true</param>
-        <param name="flipside">false</param>
-        <param name="height">grid_x48</param>
+    <include name="View_List_NewTemplate">
+        <param name="id">501</param>
+        <param name="icon">$INFO[ListItem.Icon]</param>
+        <param name="width">grid_x44</param>
+        <param name="viewtype_label">$LOCALIZE[31121]</param>
+        <param name="diffuse">diffuse/square_w480_h480.png</param>
         <param name="include">List_MediaList</param>
-        <param name="bottom">0</param>
+        <param name="controltype">list</param>
+        <param name="movement">3</param>
+        <param name="focusposition">1</param>
+        <param name="flipside">false</param>
+        <param name="detailed">false</param>
         <param name="scrollbar_id">64</param>
-        <definition>
-            <control type="group">
-                <include content="Object_Right" condition="$PARAM[flipside]">
-                    <param name="right">$PARAM[width]</param>
-                </include>
-                <include content="Object_Left" condition="!$PARAM[flipside]">
-                    <param name="left">$PARAM[width]</param>
-                </include>
-                <height>$PARAM[height]</height>
-                <bottom>0</bottom>
-                <include content="Object_GlassPanel">
-                    <include content="Object_Right" condition="$PARAM[flipside]">
-                        <param name="right">grid_x04</param>
-                    </include>
-                    <include content="Object_Left" condition="!$PARAM[flipside]">
-                        <param name="left">grid_x04</param>
-                    </include>
-                    <include content="$PARAM[include]">
-                        <param name="id">$PARAM[id]</param>
-                        <param name="item_h">$PARAM[item_h]</param>
-                        <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
-                        <param name="misc">$PARAM[misc]</param>
-                        <left>-grid_x04</left>
-                        <right>-grid_x04</right>
-                        <bottom>$PARAM[bottom]</bottom>
-                        <include content="Object_Visible" condition="$PARAM[isviewtype]">
-                            <param name="visible">$EXP[Exp_View_Special] + $EXP[Exp_View_$PARAM[id]]</param>
-                        </include>
-                        <viewtype label="$PARAM[viewtype_label]">list</viewtype>
-                        <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[scrollbar_id]</onleft>
-                        <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">menu</onright>
-                        <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">menu</onleft>
-                        <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[scrollbar_id]</onright>
-                        <pagecontrol>$PARAM[scrollbar_id]</pagecontrol>
-                        <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                    </include>
-                </include>
-            </control>
-        </definition>
-    </include>
-
-    <include name="View_List_Template">
-        <param name="height" default="grid_x48" />
-        <param name="include" default="List_MediaList" />
-        <param name="flipside" default="false" />
-        <param name="isviewtype" default="true" />
+        <param name="hasimage">true</param>
+        <param name="top">grid_x24</param>
+        <param name="poster_top">0</param>
+        <param name="poster_visible">true</param>
+        <param name="hasline">true</param>
+        <param name="hasview">true</param>
+        <param name="spacing">grid_x04</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <include>Dimension_View</include>
-                <include content="Object_BigPoster">
-                    <param name="icon">$PARAM[icon]</param>
-                    <param name="diffuse">$PARAM[diffuse]</param>
-                    <param name="icon_visible">![Container.Content(countries) | Container.Content(genres) | Container.Content(studios)]</param>
-                    <bottom>0</bottom>
-                    <include content="Object_Right" condition="$PARAM[flipside]">
-                        <param name="right">0</param>
-                    </include>
-                    <include content="Object_Left" condition="!$PARAM[flipside]">
-                        <param name="left">0</param>
-                    </include>
-                    <width>$PARAM[width]</width>
-                    <height>$PARAM[height]</height>
-                    <control type="group">
-                        <visible>[Container.Content(countries) | Container.Content(genres) | Container.Content(studios)]</visible>
-                        <include content="Object_ItemIcon">
+                <control type="group">
+                    <top>$PARAM[top]</top>
+
+                    <include content="Object_Control" condition="$PARAM[hasimage]">
+                        <param name="control">group</param>
+                        <include content="Object_Right" condition="$PARAM[flipside]">
+                            <param name="right">0</param>
+                        </include>
+                        <include content="Object_Left" condition="!$PARAM[flipside]">
+                            <param name="left">0</param>
+                        </include>
+                        <visible>$PARAM[poster_visible]</visible>
+                        <top>$PARAM[poster_top]</top>
+                        <width>$PARAM[width]</width>
+                        <include content="Object_BigPoster">
                             <param name="icon">$PARAM[icon]</param>
                             <param name="diffuse">$PARAM[diffuse]</param>
-                            <param name="icon_genre_bordersize">120</param>
                         </include>
+                    </include>
+
+                    <control type="group">
+                        <include content="Object_Right" condition="$PARAM[flipside]">
+                            <param name="right">$PARAM[width]</param>
+                        </include>
+                        <include content="Object_Left" condition="!$PARAM[flipside]">
+                            <param name="left">$PARAM[width]</param>
+                        </include>
+                        <control type="group">
+                            <include content="Object_Right" condition="!$PARAM[flipside]">
+                                <param name="right">-grid_x04</param>
+                            </include>
+                            <include content="Object_Left" condition="$PARAM[flipside]">
+                                <param name="left">-grid_x04</param>
+                            </include>
+                            <left>$PARAM[spacing]</left>
+                            <right>$PARAM[spacing]</right>
+                            <include condition="$PARAM[hasline]" content="View_List_SortLine">
+                                <param name="detailed">$PARAM[detailed]</param>
+                            </include>
+                            <include content="$PARAM[include]">
+                                <param name="id">$PARAM[id]</param>
+                                <param name="controltype">$PARAM[controltype]</param>
+                                <param name="detailed">$PARAM[detailed]</param>
+                                <focusposition>$PARAM[focusposition]</focusposition>
+                                <movement>$PARAM[movement]</movement>
+                                <left>-grid_x04</left>
+                                <right>-grid_x04</right>
+                                <top>20</top>
+                                <bottom>-20</bottom>
+                                <include content="Object_Visible" condition="$PARAM[hasview]">
+                                    <param name="visible">$EXP[Exp_View_Special] + $EXP[Exp_View_$PARAM[id]]</param>
+                                </include>
+                                <viewtype label="$PARAM[viewtype_label]">list</viewtype>
+                                <onleft>$PARAM[scrollbar_id]</onleft>
+                                <onright>menu</onright>
+                                <pagecontrol>$PARAM[scrollbar_id]</pagecontrol>
+                                <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                            </include>
+                        </control>
                     </control>
-                </include>
-                <include content="View_List_List">
-                    <param name="isviewtype">$PARAM[isviewtype]</param>
-                    <param name="flipside">$PARAM[flipside]</param>
-                    <param name="height">$PARAM[height]</param>
-                    <param name="include">$PARAM[include]</param>
-                    <param name="width">$PARAM[width]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="viewtype_label">$PARAM[viewtype_label]</param>
-                    <param name="scrollbar_id">$PARAM[scrollbar_id]</param>
-                </include>
+
+                </control>
             </control>
         </definition>
     </include>
 
     <include name="View_501_Square_List">
-        <include content="View_List_Template">
-            <param name="id" value="501" />
-            <param name="icon" value="$INFO[ListItem.Icon]" />
-            <param name="width" value="grid_x48" />
-            <param name="viewtype_label" value="$LOCALIZE[31121]" />
-            <param name="diffuse" value="diffuse/square_w480_h480.png" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
+        <include content="View_List_NewTemplate">
+            <param name="id">501</param>
+            <param name="icon">$INFO[ListItem.Icon]</param>
+            <param name="width">grid_x44</param>
+            <param name="viewtype_label">$LOCALIZE[31121]</param>
+            <param name="diffuse">diffuse/square_w480_h480.png</param>
+            <param name="include">List_MediaList</param>
+            <param name="controltype">fixedlist</param>
+            <param name="movement">3</param>
+            <param name="focusposition">1</param>
+            <param name="detailed">true</param>
         </include>
-    </include>
-    <include name="View_507_Square_Infolist">
-        <include content="View_List_Template">
-            <param name="id" value="507" />
-            <param name="icon" value="$INFO[ListItem.Icon]" />
-            <param name="width" value="grid_x48" />
-            <param name="include" value="List_Infolist" />
-            <param name="viewtype_label" value="$LOCALIZE[31143]" />
-            <param name="diffuse" value="diffuse/square_w480_h480.png" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
-        </include>
-    </include>
-    <include name="View_508_Square_Playlist">
-        <include content="View_List_PlayList">
-            <param name="id" value="508" />
-            <param name="viewtype_label" value="$LOCALIZE[31193]" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
-        </include>
-    </include>
-
-    <include name="View_558_MediaInfo_List">
-        <param name="id">558</param>
-        <param name="viewtype_label">$LOCALIZE[31276]</param>
-        <param name="flipside">!Skin.HasSetting(Lists.MirrorAlignment)</param>
-        <definition>
-            <control type="group">
-                <visible>Control.IsVisible($PARAM[id])</visible>
-                <include>Dimension_View</include>
-                <include content="View_List_List">
-                    <param name="isviewtype">true</param>
-                    <param name="flipside">$PARAM[flipside]</param>
-                    <param name="height">680</param>
-                    <param name="width">info_landscape_w</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="viewtype_label">$PARAM[viewtype_label]</param>
-                    <param name="item_h">80</param>
-                    <param name="itemlayout_h">85.714</param>
-                    <param name="misc">7</param>
-                    <param name="bottom">-5.714</param>
-                    <param name="scrollbar_id">63</param>
-                </include>
-                <control type="group">
-                    <include content="Object_Right" condition="$PARAM[flipside]">
-                        <param name="right">0</param>
-                    </include>
-                    <include content="Object_Left" condition="![$PARAM[flipside]]">
-                        <param name="left">0</param>
-                    </include>
-                    <width>info_landscape_w</width>
-                    <include content="View_Wall_MediaInfo">
-                        <param name="line_id">99$PARAM[id]</param>
-                    </include>
-                </control>
-            </control>
-        </definition>
     </include>
 
     <include name="View_511_Landscape_List">
-        <include content="View_List_Template">
-            <param name="id" value="511" />
-            <param name="icon" value="$VAR[Image_Landscape]" />
-            <param name="width" value="853" />
-            <param name="viewtype_label" value="$LOCALIZE[31122]" />
-            <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
+        <include content="View_List_NewTemplate">
+            <param name="id">511</param>
+            <param name="icon">$VAR[Image_Landscape]</param>
+            <param name="width">780</param>
+            <param name="viewtype_label">$LOCALIZE[31122]</param>
+            <param name="diffuse">diffuse/landscape_w853_h480.png</param>
+            <param name="include">List_MediaList</param>
+            <param name="controltype">fixedlist</param>
+            <param name="movement">3</param>
+            <param name="focusposition">1</param>
+            <param name="flipside">true</param>
+            <param name="detailed">false</param>
+            <param name="poster_top">0</param>
+            <param name="poster_visible">[!String.IsEmpty(ListItem.Art(landscape)) | !String.IsEmpty(ListItem.Art(tvshow.landscape)) | !String.IsEmpty(ListItem.Art(fanart)) | !String.IsEmpty(ListItem.Art(tvshow.fanart)) | !String.IsEmpty(ListItem.Art(artist.fanart)) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,video)]</param>
         </include>
     </include>
+
     <include name="View_517_Landscape_Infolist">
-        <include content="View_List_Template">
-            <param name="id" value="517" />
-            <param name="icon" value="$VAR[Image_Landscape]" />
-            <param name="width" value="853" />
-            <param name="include" value="List_Infolist" />
-            <param name="viewtype_label" value="$LOCALIZE[31144]" />
-            <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
-            <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
+        <include content="View_List_NewTemplate">
+            <param name="id">517</param>
+            <param name="icon">$VAR[Image_Landscape]</param>
+            <param name="width">780</param>
+            <param name="viewtype_label">$LOCALIZE[31144]</param>
+            <param name="diffuse">diffuse/landscape_w853_h480.png</param>
+            <param name="include">List_Infolist</param>
+            <param name="controltype">fixedlist</param>
+            <param name="movement">1</param>
+            <param name="focusposition">1</param>
+            <param name="flipside">true</param>
+            <param name="detailed">true</param>
+            <param name="top">200</param>
+            <param name="poster_top">grid_x04</param>
+            <param name="hasimage">true</param>
+            <param name="hasline">false</param>
+            <param name="spacing">40</param>
         </include>
     </include>
+
+    <include name="View_507_Square_Infolist">
+        <include content="View_List_NewTemplate">
+            <param name="id">507</param>
+            <param name="icon">$INFO[ListItem.Icon]</param>
+            <param name="width">440</param>
+            <param name="viewtype_label">$LOCALIZE[31143]</param>
+            <param name="diffuse">diffuse/square_w435_h435.png</param>
+            <param name="include">List_Infolist</param>
+            <param name="controltype">fixedlist</param>
+            <param name="movement">1</param>
+            <param name="focusposition">1</param>
+            <param name="flipside">true</param>
+            <param name="detailed">true</param>
+            <param name="top">200</param>
+            <param name="poster_top">grid_x04</param>
+            <param name="hasimage">true</param>
+            <param name="hasline">false</param>
+            <param name="spacing">40</param>
+        </include>
+    </include>
+
+    <include name="View_508_Square_Playlist">
+        <include content="View_List_NewTemplate">
+            <param name="id">508</param>
+            <param name="width">460</param>
+            <param name="viewtype_label">$LOCALIZE[31193]</param>
+            <param name="include">List_PlayList</param>
+            <param name="controltype">fixedlist</param>
+            <param name="focusposition">2</param>
+            <param name="movement">3</param>
+            <param name="flipside">false</param>
+            <param name="detailed">false</param>
+            <param name="hasimage">false</param>
+            <param name="hasline">false</param>
+            <param name="top">-60</param>
+            <param name="scrollbar_id">63</param>
+            <param name="spacing">60</param>
+        </include>
+        <control type="group">
+            <visible>Control.IsVisible(508)</visible>
+            <width>infodialog_left_w</width>
+            <include>DialogInfo_MusicArt</include>
+            <include content="Object_BigPoster">
+                <param name="diffuse">diffuse/square_w480_h480.png</param>
+                <centerleft>50%</centerleft>
+                <top>view_top</top>
+                <width>infodialog_poster_w</width>
+                <height>infodialog_poster_w</height>
+            </include>
+        </control>
+    </include>
+
+    <include name="View_558_MediaInfo_List">
+        <include content="View_List_NewTemplate">
+            <param name="id">558</param>
+            <param name="icon">$VAR[Image_Landscape]</param>
+            <param name="width">820</param>
+            <param name="viewtype_label">$LOCALIZE[31276]</param>
+            <param name="diffuse">diffuse/landscape_w853_h480.png</param>
+            <param name="include">List_MediaList</param>
+            <param name="controltype">list</param>
+            <param name="movement">3</param>
+            <param name="focusposition">1</param>
+            <param name="flipside">false</param>
+            <param name="detailed">false</param>
+            <param name="hasimage">false</param>
+            <param name="top">0</param>
+            <param name="scrollbar_id">63</param>
+        </include>
+        <control type="group">
+            <visible>Control.IsVisible(558)</visible>
+            <include>Dimension_View</include>
+            <control type="group">
+                <left>0</left>
+                <width>820</width>
+                <control type="group">
+                    <top>0</top>
+                    <control type="group">
+                        <right>602.86</right>
+                        <include content="Object_BigPoster">
+                            <param name="diffuse" value="diffuse/poster_w217_h320.png" />
+                            <param name="icon">$VAR[Image_Poster]</param>
+                            <height>320</height>
+                            <width>view_poster_item_w</width>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <right>0</right>
+                        <width>562.86</width>
+                        <height>320</height>
+                        <include content="Object_BigPoster">
+                            <param name="diffuse" value="diffuse/landscape_w560_h320.png" />
+                            <param name="icon">$VAR[Image_Landscape]</param>
+                        </include>
+                        <control type="image">
+                            <texture background="true">$INFO[Container(99950).ListItem.Art(cropimage)]</texture>
+                            <aspectratio aligny="bottom" align="left">keep</aspectratio>
+                            <bordersize>40</bordersize>
+                            <width>60%</width>
+                            <visible>String.IsEqual(ListItem.DBType,episode)</visible>
+                        </control>
+                    </control>
+                </control>
+
+                <include content="Info_Panel">
+                    <param name="title">false</param>
+                    <param name="shortline">true</param>
+                    <param name="line_id">99558</param>
+                    <param name="plotheight">info_plot_mediainfo_h</param>
+                    <param name="plotwidth">100%</param>
+                    <top>360</top>
+                </include>
+            </control>
+        </control>
+    </include>
+
+
+
 </includes>

@@ -51,10 +51,8 @@
                         <centerleft>50%</centerleft>
                     </control>
                     <control type="scrollbar" id="$PARAM[id]">
-                        <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onleft]</onleft>
-                        <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onright]</onright>
-                        <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onright]</onleft>
-                        <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onleft]</onright>
+                        <onleft>$PARAM[onleft]</onleft>
+                        <onright>$PARAM[onright]</onright>
                         <orientation>vertical</orientation>
                         <texturesliderbackground />
                         <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
@@ -68,16 +66,10 @@
     <include name="View_Furniture_Scrollbars">
         <include content="View_Furniture_Scrollbar_V">
             <top>view_top</top>
-            <include content="Object_Right" condition="Skin.HasSetting(Lists.MirrorAlignment)">
-                <param name="right">0</param>
-            </include>
         </include>
         <include content="View_Furniture_Scrollbar_V">
             <param name="id">64</param>
-            <height>grid_x48</height>
-            <include content="Object_Right" condition="Skin.HasSetting(Lists.MirrorAlignment)">
-                <param name="right">0</param>
-            </include>
+            <height>grid_x44</height>
         </include>
         <include content="Furniture_Bottombar_Group">
             <control type="group">
@@ -240,27 +232,38 @@
     <include name="View_Main_MyPlaylist">
         <control type="group">
             <include>Animation_Foreground_SlideUp</include>
-            <include content="View_List_PlayList">
-                <param name="id" value="50" />
-                <param name="viewtype_label" value="$LOCALIZE[559]" />
-                <param name="isviewtype" value="false" />
-                <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
+
+            <include content="View_List_NewTemplate">
+                <param name="id">50</param>
+                <param name="width">460</param>
+                <param name="viewtype_label">$LOCALIZE[559]</param>
+                <param name="include">List_PlayList</param>
+                <param name="controltype">fixedlist</param>
+                <param name="focusposition">2</param>
+                <param name="movement">3</param>
+                <param name="flipside">false</param>
+                <param name="detailed">false</param>
+                <param name="hasimage">false</param>
+                <param name="hasline">false</param>
+                <param name="hasview">false</param>
+                <param name="top">-60</param>
+                <param name="scrollbar_id">63</param>
+                <param name="spacing">60</param>
             </include>
+
             <control type="group">
-                <width>view_pad</width>
-                <top>view_top</top>
-                <bottom>view_top</bottom>
-                <control type="scrollbar" id="61">
-                    <onright>50</onright>
-                    <orientation>vertical</orientation>
-                    <width>8</width>
+                <visible>Control.IsVisible(50)</visible>
+                <width>infodialog_left_w</width>
+                <include>DialogInfo_MusicArt</include>
+                <include content="Object_BigPoster">
+                    <param name="diffuse">diffuse/square_w480_h480.png</param>
                     <centerleft>50%</centerleft>
-                    <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
-                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
-                    <include>Texture_Scrollbar_V</include>
-                    <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
-                </control>
+                    <top>view_top</top>
+                    <width>infodialog_poster_w</width>
+                    <height>infodialog_poster_w</height>
+                </include>
             </control>
+
             <control type="group">
                 <include>Furniture_Bottom_Left</include>
                 <include>Furniture_Bottom_Right</include>

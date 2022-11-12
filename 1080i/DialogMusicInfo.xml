@@ -11,7 +11,7 @@
     <menucontrol>4000</menucontrol>
     <controls>
 
-        <include>Info_Title_Label_Hidden</include>
+        <include>Defs_TMDbHelper_Loader</include>
 
         <!-- Button Group -->
         <include content="DialogInfo_ButtonGroup">
@@ -46,6 +46,7 @@
                             <param name="plotheight" value="info_plot_large_h" />
                             <param name="plotwidth" value="info_plot_w" />
                             <param name="details">![Control.HasFocus(9801) | Control.HasFocus(9802)]</param>
+                            <!-- <param name="infoline">![Control.HasFocus(9801) | Control.HasFocus(9802)]</param> -->
                         </include>
 
                         <!-- Track Details -->
@@ -67,9 +68,9 @@
                                 <param name="id">9801</param>
                                 <param name="offset_x">40</param>
                                 <param name="controltype">list</param>
-                                <param name="itemlayout_h">160</param>
+                                <param name="itemlayout_h">120</param>
                                 <param name="itemlayout_w">560</param>
-                                <param name="item_h">120</param>
+                                <param name="item_h">80</param>
                                 <param name="item_w">600</param>
                                 <content target="music">musicdb://albums/?xsp={"rules":{"and":[{"field":"artist","operator":"contains","value":["$INFO[ListItem.Artist]"]}]},"type":"albums"}</content>
                                 <onback>5000</onback>
@@ -80,25 +81,24 @@
                                 <bottom>-20</bottom>
                                 <preloaditems>0</preloaditems>
                             </include>
-                            <include content="Object_GlassPanel">
+                            <control type="group">
                                 <top>240</top>
                                 <left>640</left>
                                 <width>1120</width>
+                                <include>View_List_SortLine</include>
                                 <include content="List_MediaList">
                                     <param name="id" value="9802" />
                                     <param name="controltype">fixedlist</param>
-                                    <param name="misc">5</param>
                                     <content target="music">musicdb://songs/?xsp={"rules":{"and":[{"field":"album","operator":"is","value":["$INFO[Container(9801).ListItem.Album]"]}]},"type":"songs"}</content>
                                     <onback>9801</onback>
                                     <onleft>9801</onleft>
                                     <left>-40</left>
                                     <right>-40</right>
+                                    <focusposition>1</focusposition>
+                                    <movement>3</movement>
                                     <top>20</top>
-                                    <bottom>20</bottom>
-                                    <focusposition>2</focusposition>
-                                    <movement>2</movement>
                                 </include>
-                            </include>
+                            </control>
                         </control>
                     </control>
                 </control>
