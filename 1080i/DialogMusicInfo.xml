@@ -45,17 +45,61 @@
                         <include content="Info_Panel">
                             <param name="plotheight" value="info_plot_large_h" />
                             <param name="plotwidth" value="info_plot_w" />
+                            <param name="details">![Control.HasFocus(9801) | Control.HasFocus(9802)]</param>
                         </include>
 
                         <!-- Track Details -->
                         <include content="DialogInfo_MusicTracks" condition="String.IsEqual(ListItem.DBType,album)">
                             <param name="id">50</param>
+                            <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
                         </include>
                         <include content="DialogInfo_MusicTracks" condition="String.IsEqual(ListItem.DBType,artist)">
                             <param name="id">5050</param>
                             <param name="detailed">true</param>
                             <content target="music" sortby="playcount" sortorder="descending">$INFO[ListItem.Artist,musicdb://songs/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22songs%22%7D]</content>
+                            <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
                         </include>
+
+                        <control type="group">
+                            <visible>Control.HasFocus(9801) | Control.HasFocus(9802)</visible>
+                            <include>Animation_FadeIn_Delay</include>
+                            <include content="List_Tags_Wall">
+                                <param name="id">9801</param>
+                                <param name="offset_x">40</param>
+                                <param name="controltype">list</param>
+                                <param name="itemlayout_h">160</param>
+                                <param name="itemlayout_w">560</param>
+                                <param name="item_h">120</param>
+                                <param name="item_w">600</param>
+                                <content target="music">musicdb://albums/?xsp={"rules":{"and":[{"field":"artist","operator":"contains","value":["$INFO[ListItem.Artist]"]}]},"type":"albums"}</content>
+                                <onback>5000</onback>
+                                <onleft>5000</onleft>
+                                <onright>9802</onright>
+                                <left>-40</left>
+                                <top>200</top>
+                                <bottom>-20</bottom>
+                                <preloaditems>0</preloaditems>
+                            </include>
+                            <include content="Object_GlassPanel">
+                                <top>240</top>
+                                <left>640</left>
+                                <width>1120</width>
+                                <include content="List_MediaList">
+                                    <param name="id" value="9802" />
+                                    <param name="controltype">fixedlist</param>
+                                    <param name="misc">5</param>
+                                    <content target="music">musicdb://songs/?xsp={"rules":{"and":[{"field":"album","operator":"is","value":["$INFO[Container(9801).ListItem.Album]"]}]},"type":"songs"}</content>
+                                    <onback>9801</onback>
+                                    <onleft>9801</onleft>
+                                    <left>-40</left>
+                                    <right>-40</right>
+                                    <top>20</top>
+                                    <bottom>20</bottom>
+                                    <focusposition>2</focusposition>
+                                    <movement>2</movement>
+                                </include>
+                            </include>
+                        </control>
                     </control>
                 </control>
 
@@ -71,7 +115,7 @@
 
 
         <include content="DialogInfo_Furniture">
-            <param name="downarrow_visible">true</param>
+            <param name="downarrow_visible">false</param>
         </include>
 
         <include content="Object_Options_Menu">
@@ -83,76 +127,15 @@
 
         <include>DialogInfo_VideoTrailerFullscreen</include>
 
-        <include content="Object_Hidden_Button">
+        <!-- <include content="Object_Hidden_Button">
             <param name="id">7002</param>
-            <onfocus condition="String.IsEqual(ListItem.DBType,artist)">SetFocus(6000)</onfocus>
-            <onfocus condition="!String.IsEqual(ListItem.DBType,artist)">Close</onfocus>
-            <onfocus condition="!String.IsEqual(ListItem.DBType,artist)">SendClick(12)</onfocus>
-        </include>
+            <onfocus>SetFocus(5000)</onfocus>
+        </include> -->
 
         <include>DialogInfo_FilePathInfo</include>
 
-
-        <!-- Albums -->
         <control type="group">
-            <animation type="Conditional" reversible="false" condition="ControlGroup(6000).HasFocus()">
-                <effect type="fade" start="0" end="100" delay="400" time="400" tween="sine" easing="out"/>
-                <effect type="slide" start="0,320" end="0" delay="400" time="400" tween="cubic" easing="out" />
-            </animation>
-            <animation type="Conditional" reversible="false" condition="!ControlGroup(6000).HasFocus()">
-                <effect type="fade" start="100" end="0" time="400" tween="sine" easing="out" />
-                <effect type="slide" start="0" end="0,320" time="400" tween="cubic" easing="out" />
-            </animation>
-            <control type="grouplist" id="6000">
-                <onup>5000</onup>
-                <ondown>330</ondown>
-                <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
-                    <effect type="slide" end="0,-20" time="60" tween="sine" />
-                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
-                </animation>
-                <orientation>vertical</orientation>
-                <include content="List_Square_Row" condition="String.IsEqual(ListItem.DBType,artist)">
-                    <param name="id">50</param>
-                    <height>480</height>
-                    <onback>5000</onback>
-                    <top>120</top>
-                </include>
-                <!-- <control type="group" id="6200">
-                    <top>-40</top>
-                    <height>320</height>
-                    <left>view_pad</left>
-                    <right>view_pad</right>
-                    <include content="Object_GlassPanel">
-                        <visible>!Integer.IsEqual(Container(6201).NumItems,0)</visible>
-                    </include>
-                </control> -->
-                <include content="List_Button_Wall" condition="String.IsEqual(ListItem.DBType,artist)">
-                    <param name="id" value="6201" />
-                    <param name="detailed" value="false" />
-                    <param name="item_h" value="80" />
-                    <param name="itemlayout_h" value="120" />
-                    <param name="item_w" value="560" />
-                    <param name="itemlayout_w" value="600" />
-                    <param name="offset_y">40</param>
-                    <param name="offset_x">80</param>
-                    <param name="orientation">horizontal</param>
-                    <content target="music">musicdb://songs/?xsp={"rules":{"and":[{"field":"album","operator":"is","value":["$INFO[Container(50).ListItem.Label]"]}]},"type":"songs"}</content>
-                    <onback>5000</onback>
-                    <height>400</height>
-                    <top>-80</top>
-                    <!-- <top>-320</top> -->
-                    <left>0</left>
-                    <right>0</right>
-                    <preloaditems>2</preloaditems>
-                </include>
-            </control>
-            <include content="Object_WallFade">
-                <param name="id" value="6000" />
-            </include>
-        </control>
-
-        <control type="group">
-            <visible>!Integer.IsEqual(Container(6201).NumItems,0)</visible>
+            <visible>!Integer.IsEqual(Container(6204).NumItems,0)</visible>
             <visible>ControlGroup(6000).HasFocus()</visible>
             <left>view_pad</left>
             <right>view_pad</right>
@@ -165,7 +148,7 @@
             </include>
             <include content="Info_Codec_LabelLabel">
                 <left>60</left>
-                <label>$INFO[Container(50).ListItem.Label,[B],[/B]]$INFO[Container(50).ListItem.Label2, (,) ]$INFO[Container(6201).NumNonFolderItems, • , $LOCALIZE[134]]</label>
+                <label>$INFO[Container(6202).ListItem.Label,[B],[/B]]$INFO[Container(6202).ListItem.Label2, (,) ]$INFO[Container(6204).NumNonFolderItems, • , $LOCALIZE[134]]</label>
             </include>
         </control>
 
