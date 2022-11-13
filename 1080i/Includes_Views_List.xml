@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_Furniture_List_Bottom">
-        <include content="Object_Control" condition="$EXP[Exp_View_501_Include] | $EXP[Exp_View_511_Include] | $EXP[Exp_View_507_Include] | $EXP[Exp_View_517_Include] | $EXP[Exp_View_552_Include]">
+        <include content="Object_Control" condition="$EXP[Exp_View_501_Include] | $EXP[Exp_View_511_Include] | $EXP[Exp_View_521_Include] | $EXP[Exp_View_507_Include] | $EXP[Exp_View_517_Include] | $EXP[Exp_View_527_Include] | $EXP[Exp_View_552_Include]">
             <param name="control">group</param>
             <visible>$EXP[Exp_ListViews] | Control.IsVisible(552)</visible>
             <include condition="$EXP[Exp_View_501_Include]">View_501_Square_List</include>
             <include condition="$EXP[Exp_View_507_Include]">View_507_Square_Infolist</include>
             <include condition="$EXP[Exp_View_511_Include]">View_511_Landscape_List</include>
             <include condition="$EXP[Exp_View_517_Include]">View_517_Landscape_Infolist</include>
+            <include condition="$EXP[Exp_View_521_Include]">View_521_Poster_List</include>
+            <include condition="$EXP[Exp_View_527_Include]">View_527_Poster_Infolist</include>
             <include condition="$EXP[Exp_View_552_Include]">View_552_MediaInfo_Combined</include>
         </include>
         <include content="Object_Control" condition="$EXP[Exp_View_508_Include] | $EXP[Exp_View_558_Include]">
@@ -46,6 +48,7 @@
                     <align>left</align>
                     <left>grid_x68</left>
                     <visible>$PARAM[detailed]</visible>
+                    <visible>[String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,artist)]</visible>
                 </control>
                 <control type="label">
                     <font>font_tiny</font>
@@ -205,6 +208,42 @@
         </include>
     </include>
 
+    <include name="View_521_Poster_List">
+        <include content="View_List_NewTemplate">
+            <param name="id">521</param>
+            <param name="icon">$VAR[Image_Poster]</param>
+            <param name="width">grid_x30</param>
+            <param name="viewtype_label">$LOCALIZE[31343]</param>
+            <param name="diffuse">diffuse/poster_w320_h480.png</param>
+            <param name="include">List_MediaList</param>
+            <param name="controltype">fixedlist</param>
+            <param name="movement">3</param>
+            <param name="focusposition">1</param>
+            <param name="detailed">true</param>
+        </include>
+    </include>
+
+    <include name="View_507_Square_Infolist">
+        <include content="View_List_NewTemplate">
+            <param name="id">507</param>
+            <param name="icon">$INFO[ListItem.Icon]</param>
+            <param name="width">440</param>
+            <param name="viewtype_label">$LOCALIZE[31143]</param>
+            <param name="diffuse">diffuse/square_w440_h440.png</param>
+            <param name="include">List_Infolist</param>
+            <param name="controltype">fixedlist</param>
+            <param name="movement">1</param>
+            <param name="focusposition">1</param>
+            <param name="flipside">true</param>
+            <param name="detailed">true</param>
+            <param name="top">200</param>
+            <param name="poster_top">grid_x04</param>
+            <param name="hasimage">true</param>
+            <param name="hasline">false</param>
+            <param name="spacing">40</param>
+        </include>
+    </include>
+
     <include name="View_517_Landscape_Infolist">
         <include content="View_List_NewTemplate">
             <param name="id">517</param>
@@ -226,13 +265,13 @@
         </include>
     </include>
 
-    <include name="View_507_Square_Infolist">
+    <include name="View_527_Poster_Infolist">
         <include content="View_List_NewTemplate">
-            <param name="id">507</param>
-            <param name="icon">$INFO[ListItem.Icon]</param>
-            <param name="width">440</param>
-            <param name="viewtype_label">$LOCALIZE[31143]</param>
-            <param name="diffuse">diffuse/square_w440_h440.png</param>
+            <param name="id">527</param>
+            <param name="icon">$VAR[Image_Poster]</param>
+            <param name="width">grid_x30</param>
+            <param name="viewtype_label">$LOCALIZE[31344]</param>
+            <param name="diffuse">diffuse/poster_w320_h480.png</param>
             <param name="include">List_Infolist</param>
             <param name="controltype">fixedlist</param>
             <param name="movement">1</param>
