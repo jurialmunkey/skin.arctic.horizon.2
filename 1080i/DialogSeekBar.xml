@@ -23,6 +23,14 @@
 
         <include content="Object_Control">
             <param name="control">image</param>
+            <texture colordiffuse="7f000000" flipy="true">background/floor.png</texture>
+            <visible>!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) | Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include>Animation_FadeOut</include>
+        </include>
+
+        <include content="Object_Control">
+            <param name="control">image</param>
             <texture colordiffuse="panel_bg">background/floor.png</texture>
         </include>
 
@@ -55,6 +63,9 @@
         <include content="Object_Control" condition="!VideoPlayer.IsFullscreen">
             <param name="control">group</param>
 
+            <animation effect="slide" start="0" end="0,-400" time="300" tween="sine" easing="out" reversible="false" condition="[!String.IsEmpty(Window(Home).Property(OSDExpandInfo))]">Conditional</animation>
+            <animation effect="slide" end="0" start="0,-400" time="400" tween="sine" easing="inout" reversible="false" condition="![!String.IsEmpty(Window(Home).Property(OSDExpandInfo))]">Conditional</animation>
+
             <!-- Progress Bar Group -->
             <control type="group">
                 <include>OSD_Progress_Bar</include>
@@ -66,8 +77,8 @@
                     <bottom>view_top</bottom>
                     <left>view_pad</left>
                     <control type="group">
-                        <animation effect="zoom" start="0,0,320,320" end="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
-                        <animation effect="zoom" end="0,0,320,320" start="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
+                        <animation effect="zoom" start="0,0,320,320" end="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="[Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))]">Conditional</animation>
+                        <animation effect="zoom" end="0,0,320,320" start="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))]">Conditional</animation>
                         <include content="Object_BigPoster">
                             <param name="diffuse">diffuse/square_w440_h440.png</param>
                             <param name="icon">$INFO[Player.Icon]</param>
@@ -76,18 +87,19 @@
 
                     <control type="group">
                         <left>360</left>
-                        <animation effect="slide" start="0" end="-360" time="400" tween="cubic" easing="out" reversible="false" condition="Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
-                        <animation effect="slide" end="0" start="-360" time="400" tween="cubic" easing="out" reversible="false" condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
-                        <control type="group">
-                            <height>120</height>
+                        <animation effect="slide" start="0" end="-360" time="400" tween="cubic" easing="out" reversible="false" condition="[Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))]">Conditional</animation>
+                        <animation effect="slide" end="0" start="-360" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))]">Conditional</animation>
+                        <control type="grouplist">
+                            <height>137</height>
                             <bottom>40</bottom>
-                            <include content="Info_Title_Label_Hidden">
-                                <param name="label">$VAR[Label_OSD_Title]</param>
-                            </include>
-                            <include content="Info_Title_Label">
-                                <param name="colordiffuse">panel_fg</param>
-                                <param name="label">$VAR[Label_OSD_Title]</param>
-                            </include>
+                            <align>bottom</align>
+                            <control type="textbox">
+                                <height max="137">auto</height>
+                                <width>460</width>
+                                <label>$VAR[Label_OSD_Title]</label>
+                                <textcolor>panel_fg_100</textcolor>
+                                <font>font_info_black_doublerow</font>
+                            </control>
                         </control>
                         <control type="label">
                             <label>$INFO[MusicPlayer.Artist,[COLOR=panel_fg_90],[/COLOR]]$INFO[MusicPlayer.Album, • [COLOR=panel_fg_90],[/COLOR]]$INFO[MusicPlayer.Year, • [COLOR=panel_fg_90],[/COLOR]]</label>
@@ -130,8 +142,27 @@
                         <aligny>center</aligny>
                         <font>font_main_black</font>
                         <textcolor>panel_fg_90</textcolor>
-                        <label>Lyrics</label>
+                        <label>$LOCALIZE[24013]</label>
                         <width>auto</width>
+                    </control>
+                </control>
+
+
+                <control type="group">
+                    <visible>!String.IsEmpty(Window(Home).Property(OSDArtistDetails))</visible>
+                    <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+                    <animation type="Visible" reversible="false">
+                        <effect type="fade" start="0" end="100" time="600" delay="200" />
+                    </animation>
+                    <left>620</left>
+                    <height>580</height>
+                    <top>view_top</top>
+                    <right>view_pad</right>
+                    <control type="textbox">
+                        <font>font_midi_plot</font>
+                        <textcolor>panel_fg_70</textcolor>
+                        <label>$INFO[MusicPlayer.Property(Album_Description),,[CR]]$INFO[MusicPlayer.Property(Artist_Description)]</label>
+                        <autoscroll delay="6000" time="3000" repeat="10000">!String.IsEmpty(Window(Home).Property(OSDArtistDetails))</autoscroll>
                     </control>
                 </control>
 
@@ -152,7 +183,7 @@
 
         <!-- Top Label Lyrics -->
         <control type="group">
-            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))</visible>
             <include>Animation_FadeIn_Delay</include>
             <include>Animation_FadeOut</include>
             <include content="Furniture_Top_Left">

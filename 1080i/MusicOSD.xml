@@ -3,102 +3,185 @@
     <defaultcontrol always="true">6100</defaultcontrol>
     <animation effect="fade" start="0" end="100" time="300">WindowOpen</animation>
     <animation effect="fade" end="0" start="100" time="300">WindowClose</animation>
+    <onunload>ClearProperty(OSDExpandInfo,Home)</onunload>
+    <onunload>ClearProperty(OSDArtistDetails,Home)</onunload>
     <controls>
 
-        <!-- Left Side Buttons -->
-        <control type="grouplist" id="6000">
-            <centerbottom>70</centerbottom>
-            <height>120</height>
-            <left>view_pad</left>
-            <right>view_pad</right>
-            <orientation>horizontal</orientation>
-            <itemgap>30</itemgap>
-            <onleft>6800</onleft>
-            <onright>6500</onright>
-            <onup>8200</onup>
-            <include content="OSD_Button">
-                <param name="autoclose">true</param>
-                <param name="visible">true</param>
-                <param name="icon">$VAR[Image_OSD_PlayPause]</param>
-                <param name="id">6100</param>
-                <param name="groupid">6199</param>
-                <onclick>PlayerControl(Play)</onclick>
-            </include>
-            <include content="OSD_Button">
-                <param name="autoclose">true</param>
-                <param name="visible">true</param>
-                <param name="icon">osd/next.png</param>
-                <param name="id">6200</param>
-                <param name="groupid">6299</param>
-                <param name="flipx">true</param>
-                <onclick>PlayerControl(Previous)</onclick>
-            </include>
-            <include content="OSD_Button">
-                <param name="autoclose">true</param>
-                <param name="visible">true</param>
-                <param name="icon">osd/next.png</param>
-                <param name="id">6300</param>
-                <param name="groupid">6399</param>
-                <param name="flipx">false</param>
-                <onclick>PlayerControl(Next)</onclick>
-            </include>
-            <include content="OSD_Button">
-                <param name="autoclose">true</param>
-                <param name="visible">true</param>
-                <param name="icon">osd/stop.png</param>
-                <param name="id">6400</param>
-                <param name="groupid">6499</param>
-                <param name="flipx">false</param>
-                <onclick>PlayerControl(Stop)</onclick>
-            </include>
+        <control type="group" id="6002">
+
+            <visible allowhiddenfocus="true">String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+            <animation effect="fade" start="0" end="100" time="300" delay="200">Visible</animation>
+            <animation effect="fade" end="0" start="100" time="150">Hidden</animation>
+
+            <!-- Left Side Buttons -->
+            <control type="grouplist" id="6000">
+                <centerbottom>70</centerbottom>
+                <height>120</height>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                <orientation>horizontal</orientation>
+                <itemgap>30</itemgap>
+                <onleft>6800</onleft>
+                <onright>6500</onright>
+                <onup>8200</onup>
+                <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">SetFocus(9801,0,absolute)</ondown>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">$VAR[Image_OSD_PlayPause]</param>
+                    <param name="id">6100</param>
+                    <param name="groupid">6199</param>
+                    <onclick>PlayerControl(Play)</onclick>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">osd/next.png</param>
+                    <param name="id">6200</param>
+                    <param name="groupid">6299</param>
+                    <param name="flipx">true</param>
+                    <onclick>PlayerControl(Previous)</onclick>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">osd/next.png</param>
+                    <param name="id">6300</param>
+                    <param name="groupid">6399</param>
+                    <param name="flipx">false</param>
+                    <onclick>PlayerControl(Next)</onclick>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">osd/stop.png</param>
+                    <param name="id">6400</param>
+                    <param name="groupid">6499</param>
+                    <param name="flipx">false</param>
+                    <onclick>PlayerControl(Stop)</onclick>
+                </include>
+            </control>
+
+            <!-- Right Side Buttons -->
+            <control type="grouplist" id="6001">
+                <centerbottom>70</centerbottom>
+                <height>120</height>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                <orientation>horizontal</orientation>
+                <itemgap>30</itemgap>
+                <align>right</align>
+                <onleft>6400</onleft>
+                <onright>6100</onright>
+                <onup>8200</onup>
+                <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">SetFocus(9801,0,absolute)</ondown>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">osd/lyrics.png</param>
+                    <param name="id">6500</param>
+                    <param name="groupid">6599</param>
+                    <onclick>Close</onclick>
+                    <onclick>runscript(script.cu.lrclyrics)</onclick>
+                    <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
+                    <onunfocus>ClearProperty(OSDArtistDetails,Home)</onunfocus>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">$VAR[Image_OSD_Repeat]</param>
+                    <param name="id">6600</param>
+                    <param name="groupid">6699</param>
+                    <onclick>PlayerControl(Repeat)</onclick>
+                    <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
+                    <onunfocus>ClearProperty(OSDArtistDetails,Home)</onunfocus>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">$VAR[Image_OSD_Shuffle]</param>
+                    <param name="id">6700</param>
+                    <param name="groupid">6799</param>
+                    <onclick>PlayerControl(Random)</onclick>
+                    <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
+                    <onunfocus>ClearProperty(OSDArtistDetails,Home)</onunfocus>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">osd/settings.png</param>
+                    <param name="id">6800</param>
+                    <param name="groupid">6899</param>
+                    <onclick>ActivateWindow(1119)</onclick>
+                    <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
+                    <onunfocus>ClearProperty(OSDArtistDetails,Home)</onunfocus>
+                </include>
+
+            </control>
         </control>
 
-        <!-- Right Side Buttons -->
-        <control type="grouplist" id="6001">
-            <centerbottom>70</centerbottom>
-            <height>120</height>
-            <left>view_pad</left>
-            <right>view_pad</right>
-            <orientation>horizontal</orientation>
-            <itemgap>30</itemgap>
-            <align>right</align>
-            <onleft>6400</onleft>
-            <onright>6100</onright>
-            <onup>8200</onup>
-            <include content="OSD_Button">
-                <param name="autoclose">true</param>
-                <param name="visible">true</param>
-                <param name="icon">osd/lyrics.png</param>
-                <param name="id">6500</param>
-                <param name="groupid">6599</param>
-                <onclick>Close</onclick>
-                <onclick>runscript(script.cu.lrclyrics)</onclick>
-            </include>
-            <include content="OSD_Button">
-                <param name="autoclose">true</param>
-                <param name="visible">true</param>
-                <param name="icon">$VAR[Image_OSD_Repeat]</param>
-                <param name="id">6600</param>
-                <param name="groupid">6699</param>
-                <onclick>PlayerControl(Repeat)</onclick>
-            </include>
-            <include content="OSD_Button">
-                <param name="autoclose">true</param>
-                <param name="visible">true</param>
-                <param name="icon">$VAR[Image_OSD_Shuffle]</param>
-                <param name="id">6700</param>
-                <param name="groupid">6799</param>
-                <onclick>PlayerControl(Random)</onclick>
-            </include>
-            <include content="OSD_Button">
-                <param name="autoclose">true</param>
-                <param name="visible">true</param>
-                <param name="icon">osd/settings.png</param>
-                <param name="id">6800</param>
-                <param name="groupid">6899</param>
-                <onclick>ActivateWindow(1119)</onclick>
-            </include>
+        <include content="OSD_CastInfo_HintText">
+            <param name="label">$LOCALIZE[31346]</param>
+            <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
+            <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+            <include>Animation_FadeOut</include>
+            <include>Animation_FadeIn_Delay</include>
+        </include>
 
+
+        <control type="group">
+            <visible>Control.HasFocus(9801) | Control.HasFocus(9802)</visible>
+            <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include>Animation_FadeOut</include>
+            <left>view_pad</left>
+            <height>480</height>
+            <bottom>view_pad</bottom>
+            <include content="List_PlayList">
+                <param name="id">9801</param>
+                <param name="controltype">fixedlist</param>
+                <param name="orientation">vertical</param>
+                <param name="offset_y">40</param>
+                <param name="detailed">true</param>
+                <content target="music">musicdb://albums/?xsp={"rules":{"and":[{"field":"artist","operator":"contains","value":["$INFO[MusicPlayer.Artist]"]}]},"type":"albums"}</content>
+                <onback>SetFocus(6002)</onback>
+                <onup>SetFocus(6002)</onup>
+                <onleft>SetFocus(6002)</onleft>
+                <ondown>-</ondown>
+                <onright>9802</onright>
+                <left>-60</left>
+                <bottom>-20</bottom>
+                <width>1000</width>
+                <preloaditems>0</preloaditems>
+                <focusposition>1</focusposition>
+                <movement>2</movement>
+                <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
+                <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
+            </include>
+            <control type="group">
+                <left>880</left>
+                <width>920</width>
+                <include content="List_PlayList">
+                    <param name="id" value="9802" />
+                    <param name="controltype">fixedlist</param>
+                    <param name="orientation">vertical</param>
+                    <param name="offset_y">40</param>
+                    <param name="detailed">false</param>
+                    <content target="music">musicdb://songs/?xsp={"rules":{"and":[{"field":"album","operator":"is","value":["$INFO[Container(9801).ListItem.Album]"]}]},"type":"songs"}</content>
+                    <onback>SetFocus(6002)</onback>
+                    <onup>SetFocus(6002)</onup>
+                    <onright>SetFocus(6002)</onright>
+                    <ondown>-</ondown>
+                    <onleft>9801</onleft>
+                    <left>-40</left>
+                    <right>-40</right>
+                    <focusposition>1</focusposition>
+                    <movement>2</movement>
+                    <bottom>-20</bottom>
+                    <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
+                    <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
+                </include>
+            </control>
         </control>
 
         <control type="slider">
@@ -122,8 +205,8 @@
             <texturesliderbar colordiffuse="00ffffff">progress/slider_bg.png</texturesliderbar>
             <textureslidernib />
             <textureslidernibfocus colordiffuse="main_fg_100">progress/slider_nib.png</textureslidernibfocus>
-            <onup>6000</onup>
-            <ondown>6000</ondown>
+            <onup>6002</onup>
+            <ondown>6002</ondown>
         </control>
     </controls>
 </window>
