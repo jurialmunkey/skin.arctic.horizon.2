@@ -143,7 +143,28 @@
                 <param name="orientation">vertical</param>
                 <param name="offset_y">40</param>
                 <param name="detailed">true</param>
-                <content target="music">musicdb://albums/?xsp={"rules":{"and":[{"field":"artist","operator":"contains","value":["$INFO[MusicPlayer.Artist]"]}]},"type":"albums"}</content>
+                <content>
+                    <item>
+                        <label>$LOCALIZE[559]</label>
+                        <icon>osd/musicplaylist.png</icon>
+                        <property name="sublabel">$LOCALIZE[31244]</property>
+                        <property name="folderpath">playlistmusic://</property>
+                        <property name="detailed">True</property>
+                    </item>
+                </content>
+                <content>musicdb://albums/?xsp={"rules":{"and":[{"field":"artist","operator":"is","value":["$INFO[MusicPlayer.Artist]"]}]},"type":"albums"}</content>
+                <!-- <content>
+                    <item>
+                        <label>$INFO[MusicPlayer.Genre]</label>
+                        <icon>resource://resource.images.musicgenreicons.text/$INFO[MusicPlayer.Genre].jpg</icon>
+                        <property name="sublabel">$LOCALIZE[515]</property>
+                        <property name="folderpath">musicdb://songs/?xsp={"rules":{"and":[{"field":"genre","operator":"is","value":[$ESCINFO[MusicPlayer.Genre]]}]}, "order":{"direction":"descending","ignorefolders":0,"method":"random"}, "type":"songs"}</property>
+                        <visible>!String.IsEmpty(MusicPlayer.Genre)</visible>
+                    </item>
+                </content> -->
+                <onclick condition="String.IsEmpty(Window(Home).Property(OSDRelaunchFullscreen))">SetProperty(OSDRelaunchFullscreen,1,Home)</onclick>
+                <onclick condition="String.IsEmpty(Container(9801).ListItem.Property(folderpath))">PlayMedia($INFO[Container(9801).ListItem.FolderPath],isdir,playoffset=$INFO[Window(Home).Property(OSDRelaunchFullscreen)])</onclick>
+                <onclick condition="!String.IsEmpty(Container(9801).ListItem.Property(folderpath))">PlayMedia($ESCINFO[Container(9801).ListItem.Property(folderpath)],isdir,playoffset=$INFO[Window(Home).Property(OSDRelaunchFullscreen)])</onclick>
                 <onback>SetFocus(6002)</onback>
                 <onup>SetFocus(6002)</onup>
                 <onleft>SetFocus(6002)</onleft>
@@ -166,8 +187,11 @@
                     <param name="controltype">fixedlist</param>
                     <param name="orientation">vertical</param>
                     <param name="offset_y">40</param>
-                    <param name="detailed">false</param>
-                    <content target="music">musicdb://songs/?xsp={"rules":{"and":[{"field":"album","operator":"is","value":["$INFO[Container(9801).ListItem.Album]"]}]},"type":"songs"}</content>
+                    <param name="detailed">true</param>
+                    <content>$VAR[Path_MusicOSD_TrackList]</content>
+                    <onclick>SetProperty(OSDRelaunchFullscreen,$INFO[Container(9802).CurrentItem],Home)</onclick>
+                    <onclick>SetFocus(9801)</onclick>
+                    <onclick>Action(Select)</onclick>
                     <onback>SetFocus(6002)</onback>
                     <onup>SetFocus(6002)</onup>
                     <onright>SetFocus(6002)</onright>
