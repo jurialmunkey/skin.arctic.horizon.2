@@ -32,6 +32,9 @@
                     <param name="id">6100</param>
                     <param name="groupid">6199</param>
                     <onclick>PlayerControl(Play)</onclick>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
+                    <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
+                    <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
@@ -41,6 +44,9 @@
                     <param name="groupid">6299</param>
                     <param name="flipx">true</param>
                     <onclick>PlayerControl(Previous)</onclick>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
+                    <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
+                    <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
@@ -50,6 +56,9 @@
                     <param name="groupid">6399</param>
                     <param name="flipx">false</param>
                     <onclick>PlayerControl(Next)</onclick>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
+                    <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
+                    <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
@@ -59,6 +68,9 @@
                     <param name="groupid">6499</param>
                     <param name="flipx">false</param>
                     <onclick>PlayerControl(Stop)</onclick>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
+                    <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
+                    <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>
                 </include>
             </control>
 
@@ -73,7 +85,7 @@
                 <align>right</align>
                 <onleft>6400</onleft>
                 <onright>6100</onright>
-                <onup>8200</onup>
+                <onup>SetFocus(9803)</onup>
                 <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">SetFocus(9801,0,absolute)</ondown>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
@@ -84,7 +96,6 @@
                     <onclick>Close</onclick>
                     <onclick>runscript(script.cu.lrclyrics)</onclick>
                     <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
-                    <onunfocus>ClearProperty(OSDArtistDetails,Home)</onunfocus>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
@@ -94,7 +105,6 @@
                     <param name="groupid">6699</param>
                     <onclick>PlayerControl(Repeat)</onclick>
                     <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
-                    <onunfocus>ClearProperty(OSDArtistDetails,Home)</onunfocus>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
@@ -104,7 +114,6 @@
                     <param name="groupid">6799</param>
                     <onclick>PlayerControl(Random)</onclick>
                     <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
-                    <onunfocus>ClearProperty(OSDArtistDetails,Home)</onunfocus>
                 </include>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
@@ -114,11 +123,43 @@
                     <param name="groupid">6899</param>
                     <onclick>ActivateWindow(1119)</onclick>
                     <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
-                    <onunfocus>ClearProperty(OSDArtistDetails,Home)</onunfocus>
                 </include>
 
             </control>
+
+            <control type="group">
+                <visible>!String.IsEmpty(Window(Home).Property(OSDArtistDetails))</visible>
+                <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="600" delay="200" />
+                </animation>
+                <left>620</left>
+                <height>580</height>
+                <top>view_top</top>
+                <right>view_pad</right>
+                <control type="textbox">
+                    <font>font_midi_plot</font>
+                    <textcolor>panel_fg_70</textcolor>
+                    <label>$INFO[MusicPlayer.Property(Album_Description),,[CR]]$INFO[MusicPlayer.Property(Artist_Description)]$INFO[Window(Home).Property(ResetScroll)]</label>
+                    <autoscroll delay="6000" time="3000" repeat="10000">!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Control.HasFocus(9803)</autoscroll>
+                    <pagecontrol>9803</pagecontrol>
+                    <bottom>-20</bottom>
+                </control>
+
+                <include content="View_Furniture_Scrollbar_V">
+                    <param name="id">9803</param>
+                    <param name="onleft">SetFocus(6001)</param>
+                    <param name="onright">SetFocus(6001)</param>
+                    <param name="ondown">SetFocus(6001)</param>
+                    <param name="onup">-</param>
+                    <param name="onback">SetFocus(6001)</param>
+                    <left>-80</left>
+                    <bottom>0</bottom>
+                </include>
+            </control>
         </control>
+
+
 
         <include content="OSD_CastInfo_HintText">
             <param name="label">$LOCALIZE[31346]</param>
@@ -176,6 +217,7 @@
                 <preloaditems>0</preloaditems>
                 <focusposition>1</focusposition>
                 <movement>2</movement>
+                <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
                 <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
                 <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
             </include>
@@ -202,6 +244,7 @@
                     <focusposition>1</focusposition>
                     <movement>2</movement>
                     <bottom>-20</bottom>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
                     <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
                     <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
                 </include>
