@@ -208,8 +208,10 @@
                                 <label>$LOCALIZE[31336]</label>
                                 <label2>$VAR[Label_Setting_SelectboxStyle]</label2>
                                 <visible>Container(3).HasFocus(2)</visible>
-                                <onclick>Skin.ToggleSetting(SelectBox.Thin)</onclick>
-                                <selected>Skin.HasSetting(SelectBox.Thin)</selected>
+                                <onclick condition="!Skin.HasSetting(SelectBox.Thin) + !Skin.HasSetting(SelectBox.Glow)">Skin.SetBool(SelectBox.Thin)</onclick>
+                                <onclick condition="Skin.HasSetting(SelectBox.Thin) + !Skin.HasSetting(SelectBox.Glow)">Skin.SetBool(SelectBox.Glow)</onclick>
+                                <onclick condition="Skin.HasSetting(SelectBox.Glow)">Skin.Reset(SelectBox.Thin)</onclick>
+                                <onclick condition="Skin.HasSetting(SelectBox.Glow)">Skin.Reset(SelectBox.Glow)</onclick>
                             </include>
                             <include content="Dialog_Settings_Button" description="Background video">
                                 <param name="id" value="2006" />

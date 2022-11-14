@@ -108,6 +108,18 @@
         </definition>
     </include>
 
+    <include name="Object_Glow_40">
+        <param name="pad" default="-40" />
+        <param name="affix">v</param>
+        <definition>
+            <control type="image">
+                <include content="Dimension_Padding"><param name="pad" value="$PARAM[pad]" /></include>
+                <texture border="52">special://profile/addon_data/script.texturemaker/ArcticHorizon/glow_$PARAM[affix].png</texture>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
     <include name="Object_ItemBack">
         <param name="selected" default="false" />
         <param name="shadow_include" default="Texture_Shadow_40" />
@@ -1849,7 +1861,8 @@
                     <param name="control" value="group" />
                     <include content="Dimension_Padding" condition="!Skin.HasSetting(SelectBox.Thin)"><param name="pad">-10</param></include>
                     <include content="Dimension_Padding" condition="Skin.HasSetting(SelectBox.Thin)"><param name="pad">-5</param></include>
-                    <include condition="$PARAM[shadow]">Object_Shadow_40</include>
+                    <include condition="$PARAM[shadow] + !Skin.HasSetting(SelectBox.Glow)">Object_Shadow_40</include>
+                    <include condition="$PARAM[shadow] + Skin.HasSetting(SelectBox.Glow)">Object_Glow_40</include>
                     <control type="image">
                         <include condition="!Skin.HasSetting(SelectBox.Thin)">Texture_SelectBox</include>
                         <include condition="Skin.HasSetting(SelectBox.Thin)">Texture_SelectBox_Thin</include>
