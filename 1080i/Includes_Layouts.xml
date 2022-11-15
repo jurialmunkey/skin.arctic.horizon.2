@@ -87,6 +87,8 @@
                     <align>left</align>
                     <label>$INFO[ListItem.ChannelNumberLabel]</label>
                 </include>
+ 				<!-- PVR002 - START EPG: Remove Channel Name and Replace with Icon -->
+                <!-- include content="Object_Control" condition="!$PARAM[detailed]">
                 <include content="Object_Control" condition="!$PARAM[detailed]">
                     <param name="control">label</param>
                     <include condition="$PARAM[selected]">Color_SelectedText</include>
@@ -96,7 +98,18 @@
                     <selectedcolor>main_fg_70</selectedcolor>
                     <font>font_main_bold</font>
                     <label>$INFO[ListItem.Label]</label>
+                </include -->
+                <include content="Object_Control" condition="!$PARAM[detailed]">
+                    <param name="control" value="image" />
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <right>dialog_pad</right>
+                    <left>100</left>
+                    <texture>$VAR[ImagePVREPGIcon]</texture>
+                    <aspectratio align="left">keep</aspectratio>
+                    <right>0</right>
+                    <bordersize>10</bordersize>
                 </include>
+				<!-- PVR002 - END EPG: Remove Channel Name and Replace with Icon-->
             </control>
         </definition>
     </include>
@@ -1519,7 +1532,9 @@
                         <width>$PARAM[item_h]</width>
                         <control type="image">
                             <bordersize>20</bordersize>
-                            <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
+                            <!-- PVR002 - EPG: Remove Channel Name and Replace with Icon -->
+							<!-- texture changed from $INFO[ListItem.Icon] -->
+                            <texture background="true" fallback="DefaultFolder.png">$VAR[ImagePVREPGIcon]</texture>
                             <aspectratio>keep</aspectratio>
                         </control>
                     </include>
