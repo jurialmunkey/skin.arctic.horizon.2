@@ -1816,6 +1816,7 @@
     <include name="Layout_Square">
         <param name="diffuse">diffuse/square_w260_h260.png</param>
         <param name="selected">false</param>
+        <param name="variation">false</param>
         <definition>
             <control type="group">
                 <width>$PARAM[item_w]</width>
@@ -1826,17 +1827,14 @@
                 </include>
                 <control type="group">
                     <height>$PARAM[item_w]</height>
-                    <include content="Object_Control">
-                        <param name="control">group</param>
-                        <include content="Object_Control" condition="$PARAM[selected] + Skin.HasSetting(Widgets.OpaqueFocus)">
-                            <param name="control">image</param>
-                            <texture colordiffuse="main_item" diffuse="$PARAM[diffuse]">common/white.png</texture>
-                            <visible>$EXP[Exp_IsPVRItem]</visible>
-                        </include>
-                        <include content="Object_ItemIcon">
-                            <param name="icon">$INFO[ListItem.Icon]</param>
-                            <param name="diffuse">$PARAM[diffuse]</param>
-                        </include>
+                    <include content="Object_Control" condition="$PARAM[selected] + Skin.HasSetting(Widgets.OpaqueFocus)">
+                        <param name="control">image</param>
+                        <texture colordiffuse="main_item" diffuse="$PARAM[diffuse]">common/white.png</texture>
+                        <visible>$EXP[Exp_IsPVRItem]</visible>
+                    </include>
+                    <include content="Object_ItemIcon">
+                        <param name="icon">$INFO[ListItem.Icon]</param>
+                        <param name="diffuse">$PARAM[diffuse]</param>
                     </include>
                     <include content="Object_Indicator">
                         <param name="selected">$PARAM[selected]</param>
@@ -1844,8 +1842,8 @@
                         <param name="gradient_fade">16</param>
                     </include>
                 </control>
-
-                <control type="group">
+                <include content="Object_Control" condition="!$PARAM[variation]">
+                    <param name="control">group</param>
                     <top>$PARAM[item_w]</top>
                     <control type="label">
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
@@ -1855,17 +1853,14 @@
                         <textoffsetx>20</textoffsetx>
                         <align>center</align>
                     </control>
-                </control>
-                <include content="Object_Control">
-                    <param name="control">group</param>
-                    <include content="Object_Control" condition="!$PARAM[selected] + Skin.HasSetting(Glass.BorderOutline)">
-                        <param name="control">image</param>
-                        <texture colordiffuse="overlay_line" border="12">common/box-outline.png</texture>
-                    </include>
-                    <include content="Object_SelectBox" condition="$PARAM[selected]">
-                        <param name="indicator">false</param>
-                        <param name="focusbounce">true</param>
-                    </include>
+                </include>
+                <include content="Object_Control" condition="!$PARAM[selected] + Skin.HasSetting(Glass.BorderOutline)">
+                    <param name="control">image</param>
+                    <texture colordiffuse="overlay_line" border="12">common/box-outline.png</texture>
+                </include>
+                <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <param name="indicator">false</param>
+                    <param name="focusbounce">true</param>
                 </include>
             </control>
         </definition>
