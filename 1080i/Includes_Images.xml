@@ -332,6 +332,7 @@
 		
 	<!-- PVR005 Test - START EPG Artwork from TMDBHelper -->	
 	<variable name="Image_EPG_PVRArtwork">
+		<value condition="$EXP[Standard_Channel] + !Player.HasMedia + String.IsEqual(ListItem.Label,No information available)">$INFO[ListItem.Icon]</value>
 		<!-- 1. ClearArt -->
 	    <value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Container(99950).ListItem.Property(base_clearart))">$INFO[Container(99950).ListItem.Property(base_clearart)]</value>
         <value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Container(99950).ListItem.Art(clearart))">$INFO[Container(99950).ListItem.Art(clearart)]</value>
@@ -364,7 +365,7 @@
 		<value condition="$EXP[Live_SPFL_FHNatho] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\SPFL.jpg</value>	
 		<value condition="$EXP[Live_Football_FHNatho] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>			
 		<!-- 9. Fallback -->
-		<value>fallback/kodi-logo.png</value>
+		<value condition="!Player.HasMedia">$INFO[ListItem.Icon]</value>
     </variable>
 	<!-- PVR005 Test - END EPG Artwork from TMDBHelper -->
 
