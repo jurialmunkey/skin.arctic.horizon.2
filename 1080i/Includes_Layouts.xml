@@ -1836,11 +1836,12 @@
                         <param name="icon">$INFO[ListItem.Icon]</param>
                         <param name="diffuse">$PARAM[diffuse]</param>
                     </include>
-                    <include content="Object_Indicator">
+                    <include content="Object_Indicator" condition="!$PARAM[variation]">
                         <param name="selected">$PARAM[selected]</param>
                         <param name="shadow">false</param>
                         <param name="gradient_fade">16</param>
                     </include>
+                    <include condition="$PARAM[variation] + !$PARAM[selected]">Object_Indicator</include>
                 </control>
                 <include content="Object_Control" condition="!$PARAM[variation]">
                     <param name="control">group</param>
@@ -1859,7 +1860,7 @@
                     <texture colordiffuse="overlay_line" border="12">common/box-outline.png</texture>
                 </include>
                 <include content="Object_SelectBox" condition="$PARAM[selected]">
-                    <param name="indicator">false</param>
+                    <param name="indicator">$PARAM[variation]</param>
                     <param name="focusbounce">true</param>
                 </include>
             </control>
