@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Label_OSD_HintText">
+        <value condition="ControlGroup(6000).HasFocus() + !Window.IsVisible(1140) + !VideoPlayer.Content(livetv) + $EXP[Exp_OSD_HasPlaylist]">$LOCALIZE[31296]</value>
+        <value condition="ControlGroup(6000).HasFocus() + !Window.IsVisible(1140) + $EXP[Exp_OSD_HasPlaylist]">$LOCALIZE[31295]</value>
+        <value condition="ControlGroup(6000).HasFocus() + !VideoPlayer.Content(livetv)">$LOCALIZE[31294]</value>
+        <value condition="ControlGroup(6000).HasFocus()">$LOCALIZE[31348]</value>
+        <value condition="ControlGroup(6001).HasFocus()">$LOCALIZE[31293]</value>
+    </variable>
+
     <variable name="Label_Library_Collections">
         <value condition="String.IsEqual(ListItem.DBType,tvshow)">$LOCALIZE[33054]</value>
         <value>$LOCALIZE[31108]</value>
@@ -53,14 +61,14 @@
         <value condition="Container(6502).IsUpdating">$LOCALIZE[31299]...</value>
         <value>$LOCALIZE[19055]</value>
     </variable>
-    <variable name="Label_OSD_HintText">
-        <value condition="ControlGroup(6001).HasFocus()">$LOCALIZE[31293]</value>
-        <value condition="Control.HasFocus(6501)">$LOCALIZE[31298]</value>
-        <value condition="VideoPlayer.Content(livetv) + !Control.HasFocus(6401) + !Integer.IsEqual(Container(6401).NumItems,0)">$LOCALIZE[31295]</value>
-        <value condition="VideoPlayer.Content(livetv)">$LOCALIZE[31348]</value>
-        <value condition="ControlGroup(6000).HasFocus() + !Integer.IsEqual(Container(6401).NumItems,0)">$LOCALIZE[31296]</value>
-        <value condition="ControlGroup(6000).HasFocus() | Control.HasFocus(6401)">$LOCALIZE[31294]</value>
+
+    <variable name="Label_OSD_CastMember_Appearances">
+        <value condition="!String.IsEmpty(Container(6501).ListItem.Property(numitems.tmdb.movies.cast))">$INFO[Container(6501).ListItem.Property(numitems.tmdb.movies.cast),, $LOCALIZE[342]]$INFO[Container(6501).ListItem.Property(numitems.tmdb.tvshows.cast), $LOCALIZE[1397] , $LOCALIZE[20343]]</value>
+        <value condition="!String.IsEmpty(Container(6502).ListItem.Property(numitems.tmdb.movies.cast)) + String.IsEqual(Container(6501).ListItem.Label,Container(6502).ListItem.Label)">$INFO[Container(6502).ListItem.Property(numitems.tmdb.movies.cast),, $LOCALIZE[342]]$INFO[Container(6502).ListItem.Property(numitems.tmdb.tvshows.cast), $LOCALIZE[1397] , $LOCALIZE[20343]]</value>
+        <value condition="Container(6502).IsUpdating">$LOCALIZE[31299]...</value>
+        <value>$LOCALIZE[19055]</value>
     </variable>
+
     <variable name="Label_HomeHeader">
         <value condition="!String.IsEmpty(Window(Home).Property(Slide.WidgetTitle))">$INFO[Window(Home).Property(Slide.WidgetTitle)]</value>
         <value>$INFO[Container(300).ListItem.Label]</value>

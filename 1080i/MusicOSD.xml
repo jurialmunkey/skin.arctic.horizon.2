@@ -3,13 +3,12 @@
     <defaultcontrol always="true">6100</defaultcontrol>
     <animation effect="fade" start="0" end="100" time="300">WindowOpen</animation>
     <animation effect="fade" end="0" start="100" time="300">WindowClose</animation>
-    <onunload>ClearProperty(OSDExpandInfo,Home)</onunload>
     <onunload>ClearProperty(OSDArtistDetails,Home)</onunload>
     <controls>
 
         <control type="group" id="6002">
 
-            <visible allowhiddenfocus="true">String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+            <visible allowhiddenfocus="true">!Window.IsVisible(1142)</visible>
             <animation effect="fade" start="0" end="100" time="300" delay="200">Visible</animation>
             <animation effect="fade" end="0" start="100" time="150">Hidden</animation>
 
@@ -24,7 +23,7 @@
                 <onleft>6800</onleft>
                 <onright>6500</onright>
                 <onup>8200</onup>
-                <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">SetFocus(9801,0,absolute)</ondown>
+                <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">ActivateWindow(1142)</ondown>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
                     <param name="visible">true</param>
@@ -39,7 +38,7 @@
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
                     <param name="visible">true</param>
-                    <param name="icon">osd/next.png</param>
+                    <param name="icon">special://skin/extras/icons/forward-step.png</param>
                     <param name="id">6200</param>
                     <param name="groupid">6299</param>
                     <param name="flipx">true</param>
@@ -51,7 +50,7 @@
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
                     <param name="visible">true</param>
-                    <param name="icon">osd/next.png</param>
+                    <param name="icon">special://skin/extras/icons/forward-step.png</param>
                     <param name="id">6300</param>
                     <param name="groupid">6399</param>
                     <param name="flipx">false</param>
@@ -63,7 +62,7 @@
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
                     <param name="visible">true</param>
-                    <param name="icon">osd/stop.png</param>
+                    <param name="icon">special://skin/extras/icons/stop.png</param>
                     <param name="id">6400</param>
                     <param name="groupid">6499</param>
                     <param name="flipx">false</param>
@@ -86,11 +85,11 @@
                 <onleft>6400</onleft>
                 <onright>6100</onright>
                 <onup>SetFocus(9803)</onup>
-                <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">SetFocus(9801,0,absolute)</ondown>
+                <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">ActivateWindow(1142)</ondown>
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
                     <param name="visible">true</param>
-                    <param name="icon">osd/lyrics.png</param>
+                    <param name="icon">special://skin/extras/icons/microphone.png</param>
                     <param name="id">6500</param>
                     <param name="groupid">6599</param>
                     <onclick>Close</onclick>
@@ -118,7 +117,7 @@
                 <include content="OSD_Button">
                     <param name="autoclose">true</param>
                     <param name="visible">true</param>
-                    <param name="icon">osd/settings.png</param>
+                    <param name="icon">special://skin/extras/icons/settings.png</param>
                     <param name="id">6800</param>
                     <param name="groupid">6899</param>
                     <onclick>ActivateWindow(1119)</onclick>
@@ -129,6 +128,7 @@
 
             <control type="group">
                 <visible>!String.IsEmpty(Window(Home).Property(OSDArtistDetails))</visible>
+                <visible>!Window.IsVisible(1142)</visible>
                 <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
                 <animation type="Visible" reversible="false">
                     <effect type="fade" start="0" end="100" time="600" delay="200" />
@@ -163,84 +163,9 @@
 
         <include content="OSD_CastInfo_HintText">
             <param name="label">$LOCALIZE[31346]</param>
-            <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
+            <visible>!Window.IsVisible(1142)</visible>
             <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
-            <include>Animation_FadeOut</include>
-            <include>Animation_FadeIn_Delay</include>
         </include>
-
-
-        <control type="group">
-            <visible>Control.HasFocus(9801) | Control.HasFocus(9802)</visible>
-            <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
-            <include>Animation_FadeIn_Delay</include>
-            <include>Animation_FadeOut</include>
-            <left>view_pad</left>
-            <height>480</height>
-            <bottom>view_pad</bottom>
-            <include content="List_PlayList">
-                <param name="id">9801</param>
-                <param name="controltype">fixedlist</param>
-                <param name="orientation">vertical</param>
-                <param name="offset_y">40</param>
-                <param name="detailed">true</param>
-                <content>
-                    <item>
-                        <label>$LOCALIZE[559]</label>
-                        <icon>osd/musicplaylist.png</icon>
-                        <property name="sublabel">$LOCALIZE[31244]</property>
-                        <property name="folderpath">playlistmusic://</property>
-                        <property name="detailed">True</property>
-                    </item>
-                </content>
-                <content>musicdb://albums/?xsp={"rules":{"and":[{"field":"artist","operator":"is","value":["$INFO[MusicPlayer.Artist]"]}]},"type":"albums"}</content>
-                <onclick condition="String.IsEmpty(Window(Home).Property(OSDRelaunchFullscreen))">SetProperty(OSDRelaunchFullscreen,1,Home)</onclick>
-                <onclick condition="String.IsEmpty(Container(9801).ListItem.Property(folderpath))">PlayMedia($INFO[Container(9801).ListItem.FolderPath],isdir,playoffset=$INFO[Window(Home).Property(OSDRelaunchFullscreen)])</onclick>
-                <onclick condition="!String.IsEmpty(Container(9801).ListItem.Property(folderpath))">PlayMedia($ESCINFO[Container(9801).ListItem.Property(folderpath)],isdir,playoffset=$INFO[Window(Home).Property(OSDRelaunchFullscreen)])</onclick>
-                <onback>SetFocus(6002)</onback>
-                <onup>SetFocus(6002)</onup>
-                <onleft>SetFocus(6002)</onleft>
-                <ondown>-</ondown>
-                <onright>9802</onright>
-                <left>-60</left>
-                <bottom>-20</bottom>
-                <width>1000</width>
-                <preloaditems>0</preloaditems>
-                <focusposition>1</focusposition>
-                <movement>2</movement>
-                <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
-                <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
-                <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
-            </include>
-            <control type="group">
-                <left>880</left>
-                <width>920</width>
-                <include content="List_PlayList">
-                    <param name="id" value="9802" />
-                    <param name="controltype">fixedlist</param>
-                    <param name="orientation">vertical</param>
-                    <param name="offset_y">40</param>
-                    <param name="detailed">true</param>
-                    <content>$VAR[Path_MusicOSD_TrackList]</content>
-                    <onclick>SetProperty(OSDRelaunchFullscreen,$INFO[Container(9802).CurrentItem],Home)</onclick>
-                    <onclick>SetFocus(9801)</onclick>
-                    <onclick>Action(Select)</onclick>
-                    <onback>SetFocus(6002)</onback>
-                    <onup>SetFocus(6002)</onup>
-                    <onright>SetFocus(6002)</onright>
-                    <ondown>-</ondown>
-                    <onleft>9801</onleft>
-                    <left>-40</left>
-                    <right>-40</right>
-                    <focusposition>1</focusposition>
-                    <movement>2</movement>
-                    <bottom>-20</bottom>
-                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
-                    <onfocus>SetProperty(OSDExpandInfo,1,Home)</onfocus>
-                    <onunfocus>ClearProperty(OSDExpandInfo,Home)</onunfocus>
-                </include>
-            </control>
-        </control>
 
         <control type="slider">
             <left>view_pad</left>

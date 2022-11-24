@@ -17,22 +17,13 @@
     </include>
 
     <include name="Animation_OSD_Seekbar_NoCodecs">
-        <animation effect="slide" start="0" end="0,80" time="300" tween="sine" easing="out" reversible="false" condition="![Window.IsVisible(videoosd) | Window.IsVisible(musicosd) | Window.IsVisible(script-cu-lrclyrics-main.xml)]">Conditional</animation>
-        <animation effect="slide" end="0" start="0,80" time="300" tween="sine" easing="out" reversible="false" condition="[Window.IsVisible(videoosd) | Window.IsVisible(musicosd) | Window.IsVisible(script-cu-lrclyrics-main.xml)]">Conditional</animation>
+        <animation effect="slide" start="0" end="0,80" time="300" tween="sine" easing="out" reversible="false" condition="![Window.IsVisible(videoosd) | Window.IsVisible(musicosd) | Window.IsVisible(script-cu-lrclyrics-main.xml) | $EXP[Exp_OSD_ExpandInfo]]">Conditional</animation>
+        <animation effect="slide" end="0" start="0,80" time="300" tween="sine" easing="out" reversible="false" condition="[Window.IsVisible(videoosd) | Window.IsVisible(musicosd) | Window.IsVisible(script-cu-lrclyrics-main.xml) | $EXP[Exp_OSD_ExpandInfo]]">Conditional</animation>
     </include>
 
     <include name="Animation_OSD_ExpandInfo">
         <animation effect="slide" start="0" end="0,-320" time="300" tween="sine" easing="out" reversible="false" condition="$EXP[Exp_OSD_ExpandInfo]">Conditional</animation>
         <animation effect="slide" end="0" start="0,-320" time="400" tween="sine" easing="inout" reversible="false" condition="!$EXP[Exp_OSD_ExpandInfo]">Conditional</animation>
-    </include>
-
-    <include name="Animation_WindowTransition_FadeInOut">
-        <animation type="WindowOpen" reversible="false">
-            <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
-        </animation>
-        <animation type="WindowClose" reversible="false">
-            <effect type="fade" start="0" end="100" time="400" delay="0" tween="sine" easing="out"/>
-        </animation>
     </include>
 
     <include name="Animation_Foreground_FadeInOut">
@@ -44,11 +35,19 @@
         </animation>
     </include>
 
-    <include name="Animation_Foreground_FadeInOut_Delay">
+    <include name="Animation_WindowTransition_FadeInOut">
         <animation type="WindowOpen" reversible="false">
             <effect type="fade" start="0" end="100" time="400" delay="400" tween="sine" easing="out"/>
         </animation>
         <animation type="WindowClose" reversible="false">
+            <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
+        </animation>
+    </include>
+    <include name="Animation_VisibleTransition_FadeInOut">
+        <animation type="Visible" reversible="false">
+            <effect type="fade" start="0" end="100" time="400" delay="400" tween="sine" easing="out"/>
+        </animation>
+        <animation type="Hidden" reversible="false">
             <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
         </animation>
     </include>
