@@ -16,7 +16,7 @@
         <include content="Object_Control">
             <param name="control">image</param>
             <texture colordiffuse="panel_bg">background/floor.png</texture>
-            <visible>!String.IsEmpty(Window(Home).Property(OSDExpandInfo))</visible>
+            <visible>$EXP[Exp_OSD_ExpandInfo]</visible>
             <include>Animation_FadeIn_Delay</include>
             <include>Animation_FadeOut</include>
         </include>
@@ -24,7 +24,7 @@
         <include content="Object_Control">
             <param name="control">image</param>
             <texture colordiffuse="7f000000" flipy="true">background/floor.png</texture>
-            <visible>!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) | Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+            <visible>[!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)] | Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
             <include>Animation_FadeIn_Delay</include>
             <include>Animation_FadeOut</include>
         </include>
@@ -63,8 +63,8 @@
         <include content="Object_Control" condition="!VideoPlayer.IsFullscreen">
             <param name="control">group</param>
 
-            <animation effect="slide" start="0" end="0,-400" time="300" tween="sine" easing="out" reversible="false" condition="[!String.IsEmpty(Window(Home).Property(OSDExpandInfo))]">Conditional</animation>
-            <animation effect="slide" end="0" start="0,-400" time="400" tween="sine" easing="inout" reversible="false" condition="![!String.IsEmpty(Window(Home).Property(OSDExpandInfo))]">Conditional</animation>
+            <animation effect="slide" start="0" end="0,-400" time="300" tween="sine" easing="out" reversible="false" condition="[$EXP[Exp_OSD_ExpandInfo]]">Conditional</animation>
+            <animation effect="slide" end="0" start="0,-400" time="400" tween="sine" easing="inout" reversible="false" condition="![$EXP[Exp_OSD_ExpandInfo]]">Conditional</animation>
 
             <!-- Progress Bar Group -->
             <control type="group">
@@ -77,8 +77,8 @@
                     <bottom>view_top</bottom>
                     <left>view_pad</left>
                     <control type="group">
-                        <animation effect="zoom" start="0,0,320,320" end="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="[Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))]">Conditional</animation>
-                        <animation effect="zoom" end="0,0,320,320" start="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))]">Conditional</animation>
+                        <animation effect="zoom" start="0,0,320,320" end="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="[Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]">Conditional</animation>
+                        <animation effect="zoom" end="0,0,320,320" start="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]">Conditional</animation>
                         <include content="Object_BigPoster">
                             <param name="diffuse">diffuse/square_w440_h440.png</param>
                             <param name="icon">$INFO[Player.Icon]</param>
@@ -87,8 +87,8 @@
 
                     <control type="group">
                         <left>360</left>
-                        <animation effect="slide" start="0" end="-360" time="400" tween="cubic" easing="out" reversible="false" condition="[Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))]">Conditional</animation>
-                        <animation effect="slide" end="0" start="-360" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))]">Conditional</animation>
+                        <animation effect="slide" start="0" end="-360" time="400" tween="cubic" easing="out" reversible="false" condition="[Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]">Conditional</animation>
+                        <animation effect="slide" end="0" start="-360" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]">Conditional</animation>
                         <control type="grouplist">
                             <height>137</height>
                             <bottom>40</bottom>
@@ -129,7 +129,7 @@
                     <include content="OSD_Button">
                         <param name="autoclose">true</param>
                         <param name="visible">true</param>
-                        <param name="icon">osd/lyrics.png</param>
+                        <param name="icon">special://skin/extras/icons/microphone.png</param>
                         <param name="id">6500</param>
                         <param name="groupid">6599</param>
                         <onclick>Close</onclick>
@@ -162,7 +162,7 @@
 
         <!-- Top Label Lyrics -->
         <control type="group">
-            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | !String.IsEmpty(Window(Home).Property(OSDArtistDetails))</visible>
+            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]</visible>
             <include>Animation_FadeIn_Delay</include>
             <include>Animation_FadeOut</include>
             <include content="Furniture_Top_Left">
