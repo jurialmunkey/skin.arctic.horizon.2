@@ -255,11 +255,13 @@
                             </include>
                             <include content="Dialog_Settings_Button" description="Pressing Back from EPG guide">
                                 <param name="id">3001</param>
-                                <param name="control" value="radiobutton" />
-                                <label>$LOCALIZE[31175]</label>
+                                <param name="control" value="button" />
+                                <label>$LOCALIZE[31355]</label>
+                                <label2>$VAR[Label_Setting_PVRBack]</label2>
                                 <visible>Container(3).HasFocus(3)</visible>
-                                <onclick>Skin.ToggleSetting(PVR.DisableOnBackMenu)</onclick>
-                                <selected>!Skin.HasSetting(PVR.DisableOnBackMenu)</selected>
+                                <onclick condition="String.IsEmpty(Skin.String(PVR.OnBack))">Skin.SetString(PVR.OnBack,Menu)</onclick>
+                                <onclick condition="Skin.String(PVR.OnBack,Menu)">Skin.SetString(PVR.OnBack,Group)</onclick>
+                                <onclick condition="Skin.String(PVR.OnBack,Group)">Skin.Reset(PVR.OnBack)</onclick>
                             </include>
                             <include content="Dialog_Settings_Button" description="Pressing Up from HomeMenu">
                                 <param name="id">3002</param>
