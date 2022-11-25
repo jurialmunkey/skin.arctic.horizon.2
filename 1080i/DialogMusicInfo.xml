@@ -1,83 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog">
-    <defaultcontrol always="true">5000</defaultcontrol>
-    <menucontrol>9000</menucontrol>
+    <include content="Object_DefaultControl" condition="!Skin.HasSetting(DialogInfo.FocusButtons)">
+        <param name="always">true</param>
+        <param name="defaultcontrol">5000</param>
+    </include>
+    <include content="Object_DefaultControl" condition="Skin.HasSetting(DialogInfo.FocusButtons)">
+        <param name="always">true</param>
+        <param name="defaultcontrol">4000</param>
+    </include>
+    <menucontrol>4000</menucontrol>
     <controls>
+
+        <include>Defs_TMDbHelper_Loader</include>
+
+        <!-- Button Group -->
+        <include content="DialogInfo_ButtonGroup">
+            <param name="include">Items_DialogMusicInfo_MenuBar</param>
+        </include>
+        <include>DialogInfo_ButtonHidden</include>
+
         <include content="DialogInfo_MainGroup">
-            <visible>!ControlGroup(6000).HasFocus()</visible>
-
-            <control type="group">
-                <visible>!Window.IsActive(script-tmdbhelper-wikipedia.xml)</visible>
-                <animation type="Visible" reversible="false">
-                    <effect type="fade" start="0" end="100" time="300" delay="400" tween="sine" easing="out"/>
-                    <effect type="slide" start="-320" end="0" time="400" delay="400" tween="cubic" easing="out" />
-                </animation>
-                <animation type="Hidden" reversible="false">
-                    <effect type="fade" start="100" end="0" time="300" tween="sine" easing="out" />
-                    <effect type="slide" start="0" end="-320" time="300" tween="cubic" easing="out" />
-                </animation>
-                <include content="DialogInfo_LeftGroup">
-                    <param name="height">infodialog_poster_w</param>
-                    <param name="diffuse">diffuse/square_w544_h544.png</param>
-                    <include>DialogInfo_MusicArt</include>
+            <include content="DialogInfo_LeftGroup">
+                <param name="height">infodialog_poster_w</param>
+                <param name="diffuse">diffuse/square_w460_h460.png</param>
+                <include content="DialogInfo_PullTab">
+                    <centertop>280</centertop>
                 </include>
+                <include>DialogInfo_MusicArt</include>
+            </include>
+            <include content="DialogInfo_RightGroup">
+                <!-- Info -->
+                <control type="group">
+                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                    <visible>!Control.HasFocus(7003)</visible>
 
-                <include content="DialogInfo_RightGroup">
-                    <!-- Info -->
+                    <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+                    <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
+
+
                     <control type="group">
                         <visible>!Control.HasFocus(61)</visible>
-                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                        <include content="Animation_DialogInfo_Recommendations">
-                            <param name="condition">ControlGroup(6000).HasFocus()</param>
-                        </include>
 
-                        <!-- Info -->
+                        <!-- Music Info -->
                         <include content="Info_Panel">
                             <param name="plotheight" value="info_plot_large_h" />
-                        </include>
-
-                        <!-- Button Group -->
-                        <include content="DialogInfo_ButtonGroup">
-                            <param name="include">Items_DialogVideoInfo_MenuBar</param>
+                            <param name="plotwidth" value="info_plot_w" />
+                            <param name="details">![Control.HasFocus(9801) | Control.HasFocus(9802)]</param>
                         </include>
 
                         <!-- Track Details -->
                         <include content="DialogInfo_MusicTracks" condition="String.IsEqual(ListItem.DBType,album)">
                             <param name="id">50</param>
+                            <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
                         </include>
                         <include content="DialogInfo_MusicTracks" condition="String.IsEqual(ListItem.DBType,artist)">
                             <param name="id">5050</param>
                             <param name="detailed">true</param>
                             <content target="music" sortby="playcount" sortorder="descending">$INFO[ListItem.Artist,musicdb://songs/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22,%22%5D%7D%5D%7D%2C%22type%22%3A%22songs%22%7D]</content>
+                            <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
                         </include>
 
-                        <!-- Codecs -->
-                        <include>DialogInfo_Codecs</include>
-
-                        <!-- Mouse Nav Button -->
-                        <include content="DialogInfo_MouseNavArrow">
-                            <visible>!Integer.IsEqual(Container(50).NumItems,0)</visible>
-                        </include>
+                        <control type="group">
+                            <visible>Control.HasFocus(9801) | Control.HasFocus(9802)</visible>
+                            <include>Animation_FadeIn_Delay</include>
+                            <include content="List_PlayList">
+                                <param name="id">9801</param>
+                                <param name="controltype">fixedlist</param>
+                                <param name="orientation">vertical</param>
+                                <param name="offset_y">40</param>
+                                <content target="music">musicdb://albums/?xsp={"rules":{"and":[{"field":"artist","operator":"contains","value":["$INFO[ListItem.Artist]"]}]},"type":"albums"}</content>
+                                <onback>5000</onback>
+                                <onleft>5000</onleft>
+                                <onright>9802</onright>
+                                <left>-60</left>
+                                <top>200</top>
+                                <bottom>-20</bottom>
+                                <width>980</width>
+                                <preloaditems>0</preloaditems>
+                                <focusposition>1</focusposition>
+                                <movement>2</movement>
+                            </include>
+                            <include content="List_PlayList">
+                                <param name="id">9802</param>
+                                <param name="controltype">fixedlist</param>
+                                <param name="orientation">vertical</param>
+                                <param name="offset_y">40</param>
+                                <content target="music">musicdb://songs/?xsp={"rules":{"and":[{"field":"album","operator":"is","value":["$INFO[Container(9801).ListItem.Album]"]}]},"type":"songs"}</content>
+                                <onback>9801</onback>
+                                <onleft>9801</onleft>
+                                <left>860</left>
+                                <top>200</top>
+                                <bottom>-20</bottom>
+                                <width>980</width>
+                                <preloaditems>0</preloaditems>
+                                <focusposition>1</focusposition>
+                                <movement>2</movement>
+                            </include>
+                        </control>
                     </control>
+                </control>
 
-                    <!-- Trailer and Plot -->
-                    <include>DialogInfo_VideoTrailer</include>
-                    <include content="DialogInfo_PlotBox">
-                        <param name="label">$VAR[Label_Plot]</param>
-                    </include>
+                <!-- Trailer and Plot -->
+                <include>DialogInfo_VideoTrailer</include>
+                <include content="DialogInfo_PlotBox">
+                    <param name="label">$VAR[Label_Plot]</param>
                 </include>
-            </control>
-            <control type="group">
-                <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-                <include>Furniture_Top_Left</include>
-            </control>
+                <include>DialogInfo_ArtworkGallery</include>
+
+            </include>
         </include>
 
-        <control type="group">
-            <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
-            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
-            <include>Furniture_Top_Right</include>
-        </control>
+
+        <include content="DialogInfo_Furniture">
+            <param name="downarrow_visible">false</param>
+        </include>
 
         <include content="Object_Options_Menu">
             <param name="grouplist_items" value="Items_DialogMusicInfo_Options" />
@@ -88,56 +124,29 @@
 
         <include>DialogInfo_VideoTrailerFullscreen</include>
 
-        <include content="Object_Hidden_Button">
+        <!-- <include content="Object_Hidden_Button">
             <param name="id">7002</param>
-            <onfocus condition="String.IsEqual(ListItem.DBType,artist)">SetFocus(6000)</onfocus>
-            <onfocus condition="!String.IsEqual(ListItem.DBType,artist)">Close</onfocus>
-            <onfocus condition="!String.IsEqual(ListItem.DBType,artist)">SendClick(12)</onfocus>
-        </include>
+            <onfocus>SetFocus(5000)</onfocus>
+        </include> -->
 
         <include>DialogInfo_FilePathInfo</include>
 
-
-        <!-- Albums -->
         <control type="group">
-            <animation type="Conditional" reversible="false" condition="ControlGroup(6000).HasFocus()">
-                <effect type="fade" start="0" end="100" time="800" tween="sine" easing="out"/>
-                <effect type="slide" start="infodialog_left_w,200" end="0" time="800" tween="cubic" easing="out" />
-            </animation>
-            <animation type="Conditional" reversible="false" condition="!ControlGroup(6000).HasFocus()">
-                <effect type="fade" start="100" end="0" time="400" tween="sine" easing="out" />
-                <effect type="slide" start="0" end="infodialog_left_w,200" time="800" tween="cubic" easing="out" />
-            </animation>
-            <control type="grouplist" id="6000">
-                <onup>5000</onup>
-                <ondown>330</ondown>
-                <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
-                    <effect type="slide" end="0,-20" time="60" tween="sine" />
-                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
-                </animation>
-                <orientation>vertical</orientation>
-                <control type="group" id="6100">
-                    <height>widget_tbump_h</height>
-                </control>
-                <include content="Widget_Poster" condition="String.IsEqual(ListItem.DBType,artist)">
-                    <param name="groupid" value="5100" />
-                    <param name="id" value="50" />
-                    <param name="label" value="$LOCALIZE[132]" />
-                    <param name="visible" value="true" />
-                    <param name="include" value="List_Square_Row" />
-                </include>
-            </control>
-            <include content="Object_WallFade">
-                <param name="id" value="6000" />
+            <visible>!Integer.IsEqual(Container(6204).NumItems,0)</visible>
+            <visible>ControlGroup(6000).HasFocus()</visible>
+            <left>view_pad</left>
+            <right>view_pad</right>
+            <bottom>view_pad</bottom>
+            <animation effect="fade" start="0" end="100" delay="0" time="400" reversible="false">Visible</animation>
+            <animation effect="fade" start="100" end="0" delay="400" time="400" reversible="false">Hidden</animation>
+            <height>40</height>
+            <include content="Info_Codec_LabelIcon">
+                <param name="icon" value="special://skin/extras/icons/songs.png" />
             </include>
-            <control type="group">
-                <left>view_pad</left>
-                <top>60</top>
-                <height>view_pad</height>
-                <include content="Info_Title">
-                    <param name="colordiffuse" value="main_fg" />
-                </include>
-            </control>
+            <include content="Info_Codec_LabelLabel">
+                <left>60</left>
+                <label>$INFO[Container(6202).ListItem.Label,[B],[/B]]$INFO[Container(6202).ListItem.Label2, (,) ]$INFO[Container(6204).NumNonFolderItems, • , $LOCALIZE[134]]</label>
+            </include>
         </control>
 
     </controls>

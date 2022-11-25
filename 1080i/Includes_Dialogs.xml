@@ -154,6 +154,7 @@
         <param name="info_id" default="6" />
         <param name="info_label" default="" />
         <param name="info_condition" default="true" />
+        <param name="grouplist_id">5</param>
         <definition>
             <control type="group">
                 <left>settings_category_w</left>
@@ -162,8 +163,24 @@
                     <param name="id" value="$PARAM[info_id]" />
                     <param name="label" value="$PARAM[info_label]" />
                 </include>
+                <control type="image">
+                    <texture colordiffuse="dialog_fg_70">special://skin/extras/icons/angle-up.png</texture>
+                    <width>grid_x04</width>
+                    <height>grid_x04</height>
+                    <centerleft>50%</centerleft>
+                    <centertop>-grid_x02</centertop>
+                    <visible>Container($PARAM[grouplist_id]).HasPrevious</visible>
+                </control>
+                <control type="image">
+                    <texture colordiffuse="dialog_fg_70">special://skin/extras/icons/angle-down.png</texture>
+                    <width>grid_x04</width>
+                    <height>grid_x04</height>
+                    <centerleft>50%</centerleft>
+                    <centerbottom>-grid_x02</centerbottom>
+                    <visible>Container($PARAM[grouplist_id]).HasNext</visible>
+                </control>
                 <control type="scrollbar" id="61">
-                    <width>8</width>
+                    <width>10</width>
                     <top>-grid_x04</top>
                     <bottom>-grid_x04</bottom>
                     <onleft>$PARAM[scrollbar_onleft]</onleft>
@@ -194,6 +211,7 @@
         <param name="id" default="50" />
         <param name="content" default="Items_Null" />
         <param name="onback" default="7000" />
+        <param name="islist" default="true" />
         <definition>
             <include content="Dialog_Background">
                 <param name="overlay" value="false" />
@@ -212,7 +230,7 @@
                     <visible>Container($PARAM[id]).IsUpdating</visible>
                 </include>
                 <include content="Dialog_Group">
-                    <include content="Dialog_Outline_Box">
+                    <include content="Dialog_Outline_Box" condition="$PARAM[islist]">
                         <control type="list" id="$PARAM[id]">
                             <onback>$PARAM[onback]</onback>
                             <onup>$PARAM[onback]</onup>
@@ -229,6 +247,13 @@
                                 </control>
                             </focusedlayout>
                             <include>$PARAM[content]</include>
+                        </control>
+                    </include>
+                    <include content="Dialog_Outline_Box" condition="![$PARAM[islist]]">
+                        <control type="image">
+                            <width>1493.33</width>
+                            <fadetime>400</fadetime>
+                            <texture background="true">$INFO[Container($PARAM[id]).ListItem.Icon]</texture>
                         </control>
                     </include>
                     <control type="image">
@@ -277,7 +302,7 @@
                 <textcolor>main_fg_100</textcolor>
                 <top>-grid_x12</top>
                 <height>grid_x12</height>
-                <font>font_mainlabel</font>
+                <font>font_head_black</font>
                 <align>center</align>
             </control>
         </definition>
@@ -288,7 +313,7 @@
         <definition>
             <control type="textbox" id="$PARAM[id]">
                 <nested />
-                <font>font_plotbox</font>
+                <font>font_main_plot</font>
                 <textcolor>dialog_fg_70</textcolor>
             </control>
         </definition>
@@ -338,7 +363,7 @@
                 <label>$LOCALIZE[39111]</label>
                 <visible>String.IsEqual(Window(Home).Property($PARAM[language].IsOriginal),True)</visible>
                 <bottom>2</bottom>
-                <font>font_statusbar_bold</font>
+                <font>font_tiny_bold</font>
                 <textcolor>dialog_fg_70</textcolor>
             </control>
             <control type="label">
@@ -346,7 +371,7 @@
                 <label>$LOCALIZE[39105]</label>
                 <visible>String.IsEqual(Window(Home).Property($PARAM[language].IsDefault),True)</visible>
                 <bottom>2</bottom>
-                <font>font_statusbar_bold</font>
+                <font>font_tiny_bold</font>
                 <textcolor>dialog_fg_70</textcolor>
             </control>
             <control type="label">
@@ -354,7 +379,7 @@
                 <label>$LOCALIZE[39106]</label>
                 <visible>String.IsEqual(Window(Home).Property($PARAM[language].IsForced),True)</visible>
                 <bottom>2</bottom>
-                <font>font_statusbar_bold</font>
+                <font>font_tiny_bold</font>
                 <textcolor>dialog_fg_70</textcolor>
             </control>
             <control type="label">
@@ -362,7 +387,7 @@
                 <label>$INFO[Window(Home).Property($PARAM[language].codec)]</label>
                 <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].codec))</visible>
                 <bottom>2</bottom>
-                <font>font_statusbar_bold</font>
+                <font>font_tiny_bold</font>
                 <textcolor>dialog_fg_70</textcolor>
             </control>
             <control type="label">
@@ -370,7 +395,7 @@
                 <label>$INFO[Window(Home).Property($PARAM[language].channels),, $LOCALIZE[10127]]</label>
                 <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].channels))</visible>
                 <bottom>2</bottom>
-                <font>font_statusbar_bold</font>
+                <font>font_tiny_bold</font>
                 <textcolor>dialog_fg_70</textcolor>
             </control>
             <control type="label">
@@ -378,7 +403,7 @@
                 <label>$INFO[Window(Home).Property($PARAM[language].bitrate),, bps]</label>
                 <visible>!String.IsEmpty(Window(Home).Property($PARAM[language].bitrate))</visible>
                 <bottom>2</bottom>
-                <font>font_statusbar_bold</font>
+                <font>font_tiny_bold</font>
                 <textcolor>dialog_fg_70</textcolor>
             </control>
             <control type="image">
@@ -456,7 +481,7 @@
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
                 <align>left</align>
-                <font>font_small</font>
+                <font>font_main</font>
                 <height>grid_x08</height>
                 <textoffsetx>grid_x04</textoffsetx>
                 <texturenofocus />
@@ -472,7 +497,7 @@
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
                 <align>left</align>
-                <font>font_hintlabel</font>
+                <font>font_hint_black</font>
                 <top>grid_x04</top>
                 <height>grid_x04</height>
                 <textoffsetx>grid_x04</textoffsetx>
@@ -490,7 +515,7 @@
                 <param name="control" value="button" />
                 <description>Default Setting Button</description>
                 <onclick>SettingsLevelChange</onclick>
-                <font>font_statusbar</font>
+                <font>font_tiny</font>
                 <onup>3</onup>
                 <onleft>300</onleft>
                 <textoffsetx>92</textoffsetx>
@@ -533,7 +558,7 @@
                     <height>90</height>
                     <centertop>50%</centertop>
                     <textcolor>dialog_fg_70</textcolor>
-                    <font>font_statusbar</font>
+                    <font>font_tiny</font>
                     <aligny>center</aligny>
                     <label>$PARAM[label]</label>
                 </control>
@@ -542,7 +567,7 @@
                     <height>90</height>
                     <centertop>50%</centertop>
                     <textcolor>dialog_fg_70</textcolor>
-                    <font>font_statusbar</font>
+                    <font>font_tiny</font>
                     <aligny>center</aligny>
                     <label>$LOCALIZE[19055]</label>
                     <visible>String.IsEmpty(Control.GetLabel($PARAM[id]))</visible>

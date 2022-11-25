@@ -3,7 +3,7 @@
     <default type="label">
         <align>left</align>
         <aligny>center</aligny>
-        <font>font_small</font>
+        <font>font_main</font>
         <textcolor>dialog_fg_70</textcolor>
         <include content="Object_Scroll" condition="Skin.HasSetting(Labels.Autoscroll)">
             <param name="scroll">true</param>
@@ -12,7 +12,7 @@
 
     <default type="textbox">
         <align>left</align>
-        <font>font_small</font>
+        <font>font_main</font>
         <textcolor>dialog_fg_70</textcolor>
         <autoscroll delay="6000" time="3000" repeat="10000">!Skin.HasSetting(Textboxes.DisableAutoscroll)</autoscroll>
     </default>
@@ -20,7 +20,7 @@
     <default type="button">
         <align>center</align>
         <aligny>center</aligny>
-        <font>font_button</font>
+        <font>font_mini</font>
         <textoffsetx>30</textoffsetx>
         <textcolor>dialog_fg_70</textcolor>
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
@@ -32,7 +32,7 @@
     <default type="edit">
         <align>center</align>
         <aligny>center</aligny>
-        <font>font_button</font>
+        <font>font_mini</font>
         <textoffsetx>30</textoffsetx>
         <textcolor>dialog_fg_70</textcolor>
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
@@ -52,7 +52,7 @@
     <default type="radiobutton">
         <align>center</align>
         <aligny>center</aligny>
-        <font>font_button</font>
+        <font>font_mini</font>
         <textoffsetx>30</textoffsetx>
         <textcolor>dialog_fg_70</textcolor>
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
@@ -74,7 +74,7 @@
     <default type="spincontrolex">
         <align>center</align>
         <aligny>center</aligny>
-        <font>font_button</font>
+        <font>font_mini</font>
         <textoffsetx>30</textoffsetx>
         <textcolor>dialog_fg_70</textcolor>
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
@@ -96,7 +96,7 @@
     <default type="spincontrol">
         <align>center</align>
         <aligny>center</aligny>
-        <font>font_button</font>
+        <font>font_mini</font>
         <textoffsetx>30</textoffsetx>
         <textcolor>dialog_fg_70</textcolor>
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
@@ -120,7 +120,7 @@
     <default type="slider">
         <align>center</align>
         <aligny>center</aligny>
-        <font>font_button</font>
+        <font>font_mini</font>
         <textoffsetx>30</textoffsetx>
         <textcolor>dialog_fg_70</textcolor>
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
@@ -140,7 +140,7 @@
     <default type="sliderex">
         <align>center</align>
         <aligny>center</aligny>
-        <font>font_button</font>
+        <font>font_mini</font>
         <textoffsetx>30</textoffsetx>
         <textcolor>dialog_fg_70</textcolor>
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
@@ -161,7 +161,7 @@
     <default type="togglebutton">
         <align>center</align>
         <aligny>center</aligny>
-        <font>font_button</font>
+        <font>font_mini</font>
         <textoffsetx>30</textoffsetx>
         <textcolor>dialog_fg_70</textcolor>
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
@@ -303,7 +303,7 @@
         <height>80</height>
         <textoffsetx>30</textoffsetx>
         <align>left</align>
-        <font>font_small</font>
+        <font>font_main</font>
         <textcolor>main_fg_70</textcolor>
     </include>
 
@@ -334,6 +334,14 @@
     <include name="Defs_AutoScroll">
         <param name="include" default="Defs_AutoScroll_Value" />
         <definition>
+            <include content="$PARAM[include]" condition="String.IsEqual(Skin.String(AutoScrollTime),5s)">
+                <param name="time" value="5000" />
+                <param name="condition" value="$PARAM[condition]" />
+            </include>
+            <include content="$PARAM[include]" condition="String.IsEqual(Skin.String(AutoScrollTime),8s)">
+                <param name="time" value="8000" />
+                <param name="condition" value="$PARAM[condition]" />
+            </include>
             <include content="$PARAM[include]" condition="String.IsEqual(Skin.String(AutoScrollTime),10s)">
                 <param name="time" value="10000" />
                 <param name="condition" value="$PARAM[condition]" />
@@ -366,13 +374,10 @@
     </include>
 
     <include name="Defs_TMDbHelper_Loader">
-        <control type="list" id="99950">
-            <width>1</width>
-            <height>1</height>
-            <itemlayout />
-            <focusedlayout />
-            <left>-1920</left>
-        </control>
+        <include>Info_Title_Label_Hidden</include>
+        <include content="Object_Hidden_List">
+            <param name="id">99950</param>
+        </include>
     </include>
 
 

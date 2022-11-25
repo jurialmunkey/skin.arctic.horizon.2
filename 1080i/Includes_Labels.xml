@@ -1,25 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
+
+    <variable name="Label_OSD_HintText">
+        <value condition="ControlGroup(6000).HasFocus() + !Window.IsVisible(1140) + !VideoPlayer.Content(livetv) + $EXP[Exp_OSD_HasPlaylist]">$LOCALIZE[31296]</value>
+        <value condition="ControlGroup(6000).HasFocus() + !Window.IsVisible(1140) + $EXP[Exp_OSD_HasPlaylist]">$LOCALIZE[31295]</value>
+        <value condition="ControlGroup(6000).HasFocus() + !VideoPlayer.Content(livetv)">$LOCALIZE[31294]</value>
+        <value condition="ControlGroup(6000).HasFocus()">$LOCALIZE[31348]</value>
+        <value condition="ControlGroup(6001).HasFocus()">$LOCALIZE[31293]</value>
+    </variable>
+
+    <variable name="Label_Library_Collections">
+        <value condition="String.IsEqual(ListItem.DBType,tvshow)">$LOCALIZE[33054]</value>
+        <value>$LOCALIZE[31108]</value>
+    </variable>
+
+    <variable name="Label_Setting_SelectboxStyle">
+        <value condition="Skin.HasSetting(SelectBox.Glow)">$LOCALIZE[31347]</value>
+        <value condition="Skin.HasSetting(SelectBox.Thin)">$LOCALIZE[31337]</value>
+        <value>$LOCALIZE[739]</value>
+    </variable>
+
+    <variable name="Label_Set">
+        <value condition="!String.IsEmpty(ListItem.Set)">$INFO[ListItem.Set]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Set)">$INFO[Container(99950).ListItem.Set]</value>
+    </variable>
+
+    <variable name="Label_Studio">
+        <value condition="!String.IsEmpty(ListItem.Studio)">$INFO[ListItem.Studio]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Studio)">$INFO[Container(99950).ListItem.Studio]</value>
+    </variable>
+
+    <variable name="Label_Country">
+        <value condition="!String.IsEmpty(ListItem.Country)">$INFO[ListItem.Country]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Country)">$INFO[Container(99950).ListItem.Country]</value>
+    </variable>
+
+    <variable name="Label_Genre">
+        <value condition="!String.IsEmpty(ListItem.Genre)">$INFO[ListItem.Genre]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Genre)">$INFO[Container(99950).ListItem.Genre]</value>
+    </variable>
+
+    <variable name="Label_Director">
+        <value condition="!String.IsEmpty(ListItem.Director)">$INFO[ListItem.Director]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Director)">$INFO[Container(99950).ListItem.Director]</value>
+    </variable>
+
+    <variable name="Label_Writer">
+        <value condition="!String.IsEmpty(ListItem.Writer)">$INFO[ListItem.Writer]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Writer)">$INFO[Container(99950).ListItem.Writer]</value>
+    </variable>
+
+    <variable name="Label_Tagline">
+        <value condition="!String.IsEmpty(ListItem.Tagline)">$INFO[ListItem.Tagline]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Tagline)">$INFO[Container(99950).ListItem.Tagline]</value>
+    </variable>
+
     <variable name="Label_OSD_CastMember_Bio">
         <value condition="!String.IsEmpty(Container(6501).ListItem.Property(biography))">$INFO[Container(6501).ListItem.Property(biography)]</value>
         <value condition="!String.IsEmpty(Container(6502).ListItem.Property(biography)) + String.IsEqual(Container(6501).ListItem.Label,Container(6502).ListItem.Label)">$INFO[Container(6502).ListItem.Property(biography)]</value>
         <value condition="Container(6502).IsUpdating">$LOCALIZE[31299]...</value>
         <value>$LOCALIZE[19055]</value>
     </variable>
-    <variable name="Label_OSD_HintText">
-        <value condition="Control.HasFocus(6500)">$LOCALIZE[31293]</value>
-        <value condition="Control.HasFocus(6501)">$LOCALIZE[31298]</value>
-        <value condition="VideoPlayer.Content(livetv)">$LOCALIZE[31295]</value>
-        <value condition="!Integer.IsEqual(Container(6401).NumItems,0) + !Control.HasFocus(6401)">$LOCALIZE[31296]</value>
-        <value>$LOCALIZE[31294]</value>
+
+    <variable name="Label_OSD_CastMember_Appearances">
+        <value condition="!String.IsEmpty(Container(6501).ListItem.Property(numitems.tmdb.movies.cast))">$INFO[Container(6501).ListItem.Property(numitems.tmdb.movies.cast),, $LOCALIZE[342]]$INFO[Container(6501).ListItem.Property(numitems.tmdb.tvshows.cast), $LOCALIZE[1397] , $LOCALIZE[20343]]</value>
+        <value condition="!String.IsEmpty(Container(6502).ListItem.Property(numitems.tmdb.movies.cast)) + String.IsEqual(Container(6501).ListItem.Label,Container(6502).ListItem.Label)">$INFO[Container(6502).ListItem.Property(numitems.tmdb.movies.cast),, $LOCALIZE[342]]$INFO[Container(6502).ListItem.Property(numitems.tmdb.tvshows.cast), $LOCALIZE[1397] , $LOCALIZE[20343]]</value>
+        <value condition="Container(6502).IsUpdating">$LOCALIZE[31299]...</value>
+        <value>$LOCALIZE[19055]</value>
     </variable>
+
     <variable name="Label_HomeHeader">
         <value condition="!String.IsEmpty(Window(Home).Property(Slide.WidgetTitle))">$INFO[Window(Home).Property(Slide.WidgetTitle)]</value>
         <value>$INFO[Container(300).ListItem.Label]</value>
     </variable>
     <variable name="Label_OSD_HeaderEpisodeChapter">
         <value condition="VideoPlayer.Content(episodes) + !String.IsEmpty(VideoPlayer.Title)">$INFO[VideoPlayer.Title]</value>
-        <value condition="VideoPlayer.Content(movies) + !String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00)">$INFO[Player.Chapter,$LOCALIZE[21396] ,]$INFO[Player.ChapterCount, $LOCALIZE[1443] ,]</value>
+        <value condition="VideoPlayer.Content(movies) + !String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00)">$INFO[Player.Chapter,$LOCALIZE[21396] ,]$INFO[Player.ChapterCount, $LOCALIZE[1443] ,]</value>
         <value condition="VideoPlayer.Content(livetv) + !String.IsEmpty(VideoPlayer.ChannelNumberLabel)">$INFO[VideoPlayer.ChannelNumberLabel,$LOCALIZE[19029] ,]</value>
         <value condition="VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Studio)">$INFO[VideoPlayer.Studio]</value>
     </variable>
@@ -55,14 +111,26 @@
         <value condition="Skin.String(HomeMenu.OnUp,None)">$LOCALIZE[31292]</value>
     </variable>
 
+    <variable name="Label_Setting_PVRBack">
+        <value condition="String.IsEmpty(Skin.String(PVR.OnBack))">$LOCALIZE[15067]</value>
+        <value condition="Skin.String(PVR.OnBack,Menu)">$LOCALIZE[31353]</value>
+        <value condition="Skin.String(PVR.OnBack,Group)">$LOCALIZE[31354]</value>
+    </variable>
+
     <variable name="Label_Setting_RowScrollBar">
         <value condition="Skin.String(Rows.OnDown,Wall)">$LOCALIZE[31184]</value>
+        <value condition="Skin.String(Rows.OnDown,Plot)">$LOCALIZE[207]</value>
         <value>$LOCALIZE[31018]</value>
     </variable>
 
     <variable name="Label_FullscreenWidget_PlayButton">
         <value condition="Container(301).ListItem.IsFolder">$LOCALIZE[1024]</value>
         <value>$LOCALIZE[208]</value>
+    </variable>
+
+    <variable name="Label_FullscreenWidget_InfoButton">
+        <value condition="Skin.HasSetting(Widgets.FullScreenContext)">$LOCALIZE[33063]</value>
+        <value>$LOCALIZE[31077]</value>
     </variable>
 
     <variable name="Label_VideoInfo_PlayButton">
@@ -81,8 +149,9 @@
     </variable>
 
     <variable name="Label_Playlist_Title">
-        <value condition="String.IsEqual(ListItem.DBType,artist)">$INFO[ListItem.Artist]</value>
-        <value>$INFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(ListItem.DBType,artist) + !String.IsEmpty(ListItem.Artist)">$INFO[ListItem.Artist]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Label]</value>
     </variable>
 
     <variable name="Label_TitleLabel">
@@ -96,6 +165,9 @@
         <value condition="!String.IsEmpty(ListItem.Album)">$INFO[ListItem.Album]$INFO[ListItem.Year, • ,]</value>
         <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, • ]$INFO[ListItem.TVShowTitle]</value>
         <value condition="!String.IsEmpty(ListItem.Director)">$INFO[ListItem.Director]$INFO[ListItem.Year, • ,]</value>
+        <value condition="!String.IsEmpty(ListItem.Property(sublabel))">$INFO[ListItem.Property(sublabel)]</value>
+        <value condition="!String.IsEmpty(ListItem.DBType)">$INFO[ListItem.DBType,[CAPITALIZE],[/CAPITALIZE]]</value>
+        <value condition="!String.IsEmpty(ListItem.Path)">$INFO[ListItem.Path]</value>
     </variable>
 
     <variable name="Label_PVRRecordings_Sublabel">
@@ -144,7 +216,7 @@
     </variable>
 
     <variable name="Label_OSD_EpisodeLabel">
-        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, ]$INFO[ListItem.Title]$INFO[ListItem.ChannelNumberLabel, (Ch. ,)]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, ]$INFO[ListItem.Title]</value>
         <value>$INFO[ListItem.Label]</value>
     </variable>
 
@@ -152,6 +224,13 @@
         <value condition="!String.IsEmpty(ListItem.Label2)">$INFO[ListItem.Label2]</value>
         <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.TVShowTitle]</value>
         <value condition="!String.IsEmpty(ListItem.StartTime)">$INFO[ListItem.StartTime]$INFO[ListItem.EndTime, - ,]</value>
+        <value condition="!String.IsEmpty(ListItem.DBType)">$INFO[ListItem.DBType,[CAPITALIZE],[/CAPITALIZE]]</value>
+        <value condition="VideoPlayer.Content(livetv)">$LOCALIZE[31085]</value>
+    </variable>
+
+    <variable name="Label_OSD_EpisodeLabel3">
+        <value condition="!String.IsEmpty(ListItem.ChannelName) + !String.IsEmpty(ListItem.Title) + !Window.IsVisible(pvrosdguide)">$INFO[ListItem.ChannelName]</value>
+        <value condition="!String.IsEmpty(ListItem.ChannelNumberLabel) + !Window.IsVisible(pvrosdguide)">$INFO[ListItem.ChannelNumberLabel,Ch.,]</value>
     </variable>
 
     <variable name="Label_OSD_DirectorName">
@@ -176,14 +255,19 @@
     </variable>
 
     <variable name="Label_ListTrackNumber">
-        <value condition="String.IsEqual(Container.FolderName,ListItem.Album) + !String.IsEmpty(Container.FolderName) + !String.IsEmpty(ListItem.Album)">$INFO[ListItem.TrackNumber]</value>
-        <value condition="Integer.IsLess(ListItem.CurrentItem,10)">$INFO[ListItem.CurrentItem,0,]</value>
-        <value>$INFO[ListItem.CurrentItem]</value>
+        <value condition="String.IsEqual(ListItem.DBType,album)">$INFO[ListItem.Year]</value>
+        <value>$INFO[ListItem.TrackNumber]$INFO[ListItem.DiscNumber,     [COLOR=main_fg_30],[/COLOR]]</value>
     </variable>
 
     <variable name="Label_ListArtist">
         <value condition="String.IsEqual(Container.FolderName,$LOCALIZE[15102])">$INFO[ListItem.Album]</value>
-        <value condition="!String.IsEqual(Container.FolderName,ListItem.Album) | !String.IsEqual(ListItem.AlbumArtist,ListItem.Artist)">$INFO[ListItem.Artist]</value>
+        <value>$INFO[ListItem.Artist]</value>
+    </variable>
+
+    <variable name="Label_ListEpisode">
+        <value condition="!String.IsEmpty(ListItem.Label2)">$INFO[ListItem.Label2]</value>
+        <value condition="!String.IsEmpty(ListItem.Duration)">$INFO[ListItem.Premiered,,  [COLOR=main_fg_60]•[/COLOR]  ]$INFO[ListItem.Duration]</value>
+        <value condition="!String.IsEmpty(ListItem.Premiered)">$INFO[ListItem.Premiered]</value>
     </variable>
 
     <variable name="Label_ListPlot">
@@ -307,6 +391,7 @@
         <value condition="Window.IsVisible(weather) + !String.IsEmpty(Weather.Location)">$INFO[Weather.Location]</value>
         <value condition="Window.IsVisible(weather)">$LOCALIZE[8]</value>
         <value condition="Window.IsVisible(filemanager)">$LOCALIZE[7]</value>
+        <value condition="Window.IsVisible(MyMusicPlaylistEditor.xml)">$LOCALIZE[10503]</value>
         <value condition="Window.IsVisible(1116)">$LOCALIZE[31158] Trakt</value>
         <value condition="Window.IsVisible(1117)">$LOCALIZE[31158] $LOCALIZE[14022]</value>
         <value condition="Window.IsVisible(1112)">[CAPITALIZE]$LOCALIZE[31007][/CAPITALIZE]</value>

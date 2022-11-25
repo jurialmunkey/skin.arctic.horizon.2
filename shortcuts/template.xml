@@ -108,6 +108,7 @@
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Poster">False</property>
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Square">False</property>
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Landscape">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Big Square">False</property>
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Big Landscape">False</property>
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Banner">False</property>
         <property name="isFullscreenStandard">True</property>
@@ -115,6 +116,7 @@
         <!-- Fullscreen Widget Style -->
         <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Square">List_Square_Row</property>
         <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Landscape">List_Landscape_Row</property>
+        <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Big Square">List_BigSquare_Row</property>
         <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Big Landscape">List_BigLandscape_Row</property>
         <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Banner">List_Banner_Row</property>
         <property name="FullscreenWidgetStyle" tag="property" attribute="name|widgetStyle" value="Poster">List_Poster_Row</property>
@@ -137,6 +139,7 @@
         <property name="isFullscreenAutoLimit">False</property>
         <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetStyle" value="Square">6</property>
         <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetStyle" value="Landscape">4</property>
+        <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetStyle" value="Big Square">5</property>
         <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetStyle" value="Big Landscape">3</property>
         <property name="FullscreenWidgetAutoLimit" tag="property" attribute="name|widgetStyle" value="Banner">1</property>
         <property name="FullscreenWidgetAutoLimit">7</property>
@@ -209,7 +212,7 @@
                             <param name="controltype">label</param>
                             <param name="line_id" value="$PYTHON[int(mainmenuid) * 1000 + 598]" />
                             <param name="container" value="Container(301)." />
-                            <height>280</height>
+                            <height>320</height>
                             <width>info_panel_w</width>
                             <top>fullscreenwidget_infopanel_t</top>
                             <left>view_pad</left>
@@ -218,7 +221,7 @@
                             <left>40</left>
                             <orientation>horizontal</orientation>
                             <height>256</height>
-                            <top>-3</top>
+                            <top>-8</top>
                             <itemgap>-60</itemgap>
                             <onup>SetFocus(300)</onup>
                             <onback>SetFocus(300)</onback>
@@ -237,6 +240,12 @@
                                 <onclick>SetFocus(301)</onclick>
                                 <onclick>Action(Select)</onclick>
                                 <onclick condition="!Container(301).ListItem.IsFolder">SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</onclick>
+
+                                <oninfo>SetFocus(301)</oninfo>
+                                <oninfo condition="Skin.HasSetting(Widgets.FullScreenContext)">Action(Info)</oninfo>
+                                <oninfo condition="!Skin.HasSetting(Widgets.FullScreenContext)">Action(ContextMenu)</oninfo>
+                                <oninfo>SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</oninfo>
+
                                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
                                 <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
                             </include>
@@ -244,13 +253,20 @@
                                 <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 503]" />
                                 <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 513]" />
                                 <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 523]" />
-                                <param name="label" value="$LOCALIZE[31077]" />
-                                <param name="icon" value="special://skin/extras/icons/info2.png" />
+                                <param name="label" value="$VAR[Label_FullscreenWidget_InfoButton]" />
+                                <param name="icon" value="$VAR[Image_FullscreenWidget_InfoButton]" />
                                 <onup>SetFocus(300)</onup>
                                 <onback>SetFocus(300)</onback>
                                 <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
+
+                                <oninfo>SetFocus(301)</oninfo>
+                                <oninfo condition="Skin.HasSetting(Widgets.FullScreenContext)">Action(Info)</oninfo>
+                                <oninfo condition="!Skin.HasSetting(Widgets.FullScreenContext)">Action(ContextMenu)</oninfo>
+                                <oninfo>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</oninfo>
+
                                 <onclick>SetFocus(301)</onclick>
-                                <onclick>Action(Info)</onclick>
+                                <onclick condition="!Skin.HasSetting(Widgets.FullScreenContext)">Action(Info)</onclick>
+                                <onclick condition="Skin.HasSetting(Widgets.FullScreenContext)">Action(ContextMenu)</onclick>
                                 <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</onclick>
                                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
                                 <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
@@ -266,11 +282,11 @@
                         <height>infowidget_main_t</height>
                         <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
                         <include content="Info_Panel" condition="!Skin.HasSetting(Widgets.ExpandedHeader)">
-                            <param name="plotheight">info_plot_small_h</param>
+                            <param name="plotbox">false</param>
                             <param name="controltype">label</param>
                             <param name="line_id">0</param>
                             <param name="container" value="Container(301)." />
-                            <height>infowidget_main_t</height>
+                            <height>320</height>
                             <width>info_panel_w</width>
                             <top>-400</top>
                             <left>view_pad</left>
@@ -280,7 +296,7 @@
                             <param name="controltype">label</param>
                             <param name="line_id">0</param>
                             <param name="container" value="Container(301)." />
-                            <height>infowidget_main_t</height>
+                            <height>320</height>
                             <width>info_panel_w</width>
                             <top>-400</top>
                             <left>view_pad</left>
@@ -342,13 +358,38 @@
                         <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
                         <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                         <onback condition="!Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).ListItem.CurrentItem,1)">SetFocus($PYTHON[int(mainmenuid) * 1000 + 698],0,absolute)</onback>
+
+                        <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).ListItem.CurrentItem,1)">SetFocus($PYTHON[int(mainmenuid) * 1000 + 601])</onback>
+                        <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).ListItem.CurrentItem,1)">SetFocus(301)</onback>
+                        <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).ListItem.CurrentItem,1)">SetFocus($PYTHON[int(mainmenuid) * 1000 + 599])</onback>
                         <onback condition="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 698]).ListItem.CurrentItem,1)">SetFocus(300)</onback>
+
                     </include>
                     <include content="Object_Control" condition="$SKINSHORTCUTS[isSubmenuBumper]">
                         <param name="control" value="group" />
                         <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 699]" />
                         <height>widget_sbump_h</height>
                         <visible>Control.IsVisible($PYTHON[int(mainmenuid) * 1000 + 698])</visible>
+                    </include>
+
+
+                    <include content="Object_Control" condition="![$SKINSHORTCUTS[isSubmenuBumper]]">
+                        <param name="control" value="group" />
+                        <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 697]" />
+                        <height>200</height>
+                        <visible>$EXP[Exp_EndWidget_IsMiniSize]</visible>
+                    </include>
+                    <include content="Object_Control" condition="![$SKINSHORTCUTS[isSubmenuBumper]]">
+                        <param name="control" value="group" />
+                        <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 698]" />
+                        <height>-160</height>
+                        <visible>$EXP[Exp_EndWidget_IsOverSize]</visible>
+                    </include>
+                    <include content="Object_Control" condition="![$SKINSHORTCUTS[isSubmenuBumper]]">
+                        <param name="control" value="group" />
+                        <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 699]" />
+                        <height>-280</height>
+                        <visible>$EXP[Exp_EndWidget_IsFullSize]</visible>
                     </include>
                 </control>
             </include>
@@ -473,6 +514,7 @@
             <property name="isAutoLimit">false</property>
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Square">6</property>
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Landscape">4</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Square">5</property>
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Landscape">3</property>
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
             <property name="widgetAutoLimit">7</property>
@@ -490,6 +532,7 @@
             <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Button">Widget_Submenu</property>
             <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Apps">Widget_Submenu</property>
             <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Text">Widget_Submenu</property>
+            <property name="widgetInclude" tag="property" attribute="name|widgetAspect" value="Lovefilm">Widget_Lovefilm</property>
             <property name="widgetInclude">Widget_Poster</property>
 
             <!-- Details -->
@@ -505,10 +548,12 @@
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Text">List_Button_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Square">List_Square_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Landscape">List_Landscape_Row</property>
+            <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Big Square">List_BigSquare_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Big Landscape">List_BigLandscape_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Feature Poster">List_FeaturePoster_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Feature Landscape">List_FeatureLandscape_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Banner">List_Banner_Row</property>
+            <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Lovefilm">List_SmallLandscape_Row</property>
             <property name="widgetStyle">List_Poster_Row</property>
 
 
@@ -546,9 +591,14 @@
             <property name="isAutoScroll">False</property>
 
             <!-- Oversize -->
-            <property name="isOversized" tag="property" attribute="name|widgetAspect" value="Feature Poster">True</property>
-            <property name="isOversized" tag="property" attribute="name|widgetAspect" value="Feature Landscape">True</property>
-            <property name="isOversized">False</property>
+            <property name="isOversize" tag="property" attribute="name|widgetAspect" value="Feature Poster">True</property>
+            <property name="isOversize" tag="property" attribute="name|widgetAspect" value="Feature Landscape">True</property>
+            <property name="isOversize">False</property>
+
+            <!-- Lovefilm -->
+            <property name="isFullsize" tag="property" attribute="name|widgetAspect" value="Lovefilm">True</property>
+            <property name="isFullsize">False</property>
+
 
             <!-- IsInfo -->
             <property name="isInfo" tag="property" attribute="name|list" value="Submenu">False</property>
@@ -557,10 +607,16 @@
             <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Text">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Feature Poster">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Feature Landscape">False</property>
+            <property name="isInfo" tag="property" attribute="name|widgetAspect" value="Lovefilm">False</property>
             <property name="isInfo" tag="property" attribute="name|widgetInfo">True</property>
             <property name="isInfo">False</property>
+            <property name="isInfoFull" tag="property" attribute="name|list" value="Submenu">False</property>
+            <property name="isInfoFull" tag="property" attribute="name|widgetAspect" value="Button">False</property>
+            <property name="isInfoFull" tag="property" attribute="name|widgetAspect" value="Apps">False</property>
+            <property name="isInfoFull" tag="property" attribute="name|widgetAspect" value="Text">False</property>
             <property name="isInfoFull" tag="property" attribute="name|widgetAspect" value="Feature Poster">False</property>
             <property name="isInfoFull" tag="property" attribute="name|widgetAspect" value="Feature Landscape">False</property>
+            <property name="isInfoFull" tag="property" attribute="name|widgetAspect" value="Lovefilm">False</property>
             <property name="isInfoFull" tag="property" attribute="name|widgetInfo" value="Full">True</property>
             <property name="isInfoFull">False</property>
             <property name="widgetInfo" tag="property" attribute="name|list" value="Submenu"></property>
@@ -569,6 +625,7 @@
             <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="text"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="Feature Poster"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="Feature Landscape"></property>
+            <property name="widgetInfo" tag="property" attribute="name|widgetAspect" value="Lovefilm"></property>
             <property name="widgetInfo" tag="property" attribute="name|widgetInfo" />
             <controls>
                 <include content="$SKINSHORTCUTS[widgetInclude]">
@@ -584,7 +641,7 @@
                     <param name="infowidget_full" value="$SKINSHORTCUTS[isInfoFull]" />
                     <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,0)" />
                     <param name="detailed">$SKINSHORTCUTS[widgetDetailed]</param>
-                    <param name="oversized">$SKINSHORTCUTS[isOversized]</param>
+                    <param name="oversized">$SKINSHORTCUTS[isOversize]</param>
                     <include content="Object_ContentDynamic" condition="!$SKINSHORTCUTS[isAutoLimit] + !$SKINSHORTCUTS[isSubmenu]">
                         <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
                         <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
@@ -873,6 +930,7 @@
         <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Poster">True</property>
         <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Square">True</property>
         <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Landscape">True</property>
+        <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Big Square">True</property>
         <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Big Landscape">True</property>
         <property name="isFullscreenExpanded" tag="property" attribute="name|widgetStyle" value="Banner">True</property>
         <property name="isFullscreenExpanded">False</property>
@@ -1104,6 +1162,7 @@
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Poster">False</property>
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Square">False</property>
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Landscape">False</property>
+        <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Big Square">False</property>
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Big Landscape">False</property>
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Banner">False</property>
         <property name="isFullscreenStandard">True</property>
@@ -1126,6 +1185,7 @@
         <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Poster">False</property>
         <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Square">False</property>
         <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Landscape">False</property>
+        <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Big Square">False</property>
         <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Big Landscape">False</property>
         <property name="includeCondition" tag="property" attribute="name|widgetStyle" value="Banner">False</property>
         <property name="includeCondition" tag="visible" />
@@ -1263,6 +1323,7 @@
             <property name="isAutoLimit">false</property>
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Square">6</property>
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Landscape">4</property>
+            <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Square">5</property>
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Big Landscape">3</property>
             <property name="widgetAutoLimit" tag="property" attribute="name|widgetAspect" value="Banner">1</property>
             <property name="widgetAutoLimit">7</property>
@@ -1299,6 +1360,7 @@
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Text">List_Button_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Square">List_Square_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Landscape">List_Landscape_Row</property>
+            <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Big Square">List_BigSquare_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Big Landscape">List_BigLandscape_Row</property>
             <property name="widgetStyle" tag="property" attribute="name|widgetAspect" value="Banner">List_Banner_Row</property>
             <property name="widgetStyle">List_Poster_Row</property>

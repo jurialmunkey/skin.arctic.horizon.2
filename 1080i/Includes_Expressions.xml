@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
-    <expression name="Exp_InfoDialog_IsFolder">[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set)]</expression>
+    <expression name="Exp_EndWidget_IsFullSize">[String.IsEqual(Container(99994).ListItem(-1).Property(widgetAspect),Lovefilm)]</expression>
+    <expression name="Exp_EndWidget_IsOverSize">[String.IsEqual(Container(99994).ListItem(-1).Property(widgetAspect),Feature Poster) | String.IsEqual(Container(99994).ListItem(-1).Property(widgetAspect),Feature Landscape)]</expression>
+    <expression name="Exp_EndWidget_IsMiniSize">[String.IsEqual(Container(99994).ListItem(-1).Property(widgetAspect),Text) | String.IsEqual(Container(99994).ListItem(-1).Property(widgetAspect),Apps) | String.IsEqual(Container(99994).ListItem(-1).Property(widgetAspect),Button)]</expression>
 
-    <expression name="Exp_OSD_ExpandInfo">[!String.IsEmpty(Window(Home).Property(OSDExpandInfo)) | Window.IsActive(VideoOSDBookmarks.xml)]</expression>
+    <expression name="Exp_InfoDialog_IsFolder">[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListITem.DBType,artist)]</expression>
+
+    <expression name="Exp_OSD_ExpandInfo">[Window.IsVisible(videobookmarks) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(1140) | Window.IsVisible(1141) | Window.IsVisible(1142)]</expression>
+
+    <expression name="Exp_OSD_HasPlaylist">[VideoPlayer.Content(episodes) | VideoPlayer.Content(livetv) | [VideoPlayer.Content(movies) + !Integer.IsEqual(VideoPlayer.PlaylistLength,1) + !Integer.IsEqual(VideoPlayer.PlaylistLength,0)]]</expression>
 
     <expression name="Exp_ShowBigPosterInfo">[Control.HasFocus(58) + System.IdleTime(3) + !Skin.HasSetting(Views.DisableBigPosterRowAutoInfo)]</expression>
 
@@ -63,13 +69,15 @@
 
     <expression name="Exp_ContextMenu_HasIcon">[!$EXP[Exp_ContextMenu_HasPoster] + !String.IsEmpty(Container(99950).ListItem.Property(base_icon))]</expression>
 
+    <expression name="Exp_ContextMenu_HasQuickNav">[[$EXP[Exp_ContextMenu_HasPoster] | $EXP[Exp_ContextMenu_HasIcon]] + [!String.IsEmpty(Container(99950).ListITem.Property(base_dbtype)) | !String.IsEmpty(Container(99950).ListITem.DBType)]] + !Window.IsVisible(fullscreenvideo) + !Window.IsVisible(musicvisualisation) + !Window.IsVisible(favourites)</expression>
+
     <expression name="Exp_FullscreenWidgetStandard">[!String.IsEmpty(Container(300).ListItem.Property(widgetPath)) + [String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen) | String.IsEmpty(Container(300).ListItem.Property(widgetStyle))]]</expression>
 
     <expression name="Exp_PVRWindows">[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRRecordings.xml) | Window.IsVisible(MyPVRSearch.xml)]</expression>
 
-    <expression name="Exp_InfoDialogs">[Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(DialogPVRInfo.xml)]
+    <expression name="Exp_InfoDialogs">[Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(DialogPVRInfo.xml) | Window.IsVisible(script-tmdbhelper-wikipedia.xml)]
     </expression>
-    <expression name="Exp_InfoDialogs_Active">[Window.IsActive(DialogVideoInfo.xml) | Window.IsActive(DialogMusicInfo.xml) | Window.IsActive(DialogAddonInfo.xml) | Window.IsActive(DialogPVRInfo.xml)]
+    <expression name="Exp_InfoDialogs_Active">[Window.IsActive(DialogVideoInfo.xml) | Window.IsActive(DialogMusicInfo.xml) | Window.IsActive(DialogAddonInfo.xml) | Window.IsActive(DialogPVRInfo.xml) | Window.IsActive(script-tmdbhelper-wikipedia.xml)]
     </expression>
 
     <expression name="Exp_OverlayDialogs">[Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogAddonSettings.xml) | Window.IsVisible(DialogKeyboard.xml) | Window.Isvisible(1113) | Window.IsVisible(1111) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogConfirm.xml)]
@@ -85,17 +93,17 @@
     <expression name="Exp_SettingsDialogs_Next">[Window.Next(SettingsCategory.xml) | Window.Next(SkinSettings.xml) | Window.Next(SettingsProfile.xml) | Window.Next(SettingsSystemInfo.xml) | Window.Next(EventLog.xml) | Window.Next(1197)]</expression>
     <expression name="Exp_SettingsDialogs_Prev">[Window.Previous(SettingsCategory.xml) | Window.Previous(SkinSettings.xml) | Window.Previous(SettingsProfile.xml) | Window.Previous(SettingsSystemInfo.xml) | Window.Previous(EventLog.xml) | Window.Previous(1197)]</expression>
 
-    <expression name="Exp_RowViews">[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(57)]</expression>
+    <expression name="Exp_RowViews">[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(56) | Control.IsVisible(57)]</expression>
 
     <expression name="Exp_ScrollViews">[Control.IsVisible(504) | Control.IsVisible(514) | Control.IsVisible(524)]</expression>
 
     <expression name="Exp_CombinedViews">[Control.IsVisible(502) | Control.IsVisible(512) | Control.IsVisible(522) | Control.IsVisible(572)]</expression>
 
-    <expression name="Exp_WallViews">[Control.IsVisible(500) | Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(540) | Control.IsVisible(570) | Control.IsVisible(580) | Control.IsVisible(550)]</expression>
+    <expression name="Exp_WallViews">[Control.IsVisible(500) | Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(540) | Control.IsVisible(570) | Control.IsVisible(580) | Control.IsVisible(550) | Control.IsVisible(560)]</expression>
 
-    <expression name="Exp_ListViews">[Control.IsVisible(501) | Control.IsVisible(511) | Control.IsVisible(507) | Control.IsVisible(517)]</expression>
+    <expression name="Exp_ListViews">[Control.IsVisible(501) | Control.IsVisible(511) | Control.IsVisible(521) | Control.IsVisible(507) | Control.IsVisible(517) | Control.IsVisible(527)]</expression>
 
-    <expression name="Exp_BigListViews">[Control.IsVisible(508) | Control.IsVisible(558)]</expression>
+    <expression name="Exp_BigListViews">[Control.IsVisible(508) | Control.IsVisible(558) | Control.IsVisible(581)]</expression>
 
     <!-- <expression name="Exp_View_Special">[True]</expression> -->
     <expression name="Exp_View_Special">!String.IsEqual(Container.Property(param.info),user_discover)</expression>

@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="OSD_Music_Title">
+        <param name="font">font_info_black</param>
+        <definition>
+            <control type="textbox">
+                <height max="137">auto</height>
+                <width>460</width>
+                <label>$VAR[Label_OSD_Title]</label>
+                <textcolor>panel_fg_100</textcolor>
+                <font>$PARAM[font]_doublerow</font>
+            </control>
+        </definition>
+    </include>
+
     <include name="OSD_PlaySpeed_Label">
         <param name="width">52</param>
         <param name="selected">false</param>
         <param name="textcolor">dialog_fg_70</param>
         <definition>
             <control type="label">
-                <font>font_statusbar</font>
+                <font>font_tiny</font>
                 <label>$PARAM[label]</label>
                 <include content="Object_TextColor" condition="$PARAM[selected]">
                     <param name="textcolor">$VAR[ColorSelected]</param>
@@ -52,7 +65,7 @@
                 <width>64</width>
                 <centerleft>50%</centerleft>
                 <textcolor>$PARAM[color_fg_70]</textcolor>
-                <font>font_fps</font>
+                <font>font_hint</font>
                 <label>$INFO[Player.Process(VideoFPS)]</label>
                 <align>center</align>
                 <aligny>center</aligny>
@@ -147,7 +160,7 @@
                     <align>right</align>
                     <label>$VAR[Label_PlayerStream_IsForced,  ,]$VAR[Label_PlayerStream_IsDefault,  ,]$VAR[Label_PlayerStream_IsOriginal,  ,]$INFO[ListItem.Property(codec),  ,]$INFO[ListItem.Property(channels),  , $LOCALIZE[10127]]$INFO[ListItem.Property(bitrate),  , bps]</label>
                     <bottom>2</bottom>
-                    <font>font_statusbar_bold</font>
+                    <font>font_tiny_bold</font>
                     <textcolor>$PARAM[color_fg]</textcolor>
                 </control>
 
@@ -279,6 +292,17 @@
         </definition>
     </include>
 
+    <include name="OSD_Button_HintLabel">
+        <label>[CR][CR][CR]$PARAM[label]</label>
+        <textcolor>main_fg_90</textcolor>
+        <focusedcolor>main_fg_90</focusedcolor>
+        <shadowcolor>shadow_hard</shadowcolor>
+        <font>font_hint</font>
+        <align>center</align>
+        <aligny>top</aligny>
+        <textoffsetx>0</textoffsetx>
+    </include>
+
     <include name="OSD_Button">
         <param name="size" default="60" />
         <param name="bordersize" default="6" />
@@ -340,6 +364,9 @@
     </include>
 
     <include name="OSD_Progress_Details">
+        <include content="Info_Title_Label_Hidden">
+            <param name="label">$VAR[Label_OSD_Title]</param>
+        </include>
         <control type="grouplist">
             <align>bottom</align>
             <left>view_pad</left>
@@ -347,21 +374,15 @@
             <bottom>200</bottom>
             <orientation>vertical</orientation>
             <control type="group">
-                <height>80</height>
+                <height>120</height>
                 <width>960</width>
-                <control type="label">
-                    <aligny>center</aligny>
-                    <height>80</height>
-                    <label>$VAR[Label_OSD_Title]</label>
-                    <textcolor>panel_fg_100</textcolor>
-                    <include content="Object_Font" condition="Skin.HasSetting(UseLightFont)">
-                        <param name="font">font_infotitle_light</param>
-                    </include>
-                    <font>font_infotitle</font>
+                <include content="Info_Title_Label">
+                    <param name="colordiffuse">panel_fg</param>
+                    <param name="label">$VAR[Label_OSD_Title]</param>
                     <visible>String.IsEmpty(Window(Home).Property(TMDBHelper.Player.CropImage))</visible>
-                </control>
+                </include>
                 <control type="image">
-                    <height>80</height>
+                    <height>120</height>
                     <aspectratio align="left">keep</aspectratio>
                     <fadetime>600</fadetime>
                     <texture background="true">$INFO[Window(Home).Property(TMDBHelper.Player.CropImage)]</texture>
@@ -389,7 +410,7 @@
             <aligny>center</aligny>
             <label>$VAR[Label_OSD_Time][COLOR=$VAR[ColorHighlight]]  |  [/COLOR]$VAR[Label_OSD_Duration]</label>
             <textcolor>panel_fg_100</textcolor>
-            <font>font_small</font>
+            <font>font_main</font>
         </control>
     </include>
 
@@ -398,10 +419,10 @@
             <width>100%</width>
             <height>12</height>
             <info>Player.ProgressCache</info>
-            <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
-            <lefttexture colordiffuse="panel_fg_12" border="6">progress/progress-left.png</lefttexture>
-            <midtexture colordiffuse="panel_fg_12" border="6">progress/progress-end.png</midtexture>
-            <righttexture colordiffuse="panel_fg_12" border="6">progress/progress-right.png</righttexture>
+            <texturebg colordiffuse="00ffffff">progress/progress-bg.png</texturebg>
+            <lefttexture colordiffuse="panel_fg_12">progress/progress-left.png</lefttexture>
+            <midtexture colordiffuse="panel_fg_12">progress/progress-end.png</midtexture>
+            <righttexture colordiffuse="panel_fg_12">progress/progress-right.png</righttexture>
             <visible>Player.Playing | Player.Paused | Player.Caching</visible>
             <visible>!Player.Seeking</visible>
             <visible>Player.HasMedia</visible>
@@ -420,10 +441,10 @@
             <width>100%</width>
             <height>12</height>
             <info>Player.Progress</info>
-            <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
-            <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
-            <midtexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
-            <righttexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
+            <texturebg colordiffuse="00ffffff">progress/progress-bg.png</texturebg>
+            <lefttexture colordiffuse="00ffffff">progress/progress-left.png</lefttexture>
+            <midtexture colordiffuse="$VAR[ColorGradient]" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
+            <righttexture colordiffuse="$VAR[ColorGradient]" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
             <include content="Defs_Progress_Colorfade">
                 <param name="id" value="499" />
             </include>
@@ -442,10 +463,10 @@
             <width>100%</width>
             <height>12</height>
             <info>PVR.EpgEventProgress</info>
-            <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
-            <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
-            <midtexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
-            <righttexture colordiffuse="$VAR[ColorGradient]" border="6" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
+            <texturebg colordiffuse="00ffffff">progress/progress-bg.png</texturebg>
+            <lefttexture colordiffuse="00ffffff">progress/progress-left.png</lefttexture>
+            <midtexture colordiffuse="$VAR[ColorGradient]" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
+            <righttexture colordiffuse="$VAR[ColorGradient]" diffuse="progress/diffuse-end.png">progress/progress-right.png</righttexture>
             <include content="Defs_Progress_Colorfade">
                 <param name="id" value="498" />
             </include>
@@ -453,42 +474,46 @@
         </control>
 
         <control type="progress" id="401">
-            <width>100%</width>
-            <height>12</height>
             <visible>Player.HasMedia</visible>
             <animation effect="fade" start="100" end="0" condition="!Player.Seeking" reversible="false" delay="300" time="0">Conditional</animation>
             <animation effect="fade" start="0" end="100" condition="Player.Seeking" reversible="false" time="0">Conditional</animation>
-            <texturebg colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturebg>
-            <lefttexture colordiffuse="00ffffff" border="6">progress/progress-left.png</lefttexture>
-            <midtexture colordiffuse="00ffffff" border="6" diffuse="progress/diffuse.png">progress/progress-end.png</midtexture>
-            <righttexture colordiffuse="panel_fg_100" border="6" diffuse="progress/diffuse-end.png">progress/progress-nib.png</righttexture>
+            <width>1760</width>
+            <height>112</height>
+            <centertop>50%</centertop>
+            <texturebg colordiffuse="00ffffff">progress/slider_bg.png</texturebg>
+            <righttexture colordiffuse="panel_fg_100">progress/progress-nib.png</righttexture>
+            <lefttexture colordiffuse="00ffffff">progress/progress-left.png</lefttexture>
+            <midtexture colordiffuse="00ffffff">progress/progress-end.png</midtexture>
             <visible>Player.SeekEnabled + !Pvr.IsPlayingTv + !Player.ChannelPreviewActive</visible>
         </control>
 
         <control type="ranges">
             <width>100%</width>
             <height>12</height>
-            <texturebg colordiffuse="00ffffff" border="6">progress/marker-bg.png</texturebg>
+            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
             <righttexture colordiffuse="panel_fg_50">progress/marker.png</righttexture>
             <info>Player.CutList</info>
         </control>
         <control type="ranges">
             <width>100%</width>
             <height>12</height>
-            <texturebg colordiffuse="00ffffff" border="6">progress/marker-bg.png</texturebg>
+            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
             <righttexture colordiffuse="panel_fg_50">progress/marker.png</righttexture>
             <info>Player.Chapters</info>
         </control>
 
         <control type="slider" id="402">
-            <width>100%</width>
-            <height>12</height>
             <visible>Player.HasMedia</visible>
             <animation effect="fade" start="100" end="0" condition="!Player.Seeking" reversible="false" delay="300" time="0">Conditional</animation>
             <animation effect="fade" start="0" end="100" condition="Player.Seeking" reversible="false" time="0">Conditional</animation>
-            <texturesliderbar colordiffuse="00ffffff" border="6">progress/progress-bg.png</texturesliderbar>
-            <textureslidernib colordiffuse="panel_fg_100" border="6" diffuse="progress/diffuse-end.png">progress/progress-nib.png</textureslidernib>
-            <textureslidernibfocus colordiffuse="panel_fg_100" border="6" diffuse="progress/diffuse-end.png">progress/progress-nib.png</textureslidernibfocus>
+            <width>1760</width>
+            <height>112</height>
+            <centertop>50%</centertop>
+            <info>Player.Progress</info>
+            <action>seek</action>
+            <texturesliderbar colordiffuse="00ffffff">progress/slider_bg.png</texturesliderbar>
+            <textureslidernib />
+            <textureslidernibfocus colordiffuse="main_fg_100">progress/slider_nib.png</textureslidernibfocus>
             <visible>Player.SeekEnabled + Pvr.IsPlayingTv + !Player.ChannelPreviewActive</visible>
         </control>
 
@@ -521,13 +546,8 @@
                 <nested />
                 <orientation>horizontal</orientation>
                 <align>$PARAM[align]</align>
-                <itemgap>30</itemgap>
+                <itemgap>40</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
-
-                <include content="Info_Codec_LabelIcon">
-                    <param name="icon" value="special://skin/extras/icons/video-addons.png" />
-                </include>
-
                 <!-- Resolution -->
                 <include content="Info_Codecs_MonoIcon">
                     <param name="icon">resolution/$INFO[VideoPlayer.VideoResolution].png</param>
@@ -616,7 +636,7 @@
             <control type="group">
                 <nested />
                 <control type="label">
-                    <font>font_statusbar_bold</font>
+                    <font>font_tiny_bold</font>
                     <label>$LOCALIZE[31071]</label>
                     <include content="Object_TextColor" condition="$PARAM[selected]">
                         <param name="textcolor">$VAR[ColorSelected]</param>
