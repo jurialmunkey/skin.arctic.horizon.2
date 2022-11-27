@@ -1255,6 +1255,70 @@
         </definition>
     </include>
 
+    <include name="Layout_FeatureBanner">
+        <param name="selected">false</param>
+        <param name="icon">$INFO[ListItem.Art(fanart)]</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+                <include content="Object_ItemBack">
+                    <param name="selected">$PARAM[selected]</param>
+                    <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
+                </include>
+                <control type="image">
+                    <texture background="true" diffuse="diffuse/featurefilm_y.png">$PARAM[icon]</texture>
+                    <aspectratio scalediffuse="false" align="left">scale</aspectratio>
+                    <right>0</right>
+                    <width>1067</width>
+                </control>
+                <control type="image">
+                    <texture background="true" flipx="true" diffuse="diffuse/featurefilm_x.png">$PARAM[icon]</texture>
+                    <aspectratio scalediffuse="false" align="right">scale</aspectratio>
+                    <right>1067</right>
+                </control>
+                <control type="image">
+                    <width>400</width>
+                    <texture colordiffuse="black" border="12" flipx="true">diffuse/featurefilm_x.png</texture>
+                </control>
+                <control type="image">
+                    <left>400</left>
+                    <right>400</right>
+                    <texture>common/dim-side-bezier.png</texture>
+                </control>
+
+                <control type="group">
+                    <animation effect="fade" start="100" end="0" delay="1200" time="400" reversible="false">Hidden</animation>
+                    <visible>!Control.Hasfocus($PARAM[id]) | Container($PARAM[id]).OnNext | Container($PARAM[id]).OnPrevious</visible>
+                    <left>view_pad</left>
+                    <top>120</top>
+                    <width>640</width>
+                    <include content="Widget_Lovefilm_RatingTitle">
+                        <param name="id">$PARAM[id]</param>
+                    </include>
+                    <include content="Widget_Lovefilm_RatingStars">
+                        <param name="id">$PARAM[id]</param>
+                        <top>265</top>
+                    </include>
+                </control>
+
+                <include content="Object_Control" condition="!$PARAM[selected] + Skin.HasSetting(Glass.BorderOutline)">
+                    <param name="control">image</param>
+                    <texture colordiffuse="overlay_line" border="12">common/box-outline.png</texture>
+                </include>
+                <include content="Object_Indicator" condition="!$PARAM[selected]">
+                    <param name="affix">$PARAM[affix]</param>
+                    <param name="listitem">$PARAM[listitem]</param>
+                </include>
+                <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <param name="indicator">true</param>
+                    <param name="focusbounce">true</param>
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_Poster">
         <param name="detailed">false</param>
         <param name="selected">false</param>
