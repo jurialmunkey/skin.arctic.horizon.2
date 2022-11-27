@@ -280,7 +280,7 @@
                         <param name="control">group</param>
                         <param name="id">$PYTHON[int(mainmenuid) * 1000 + 597]</param>
                         <height>infowidget_main_t</height>
-                        <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
+                        <visible>![Integer.IsEqual(Container(301).NumItems,0) | [Integer.IsEqual(Container(301).NumItems,1) + !String.IsEmpty(Container(301).ListItemAbsolute(0).Property(blankitem))]]</visible>
                         <include content="Info_Panel" condition="!Skin.HasSetting(Widgets.ExpandedHeader)">
                             <param name="plotbox">false</param>
                             <param name="controltype">label</param>
@@ -310,6 +310,12 @@
                         <param name="labelvisible">!Skin.HasSetting(Widgets.ExpandedHeader)</param>
                         <param name="visible" value="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])" />
                         <param name="busy_visible" value="Integer.IsEqual(Container(301).NumItems,0)" />
+                        <content>
+                            <item>
+                                <property name="blankitem">true</property>
+                                <visible>Integer.IsEqual(Container(301).NumItems,0) | [Integer.IsEqual(Container(301).NumItems,1) + !String.IsEmpty(Container(301).ListItemAbsolute(0).Property(blankitem))]</visible>
+                            </item>
+                        </content>
                         <include content="Object_ContentDynamic" condition="!$SKINSHORTCUTS[isFullscreenAutoLimit]">
                             <param name="sortby">$SKINSHORTCUTS[FullscreenWidgetSortby]</param>
                             <param name="sortorder">$SKINSHORTCUTS[FullscreenWidgetSortorder]</param>
@@ -331,8 +337,13 @@
                         <onfocus>SetProperty(Slide.WidgetInfoStyle,Full)</onfocus>
                         <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
                         <onfocus condition="Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[FullscreenWidgetName],Home)</onfocus>
+                        <onfocus condition="[Integer.IsEqual(Container(301).NumItems,1) + !String.IsEmpty(Container(301).ListItemAbsolute(0).Property(blankitem))] + !Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301)">Action(Up)</onfocus>
+                        <onfocus condition="[Integer.IsEqual(Container(301).NumItems,1) + !String.IsEmpty(Container(301).ListItemAbsolute(0).Property(blankitem))] + Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301)">Action(Down)</onfocus>
+
                         <onback condition="!Integer.IsEqual(Container(301).ListItem.CurrentItem,1)">SetFocus(301,0,absolute)</onback>
                         <onback condition="Integer.IsEqual(Container(301).ListItem.CurrentItem,1)">SetFocus(300)</onback>
+
+                        <animation effect="fade" start="100" end="0" condition="[Integer.IsEqual(Container(301).NumItems,0) | [Integer.IsEqual(Container(301).NumItems,1) + !String.IsEmpty(Container(301).ListItemAbsolute(0).Property(blankitem))]]">Conditional</animation>
                     </include>
                     <skinshortcuts insert="widgets">items</skinshortcuts>
                     <include content="Widget_Submenu" condition="$SKINSHORTCUTS[isSubmenuBumper]">
@@ -371,8 +382,6 @@
                         <height>widget_sbump_h</height>
                         <visible>Control.IsVisible($PYTHON[int(mainmenuid) * 1000 + 698])</visible>
                     </include>
-
-
                     <include content="Object_Control" condition="![$SKINSHORTCUTS[isSubmenuBumper]]">
                         <param name="control" value="group" />
                         <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 697]" />
