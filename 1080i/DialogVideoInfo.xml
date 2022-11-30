@@ -4,9 +4,13 @@
         <param name="always">true</param>
         <param name="defaultcontrol">5000</param>
     </include>
-    <include content="Object_DefaultControl" condition="Skin.HasSetting(DialogInfo.FocusButtons)">
+    <include content="Object_DefaultControl" condition="Skin.HasSetting(DialogInfo.FocusButtons) + !$EXP[Exp_IsPersonInfo]">
         <param name="always">true</param>
         <param name="defaultcontrol">5001</param>
+    </include>
+    <include content="Object_DefaultControl" condition="Skin.HasSetting(DialogInfo.FocusButtons) + $EXP[Exp_IsPersonInfo]">
+        <param name="always">true</param>
+        <param name="defaultcontrol">5010</param>
     </include>
     <menucontrol>4000</menucontrol>
     <onfocus>AlarmClock(ClearRecLoading,ClearProperty(Recommendations.IsLoading,Home),00:00,silent)</onfocus>
@@ -16,66 +20,64 @@
         <include condition="Window.IsVisible(1191)">Background_Main</include>
         <include>Defs_TMDbHelper_Loader</include>
 
-        <!-- Button Group -->
-        <include content="DialogInfo_ButtonGroup">
-            <param name="include">Items_DialogVideoInfo_MenuBar</param>
-        </include>
-        <include>DialogInfo_ButtonHidden</include>
-
         <include content="DialogInfo_MainGroup">
-            <include content="DialogInfo_LeftGroup">
-                <include content="DialogInfo_PullTab">
-                    <centertop>280</centertop>
-                </include>
+            <include content="DialogInfo_ButtonGroup">
+                <param name="include">Items_DialogVideoInfo_MenuBar</param>
             </include>
-            <include content="DialogInfo_RightGroup">
-                <!-- Info -->
-                <control type="group">
-                    <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
-                    <visible>!Control.HasFocus(7003)</visible>
-
-                    <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
-                    <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
-
-
+            <include>DialogInfo_ButtonHidden</include>
+            <include content="DialogInfo_SlideGroup">
+                <include content="DialogInfo_LeftGroup">
+                    <include content="DialogInfo_PullTab">
+                        <centertop>280</centertop>
+                    </include>
+                </include>
+                <include content="DialogInfo_RightGroup">
                     <control type="group">
-                        <visible>!Control.HasFocus(61)</visible>
+                        <visible>!Control.HasFocus(7001) | !Player.HasVideo</visible>
+                        <visible>!Control.HasFocus(7003)</visible>
 
-                        <!-- Video Info -->
-                        <include content="Info_Panel" condition="!$EXP[Exp_IsPersonInfo]">
-                            <param name="plotheight" value="info_plot_large_h" />
-                            <param name="plotwidth" value="info_plot_w" />
-                            <param name="details">![Control.HasFocus(9801) | Control.HasFocus(9802)]</param>
-                        </include>
+                        <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false">Visible</animation>
+                        <animation effect="fade" start="100" end="0" time="200" reversible="false">Hidden</animation>
 
-                        <!-- Person Info -->
-                        <include content="Info_Panel" condition="$EXP[Exp_IsPersonInfo]">
-                            <param name="plotheight" value="info_plot_person_h" />
-                            <param name="plotwidth" value="info_plot_w" />
-                        </include>
 
-                        <!-- Video Details -->
-                        <include content="DialogInfo_VideoDetails" condition="!$EXP[Exp_IsPersonInfo]">
-                            <top>390</top>
-                            <bottom>grid_x08</bottom>
-                            <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
-                        </include>
+                        <control type="group">
+                            <visible>!Control.HasFocus(61)</visible>
 
-                        <!-- Episode List -->
-                        <include>DialogInfo_CollectionsNode</include>
+                            <!-- Video Info -->
+                            <include content="Info_Panel" condition="!$EXP[Exp_IsPersonInfo]">
+                                <param name="plotheight" value="info_plot_large_h" />
+                                <param name="plotwidth" value="info_plot_w" />
+                                <param name="details">![Control.HasFocus(9801) | Control.HasFocus(9802)]</param>
+                            </include>
+
+                            <!-- Person Info -->
+                            <include content="Info_Panel" condition="$EXP[Exp_IsPersonInfo]">
+                                <param name="plotheight" value="info_plot_person_h" />
+                                <param name="plotwidth" value="info_plot_w" />
+                                <param name="details">![Control.HasFocus(9801) | Control.HasFocus(9802)]</param>
+                            </include>
+
+                            <!-- Video Details -->
+                            <include content="DialogInfo_VideoDetails" condition="!$EXP[Exp_IsPersonInfo]">
+                                <top>390</top>
+                                <bottom>grid_x08</bottom>
+                                <visible>![Control.HasFocus(9801) | Control.HasFocus(9802)]</visible>
+                            </include>
+
+                            <!-- Episode List -->
+                            <include>DialogInfo_CollectionsNode</include>
+                        </control>
                     </control>
-                </control>
-
-                <!-- Trailer and Plot -->
-                <include>DialogInfo_VideoTrailer</include>
-                <include>DialogInfo_PlotBox</include>
-                <include>DialogInfo_ArtworkGallery</include>
-
+                    <include>DialogInfo_VideoTrailer</include>
+                    <include>DialogInfo_PlotBox</include>
+                    <include>DialogInfo_ArtworkGallery</include>
+                </include>
             </include>
         </include>
 
         <include condition="Skin.HasSetting(Recommendations.UseLocal)" content="DialogInfo_LocalRecommendations">
-            <onup>5000</onup>
+            <onup condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onup>
+            <onup condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onup>
             <ondown>330</ondown>
             <visible>ControlGroup(6000).HasFocus()</visible>
             <include>Animation_Recommendations_Visible</include>
