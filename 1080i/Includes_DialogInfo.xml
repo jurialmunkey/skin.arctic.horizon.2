@@ -5,17 +5,22 @@
     <include name="DialogInfo_MainGroup">
         <control type="group">
             <animation effect="fade" start="100" end="0" condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))">Conditional</animation>
-            <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="[ControlGroup(4000).HasFocus()]">Conditional</animation>
-            <animation effect="slide" end="0" start="100" time="400" tween="cubic" easing="out" reversible="false" condition="![ControlGroup(4000).HasFocus()]">Conditional</animation>
-
-            <animation effect="slide" start="0" end="-540" time="400" tween="cubic" easing="out" reversible="false" condition="[Control.HasFocus(9801) | Control.HasFocus(9802)]">Conditional</animation>
-            <animation effect="slide" end="0" start="-540" time="400" tween="cubic" easing="out" reversible="false" condition="![Control.HasFocus(9801) | Control.HasFocus(9802)]">Conditional</animation>
-
             <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
             <visible>!ControlGroup(6000).HasFocus()</visible>
             <visible>String.IsEmpty(Window(Home).Property(Recommendations.IsLoading))</visible>
             <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
             <include>Animation_Common</include>
+            <nested />
+        </control>
+    </include>
+
+    <!-- Main Group for DialogInfo -->
+    <include name="DialogInfo_SlideGroup">
+        <control type="group">
+            <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="[ControlGroup(4000).HasFocus() | [Control.HasFocus(7002) + Skin.HasSetting(DialogInfo.FocusButtons)]]">Conditional</animation>
+            <animation effect="slide" end="0" start="100" time="400" tween="cubic" easing="out" reversible="false" condition="![ControlGroup(4000).HasFocus() | [Control.HasFocus(7002) + Skin.HasSetting(DialogInfo.FocusButtons)]]">Conditional</animation>
+            <animation effect="slide" start="0" end="-540" time="400" tween="cubic" easing="out" reversible="false" condition="[Control.HasFocus(9801) | Control.HasFocus(9802)]">Conditional</animation>
+            <animation effect="slide" end="0" start="-540" time="400" tween="cubic" easing="out" reversible="false" condition="![Control.HasFocus(9801) | Control.HasFocus(9802)]">Conditional</animation>
             <nested />
         </control>
     </include>
@@ -70,20 +75,23 @@
             <width>60</width>
             <left>view_pad</left>
             <visible allowhiddenfocus="true">ControlGroup(4000).HasFocus()</visible>
-            <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
-            <visible>!ControlGroup(6000).HasFocus()</visible>
-            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
             <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="200">Visible</animation>
             <animation effect="fade" reversible="false" start="100" end="0" time="200" delay="0">Hidden</animation>
             <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="600">WindowOpen</animation>
             <animation effect="fade" reversible="false" start="100" end="0" time="100" delay="0">WindowClose</animation>
-
             <onleft condition="!Integer.IsEqual(Container(7003).NumItems,0)">SetFocus(7003)</onleft>
-            <onleft condition="Integer.IsEqual(Container(7003).NumItems,0)">5000</onleft>
-            <onright>5000</onright>
-            <onback>5000</onback>
+            <onleft condition="!Skin.HasSetting(DialogInfo.FocusButtons) + Integer.IsEqual(Container(7003).NumItems,0)">5000</onleft>
+            <onright condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onright>
+            <onright condition="Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(9801)</onright>
+            <onback condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onback>
             <onback condition="Skin.HasSetting(DialogInfo.FocusButtons)">Dialog.Close(movieinformation)</onback>
-
+            <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+            <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+            <onup>61</onup>
+            <!-- <ondown condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</ondown>
+            <ondown condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</ondown>
+            <ondown>61</ondown> -->
+            <ondown>7002</ondown>
             <include>$PARAM[include]</include>
         </control>
     </include>
@@ -96,7 +104,6 @@
             <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
             <onup>61</onup>
             <ondown>7002</ondown>
-
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5001)</onclick>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">Action(Select)</onclick>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5000)</onclick>
@@ -301,8 +308,10 @@
                 <param name="itemlayout_w">600</param>
                 <param name="itemlayout_include">Layout_DiscoverButton</param>
                 <content target="videos">$VAR[Path_Info_Collections]</content>
-                <onback>5000</onback>
-                <onleft>5000</onleft>
+                <onleft condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onleft>
+                <onleft condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onleft>
+                <onback condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onback>
+                <onback condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onback>
                 <onright>9802</onright>
                 <top>200</top>
                 <bottom>-20</bottom>
@@ -370,6 +379,27 @@
                         <visible>String.IsEqual(ListItem.DBType,movie)</visible>
                         <visible>String.IsEmpty(ListItem.DBID)</visible>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Property(Studio.1.Name))</visible>
+                    </item>
+
+                    <item>
+                        <label>$LOCALIZE[31066]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;type=person&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]$VAR[Path_Param_Widget]</property>
+                        <visible>$EXP[Exp_IsPersonInfo]</visible>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31067]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;type=person&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]$VAR[Path_Param_Widget]</property>
+                        <visible>$EXP[Exp_IsPersonInfo]</visible>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31225] $INFO[ListItem.Title]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]$VAR[Path_Param_Widget]</property>
+                        <visible>$EXP[Exp_IsPersonInfo]</visible>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31341] $INFO[ListItem.Title]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Writer&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]$VAR[Path_Param_Widget]</property>
+                        <visible>$EXP[Exp_IsPersonInfo]</visible>
                     </item>
                 </content>
             </include>
@@ -609,10 +639,14 @@
                 <control type="scrollbar" id="61">
                     <centerright>-grid_x04</centerright>
                     <width>8</width>
-                    <onleft>SetFocus(5000)</onleft>
-                    <onright>SetFocus(5000)</onright>
-                    <ondown>SetFocus(5000)</ondown>
-                    <onup>SetFocus(5000)</onup>
+                    <onleft condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onleft>
+                    <onright condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onright>
+                    <onup condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onup>
+                    <ondown condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</ondown>
+                    <onleft condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onleft>
+                    <onright condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onright>
+                    <onup condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onup>
+                    <ondown condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</ondown>
                     <visible allowhiddenfocus="true">false</visible>
                 </control>
             </control>
@@ -630,7 +664,8 @@
             <control type="wraplist" id="7003">
                 <orientation>vertical</orientation>
                 <scrolltime tween="quadratic">400</scrolltime>
-                <onright>5000</onright>
+                <onright condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onright>
+                <onright condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onright>
                 <onleft>4000</onleft>
                 <onback>4000</onback>
                 <itemlayout>
@@ -740,7 +775,8 @@
             <include content="Action_Recommendations_OnFocus" condition="!Skin.HasSetting(Recommendations.UseLocal)">
                 <onfocus>SetProperty(Recommendations.IsLoading,1,Home)</onfocus>
                 <onfocus>AlarmClock(ClearRecLoading,ClearProperty(Recommendations.IsLoading,Home),00:02,silent)</onfocus>
-                <onfocus>SetFocus(5000)</onfocus>
+                <onfocus condition="!Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(5000)</onfocus>
+                <onfocus condition="Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(4000)</onfocus>
             </include>
         </include>
     </include>
