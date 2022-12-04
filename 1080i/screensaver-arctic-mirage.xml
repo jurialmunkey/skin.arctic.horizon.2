@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window>
+    <defaultcontrol always="true">1297</defaultcontrol>
+    <controls>
+
+        <include content="Background_Main">
+            <param name="plain_background">true</param>
+        </include>
+
+        <control type="image" id="1298">
+            <fadetime>800</fadetime>
+            <width>1</width>
+            <height>1</height>
+            <top>-1000</top>
+            <left>-1000</left>
+            <texture />
+        </control>
+
+        <control type="list" id="1297">
+            <content sortby="random">$VAR[Defs_ScreensaverWidget]</content>
+            <autoscroll time="20000">true</autoscroll>
+            <orientation>horizontal</orientation>
+            <itemlayout />
+            <focusedlayout />
+        </control>
+
+        <control type="image">
+            <fadetime>800</fadetime>
+            <width>1920</width>
+            <height>1080</height>
+            <texture background="true">$INFO[ListItem.Art(fanart)]</texture>
+            <animation effect="zoom" start="110" end="130" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="true">Conditional</animation>
+            <animation effect="slide" start="-30,-30" end="30,30" time="6000" tween="sine" easing="inout" pulse="true" condition="true">Conditional</animation>
+        </control>
+
+        <control type="image">
+            <visible>!Integer.IsOdd(ListItem.CurrentItem)</visible>
+            <texture flipx="false">background/vignetted.png</texture>
+            <animation effect="fade" start="0" end="100" time="400">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="400">Hidden</animation>
+        </control>
+        <control type="image">
+            <visible>Integer.IsOdd(ListItem.CurrentItem)</visible>
+            <texture flipx="true">background/vignetted.png</texture>
+            <animation effect="fade" start="0" end="100" time="400">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="400">Hidden</animation>
+        </control>
+
+        <control type="group">
+            <left>view_pad</left>
+            <width>680</width>
+            <visible>!Integer.IsOdd(ListItem.CurrentItem)</visible>
+            <animation effect="fade" start="0" end="100" time="400">Visible</animation>
+            <control type="group">
+                <bottom>view_pad</bottom>
+                <height>480</height>
+                <include content="Widget_Lovefilm_RatingTitle">
+                    <param name="id">1297</param>
+                </include>
+                <include content="Widget_Lovefilm_RatingStars">
+                    <param name="id">1297</param>
+                    <top>245</top>
+                </include>
+            </control>
+            <control type="textbox">
+                <font>font_main_plot</font>
+                <textcolor>main_fg_70</textcolor>
+                <label>$INFO[Container(1297).ListItem.Plot]</label>
+                <bottom>view_pad</bottom>
+                <height>grid_x12</height>
+                <align>center</align>
+            </control>
+        </control>
+
+        <control type="group">
+            <right>view_pad</right>
+            <width>680</width>
+            <visible>Integer.IsOdd(ListItem.CurrentItem)</visible>
+            <animation effect="fade" start="0" end="100" time="400">Visible</animation>
+            <control type="group">
+                <bottom>view_pad</bottom>
+                <height>480</height>
+                <include content="Widget_Lovefilm_RatingTitle">
+                    <param name="id">1297</param>
+                </include>
+                <include content="Widget_Lovefilm_RatingStars">
+                    <param name="id">1297</param>
+                    <top>245</top>
+                </include>
+            </control>
+            <control type="textbox">
+                <font>font_main_plot</font>
+                <textcolor>main_fg_70</textcolor>
+                <label>$INFO[Container(1297).ListItem.Plot]</label>
+                <bottom>view_pad</bottom>
+                <height>grid_x12</height>
+                <align>center</align>
+            </control>
+        </control>
+    </controls>
+</window>
