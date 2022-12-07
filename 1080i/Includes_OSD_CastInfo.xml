@@ -33,6 +33,99 @@
         </control>
     </include>
 
+    <include name="OSD_CastInfo_Information">
+        <control type="group">
+            <width>190</width>
+            <height>grid_x28</height>
+            <visible>!VideoPlayer.Content(livetv)</visible>
+            <control type="image">
+                <include>Texture_Shadow_40</include>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <texture background="true" diffuse="diffuse/poster_w190_h280.png">$VAR[Image_OSD_PosterImage]</texture>
+            </control>
+        </control>
+        <control type="image">
+            <right>0</right>
+            <width>grid_x24</width>
+            <height>grid_x24</height>
+            <visible>VideoPlayer.Content(livetv)</visible>
+            <aspectratio scalediffuse="false" aligny="center" align="center">keep</aspectratio>
+            <texture background="true" diffuse="diffuse/square_w320_h320.png">$VAR[Image_OSD_PosterImage]</texture>
+        </control>
+        <control type="grouplist">
+            <top>0</top>
+            <include content="Object_Left" condition="!VideoPlayer.Content(livetv)">
+                <param name="left">230</param>
+            </include>
+            <orientation>vertical</orientation>
+            <width>880</width>
+            <itemgap>0</itemgap>
+            <height>grid_x28</height>
+            <control type="label">
+                <label>$LOCALIZE[207]</label>
+                <font>font_mini_bold</font>
+                <textcolor>panel_fg_100</textcolor>
+                <height>40</height>
+            </control>
+            <control type="textbox">
+                <label fallback="19055">$INFO[VideoPlayer.Plot]</label>
+                <font>font_mini_plot</font>
+                <textcolor>panel_fg_70</textcolor>
+                <height max="150">auto</height>
+            </control>
+            <control type="label">
+                <top>12</top>
+                <label fallback="515">$INFO[VideoPlayer.Tagline]</label>
+                <font>font_mini_bold</font>
+                <textcolor>panel_fg_100</textcolor>
+                <height>40</height>
+                <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
+            </control>
+            <control type="textbox">
+                <label fallback="19055">$INFO[VideoPlayer.Genre]</label>
+                <font>font_mini_plot</font>
+                <textcolor>panel_fg_70</textcolor>
+                <height>40</height>
+                <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
+            </control>
+        </control>
+        <control type="grouplist">
+            <left>1190</left>
+            <orientation>vertical</orientation>
+            <itemgap>0</itemgap>
+            <height>grid_x28</height>
+            <control type="label">
+                <label>$LOCALIZE[31064]</label>
+                <font>font_mini_bold</font>
+                <textcolor>panel_fg_100</textcolor>
+                <height>40</height>
+                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Budget))</visible>
+            </control>
+            <control type="textbox">
+                <label>$INFO[Window(Home).Property(TMDbHelper.Player.Awards),,[CR]]$INFO[Window(Home).Property(TMDbHelper.Player.Revenue),$LOCALIZE[31264] , $LOCALIZE[19159] ]$INFO[Window(Home).Property(TMDbHelper.Player.Budget)]</label>
+                <font>font_mini_plot</font>
+                <textcolor>panel_fg_70</textcolor>
+                <height>auto</height>
+                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Awards)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Budget))</visible>
+            </control>
+            <control type="label">
+                <top>12</top>
+                <label>$LOCALIZE[31024]</label>
+                <font>font_mini_bold</font>
+                <textcolor>panel_fg_100</textcolor>
+                <height>40</height>
+                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
+            </control>
+            <control type="textbox">
+                <label>$INFO[Window(Home).Property(TMDBHelper.Player.rottentomatoes_consensus)]</label>
+                <font>font_mini_plot</font>
+                <textcolor>panel_fg_70</textcolor>
+                <height>auto</height>
+                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.rottentomatoes_consensus))</visible>
+            </control>
+        </control>
+    </include>
+
     <include name="OSD_CastInfo_DirectorWriter">
         <control type="grouplist">
             <top>310</top>
