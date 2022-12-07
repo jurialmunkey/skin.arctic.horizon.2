@@ -72,21 +72,34 @@
                 <font>font_mini_plot</font>
                 <textcolor>panel_fg_70</textcolor>
                 <height max="150">auto</height>
+				<!-- PVR019 - standard Plotbox only if not Live TV -->
+				<visible>!VideoPlayer.Content(livetv)</visible>
             </control>
+			<!-- PVR019 - START extended Plotbox if Live TV -->
+			<control type="textbox">
+                <label fallback="19055">$INFO[VideoPlayer.Plot]</label>
+                <font>font_mini_plot</font>
+                <textcolor>panel_fg_70</textcolor>
+                <height>230</height>				
+				<visible>VideoPlayer.Content(livetv)</visible>
+            </control>
+			<!-- PVR019 - END extended Plotbox if Live TV -->
             <control type="label">
                 <top>12</top>
                 <label fallback="515">$INFO[VideoPlayer.Tagline]</label>
                 <font>font_mini_bold</font>
                 <textcolor>panel_fg_100</textcolor>
                 <height>40</height>
-                <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
+                <!-- PVR019 - Do not show "Genre" / tagline if Live TV -->
+                <visible>!String.IsEmpty(VideoPlayer.Genre) + !VideoPlayer.Content(livetv)</visible>
             </control>
             <control type="textbox">
                 <label fallback="19055">$INFO[VideoPlayer.Genre]</label>
                 <font>font_mini_plot</font>
                 <textcolor>panel_fg_70</textcolor>
                 <height>40</height>
-                <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
+                <!-- PVR019 - Do not show genre if Live TV -->
+                <visible>!String.IsEmpty(VideoPlayer.Genre) + !VideoPlayer.Content(livetv)</visible>
             </control>
         </control>
         <control type="grouplist">
@@ -141,6 +154,17 @@
                 <param name="aspectratio">keep</param>
                 <visible>!String.IsEmpty(VideoPlayer.ChannelName)</visible>
             </include>
+			<!-- PVR019 - START add Provider icon if Live TV -->
+			<control type="image">
+				<top>-30</top>
+				<right>-80</right>
+				<width>grid_x12</width>
+				<height>grid_x12</height>
+				<visible>VideoPlayer.Content(livetv)</visible>
+				<aspectratio scalediffuse="false" aligny="center" align="center">keep</aspectratio>
+				<texture background="true" diffuse="diffuse/square_w320_h320.png">$VAR[ImageOSDProviderIcon]</texture>
+			</control>
+			<!-- PVR019 - END add Provider icon if Live TV -->
             <include content="Object_InfoCircle_Horizontal">
                 <param name="icon" value="$VAR[Image_OSD_DirectorIcon]" />
                 <param name="role" value="$LOCALIZE[20339]" />
