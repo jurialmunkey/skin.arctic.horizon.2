@@ -58,6 +58,19 @@
 
     <include name="Dialog_Nib">
         <param name="nib_pos">70</param>
+        <param name="use_side_nib">false</param>
+        <definition>
+            <include content="Dialog_Nib_T" condition="![$PARAM[use_side_nib]]">
+                <param name="nib_pos">$PARAM[nib_pos]</param>
+            </include>
+            <include content="Dialog_Nib_L" condition="$PARAM[use_side_nib]">
+                <param name="nib_pos">$PARAM[nib_pos]</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Dialog_Nib_T">
+        <param name="nib_pos">70</param>
         <definition>
             <control type="image">
                 <top>-16</top>
@@ -65,6 +78,19 @@
                 <height>16</height>
                 <width>16</width>
                 <texture colordiffuse="dialog_bg_100">arrows/arrow-menu-up.png</texture>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Dialog_Nib_L">
+        <param name="nib_pos">70</param>
+        <definition>
+            <control type="image">
+                <left>-16</left>
+                <centertop>$PARAM[nib_pos]</centertop>
+                <height>16</height>
+                <width>16</width>
+                <texture colordiffuse="dialog_bg_100">arrows/arrow-menu.png</texture>
             </control>
         </definition>
     </include>
