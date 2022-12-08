@@ -45,6 +45,8 @@
             </control>
         </control>
         <control type="image">
+			<!-- PVR019 - top added -->
+			<top>-70</top>
             <right>0</right>
             <width>grid_x24</width>
             <height>grid_x24</height>
@@ -52,6 +54,17 @@
             <aspectratio scalediffuse="false" aligny="center" align="center">keep</aspectratio>
             <texture background="true" diffuse="diffuse/square_w320_h320.png">$VAR[Image_OSD_PosterImage]</texture>
         </control>
+		<!-- PVR019 - START add Provider icon for Live TV -->
+		<control type="image">
+			<top>80</top>
+            <right>0</right>
+            <width>grid_x14</width>
+            <height>grid_x14</height>
+            <visible>VideoPlayer.Content(livetv)</visible>
+            <aspectratio scalediffuse="false" aligny="center" align="center">keep</aspectratio>
+            <texture background="true" diffuse="diffuse/square_w320_h320.png">$VAR[ImageOSDProviderIcon]</texture>
+        </control>
+		<!-- PVR019 - END add Provider icon for Live TV -->
         <control type="grouplist">
             <top>0</top>
             <include content="Object_Left" condition="!VideoPlayer.Content(livetv)">
@@ -144,17 +157,6 @@
                 <param name="aspectratio">keep</param>
                 <visible>!String.IsEmpty(VideoPlayer.ChannelName)</visible>
             </include>
-			<!-- PVR019 - START add Provider icon if Live TV -->
-			<control type="image">
-				<top>-30</top>
-				<right>-80</right>
-				<width>grid_x12</width>
-				<height>grid_x12</height>
-				<visible>VideoPlayer.Content(livetv)</visible>
-				<aspectratio scalediffuse="false" aligny="center" align="center">keep</aspectratio>
-				<texture background="true" diffuse="diffuse/square_w320_h320.png">$VAR[ImageOSDProviderIcon]</texture>
-			</control>
-			<!-- PVR019 - END add Provider icon if Live TV -->
             <include content="Object_InfoCircle_Horizontal">
                 <param name="icon" value="$VAR[Image_OSD_DirectorIcon]" />
                 <param name="role" value="$LOCALIZE[20339]" />
