@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1141">
     <defaultcontrol always="true">6000</defaultcontrol>
+    <onload>CancelAlarm(osd_timeout,true)</onload>
     <include>Animation_WindowTransition_FadeInOut</include>
     <controls>
 
@@ -8,7 +9,7 @@
             <param name="id">6000</param>
             <onleft>Close</onleft>
             <onright>Close</onright>
-            <ondown>SetFocus(6501)</ondown>
+            <ondown condition="!VideoPlayer.Content(livetv)">SetFocus(6501)</ondown>
             <onup>Close</onup>
             <oninfo>Close</oninfo>
             <onclick>Close</onclick>
@@ -155,6 +156,7 @@
         <include content="OSD_CastInfo_HintText">
             <param name="label">$LOCALIZE[31293]</param>
             <visible>Control.HasFocus(6000)</visible>
+            <visible>!VideoPlayer.Content(livetv)</visible>
         </include>
     </controls>
 </window>
