@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <defaultcontrol always="true">30001</defaultcontrol>
+    <onload>RunScript(plugin.video.themoviedb.helper,kodi_setting=myvideos.selectaction,property=KodiSetting.DefaultSelectAction)</onload>
     <onunload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onunload>
     <controls>
         <include content="Background_Main">
@@ -151,14 +152,23 @@
                                 <onclick>Skin.ToggleSetting(Widgets.OpaqueFocus)</onclick>
                                 <selected>Skin.HasSetting(Widgets.OpaqueFocus)</selected>
                             </include>
+                            <include content="Dialog_Settings_Button">
+                                <param name="id">1011</param>
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31349]</label>
+                                <visible>Container(3).HasFocus(1)</visible>
+                                <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])</visible>
+                                <onclick>Skin.ToggleSetting(Widgets.FullScreenContext)</onclick>
+                                <selected>Skin.HasSetting(Widgets.FullScreenContext)</selected>
+                            </include>
 
                             <include content="Dialog_Settings_Label" description="Expert">
-                                <param name="id">1011</param>
+                                <param name="id">1090</param>
                                 <label>$LOCALIZE[10039]</label>
                                 <visible>Container(3).HasFocus(1)</visible>
                             </include>
                             <include content="Dialog_Settings_Button" description="Nuke Skinshortcuts">
-                                <param name="id">1012</param>
+                                <param name="id">1091</param>
                                 <label>$LOCALIZE[31230]</label>
                                 <visible>Container(3).HasFocus(1)</visible>
                                 <onclick>RunScript(script.skinshortcuts,type=resetall)</onclick>
@@ -303,14 +313,6 @@
                                 <visible>Container(3).HasFocus(3)</visible>
                                 <onclick>Skin.ToggleSetting(Hubs.DisableQuickSwitch)</onclick>
                                 <selected>!Skin.HasSetting(Hubs.DisableQuickSwitch)</selected>
-                            </include>
-                            <include content="Dialog_Settings_Button">
-                                <param name="id">3006</param>
-                                <param name="control" value="radiobutton" />
-                                <label>$LOCALIZE[31349]</label>
-                                <visible>Container(3).HasFocus(3)</visible>
-                                <onclick>Skin.ToggleSetting(Widgets.FullScreenContext)</onclick>
-                                <selected>Skin.HasSetting(Widgets.FullScreenContext)</selected>
                             </include>
                             <include content="Dialog_Settings_Label" description="Kiosk Mode">
                                 <param name="id">3007</param>
