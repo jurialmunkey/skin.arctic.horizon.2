@@ -114,7 +114,9 @@
         <definition>
             <control type="image">
                 <include content="Dimension_Padding"><param name="pad" value="$PARAM[pad]" /></include>
-                <texture border="52">special://profile/addon_data/script.texturemaker/ArcticHorizon/glow_$PARAM[affix].png</texture>
+                <include content="Texture_Glow_Highlight">
+                    <param name="affix">$PARAM[affix]</param>
+                </include>
                 <nested />
             </control>
         </definition>
@@ -1303,7 +1305,7 @@
         <param name="visible" default="true" />
         <definition>
             <include content="_Object_MenuBar_Item">
-                <param name="fo_texture" value="Texture_Circle_Highlight_H" />
+                <param name="fo_texture" value="Texture_MainMenu_Highlight_H" />
                 <param name="nf_texture" value="common/menumain.png" />
                 <param name="sh_texture" value="shadows/menu_shadow.png" />
                 <param name="selected" value="$PARAM[selected]" />
@@ -1868,14 +1870,13 @@
                 <include condition="$PARAM[focusbounce]">Animation_FocusBounce</include>
                 <include content="Object_Control">
                     <param name="control" value="group" />
-                    <include content="Dimension_Padding" condition="!Skin.HasSetting(SelectBox.Thin) | Skin.HasSetting(SelectBox.Inner)"><param name="pad">-8</param></include>
-                    <include content="Dimension_Padding" condition="Skin.HasSetting(SelectBox.Thin) + !Skin.HasSetting(SelectBox.Inner)"><param name="pad">-3</param></include>
+                    <include content="Dimension_Padding" condition="!Skin.HasSetting(SelectBox.Thin)"><param name="pad">-8</param></include>
+                    <include content="Dimension_Padding" condition="Skin.HasSetting(SelectBox.Thin)"><param name="pad">-3</param></include>
                     <include condition="$PARAM[shadow] + !Skin.HasSetting(SelectBox.Glow)">Object_Shadow_40</include>
                     <include condition="$PARAM[shadow] + Skin.HasSetting(SelectBox.Glow)">Object_Glow_40</include>
                     <control type="image">
-                        <include condition="!Skin.HasSetting(SelectBox.Thin) + !Skin.HasSetting(SelectBox.Inner)">Texture_SelectBox</include>
-                        <include condition="Skin.HasSetting(SelectBox.Thin) + !Skin.HasSetting(SelectBox.Inner)">Texture_SelectBox_Thin</include>
-                        <include condition="Skin.HasSetting(SelectBox.Thin) + Skin.HasSetting(SelectBox.Inner)">Texture_SelectBox_Inner</include>
+                        <include condition="!Skin.HasSetting(SelectBox.Thin)">Texture_SelectBox</include>
+                        <include condition="Skin.HasSetting(SelectBox.Thin)">Texture_SelectBox_Thin</include>
                     </control>
                 </include>
                 <include content="Object_Indicator" condition="$PARAM[indicator]">
