@@ -598,6 +598,10 @@
                         <height>$PARAM[item_h]</height>
                         <control type="group">
                             <include content="Dimension_Padding"><param name="pad">20</param></include>
+                            <include content="Object_Control" condition="$PARAM[selected]">
+                                <param name="control">image</param>
+                                <texture colordiffuse="main_bg_30" border="12">common/box.png</texture>
+                            </include>
                             <include condition="!$PARAM[selected]">Object_ItemBack</include>
                             <control type="image">
                                 <aspectratio scalediffuse="false">scale</aspectratio>
@@ -632,7 +636,7 @@
 
                     <control type="group">
                         <left>$PARAM[item_h]</left>
-
+                        <right>120</right>
                         <control type="label">
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>main_fg_90</textcolor>
@@ -1547,7 +1551,7 @@
                     </include>
                 </control>
                 <control type="group">
-                    <visible>!String.IsEqual(ListItem.DBTYpe,album)</visible>
+                    <visible>![String.IsEqual(ListItem.DBTYpe,album) | String.IsEqual(ListItem.DBType,song)]</visible>
                     <control type="group">
                         <width>253</width>
                         <control type="group">
@@ -1573,7 +1577,7 @@
                     </include>
                 </control>
                 <control type="group">
-                    <visible>String.IsEqual(ListItem.DBType,album)</visible>
+                    <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)]</visible>
                     <control type="group">
                         <width>160</width>
                         <control type="group">

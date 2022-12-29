@@ -12,10 +12,12 @@
             <include condition="$EXP[Exp_View_527_Include]">View_527_Poster_Infolist</include>
             <include condition="$EXP[Exp_View_552_Include]">View_552_MediaInfo_Combined</include>
         </include>
-        <include content="Object_Control" condition="$EXP[Exp_View_508_Include] | $EXP[Exp_View_558_Include] | $EXP[Exp_View_581_Include]">
+        <include content="Object_Control" condition="$EXP[Exp_View_508_Include] | $EXP[Exp_View_558_Include] | $EXP[Exp_View_581_Include] | $EXP[Exp_View_557_Include] | $EXP[Exp_View_551_Include]">
             <param name="control">group</param>
             <visible>$EXP[Exp_BigListViews]</visible>
             <include condition="$EXP[Exp_View_508_Include]">View_508_Square_Playlist</include>
+            <include condition="$EXP[Exp_View_551_Include]">View_551_Basic_Playlist</include>
+            <include condition="$EXP[Exp_View_557_Include]">View_557_MediaInfo_Playlist</include>
             <include condition="$EXP[Exp_View_558_Include]">View_558_MediaInfo_List</include>
             <include condition="$EXP[Exp_View_581_Include]">View_581_BigPoster_List</include>
         </include>
@@ -328,7 +330,7 @@
             <param name="hasline">false</param>
             <param name="top">-60</param>
             <param name="scrollbar_id">63</param>
-            <param name="spacing">60</param>
+            <param name="spacing">20</param>
             <param name="reposition_include">Animation_Reposition_PlayList</param>
         </include>
         <control type="group">
@@ -342,6 +344,72 @@
                 <width>infodialog_poster_w</width>
                 <height>infodialog_poster_w</height>
             </include>
+        </control>
+    </include>
+
+    <include name="View_551_Basic_Playlist">
+        <control type="group">
+            <visible>Control.IsVisible(551)</visible>
+            <include>Dimension_View</include>
+            <control type="group">
+                <include content="List_PlayList">
+                    <param name="id">551</param>
+                    <param name="controltype">fixedlist</param>
+                    <param name="detailed">false</param>
+                    <focusposition>1</focusposition>
+                    <movement>4</movement>
+                    <left>-grid_x06</left>
+                    <width>800</width>
+                    <top>-40</top>
+                    <bottom>-20</bottom>
+                    <visible>$EXP[Exp_View_Special] + $EXP[Exp_View_551]</visible>
+                    <viewtype label="$LOCALIZE[31362]">list</viewtype>
+                    <onleft>63</onleft>
+                    <onright>menu</onright>
+                    <pagecontrol>63</pagecontrol>
+                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                    <include content="Animation_Reposition_PlayList">
+                        <param name="id">551</param>
+                    </include>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <include name="View_557_MediaInfo_Playlist">
+        <control type="group">
+            <visible>Control.IsVisible(557)</visible>
+            <include>Dimension_View</include>
+            <control type="group">
+                <left>info_landscape_w</left>
+                <include content="List_PlayList">
+                    <param name="id">557</param>
+                    <param name="controltype">fixedlist</param>
+                    <param name="detailed">false</param>
+                    <focusposition>1</focusposition>
+                    <movement>4</movement>
+                    <left>-grid_x02</left>
+                    <right>-grid_x08</right>
+                    <top>-40</top>
+                    <bottom>-20</bottom>
+                    <visible>$EXP[Exp_View_Special] + $EXP[Exp_View_557]</visible>
+                    <viewtype label="$LOCALIZE[31363]">list</viewtype>
+                    <onleft>63</onleft>
+                    <onright>menu</onright>
+                    <pagecontrol>63</pagecontrol>
+                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                    <include content="Animation_Reposition_PlayList">
+                        <param name="id">557</param>
+                    </include>
+                </include>
+            </control>
+            <control type="group">
+                <left>0</left>
+                <width>info_landscape_w</width>
+                <include content="View_Wall_MediaInfo">
+                    <param name="line_id">99550</param>
+                </include>
+            </control>
         </control>
     </include>
 
