@@ -766,6 +766,63 @@
         </definition>
     </include>
 
+    <include name="Widget_Hub_Submenu">
+        <control type="group" id="$PARAM[groupid]">
+            <top>widget_label_t</top>
+            <height>-670</height>
+            <left>80</left>
+            <right>80</right>
+            <control type="label">
+                <top>20</top>
+                <height>40</height>
+                <aligny>center</aligny>
+                <textcolor>main_fg_30</textcolor>
+                <label>$PARAM[label]</label>
+                <font>font_main_bold</font>
+                <visible>!Control.HasFocus($PARAM[id])</visible>
+            </control>
+            <control type="label">
+                <top>20</top>
+                <height>40</height>
+                <aligny>center</aligny>
+                <textcolor>main_fg_100</textcolor>
+                <label>$PARAM[label]</label>
+                <font>font_main_black</font>
+                <visible>Control.HasFocus($PARAM[id])</visible>
+            </control>
+            <control type="group">
+                <top>0</top>
+                <height>280</height>
+                <visible>Container(4900).IsUpdating</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400" delay="600"/>
+                </animation>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse">main_fg</param>
+                    <param name="label">$LOCALIZE[31023]</param>
+                    <param name="spinspinner">Container(4900).IsUpdating</param>
+                </include>
+            </control>
+        </control>
+
+        <include content="List_Button_Row">
+            <param name="id">4900</param>
+            <param name="item_h">110</param>
+            <param name="itemlayout_h">150</param>
+            <param name="item_w">view_poster_item_w</param>
+            <param name="itemlayout_w">view_poster_itemlayout_w</param>
+            <param name="detailed">false</param>
+            <height>390</height>
+            <top>690</top>
+            <nested />
+        </include>
+
+        <control type="group" id="$PARAM[spacerid]">
+            <height>280</height>
+            <visible>Integer.IsGreater(Container(6000).NumItems,2)</visible>
+        </control>
+    </include>
+
     <include name="Widget_Recs_Basic">
         <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
         <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
