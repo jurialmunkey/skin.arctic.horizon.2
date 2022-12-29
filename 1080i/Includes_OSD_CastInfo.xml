@@ -45,6 +45,8 @@
             </control>
         </control>
         <control type="image">
+			<!-- PVR019 - top added -->
+			<top>-70</top>
             <right>0</right>
             <width>grid_x24</width>
             <height>grid_x24</height>
@@ -52,6 +54,17 @@
             <aspectratio scalediffuse="false" aligny="center" align="center">keep</aspectratio>
             <texture background="true" diffuse="diffuse/square_w320_h320.png">$VAR[Image_OSD_PosterImage]</texture>
         </control>
+		<!-- PVR019 - START add Provider icon for Live TV -->
+		<control type="image">
+			<top>80</top>
+            <right>0</right>
+            <width>grid_x14</width>
+            <height>grid_x14</height>
+            <visible>VideoPlayer.Content(livetv)</visible>
+            <aspectratio scalediffuse="false" aligny="center" align="center">keep</aspectratio>
+            <texture background="true" diffuse="diffuse/square_w320_h320.png">$VAR[ImageOSDProviderIcon]</texture>
+        </control>
+		<!-- PVR019 - END add Provider icon for Live TV -->
         <control type="grouplist">
             <top>0</top>
             <include content="Object_Left" condition="!VideoPlayer.Content(livetv)">
@@ -71,23 +84,26 @@
                 <label fallback="19055">$INFO[VideoPlayer.Plot]</label>
                 <font>font_mini_plot</font>
                 <textcolor>panel_fg_70</textcolor>
-                <height max="150">auto</height>
+                <!-- PVR019 - Extended Plotbox -->
+                <height>230</height>	
             </control>
-            <control type="label">
+			<!-- PVR019 - START Remove Genre to allow for extended Plotbox -->
+            <!-- control type="label">
                 <top>12</top>
                 <label fallback="515">$INFO[VideoPlayer.Tagline]</label>
                 <font>font_mini_bold</font>
                 <textcolor>panel_fg_100</textcolor>
-                <height>40</height>
+                <height>40</height>               
                 <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
             </control>
             <control type="textbox">
                 <label fallback="19055">$INFO[VideoPlayer.Genre]</label>
                 <font>font_mini_plot</font>
                 <textcolor>panel_fg_70</textcolor>
-                <height>40</height>
+                <height>40</height>               
                 <visible>!String.IsEmpty(VideoPlayer.Genre)</visible>
-            </control>
+            </control -->
+			<!-- PVR019 - END Remove Genre to allow for extended Plotbox -->
         </control>
         <control type="grouplist">
             <left>1190</left>

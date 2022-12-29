@@ -8,12 +8,29 @@
                 <centerleft>50%</centerleft>
                 <include>Animation_SlideIn_Dialog</include>
                 <include>Animation_FadeOut</include>
-                <width>760</width>
+				<!-- PVR014 - width changed from 760 -->
+                <width>1720</width>
+				<!-- PVR014 - top and left added (width removed) -->
+				<top>87</top>
+                <left>20</left>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <visible allowhiddenfocus="true">Control.HasFocus(11)</visible>
+                <!-- PVR014 - Visible Condition removed (was Control.HasFocus(11) -->
+                <visible allowhiddenfocus="true"></visible> 
+                <!-- PVR014 - START custom background for Group Switcher -->
+				<control type="image">
+					<visible>Window.IsVisible(10702)</visible>
+					<texture>special://home\addons\skin.arctic.horizon.2\media\common\button.png</texture>
+					<colordiffuse>33000000</colordiffuse>
+					<top>-18</top>
+                    <right>0</right>
+					<height>35</height>				
+				</control>
+				<!-- PVR014 - END custom background for Group Switcher -->				
                 <include content="Object_MenuBar_TextList">
                     <param name="id" value="11" />
                     <param name="color_nf" value="main_fg" />
+					<!-- PVR014 - font parameter added -->
+					<param name="font" value="font_hint_black" />
                     <left>-20</left>
                     <right>0</right>
 
@@ -86,37 +103,66 @@
             <control type="group">
                 <width>480</width>
                 <control type="image">
-                    <texture background="true">$INFO[ListItem.Icon]</texture>
+                    <!-- PVR005 - START EPG: Display PVR artwork or channel icon -->
+					<!-- texture changed from $INFO[ListItem.Icon] -->
+                    <texture background="true">$VAR[Image_EPG_PVRArtwork]</texture>
+					<!-- PVR005 - END EPG: Display PVR artwork or channel icon-->
                     <aspectratio align="center">keep</aspectratio>
                     <bordersize>20</bordersize>
                     <left>20</left>
                     <right>20</right>
                 </control>
+				<!-- PVR005 - START Display PVR artwork source icon -->
+				<control type="image">
+					<aspectratio align="right">keep</aspectratio>
+					<left>370</left>
+					<top>120</top>
+					<width>90</width>
+					<height>38</height>
+					<texture>$VAR[Image_EPG_PVRArtwork_Source]</texture>
+                </control>
+				<!-- PVR005 - END Display PVR artwork source icon -->
+				<!-- PVR005 - START EPG: Display PVR artwork or channel icon -->
+				<!-- include mini videowindow in EPG display -->
+				<control type="videowindow">
+				</control>
+				<!-- PVR005 - END EPG: Display PVR artwork or channel icon-->	
             </control>
             <control type="group">
                 <left>520</left>
                 <right>30</right>
                 <control type="label">
-                    <top>30</top>
-                    <font>font_main_black</font>
-                    <label>$INFO[ListItem.Label,, ]$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, ]</label>
-                    <textcolor>main_fg_90</textcolor>
+                    <!-- PVR007 - top changed from 30 -->
+                    <top>10</top>
+                    <!-- PVR007 - font changed from font_main_black -->
+                    <font>font_mini_bold</font>
+                    <!-- PVR013 - First part of label changed from $INFO[ListItem.Label,, ] -->
+                    <label>$VAR[TextPVREPGProgramInfo,, ]$INFO[ListItem.Season,S,]$INFO[ListItem.Episode,E, ]</label>
+                    <!-- PVR007 - textcolor changed from main_fg_90 to yellow -->
+                    <textcolor>ffe5b535</textcolor>	
                     <height>40</height>
                 </control>
                 <control type="label">
-                    <top>30</top>
-                    <font>font_mini</font>
+                    <!-- PVR007 - top changed from 30 -->
+                    <top>10</top>
+                    <!-- PVR007 - font changed from font_mini -->
+                    <font>font_mini_bold</font>
                     <label>$INFO[ListItem.StartTime]$INFO[ListItem.EndTime, - ,]</label>
-                    <textcolor>main_fg_70</textcolor>
+                    <!-- PVR007 - textcolor changed from main_fg_70 to yellow -->
+                    <textcolor>ffe5b535</textcolor>
                     <height>40</height>
                     <align>right</align>
                 </control>
                 <control type="textbox">
-                    <top>70</top>
-                    <font>font_main_plot</font>
-                    <label>$VAR[Label_Plot]</label>
+                    <!-- PVR007 - top changed from 70 -->
+                    <top>50</top>
+                    <!-- PVR007 - font changed from font_main_plot -->
+                    <font>font_mini_plot</font>
+                    <!-- PVR013 - Label changed from $VAR[Label_Plot] -->
+                    <label>$VAR[TextPVREPGProgramPlot]</label>
                     <textcolor>main_fg_70</textcolor>
-                    <height>80</height>
+                    <!-- PVR007 - height changed from 80 -->
+                    <height>120</height>
                 </control>
             </control>
         </control>
@@ -292,9 +338,11 @@
                             <width>$PARAM[channelwidth]</width>
                             <align>left</align>
                             <aligny>top</aligny>
-                            <font>font_tiny</font>
+                            <!-- PVR010 - font changed from font_tiny -->
+							<font>font_mini_bold</font>
                             <label>$INFO[Container.NumItems,, $LOCALIZE[19019]]</label>
-                            <textcolor>main_fg_70</textcolor>
+                            <!-- PVR010 - textcolor changed from main_fg_70 to yellow -->
+							<textcolor>ffe5b535</textcolor>
                         </control>
                         <control type="group">
                             <left>$PARAM[channelwidth]</left>
@@ -302,18 +350,22 @@
                                 <width>50%</width>
                                 <align>left</align>
                                 <aligny>top</aligny>
-                                <font>font_tiny</font>
+                                <!-- PVR010 - font changed from font_tiny -->
+								<font>font_mini_bold</font>
                                 <label>$LOCALIZE[19030]</label>
-                                <textcolor>main_fg_70</textcolor>
+                                <!-- PVR010 - textcolor changed from main_fg_70 to yellow -->
+								<textcolor>ffe5b535</textcolor>
                             </control>
                             <control type="label">
                                 <right>0</right>
                                 <width>50%</width>
                                 <align>left</align>
                                 <aligny>top</aligny>
-                                <font>font_tiny</font>
+                                <!-- PVR010 - font changed from font_tiny -->
+								<font>font_mini_bold</font>
                                 <label>$LOCALIZE[19031]</label>
-                                <textcolor>main_fg_70</textcolor>
+                                <!-- PVR010 - textcolor changed from main_fg_70 to yellow -->
+								<textcolor>ffe5b535</textcolor>
                             </control>
                         </control>
                     </control>

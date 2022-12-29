@@ -14,13 +14,49 @@
     <variable name="Image_OSD_PosterImage">
         <value condition="!String.IsEmpty(Player.Art(poster))">$INFO[Player.Art(poster)]</value>
         <value condition="!String.IsEmpty(Player.Art(tvshow.poster))">$INFO[Player.Art(tvshow.poster)]</value>
+		<!-- PVR017 - Display PVR Channel Icon -->
+		<value>$VAR[VideoOSD_PVRChannelIcon]</value>
     </variable>
 
     <variable name="Image_Background_Blur">
-        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">$VAR[Image_SimpleBackground]</value>
+	    <!-- BACK001 - START Add Home screen backgrounds -->	
+		<value condition="$EXP[Exp_HomeWindow_PVR]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\PVR.png</value>
+		<value condition="$EXP[Exp_HomeWindow_OnDemand]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\On Demand.jpg</value>
+		<value condition="$EXP[Exp_HomeWindow_Videos]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Video.jpg</value>
+		<value condition="$EXP[Exp_HomeWindow_Music]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Music.jpg</value>
+		<value condition="$EXP[Exp_HomeWindow_Weather]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Weather.jpg</value>	
+		<value condition="$EXP[Exp_HomeWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Home.jpg</value>
+		<!-- BACK001 - END Add Home screen backgrounds -->
+		
+		<!-- BACK001 - START Other "Non-Blur" Backgrounds -->
+		<value condition="$EXP[Exp_PVRWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\PVR.png</value>
+		<value condition="$EXP[Exp_OnDemandWindow_iPlayer]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\iPlayer.png</value>
+		<value condition="$EXP[Exp_OnDemandWindow_STVPlayer]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\STVPlayer.jpg</value>
+		<value condition="$EXP[Exp_OnDemandWindow] + String.IsEmpty(Container(99950).ListItem.Art(blurimage))">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\On Demand.jpg</value>
+		<value condition="$EXP[Exp_VideoWindow] + !String.StartsWith(Container.Folderpath,videodb) + !$EXP[Exp_OnDemandWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Video.jpg</value>	
+		<value condition="$EXP[Exp_MusicWindow] + !String.StartsWith(Container.Folderpath,musicdb)">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Music.jpg</value>	
+		<value condition="String.Contains(Container.Folderpath,watchlist)">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\On Demand.jpg</value>	
+		<value condition="$EXP[Exp_SystemWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\System.png</value>
+		<value condition="$EXP[Exp_WeatherWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Weather.jpg</value>
+		<!-- BACK001 - END Other "Non-Blur" Backgrounds  -->
+		
+		<!-- START STANDARD AH2 CONDITIONS --> 
+        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">background/blur2.png</value>
         <value condition="!String.IsEmpty(Container(99950).ListItem.Art(blurimage))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
         <value condition="!String.IsEmpty(Container(99950).ListItem.Art(blurimage))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
-        <value>common/null.png</value>
+		<!-- END STANDARD AH2 CONDITIONS -->
+		
+		<!-- BACK001 - START Add conditions for other screens without blur images -->
+		<value condition="$EXP[Exp_PVRWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\PVR.png</value>
+		<value condition="$EXP[Exp_OnDemandWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\On Demand.jpg</value>	
+		<value condition="$EXP[Exp_VideoWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Video.jpg</value>
+		<value condition="$EXP[Exp_MusicWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Music.jpg</value>
+		<value condition="$EXP[Exp_WeatherWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Weather.jpg</value>
+		<value condition="$EXP[Exp_SystemWindow]">special://userdata/customisations\Skin Customisations\AH2 Backgrounds\System.png</value>
+		<!-- BACK001 - END Add conditions for other screens without blur images -->
+		
+        <!-- BACK001 - Fallback changed from common/null.png -->
+        <value>special://userdata/customisations\Skin Customisations\AH2 Backgrounds\Fallback.jpg</value>
     </variable>
 
     <variable name="Image_Background_Stretch">
@@ -367,8 +403,13 @@
     </variable>
 
     <variable name="Image_PVRGuide_Indicator">
-        <value condition="ListItem.IsRecording">indicator/record.png</value>
-        <value condition="ListItem.HasTimer">indicator/timer.png</value>
-        <value condition="ListItem.IsPlayable + !Skin.HasSetting(Indicator.DisablePVRGuideCatchUp)">indicator/library.png</value>
+        <!-- PVR012 - indicator changed from recording.png -->
+        <value condition="ListItem.IsRecording">indicator/isrecording.png</value>
+		<!-- PVR012 - Reminder indicator added -->
+		<value condition="ListItem.HasReminder">indicator/reminder.png</value>
+		<!-- PVR012 - Changed from timer.png -->
+        <value condition="ListItem.HasTimer">indicator/pvr-timer.png</value>
+        <!-- PVR004 - indicator changed from library.png -->
+        <value condition="ListItem.IsPlayable + !Skin.HasSetting(Indicator.DisablePVRGuideCatchUp)">indicator/hasarchive2.png</value>
     </variable>
 </includes>

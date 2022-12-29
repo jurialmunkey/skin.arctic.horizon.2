@@ -24,6 +24,8 @@
                     <control type="image">
                         <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                         <aspectratio scalediffuse="false">keep</aspectratio>
+						<!-- PVR016 reposition channel logo -->
+						<posy>-33</posy>
                         <visible>$EXP[Exp_IsPVRItem] + String.IsEmpty(ListItem.EPGEventIcon)</visible>
                         <bordersize>grid_x04</bordersize>
                     </control>
@@ -70,7 +72,8 @@
                     <midtexture colordiffuse="panel_fg_30">pvr/progress-episode-m.png</midtexture>
                     <righttexture colordiffuse="panel_fg_30">pvr/progress-episode-r.png</righttexture>
                     <info>ListItem.Progress</info>
-                    <visible>Integer.IsGreater(ListItem.Progress,1)</visible>
+                    <!-- PVR016 - add  + ![$EXP[Exp_IsPVRItem]] -->
+                    <visible>Integer.IsGreater(ListItem.Progress,1) + ![$EXP[Exp_IsPVRItem]]</visible>
                 </control>
                 <control type="image">
                     <right>10</right>
@@ -79,7 +82,8 @@
                     <height>32</height>
                     <visible>ListItem.IsPlaying | Window.IsVisible(pvrchannelguide)</visible>
                     <visible>Integer.IsGreater(ListItem.Progress,1) + Integer.IsLess(ListItem.Progress,99)</visible>
-                    <texture>indicator/playwhite.png</texture>
+                    <!-- PVR016 - texture changed from playwhite.png -->
+                    <texture>indicator/play.png</texture>
                     <animation effect="fade" start="0" end="100" delay="400" time="200">Visible</animation>
                 </control>
                 <include content="Object_Control" condition="!$PARAM[selected] + Skin.HasSetting(Glass.BorderOutline)">
