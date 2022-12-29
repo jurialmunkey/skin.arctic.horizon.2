@@ -2,6 +2,12 @@
 <window>
     <defaultcontrol>300</defaultcontrol>
     <include>Action_Blur_Onload</include>
+    <onload condition="Skin.HasSetting(Ratings.HideAll)">Skin.SetBool(TMDbHelper.DisableRatings)</onload>
+    <onload condition="!Skin.HasSetting(Ratings.HideAll)">Skin.Reset(TMDbHelper.DisableRatings)</onload>
+
+    <onload condition="![Skin.HasSetting(TMDbHelper.EnableCrop) | Skin.HasSetting(TMDbHelper.EnableBlur)]">Skin.SetBool(TMDbHelper.DisableArtwork)</onload>
+    <onload condition="[Skin.HasSetting(TMDbHelper.EnableCrop) | Skin.HasSetting(TMDbHelper.EnableBlur)]">Skin.Reset(TMDbHelper.DisableArtwork)</onload>
+
     <onload>RunScript(plugin.video.themoviedb.helper,kodi_setting=myvideos.selectaction,property=KodiSetting.DefaultSelectAction)</onload>
     <onload>Skin.SetString(TMDbHelper.MonitorContainer,99950)</onload>
     <onload>ClearProperty(TMDbHelper.HideView,Home)</onload>
