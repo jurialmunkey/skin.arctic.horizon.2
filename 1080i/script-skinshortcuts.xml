@@ -118,6 +118,7 @@
                             <param name="id" value="401" />
                             <param name="control" value="button" />
                             <description>Choose Shortcut</description>
+                            <visible>!String.EndsWith(Window.Property(groupname),.2)</visible>
                             <visible>!String.EndsWith(Window.Property(groupname),.1)</visible>
                             <visible>!String.IsEqual(Window.Property(groupname),searchmenu)</visible>
                         </include>
@@ -129,6 +130,16 @@
                             <onclick>SetProperty(custom-grouping,widget)</onclick>
                             <onclick>SendClick(401)</onclick>
                             <visible>String.EndsWith(Window.Property(groupname),.1)</visible>
+                            <include>Action_SkinShortcuts_ContentType_AutoSetOnUnFocus</include>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="4201" />
+                            <param name="control" value="button" />
+                            <description>Choose Hub Widget Shortcut</description>
+                            <label>$LOCALIZE[31104]</label>
+                            <onclick>SetProperty(custom-grouping,widgethub)</onclick>
+                            <onclick>SendClick(401)</onclick>
+                            <visible>String.EndsWith(Window.Property(groupname),.2)</visible>
                             <include>Action_SkinShortcuts_ContentType_AutoSetOnUnFocus</include>
                         </include>
                         <include content="Dialog_Settings_Button">
@@ -153,6 +164,17 @@
                             <visible>String.EndsWith(Window.Property(groupname),.1)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
+                            <param name="id" value="5307" />
+                            <param name="control" value="button" />
+                            <description>Action Hub</description>
+                            <label>$LOCALIZE[31081]</label>
+                            <onclick>SetProperty(custom-grouping,widgethub)</onclick>
+                            <onclick>SendClick(307)</onclick>
+                            <label2>$INFO[Container(211).ListItem.Property(Path)]</label2>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.EndsWith(Window.Property(groupname),.2)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button">
                             <param name="id" value="307" />
                             <param name="control" value="button" />
                             <description>Action</description>
@@ -160,6 +182,38 @@
                             <label2>$INFO[Container(211).ListItem.Property(Path)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>!String.EndsWith(Window.Property(groupname),.1)</visible>
+                            <visible>!String.EndsWith(Window.Property(groupname),.2)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="9920" />
+                            <param name="control" value="button" />
+                            <description>Hub fullscreen</description>
+                            <label> - $LOCALIZE[31364]</label>
+                            <label2>$INFO[Container(211).ListItem.Property(widgetPath.HubFullscreen)]</label2>
+                            <onclick>SetProperty(widgetID,HubFullscreen)</onclick>
+                            <onclick>SendClick(312)</onclick>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="9921" />
+                            <param name="control" value="button" />
+                            <description>Hub submenu</description>
+                            <label> - $LOCALIZE[31365]</label>
+                            <label2>$INFO[Container(211).ListItem.Property(widgetPath.HubSubmenu)]</label2>
+                            <onclick>SetProperty(widgetID,HubSubmenu)</onclick>
+                            <onclick>SendClick(312)</onclick>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="407" />
+                            <param name="control" value="button" />
+                            <description>Hub widgets</description>
+                            <label> - $LOCALIZE[31366]</label>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                            <visible>String.IsEqual(Container(211).ListItem.Property(Path),ActivateWindow(1132))</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="305" />
@@ -176,8 +230,10 @@
                             <label>$LOCALIZE[31082]</label>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>!String.EndsWith(Window.Property(groupname),.1)</visible>
+                            <visible>!String.EndsWith(Window.Property(groupname),.2)</visible>
                             <visible>!String.IsEqual(Window.Property(groupname),searchmenu)</visible>
                         </include>
+
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="405" />
                             <param name="control" value="button" />
@@ -227,7 +283,6 @@
                         </include>
 
 
-
                         <!-- Widget Options -->
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="9901" />
@@ -245,7 +300,7 @@
                             <label>$LOCALIZE[31106]</label>
                             <label2>$INFO[Container(211).ListItem.Property(widgetTarget)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
-                            <visible>String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
+                            <visible>String.EndsWith(Window.Property(groupname),.2) | String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
                             <include>Action_SkinShortcuts_ContentType_AutoSetOnFocus</include>
                         </include>
                         <include content="Dialog_Settings_Button">
@@ -255,7 +310,7 @@
                             <label>$LOCALIZE[31016]</label>
                             <label2>$INFO[Container(211).ListItem.Property(widgetSortby)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
-                            <visible>String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
+                            <visible>String.EndsWith(Window.Property(groupname),.2) | String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="9904" />
@@ -264,7 +319,7 @@
                             <label>$LOCALIZE[580]</label>
                             <label2>$INFO[Container(211).ListItem.Property(widgetSortorder)]</label2>
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
-                            <visible>String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
+                            <visible>String.EndsWith(Window.Property(groupname),.2) | String.EndsWith(Window.Property(groupname),.1) | String.IsEqual(Window.Property(groupname),searchmenu)</visible>
                         </include>
                         <include content="Dialog_Settings_Button">
                             <param name="id" value="9905" />
