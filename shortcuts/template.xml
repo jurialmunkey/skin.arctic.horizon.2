@@ -1625,4 +1625,94 @@
     </other>
 
 
+    <submenu include="hub-widgets" container="302" level="2">
+        <property name="submenuVisibility" tag="property" attribute="name|submenuVisibility"/>
+        <property name="submenuPath" tag="property" attribute="name|widgetPath.HubSubmenu" />
+        <property name="submenuName" tag="property" attribute="name|widgetName.HubSubmenu" />
+        <property name="submenuTarget" tag="property" attribute="name|widgetTarget.HubSubmenu" />
+        <property name="fullscreenPath" tag="property" attribute="name|widgetPath.HubFullscreen" />
+        <property name="fullscreenName" tag="property" attribute="name|widgetName.HubFullscreen" />
+        <property name="fullscreenTarget" tag="property" attribute="name|widgetTarget.HubFullscreen" />
+        <controls>
+            <include content="Hub_Grouplist" condition="String.IsEqual(Window(Home).Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])">
+                <param name="l_window_id">1114</param>
+                <param name="r_window_id">1114</param>
+                <param name="mainwidget_content">$SKINSHORTCUTS[fullscreenPath]</param>
+                <param name="submenu_label">$SKINSHORTCUTS[submenuName]</param>
+                <param name="submenu_content">$SKINSHORTCUTS[submenuPath]</param>
+                <skinshortcuts insert="widgets-sidestack">items</skinshortcuts>
+            </include>
+            <include content="Object_Control" condition="String.IsEqual(Window(Home).Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])">
+                <param name="control">group</param>
+                <skinshortcuts insert="widgets-nodelists">items</skinshortcuts>
+            </include>
+        </controls>
+        <items insert="widgets-nodelists">
+            <condition tag="property" attribute="name|list" />
+            <!-- IDS -->
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[1]">0</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[2]">1</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[3]">2</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[4]">3</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[5]">4</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[6]">5</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[7]">6</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[8]">7</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[9]">8</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[10]">9</property>
+
+            <!-- Widget Label -->
+            <property name="widgetName" tag="label" />
+            <property name="widgetName">$LOCALIZE[31105]</property>
+
+            <!--- Widget Content -->
+            <property name="widgetPath" tag="property" attribute="name|list" />
+            <property name="widgetTarget" tag="property" attribute="name|widgetTarget" />
+            <property name="widgetTarget">videos</property>
+            <property name="widgetSortby" tag="property" attribute="name|widgetSortby" />
+            <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
+            <controls>
+                <include content="Widget_SideStack_NodeList">
+                    <param name="id">$PYTHON[int(id) * 100 + 5000]</param>
+                    <param name="nodeid">$PYTHON[int(id) * 100 + 5002]</param>
+                    <content target="$SKINSHORTCUTS[widgetTarget]" sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]">$SKINSHORTCUTS[widgetPath]</content>
+                </include>
+            </controls>
+        </items>
+        <items insert="widgets-sidestack">
+            <condition tag="property" attribute="name|list" />
+            <!-- IDS -->
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[1]">0</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[2]">1</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[3]">2</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[4]">3</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[5]">4</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[6]">5</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[7]">6</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[8]">7</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[9]">8</property>
+            <property name="id" tag="property" attribute="name|id" value="$NUMBER[10]">9</property>
+
+            <!-- Widget Label -->
+            <property name="widgetName" tag="label" />
+            <property name="widgetName">$LOCALIZE[31105]</property>
+
+            <!--- Widget Content -->
+            <property name="widgetPath" tag="property" attribute="name|list" />
+            <property name="widgetTarget" tag="property" attribute="name|widgetTarget" />
+            <property name="widgetTarget">videos</property>
+            <property name="widgetSortby" tag="property" attribute="name|widgetSortby" />
+            <property name="widgetSortorder" tag="property" attribute="name|widgetSortorder" />
+
+            <controls>
+                <include content="Hub_Widget_SideStack">
+                    <param name="id">$PYTHON[int(id) * 10 + 500]</param>
+                    <param name="label">$SKINSHORTCUTS[widgetName]</param>
+                    <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                </include>
+            </controls>
+        </items>
+    </submenu>
+
+
 </template>
