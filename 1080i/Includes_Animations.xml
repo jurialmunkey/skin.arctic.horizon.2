@@ -367,11 +367,13 @@
         </definition>
     </include>
 
-    <include name="Animation_Reposition_MainList">
-        <animation effect="slide" end="0,-grid_x08" condition="Integer.IsLess(Container($PARAM[id]).NumItems,3)">Conditional</animation>
-    </include>
-    <include name="Animation_Reposition_PlayList">
-        <animation effect="slide" end="0,-grid_x12" condition="Integer.IsLess(Container($PARAM[id]).NumItems,3)">Conditional</animation>
+    <include name="Animation_Reposition">
+        <param name="slide_x">0</param>
+        <param name="slide_y">-grid_x08</param>
+        <param name="numitems">3</param>
+        <definition>
+            <animation effect="slide" end="$PARAM[slide_x],$PARAM[slide_y]" condition="!Container($PARAM[id]).IsUpdating + Integer.IsLess(Container($PARAM[id]).NumItems,$PARAM[numitems]) + !Integer.IsEqual(Container($PARAM[id]).NumItems,0)">Conditional</animation>
+        </definition>
     </include>
 
 </includes>

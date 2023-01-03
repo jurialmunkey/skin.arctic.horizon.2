@@ -158,12 +158,16 @@
             <focusposition>1</focusposition>
             <movement>2</movement>
             <onleft>menu</onleft>
-            <onright condition="!Container(553).IsUpdating">553</onright>
+            <onright condition="!Container(553).IsUpdating + ![String.IsEqual(Container(552).ListItem.DBType,album) | String.IsEmpty(Container(552).ListItem.DBType)]">553</onright>
+            <onright condition="!Container(554).IsUpdating + [String.IsEqual(Container(552).ListItem.DBType,album) | String.IsEmpty(Container(552).ListItem.DBType)]">554</onright>
             <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
             <visible>$EXP[Exp_View_Special]</visible>
             <visible>$EXP[Exp_View_552]</visible>
             <viewtype label="31342">wrap</viewtype>
-            <animation effect="slide" start="0" end="0,-120" condition="Integer.IsLess(Container(552).NumItems,3)">Conditional</animation>
+            <include content="Animation_Reposition">
+                <param name="id">552</param>
+                <param name="slide_y">-grid_x12</param>
+            </include>
         </include>
         <include content="List_Infolist">
             <param name="id">553</param>
@@ -177,7 +181,10 @@
             <bottom>160</bottom>
             <focusposition>1</focusposition>
             <movement>1</movement>
-            <animation effect="slide" start="0" end="0,-160" condition="Integer.IsLess(Container(553).NumItems,3)">Conditional</animation>
+            <include content="Animation_Reposition">
+                <param name="id">553</param>
+                <param name="slide_y">-grid_x16</param>
+            </include>
             <onright>menu</onright>
             <visible>Container(552).ListItem.IsFolder</visible>
             <onclick condition="Container(553).ListItem.IsFolder">Container.Update($INFO[Container(553).ListItem.FolderPath])</onclick>
@@ -185,9 +192,34 @@
             <onclick condition="!Container(553).ListItem.IsFolder">PlayMedia($INFO[Container(553).ListItem.FolderPath])</onclick>
             <content target="$VAR[Path_CollectionNode_Target]" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$INFO[Container(552).ListItem.FolderPath]</content>
             <visible>Control.IsVisible(552)</visible>
+            <visible>![String.IsEqual(Container(552).ListItem.DBType,album) | String.IsEmpty(Container(552).ListItem.DBType)]</visible>
             <onback>SetFocus(552)</onback>
             <onfocus>SetProperty(TMDbHelper.WidgetContainer,553)</onfocus>
             <animation effect="fade" start="100" end="10" time="200" delay="400" condition="Container(553).IsUpdating">Conditional</animation>
+        </include>
+        <include content="List_PlayList">
+            <param name="id">554</param>
+            <param name="orientation">vertical</param>
+            <param name="offset_y">40</param>
+            <param name="detailed">true</param>
+            <onleft>552</onleft>
+            <left>620</left>
+            <right>0</right>
+            <height>500</height>
+            <bottom>180</bottom>
+            <focusposition>1</focusposition>
+            <movement>1</movement>
+            <onright>menu</onright>
+            <visible>Container(552).ListItem.IsFolder</visible>
+            <onclick condition="Container(554).ListItem.IsFolder">Container.Update($INFO[Container(554).ListItem.FolderPath])</onclick>
+            <onclick condition="Container(554).ListItem.IsFolder">SetFocus(50)</onclick>
+            <onclick condition="!Container(554).ListItem.IsFolder">PlayMedia($INFO[Container(554).ListItem.FolderPath])</onclick>
+            <content target="$VAR[Path_CollectionNode_Target]" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$INFO[Container(552).ListItem.FolderPath]</content>
+            <visible>Control.IsVisible(552)</visible>
+            <visible>String.IsEqual(Container(552).ListItem.DBType,album) | String.IsEmpty(Container(552).ListItem.DBType)</visible>
+            <onback>SetFocus(552)</onback>
+            <onfocus>SetProperty(TMDbHelper.WidgetContainer,554)</onfocus>
+            <animation effect="fade" start="100" end="10" time="200" delay="400" condition="Container(554).IsUpdating">Conditional</animation>
         </include>
     </include>
 </includes>

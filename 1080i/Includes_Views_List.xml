@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_Furniture_List_Bottom">
-        <include content="Object_Control" condition="$EXP[Exp_View_501_Include] | $EXP[Exp_View_511_Include] | $EXP[Exp_View_521_Include] | $EXP[Exp_View_507_Include] | $EXP[Exp_View_517_Include] | $EXP[Exp_View_527_Include] | $EXP[Exp_View_552_Include]">
+        <include content="Object_Control" condition="$EXP[Exp_View_501_Include] | $EXP[Exp_View_511_Include] | $EXP[Exp_View_521_Include] | $EXP[Exp_View_507_Include] | $EXP[Exp_View_517_Include] | $EXP[Exp_View_527_Include] | $EXP[Exp_View_552_Include] | $EXP[Exp_View_551_Include]">
             <param name="control">group</param>
             <visible>$EXP[Exp_ListViews] | Control.IsVisible(552)</visible>
             <include condition="$EXP[Exp_View_501_Include]">View_501_Square_List</include>
@@ -10,13 +10,13 @@
             <include condition="$EXP[Exp_View_517_Include]">View_517_Landscape_Infolist</include>
             <include condition="$EXP[Exp_View_521_Include]">View_521_Poster_List</include>
             <include condition="$EXP[Exp_View_527_Include]">View_527_Poster_Infolist</include>
+            <include condition="$EXP[Exp_View_551_Include]">View_551_Basic_Playlist</include>
             <include condition="$EXP[Exp_View_552_Include]">View_552_MediaInfo_Combined</include>
         </include>
-        <include content="Object_Control" condition="$EXP[Exp_View_508_Include] | $EXP[Exp_View_558_Include] | $EXP[Exp_View_581_Include] | $EXP[Exp_View_557_Include] | $EXP[Exp_View_551_Include]">
+        <include content="Object_Control" condition="$EXP[Exp_View_508_Include] | $EXP[Exp_View_558_Include] | $EXP[Exp_View_581_Include] | $EXP[Exp_View_557_Include]">
             <param name="control">group</param>
             <visible>$EXP[Exp_BigListViews]</visible>
             <include condition="$EXP[Exp_View_508_Include]">View_508_Square_Playlist</include>
-            <include condition="$EXP[Exp_View_551_Include]">View_551_Basic_Playlist</include>
             <include condition="$EXP[Exp_View_557_Include]">View_557_MediaInfo_Playlist</include>
             <include condition="$EXP[Exp_View_558_Include]">View_558_MediaInfo_List</include>
             <include condition="$EXP[Exp_View_581_Include]">View_581_BigPoster_List</include>
@@ -172,6 +172,7 @@
                                 <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                                 <include content="$PARAM[reposition_include]">
                                     <param name="id">$PARAM[id]</param>
+                                    <param name="slide_y">$PARAM[reposition_slide_y]</param>
                                 </include>
                             </include>
                         </control>
@@ -194,7 +195,7 @@
             <param name="movement">3</param>
             <param name="focusposition">1</param>
             <param name="detailed">true</param>
-            <param name="reposition_include">Animation_Reposition_MainList</param>
+            <param name="reposition_include">Animation_Reposition</param>
         </include>
     </include>
 
@@ -212,7 +213,7 @@
             <param name="flipside">false</param>
             <param name="detailed">false</param>
             <param name="poster_top">0</param>
-            <param name="reposition_include">Animation_Reposition_MainList</param>
+            <param name="reposition_include">Animation_Reposition</param>
         </include>
     </include>
 
@@ -228,7 +229,7 @@
             <param name="movement">3</param>
             <param name="focusposition">1</param>
             <param name="detailed">true</param>
-            <param name="reposition_include">Animation_Reposition_MainList</param>
+            <param name="reposition_include">Animation_Reposition</param>
         </include>
     </include>
 
@@ -311,7 +312,7 @@
             <param name="hasimage">true</param>
             <param name="top">0</param>
             <param name="scrollbar_id">63</param>
-            <param name="reposition_include">Animation_Reposition_MainList</param>
+            <param name="reposition_include">Animation_Reposition</param>
         </include>
     </include>
 
@@ -331,7 +332,8 @@
             <param name="top">-60</param>
             <param name="scrollbar_id">63</param>
             <param name="spacing">20</param>
-            <param name="reposition_include">Animation_Reposition_PlayList</param>
+            <param name="reposition_include">Animation_Reposition</param>
+            <param name="reposition_slide_y">-grid_x12</param>
         </include>
         <control type="group">
             <visible>Control.IsVisible(508)</visible>
@@ -351,28 +353,27 @@
         <control type="group">
             <visible>Control.IsVisible(551)</visible>
             <include>Dimension_View</include>
-            <control type="group">
-                <include content="List_PlayList">
+            <include content="List_PlayList">
+                <param name="id">551</param>
+                <param name="controltype">fixedlist</param>
+                <param name="detailed">false</param>
+                <focusposition>1</focusposition>
+                <movement>2</movement>
+                <left>-grid_x06</left>
+                <width>1020</width>
+                <top>200</top>
+                <bottom>-20</bottom>
+                <visible>$EXP[Exp_View_Special] + $EXP[Exp_View_551]</visible>
+                <viewtype label="$LOCALIZE[31362]">list</viewtype>
+                <onleft>63</onleft>
+                <onright>menu</onright>
+                <pagecontrol>63</pagecontrol>
+                <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                <include content="Animation_Reposition">
                     <param name="id">551</param>
-                    <param name="controltype">fixedlist</param>
-                    <param name="detailed">false</param>
-                    <focusposition>1</focusposition>
-                    <movement>4</movement>
-                    <left>-grid_x06</left>
-                    <width>800</width>
-                    <top>-40</top>
-                    <bottom>-20</bottom>
-                    <visible>$EXP[Exp_View_Special] + $EXP[Exp_View_551]</visible>
-                    <viewtype label="$LOCALIZE[31362]">list</viewtype>
-                    <onleft>63</onleft>
-                    <onright>menu</onright>
-                    <pagecontrol>63</pagecontrol>
-                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                    <include content="Animation_Reposition_PlayList">
-                        <param name="id">551</param>
-                    </include>
+                    <param name="slide_y">-grid_x12</param>
                 </include>
-            </control>
+            </include>
         </control>
     </include>
 
@@ -398,8 +399,9 @@
                     <onright>menu</onright>
                     <pagecontrol>63</pagecontrol>
                     <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                    <include content="Animation_Reposition_PlayList">
+                    <include content="Animation_Reposition">
                         <param name="id">557</param>
+                        <param name="slide_y">-grid_x12</param>
                     </include>
                 </include>
             </control>
@@ -428,7 +430,7 @@
             <param name="hasimage">false</param>
             <param name="top">0</param>
             <param name="scrollbar_id">63</param>
-            <param name="reposition_include">Animation_Reposition_MainList</param>
+            <param name="reposition_include">Animation_Reposition</param>
         </include>
         <control type="group">
             <visible>Control.IsVisible(558)</visible>
