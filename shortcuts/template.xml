@@ -1665,6 +1665,17 @@
             <property name="widgetName" tag="label" />
             <property name="widgetName">$LOCALIZE[31105]</property>
 
+            <!-- Is Static -->
+            <property name="widgetIsStatic" tag="property" attribute="name|list" value="CustomNode1">True</property>
+            <property name="widgetIsStatic" tag="property" attribute="name|list" value="CustomNode2">True</property>
+            <property name="widgetIsStatic" tag="property" attribute="name|list" value="CustomNode3">True</property>
+            <property name="widgetIsStatic">False</property>
+
+            <!-- widget Node Number -->
+            <property name="widgetNodeNumber" tag="property" attribute="name|list" value="CustomNode1">-3</property>
+            <property name="widgetNodeNumber" tag="property" attribute="name|list" value="CustomNode2">-4</property>
+            <property name="widgetNodeNumber" tag="property" attribute="name|list" value="CustomNode3">-5</property>
+
             <!--- Widget Content -->
             <property name="widgetPath" tag="property" attribute="name|list" />
             <property name="widgetTarget" tag="property" attribute="name|widgetTarget" />
@@ -1675,7 +1686,20 @@
                 <include content="Widget_SideStack_NodeList">
                     <param name="id">$PYTHON[int(id) * 100 + 5000]</param>
                     <param name="nodeid">$PYTHON[int(id) * 100 + 5002]</param>
-                    <content target="$SKINSHORTCUTS[widgetTarget]" sortby="$SKINSHORTCUTS[widgetSortby]" sortorder="$SKINSHORTCUTS[widgetSortorder]">$SKINSHORTCUTS[widgetPath]</content>
+
+                    <include content="Object_ContentDynamic" condition="![$SKINSHORTCUTS[widgetIsStatic]]">
+                        <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                        <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
+                        <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
+                        <param name="content">$SKINSHORTCUTS[widgetPath]</param>
+                    </include>
+
+                    <include content="Object_ContentInclude" condition="$SKINSHORTCUTS[widgetIsStatic]">
+                        <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                        <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
+                        <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
+                        <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]$SKINSHORTCUTS[widgetNodeNumber]</param>
+                    </include>
                 </include>
             </controls>
         </items>
