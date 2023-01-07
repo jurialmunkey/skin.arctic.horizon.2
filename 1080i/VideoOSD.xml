@@ -47,7 +47,8 @@
                         <onup>SetFocus(6101)</onup>
                     </include>
 
-                    <include content="OSD_Button">
+                    <!-- Button 2 -->
+                    <include content="OSD_Button" condition="!VideoPlayer.Content(livetv)">
                         <param name="autoclose" value="true" />
                         <param name="visible" value="true" />
                         <param name="icon" value="osd/jump-back.png" />
@@ -56,13 +57,35 @@
                         <onclick>Seek(-10)</onclick>
                         <onup>8200</onup>
                     </include>
-                    <include content="OSD_Button">
+                    <include content="OSD_Button" condition="VideoPlayer.Content(livetv)">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="special://skin/extras/icons/list-ol.png" />
+                        <param name="id" value="6200" />
+                        <param name="groupid" value="6299" />
+                        <onclick>Close</onclick>
+                        <onclick>ActivateWindow(pvrosdchannels)</onclick>
+                        <onup>8200</onup>
+                    </include>
+
+                    <!-- Button 3 -->
+                    <include content="OSD_Button" condition="!VideoPlayer.Content(livetv)">
                         <param name="autoclose" value="true" />
                         <param name="visible" value="true" />
                         <param name="icon" value="osd/jump-forward.png" />
                         <param name="id" value="6300" />
                         <param name="groupid" value="6399" />
                         <onclick>Seek(10)</onclick>
+                        <onup>8200</onup>
+                    </include>
+                    <include content="OSD_Button" condition="VideoPlayer.Content(livetv)">
+                        <param name="autoclose" value="true" />
+                        <param name="visible" value="true" />
+                        <param name="icon" value="special://skin/extras/icons/list.png" />
+                        <param name="id" value="6300" />
+                        <param name="groupid" value="6399" />
+                        <onclick>Close</onclick>
+                        <onclick>ActivateWindow(TVGuide)</onclick>
                         <onup>8200</onup>
                     </include>
 
@@ -152,9 +175,12 @@
                         <param name="id" value="6500" />
                         <param name="groupid" value="6599" />
 
-                        <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
-                        <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
-                        <onclick>Action(Close)</onclick>
+
+                        <onclick condition="VideoPlayer.Content(livetv)">Action(Down)</onclick>
+
+                        <onclick condition="!VideoPlayer.Content(livetv)">SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                        <onclick condition="!VideoPlayer.Content(livetv) + !Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
+                        <onclick condition="!VideoPlayer.Content(livetv)">Action(Close)</onclick>
 
                         <onfocus>SetProperty(TMDbHelper.WinProp.Player.Title,'"$INFO[Player.Title]"',Home)</onfocus>
                         <onfocus>SetProperty(TMDbHelper.WinProp.VideoPlayer.TvShowTitle,'"$INFO[VideoPlayer.TvShowTitle]"',Home)</onfocus>
