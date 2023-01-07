@@ -1528,6 +1528,133 @@
         </definition>
     </include>
 
+    <include name="Layout_PVROSDChannels">
+        <param name="selected">false</param>
+        <param name="detailed">false</param>
+        <param name="textoffsetx">30</param>
+        <param name="textcolor">main_fg</param>
+        <definition>
+            <control type="group">
+                <left>grid_x04</left>
+                <right>grid_x04</right>
+                <height>$PARAM[item_h]</height>
+                <control type="group">
+                    <include content="Object_Control" condition="$PARAM[selected]">
+                        <param name="control">image</param>
+                        <include condition="!Skin.HasSetting(SelectBox.Glow)">Texture_Shadow_40</include>
+                        <include condition="Skin.HasSetting(SelectBox.Glow)" content="Texture_Glow_40">
+                            <param name="affix">h</param>
+                        </include>
+                        <include>Texture_Box_Highlight_V</include>
+                    </include>
+                    <include content="Object_Control" condition="$PARAM[selected]">
+                        <param name="control">image</param>
+                        <texture colordiffuse="panel_fg_12" diffuse="diffuse/landscape_w560_h320.png">common/selected.png</texture>
+                        <visible>ListItem.IsPlaying</visible>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                    </include>
+                    <include content="Object_Control" condition="$PARAM[selected]">
+                        <param name="control">progress</param>
+                        <texturebg>pvr/progress-episode-b.png</texturebg>
+                        <lefttexture colordiffuse="panel_fg_30" border="12">pvr/progress-episode-l.png</lefttexture>
+                        <midtexture colordiffuse="panel_fg_30" border="12">pvr/progress-episode-m.png</midtexture>
+                        <righttexture colordiffuse="panel_fg_30" border="12">pvr/progress-episode-r.png</righttexture>
+                        <info>ListItem.Progress</info>
+                        <visible>Integer.IsGreater(ListItem.Progress,1) + !Integer.IsGreater(ListItem.Progress,99)</visible>
+                    </include>
+                    <include condition="$PARAM[selected]">Animation_FocusBounce</include>
+                </control>
+                <control type="group">
+                    <include content="Animation_ConditionalFade" condition="!$PARAM[detailed] + !$PARAM[selected]">
+                        <param name="end">25</param>
+                        <param name="condition">Integer.IsGreater(ListItem.Progress,99)</param>
+                    </include>
+                    <left>$PARAM[misc]</left>
+                    <include content="Object_Control" condition="$PARAM[detailed]">
+                        <param name="control">group</param>
+                        <width>$PARAM[item_h]</width>
+                        <control type="image">
+                            <bordersize>20</bordersize>
+                            <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
+                            <aspectratio>keep</aspectratio>
+                        </control>
+                    </include>
+                    <control type="group">
+                        <include content="Object_Left" condition="$PARAM[detailed]">
+                            <param name="left">$PARAM[misc]</param>
+                        </include>
+                        <control type="group">
+                            <include content="Object_Left" condition="$PARAM[detailed]">
+                                <param name="left">$PARAM[item_h]</param>
+                            </include>
+                            <top>20</top>
+                            <bottom>20</bottom>
+                            <include content="Object_Control" condition="$PARAM[detailed]">
+                                <param name="control">image</param>
+                                <width>1</width>
+                                <include content="Object_Texture" condition="$PARAM[selected]">
+                                    <param name="colordiffuse">panel_fg_30</param>
+                                    <param name="texture">common/white.png</param>
+                                </include>
+                                <texture colordiffuse="$PARAM[textcolor]_12">common/white.png</texture>
+                            </include>
+                            <control type="label">
+                                <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
+                                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                                <label>$VAR[Label_PVRRecordings_Mainlabel]</label>
+                                <textcolor>$PARAM[textcolor]_70</textcolor>
+                                <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
+                                <font>font_main_bold</font>
+                                <align>left</align>
+                                <visible>![!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.ISEmpty(ListItem.Title)]]</visible>
+                            </control>
+                            <control type="label">
+                                <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
+                                <bottom>40</bottom>
+                                <top>10</top>
+                                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                                <label>$VAR[Label_PVRRecordings_Mainlabel]</label>
+                                <textcolor>$PARAM[textcolor]_70</textcolor>
+                                <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
+                                <font>font_main_bold</font>
+                                <align>left</align>
+                                <visible>!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.ISEmpty(ListItem.Title)]</visible>
+                            </control>
+                            <include content="Object_Indicator" condition="!Window.IsVisible(MyPVRGuide.xml)">
+                                <param name="shadow">false</param>
+                                <right>10</right>
+                                <centerbottom>50%</centerbottom>
+                            </include>
+                            <control type="label">
+                                <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
+                                <top>40</top>
+                                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                                <label>$INFO[ListItem.Label2]</label>
+                                <textcolor>$PARAM[textcolor]_70</textcolor>
+                                <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
+                                <font>font_tiny</font>
+                                <align>right</align>
+                                <visible>ListItem.IsFolder</visible>
+                            </control>
+                            <control type="label">
+                                <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
+                                <top>40</top>
+                                <include condition="$PARAM[selected]">Color_SelectedText</include>
+                                <label>$VAR[Label_PVRRecordings_Sublabel]$VAR[Label_PVRRecordings_Sublabel_Channels]</label>
+                                <textcolor>$PARAM[textcolor]_70</textcolor>
+                                <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
+                                <font>font_tiny</font>
+                                <align>left</align>
+                                <autoscroll>false</autoscroll>
+                                <visible>!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.ISEmpty(ListItem.Title)]</visible>
+                            </control>
+                        </control>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_PVRRecordings">
         <param name="selected">false</param>
         <param name="detailed">false</param>

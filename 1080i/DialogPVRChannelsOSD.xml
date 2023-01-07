@@ -4,71 +4,74 @@
     <onload>CancelAlarm(osd_timeout,true)</onload>
     <onload>SetProperty(TMDbHelper.WidgetContainer,11)</onload>
     <controls>
-        <include content="Object_GlassPanel">
-            <param name="colordiffuse" value="panel_bg" />
-            <left>40</left>
-            <top>40</top>
-            <bottom>40</bottom>
-            <width>720</width>
-            <include>Animation_SlideIn_Dialog</include>
-            <include content="Object_GlassPanel">
+        <control type="group">
+            <width>760</width>
+            <include>Animation_SlideIn_Dialog_Left</include>
+            <control type="image">
+                <right>-128</right>
+                <left>-48</left>
+                <texture border="0,0,399,0" colordiffuse="panel_bg">common/dim-side.png</texture>
+            </control>
+            <control type="group">
+                <top>20</top>
+                <bottom>-20</bottom>
                 <control type="group">
-                    <top>20</top>
-                    <bottom>20</bottom>
+                    <top>40</top>
+                    <height>120</height>
+                    <left>grid_x08</left>
+                    <right>grid_x04</right>
+                    <control type="image">
+                        <height>1</height>
+                        <bottom>0</bottom>
+                        <texture colordiffuse="panel_fg_12">common/white.png</texture>
+                    </control>
                     <control type="group">
-                        <height>120</height>
-                        <left>grid_x04</left>
-                        <right>grid_x04</right>
+                        <centertop>50%</centertop>
+                        <height>80</height>
                         <control type="image">
-                            <height>1</height>
+                            <height>80</height>
+                            <width>80</width>
+                            <aspectratio>keep</aspectratio>
+                            <texture>special://skin/extras/icons/livetv.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>1</width>
+                            <left>120</left>
                             <bottom>20</bottom>
+                            <top>20</top>
                             <texture colordiffuse="panel_fg_12">common/white.png</texture>
                         </control>
-                        <control type="group">
-                            <height>80</height>
-                            <control type="image">
-                                <height>80</height>
-                                <width>80</width>
-                                <aspectratio>keep</aspectratio>
-                                <texture>special://skin/extras/icons/livetv.png</texture>
-                            </control>
-                            <control type="image">
-                                <width>1</width>
-                                <left>120</left>
-                                <bottom>20</bottom>
-                                <top>20</top>
-                                <texture colordiffuse="panel_fg_12">common/white.png</texture>
-                            </control>
-                            <control type="label">
-                                <left>150</left>
-                                <height>20</height>
-                                <centertop>30%</centertop>
-                                <font>font_main_bold</font>
-                                <label>$INFO[VideoPlayer.ChannelGroup]</label>
-                                <textcolor>panel_fg_90</textcolor>
-                            </control>
-                            <control type="label">
-                                <left>150</left>
-                                <height>20</height>
-                                <centerbottom>30%</centerbottom>
-                                <font>font_tiny</font>
-                                <label>$INFO[Container(11).NumItems,, $LOCALIZE[19019]]</label>
-                                <textcolor>panel_fg_90</textcolor>
-                            </control>
+                        <control type="label">
+                            <left>150</left>
+                            <height>20</height>
+                            <centertop>30%</centertop>
+                            <font>font_main_bold</font>
+                            <label>$INFO[VideoPlayer.ChannelGroup]</label>
+                            <textcolor>panel_fg_90</textcolor>
+                        </control>
+                        <control type="label">
+                            <left>150</left>
+                            <height>20</height>
+                            <centerbottom>30%</centerbottom>
+                            <font>font_tiny</font>
+                            <label>$INFO[Container(11).NumItems,, $LOCALIZE[19019]]</label>
+                            <textcolor>panel_fg_90</textcolor>
                         </control>
                     </control>
-                    <include content="List_PVRRecordings">
-                        <param name="id" value="11" />
-                        <param name="misc" value="20" />
-                        <param name="controltype" value="fixedlist" />
-                        <movement>3</movement>
-                        <focusposition>3</focusposition>
-                        <top>120</top>
-                        <onright>NextChannelGroup</onright>
-                        <onleft>PreviousChannelGroup</onleft>
-                    </include>
                 </control>
-            </include>
-        </include>
+                <include content="List_PVRRecordings">
+                    <param name="id" value="11" />
+                    <param name="misc" value="20" />
+                    <param name="controltype" value="fixedlist" />
+                    <param name="itemlayout_include">Layout_PVROSDChannels</param>
+                    <movement>3</movement>
+                    <focusposition>3</focusposition>
+                    <top>160</top>
+                    <bottom>80</bottom>
+                    <onright>NextChannelGroup</onright>
+                    <onleft>PreviousChannelGroup</onleft>
+                </include>
+            </control>
+        </control>
     </controls>
 </window>
