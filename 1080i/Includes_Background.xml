@@ -101,7 +101,8 @@
                 <include content="Object_Control" condition="!Skin.String(ForegroundStyle,FlixArt) + !Skin.String(ForegroundStyle,KeyArt)">
                     <param name="control" value="image" />
                     <fadetime>600</fadetime>
-                    <texture background="true">$INFO[Container(99950).ListItem.Art(blurimage)]</texture>
+                    <!-- BACK001 - texture changed from $INFO[Container(99950).ListItem.Art(blurimage)] -->
+                    <texture background="true">$VAR[Image_Background_Blur]</texture>
                 </include>
 
                 <!-- KeyArt (Offset Blur) -->
@@ -168,8 +169,6 @@
         </definition>
     </include>
 
-
-
     <include name="Background_StartUp">
         <include content="Object_Control">
             <param name="control">multiimage</param>
@@ -194,7 +193,8 @@
         <definition>
             <control type="image">
                 <aspectratio>scale</aspectratio>
-                <texture background="true" colordiffuse="main_flix">$PARAM[texture]</texture>
+                <!-- BACK001 - texture changed from $PARAM[texture] -->
+                <texture background="true" colordiffuse="main_flix">$VAR[ImageSkinBackground]</texture>
                 <include>Background_NotVideo</include>
             </control>
         </definition>
@@ -267,7 +267,8 @@
 
     <variable name="Background_Main_ColorDiffuse">
         <value condition="Skin.HasSetting(UseBackgroundVideo) + Player.HasVideo">black</value>
-        <value>main_bg_100</value>
+		<!-- BACK001 - value was main_bg_100 -->
+        <value>main_bg_80</value>
     </variable>
 
     <include name="Background_Main">
@@ -284,7 +285,8 @@
                 <param name="control" value="group" />
                 <include>Animation_Background_FadeInOut</include>
                 <include condition="Skin.String(BackgroundStyle,None)">Background_None</include>
-                <include condition="Skin.String(BackgroundStyle,Image)">Background_Stretch</include>
+                <!-- BACK001 - Include changed from Background_Stretch -->
+                <include condition="Skin.String(BackgroundStyle,Image)">Background_Image</include>
                 <include condition="Skin.String(BackgroundStyle,Fanart)">Background_Fanart</include>
                 <include condition="Skin.String(BackgroundStyle,Blur)">Background_Blur</include>
                 <include condition="!Skin.String(BackgroundStyle,Fanart)">Background_ForegroundArtwork</include>
@@ -301,6 +303,37 @@
                 <texture colordiffuse="$VAR[Background_Main_ColorDiffuse]">background/combined_flixart.png</texture>
                 <include>Animation_Background_FadeInOut</include>
             </include>
+			<!-- BACK002 - START Add Kodi Logo and version to screens -->
+			<control type="group">
+				<control type="image">
+					<left>1700</left>
+					<top>1015</top>
+					<width>162</width>
+					<height>32</height>
+					<aspectratio>keep</aspectratio>
+					<texture>special://userdata\customisations\Kodi Images\vendor_logo.png</texture>
+				</control>			
+				<control type="image">
+					<left>1730</left>
+					<top>1045</top>
+					<width>111</width>
+					<height>35</height>
+					<aspectratio>keep</aspectratio>
+					<texture>special://userdata\customisations\Kodi Images\matrix19.png</texture>
+					<visible>String.StartsWith(System.BuildVersion,"19")</visible>
+				</control>				
+				<control type="image">
+					<left>1730</left>
+					<top>1045</top>
+					<width>111</width>
+					<height>37</height>
+					<aspectratio>keep</aspectratio>
+					<texture>special://userdata\customisations\Kodi Images\nexus20.png</texture>
+					<visible>String.StartsWith(System.BuildVersion,"20")</visible>
+				</control>							
+				<visible></visible>
+			</control>		
+			<!-- BACK002 - END Add Kodi Logo and version to screens -->
         </definition>
     </include>
 

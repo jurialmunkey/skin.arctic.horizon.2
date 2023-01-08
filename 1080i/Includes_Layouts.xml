@@ -61,7 +61,10 @@
                 <nested />
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control">image</param>
-                    <include>Texture_Highlight</include>
+                    <!-- PVR008 - START EPG: Disable highlight of focused channel -->
+					<!-- Disable the highlight of focused channel -->
+                    <!-- include>Texture_Highlight</include -->
+					<!-- PVR008 - END EPG: Disable highlight of focused channel -->
                 </include>
                 <include content="Object_Control" condition="!$PARAM[selected]">
                     <param name="control">image</param>
@@ -83,9 +86,12 @@
                     <textcolor>main_fg_70</textcolor>
                     <selectedcolor>main_fg_70</selectedcolor>
                     <font>font_main</font>
-                    <align>right</align>
+                    <!--  PVR001 - EPG: Left align Channel Number -->
+                    <align>left</align>
                     <label>$INFO[ListItem.ChannelNumberLabel]</label>
                 </include>
+ 				<!-- PVR002 - START EPG: Remove Channel Name and Replace with Icon -->
+                <!-- include content="Object_Control" condition="!$PARAM[detailed]">
                 <include content="Object_Control" condition="!$PARAM[detailed]">
                     <param name="control">label</param>
                     <include condition="$PARAM[selected]">Color_SelectedText</include>
@@ -95,7 +101,65 @@
                     <selectedcolor>main_fg_70</selectedcolor>
                     <font>font_main_bold</font>
                     <label>$INFO[ListItem.Label]</label>
+                </include -->
+                <include content="Object_Control" condition="!$PARAM[detailed]">
+                    <param name="control" value="image" />
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <right>dialog_pad</right>
+                    <left>100</left>
+                    <texture>$VAR[ImagePVREPGIcon]</texture>
+                    <aspectratio align="left">keep</aspectratio>
+                    <right>0</right>
+                    <bordersize>10</bordersize>
                 </include>
+				<!-- PVR002 - END EPG: Remove Channel Name and Replace with Icon-->
+				<!-- PVR003 - START EPG: Add Channel Resolution Icon (special icons for Live Football channels) -->
+				<control type="image">
+					<!-- PVR003: left previously 300, top previously 30 for earlier icons -->
+					<left>310</left>
+					<top>31</top>
+					<width>70</width>
+					<height>38</height>									
+					<texture>$VAR[ImagePVRChannelResolutionIcon]</texture>
+					<align>center</align>
+					<aligny>center</aligny>
+					<aspectratio>keep</aspectratio>
+				</control>
+				<!-- Anova Live Football team icon added -->
+				<control type="image">
+					<left>320</left>
+					<top>10</top>
+					<width>60</width>
+					<height>60</height>									
+					<texture>$INFO[ListItem.Icon]</texture>
+					<align>center</align>
+					<aligny>center</aligny>
+					<aspectratio>keep</aspectratio>
+					<visible>$EXP[Live_Football_Anova]</visible>	
+				</control>
+				<!-- PVR003 - END END EPG: Add Channel Resolution Icon (special icons for Live Football channels)-->
+				<!-- PVR004 - START EPG: Add Channel "Catch-up" Icon (DISABLED) -->
+				<!-- control type="image">
+					<aspectratio align="right">keep</aspectratio>
+					<!-- PVR004: left previously 375 for earlier resolution icons >
+					<left>378</left>
+					<top>30</top>
+					<width>38</width>
+					<height>38</height>
+					<texture>indicator/hasarchive.png</texture>
+					<visible>ListItem.HasArchive</visible>
+                </control>
+				<!-- PVR004 - END EPG: Add Channel "Catch-up" Icon (DISABLED) -->
+				<!-- PVR009 - START EPG: Add Channel Provider icon to EPG -->
+				<control type="image">
+					<aspectratio align="right">keep</aspectratio>
+					<left>370</left>
+					<top>31</top>
+					<width>90</width>
+					<height>38</height>
+					<texture>$VAR[ImagePVRProviderIcon]</texture>
+                </control>
+				<!-- PVR009 - END  EPG: Add Channel Provider icon to EPG -->
             </control>
         </definition>
     </include>
@@ -174,6 +238,8 @@
                 <textcolor>main_fg_70</textcolor>
                 <selectedcolor>main_fg_70</selectedcolor>
                 <label>$INFO[ListItem.$PARAM[affix]Title]</label>
+				<!-- PVR011 - font added -->
+				<font>font_mini_bold</font>
             </include>
             <include content="Object_Control" condition="!$PARAM[detailed]">
                 <param name="control">label</param>
@@ -196,6 +262,8 @@
                 <textcolor>main_fg_70</textcolor>
                 <selectedcolor>main_fg_70</selectedcolor>
                 <label>$INFO[ListItem.$PARAM[affix]Title]</label>
+				<!-- PVR011 - font added -->
+				<font>font_mini_bold</font>
             </include>
             <include content="Object_Control" condition="$PARAM[detailed]">
                 <param name="control">label</param>
@@ -261,8 +329,13 @@
                 <right>30</right>
                 <textcolor>main_fg_70</textcolor>
                 <selectedcolor>main_fg_70</selectedcolor>
-                <label>$INFO[ListItem.Label]</label>
+                <!-- PVR006 - START EPG: Display Channel Name as program info if "No information available" -->
+				<!-- Label changed from $INFO[ListItem.Label] -->
+                <label>$VAR[TextPVREPGProgramInfo]</label>
+				<!-- PVR006 - END EPG: Display Channel Name as program info if "No information available"-->
                 <visible>$PARAM[visible]</visible>
+				<!-- PVR007 - font added -->
+				<font>font_mini_bold</font>
             </include>
 
             <include content="Object_Control" condition="$PARAM[detailed]">
@@ -275,8 +348,13 @@
                 <bottom>60</bottom>
                 <textcolor>main_fg_70</textcolor>
                 <selectedcolor>main_fg_70</selectedcolor>
-                <label>$INFO[ListItem.Label]</label>
+                <!-- PVR006 - START EPG: Display Channel Name as program info if "No information available" -->
+				<!-- Label changed from $INFO[ListItem.Label] -->
+                <label>$VAR[TextPVREPGProgramInfo]</label>
+				<!-- PVR006 - END EPG: Display Channel Name as program info if "No information available"-->
                 <visible>$PARAM[visible]</visible>
+				<!-- PVR007 - font added -->
+				<font>font_mini_bold</font>
             </include>
             <include content="Object_Control" condition="$PARAM[detailed]">
                 <param name="control">label</param>
@@ -1707,7 +1785,9 @@
                         <width>$PARAM[item_h]</width>
                         <control type="image">
                             <bordersize>20</bordersize>
-                            <texture background="true" fallback="DefaultFolder.png">$INFO[ListItem.Icon]</texture>
+                            <!-- PVR002 - EPG: Remove Channel Name and Replace with Icon -->
+							<!-- texture changed from $INFO[ListItem.Icon] -->
+                            <texture background="true" fallback="DefaultFolder.png">$VAR[ImagePVREPGIcon]</texture>
                             <aspectratio>keep</aspectratio>
                         </control>
                     </include>
