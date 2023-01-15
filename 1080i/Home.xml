@@ -164,28 +164,28 @@
             </control>
         </control>
 
-        <!-- Left Header -->
-        <include content="Object_Control">
-            <param name="control">group</param>
-            <include content="Furniture_Top_Left">
-                <param name="label">$VAR[Label_HomeHeader]</param>
-            </include>
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!$EXP[Exp_RecommendationDialogs]</visible>
-            <visible>!$EXP[Exp_HomeBarVisible]</visible>
+        <control type="group">
             <animation effect="fade" start="0" end="100" time="400" delay="200" reversible="false">Visible</animation>
-        </include>
+            <visible>!$EXP[Exp_HomeBarVisible]</visible>
 
-        <!-- Codec Info -->
-        <include content="Object_Control" condition="Skin.HasSetting(Widgets.ExpandedFooter)">
-            <param name="control">group</param>
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!$EXP[Exp_HomeBarVisible]</visible>
-            <visible>!$EXP[Exp_RecommendationDialogs]</visible>
-            <visible>[String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + !String.IsEmpty(Window.Property(Slide.WidgetContainer))] | [Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen) + !String.IsEmpty(Container(300).ListItem.Property(widgetStyle))]</visible>
-            <include>Furniture_Bottom</include>
-            <animation effect="fade" start="0" end="100" time="400" delay="200" reversible="false">Visible</animation>
-        </include>
+            <control type="group">
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>!$EXP[Exp_RecommendationDialogs]</visible>
+
+                <!-- Left Header -->
+                <include content="Furniture_Top_Left">
+                    <param name="label">$VAR[Label_HomeHeader]</param>
+                </include>
+
+                <!-- Codec Info -->
+                <include content="Object_Control" condition="Skin.HasSetting(Widgets.ExpandedFooter)">
+                    <param name="control">group</param>
+                    <visible>[String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full) + !String.IsEmpty(Window.Property(Slide.WidgetContainer))] | [Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen) + !String.IsEmpty(Container(300).ListItem.Property(widgetStyle))]</visible>
+                    <animation effect="fade" start="0" end="100" time="400" delay="200" reversible="false">Visible</animation>
+                    <include>Furniture_Bottom</include>
+                </include>
+            </control>
+        </control>
 
         <!-- Submenu -->
         <include content="Object_Options_Menu">
