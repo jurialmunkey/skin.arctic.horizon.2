@@ -4,11 +4,12 @@
 		
 	<!-- PVR002 & PVR005 - Expressions for Channel Icon variable (ImagePVREPGIcon) and EPG Artwork variable (ImagePVRArtwork) -->
 	<expression name="Standard_Channel">Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,499)</expression>
-	<expression name="Live_Football_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,592)</expression>
-	<expression name="Live_EPL_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,520)</expression>
-	<expression name="Live_EFLC_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,521) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,544)</expression>
-	<expression name="Live_EFL1_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,545) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,568)</expression>
-	<expression name="Live_EFL2_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,569) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,592)</expression>
+	<expression name="Live_Football_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,599)</expression>
+	<expression name="Live_EPL_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + String.StartsWith(ListItem.ChannelName,"EPL")</expression>
+	<expression name="Live_EFLC_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + String.StartsWith(ListItem.ChannelName,"EFL") + String.Contains(ListItem.ChannelName,"(CH)"</expression>
+	<expression name="Live_EFL1_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + String.StartsWith(ListItem.ChannelName,"EFL") + String.Contains(ListItem.ChannelName,"(L1)"</expression>
+	<expression name="Live_EFL2_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + String.StartsWith(ListItem.ChannelName,"EFL") + String.Contains(ListItem.ChannelName,"(L2)"</expression>
+	<expression name="Live_NL_Anova">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + String.StartsWith(ListItem.ChannelName,"NATIONAL LEAGUE")</expression>
 	<expression name="Live_Football_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,699)</expression>
 	<expression name="Live_EPL_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + String.Contains(ListItem.ChannelName,"LIVE EPL ")</expression>
 	<expression name="Live_EFLC_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + String.Contains(ListItem.ChannelName,"LIVE EFL ") + String.Contains(ListItem.ChannelName,"(CH)")</expression>
@@ -16,9 +17,9 @@
 	<expression name="Live_EFL2_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + String.Contains(ListItem.ChannelName,"LIVE EFL ") + String.Contains(ListItem.ChannelName,"(L2)")</expression>
 	<expression name="Live_EFLPJT_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + String.Contains(ListItem.ChannelName,"LIVE EFL ") + String.Contains(ListItem.ChannelName,"(PJT)")</expression>
 	<expression name="Live_SPFL_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + String.Contains(ListItem.ChannelName,"LIVE: SPFL ")</expression>
-	<expression name="Live_NoMatch_EPL_EFL_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + String.EndsWith(ListItem.ChannelName,":")</expression>
-	<expression name="Live_NoMatch_SPFL_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + String.Contains(ListItem.ChannelName,"LIVE: SPFL ") + [String.EndsWith(ListItem.ChannelName,"01") | String.EndsWith(ListItem.ChannelName,"02") | String.EndsWith(ListItem.ChannelName,"03") | String.EndsWith(ListItem.ChannelName,"04") | String.EndsWith(ListItem.ChannelName,"05") | String.EndsWith(ListItem.ChannelName,"06")]</expression>
-	
+	<expression name="Live_NoMatch_SPFL_FHNatho">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,601) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,699) + [String.IsEqual(ListItem.ChannelName,"LIVE: SPFL 01") | String.IsEqual(ListItem.ChannelName,"LIVE: SPFL 02") | String.IsEqual(ListItem.ChannelName,"LIVE: SPFL 03") | String.IsEqual(ListItem.ChannelName,"LIVE: SPFL 04") | String.IsEqual(ListItem.ChannelName,"LIVE: SPFL 05") | String.IsEqual(ListItem.ChannelName,"LIVE: SPFL 06")]</expression>
+	<expression name="Live_Football_NoMatch">Integer.IsGreaterOrEqual(ListItem.ChannelNumberLabel,501) + Integer.IsLessOrEqual(ListItem.ChannelNumberLabel,699) + String.EndsWith(ListItem.ChannelName,":")</expression>
+
 	<!-- PVR002 - Channel Icon variable -->
 	<variable name="ImagePVREPGIcon">
 		<value condition="$EXP[Standard_Channel]">$INFO[ListItem.Icon]</value>				
@@ -26,6 +27,9 @@
 		<value condition="$EXP[Live_EFLC_Anova]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE EFL C.png</value>
 		<value condition="$EXP[Live_EFL1_Anova]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE EFL L1.png</value>
 		<value condition="$EXP[Live_EFL2_Anova]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE EFL L2.png</value>
+		<value condition="$EXP[Live_NL_Anova]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE NATIONAL LEAGUE.png</value>
+		<value condition="$EXP[Live_NL_Anova] + $EXP[Live_Football_NoMatch]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE NATIONAL LEAGUE.png</value>
+		<value condition="$EXP[Live_Football_Anova] + $EXP[Live_Football_NoMatch]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE EFL.png</value>		
 		<value condition="$EXP[Live_EPL_FHNatho]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE EPL.png</value>
 		<value condition="$EXP[Live_EFLC_FHNatho]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE EFL C.png</value>
 		<value condition="$EXP[Live_EFL1_FHNatho]">special://userdata/customisations\PVR\PVR Logo Pack\LIVE EFL L1.png</value>
@@ -74,12 +78,13 @@
 		<!-- 5. Thumb -->
 		<value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Art.Thumb))">$INFO[Window(Home).Property(SkinHelper.ListItem.Art.Thumb)]</value>
 		<value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Container(99950).ListItem.Thumb)">$INFO[Container(99950).ListItem.Thumb]</value>			
-		<!-- 6. Live Football Artwork -->
-		<value condition="$EXP[Live_Football_Anova] + !Player.HasMedia">$INFO[ListItem.Icon]</value>			
+		<!-- 6. Live Football Artwork -->			
 		<value condition="$EXP[Live_EPL_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EPL.jpg</value>
 		<value condition="$EXP[Live_EFLC_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>
 		<value condition="$EXP[Live_EFL1_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>
 		<value condition="$EXP[Live_EFL2_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>	
+		<value condition="$EXP[Live_NL_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\NATIONAL LEAGUE.jpg</value>
+		<value condition="$EXP[Live_Football_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>	
 		<value condition="$EXP[Live_EPL_FHNatho] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EPL.jpg</value>
 		<value condition="$EXP[Live_EFLC_FHNatho] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>
 		<value condition="$EXP[Live_EFL1_FHNatho] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>
@@ -114,7 +119,7 @@
 		<value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Art.Thumb))">special://userdata/customisations\PVR\provider icons\SHS.png</value>
 		<value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Container(99950).ListItem.Thumb)">special://userdata/customisations\PVR\provider icons\TMDBHelper.png</value>			
 		<!-- 6. Live Football Artwork -->
-		<value condition="$EXP[Live_Football_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\provider icons\Anova.png</value>			
+		<value condition="$EXP[Live_Football_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\provider icons\Custom.png</value>			
 		<value condition="$EXP[Live_EPL_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\provider icons\Custom.png</value>
 		<value condition="$EXP[Live_EFLC_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\provider icons\Custom.png</value>
 		<value condition="$EXP[Live_EFL1_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\provider icons\Custom.png</value>
@@ -141,8 +146,7 @@
 		<value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Art.Fanart))">$INFO[Window(Home).Property(SkinHelper.ListItem.Art.Fanart)]</value>		
 		<value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Art.ClearLogo))">$INFO[Window(Home).Property(SkinHelper.ListItem.Art.ClearLogo)]</value>		
 		<value condition="$EXP[Standard_Channel] + !Player.HasMedia + !String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Art.Thumb))">$INFO[Window(Home).Property(SkinHelper.ListItem.Art.Thumb)]</value>
-		<!-- Live Football Artwork -->
-		<value condition="$EXP[Live_Football_Anova] + !Player.HasMedia">$INFO[ListItem.Icon]</value>			
+		<!-- Live Football Artwork -->			
 		<value condition="$EXP[Live_EPL_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EPL.jpg</value>
 		<value condition="$EXP[Live_EFLC_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>
 		<value condition="$EXP[Live_EFL1_Anova] + !Player.HasMedia">special://userdata/customisations\PVR\EPG Artwork\EFL.jpg</value>
@@ -178,8 +182,8 @@
 	<!-- PVR EPG Program Info variable -->
 	<variable name="TextPVREPGProgramInfo">
 		<value condition="$EXP[Standard_Channel]">$INFO[ListItem.Label]</value>
-		<value condition="$EXP[Live_Football_Anova]">$INFO[ListItem.ChannelName] - Live Matches</value>
-		<value condition="$EXP[Live_NoMatch_EPL_EFL_FHNatho]">$INFO[ListItem.ChannelName] No Match Scheduled</value>
+		<value condition="$EXP[Live_Football_NoMatch]">$INFO[ListItem.ChannelName] No Match Scheduled</value>
+		<value condition="$EXP[Live_Football_Anova]">$INFO[ListItem.ChannelName]</value>
 		<value condition="$EXP[Live_NoMatch_SPFL_FHNatho]">$INFO[ListItem.ChannelName] No Match Scheduled</value>
 		<value condition="$EXP[Live_EPL_FHNatho]">$INFO[ListItem.ChannelName]</value>
 		<value condition="$EXP[Live_EFLC_FHNatho]">$INFO[ListItem.ChannelName]</value>
@@ -192,11 +196,12 @@
 	<!-- PVR EPG Program Plot variable -->
 	<variable name="TextPVREPGProgramPlot">
 		<value condition="$EXP[Standard_Channel]">$VAR[Label_Plot]</value>
-		<value condition="$EXP[Live_EPL_Anova]">Live match from the English Premier League featuring $INFO[ListItem.ChannelName] when available.</value>
-		<value condition="$EXP[Live_EFLC_Anova]">Live match from the English Football League Championship featuring $INFO[ListItem.ChannelName] when available.</value>
-		<value condition="$EXP[Live_EFL1_Anova]">Live match from the English Football League 1 featuring $INFO[ListItem.ChannelName] when available.</value>
-		<value condition="$EXP[Live_EFL2_Anova]">Live match from the English Football League 2 featuring $INFO[ListItem.ChannelName] when available.</value>
-		<value condition="$EXP[Live_NoMatch_EPL_EFL_FHNatho]">No match scheduled on this channel.</value>
+		<value condition="$EXP[Live_Football_NoMatch]">No match scheduled on this channel.</value>
+		<value condition="$EXP[Live_EPL_Anova]">Live match from the English Premier League.</value>
+		<value condition="$EXP[Live_EFLC_Anova]">Live match from the English Football League (Championship).</value>
+		<value condition="$EXP[Live_EFL1_Anova]">Live match from the English Football League (League 1).</value>
+		<value condition="$EXP[Live_EFL2_Anova]">Live match from the English Football League (League 2).</value>
+		<value condition="$EXP[Live_Football_NoMatch]">No match scheduled on this channel.</value>
 		<value condition="$EXP[Live_NoMatch_SPFL_FHNatho]">No match scheduled on this channel.</value>
 		<value condition="$EXP[Live_EPL_FHNatho]">Live match from the English Premier League.</value>
 		<value condition="$EXP[Live_EFLC_FHNatho]">Live match from the English Football League (Championship).</value>
