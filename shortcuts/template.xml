@@ -193,11 +193,16 @@
                     <include>Animation_Common</include>
                     <include>Animation_Foreground_FadeInOut</include>
                     <orientation>vertical</orientation>
+
+                    <onleft condition="Skin.HasSetting(Home.VerticalMenu)">SetFocus(300)</onleft>
+
                     <onup>SetFocus(300)</onup>
-                    <ondown condition="$SKINSHORTCUTS[isWidgetEndRowAction]">$SKINSHORTCUTS[widgetEndRowAction]</ondown>
-                    <ondown condition="![$SKINSHORTCUTS[isWidgetEndRowAction]]">ClearProperty(330_FocusBounce,Home)</ondown>
-                    <ondown condition="![$SKINSHORTCUTS[isWidgetEndRowAction]] + !String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
-                    <ondown condition="![$SKINSHORTCUTS[isWidgetEndRowAction]] + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
+                    <ondown condition="Skin.HasSetting(Home.VerticalMenu)">SetFocus(300)</ondown>
+
+                    <ondown condition="!Skin.HasSetting(Home.VerticalMenu) + $SKINSHORTCUTS[isWidgetEndRowAction]">$SKINSHORTCUTS[widgetEndRowAction]</ondown>
+                    <ondown condition="!Skin.HasSetting(Home.VerticalMenu) + ![$SKINSHORTCUTS[isWidgetEndRowAction]]">ClearProperty(330_FocusBounce,Home)</ondown>
+                    <ondown condition="!Skin.HasSetting(Home.VerticalMenu) + ![$SKINSHORTCUTS[isWidgetEndRowAction]] + !String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">SetFocus(330)</ondown>
+                    <ondown condition="!Skin.HasSetting(Home.VerticalMenu) + ![$SKINSHORTCUTS[isWidgetEndRowAction]] + String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Full)">AlarmClock(330_FocusBounce_Reset,SetProperty(330_FocusBounce,1,Home),00:00,silent)</ondown>
 
                     <include content="Object_Control" condition="$SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]">
                         <param name="control">group</param>
@@ -1191,8 +1196,15 @@
         <property name="isFullscreenStandard" tag="property" attribute="name|widgetStyle" value="Banner">False</property>
         <property name="isFullscreenStandard">True</property>
         <controls>
-            <ondown condition="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + $SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]">$PYTHON[int(mainmenuid) * 1000 + 599]</ondown>
-            <ondown condition="String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + ![$SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]]">$PYTHON[int(mainmenuid) * 1000 + 600]</ondown>
+
+            <onright condition="Skin.HasSetting(Home.VerticalMenu) + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + !Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + !String.IsEmpty(Window(Home).Property(TMDBHelper.WidgetContainer))">SetFocus($INFO[Window(Home).Property(TMDBHelper.WidgetContainer)])</onright>
+            <onright condition="Skin.HasSetting(Home.VerticalMenu) + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + $SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]">$PYTHON[int(mainmenuid) * 1000 + 599]</onright>
+            <onright condition="Skin.HasSetting(Home.VerticalMenu) + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + $SKINSHORTCUTS[isFullscreenWidget] + !$SKINSHORTCUTS[isFullscreenStandard]">301</onright>
+            <onright condition="Skin.HasSetting(Home.VerticalMenu) + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + Integer.IsEqual(Window(Home).Property(TMDBHelper.WidgetContainer),301) + !$SKINSHORTCUTS[isFullscreenWidget]">$PYTHON[int(mainmenuid) * 1000 + 601]</onright>
+
+            <ondown condition="!Skin.HasSetting(Home.VerticalMenu) + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + $SKINSHORTCUTS[isFullscreenWidget] + $SKINSHORTCUTS[isFullscreenStandard]">$PYTHON[int(mainmenuid) * 1000 + 599]</ondown>
+            <ondown condition="!Skin.HasSetting(Home.VerticalMenu) + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + $SKINSHORTCUTS[isFullscreenWidget] + !$SKINSHORTCUTS[isFullscreenStandard]">301</ondown>
+            <ondown condition="!Skin.HasSetting(Home.VerticalMenu) + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + !$SKINSHORTCUTS[isFullscreenWidget]">$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
         </controls>
     </other>
 

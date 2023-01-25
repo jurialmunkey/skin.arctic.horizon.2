@@ -115,7 +115,10 @@
                                 <label>$LOCALIZE[31175]</label>
                                 <label2>$VAR[Label_Setting_MenuStyle]</label2>
                                 <visible>Container(3).HasFocus(1)</visible>
-                                <onclick>Skin.ToggleSetting(Home.IconicMenu)</onclick>
+                                <onclick condition="!Skin.HasSetting(Home.IconicMenu)">Skin.SetBool(Home.IconicMenu)</onclick>
+                                <onclick condition="Skin.HasSetting(Home.IconicMenu) + !Skin.HasSetting(Home.VerticalMenu)">Skin.SetBool(Home.VerticalMenu)</onclick>
+                                <onclick condition="Skin.HasSetting(Home.IconicMenu) + Skin.HasSetting(Home.VerticalMenu)">Skin.Reset(Home.IconicMenu)</onclick>
+                                <onclick condition="Skin.HasSetting(Home.IconicMenu) + Skin.HasSetting(Home.VerticalMenu)">Skin.Reset(Home.VerticalMenu)</onclick>
                                 <onclick>ReloadSkin()</onclick>
                                 <onclick>SetFocus(1005)</onclick>
                             </include>
@@ -285,7 +288,7 @@
                             <include content="Dialog_Settings_Button" description="Pressing Up from HomeMenu">
                                 <param name="id">3002</param>
                                 <param name="control" value="button" />
-                                <label>$LOCALIZE[31179]</label>
+                                <label>$VAR[Label_Setting_HomeMenuDirectionPress]</label>
                                 <label2>$VAR[Label_Setting_HomeMenuUp]</label2>
                                 <visible>Container(3).HasFocus(3)</visible>
                                 <onclick condition="String.IsEmpty(Skin.String(HomeMenu.OnUp))">Skin.SetString(HomeMenu.OnUp,PowerMenu)</onclick>
