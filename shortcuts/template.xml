@@ -611,6 +611,10 @@
             <property name="isSubmenu" tag="property" attribute="name|list" value="Submenu">True</property>
             <property name="isSubmenu">False</property>
 
+            <!-- IsSubmenu -->
+            <property name="isStacked" tag="property" attribute="name|list" value="Stacked">True</property>
+            <property name="isStacked">False</property>
+
             <!-- IsVisible -->
             <property name="isVisible" tag="property" attribute="name|list" value="Fullscreen">False</property>
             <property name="isVisible">True</property>
@@ -667,27 +671,33 @@
                     <param name="spacerid" value="$PYTHON[int(mainmenuid) * 1000 + 800 + int(id)]" />
                     <param name="buttonid" value="$PYTHON[(int(mainmenuid) * 1000 + int(id)) * 100]" />
                     <param name="label" value="$SKINSHORTCUTS[widgetName]" />
+                    <param name="usealtlabel" value="$SKINSHORTCUTS[isStacked]" />
+                    <param name="altlabel">$INFO[Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id) - 1]).ListItem.Label]</param>
                     <param name="usewidgetlabel" value="$SKINSHORTCUTS[widgetLabelName]" />
                     <param name="include" value="$SKINSHORTCUTS[widgetStyle]" />
-                    <param name="visible" value="[[$SKINSHORTCUTS[isVisible]] + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])]" />
+                    <param name="visible" value="[[$SKINSHORTCUTS[isVisible]] + String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility]) + [![$SKINSHORTCUTS[isStacked]] | [!Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id) - 1]).NumItems,0) + Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id) - 1]).ListItem.IsFolder]]]" />
                     <param name="infowidget" value="$SKINSHORTCUTS[isInfo]" />
                     <param name="infowidget_full" value="$SKINSHORTCUTS[isInfoFull]" />
                     <param name="busy_visible" value="Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,0)" />
                     <param name="detailed">$SKINSHORTCUTS[widgetDetailed]</param>
                     <param name="oversized">$SKINSHORTCUTS[isOversize]</param>
-                    <include content="Object_ContentDynamic" condition="!$SKINSHORTCUTS[isAutoLimit] + !$SKINSHORTCUTS[isSubmenu]">
+                    <include content="Widget_ContentDynamic" condition="!$SKINSHORTCUTS[isSubmenu] + !$SKINSHORTCUTS[isStacked]">
                         <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
                         <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
                         <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
                         <param name="limit">$SKINSHORTCUTS[widgetLimit]</param>
+                        <param name="autolimit">$SKINSHORTCUTS[widgetAutoLimit]</param>
+                        <param name="is_autolimit">$SKINSHORTCUTS[isAutoLimit]</param>
                         <param name="content">$SKINSHORTCUTS[widgetPath]</param>
                     </include>
-                    <include content="Object_ContentDynamic" condition="$SKINSHORTCUTS[isAutoLimit] + !$SKINSHORTCUTS[isSubmenu]">
+                    <include content="Widget_ContentDynamic" condition="!$SKINSHORTCUTS[isSubmenu] + $SKINSHORTCUTS[isStacked]">
                         <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
                         <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
                         <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
-                        <param name="limit">$SKINSHORTCUTS[widgetAutoLimit]</param>
-                        <param name="content">$SKINSHORTCUTS[widgetPath]</param>
+                        <param name="limit">$SKINSHORTCUTS[widgetLimit]</param>
+                        <param name="autolimit">$SKINSHORTCUTS[widgetAutoLimit]</param>
+                        <param name="is_autolimit">$SKINSHORTCUTS[isAutoLimit]</param>
+                        <param name="content">$INFO[Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id) - 1]).ListItem.FolderPath]</param>
                     </include>
                     <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isAutoScroll] + !$SKINSHORTCUTS[isSubmenu]">
                         <param name="condition" value="!Control.HasFocus($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])" />
@@ -698,6 +708,11 @@
                         <param name="onclick">ActivateWindow($SKINSHORTCUTS[widgetTarget],$SKINSHORTCUTS[widgetPath],return)</param>
                         <param name="visible">Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$SKINSHORTCUTS[widgetLimit]) | Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).NumItems,$PYTHON[int(widgetLimitNumber) + 1])</param>
                     </include>
+
+                    <include content="Object_ContentItem" condition="$SKINSHORTCUTS[isStacked] + !$SKINSHORTCUTS[isSubmenu]">
+                        <param name="visible">Integer.IsEqual(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id) - 1]).NumItems,0) | String.IsEmpty(Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id) - 1]).ListItem.FolderPath)</param>
+                    </include>
+
                     <include content="Object_ContentInclude" condition="$SKINSHORTCUTS[isSubmenu]">
                         <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</param>
                     </include>
