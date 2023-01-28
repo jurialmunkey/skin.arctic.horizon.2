@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="Widget_ContentDynamic">
+        <param name="is_autolimit">false</param>
+        <definition>
+            <include content="Object_ContentDynamic" condition="![$PARAM[is_autolimit]]">
+                <param name="sortby">$PARAM[sortby]</param>
+                <param name="sortorder">$PARAM[sortorder]</param>
+                <param name="target">$PARAM[target]</param>
+                <param name="limit">$PARAM[limit]</param>
+                <param name="content">$PARAM[content]</param>
+            </include>
+            <include content="Object_ContentDynamic" condition="$PARAM[is_autolimit]">
+                <param name="sortby">$PARAM[sortby]</param>
+                <param name="sortorder">$PARAM[sortorder]</param>
+                <param name="target">$PARAM[target]</param>
+                <param name="limit">$PARAM[autolimit]</param>
+                <param name="content">$PARAM[content]</param>
+            </include>
+        </definition>
+    </include>
+
     <include name="Widget_Label">
+        <param name="usealtlabel">false</param>
         <param name="usewidgetlabel">false</param>
         <param name="infowidget">false</param>
         <param name="labelvisible">true</param>
@@ -20,8 +41,8 @@
                     <height>30</height>
                     <aligny>center</aligny>
                     <textcolor>main_fg_30</textcolor>
-                    <include content="Object_Label" condition="$PARAM[usewidgetlabel]">
-                        <param name="label">[CAPITALIZE]$INFO[Container($PARAM[id]).ListItem.Property(widget)][/CAPITALIZE]</param>
+                    <include content="Object_Label" condition="$PARAM[usealtlabel]">
+                        <param name="label">[CAPITALIZE]$PARAM[altlabel][/CAPITALIZE]</param>
                     </include>
                     <label>$PARAM[label]</label>
                     <font>font_main_bold</font>
@@ -33,6 +54,9 @@
                     <height>30</height>
                     <aligny>center</aligny>
                     <textcolor>main_fg_100</textcolor>
+                    <include content="Object_Label" condition="$PARAM[usealtlabel]">
+                        <param name="label">[CAPITALIZE]$PARAM[altlabel][/CAPITALIZE]</param>
+                    </include>
                     <include content="Object_Label" condition="$PARAM[usewidgetlabel]">
                         <param name="label">[CAPITALIZE]$INFO[Container($PARAM[id]).ListItem.Property(widget)][/CAPITALIZE]</param>
                     </include>
@@ -99,9 +123,14 @@
                     <animation type="Visible" reversible="false">
                         <effect type="fade" start="0" end="100" time="400" delay="600"/>
                     </animation>
-                    <include content="Object_BusySpinner">
+                    <include content="Object_BusySpinner" condition="![$PARAM[usealtlabel]]">
                         <param name="colordiffuse">main_fg</param>
                         <param name="label">$LOCALIZE[31023] $PARAM[label]</param>
+                        <param name="spinspinner">$PARAM[busy_visible]</param>
+                    </include>
+                    <include content="Object_BusySpinner" condition="[$PARAM[usealtlabel]]">
+                        <param name="colordiffuse">main_fg</param>
+                        <param name="label">$LOCALIZE[31023] $PARAM[altlabel]</param>
                         <param name="spinspinner">$PARAM[busy_visible]</param>
                     </include>
                 </control>
@@ -194,6 +223,8 @@
                 <param name="visible">[[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[nodeid]).IsUpdating | !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0)] + !Integer.IsEqual(Container($PARAM[nodeid]).NumItems,0) + [[!String.IsEmpty(Container($PARAM[nodeid]).ListItem.FolderPath) + Container($PARAM[nodeid]).ListItem.IsFolder] | !String.IsEmpty(Container($PARAM[nodeid]).ListItem.Property(folderpath)) | !String.IsEmpty(Container($PARAM[nodeid]).ListItem.Property(list))]]</param>
                 <param name="busy_visible">[Container($PARAM[nodeid]).IsUpdating | Container($PARAM[id]).IsUpdating]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
+                <param name="usealtlabel">$PARAM[usealtlabel]</param>
+                <param name="altlabel">$PARAM[altlabel]</param>
                 <param name="infowidget">$PARAM[infowidget]</param>
                 <param name="infowidget_full">$PARAM[infowidget_full]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
@@ -399,6 +430,8 @@
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="usealtlabel">$PARAM[usealtlabel]</param>
+                <param name="altlabel">$PARAM[altlabel]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="visible">[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</param>
                 <param name="busy_visible">[Container($PARAM[id]).IsUpdating | $PARAM[busy_isupdating]] + $PARAM[busy_visible]</param>
@@ -611,6 +644,8 @@
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="usealtlabel">$PARAM[usealtlabel]</param>
+                <param name="altlabel">$PARAM[altlabel]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="visible">[Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]] + $PARAM[visible]</param>
                 <param name="busy_visible">[Container($PARAM[id]).IsUpdating | $PARAM[busy_isupdating]] + $PARAM[busy_visible]</param>
