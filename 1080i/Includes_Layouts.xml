@@ -827,7 +827,8 @@
 
                     <!-- Indicator for items that are playable -->
                     <control type="group">
-                        <visible>!String.IsEmpty(ListItem.FileExtension) | String.IsEqual(ListItem.Property(IsPlayable),true)</visible>
+                        <!-- MISC005: add  " | ListItem.IsFolder to visible tag -->
+                        <visible>!String.IsEmpty(ListItem.FileExtension) | String.IsEqual(ListItem.Property(IsPlayable),true) | ListItem.IsFolder</visible>
                         <include content="Object_Indicator_List">
                             <centertop>50%</centertop>
                             <centerleft>10</centerleft>
@@ -854,7 +855,8 @@
 
                     <!-- Other content -->
                     <control type="group">
-                        <visible>![!String.IsEmpty(ListItem.FileExtension) | String.IsEqual(ListItem.Property(IsPlayable),true)]</visible>
+						<!-- MISC005: add  " | ListItem.IsFolder to visible tag -->
+                        <visible>![!String.IsEmpty(ListItem.FileExtension) | String.IsEqual(ListItem.Property(IsPlayable),true) | ListItem.IsFolder]</visible>
                         <include content="Object_Control">
                             <param name="control">label</param>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
