@@ -68,7 +68,7 @@
                 <onclick>ClearProperty(MenuSelect)</onclick>
                 <include>skinshortcuts-template-menubar</include>
             </include>
-            <include content="Object_Control" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+            <include content="Object_Control" condition="!Skin.HasSetting(Home.DisableSearchMenu) + !Skin.HasSetting(Home.TextMenu)">
                 <param name="control">image</param>
                 <left>20</left>
                 <width>80</width>
@@ -78,7 +78,7 @@
                 <bordersize>4</bordersize>
                 <texture colordiffuse="main_fg_70">special://skin/extras/icons/search.png</texture>
             </include>
-            <include content="Object_MenuBar_List">
+            <include content="Object_MenuBar_List" condition="!Skin.HasSetting(Home.TextMenu)">
                 <param name="id" value="300" />
                 <param name="color_nf" value="main_fg" />
                 <param name="altfocus" value="Control.HasFocus(399)" />
@@ -90,7 +90,96 @@
                 <include>skinshortcuts-template-menubar</include>
                 <content><include>skinshortcuts-mainmenu</include></content>
             </include>
+            <include condition="Skin.HasSetting(Home.TextMenu)">Home_Horz_Menubar_Text</include>
         </include>
+    </include>
+
+    <include name="Home_Horz_Menubar_Text">
+        <include content="Object_Hidden_List">
+            <param name="id" value="300" />
+            <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetFocus(399)</onfocus>
+            <onfocus condition="String.IsEmpty(Window.Property(MenuSelect))">SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
+            <include>skinshortcuts-template-menubar</include>
+            <content><include>skinshortcuts-mainmenu</include></content>
+        </include>
+
+        <!-- Need icon for bumper -->
+        <control type="image">
+            <left>20</left>
+            <width>80</width>
+            <height>60</height>
+            <centertop>50%</centertop>
+            <aspectratio>keep</aspectratio>
+            <bordersize>0</bordersize>
+            <texture colordiffuse="main_fg_70">special://skin/extras/icons/home.png</texture>
+            <visible>Skin.HasSetting(Home.DisableSearchMenu) + !Control.HasFocus(302)</visible>
+        </control>
+        <control type="image">
+            <left>20</left>
+            <width>80</width>
+            <height>60</height>
+            <centertop>50%</centertop>
+            <aspectratio>keep</aspectratio>
+            <bordersize>4</bordersize>
+            <texture colordiffuse="main_fg_70">special://skin/extras/icons/search.png</texture>
+            <visible>!Skin.HasSetting(Home.DisableSearchMenu) + !Control.HasFocus(302)</visible>
+        </control>
+        <control type="image">
+            <left>20</left>
+            <width>80</width>
+            <height>60</height>
+            <centertop>50%</centertop>
+            <aspectratio>keep</aspectratio>
+            <bordersize>4</bordersize>
+            <texture colordiffuse="main_fg_70">$INFO[Container(300).ListITem.Icon]</texture>
+            <visible>Control.HasFocus(302)</visible>
+        </control>
+
+        <control type="grouplist">
+            <height>256</height>
+            <centertop>20</centertop>
+            <left>80</left>
+            <orientation>horizontal</orientation>
+            <itemgap>-60</itemgap>
+            <include>skinshortcuts-template-menubar</include>
+            <onfocus>SetFocus(399)</onfocus>
+            <include>skinshortcuts-template-textmenu</include>
+        </control>
+    </include>
+
+    <include name="Home_Horz_Menubar_Text_Button">
+        <control type="togglebutton">
+            <texturefocus />
+            <texturenofocus />
+            <alttexturefocus border="80">special://profile/addon_data/script.texturemaker/ArcticHorizon/menumain_h.png</alttexturefocus>
+            <alttexturenofocus border="80">special://profile/addon_data/script.texturemaker/ArcticHorizon/menumain_h.png</alttexturenofocus>
+            <usealttexture>String.IsEqual(Container(300).ListItem.Label,$PARAM[label]) + !Control.HasFocus(302)</usealttexture>
+            <visible>Control.HasFocus(300) | Control.HasFocus(399)</visible>
+            <height>256</height>
+            <width>auto</width>
+            <label>$PARAM[label]</label>
+            <altlabel>[COLOR=$VAR[ColorSelected]]$PARAM[label][/COLOR]</altlabel>
+            <textoffsetx>80</textoffsetx>
+            <font>font_main_bold</font>
+            <textcolor>main_fg_70</textcolor>
+            <aligny>center</aligny>
+        </control>
+        <control type="togglebutton">
+            <texturefocus />
+            <texturenofocus />
+            <alttexturefocus border="80" colordiffuse="dialog_bg_100">common/menumain.png</alttexturefocus>
+            <alttexturenofocus border="80" colordiffuse="dialog_bg_100">common/menumain.png</alttexturenofocus>
+            <usealttexture>String.IsEqual(Container(300).ListItem.Label,$PARAM[label]) + !Control.HasFocus(302)</usealttexture>
+            <visible>![Control.HasFocus(300) | Control.HasFocus(399)]</visible>
+            <height>256</height>
+            <width>auto</width>
+            <label>$PARAM[label]</label>
+            <altlabel>[COLOR=dialog_fg_70]$PARAM[label][/COLOR]</altlabel>
+            <textoffsetx>80</textoffsetx>
+            <font>font_main_bold</font>
+            <textcolor>main_fg_70</textcolor>
+            <aligny>center</aligny>
+        </control>
     </include>
 
 
@@ -468,10 +557,10 @@
             <param name="usegrouplist" value="false" />
             <param name="nib_pos" value="420" />
             <param name="useanimation" value="false" />
-            <include content="Object_Left" condition="Skin.HasSetting(Home.DisableSearchMenu)">
+            <include content="Object_Left" condition="Skin.HasSetting(Home.DisableSearchMenu) | Skin.HasSetting(Home.TextMenu)">
                 <param name="left">40</param>
             </include>
-            <include content="Object_Left" condition="!Skin.HasSetting(Home.DisableSearchMenu)">
+            <include content="Object_Left" condition="!Skin.HasSetting(Home.DisableSearchMenu) + !Skin.HasSetting(Home.TextMenu)">
                 <param name="left">140</param>
             </include>
             <animation effect="slide" start="0" end="100" condition="Container(300).Position(1)">Conditional</animation>
