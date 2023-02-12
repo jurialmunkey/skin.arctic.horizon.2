@@ -467,12 +467,14 @@
 
     <include name="Dialog_Menu_Button">
         <param name="bordersize" default="10" />
+        <param name="flipside">false</param>
         <definition>
             <include content="Dialog_Settings_Button">
                 <param name="id" value="$PARAM[id]" />
                 <param name="control" value="$PARAM[control]" />
                 <visible>Control.IsEnabled($PARAM[id])</visible>
-                <textoffsetx>grid_x04</textoffsetx>
+                <include content="Object_TextOffsetX" condition="!$PARAM[flipside]"><param name="textoffsetx">grid_x04</param></include>
+                <include content="Object_TextOffsetX" condition="$PARAM[flipside]"><param name="textoffsetx">grid_x12</param></include>
                 <textwidth>356</textwidth>
                 <radioposx>340</radioposx>
                 <nested />
@@ -481,19 +483,36 @@
                 <width>grid_x08</width>
                 <height>grid_x08</height>
                 <top>-grid_x08</top>
-                <right>grid_x02</right>
+                <include content="Object_Right" condition="!$PARAM[flipside]"><param name="right">grid_x02</param></include>
+                <include content="Object_Left" condition="$PARAM[flipside]"><param name="left">grid_x02</param></include>
                 <visible>Control.IsEnabled($PARAM[id]) + Control.IsVisible($PARAM[id])</visible>
                 <control type="image">
-                    <right>0</right>
+                    <include content="Object_Right" condition="!$PARAM[flipside]"><param name="right">0</param></include>
+                    <include content="Object_Left" condition="$PARAM[flipside]"><param name="left">0</param></include>
                     <bordersize>$PARAM[bordersize]</bordersize>
-                    <aspectratio align="right">keep</aspectratio>
+                    <include content="Object_AspectRatio" condition="!$PARAM[flipside]">
+                        <param name="aspectratio">keep</param>
+                        <param name="align">right</param>
+                    </include>
+                    <include content="Object_AspectRatio" condition="$PARAM[flipside]">
+                        <param name="aspectratio">keep</param>
+                        <param name="align">left</param>
+                    </include>
                     <texture colordiffuse="dialog_fg_70">$PARAM[icon]</texture>
                     <visible>!Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
-                    <right>0</right>
+                    <include content="Object_Right" condition="!$PARAM[flipside]"><param name="right">0</param></include>
+                    <include content="Object_Left" condition="$PARAM[flipside]"><param name="left">0</param></include>
                     <bordersize>$PARAM[bordersize]</bordersize>
-                    <aspectratio align="right">keep</aspectratio>
+                    <include content="Object_AspectRatio" condition="!$PARAM[flipside]">
+                        <param name="aspectratio">keep</param>
+                        <param name="align">right</param>
+                    </include>
+                    <include content="Object_AspectRatio" condition="$PARAM[flipside]">
+                        <param name="aspectratio">keep</param>
+                        <param name="align">left</param>
+                    </include>
                     <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
                     <visible>Control.HasFocus($PARAM[id])</visible>
                 </control>
