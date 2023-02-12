@@ -533,7 +533,7 @@
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
 
-                    <!-- Genres -->
+                    <!-- Genres = TMDb Split (movie / tvshow) -->
                     <include content="Info_Line_Label" condition="!$PARAM[player] + Skin.HasSetting(Infoline.EnableGenre)">
                         <param name="controltype" value="$PARAM[controltype]" />
                         <param name="label" value="$INFO[$PARAM[container]ListItem.Property(Genre.1.Name)]" />
@@ -544,6 +544,13 @@
                         <param name="controltype" value="$PARAM[controltype]" />
                         <param name="label" value="$INFO[Container(99950).ListItem.Property(Genre.1.Name)]" />
                         <param name="visible" value="String.IsEmpty($PARAM[container]ListItem.Property(Genre.1.Name)) + !String.IsEmpty(Container(99950).ListItem.Property(Genre.1.Name)) + [String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,movie)]" />
+                        <param name="textcolor" value="$PARAM[colordiffuse]_90" />
+                    </include>
+                    <!-- Genres = ListITem (pvr) -->
+                    <include content="Info_Line_Label" condition="!$PARAM[player] + Skin.HasSetting(Infoline.EnableGenre)">
+                        <param name="controltype" value="$PARAM[controltype]" />
+                        <param name="label" value="$INFO[$PARAM[container]ListItem.Genre]" />
+                        <param name="visible" value="!String.IsEmpty($PARAM[container]ListItem.Genre) + $EXP[Exp_IsPVRItem]" />
                         <param name="textcolor" value="$PARAM[colordiffuse]_90" />
                     </include>
 
