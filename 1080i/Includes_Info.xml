@@ -1248,8 +1248,7 @@
     <include name="Info_Codecs_MonoIcon">
         <param name="colordiffuse">main_fg_90</param>
         <definition>
-            <include content="Object_Control" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
-                <param name="control">group</param>
+            <control type="group">
                 <centertop>50%</centertop>
                 <width>$PARAM[basewidth]</width>
                 <height>40</height>
@@ -1262,7 +1261,7 @@
                     <texture fallback="flags/generic.png" colordiffuse="$PARAM[colordiffuse]">flags/color/$PARAM[icon]</texture>
                 </control>
                 <visible>$PARAM[visible]</visible>
-            </include>
+            </control>
         </definition>
     </include>
 
@@ -1375,7 +1374,7 @@
                 </include> -->
 
                 <!-- Resolution -->
-                <include content="Info_Codecs_MonoIcon">
+                <include content="Info_Codecs_MonoIcon" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <param name="icon">resolution/$INFO[ListItem.VideoResolution].png</param>
                     <param name="basewidth">42</param>
                     <param name="iconwidth">64</param>
@@ -1384,7 +1383,7 @@
                 </include>
 
                 <!-- Codec / Aspect -->
-                <include content="Info_Codecs_StackedText">
+                <include content="Info_Codecs_StackedText" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <param name="toplabel">$INFO[ListItem.VideoCodec]</param>
                     <param name="bottomlabel">$INFO[ListItem.VideoAspect,,:1]</param>
                     <visible>!String.IsEmpty(ListItem.VideoCodec)</visible>
@@ -1392,7 +1391,7 @@
                 </include>
 
                 <!-- AudioCodec -->
-                <include content="Info_Codecs_MonoIcon">
+                <include content="Info_Codecs_MonoIcon" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <param name="icon">$VAR[Image_AudioCodec]</param>
                     <param name="basewidth">56</param>
                     <param name="iconwidth">100</param>
@@ -1401,7 +1400,7 @@
                 </include>
 
                 <!-- Audio Channels -->
-                <include content="Info_Codec_AudioChannels">
+                <include content="Info_Codec_AudioChannels" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <param name="type">ListItem</param>
                     <param name="channelscolor">main_fg_90</param>
                     <param name="iconcolor">main_fg_90</param>
@@ -1409,7 +1408,7 @@
                 </include>
 
                 <!-- 3d Stereoscopic -->
-                <include content="Info_Codecs_MonoIcon">
+                <include content="Info_Codecs_MonoIcon" condition="!Skin.HasSetting(Codecs.DisableMediaCodecIcons)">
                     <param name="icon">other/3D.png</param>
                     <param name="basewidth">48</param>
                     <param name="iconwidth">64</param>
@@ -1546,7 +1545,7 @@
                 <height>grid_x08</height>
                 <centertop>50%</centertop>
                 <usecontrolcoords>true</usecontrolcoords>
-                <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.VideoResolution)</visible>
+                <visible>[String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.VideoResolution)] | Skin.HasSetting(Codecs.DisableMediaCodecIcons)</visible>
                 <control type="group">
                     <width>10</width>
                 </control>
@@ -1714,7 +1713,6 @@
                 <texture background="true" diffuse="diffuse/provider_circle.png">$INFO[Container(99950).ListItem.Property(Provider.$PARAM[pos].Icon)]</texture>
             </control>
             <visible>!String.IsEmpty(Container(99950).ListItem.Property(Provider.$PARAM[pos].Icon))</visible>
-            <visible>String.IsEmpty(ListItem.VideoCodec) + String.IsEmpty(ListItem.AudioCodec)</visible>
             <visible>[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)]</visible>
         </include>
     </include>
