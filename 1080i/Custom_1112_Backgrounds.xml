@@ -3,8 +3,10 @@
     <defaultcontrol always="true">9099</defaultcontrol>
     <onload>SetProperty(BackgroundStyle,$INFO[Skin.String(BackgroundStyle)])</onload>
     <onload>SetProperty(ForegroundStyle,$INFO[Skin.String(ForegroundStyle)])</onload>
+    <onload condition="Skin.HasSetting(Background.NarrowPlot)">SetProperty(NarrowPlot,1)</onload>
+    <onload condition="!Skin.HasSetting(Background.NarrowPlot)">ClearProperty(NarrowPlot)</onload>
 
-    <onunload condition="!String.IsEqual(Window.Property(BackgroundStyle),Skin.String(BackgroundStyle)) | !String.IsEqual(Window.Property(ForegroundStyle),Skin.String(ForegroundStyle))">AlarmClock(reloadskin,ReloadSkin(),00:01,silent)</onunload>
+    <onunload condition="!String.IsEqual(Window.Property(BackgroundStyle),Skin.String(BackgroundStyle)) | !String.IsEqual(Window.Property(ForegroundStyle),Skin.String(ForegroundStyle)) | [Skin.HasSetting(Background.NarrowPlot) + String.IsEmpty(Window.Property(NarrowPlot))] | [!Skin.HasSetting(Background.NarrowPlot) + !String.IsEmpty(Window.Property(NarrowPlot))]">AlarmClock(reloadskin,ReloadSkin(),00:01,silent)</onunload>
 
     <controls>
         <include>Background_Main</include>
@@ -173,6 +175,22 @@
                             <onclick>Skin.ToggleSetting(Titles.EnableWrapping)</onclick>
                             <selected>Skin.HasSetting(Titles.EnableWrapping)</selected>
                         </include>
+                        <include content="Dialog_Settings_Button" description="Extra fanart">
+                            <param name="id" value="8024" />
+                            <param name="control" value="radiobutton" />
+                            <label>$LOCALIZE[31226]</label>
+                            <onclick>Skin.ToggleSetting(Background.ExtraFanart)</onclick>
+                            <selected>Skin.HasSetting(Background.ExtraFanart)</selected>
+                            <visible>Skin.String(BackgroundStyle,Fanart)</visible>
+                        </include>
+                        <include content="Dialog_Settings_Button" description="Shorter Plot Title">
+                            <param name="id" value="8026" />
+                            <param name="control" value="radiobutton" />
+                            <label>$LOCALIZE[31380]</label>
+                            <onclick>Skin.ToggleSetting(Background.NarrowPlot)</onclick>
+                            <selected>Skin.HasSetting(Background.NarrowPlot)</selected>
+                            <visible>!Skin.String(BackgroundStyle,Fanart)</visible>
+                        </include>
                         <include content="Dialog_Settings_Button" description="Simple background (information)">
                             <param name="id" value="8021" />
                             <param name="control" value="radiobutton" />
@@ -194,14 +212,6 @@
                             <onclick>Skin.ToggleSetting(Widgets.DisableExpandedBackground)</onclick>
                             <selected>Skin.HasSetting(Widgets.DisableExpandedBackground) + !Skin.HasSetting(Widgets.DisableSimpleBackground)</selected>
                             <enable>!Skin.HasSetting(Widgets.DisableSimpleBackground)</enable>
-                        </include>
-                        <include content="Dialog_Settings_Button" description="Extra fanart">
-                            <param name="id" value="8024" />
-                            <param name="control" value="radiobutton" />
-                            <label>$LOCALIZE[31226]</label>
-                            <onclick>Skin.ToggleSetting(Background.ExtraFanart)</onclick>
-                            <selected>Skin.HasSetting(Background.ExtraFanart)</selected>
-                            <enable>Skin.String(BackgroundStyle,Fanart)</enable>
                         </include>
 
                     </control>
