@@ -207,7 +207,8 @@
                         <aligny>top</aligny>
                         <textoffsetx>0</textoffsetx>
                         <onclick>ActivateWindow(osdaudiosettings)</onclick>
-                        <onup>SetFocus(6601)</onup>
+                        <onup condition="!Skin.HasSetting(OSD.DisablePopUpDialogs)">SetFocus(6601)</onup>
+                        <onup condition="Skin.HasSetting(OSD.DisablePopUpDialogs)">ActivateWindow(1143)</onup>
                     </include>
                     <include content="OSD_Button">
                         <param name="autoclose" value="true" />
@@ -224,7 +225,8 @@
                         <aligny>top</aligny>
                         <textoffsetx>0</textoffsetx>
                         <onclick>ActivateWindow(osdsubtitlesettings)</onclick>
-                        <onup>SetFocus(6701)</onup>
+                        <onup condition="!Skin.HasSetting(OSD.DisablePopUpDialogs)">SetFocus(6701)</onup>
+                        <onup condition="Skin.HasSetting(OSD.DisablePopUpDialogs)">ActivateWindow(1144)</onup>
                     </include>
                     <include content="OSD_Button">
                         <param name="autoclose" value="true" />
@@ -239,17 +241,21 @@
                 </control>
 
                 <!-- Audio Tracks -->
-                <include content="OSD_Stream_Selector">
+                <include content="OSD_Stream_Selector" condition="!Skin.HasSetting(OSD.DisablePopUpDialogs)">
                     <param name="id" value="6601" />
                     <param name="buttonid" value="6600" />
                     <param name="stream_type" value="audio" />
                     <param name="header" value="$LOCALIZE[292]" />
                     <param name="nibpos" value="250" />
                     <param name="method" value="set_player_audiostream" />
+                    <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                    <visible>Control.HasFocus(6600) | Control.HasFocus(6601)</visible>
+                    <visible>!Integer.IsEqual(Container(6601).NumItems,0) | Container(6601).IsUpdating</visible>
+                    <animation effect="fade" start="100" end="0" condition="Integer.IsEqual(Container(6601).NumItems,0)">Conditional</animation>
                 </include>
 
                 <!-- Subtitles -->
-                <include content="OSD_Stream_Selector">
+                <include content="OSD_Stream_Selector" condition="!Skin.HasSetting(OSD.DisablePopUpDialogs)">
                     <param name="id" value="6701" />
                     <param name="buttonid" value="6700" />
                     <param name="stream_type" value="subtitle" />
@@ -259,6 +265,10 @@
                     <param name="method" value="set_player_subtitle" />
                     <param name="enabled" value="VideoPlayer.SubtitlesEnabled" />
                     <param name="toggle" value="true" />
+                    <visible>!Window.IsVisible(DialogSettings.xml)</visible>
+                    <visible>Control.HasFocus(6700) | Control.HasFocus(6701)</visible>
+                    <visible>!Integer.IsEqual(Container(6701).NumItems,0) | Container(6701).IsUpdating</visible>
+                    <animation effect="fade" start="100" end="0" condition="Integer.IsEqual(Container(6701).NumItems,0)">Conditional</animation>
                 </include>
 
                 <!-- Settings -->
@@ -268,7 +278,7 @@
                     <visible>!Window.IsVisible(videobookmarks)</visible>
                     <visible>!Window.IsVisible(pvrchannelguide)</visible>
                     <visible>!Window.IsVisible(DialogSettings.xml)</visible>
-                    <visible>Control.HasFocus(6800) | ControlGroup(6801).HasFocus() | Control.HasFocus(7800)</visible>
+                    <visible>[Control.HasFocus(6800) + !Skin.HasSetting(OSD.DisablePopUpDialogs)] | ControlGroup(6801).HasFocus() | Control.HasFocus(7800)</visible>
                     <include>Animation_SlideIn_Dialog</include>
                     <right>40</right>
                     <width>480</width>
@@ -359,6 +369,8 @@
             <visible>!Window.IsVisible(videobookmarks)</visible>
             <visible>!Window.IsVisible(pvrosdguide)</visible>
             <visible>!Window.IsVisible(1141)</visible>
+            <visible>!Window.IsVisible(1143)</visible>
+            <visible>!Window.IsVisible(1144)</visible>
             <visible>ControlGroup(6000).HasFocus() | ControlGroup(6001).HasFocus()</visible>
         </include>
 

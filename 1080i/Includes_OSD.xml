@@ -209,11 +209,7 @@
         <param name="toggle" default="false" />
         <definition>
             <control type="group">
-                <visible>!Window.IsVisible(DialogSettings.xml)</visible>
-                <visible>Control.HasFocus($PARAM[buttonid]) | Control.HasFocus($PARAM[id])</visible>
                 <include>Animation_SlideIn_Dialog</include>
-                <visible>!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[id]).IsUpdating</visible>
-                <animation effect="fade" start="100" end="0" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,0)">Conditional</animation>
                 <right>40</right>
                 <width>$PARAM[width]</width>
                 <bottom>200</bottom>
@@ -288,8 +284,27 @@
                     <width>16</width>
                     <texture colordiffuse="dialog_bg_100" flipy="true">arrows/arrow-menu-up.png</texture>
                 </control>
+                <nested />
             </control>
         </definition>
+    </include>
+
+    <include name="OSD_Stream_Selector_Loading">
+        <control type="group">
+            <bottom>20</bottom>
+            <left>40</left>
+            <height>80</height>
+            <control type="label">
+                <textcolor>dialog_fg_70</textcolor>
+                <label>$LOCALIZE[31023]...</label>
+                <visible>Container(9000).IsUpdating + Integer.IsEqual(Container(9000).NumItems,0)</visible>
+            </control>
+            <control type="label">
+                <textcolor>dialog_fg_70</textcolor>
+                <label>$LOCALIZE[31379]</label>
+                <visible>!Container(9000).IsUpdating + Integer.IsEqual(Container(9000).NumItems,0)</visible>
+            </control>
+        </control>
     </include>
 
     <include name="OSD_Button_HintLabel">
