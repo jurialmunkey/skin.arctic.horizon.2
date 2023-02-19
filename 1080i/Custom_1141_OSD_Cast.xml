@@ -12,10 +12,15 @@
             <ondown condition="!VideoPlayer.Content(livetv)">SetFocus(6501)</ondown>
             <onup>Close</onup>
             <oninfo>Close</oninfo>
-            <onclick>Close</onclick>
+            <!-- <onclick>Close</onclick> -->
+            <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[137] Wikipedia,Home)</onclick>
+            <onclick>SetProperty(CustomDialogSettingsItems,Items_OSD_Wikipedia,Home)</onclick>
+            <onclick>ActivateWindow(1118)</onclick>
         </include>
 
         <include content="OSD_CastInfo_ExpandGroup">
+
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
 
             <!-- Info Box -->
             <control type="group">
@@ -157,6 +162,7 @@
             <param name="label">$LOCALIZE[31293]</param>
             <visible>Control.HasFocus(6000)</visible>
             <visible>!VideoPlayer.Content(livetv)</visible>
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
         </include>
     </controls>
 </window>
