@@ -614,7 +614,7 @@
             <property name="isSubmenu" tag="property" attribute="name|list" value="Submenu">True</property>
             <property name="isSubmenu">False</property>
 
-            <!-- IsSubmenu -->
+            <!-- IsStacked -->
             <property name="isStacked" tag="property" attribute="name|list" value="Stacked">True</property>
             <property name="isStacked">False</property>
 
@@ -1735,6 +1735,10 @@
             <property name="widgetIsStatic" tag="property" attribute="name|list" value="CustomNode3">True</property>
             <property name="widgetIsStatic">False</property>
 
+            <!-- Is Stacked -->
+            <property name="isStacked" tag="property" attribute="name|list" value="Stacked">True</property>
+            <property name="isStacked">False</property>
+
             <!-- widget Node Number -->
             <property name="widgetNodeNumber" tag="property" attribute="name|list" value="CustomNode1">-3</property>
             <property name="widgetNodeNumber" tag="property" attribute="name|list" value="CustomNode2">-4</property>
@@ -1751,19 +1755,37 @@
                     <param name="id">$PYTHON[int(id) * 100 + 5000]</param>
                     <param name="nodeid">$PYTHON[int(id) * 100 + 5002]</param>
 
-                    <include content="Object_ContentDynamic" condition="![$SKINSHORTCUTS[widgetIsStatic]]">
+                    <visible>![$SKINSHORTCUTS[isStacked]] | [!Integer.IsEqual(Container($PYTHON[(int(id) - 1) * 100 + 5000]).NumItems,0) + Container($PYTHON[(int(id) - 1) * 100 + 5000]).ListItem.IsFolder]</visible>
+
+                    <!-- Standard Content -->
+                    <include content="Object_ContentDynamic" condition="![$SKINSHORTCUTS[widgetIsStatic]] + ![$SKINSHORTCUTS[isStacked]]">
                         <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
                         <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
                         <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
                         <param name="content">$SKINSHORTCUTS[widgetPath]</param>
                     </include>
 
+                    <!-- Stacked Content -->
+                    <include content="Widget_ContentDynamic" condition="![$SKINSHORTCUTS[widgetIsStatic]] + $SKINSHORTCUTS[isStacked]">
+                        <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
+                        <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
+                        <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                        <param name="limit">$SKINSHORTCUTS[widgetLimit]</param>
+                        <param name="content">$INFO[Container($PYTHON[(int(id) - 1) * 100 + 5000]).ListItem.FolderPath]</param>
+                    </include>
+                    <include content="Object_ContentItem" condition="![$SKINSHORTCUTS[widgetIsStatic]] + $SKINSHORTCUTS[isStacked]">
+                        <param name="visible">Integer.IsEqual(Container($PYTHON[(int(id) - 1) * 100 + 5000]).NumItems,0) | String.IsEmpty(Container($PYTHON[(int(id) - 1) * 100 + 5000]).ListItem.FolderPath)</param>
+                    </include>
+
+                    <!-- Static Custom Node Content -->
                     <include content="Object_ContentInclude" condition="$SKINSHORTCUTS[widgetIsStatic]">
                         <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
                         <param name="sortby">$SKINSHORTCUTS[widgetSortby]</param>
                         <param name="sortorder">$SKINSHORTCUTS[widgetSortorder]</param>
                         <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]$SKINSHORTCUTS[widgetNodeNumber]</param>
                     </include>
+
+
                 </include>
             </controls>
         </items>
@@ -1785,6 +1807,10 @@
             <property name="widgetName" tag="label" />
             <property name="widgetName">$LOCALIZE[31105]</property>
 
+            <!-- Is Stacked -->
+            <property name="isStacked" tag="property" attribute="name|list" value="Stacked">True</property>
+            <property name="isStacked">False</property>
+
             <!--- Widget Content -->
             <property name="widgetPath" tag="property" attribute="name|list" />
             <property name="widgetTarget" tag="property" attribute="name|widgetTarget" />
@@ -1797,6 +1823,8 @@
                     <param name="id">$PYTHON[int(id) * 10 + 500]</param>
                     <param name="label">$SKINSHORTCUTS[widgetName]</param>
                     <param name="target">$SKINSHORTCUTS[widgetTarget]</param>
+                    <param name="usealtlabel">$SKINSHORTCUTS[isStacked]</param>
+                    <param name="altlabel">$INFO[Container($PYTHON[int(id) * 10 + 500]2).ListItem.Label] $INFO[Container($PYTHON[(int(id) - 1) * 10 + 500]0).ListItem.Label,(,)]</param>
                 </include>
             </controls>
         </items>
