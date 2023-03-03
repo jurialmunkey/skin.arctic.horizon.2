@@ -8,6 +8,7 @@
     <variable name="Items_ViewMode_Switch">
         <value condition="String.IsEqual(Container.Content,genres) + Window.IsVisible(MyMusicNav.xml)">genres-music</value>
         <value condition="String.IsEqual(Container.Content,years) + Window.IsVisible(MyMusicNav.xml)">years-music</value>
+        <value condition="String.IsEmpty(Container.Content) + Window.IsVisible(MyGames.xml)">none-games</value>
         <value condition="!String.IsEmpty(Container.Content)">$INFO[Container.Content]</value>
         <value condition="Window.IsVisible(MyPVRRecordings.xml)">pvr-recordings</value>
         <value condition="Window.IsVisible(MyPVRTimers.xml)">pvr-timers</value>
@@ -970,6 +971,21 @@
             <visible>String.IsEmpty(Container.PluginName)</visible>
             <visible>!Skin.HasSetting(KioskMode.Management)</visible>
         </include>
+        <include content="Dialog_Menu_Button" description="Background Customisation">
+            <param name="id" value="9001" />
+            <param name="groupid" value="9101" />
+            <param name="control" value="button" />
+            <param name="icon" value="special://skin/extras/icons/paintbrush2.png" />
+            <onclick>SetFocus(50)</onclick>
+            <onclick>ActivateWindow(1112)</onclick>
+            <label>$LOCALIZE[31007]</label>
+            <visible>!Skin.HasSetting(KioskMode.Viewtypes)</visible>
+        </include>
+        <include>Items_QuickNav_NowPlaying</include>
+    </include>
+
+    <include name="Items_MyGamesNav">
+        <include>Items_Default_MyNav</include>
         <include content="Dialog_Menu_Button" description="Background Customisation">
             <param name="id" value="9001" />
             <param name="groupid" value="9101" />
