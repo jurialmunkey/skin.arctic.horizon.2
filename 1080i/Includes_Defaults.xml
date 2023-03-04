@@ -14,7 +14,9 @@
         <align>left</align>
         <font>font_main</font>
         <textcolor>dialog_fg_70</textcolor>
-        <autoscroll delay="6000" time="3000" repeat="10000">!Skin.HasSetting(Textboxes.DisableAutoscroll)</autoscroll>
+        <include content="Defs_AutoScroll_TextBox">
+            <param name="condition">!Skin.HasSetting(Textboxes.DisableAutoscroll)</param>
+        </include>
     </default>
 
     <default type="button">
@@ -354,6 +356,16 @@
 
     <include name="Defs_AutoScroll_Value">
         <autoscroll time="$PARAM[time]">$PARAM[condition]</autoscroll>
+    </include>
+    <include name="Defs_AutoScroll_TextBox_Value">
+        <autoscroll delay="$PARAM[time]" repeat="$PARAM[time]" time="3000">$PARAM[condition]</autoscroll>
+    </include>
+
+    <include name="Defs_AutoScroll_TextBox">
+        <include content="Defs_AutoScroll">
+            <param name="include">Defs_AutoScroll_TextBox_Value</param>
+            <param name="condition">$PARAM[condition]</param>
+        </include>
     </include>
 
     <include name="Defs_AutoScroll">
