@@ -61,225 +61,233 @@
     </include>
 
     <include name="Hub_Grouplist">
-
-        <control type="list" id="301">
-            <preloaditems>2</preloaditems>
-            <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
-            <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
-            <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
-            <ondown>SetFocus(300)</ondown>
-            <onback>SetFocus(300)</onback>
-            <orientation>horizontal</orientation>
-            <scrolltime tween="quadratic">400</scrolltime>
-            <hitrect x="0" y="0" w="0" h="0" />
-            <include content="Defs_AutoScroll">
-                <param name="condition">Control.HasFocus(4900)</param>
-            </include>
-            <itemlayout width="1920" height="1080" />
-            <focusedlayout width="1920" height="1080" />
-            <include content="Object_ContentDynamic">
-                <param name="content">$PARAM[mainwidget_content]</param>
-                <param name="target">videos</param>
-                <param name="sortby" />
-                <param name="sortorder" />
-                <param name="limit" />
-            </include>
-        </control>
-
-        <!-- Fullscreen Widget -->
-        <control type="group">
-            <visible>Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</visible>
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>!$EXP[Exp_RecommendationDialogs]</visible>
-            <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
-            <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
-            <include>Animation_Foreground_FadeInOut</include>
-            <include>Background_NotVideo</include>
-            <control type="group">
-                <animation condition="!Container(301).OnNext" effect="slide" start="0" end="-1920" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
-                <animation condition="!Container(301).OnPrevious" effect="slide" start="0" end="1920" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
-                <control type="image">
-                    <left>-1920</left>
-                    <width>1920</width>
-                    <height>1080</height>
-                    <texture background="true">$VAR[Image_FullscreenWidget_Artwork-1]</texture>
-                    <aspectratio>scale</aspectratio>
-                    <visible>Container(301).OnNext | Container(301).OnPrevious</visible>
-                    <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="false">Hidden</animation>
-                </control>
-                <control type="image">
-                    <width>1920</width>
-                    <height>1080</height>
-                    <texture background="true">$VAR[Image_FullscreenWidget_Artwork]</texture>
-                    <aspectratio>scale</aspectratio>
-                    <fadetime>400</fadetime>
-                </control>
-                <control type="image">
-                    <left>1920</left>
-                    <width>1920</width>
-                    <height>1080</height>
-                    <texture background="true">$VAR[Image_FullscreenWidget_Artwork+1]</texture>
-                    <aspectratio>scale</aspectratio>
-                    <visible>Container(301).OnNext | Container(301).OnPrevious</visible>
-                    <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="false">Hidden</animation>
-                </control>
+        <param name="submenu_usegrouping">false</param>
+        <definition>
+            <control type="list" id="301">
+                <preloaditems>2</preloaditems>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
+                <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
+                <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
+                <ondown>SetFocus(300)</ondown>
+                <onback>SetFocus(300)</onback>
+                <orientation>horizontal</orientation>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <hitrect x="0" y="0" w="0" h="0" />
+                <include content="Defs_AutoScroll">
+                    <param name="condition">Control.HasFocus(4900)</param>
+                </include>
+                <itemlayout width="1920" height="1080" />
+                <focusedlayout width="1920" height="1080" />
+                <include content="Object_ContentDynamic">
+                    <param name="content">$PARAM[mainwidget_content]</param>
+                    <param name="target">videos</param>
+                    <param name="sortby" />
+                    <param name="sortorder" />
+                    <param name="limit" />
+                </include>
             </control>
-            <control type="image">
-                <texture>background/vignetted.png</texture>
-            </control>
+
+            <!-- Fullscreen Widget -->
             <control type="group">
-                <top>-260</top>
-                <height>1080</height>
-                <visible>Control.HasFocus(4900)</visible>
-                <animation effect="fade" start="0" end="100" time="300">VisibleChange</animation>
+                <visible>Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</visible>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>!$EXP[Exp_RecommendationDialogs]</visible>
+                <animation effect="fade" start="0" end="100" time="400" reversible="false">Visible</animation>
+                <animation effect="fade" start="100" end="0" time="400" reversible="false">Hidden</animation>
+                <include>Animation_Foreground_FadeInOut</include>
+                <include>Background_NotVideo</include>
+                <control type="group">
+                    <animation condition="!Container(301).OnNext" effect="slide" start="0" end="-1920" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
+                    <animation condition="!Container(301).OnPrevious" effect="slide" start="0" end="1920" delay="0" time="400" tween="quadratic" easing="out" reversible="false">Conditional</animation>
+                    <control type="image">
+                        <left>-1920</left>
+                        <width>1920</width>
+                        <height>1080</height>
+                        <texture background="true">$VAR[Image_FullscreenWidget_Artwork-1]</texture>
+                        <aspectratio>scale</aspectratio>
+                        <visible>Container(301).OnNext | Container(301).OnPrevious</visible>
+                        <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="false">Hidden</animation>
+                    </control>
+                    <control type="image">
+                        <width>1920</width>
+                        <height>1080</height>
+                        <texture background="true">$VAR[Image_FullscreenWidget_Artwork]</texture>
+                        <aspectratio>scale</aspectratio>
+                        <fadetime>400</fadetime>
+                    </control>
+                    <control type="image">
+                        <left>1920</left>
+                        <width>1920</width>
+                        <height>1080</height>
+                        <texture background="true">$VAR[Image_FullscreenWidget_Artwork+1]</texture>
+                        <aspectratio>scale</aspectratio>
+                        <visible>Container(301).OnNext | Container(301).OnPrevious</visible>
+                        <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="false">Hidden</animation>
+                    </control>
+                </control>
                 <control type="image">
                     <texture>background/vignetted.png</texture>
                 </control>
-                <control type="image">
-                    <top>1080</top>
+                <control type="group">
+                    <top>-260</top>
                     <height>1080</height>
-                    <texture flipy="true">background/vignetted.png</texture>
+                    <visible>Control.HasFocus(4900)</visible>
+                    <animation effect="fade" start="0" end="100" time="300">VisibleChange</animation>
+                    <control type="image">
+                        <texture>background/vignetted.png</texture>
+                    </control>
+                    <control type="image">
+                        <top>1080</top>
+                        <height>1080</height>
+                        <texture flipy="true">background/vignetted.png</texture>
+                    </control>
                 </control>
             </control>
-        </control>
 
-        <control type="grouplist" id="6000">
-            <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
-            <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
-            <ondown>330</ondown>
-            <animation type="Conditional" condition="Control.IsVisible(340)" reversible="false">
-                <effect type="slide" end="0,20" time="60" tween="sine" />
-                <effect type="slide" end="0,-20" time="180" tween="sine" delay="80" />
-            </animation>
-            <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
-                <effect type="slide" end="0,-20" time="60" tween="sine" />
-                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
-            </animation>
-            <orientation>vertical</orientation>
+            <control type="grouplist" id="6000">
+                <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
+                <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
+                <ondown>330</ondown>
+                <animation type="Conditional" condition="Control.IsVisible(340)" reversible="false">
+                    <effect type="slide" end="0,20" time="60" tween="sine" />
+                    <effect type="slide" end="0,-20" time="180" tween="sine" delay="80" />
+                </animation>
+                <animation type="Conditional" condition="Control.IsVisible(330)" reversible="false">
+                    <effect type="slide" end="0,-20" time="60" tween="sine" />
+                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+                </animation>
+                <orientation>vertical</orientation>
 
-            <animation type="WindowOpen" reversible="false" condition="!Window.Previous(1122) + !Window.Previous(1121) + !Window.Previous(1120) + !Window.Previous(1114)">
-                <effect type="fade" start="0" end="100" time="400" delay="400" tween="sine" easing="out"/>
-            </animation>
-            <animation type="WindowClose" reversible="false" condition="!Window.Next(1122) + !Window.Next(1121) + !Window.Next(1120) + !Window.Next(1114)">
-                <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
-            </animation>
+                <animation type="WindowOpen" reversible="false" condition="!Window.Previous(1122) + !Window.Previous(1121) + !Window.Previous(1120) + !Window.Previous(1114)">
+                    <effect type="fade" start="0" end="100" time="400" delay="400" tween="sine" easing="out"/>
+                </animation>
+                <animation type="WindowClose" reversible="false" condition="!Window.Next(1122) + !Window.Next(1121) + !Window.Next(1120) + !Window.Next(1114)">
+                    <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
+                </animation>
 
-            <animation type="WindowOpen" reversible="false" condition="Window.Previous($PARAM[l_window_id])">
-                <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="out"/>
-                <effect type="slide" start="320" end="0" time="400" delay="0" tween="cubic" easing="out" />
-            </animation>
-            <animation type="WindowClose" reversible="false" condition="Window.Next($PARAM[l_window_id])">
-                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
-                <effect type="slide" start="0" end="320" time="300" delay="0" tween="cubic" easing="out" />
-            </animation>
+                <animation type="WindowOpen" reversible="false" condition="Window.Previous($PARAM[l_window_id])">
+                    <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="out"/>
+                    <effect type="slide" start="320" end="0" time="400" delay="0" tween="cubic" easing="out" />
+                </animation>
+                <animation type="WindowClose" reversible="false" condition="Window.Next($PARAM[l_window_id])">
+                    <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                    <effect type="slide" start="0" end="320" time="300" delay="0" tween="cubic" easing="out" />
+                </animation>
 
-            <animation type="WindowOpen" reversible="false" condition="Window.Previous($PARAM[r_window_id])">
-                <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="out"/>
-                <effect type="slide" start="-320" end="0" time="400" delay="0" tween="cubic" easing="out" />
-            </animation>
-            <animation type="WindowClose" reversible="false" condition="Window.Next($PARAM[r_window_id])">
-                <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
-                <effect type="slide" start="0" end="-320" time="300" delay="0" tween="cubic" easing="out" />
-            </animation>
+                <animation type="WindowOpen" reversible="false" condition="Window.Previous($PARAM[r_window_id])">
+                    <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="out"/>
+                    <effect type="slide" start="-320" end="0" time="400" delay="0" tween="cubic" easing="out" />
+                </animation>
+                <animation type="WindowClose" reversible="false" condition="Window.Next($PARAM[r_window_id])">
+                    <effect type="fade" start="100" end="0" time="300" delay="0" tween="sine" easing="out" />
+                    <effect type="slide" start="0" end="-320" time="300" delay="0" tween="cubic" easing="out" />
+                </animation>
 
-            <include>Animation_Common</include>
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
+                <include>Animation_Common</include>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <visible>String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))</visible>
 
-            <control type="group" id="4800">
-                <top>fullscreenwidget_buttongroup_t</top>
-                <height>fullscreenwidget_buttongroup_h</height>
+                <control type="group" id="4800">
+                    <top>fullscreenwidget_buttongroup_t</top>
+                    <height>fullscreenwidget_buttongroup_h</height>
 
-                <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="[Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !Integer.IsEqual(Container(301).NumItems,0)]">Conditional</animation>
-                <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="![Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !Integer.IsEqual(Container(301).NumItems,0)]">Conditional</animation>
+                    <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="[Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !Integer.IsEqual(Container(301).NumItems,0)]">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="![Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !Integer.IsEqual(Container(301).NumItems,0)]">Conditional</animation>
 
-                <include content="Info_Panel">
-                    <param name="plotheight" value="info_plot_h" />
-                    <param name="controltype">label</param>
-                    <param name="line_id" value="4898" />
-                    <param name="container" value="Container(301)." />
-                    <height>320</height>
-                    <width>info_panel_w</width>
-                    <top>fullscreenwidget_infopanel_t</top>
-                    <left>view_pad</left>
+                    <include content="Info_Panel">
+                        <param name="plotheight" value="info_plot_h" />
+                        <param name="controltype">label</param>
+                        <param name="line_id" value="4898" />
+                        <param name="container" value="Container(301)." />
+                        <height>320</height>
+                        <width>info_panel_w</width>
+                        <top>fullscreenwidget_infopanel_t</top>
+                        <left>view_pad</left>
+                    </include>
+                    <control type="grouplist" id="4899">
+                        <left>40</left>
+                        <orientation>horizontal</orientation>
+                        <height>256</height>
+                        <top>-8</top>
+                        <itemgap>-60</itemgap>
+                        <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
+                        <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
+                        <onback>SetFocus(300)</onback>
+                        <ondown>4900</ondown>
+                        <onleft>Control.Move(301,-1)</onleft>
+                        <onright>Control.Move(301,1)</onright>
+                        <include content="Object_Info_Button">
+                            <param name="id" value="4801" />
+                            <param name="groupid" value="4811" />
+                            <param name="sliceid" value="4821" />
+                            <param name="label" value="$VAR[Label_FullscreenWidget_PlayButton]" />
+                            <param name="icon" value="$VAR[Image_FullscreenWidget_PlayButton]" />
+                            <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
+                            <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
+                            <onback>SetFocus(300)</onback>
+                            <ondown>4900</ondown>
+                            <onclick>SetFocus(301)</onclick>
+                            <onclick>Action(Select)</onclick>
+                            <onclick condition="!Container(301).ListItem.IsFolder">SetFocus(4801)</onclick>
+
+                            <oninfo>SetFocus(301)</oninfo>
+                            <oninfo condition="Skin.HasSetting(Widgets.FullScreenContext)">Action(Info)</oninfo>
+                            <oninfo condition="!Skin.HasSetting(Widgets.FullScreenContext)">Action(ContextMenu)</oninfo>
+                            <oninfo>SetFocus(4801)</oninfo>
+
+                            <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
+                            <onfocus>SetProperty(FullscreenWidgetRefocus,4801,Home)</onfocus>
+                        </include>
+                        <include content="Object_Info_Button">
+                            <param name="id" value="4803" />
+                            <param name="groupid" value="4813" />
+                            <param name="sliceid" value="4823" />
+                            <param name="label" value="$VAR[Label_FullscreenWidget_InfoButton]" />
+                            <param name="icon" value="$VAR[Image_FullscreenWidget_InfoButton]" />
+                            <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
+                            <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
+                            <onback>SetFocus(300)</onback>
+                            <ondown>4900</ondown>
+
+                            <oninfo>SetFocus(301)</oninfo>
+                            <oninfo condition="![Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(Info)</oninfo>
+                            <oninfo condition="[Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(ContextMenu)</oninfo>
+                            <oninfo>SetFocus(4803)</oninfo>
+
+                            <onclick>SetFocus(301)</onclick>
+                            <onclick condition="![Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(Info)</onclick>
+                            <onclick condition="[Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(ContextMenu)</onclick>
+                            <onclick>SetFocus(4803)</onclick>
+                            <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
+                            <onfocus>SetProperty(FullscreenWidgetRefocus,4801,Home)</onfocus>
+                        </include>
+                    </control>
+                </control>
+
+                <control type="group" id="6100">
+                    <height>widget_tbump_h</height>
+                </control>
+
+                <include content="Widget_Hub_Submenu">
+                    <param name="groupid" value="4901" />
+                    <param name="id" value="4900" />
+                    <param name="spacerid" value="4902" />
+                    <param name="label" value="$PARAM[submenu_label]" />
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
+                    <movement>6</movement>
+                    <include content="Object_ContentInclude" condition="$PARAM[submenu_usegrouping]">
+                        <param name="include">skinshortcuts-group-$PARAM[submenu_group]</param>
+                    </include>
+                    <include content="Object_ContentDynamic" condition="!$PARAM[submenu_usegrouping]">
+                        <param name="content">$PARAM[submenu_content]</param>
+                        <param name="target">videos</param>
+                    </include>
                 </include>
-                <control type="grouplist" id="4899">
-                    <left>40</left>
-                    <orientation>horizontal</orientation>
-                    <height>256</height>
-                    <top>-8</top>
-                    <itemgap>-60</itemgap>
-                    <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
-                    <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
-                    <onback>SetFocus(300)</onback>
-                    <ondown>4900</ondown>
-                    <onleft>Control.Move(301,-1)</onleft>
-                    <onright>Control.Move(301,1)</onright>
-                    <include content="Object_Info_Button">
-                        <param name="id" value="4801" />
-                        <param name="groupid" value="4811" />
-                        <param name="sliceid" value="4821" />
-                        <param name="label" value="$VAR[Label_FullscreenWidget_PlayButton]" />
-                        <param name="icon" value="$VAR[Image_FullscreenWidget_PlayButton]" />
-                        <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
-                        <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
-                        <onback>SetFocus(300)</onback>
-                        <ondown>4900</ondown>
-                        <onclick>SetFocus(301)</onclick>
-                        <onclick>Action(Select)</onclick>
-                        <onclick condition="!Container(301).ListItem.IsFolder">SetFocus(4801)</onclick>
 
-                        <oninfo>SetFocus(301)</oninfo>
-                        <oninfo condition="Skin.HasSetting(Widgets.FullScreenContext)">Action(Info)</oninfo>
-                        <oninfo condition="!Skin.HasSetting(Widgets.FullScreenContext)">Action(ContextMenu)</oninfo>
-                        <oninfo>SetFocus(4801)</oninfo>
 
-                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
-                        <onfocus>SetProperty(FullscreenWidgetRefocus,4801,Home)</onfocus>
-                    </include>
-                    <include content="Object_Info_Button">
-                        <param name="id" value="4803" />
-                        <param name="groupid" value="4813" />
-                        <param name="sliceid" value="4823" />
-                        <param name="label" value="$VAR[Label_FullscreenWidget_InfoButton]" />
-                        <param name="icon" value="$VAR[Image_FullscreenWidget_InfoButton]" />
-                        <onup condition="!Skin.HasSetting(Hubs.DisableQuickSwitch)">300</onup>
-                        <onup condition="Skin.HasSetting(Hubs.DisableQuickSwitch) | [!Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)]">Close</onup>
-                        <onback>SetFocus(300)</onback>
-                        <ondown>4900</ondown>
-
-                        <oninfo>SetFocus(301)</oninfo>
-                        <oninfo condition="![Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(Info)</oninfo>
-                        <oninfo condition="[Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(ContextMenu)</oninfo>
-                        <oninfo>SetFocus(4803)</oninfo>
-
-                        <onclick>SetFocus(301)</onclick>
-                        <onclick condition="![Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(Info)</onclick>
-                        <onclick condition="[Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(ContextMenu)</onclick>
-                        <onclick>SetFocus(4803)</onclick>
-                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
-                        <onfocus>SetProperty(FullscreenWidgetRefocus,4801,Home)</onfocus>
-                    </include>
-                </control>
+                <nested />
             </control>
-
-            <control type="group" id="6100">
-                <height>widget_tbump_h</height>
-            </control>
-
-            <include content="Widget_Hub_Submenu">
-                <param name="groupid" value="4901" />
-                <param name="id" value="4900" />
-                <param name="spacerid" value="4902" />
-                <param name="label" value="$PARAM[submenu_label]" />
-                <content target="videos">$PARAM[submenu_content]</content>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
-                <movement>6</movement>
-            </include>
-
-
-            <nested />
-        </control>
+        </definition>
     </include>
 
     <include name="Hub_Menu">
