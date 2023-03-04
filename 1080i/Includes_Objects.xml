@@ -143,6 +143,51 @@
         </definition>
     </include>
 
+
+    <include name="Object_RatingOverlay_Position_Thin">
+        <left>30</left>
+        <centertop>0</centertop>
+    </include>
+    <include name="Object_RatingOverlay_Position_Bold">
+        <left>20</left>
+        <top>20</top>
+    </include>
+    <include name="_Object_RatingOverlay">
+        <control type="group">
+            <include condition="Skin.HasSetting(SelectBox.Thin)">Object_RatingOverlay_Position_Thin</include>
+            <include condition="!Skin.HasSetting(SelectBox.Thin)">Object_RatingOverlay_Position_Bold</include>
+            <width>36</width>
+            <height>36</height>
+            <visible>!String.IsEmpty(ListItem.Rating)</visible>
+            <control type="image">
+                <bordersize>-4</bordersize>
+                <texture colordiffuse="main_bg_100">common/circle.png</texture>
+            </control>
+            <control type="image">
+                <bordersize>-14</bordersize>
+                <texture colordiffuse="main_fg_30">progress/circle/p100.png</texture>
+            </control>
+            <control type="image">
+                <bordersize>-14</bordersize>
+                <texture colordiffuse="$VAR[ColorWatchedProgress]">$VAR[Defs_Progress_Rating,progress/circle/p,.png]</texture>
+            </control>
+            <control type="image">
+                <bordersize>2</bordersize>
+                <texture colordiffuse="main_bg_100">common/circle.png</texture>
+            </control>
+            <control type="label">
+                <label>$INFO[ListItem.Rating]</label>
+                <align>center</align>
+                <font>font_hint</font>
+                <textcolor>panel_fg_100</textcolor>
+                <bottom>2</bottom>
+            </control>
+        </control>
+    </include>
+    <include name="Object_RatingOverlay">
+        <include condition="Skin.HasSetting(Indicator.Ratings)">_Object_RatingOverlay</include>
+    </include>
+
     <include name="Object_StarRating">
         <param name="selected" default="false" />
         <definition>
