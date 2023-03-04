@@ -300,8 +300,28 @@
                             <param name="id" value="9915" />
                             <param name="control" value="button" />
                             <description>End row action</description>
+
+                            <onclick>RunScript(script.skinshortcuts,type=shortcuts&amp;showNone=True&amp;skinAction=widgetEndRowAction-$INFO[Container(211).ListItem.Property(labelID)])</onclick>
+
                             <label>$LOCALIZE[31330]</label>
-                            <label2>$INFO[Container(211).ListItem.Property(widgetEndRowAction)]</label2>
+                            <label2>$INFO[container(9211).listitem.property(widgetEndRowAction)]</label2>
+
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
+                            <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
+                            <visible>!Skin.HasSetting(Home.VerticalMenu)</visible>
+                            <visible>!String.IsEqual(Container(211).ListItem.Property(WidgetPath),Weather)</visible>
+                        </include>
+
+                        <include content="Dialog_Settings_Button">
+                            <param name="id" value="9925" />
+                            <param name="control" value="button" />
+                            <description>End row action</description>
+
+                            <onclick>RunScript(script.skinshortcuts,type=shortcuts&amp;showNone=True&amp;skinAction=menuOnUpAction-$INFO[Container(211).ListItem.Property(labelID)])</onclick>
+
+                            <label>$LOCALIZE[31382]</label>
+                            <label2>$INFO[container(9211).listitem.property(menuOnUpAction)]</label2>
+
                             <visible>!String.IsEqual(Container(211).ListItem.Property(skinshortcuts-disabled),True)</visible>
                             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
                             <visible>!Skin.HasSetting(Home.VerticalMenu)</visible>
@@ -597,5 +617,18 @@
         <control type="button" id="408"><visible allowhiddenfocus="true">false</visible><width>1</width><height>1</height></control>
         <control type="button" id="409"><visible allowhiddenfocus="true">false</visible><width>1</width><height>1</height></control>
         <control type="button" id="410"><visible allowhiddenfocus="true">false</visible><width>1</width><height>1</height></control>
+
+
+        <control type="list" id="9211">
+            <width>1</width>
+            <height>1</height>
+            <left>-1920</left>
+            <itemlayout />
+            <focusedlayout />
+            <content>
+                <include>skinshortcuts-template-dialog-lookup</include>
+            </content>
+        </control>
+
     </controls>
 </window>
