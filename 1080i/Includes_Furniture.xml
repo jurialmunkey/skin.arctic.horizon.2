@@ -52,9 +52,46 @@
                 <include content="Furniture_Topbar_Group" condition="$PARAM[enabled]">
                     <include content="Furniture_Gutters">
                         <visible>!$EXP[Exp_HasFurnitureNowPlaying]</visible>
+                        <include content="Object_Control" condition="$PARAM[minimal]">
+                            <param name="control">group</param>
+                            <right>0</right>
+                            <visible>Container.Scrolling + $EXP[Exp_AlphabetTypes_Only]</visible>
+                            <animation effect="fade" start="0" end="100" time="200" delay="400" reversible="true">Visible</animation>
+                            <animation effect="fade" start="100" end="0" time="200" delay="1200" reversible="true">Hidden</animation>
+
+                            <control type="group">
+                                <right>0</right>
+                                <width>60</width>
+                                <control type="image">
+                                    <include content="Dimension_Padding"><param name="pad" value="-24" /></include>
+                                    <texture colordiffuse="shadow_hard" border="54">shadows/circle_shadow.png</texture>
+                                </control>
+                                <control type="image">
+                                    <texture colordiffuse="dialog_bg_100" border="30">common/circle.png</texture>
+                                </control>
+                                <control type="image">
+                                    <texture colordiffuse="overlay_soft" border="30">common/circle.png</texture>
+                                </control>
+                                <control type="label">
+                                    <textcolor>dialog_fg_70</textcolor>
+                                    <label>$INFO[ListItem.SortLetter]</label>
+                                    <align>center</align>
+                                    <aligny>center</aligny>
+                                    <font>font_main_black</font>
+                                </control>
+                            </control>
+                            <include content="Furniture_Clock_Small">
+                                <param name="align" value="right" />
+                                <right>80</right>
+                            </include>
+                        </include>
+
                         <include content="Furniture_Clock_Small" condition="$PARAM[minimal]">
                             <param name="align" value="right" />
                             <right>0</right>
+                            <visible>![Container.Scrolling + $EXP[Exp_AlphabetTypes_Only]]</visible>
+                            <animation effect="fade" start="0" end="100" time="200" delay="1200" reversible="true">Visible</animation>
+                            <animation effect="fade" start="100" end="0" time="200" delay="400" reversible="true">Hidden</animation>
                         </include>
                         <include content="Object_MenuButton" condition="!$PARAM[minimal]">
                             <param name="icon" value="$PARAM[icon]" />
