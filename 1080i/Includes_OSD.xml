@@ -975,9 +975,23 @@
                     <height>320</height>
                     <bottom>view_top</bottom>
                     <left>view_pad</left>
+
                     <control type="group">
                         <animation effect="zoom" start="0,0,320,320" end="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="[Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]">Conditional</animation>
                         <animation effect="zoom" end="0,0,320,320" start="0,-360,460,460" time="400" tween="cubic" easing="out" reversible="false" condition="![Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]">Conditional</animation>
+
+                        <control type="image">
+                            <bottom>50%</bottom>
+                            <width>320</width>
+                            <height>320</height>
+                            <bordersize>20</bordersize>
+                            <texture background="true">$INFO[Player.Art(album.discart)]</texture>
+                            <animation effect="rotate" condition="!Player.Paused + ![Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]" start="0" end="360" loop="true" time="50000" center="auto" reversible="false">Conditional</animation>
+                            <visible>![Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]</visible>
+                            <animation effect="slide" start="0" end="0,160" time="400" tween="cubic" easing="out" reversible="false">Hidden</animation>
+                            <animation effect="slide" end="0" start="0,160" time="400" tween="cubic" easing="out" reversible="false">Visible</animation>
+                        </control>
+
                         <include content="Object_BigPoster">
                             <param name="diffuse">diffuse/square_w440_h440.png</param>
                             <param name="icon">$INFO[Player.Icon]</param>
