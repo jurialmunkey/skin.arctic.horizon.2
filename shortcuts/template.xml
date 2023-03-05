@@ -213,7 +213,7 @@
                             <param name="id">$PYTHON[int(mainmenuid) * 1000 + 500]</param>
                             <top>fullscreenwidget_buttongroup_t</top>
                             <height>fullscreenwidget_buttongroup_h</height>
-                            <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
+                            <visible>!Integer.IsEqual(Container(301).NumItems,0) | Container(301).IsUpdating</visible>
                             <animation effect="fade" start="0" end="100" time="400" delay="400" reversible="false" condition="Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
                             <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)">Conditional</animation>
                             <include content="Info_Panel">
@@ -225,6 +225,7 @@
                                 <width>info_panel_w</width>
                                 <top>fullscreenwidget_infopanel_t</top>
                                 <left>view_pad</left>
+                                <visible>!Integer.IsEqual(Container(301).NumItems,0)</visible>
                             </include>
                             <control type="grouplist" id="$PYTHON[int(mainmenuid) * 1000 + 599]">
                                 <left>40</left>
@@ -237,12 +238,27 @@
                                 <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
                                 <onleft>Control.Move(301,-1)</onleft>
                                 <onright>Control.Move(301,1)</onright>
+
+                                <control type="group" id="$PYTHON[int(mainmenuid) * 1000 + 502]">
+                                    <height>120</height>
+                                    <width>1840</width>
+                                    <animation type="Visible" reversible="false">
+                                        <effect type="fade" start="0" end="100" time="400" delay="600"/>
+                                    </animation>
+                                    <include content="Object_BusySpinner">
+                                        <param name="colordiffuse">main_fg</param>
+                                        <param name="label">$LOCALIZE[31023]</param>
+                                    </include>
+                                    <visible>Integer.IsEqual(Container(301).NumItems,0)</visible>
+                                </control>
+
                                 <include content="Object_Info_Button">
                                     <param name="id" value="$PYTHON[int(mainmenuid) * 1000 + 501]" />
                                     <param name="groupid" value="$PYTHON[int(mainmenuid) * 1000 + 511]" />
                                     <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 521]" />
                                     <param name="label" value="$VAR[Label_FullscreenWidget_PlayButton]" />
                                     <param name="icon" value="$VAR[Image_FullscreenWidget_PlayButton]" />
+                                    <param name="visible">!Integer.IsEqual(Container(301).NumItems,0)</param>
                                     <onup>SetFocus(300)</onup>
                                     <onback>SetFocus(300)</onback>
                                     <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
@@ -264,6 +280,7 @@
                                     <param name="sliceid" value="$PYTHON[int(mainmenuid) * 1000 + 523]" />
                                     <param name="label" value="$VAR[Label_FullscreenWidget_InfoButton]" />
                                     <param name="icon" value="$VAR[Image_FullscreenWidget_InfoButton]" />
+                                    <param name="visible">!Integer.IsEqual(Container(301).NumItems,0)</param>
                                     <onup>SetFocus(300)</onup>
                                     <onback>SetFocus(300)</onback>
                                     <ondown>$PYTHON[int(mainmenuid) * 1000 + 601]</ondown>
