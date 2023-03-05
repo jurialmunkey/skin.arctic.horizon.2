@@ -48,22 +48,37 @@
     </include>
 
     <include name="View_Wall_MediaInfo">
-        <control type="group">
-            <width>info_landscape_w</width>
-            <include content="Object_BigPoster">
-                <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
-                <param name="icon">$VAR[Image_Landscape]</param>
-                <height>info_landscape_h</height>
-            </include>
-            <include content="Info_Panel">
-                <param name="title">false</param>
-                <param name="plotheight">info_plot_large_h</param>
-                <param name="plotwidth">100%</param>
-                <param name="shortline">true</param>
-                <param name="line_id">$PARAM[line_id]</param>
-                <top>info_landscape_details_t</top>
-            </include>
-        </control>
+        <param name="flipside">false</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <include content="Object_Right" condition="$PARAM[flipside]">
+                    <param name="right">view_pad</param>
+                </include>
+                <include content="Object_Left" condition="![$PARAM[flipside]]">
+                    <param name="left">view_pad</param>
+                </include>
+                <top>view_top</top>
+                <bottom>view_top</bottom>
+                <width>info_landscape_w</width>
+                <control type="group">
+                    <width>info_landscape_w</width>
+                    <include content="Object_BigPoster">
+                        <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
+                        <param name="icon">$VAR[Image_Landscape]</param>
+                        <height>info_landscape_h</height>
+                    </include>
+                    <include content="Info_Panel">
+                        <param name="title">false</param>
+                        <param name="plotheight">info_plot_large_h</param>
+                        <param name="plotwidth">100%</param>
+                        <param name="shortline">true</param>
+                        <param name="line_id">$PARAM[line_id]</param>
+                        <top>info_landscape_details_t</top>
+                    </include>
+                </control>
+            </control>
+        </definition>
     </include>
 
     <include name="View_550_InfoWall_Poster_Vertical">
@@ -88,20 +103,10 @@
                         </include>
                     </include>
                 </control>
-                <control type="group">
-                    <include content="Object_Right" condition="$PARAM[flipside]">
-                        <param name="right">view_pad</param>
-                    </include>
-                    <include content="Object_Left" condition="![$PARAM[flipside]]">
-                        <param name="left">view_pad</param>
-                    </include>
-                    <top>view_top</top>
-                    <bottom>view_top</bottom>
-                    <width>info_landscape_w</width>
-                    <include content="View_Wall_MediaInfo">
-                        <param name="line_id">99550</param>
-                    </include>
-                </control>
+                <include content="View_Wall_MediaInfo">
+                    <param name="line_id">99550</param>
+                    <param name="flipside">$PARAM[flipside]</param>
+                </include>
             </control>
         </definition>
     </include>

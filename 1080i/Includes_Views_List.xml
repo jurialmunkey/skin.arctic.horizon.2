@@ -377,99 +377,155 @@
         </control>
     </include>
 
-    <include name="View_557_MediaInfo_Playlist">
-        <control type="group">
-            <visible>Control.IsVisible(557)</visible>
-            <include>Dimension_View</include>
+    <include name="View_List_MediaInfo">
+        <param name="flipside">false</param>
+        <definition>
             <control type="group">
-                <left>info_landscape_w</left>
-                <include content="List_PlayList">
-                    <param name="id">557</param>
-                    <param name="controltype">fixedlist</param>
-                    <param name="detailed">false</param>
-                    <focusposition>1</focusposition>
-                    <movement>4</movement>
-                    <left>-grid_x02</left>
-                    <right>-grid_x08</right>
-                    <top>-40</top>
-                    <bottom>-20</bottom>
-                    <visible>$EXP[Exp_View_Special] + $EXP[Exp_View_557]</visible>
-                    <viewtype label="$LOCALIZE[31363]">list</viewtype>
-                    <onleft>63</onleft>
-                    <onright>menu</onright>
-                    <pagecontrol>63</pagecontrol>
-                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                    <include content="Animation_Reposition">
-                        <param name="id">557</param>
-                        <param name="slide_y">-grid_x12</param>
+                <nested />
+                <include content="Object_Right" condition="$PARAM[flipside]">
+                    <param name="right">view_pad</param>
+                </include>
+                <include content="Object_Left" condition="![$PARAM[flipside]]">
+                    <param name="left">view_pad</param>
+                </include>
+                <top>view_top</top>
+                <bottom>view_top</bottom>
+                <width>info_widelandscape_w</width>
+                <control type="group">
+                    <width>info_widelandscape_w</width>
+                    <control type="group">
+                        <top>0</top>
+                        <control type="group">
+                            <right>602.86</right>
+                            <include content="Object_BigPoster">
+                                <param name="diffuse" value="diffuse/poster_w217_h320.png" />
+                                <param name="icon">$VAR[Image_Poster]</param>
+                                <height>320</height>
+                                <width>view_poster_item_w</width>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <right>0</right>
+                            <width>562.86</width>
+                            <height>320</height>
+                            <include content="Object_BigPoster">
+                                <param name="diffuse" value="diffuse/landscape_w560_h320.png" />
+                                <param name="icon">$VAR[Image_Landscape]</param>
+                            </include>
+                        </control>
+                    </control>
+
+                    <include content="Info_Panel">
+                        <param name="title">false</param>
+                        <param name="shortline">true</param>
+                        <param name="line_id">$PARAM[line_id]</param>
+                        <param name="plotheight">info_plot_mediainfo_h</param>
+                        <param name="plotwidth">100%</param>
+                        <top>360</top>
                     </include>
-                </include>
+                </control>
             </control>
-            <control type="group">
-                <left>0</left>
-                <width>info_landscape_w</width>
-                <include content="View_Wall_MediaInfo">
-                    <param name="line_id">99550</param>
-                </include>
-            </control>
-        </control>
+        </definition>
     </include>
 
-    <include name="View_558_MediaInfo_List">
-        <include content="View_List_NewTemplate">
-            <param name="id">558</param>
-            <param name="icon">$VAR[Image_Landscape]</param>
-            <param name="width">820</param>
-            <param name="viewtype_label">$LOCALIZE[31276]</param>
-            <param name="include">List_MediaList</param>
-            <param name="controltype">fixedlist</param>
-            <param name="focusposition">1</param>
-            <param name="movement">6</param>
-            <param name="flipside">false</param>
-            <param name="detailed">false</param>
-            <param name="hasimage">false</param>
-            <param name="top">0</param>
-            <param name="scrollbar_id">63</param>
-            <param name="reposition_include">Animation_Reposition</param>
-        </include>
-        <control type="group">
-            <visible>Control.IsVisible(558)</visible>
-            <include>Dimension_View</include>
+    <include name="_View_557_MediaInfo_Playlist">
+        <param name="flipside">false</param>
+        <param name="info_include">View_Wall_MediaInfo</param>
+        <param name="width">info_landscape_w</param>
+        <definition>
             <control type="group">
-                <left>0</left>
-                <width>820</width>
+                <visible>Control.IsVisible(557)</visible>
                 <control type="group">
-                    <top>0</top>
+                    <include>Dimension_View</include>
                     <control type="group">
-                        <right>602.86</right>
-                        <include content="Object_BigPoster">
-                            <param name="diffuse" value="diffuse/poster_w217_h320.png" />
-                            <param name="icon">$VAR[Image_Poster]</param>
-                            <height>320</height>
-                            <width>view_poster_item_w</width>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <right>0</right>
-                        <width>562.86</width>
-                        <height>320</height>
-                        <include content="Object_BigPoster">
-                            <param name="diffuse" value="diffuse/landscape_w560_h320.png" />
-                            <param name="icon">$VAR[Image_Landscape]</param>
+                        <left>$PARAM[width]</left>
+                        <include content="List_PlayList">
+                            <param name="id">557</param>
+                            <param name="controltype">fixedlist</param>
+                            <param name="detailed">false</param>
+                            <focusposition>1</focusposition>
+                            <movement>4</movement>
+                            <left>-grid_x02</left>
+                            <right>-grid_x08</right>
+                            <top>-40</top>
+                            <bottom>-20</bottom>
+                            <visible>$EXP[Exp_View_Special] + $EXP[Exp_View_557]</visible>
+                            <viewtype label="$LOCALIZE[31363]">list</viewtype>
+                            <onleft>63</onleft>
+                            <onright>menu</onright>
+                            <pagecontrol>63</pagecontrol>
+                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                            <include content="Animation_Reposition">
+                                <param name="id">557</param>
+                                <param name="slide_y">-grid_x12</param>
+                            </include>
                         </include>
                     </control>
                 </control>
-
-                <include content="Info_Panel">
-                    <param name="title">false</param>
-                    <param name="shortline">true</param>
-                    <param name="line_id">99558</param>
-                    <param name="plotheight">info_plot_mediainfo_h</param>
-                    <param name="plotwidth">100%</param>
-                    <top>360</top>
+                <include content="$PARAM[info_include]">
+                    <param name="line_id">99557</param>
+                    <param name="flipside">$PARAM[flipside]</param>
+                    <visible>Control.IsVisible(557)</visible>
                 </include>
             </control>
-        </control>
+        </definition>
+    </include>
+
+    <include name="View_557_MediaInfo_Playlist">
+        <param name="flipside">false</param>
+        <definition>
+            <include content="_View_557_MediaInfo_Playlist" condition="!Skin.HasSetting(View_557.MediaInfo)">
+                <param name="info_include">View_Wall_MediaInfo</param>
+                <param name="width">info_landscape_w</param>
+            </include>
+            <include content="_View_557_MediaInfo_Playlist" condition="Skin.HasSetting(View_557.MediaInfo)">
+                <param name="info_include">View_List_MediaInfo</param>
+                <param name="width">info_widelandscape_w</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="_View_558_MediaInfo_List">
+        <param name="flipside">false</param>
+        <param name="info_include">View_List_MediaInfo</param>
+        <param name="width">info_widelandscape_w</param>
+        <definition>
+            <include content="View_List_NewTemplate">
+                <param name="id">558</param>
+                <param name="icon">$VAR[Image_Landscape]</param>
+                <param name="width">$PARAM[width]</param>
+                <param name="viewtype_label">$LOCALIZE[31276]</param>
+                <param name="include">List_MediaList</param>
+                <param name="controltype">fixedlist</param>
+                <param name="focusposition">1</param>
+                <param name="movement">6</param>
+                <param name="flipside">false</param>
+                <param name="detailed">false</param>
+                <param name="hasimage">false</param>
+                <param name="top">0</param>
+                <param name="scrollbar_id">63</param>
+                <param name="reposition_include">Animation_Reposition</param>
+            </include>
+            <include content="$PARAM[info_include]">
+                <param name="line_id">99558</param>
+                <param name="flipside">$PARAM[flipside]</param>
+                <visible>Control.IsVisible(558)</visible>
+            </include>
+        </definition>
+    </include>
+
+    <include name="View_558_MediaInfo_List">
+        <param name="flipside">false</param>
+        <definition>
+            <include content="_View_558_MediaInfo_List" condition="Skin.HasSetting(View_558.MediaInfo)">
+                <param name="info_include">View_Wall_MediaInfo</param>
+                <param name="width">info_landscape_w</param>
+            </include>
+            <include content="_View_558_MediaInfo_List" condition="!Skin.HasSetting(View_558.MediaInfo)">
+                <param name="info_include">View_List_MediaInfo</param>
+                <param name="width">info_widelandscape_w</param>
+            </include>
+        </definition>
     </include>
 
 
