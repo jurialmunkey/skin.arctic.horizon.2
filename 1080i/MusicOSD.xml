@@ -3,146 +3,198 @@
     <defaultcontrol always="true">6100</defaultcontrol>
     <animation effect="fade" start="0" end="100" time="300">WindowOpen</animation>
     <animation effect="fade" end="0" start="100" time="300">WindowClose</animation>
+    <onunload>ClearProperty(OSDArtistDetails,Home)</onunload>
+    <onunload>CancelAlarm(osd_timeout,true)</onunload>
     <controls>
-        <!-- Left Side Buttons -->
-        <control type="group">
-            <top>view_top</top>
-            <centerleft>50%</centerleft>
-            <width>640</width>
-            <height>640</height>
-            <animation effect="slide" start="0" end="-470" time="400" tween="cubic" easing="out" reversible="false" condition="Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
-            <animation effect="slide" end="0" start="-470" time="400" tween="cubic" easing="out" reversible="false" condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
+
+        <control type="group" id="6002">
+
+            <visible allowhiddenfocus="true">!Window.IsVisible(1142)</visible>
+            <animation effect="fade" start="0" end="100" time="300" delay="200">Visible</animation>
+            <animation effect="fade" end="0" start="100" time="150">Hidden</animation>
+
+            <!-- Left Side Buttons -->
             <control type="grouplist" id="6000">
-                <left>-90</left>
-                <width>90</width>
-                <height>640</height>
-                <orientation>vertical</orientation>
+                <centerbottom>70</centerbottom>
+                <height>120</height>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                <orientation>horizontal</orientation>
                 <itemgap>30</itemgap>
                 <onleft>6800</onleft>
                 <onright>6500</onright>
+                <onup>8200</onup>
+                <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">ActivateWindow(1142)</ondown>
                 <include content="OSD_Button">
-                    <param name="icon" value="$VAR[Image_OSD_PlayPause]" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6100" />
-                    <param name="groupid" value="6199" />
-                    <param name="vertical" value="true" />
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">$VAR[Image_OSD_PlayPause]</param>
+                    <param name="id">6100</param>
+                    <param name="groupid">6199</param>
                     <onclick>PlayerControl(Play)</onclick>
-                    <onright condition="Player.Paused">PlayerControl(Play)</onright>
-                    <onleft condition="Player.Paused">PlayerControl(Play)</onleft>
-                    <onright condition="!Player.Forwarding32x">PlayerControl(Forward)</onright>
-                    <onleft condition="!Player.Rewinding32x">PlayerControl(Rewind)</onleft>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
+                    <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
+                    <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>
                 </include>
-                <control type="group" id="6198">
-                    <top>-30</top>
-                    <height>0</height>
-                    <visible>Control.HasFocus(6100)</visible>
-                    <control type="image">
-                        <animation effect="slide" end="-90" condition="true">Conditional</animation>
-                        <centertop>-30</centertop>
-                        <right>0</right>
-                        <width>30</width>
-                        <height>30</height>
-                        <texture colordiffuse="panel_fg_30">osd/rw.png</texture>
-                    </control>
-                    <control type="image">
-                        <centertop>-30</centertop>
-                        <right>0</right>
-                        <width>30</width>
-                        <height>30</height>
-                        <texture colordiffuse="panel_fg_30">osd/ff.png</texture>
-                    </control>
-                    <control type="label">
-                        <right>30</right>
-                        <width>60</width>
-                        <height>30</height>
-                        <label>$VAR[Label_PlayerStatus]</label>
-                        <align>center</align>
-                        <font>font_osd_lang</font>
-                        <textcolor>panel_fg_70</textcolor>
-                        <focusedcolor>panel_fg_70</focusedcolor>
-                        <shadowcolor>shadow_hard</shadowcolor>
-                        <visible>Player.Rewinding | Player.Forwarding</visible>
-                    </control>
-                </control>
-
                 <include content="OSD_Button">
-                    <param name="icon" value="osd/stop.png" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6400" />
-                    <param name="groupid" value="6499" />
-                    <param name="vertical" value="true" />
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">special://skin/extras/icons/forward-step.png</param>
+                    <param name="id">6200</param>
+                    <param name="groupid">6299</param>
+                    <param name="flipx">true</param>
+                    <onclick>PlayerControl(Previous)</onclick>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
+                    <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
+                    <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">special://skin/extras/icons/forward-step.png</param>
+                    <param name="id">6300</param>
+                    <param name="groupid">6399</param>
+                    <param name="flipx">false</param>
+                    <onclick>PlayerControl(Next)</onclick>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
+                    <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
+                    <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">special://skin/extras/icons/stop.png</param>
+                    <param name="id">6400</param>
+                    <param name="groupid">6499</param>
+                    <param name="flipx">false</param>
                     <onclick>PlayerControl(Stop)</onclick>
-                    <onright>PlayerControl(Next)</onright>
-                    <onleft>PlayerControl(Previous)</onleft>
+                    <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
+                    <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
+                    <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>
                 </include>
+            </control>
 
-                <control type="group" id="6498">
-                    <top>-30</top>
-                    <height>0</height>
-                    <visible>Control.HasFocus(6400)</visible>
-                    <control type="image">
-                        <animation effect="slide" end="-90" condition="true">Conditional</animation>
-                        <centertop>-30</centertop>
-                        <right>0</right>
-                        <width>30</width>
-                        <height>30</height>
-                        <texture colordiffuse="panel_fg_30" flipx="true">osd/next.png</texture>
-                    </control>
-                    <control type="image">
-                        <centertop>-30</centertop>
-                        <right>0</right>
-                        <width>30</width>
-                        <height>30</height>
-                        <texture colordiffuse="panel_fg_30">osd/next.png</texture>
-                    </control>
-                </control>
-
+            <!-- Right Side Buttons -->
+            <control type="grouplist" id="6001">
+                <centerbottom>70</centerbottom>
+                <height>120</height>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                <orientation>horizontal</orientation>
+                <itemgap>30</itemgap>
+                <align>right</align>
+                <onleft>6400</onleft>
+                <onright>6100</onright>
+                <onup>SetFocus(9803)</onup>
+                <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">ActivateWindow(1142)</ondown>
                 <include content="OSD_Button">
-                    <param name="icon" value="$VAR[Image_OSD_Repeat]" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6500" />
-                    <param name="groupid" value="6599" />
-                    <param name="vertical" value="true" />
-                    <onclick>PlayerControl(Repeat)</onclick>
-                </include>
-                <include content="OSD_Button">
-                    <param name="icon" value="$VAR[Image_OSD_Shuffle]" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6600" />
-                    <param name="groupid" value="6699" />
-                    <param name="vertical" value="true" />
-                    <onclick>PlayerControl(Random)</onclick>
-                </include>
-                <include content="OSD_Button">
-                    <param name="icon" value="osd/playlist.png" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6300" />
-                    <param name="groupid" value="6399" />
-                    <param name="vertical" value="true" />
-                    <onclick>Close</onclick>
-                    <onclick>ActivateWindow(musicplaylist)</onclick>
-                    <onright>PlayerControl(Next)</onright>
-                    <onleft>PlayerControl(Previous)</onleft>
-                </include>
-                <include content="OSD_Button">
-                    <param name="icon" value="osd/lyrics.png" />
-                    <param name="visible">System.HasAddon(script.cu.lrclyrics) + System.AddonIsEnabled(script.cu.lrclyrics) + !Window.IsVisible(script-cu-lrclyrics-main.xml)</param>
-                    <param name="id" value="6200" />
-                    <param name="groupid" value="6299" />
-                    <param name="vertical" value="true" />
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">special://skin/extras/icons/microphone.png</param>
+                    <param name="id">6500</param>
+                    <param name="groupid">6599</param>
                     <onclick>Close</onclick>
                     <onclick>runscript(script.cu.lrclyrics)</onclick>
+                    <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
                 </include>
                 <include content="OSD_Button">
-                    <param name="icon" value="osd/settings.png" />
-                    <param name="visible" value="true" />
-                    <param name="id" value="6700" />
-                    <param name="groupid" value="6799" />
-                    <param name="vertical" value="true" />
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">$VAR[Image_OSD_Repeat]</param>
+                    <param name="id">6600</param>
+                    <param name="groupid">6699</param>
+                    <onclick>PlayerControl(Repeat)</onclick>
+                    <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">$VAR[Image_OSD_Shuffle]</param>
+                    <param name="id">6700</param>
+                    <param name="groupid">6799</param>
+                    <onclick>PlayerControl(Random)</onclick>
+                    <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
+                </include>
+                <include content="OSD_Button">
+                    <param name="autoclose">true</param>
+                    <param name="visible">true</param>
+                    <param name="icon">special://skin/extras/icons/settings.png</param>
+                    <param name="id">6800</param>
+                    <param name="groupid">6899</param>
                     <onclick>ActivateWindow(1119)</onclick>
+                    <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
+                </include>
+
+            </control>
+
+            <control type="group">
+                <visible>!String.IsEmpty(Window(Home).Property(OSDArtistDetails))</visible>
+                <visible>!Window.IsVisible(1142)</visible>
+                <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="600" delay="200" />
+                </animation>
+                <left>620</left>
+                <height>580</height>
+                <top>view_top</top>
+                <right>view_pad</right>
+                <control type="textbox">
+                    <font>font_midi_plot</font>
+                    <textcolor>panel_fg_70</textcolor>
+                    <label>$INFO[MusicPlayer.Property(Album_Description),,[CR]]$INFO[MusicPlayer.Property(Artist_Description)]$INFO[Window(Home).Property(ResetScroll)]</label>
+                    <include content="Defs_AutoScroll_TextBox">
+                        <param name="condition">!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Control.HasFocus(9803)</param>
+                    </include>
+                    <pagecontrol>9803</pagecontrol>
+                    <bottom>-20</bottom>
+                </control>
+
+                <include content="View_Furniture_Scrollbar_V">
+                    <param name="id">9803</param>
+                    <param name="onleft">SetFocus(6001)</param>
+                    <param name="onright">SetFocus(6001)</param>
+                    <param name="ondown">SetFocus(6001)</param>
+                    <param name="onup">-</param>
+                    <param name="onback">SetFocus(6001)</param>
+                    <left>-80</left>
+                    <bottom>0</bottom>
                 </include>
             </control>
         </control>
 
+
+
+        <include content="OSD_CastInfo_HintText">
+            <param name="label">$LOCALIZE[31346]</param>
+            <visible>!Window.IsVisible(1142)</visible>
+            <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+        </include>
+
+        <control type="progress">
+            <centerleft>50%</centerleft>
+            <width>1840</width>
+            <height>112</height>
+            <centerbottom>166</centerbottom>
+            <info>Player.Progress</info>
+            <texturebg colordiffuse="00ffffff">progress/slider_bg.png</texturebg>
+            <righttexture colordiffuse="panel_fg_100">progress/slider_nib.png</righttexture>
+            <lefttexture />
+            <midtexture />
+            <visible>Control.HasFocus(8200)</visible>
+        </control>
+
+        <control type="slider" id="8200">
+            <centerleft>50%</centerleft>
+            <width>1760</width>
+            <height>112</height>
+            <centerbottom>166</centerbottom>
+            <info>Player.Progress</info>
+            <action>seek</action>
+            <texturesliderbar />
+            <textureslidernib />
+            <textureslidernibfocus />
+            <onup>6002</onup>
+            <ondown>6002</ondown>
+        </control>
     </controls>
 </window>

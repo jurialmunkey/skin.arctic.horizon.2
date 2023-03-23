@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog" id="1141">
+    <defaultcontrol always="true">6000</defaultcontrol>
+    <onload>CancelAlarm(osd_timeout,true)</onload>
+    <include>Animation_WindowTransition_FadeInOut</include>
+    <controls>
+
+        <include content="Object_Hidden_Button">
+            <param name="id">6000</param>
+            <onleft>Close</onleft>
+            <onright>Close</onright>
+            <ondown condition="!VideoPlayer.Content(livetv)">SetFocus(6501)</ondown>
+            <onup>Close</onup>
+            <oninfo>Close</oninfo>
+            <!-- <onclick>Close</onclick> -->
+            <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[137] Wikipedia,Home)</onclick>
+            <onclick>SetProperty(CustomDialogSettingsItems,Items_OSD_Wikipedia,Home)</onclick>
+            <onclick>ActivateWindow(1118)</onclick>
+        </include>
+
+        <include content="OSD_CastInfo_ExpandGroup">
+
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
+
+            <!-- Info Box -->
+            <control type="group">
+                <visible>Control.HasFocus(6000)</visible>
+                <include>Animation_VisibleTransition_FadeInOut</include>
+                <include>OSD_CastInfo_DirectorWriter</include>
+                <include>OSD_CastInfo_Information</include>
+            </control>
+
+            <!-- Cast List -->
+            <control type="group">
+                <include>Animation_VisibleTransition_FadeInOut</include>
+                <visible>Control.HasFocus(6501)</visible>
+
+                <!-- Hidden Details List -->
+                <control type="list" id="6502">
+                    <left>-1920</left>
+                    <width>1</width>
+                    <height>1</height>
+                    <orientation>vertical</orientation>
+                    <itemlayout />
+                    <focusedlayout />
+                    <content>plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=person&amp;tmdb_id=$INFO[Container(6501).ListItem.Property(tmdb_id)]</content>
+                    <visible>!String.IsEmpty(Container(6501).ListItem.Property(tmdb_id))</visible>
+                </control>
+
+                <!-- Cast List -->
+                <include content="List_Core">
+                    <param name="orientation" value="horizontal" />
+                    <param name="controltype" value="fixedlist" />
+                    <param name="id" value="6501" />
+                    <param name="item_w" value="190" />
+                    <param name="item_h" value="280" />
+                    <param name="itemlayout_w" value="230" />
+                    <param name="itemlayout_h" value="320" />
+                    <param name="itemlayout_include" value="Layout_Poster" />
+                    <param name="offset_y" value="40" />
+                    <param name="offset_x">40</param>
+                    <content>$VAR[Path_OSD_Cast]</content>
+                    <focusposition>0</focusposition>
+                    <movement>4</movement>
+                    <height>360</height>
+                    <top>-40</top>
+                    <onup>6000</onup>
+                    <onfocus>SetProperty(CastMemberList,plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;limit=50&amp;tmdb_type=person&amp;tmdb_id=$INFO[Container(6501).ListItem.Property(TMDb_ID)]$VAR[Path_Param_Widget])</onfocus>
+                    <ondown>SetFocus(6531)</ondown>
+                    <left>-40</left>
+                    <width>1190</width>
+                    <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                    <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
+                    <onclick>Action(Close)</onclick>
+                    <onclick>Dialog.Close(videoosd,force)</onclick>
+                    <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=person,tmdb_id=$INFO[Container(6501).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
+                </include>
+
+                <!-- Arrows and Busy -->
+                <include content="OSD_Episodes_Arrows">
+                    <param name="id">6501</param>
+                    <width>1110</width>
+                    <height>280</height>
+                    <include content="Object_BusySpinner">
+                        <param name="colordiffuse" value="panel_fg" />
+                        <visible>Container(6501).IsUpdating + Integer.IsEqual(Container(6501).NumItems,0)</visible>
+                    </include>
+                </include>
+
+                <!-- Cast Member Details -->
+                <include content="OSD_CastInfo_Details">
+                    <param name="icon">$INFO[Container(6501).ListItem.Icon]</param>
+                    <param name="mainlabel">$INFO[Container(6501).ListItem.Label]</param>
+                    <param name="sublabel">$INFO[Container(6501).ListItem.Property(role),$LOCALIZE[20347] ,]</param>
+                    <param name="plotlabel">$VAR[Label_OSD_CastMember_Bio]</param>
+                </include>
+            </control>
+
+            <control type="group">
+                <include>Animation_VisibleTransition_FadeInOut</include>
+                <visible>!Control.HasFocus(6000)</visible>
+                <include>OSD_CastInfo_NavButtons</include>
+            </control>
+
+            <control type="group">
+                <include>Animation_VisibleTransition_FadeInOut</include>
+                <visible>ControlGroup(6530).HasFocus() | Control.HasFocus(6539)</visible>
+
+                <!-- Starring in List -->
+                <include content="List_Core">
+                    <param name="orientation" value="horizontal" />
+                    <param name="controltype" value="fixedlist" />
+                    <param name="id" value="6539" />
+                    <param name="item_w" value="190" />
+                    <param name="item_h" value="280" />
+                    <param name="itemlayout_w" value="230" />
+                    <param name="itemlayout_h" value="320" />
+                    <param name="itemlayout_include" value="Layout_Poster" />
+                    <param name="offset_y" value="40" />
+                    <param name="offset_x">40</param>
+                    <param name="detailed">true</param>
+                    <param name="indicator">false</param>
+                    <content>$INFO[Window.Property(CastMemberList)]</content>
+                    <focusposition>0</focusposition>
+                    <movement>4</movement>
+                    <height>360</height>
+                    <top>-40</top>
+                    <onup>SetFocus(6501)</onup>
+                    <ondown>SetFocus(6530)</ondown>
+                    <left>-40</left>
+                    <width>1190</width>
+                    <animation effect="fade" start="100" end="20" time="200" delay="0" condition="Container(6539).IsUpdating">Conditional</animation>
+                    <visible>!String.IsEmpty(Window.Property(CastMemberList))</visible>
+                    <onclick>SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                    <onclick condition="!Player.Paused + !Skin.HasSetting(OSD.DisablePauseOnInfo)">Pause</onclick>
+                    <onclick>Action(Close)</onclick>
+                    <onclick>Dialog.Close(videoosd,force)</onclick>
+                    <onclick>RunScript(plugin.video.themoviedb.helper,recommendations=oninfo,tmdb_type=$INFO[Window.Property(CastMemberParamType)],tmdb_id=$INFO[Container(6539).ListItem.UniqueID(tmdb)],window_id=1191)</onclick>
+                </include>
+
+                <include content="OSD_Episodes_Arrows">
+                    <param name="id">6539</param>
+                    <width>1110</width>
+                    <height>280</height>
+                    <include content="Object_BusySpinner">
+                        <param name="colordiffuse" value="panel_fg" />
+                        <visible>Container(6539).IsUpdating</visible>
+                    </include>
+                </include>
+
+                <!-- Movie Starring in Details -->
+                <include content="OSD_CastInfo_Details">
+                    <param name="icon">$INFO[Container(6539).ListItem.Icon]</param>
+                    <param name="mainlabel">$INFO[Container(6539).ListItem.Label]$INFO[Container(6539).ListItem.Year, (,)]</param>
+                    <param name="sublabel">$INFO[Container(6539).ListItem.Property(role),$LOCALIZE[20347] ,]</param>
+                    <param name="plotlabel">$INFO[Container(6539).ListItem.Plot]</param>
+                </include>
+            </control>
+        </include>
+
+        <include content="OSD_CastInfo_HintText">
+            <param name="label">$LOCALIZE[31293]</param>
+            <visible>Control.HasFocus(6000)</visible>
+            <visible>!VideoPlayer.Content(livetv)</visible>
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
+        </include>
+    </controls>
+</window>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_MediaWindows_ID">
-        <views>50,500,501,502,504,507,508,51,510,511,512,514,517,52,520,522,524,540,550,558,57,570,572,574,58,580,590</views>
+        <views>50,500,501,502,504,507,508,51,510,511,512,514,517,52,520,521,522,524,527,54,540,550,551,552,557,558,56,560,57,570,572,574,58,580,581,590</views>
     </include>
 
     <include name="View_Furniture_Top">
@@ -51,10 +51,11 @@
                         <centerleft>50%</centerleft>
                     </control>
                     <control type="scrollbar" id="$PARAM[id]">
-                        <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onleft]</onleft>
-                        <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onright]</onright>
-                        <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onright]</onleft>
-                        <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">$PARAM[onleft]</onright>
+                        <onleft>$PARAM[onleft]</onleft>
+                        <onright>$PARAM[onright]</onright>
+                        <onup>$PARAM[onup]</onup>
+                        <ondown>$PARAM[ondown]</ondown>
+                        <onback>$PARAM[onback]</onback>
                         <orientation>vertical</orientation>
                         <texturesliderbackground />
                         <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
@@ -68,16 +69,10 @@
     <include name="View_Furniture_Scrollbars">
         <include content="View_Furniture_Scrollbar_V">
             <top>view_top</top>
-            <include content="Object_Right" condition="Skin.HasSetting(Lists.MirrorAlignment)">
-                <param name="right">0</param>
-            </include>
         </include>
         <include content="View_Furniture_Scrollbar_V">
             <param name="id">64</param>
-            <height>grid_x48</height>
-            <include content="Object_Right" condition="Skin.HasSetting(Lists.MirrorAlignment)">
-                <param name="right">0</param>
-            </include>
+            <height>grid_x44</height>
         </include>
         <include content="Furniture_Bottombar_Group">
             <control type="group">
@@ -98,8 +93,11 @@
                     <ondown>50</ondown>
                     <onback>50</onback>
                     <showonepage>true</showonepage>
-                    <include condition="!Skin.String(Rows.OnDown,Wall)">Action_Row_Recommendations_OnDown</include>
+                    <include condition="String.IsEmpty(Skin.String(Rows.OnDown))">Action_Row_Recommendations_OnDown</include>
                     <include condition="Skin.String(Rows.OnDown,Wall)">Action_Row_WallView_OnDown</include>
+                    <ondown condition="Skin.String(Rows.OnDown,Plot)">ActivateWindow(1113)</ondown>
+                    <ondown condition="Skin.String(Rows.OnDown,Trailer) + !String.IsEmpty(ListItem.Trailer)">PlayMedia($ESCINFO[ListItem.Trailer],playlist_type_hint=1)</ondown>
+                    <ondown condition="Skin.String(Rows.OnDown,Trailer) + String.IsEmpty(ListItem.Trailer) + !String.IsEmpty(Container(99950).ListItem.Trailer)">PlayMedia($ESCINFO[Container(99950).ListItem.Trailer],playlist_type_hint=1)</ondown>
                 </control>
             </control>
             <include content="Object_Hidden_Button">
@@ -119,8 +117,11 @@
                 <onup>50</onup>
                 <ondown>50</ondown>
                 <onback>50</onback>
-                <include condition="!Skin.String(Rows.OnDown,Wall)">Action_Row_Recommendations_OnDown</include>
+                <include condition="String.IsEmpty(Skin.String(Rows.OnDown))">Action_Row_Recommendations_OnDown</include>
                 <include condition="Skin.String(Rows.OnDown,Wall)">Action_Row_WallView_OnDown</include>
+                <ondown condition="Skin.String(Rows.OnDown,Plot)">ActivateWindow(1113)</ondown>
+                <ondown condition="Skin.String(Rows.OnDown,Trailer) + !String.IsEmpty(ListItem.Trailer)">PlayMedia($ESCINFO[ListItem.Trailer],playlist_type_hint=1)</ondown>
+                <ondown condition="Skin.String(Rows.OnDown,Trailer) + String.IsEmpty(ListItem.Trailer) + !String.IsEmpty(Container(99950).ListItem.Trailer)">PlayMedia($ESCINFO[Container(99950).ListItem.Trailer],playlist_type_hint=1)</ondown>
             </include>
             <include content="Object_Control" condition="!Skin.HasSetting(DisableAlphabetScrollbar)">
                 <param name="control" value="grouplist" />
@@ -237,28 +238,52 @@
 
     <include name="View_Main_MyPlaylist">
         <control type="group">
+            <visible>Control.IsVisible(50)</visible>
             <include>Animation_Foreground_SlideUp</include>
-            <include content="View_List_PlayList">
-                <param name="id" value="50" />
-                <param name="viewtype_label" value="$LOCALIZE[559]" />
-                <param name="isviewtype" value="false" />
-                <param name="flipside" value="!Skin.HasSetting(Lists.MirrorAlignment)" />
+
+            <include content="View_List_NewTemplate">
+                <param name="id">50</param>
+                <param name="width">460</param>
+                <param name="viewtype_label">$LOCALIZE[559]</param>
+                <param name="include">List_PlayList</param>
+                <param name="controltype">fixedlist</param>
+                <param name="focusposition">2</param>
+                <param name="movement">3</param>
+                <param name="flipside">false</param>
+                <param name="detailed">false</param>
+                <param name="hasimage">false</param>
+                <param name="hasline">false</param>
+                <param name="hasview">false</param>
+                <param name="top">-60</param>
+                <param name="scrollbar_id">63</param>
+                <param name="spacing">60</param>
             </include>
+
             <control type="group">
-                <width>view_pad</width>
-                <top>view_top</top>
-                <bottom>view_top</bottom>
-                <control type="scrollbar" id="61">
-                    <onright>50</onright>
-                    <orientation>vertical</orientation>
-                    <width>8</width>
+                <visible>String.IsEqual(Container(50).ListItem.DBType,song)</visible>
+                <width>infodialog_left_w</width>
+                <include>DialogInfo_MusicArt</include>
+                <include content="Object_BigPoster">
+                    <param name="diffuse">diffuse/square_w480_h480.png</param>
                     <centerleft>50%</centerleft>
-                    <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
-                    <texturesliderbar colordiffuse="00ffffff" border="4">scrollbar/scrollv_line.png</texturesliderbar>
-                    <include>Texture_Scrollbar_V</include>
-                    <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
-                </control>
+                    <top>view_top</top>
+                    <width>infodialog_poster_w</width>
+                    <height>infodialog_poster_w</height>
+                </include>
             </control>
+
+            <control type="group">
+                <visible>!String.IsEqual(Container(50).ListItem.DBType,song)</visible>
+                <width>infodialog_left_w</width>
+                <include content="Object_BigPoster">
+                    <param name="diffuse">diffuse/poster_w460_h680.png</param>
+                    <centerleft>50%</centerleft>
+                    <top>view_top</top>
+                    <width>infodialog_poster_w</width>
+                    <height>infodialog_poster_h</height>
+                </include>
+            </control>
+
             <control type="group">
                 <include>Furniture_Bottom_Left</include>
                 <include>Furniture_Bottom_Right</include>
@@ -295,7 +320,8 @@
             <bottom>divider_bottom</bottom>
             <right>view_pad</right>
             <top>view_top</top>
-            <aspectratio align="right">keep</aspectratio>
+            <width>grid_x56</width>
+            <aspectratio align="right" aligny="bottom">keep</aspectratio>
             <fadetime>600</fadetime>
             <texture background="true">$VAR[Image_ClearArt]</texture>
         </include>
@@ -344,9 +370,7 @@
                 <visible>!$EXP[Exp_CombinedViews]</visible>
                 <visible>$EXP[Exp_View_Special]</visible>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <!-- <animation type="Visible" reversible="false">
-                    <effect type="fade" start="0" end="100" time="300" delay="300"/>
-                </animation> -->
+                <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
                 <include>Furniture_Bottom_Left</include>
                 <include>Furniture_Bottom_Right</include>
             </control>

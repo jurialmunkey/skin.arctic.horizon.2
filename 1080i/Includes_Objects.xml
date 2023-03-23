@@ -22,6 +22,8 @@
     <include name="Object_FocusPosition"><focusposition>$PARAM[focusposition]</focusposition></include>
     <include name="Object_Movement"><movement>$PARAM[movement]</movement></include>
     <include name="Object_Label"><label fallback="$PARAM[fallback]">$PARAM[label]</label></include>
+    <include name="Object_TextOffsetX"><textoffsetx>$PARAM[textoffsetx]</textoffsetx></include>
+    <include name="Object_AspectRatio"><aspectratio align="$PARAM[align]" aligny="$PARAM[aligny]">$PARAM[aspectratio]</aspectratio></include>
     <include name="Object_HitRect"><hitrect x="$PARAM[x]" y="$PARAM[y]" w="$PARAM[w]" h="$PARAM[h]" /></include>
     <include name="Object_DefaultControl"><defaultcontrol always="$PARAM[always]">$PARAM[defaultcontrol]</defaultcontrol></include>
     <include name="Object_Texture">
@@ -108,6 +110,20 @@
         </definition>
     </include>
 
+    <include name="Object_Glow_40">
+        <param name="pad" default="-40" />
+        <param name="affix">v</param>
+        <definition>
+            <control type="image">
+                <include content="Dimension_Padding"><param name="pad" value="$PARAM[pad]" /></include>
+                <include content="Texture_Glow_Highlight">
+                    <param name="affix">$PARAM[affix]</param>
+                </include>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
     <include name="Object_ItemBack">
         <param name="selected" default="false" />
         <param name="shadow_include" default="Texture_Shadow_40" />
@@ -121,10 +137,55 @@
             </include>
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control" value="image" />
-                <include content="Dimension_Padding"><param name="pad">-2</param></include>
+                <include content="Dimension_Padding"><param name="pad">0</param></include>
                 <include>Texture_Box_Highlight_V</include>
             </include>
         </definition>
+    </include>
+
+
+    <include name="Object_RatingOverlay_Position_Thin">
+        <left>30</left>
+        <centertop>0</centertop>
+    </include>
+    <include name="Object_RatingOverlay_Position_Bold">
+        <left>20</left>
+        <top>20</top>
+    </include>
+    <include name="_Object_RatingOverlay">
+        <control type="group">
+            <include condition="Skin.HasSetting(SelectBox.Thin)">Object_RatingOverlay_Position_Thin</include>
+            <include condition="!Skin.HasSetting(SelectBox.Thin)">Object_RatingOverlay_Position_Bold</include>
+            <width>36</width>
+            <height>36</height>
+            <visible>!String.IsEmpty(ListItem.Rating)</visible>
+            <control type="image">
+                <bordersize>-4</bordersize>
+                <texture colordiffuse="main_bg_100">common/circle.png</texture>
+            </control>
+            <control type="image">
+                <bordersize>-14</bordersize>
+                <texture colordiffuse="main_fg_30">progress/circle/p100.png</texture>
+            </control>
+            <control type="image">
+                <bordersize>-14</bordersize>
+                <texture colordiffuse="$VAR[ColorWatchedProgress]">$VAR[Defs_Progress_Rating,progress/circle/p,.png]</texture>
+            </control>
+            <control type="image">
+                <bordersize>2</bordersize>
+                <texture colordiffuse="main_bg_100">common/circle.png</texture>
+            </control>
+            <control type="label">
+                <label>$INFO[ListItem.Rating]</label>
+                <align>center</align>
+                <font>font_hint</font>
+                <textcolor>panel_fg_100</textcolor>
+                <bottom>2</bottom>
+            </control>
+        </control>
+    </include>
+    <include name="Object_RatingOverlay">
+        <include condition="Skin.HasSetting(Indicator.Ratings)">_Object_RatingOverlay</include>
     </include>
 
     <include name="Object_StarRating">
@@ -152,7 +213,7 @@
             <control type="label">
                 <width>40</width>
                 <height>40</height>
-                <font>font_menulabel</font>
+                <font>font_main_black</font>
                 <label>$PARAM[label]</label>
                 <textcolor>$PARAM[textcolor_fo]</textcolor>
                 <align>center</align>
@@ -161,7 +222,7 @@
             <control type="label">
                 <width>40</width>
                 <height>40</height>
-                <font>font_menulabel</font>
+                <font>font_main_black</font>
                 <label>$PARAM[label]</label>
                 <textcolor>$PARAM[textcolor_nf]</textcolor>
                 <align>center</align>
@@ -187,6 +248,46 @@
         </definition>
     </include>
 
+    <include name="Object_NavButton_Horz">
+        <param name="flipx">false</param>
+        <param name="centertop">50%</param>
+        <definition>
+            <include content="Object_Control">
+                <param name="control">group</param>
+                <width>60</width>
+                <height>60</height>
+                <centertop>$PARAM[centertop]</centertop>
+                <include content="Object_CenterBottom" condition="$PARAM[flipx]">
+                    <param name="centerbottom">40</param>
+                </include>
+                <include content="Object_CenterTop" condition="!$PARAM[flipx]">
+                    <param name="centertop">40</param>
+                </include>
+                <control type="image">
+                    <texture flipx="$PARAM[flipx]" colordiffuse="main_fg_60">arrows/arrow-small-right.png</texture>
+                    <width>16</width>
+                    <height>16</height>
+                    <centertop>50%</centertop>
+                    <left>18</left>
+                </control>
+                <control type="image">
+                    <texture flipx="$PARAM[flipx]" colordiffuse="main_fg_60">arrows/arrow-small-right.png</texture>
+                    <width>16</width>
+                    <height>16</height>
+                    <centertop>50%</centertop>
+                    <right>18</right>
+                </control>
+            </include>
+            <control type="button">
+                <texturefocus />
+                <texturenofocus />
+                <onclick>SetFocus($PARAM[id])</onclick>
+                <onclick condition="$PARAM[flipx]">Action(Left)</onclick>
+                <onclick condition="!$PARAM[flipx]">Action(Right)</onclick>
+            </control>
+        </definition>
+    </include>
+
     <include name="Object_NavButton">
         <param name="flipy">false</param>
         <param name="centerleft">50%</param>
@@ -202,19 +303,13 @@
                 <include content="Object_CenterTop" condition="!$PARAM[flipy]">
                     <param name="centertop">40</param>
                 </include>
+
                 <control type="image">
-                    <texture flipy="$PARAM[flipy]" colordiffuse="main_fg_60">arrows/arrow-small-up.png</texture>
-                    <width>16</width>
-                    <height>16</height>
+                    <texture flipy="$PARAM[flipy]" colordiffuse="main_fg_80">special://skin/extras/icons/angle-up.png</texture>
+                    <width>40</width>
+                    <height>40</height>
                     <centerleft>50%</centerleft>
-                    <top>18</top>
-                </control>
-                <control type="image">
-                    <texture flipy="$PARAM[flipy]" colordiffuse="main_fg_60">arrows/arrow-small-up.png</texture>
-                    <width>16</width>
-                    <height>16</height>
-                    <centerleft>50%</centerleft>
-                    <bottom>18</bottom>
+                    <centertop>50%</centertop>
                 </control>
             </include>
             <control type="button">
@@ -402,7 +497,7 @@
                     <param name="control" value="label" />
                     <bottom>-40</bottom>
                     <height>40</height>
-                    <width>400</width>
+                    <width>600</width>
                     <centerleft>50%</centerleft>
                     <align>center</align>
                     <label>$PARAM[label]</label>
@@ -528,7 +623,7 @@
     <include name="Object_InfoCircle">
         <param name="bordersize">2</param>
         <param name="aspectratio">scale</param>
-        <param name="colordiffuse">main_bg_90</param>
+        <param name="colordiffuse">dialog_fg_90</param>
         <definition>
             <control type="group">
                 <left>40</left>
@@ -539,7 +634,7 @@
                         <include content="Dimension_Padding"><param name="pad">-40</param></include>
                         <bordersize>40</bordersize>
                         <bordertexture colordiffuse="shadow_hard">shadows/circle_50-shadow-40.png</bordertexture>
-                        <texture colordiffuse="main_fg_90">diffuse/circle_50.png</texture>
+                        <texture colordiffuse="dialog_bg_100">diffuse/circle_50.png</texture>
                     </control>
                     <include content="Object_InfoCircle_Image">
                         <param name="bordersize">$PARAM[bordersize]</param>
@@ -594,7 +689,7 @@
             <centertop>49%</centertop>
             <aligny>center</aligny>
             <align>center</align>
-            <font>font_infotitle</font>
+            <font>font_info_black</font>
             <textcolor>$VAR[ColorHighlight]</textcolor>
             <label>[COLOR=main_logo]Arctic[/COLOR] Horizon 2</label>
         </control>
@@ -608,8 +703,8 @@
             <control type="grouplist">
                 <orientation>horizontal</orientation>
                 <align>center</align>
-                <height>90</height>
-                <centertop>40</centertop>
+                <height>100</height>
+                <top>0</top>
                 <control type="image">
                     <centertop>50%</centertop>
                     <width>90</width>
@@ -622,9 +717,10 @@
                     <left>-10</left>
                     <label>$INFO[Window(Weather).Property(Current.Temperature), [B],[/B]°]</label>
                     <width>auto</width>
+                    <height>90</height>
                     <align>center</align>
                     <aligny>center</aligny>
-                    <font>font_infotitle</font>
+                    <font>font_info_black</font>
                     <textcolor>main_fg_90</textcolor>
                     <visible>!String.IsEmpty(Window(Weather).Property(Current.Temperature))</visible>
                 </control>
@@ -635,7 +731,7 @@
                 <centerbottom>20</centerbottom>
                 <align>center</align>
                 <aligny>center</aligny>
-                <font>font_small</font>
+                <font>font_main</font>
                 <textcolor>main_fg_90</textcolor>
                 <visible>!String.IsEmpty(Window(Weather).Property(Current.Condition))</visible>
             </control>
@@ -645,7 +741,7 @@
     <include name="Object_MenuButton">
         <param name="icon" default="$VAR[Image_MuteBug]" />
         <param name="overlay" default="true" />
-        <param name="bordersize" default="0" />
+        <param name="bordersize" default="6" />
         <param name="profileimage" default="false" />
         <param name="flipy" default="false" />
         <definition>
@@ -680,7 +776,7 @@
                     <label>$INFO[ListItem.SortLetter]</label>
                     <align>center</align>
                     <aligny>center</aligny>
-                    <font>font_menulabel</font>
+                    <font>font_main_black</font>
                     <visible>Container.Scrolling + $EXP[Exp_AlphabetTypes_Only]</visible>
                     <animation effect="fade" start="0" end="100" time="200" delay="400" reversible="true">Visible</animation>
                     <animation effect="fade" start="100" end="0" time="200" delay="1200" reversible="true">Hidden</animation>
@@ -754,16 +850,17 @@
                     <visible>![!String.IsEmpty($PARAM[listitem].Property(role)) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(Indicator.DisableEpisodes)]</visible>
                 </control>
                 <control type="label">
-                    <font>font_unwatched</font>
+                    <font>font_hint_bold</font>
                     <align>center</align>
                     <aligny>center</aligny>
                     <textcolor>panel_fg_100</textcolor>
                     <label>$INFO[$PARAM[listitem].Property(UnWatchedEpisodes)]</label>
-                    <visible>!Integer.IsEqual($PARAM[listitem].Property(UnWatchedEpisodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(Indicator.DisableEpisodes)</visible>
-                    <visible>![!String.IsEmpty($PARAM[listitem].Property(role)) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(Indicator.DisableEpisodes)]</visible>
+                    <visible>[!Integer.IsEqual($PARAM[listitem].Property(UnWatchedEpisodes),0) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,season) | String.IsEqual($PARAM[listitem].DBType,episode)] + !Skin.HasSetting(Indicator.DisableEpisodes)]</visible>
+                    <visible>!$PARAM[listitem].IsResumable | Skin.HasSetting(Indicator.DisableProgress)</visible>
+                    <visible>![!String.IsEmpty($PARAM[listitem].Property(role)) + [String.IsEqual($PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[listitem].DBType,season)] + !Skin.HasSetting(Indicator.DisableEpisodes)]</visible>
                 </control>
                 <control type="label">
-                    <font>font_unwatched</font>
+                    <font>font_hint_bold</font>
                     <align>center</align>
                     <aligny>center</aligny>
                     <textcolor>panel_fg_100</textcolor>
@@ -849,7 +946,7 @@
                 <height>120</height>
                 <textoffsetx>50</textoffsetx>
                 <align>left</align>
-                <font>font_small</font>
+                <font>font_main</font>
                 <textcolor>main_fg_70</textcolor>
                 <nested />
             </control>
@@ -1076,11 +1173,13 @@
         <param name="useanimation" default="true" />
         <param name="nib_pos" default="70" />
         <param name="wraparound" default="true" />
-        <param name="usemousefocus" default="false" />
+        <param name="use_mouse_focus" default="false" />
         <param name="action_include" default="Action_OptionsMenu_Default" />
+        <param name="use_side_nib">false</param>
+        <param name="has_nib">true</param>
         <definition>
             <control type="group">
-                <include content="Object_Control" condition="$PARAM[usemousefocus]">
+                <include content="Object_Control" condition="$PARAM[use_mouse_focus]">
                     <param name="control">button</param>
                     <param name="id">$PARAM[groupid]</param>
                     <texturenofocus />
@@ -1129,8 +1228,9 @@
                     <include>Texture_Shadow_20</include>
                     <include>Texture_Dialog</include>
                 </include>
-                <include content="Dialog_Nib">
+                <include content="Dialog_Nib" condition="$PARAM[has_nib]">
                     <param name="nib_pos">$PARAM[nib_pos]</param>
+                    <param name="use_side_nib">$PARAM[use_side_nib]</param>
                 </include>
 
                 <control type="image">
@@ -1171,7 +1271,7 @@
                 <include condition="$PARAM[useanimation]">Animation_SlideIn_Dialog</include>
                 <include condition="$PARAM[useanimation] + !$PARAM[isbuttonmenu]">Animation_FadeOut</include>
                 <include content="Object_Visible" condition="$PARAM[useanimation]">
-                    <param name="visible">[$PARAM[visible]] + [[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused] | [Control.HasFocus($PARAM[groupid]) + [$PARAM[usemousefocus]]]]</param>
+                    <param name="visible">[$PARAM[visible]] + [[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused] | [Control.HasFocus($PARAM[groupid]) + [$PARAM[use_mouse_focus]]]]</param>
                 </include>
                 <width>$PARAM[width]</width>
                 <height>860</height>
@@ -1186,7 +1286,7 @@
         <param name="header" default="$LOCALIZE[33063]" />
         <param name="id" default="9000" />
         <param name="groupid" default="89000" />
-        <param name="usemousefocus" default="false" />
+        <param name="use_mouse_focus" default="false" />
         <param name="onback" default="50" />
         <param name="width" default="optionsmenu_w" />
         <param name="usegrouplist" default="true" />
@@ -1194,47 +1294,53 @@
         <param name="iscontextmenu" default="false" />
         <param name="isbuttonmenu" default="false" />
         <param name="isfocused" default="false" />
-        <param name="hasbuttonoverlay" default="true" />
+        <param name="has_button_overlay" default="true" />
         <param name="has_background_overlay">true</param>
+        <param name="use_side_nib">false</param>
         <definition>
             <include content="Object_Control">
                 <param name="control" value="group" />
-                <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused] | [Control.HasFocus($PARAM[groupid]) + [$PARAM[usemousefocus]]]</visible>
+                <visible>[ControlGroup($PARAM[id]).HasFocus() + $PARAM[usegrouplist]] | [Control.HasFocus($PARAM[id]) + !$PARAM[usegrouplist]] | $PARAM[isfocused] | [Control.HasFocus($PARAM[groupid]) + [$PARAM[use_mouse_focus]]]</visible>
                 <include>Animation_FadeIn</include>
                 <include condition="!$PARAM[isbuttonmenu]">Animation_FadeOut</include>
                 <include content="Object_Overlay" condition="$PARAM[has_background_overlay]">
                     <param name="windowanimation" value="false" />
                 </include>
-                <include content="Object_Control" condition="$PARAM[hasbuttonoverlay]">
-                    <param name="control" value="group" />
+                <include content="Furniture_MenuButton" condition="$PARAM[has_button_overlay] + ![$PARAM[use_side_nib]]">
+                    <param name="icon" value="$PARAM[menuicon]" />
                     <visible>!Window.IsVisible(DialogBusy.xml)</visible>
                     <visible>!Window.IsVisible(DialogExtendedProgressBar.xml)</visible>
                     <visible>!Window.IsVisible(DialogNotification.xml)</visible>
                     <visible>!Window.IsVisible(DialogVolumeBar.xml) | Player.Muted</visible>
-                    <include content="Furniture_MenuButton">
-                        <param name="icon" value="$PARAM[menuicon]" />
-                    </include>
+                </include>
+                <include content="Object_MenuButton" condition="$PARAM[has_button_overlay] + $PARAM[use_side_nib]">
+                    <param name="profileimage">$EXP[Exp_HasProfileImage]</param>
+                    <centerleft>$PARAM[side_button_centerleft]</centerleft>
+                    <centertop>$PARAM[side_button_centertop]</centertop>
+                    <height>60</height>
                 </include>
                 <visible>$PARAM[visible]</visible>
             </include>
             <include content="Object_Options_Menu_Popup">
-                <param name="icon" value="$PARAM[icon]" />
-                <param name="header" value="$PARAM[header]" />
-                <param name="id" value="$PARAM[id]" />
-                <param name="groupid" value="$PARAM[groupid]" />
-                <param name="onback" value="$PARAM[onback]" />
-                <param name="width" value="$PARAM[width]" />
-                <param name="usegrouplist" value="$PARAM[usegrouplist]" />
-                <param name="visible" value="$PARAM[visible]" />
-                <param name="iscontextmenu" value="$PARAM[iscontextmenu]" />
-                <param name="isbuttonmenu" value="$PARAM[isbuttonmenu]" />
-                <param name="isfocused" value="$PARAM[isfocused]" />
-                <param name="grouplist_items" value="$PARAM[grouplist_items]" />
-                <param name="nib_pos" value="$PARAM[nib_pos]" />
-                <param name="useanimation" value="$PARAM[useanimation]" />
-                <param name="wraparound" value="$PARAM[wraparound]" />
-                <param name="usemousefocus" value="$PARAM[usemousefocus]" />
-                <param name="action_include" value="$PARAM[action_include]" />
+                <param name="icon">$PARAM[icon]</param>
+                <param name="header">$PARAM[header]</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="groupid">$PARAM[groupid]</param>
+                <param name="onback">$PARAM[onback]</param>
+                <param name="width">$PARAM[width]</param>
+                <param name="usegrouplist">$PARAM[usegrouplist]</param>
+                <param name="visible">$PARAM[visible]</param>
+                <param name="iscontextmenu">$PARAM[iscontextmenu]</param>
+                <param name="isbuttonmenu">$PARAM[isbuttonmenu]</param>
+                <param name="isfocused">$PARAM[isfocused]</param>
+                <param name="grouplist_items">$PARAM[grouplist_items]</param>
+                <param name="nib_pos">$PARAM[nib_pos]</param>
+                <param name="has_nib">$PARAM[has_nib]</param>
+                <param name="use_side_nib">$PARAM[use_side_nib]</param>
+                <param name="useanimation">$PARAM[useanimation]</param>
+                <param name="wraparound">$PARAM[wraparound]</param>
+                <param name="use_mouse_focus">$PARAM[use_mouse_focus]</param>
+                <param name="action_include">$PARAM[action_include]</param>
                 <nested />
             </include>
 
@@ -1247,7 +1353,7 @@
         <param name="visible" default="true" />
         <definition>
             <include content="_Object_MenuBar_Item">
-                <param name="fo_texture" value="Texture_Circle_Highlight_H" />
+                <param name="fo_texture" value="Texture_MainMenu_Highlight_H" />
                 <param name="nf_texture" value="common/menumain.png" />
                 <param name="sh_texture" value="shadows/menu_shadow.png" />
                 <param name="selected" value="$PARAM[selected]" />
@@ -1311,6 +1417,7 @@
         <param name="color_nf" default="dialog_fg" />
         <param name="color_bg" default="dialog_bg_100" />
         <param name="altfocus" default="false" />
+        <param name="solidfocus">true</param>
         <param name="iconic">[Skin.HasSetting(Home.IconicMenu)]</param>
         <definition>
             <control type="$PARAM[control]" id="$PARAM[id]">
@@ -1402,6 +1509,17 @@
                     <control type="group">
                         <left>40</left>
                         <right>-20</right>
+                        <visible>![$PARAM[solidfocus]]</visible>
+                        <include content="Object_MenuBar_Item">
+                            <param name="color_bg" value="main_fg_12" />
+                            <param name="color_fg" value="main_fg_90" />
+                            <param name="font" value="$PARAM[font]" />
+                        </include>
+                    </control>
+                    <control type="group">
+                        <left>40</left>
+                        <right>-20</right>
+                        <visible>$PARAM[solidfocus]</visible>
                         <include content="Object_MenuBar_Item">
                             <param name="color_bg" value="$PARAM[color_bg]" />
                             <param name="color_fg" value="$PARAM[color]_70" />
@@ -1642,7 +1760,7 @@
         <param name="has_icon" default="true" />
         <param name="colordiffuse" default="$VAR[ColorHighlight]" />
         <param name="textcolor" default="dialog_fg" />
-        <param name="font" default="font_small_bold" />
+        <param name="font" default="font_main_bold" />
         <definition>
             <control type="group" id="$PARAM[id]">
                 <nested />
@@ -1682,7 +1800,7 @@
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
                 <width>grid_x08</width>
-                <font>font_small</font>
+                <font>font_main</font>
                 <textoffsetx>0</textoffsetx>
             </control>
         </definition>
@@ -1691,7 +1809,7 @@
     <include name="Object_ColorSwatch">
         <control type="label">
             <align>center</align>
-            <font>font_hintlabel</font>
+            <font>font_hint_black</font>
             <height>40</height>
             <label>$PARAM[label]</label>
         </control>
@@ -1805,14 +1923,18 @@
         <param name="indicator" default="false" />
         <param name="focusbounce" default="false" />
         <param name="shadow" default="true" />
+        <param name="indicator_reposition">false</param>
+        <param name="indicator_visible">true</param>
         <definition>
             <control type="group">
+                <nested />
                 <include condition="$PARAM[focusbounce]">Animation_FocusBounce</include>
                 <include content="Object_Control">
                     <param name="control" value="group" />
-                    <include content="Dimension_Padding" condition="!Skin.HasSetting(SelectBox.Thin)"><param name="pad">-10</param></include>
-                    <include content="Dimension_Padding" condition="Skin.HasSetting(SelectBox.Thin)"><param name="pad">-5</param></include>
-                    <include condition="$PARAM[shadow]">Object_Shadow_40</include>
+                    <include content="Dimension_Padding" condition="!Skin.HasSetting(SelectBox.Thin)"><param name="pad">-8</param></include>
+                    <include content="Dimension_Padding" condition="Skin.HasSetting(SelectBox.Thin)"><param name="pad">-3</param></include>
+                    <include condition="$PARAM[shadow] + !Skin.HasSetting(SelectBox.Glow)">Object_Shadow_40</include>
+                    <include condition="$PARAM[shadow] + Skin.HasSetting(SelectBox.Glow)">Object_Glow_40</include>
                     <control type="image">
                         <include condition="!Skin.HasSetting(SelectBox.Thin)">Texture_SelectBox</include>
                         <include condition="Skin.HasSetting(SelectBox.Thin)">Texture_SelectBox_Thin</include>
@@ -1822,6 +1944,10 @@
                     <param name="selected" value="true" />
                     <param name="affix" value="$PARAM[affix]" />
                     <param name="listitem" value="$PARAM[listitem]" />
+                    <include content="Object_Left" condition="$PARAM[indicator_reposition]">
+                        <param name="left">$PARAM[indicator_left]</param>
+                    </include>
+                    <visible>$PARAM[indicator_visible]</visible>
                 </include>
             </control>
         </definition>
@@ -1885,10 +2011,13 @@
             <control type="group">
                 <left>$PARAM[item_h]</left>
                 <right>grid_x04</right>
-                <control type="label">
+                <control type="textbox">
                     <textcolor>$PARAM[color]</textcolor>
                     <selectedcolor>$PARAM[color]</selectedcolor>
-                    <font>font_small_bold</font>
+                    <font>font_main_bold</font>
+                    <aligny>center</aligny>
+                    <top>grid_x02</top>
+                    <bottom>grid_x02</bottom>
                     <label>$INFO[ListItem.Label]</label>
                     <visible>String.IsEmpty(ListItem.Label2) + String.IsEmpty(ListItem.Property(Event.Description))</visible>
                 </control>
@@ -1901,7 +2030,7 @@
                         <top>0</top>
                         <textcolor>$PARAM[color]</textcolor>
                         <selectedcolor>$PARAM[color]</selectedcolor>
-                        <font>font_small_bold</font>
+                        <font>font_main_bold</font>
                         <label>$INFO[ListItem.Label]</label>
                     </control>
                     <control type="label">
@@ -1955,11 +2084,15 @@
         <param name="icon_other_bordersize">40</param>
         <param name="icon_other_fallback">DefaultFolder.png</param>
 
+        <param name="icon_default_bordersize">0</param>
+        <param name="icon_default_aspectratio">scale</param>
+
         <param name="selected">False</param>
         <definition>
             <control type="image">
                 <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
-                <aspectratio scalediffuse="false">scale</aspectratio>
+                <aspectratio scalediffuse="false">$PARAM[icon_default_aspectratio]</aspectratio>
+                <bordersize>$PARAM[icon_default_bordersize]</bordersize>
                 <fadetime>$PARAM[fadetime]</fadetime>
                 <visible>![$PARAM[is_keep]]</visible>
                 <visible>!$PARAM[is_genre]</visible>

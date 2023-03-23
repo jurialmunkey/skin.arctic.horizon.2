@@ -4,9 +4,23 @@
     <!-- Main Group for DialogInfo -->
     <include name="DialogInfo_MainGroup">
         <control type="group">
-            <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml) + !ControlGroup(6000).HasFocus()</visible>
-            <animation effect="slide" start="0" end="-infodialog_left_w" time="800" tween="cubic" easing="out" reversible="false">Hidden</animation>
-            <animation effect="slide" end="0" start="-infodialog_left_w" time="800" tween="cubic" easing="out" reversible="false">Visible</animation>
+            <animation effect="fade" start="100" end="0" condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.Recommendations.HideInfo))">Conditional</animation>
+            <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
+            <visible>!ControlGroup(6000).HasFocus()</visible>
+            <visible>String.IsEmpty(Window(Home).Property(Recommendations.IsLoading))</visible>
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
+            <include>Animation_Common</include>
+            <nested />
+        </control>
+    </include>
+
+    <!-- Main Group for DialogInfo -->
+    <include name="DialogInfo_SlideGroup">
+        <control type="group">
+            <animation effect="slide" start="0" end="100" time="400" tween="cubic" easing="out" reversible="false" condition="[ControlGroup(4000).HasFocus() | [Control.HasFocus(7002) + Skin.HasSetting(DialogInfo.FocusButtons)]]">Conditional</animation>
+            <animation effect="slide" end="0" start="100" time="400" tween="cubic" easing="out" reversible="false" condition="![ControlGroup(4000).HasFocus() | [Control.HasFocus(7002) + Skin.HasSetting(DialogInfo.FocusButtons)]]">Conditional</animation>
+            <animation effect="slide" start="0" end="-540" time="400" tween="cubic" easing="out" reversible="false" condition="[Control.HasFocus(9801) | Control.HasFocus(9802)]">Conditional</animation>
+            <animation effect="slide" end="0" start="-540" time="400" tween="cubic" easing="out" reversible="false" condition="![Control.HasFocus(9801) | Control.HasFocus(9802)]">Conditional</animation>
             <nested />
         </control>
     </include>
@@ -14,7 +28,7 @@
     <!-- Left Group for DialogInfo -->
     <include name="DialogInfo_LeftGroup">
         <param name="poster_visible">true</param>
-        <param name="diffuse">diffuse/poster_w475_h680.png</param>
+        <param name="diffuse">diffuse/poster_w460_h680.png</param>
         <param name="width">infodialog_poster_w</param>
         <param name="height">infodialog_poster_h</param>
         <definition>
@@ -54,39 +68,28 @@
 
     <!-- Button Group for DialogInfo -->
     <include name="DialogInfo_ButtonGroup">
-        <control type="group">
+        <control type="grouplist" id="4000">
             <top>view_top</top>
-            <left>view_pad</left>
+            <itemgap>30</itemgap>
+            <orientation>vertical</orientation>
             <width>60</width>
-            <animation type="WindowOpen" reversible="false">
-                <effect type="fade" start="0" end="100" time="400" delay="500" tween="sine" easing="out"/>
-            </animation>
-            <animation type="WindowClose" reversible="false">
-                <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
-            </animation>
-            <include content="Object_Control">
-                <param name="control" value="grouplist" />
-                <param name="id" value="4000" />
-                <top>0</top>
-                <itemgap>30</itemgap>
-                <orientation>vertical</orientation>
-                <width>60</width>
-                <centerleft>50%</centerleft>
-                <visible allowhiddenfocus="true">ControlGroup(4000).HasFocus()</visible>
-                <animation effect="fade" start="0" end="100" time="400">Visible</animation>
-                <animation effect="fade" start="100" end="0" time="400">Hidden</animation>
-                <!-- Open Plotbox (and reset scroll position) -->
-                <!-- <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
-                <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
-                <onup>61</onup> -->
-                <!-- Open Recommendations -->
-                <!-- <ondown>7002</ondown> -->
-                <onright>5000</onright>
-                <onleft>5000</onleft>
-                <onback>5000</onback>
-
-                <include>$PARAM[include]</include>
-            </include>
+            <left>view_pad</left>
+            <visible allowhiddenfocus="true">ControlGroup(4000).HasFocus()</visible>
+            <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="200">Visible</animation>
+            <animation effect="fade" reversible="false" start="100" end="0" time="200" delay="0">Hidden</animation>
+            <animation effect="fade" reversible="false" start="0" end="100" time="400" delay="600">WindowOpen</animation>
+            <animation effect="fade" reversible="false" start="100" end="0" time="100" delay="0">WindowClose</animation>
+            <onleft condition="!Integer.IsEqual(Container(7003).NumItems,0)">SetFocus(7003)</onleft>
+            <onleft condition="!Skin.HasSetting(DialogInfo.FocusButtons) + Integer.IsEqual(Container(7003).NumItems,0)">5000</onleft>
+            <onright condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onright>
+            <onright condition="Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(9801)</onright>
+            <onback condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onback>
+            <onback condition="Skin.HasSetting(DialogInfo.FocusButtons)">Dialog.Close(movieinformation)</onback>
+            <onup condition="Skin.HasSetting(DialogInfo.FocusButtons) + String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+            <onup condition="Skin.HasSetting(DialogInfo.FocusButtons) + !String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+            <onup condition="Skin.HasSetting(DialogInfo.FocusButtons)">61</onup>
+            <ondown condition="Skin.HasSetting(DialogInfo.FocusButtons)">7002</ondown>
+            <include>$PARAM[include]</include>
         </control>
     </include>
 
@@ -98,36 +101,100 @@
             <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
             <onup>61</onup>
             <ondown>7002</ondown>
-            <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(4000)</onclick>
+            <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5001)</onclick>
+            <onclick condition="!$EXP[Exp_IsPersonInfo]">Action(Select)</onclick>
+            <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5000)</onclick>
             <onclick condition="$EXP[Exp_IsPersonInfo]">runscript(plugin.video.themoviedb.helper,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=person)</onclick>
             <onleft>4000</onleft>
-            <onright>SetFocus(7003,0,absolute)</onright>
+            <onright>SetFocus(9801)</onright>
         </include>
+    </include>
+
+    <include name="DialogInfo_PullTab">
+        <control type="group">
+            <nested />
+            <left>0</left>
+            <height>80</height>
+            <width>80</width>
+            <visible>!ControlGroup(4000).HasFocus()</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <control type="image">
+                <right>0</right>
+                <width>30</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="dialog_bg_100">common/halfcircle.png</texture>
+            </control>
+            <control type="image">
+                <texture colordiffuse="dialog_fg_90">special://skin/extras/icons/bars.png</texture>
+                <width>32</width>
+                <height>32</height>
+                <centertop>50%</centertop>
+                <right>-3</right>
+            </control>
+        </control>
+    </include>
+
+    <!-- Furniture -->
+    <include name="DialogInfo_Furniture">
+        <control type="group">
+            <visible>!Window.IsVisible(script-tmdbhelper-recommendations.xml)</visible>
+            <visible>!Window.IsVisible(script-tmdbhelper-wikipedia.xml)</visible>
+            <include content="Furniture_Top_Right">
+                <param name="icon">special://skin/extras/icons/info2.png</param>
+            </include>
+            <include>Furniture_Top_Left</include>
+            <include content="DialogInfo_Codecs">
+                <param name="arrow_visible">$PARAM[downarrow_visible]</param>
+            </include>
+        </control>
     </include>
 
     <!-- Bottom Row Codecs -->
     <include name="DialogInfo_Codecs">
         <control type="group">
-            <height>grid_x08</height>
-            <centerbottom>grid_x02</centerbottom>
-            <include>Info_Codecs</include>
-            <include>Info_Studio</include>
+            <visible>!ControlGroup(6000).HasFocus()</visible>
+            <visible>!Window.IsActive(script-tmdbhelper-recommendations.xml)</visible>
+            <animation effect="fade" start="0" end="100" delay="400" time="400">Visible</animation>
+            <animation effect="fade" start="100" end="0" delay="0" time="400">Hidden</animation>
+            <include>Furniture_Bottom</include>
+            <include content="DialogInfo_MouseNavArrow">
+                <visible>$PARAM[arrow_visible]</visible>
+            </include>
+            <control type="image">
+                <texture colordiffuse="main_fg_80">special://skin/extras/icons/angle-left.png</texture>
+                <width>40</width>
+                <height>40</height>
+                <centerleft>40</centerleft>
+                <centerbottom>100</centerbottom>
+                <visible>Control.HasFocus(5000) | Control.HasFocus(9801) | Control.HasFocus(9802)</visible>
+                <include>Animation_FadeIn_LongDelay</include>
+            </control>
+            <control type="image">
+                <texture colordiffuse="main_fg_80">special://skin/extras/icons/angle-right.png</texture>
+                <width>40</width>
+                <height>40</height>
+                <centerright>40</centerright>
+                <centerbottom>100</centerbottom>
+                <visible>[Control.HasFocus(5000) + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)]] | ControlGroup(4000).HasFocus()</visible>
+                <include>Animation_FadeIn_LongDelay</include>
+            </control>
         </control>
     </include>
 
     <!-- Mouse Nav -->
     <include name="DialogInfo_MouseNavArrow">
-        <include content="Object_Control">
-            <param name="control">group</param>
-            <bottom>-grid_x08</bottom>
+        <control type="group">
+            <bottom>0</bottom>
             <height>grid_x14</height>
-            <right>190</right>
+            <visible>Control.HasFocus(5000)</visible>
+            <include>Animation_FadeIn_LongDelay</include>
             <nested />
             <include content="Object_NavButton">
                 <param name="flipy">true</param>
                 <param name="id">5000</param>
             </include>
-        </include>
+        </control>
     </include>
 
     <!-- Additional Video Info Details not included in info line such as Director and Genres -->
@@ -147,8 +214,8 @@
                 <include content="Object_InfoCircle">
                     <param name="icon">special://skin/extras/icons/video-addons.png</param>
                     <param name="role" value="$LOCALIZE[20339]" />
-                    <param name="name" value="$INFO[ListItem.Director]" />
-                    <visible>!String.IsEmpty(ListItem.Director)</visible>
+                    <param name="name" value="$VAR[Label_Director]" />
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Director) | !String.IsEmpty(ListItem.Director)</visible>
                     <include content="Object_InfoCircle_Image">
                         <param name="colordiffuse">white</param>
                         <param name="icon">$VAR[Image_DirectorIcon]</param>
@@ -157,8 +224,8 @@
                 <include content="Object_InfoCircle">
                     <param name="icon">special://skin/extras/icons/write.png</param>
                     <param name="role" value="$LOCALIZE[20417]" />
-                    <param name="name" value="$INFO[ListItem.Writer]" />
-                    <visible>!String.IsEmpty(ListItem.Writer)</visible>
+                    <param name="name" value="$VAR[Label_Writer]" />
+                    <visible>!String.IsEmpty(Container(99950).ListItem.Writer) | !String.IsEmpty(ListItem.Writer)</visible>
                     <include content="Object_InfoCircle_Image">
                         <param name="colordiffuse">white</param>
                         <param name="icon">$VAR[Image_WriterIcon]</param>
@@ -225,6 +292,167 @@
         </control>
     </include>
 
+    <!-- OnRight ScrollNode -->
+    <include name="DialogInfo_CollectionsNode">
+        <control type="group">
+            <visible>Control.HasFocus(9801) | Control.HasFocus(9802)</visible>
+            <include>Animation_FadeIn_Delay</include>
+            <include content="List_Button_Row">
+                <param name="id">9801</param>
+                <param name="orientation">vertical</param>
+                <param name="offset_y">40</param>
+                <param name="item_w">560</param>
+                <param name="itemlayout_w">600</param>
+                <param name="itemlayout_include">Layout_DiscoverButton</param>
+                <content target="videos">$VAR[Path_Info_Collections]</content>
+                <onleft condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onleft>
+                <onleft condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onleft>
+                <onback condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onback>
+                <onback condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onback>
+                <onright>9802</onright>
+                <top>200</top>
+                <bottom>-20</bottom>
+                <left>-80</left>
+                <width>680</width>
+                <preloaditems>0</preloaditems>
+                <focusposition>1</focusposition>
+                <movement>2</movement>
+                <include content="Animation_Reposition">
+                    <param name="id">9801</param>
+                    <param name="slide_y">-grid_x12</param>
+                </include>
+                <animation effect="fade" start="100" end="0" condition="Container(9801).IsUpdating">Conditional</animation>
+                <content>
+                    <item>
+                        <label>$LOCALIZE[31225] $VAR[Path_FromDirector_Main]</label>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"director","operator":"contains","value":["$VAR[Path_FromDirector_Main]"]}]},"type":"movies"}</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Director.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31341] $VAR[Path_FromWriter_Screenplay]</label>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"writers","operator":"contains","value":["$VAR[Path_FromWriter_Screenplay]"]}]},"type":"movies"}</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(ListItem.Writer)</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[ListItem.Set]</label>
+                        <property name="folderpath">$INFO[ListItem.SetID,videodb://movies/sets/,/]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(ListItem.SetID)</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Property(Studio.1.Name)]</label>
+                        <property name="folderpath">videodb://movies/titles/?xsp={"rules":{"and":[{"field":"studio","operator":"contains","value":["$INFO[Container(99950).ListItem.Property(Studio.1.Name)]"]}]},"type":"movies"}</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Studio.1.Name))</visible>
+                    </item>
+
+                    <item>
+                        <label>$LOCALIZE[31225] $VAR[Path_FromDirector_Main]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;query=$VAR[Path_FromDirector_Main]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Director.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31341] $VAR[Path_FromWriter_Screenplay]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Writer&amp;query=$VAR[Path_FromWriter_Screenplay]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Writer.1.Name))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Set]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=collection&amp;tmdb_type=collection&amp;tmdb_id=$INFO[Container(99950).ListItem.Property(Set.TMDb_ID)]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Set.TMDb_ID))</visible>
+                    </item>
+                    <item>
+                        <label>$INFO[Container(99950).ListItem.Property(Studio.1.Name)]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=discover&amp;type=movie&amp;with_companies=$INFO[Container(99950).ListItem.Property(Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]$VAR[Path_Param_Widget]</property>
+                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEmpty(ListItem.DBID)</visible>
+                        <visible>!String.IsEmpty(Container(99950).ListItem.Property(Studio.1.Name))</visible>
+                    </item>
+
+                    <item>
+                        <label>$LOCALIZE[31066]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;type=person&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]$VAR[Path_Param_Widget]</property>
+                        <visible>$EXP[Exp_IsPersonInfo]</visible>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31067]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;type=person&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]$VAR[Path_Param_Widget]</property>
+                        <visible>$EXP[Exp_IsPersonInfo]</visible>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31225] $INFO[ListItem.Title]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]$VAR[Path_Param_Widget]</property>
+                        <visible>$EXP[Exp_IsPersonInfo]</visible>
+                    </item>
+                    <item>
+                        <label>$LOCALIZE[31341] $INFO[ListItem.Title]</label>
+                        <property name="folderpath">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Writer&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]$VAR[Path_Param_Widget]</property>
+                        <visible>$EXP[Exp_IsPersonInfo]</visible>
+                    </item>
+                </content>
+            </include>
+            <control type="group">
+                <top>200</top>
+                <left>-80</left>
+                <right>-600</right>
+                <visible>Container(9801).IsUpdating</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400" delay="600"/>
+                </animation>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse">main_fg</param>
+                </include>
+            </control>
+            <include content="List_Infolist">
+                <param name="id">9802</param>
+                <param name="orientation">vertical</param>
+                <param name="offset_y">40</param>
+                <param name="detailed">true</param>
+                <content target="videos">$VAR[Path_CollectionNode_Content]</content>
+                <onleft>9801</onleft>
+                <left>520</left>
+                <right>-600</right>
+                <top>220</top>
+                <bottom>-40</bottom>
+                <visible>!Container.IsUpdating(9801) + [Container(9801).ListItem.IsFolder | !String.IsEmpty(Container(9801).ListItem.Property(folderpath))]</visible>
+                <animation effect="fade" start="100" end="20" delay="600" time="200" condition="Container(9802).IsUpdating">Conditional</animation>
+                <focusposition>1</focusposition>
+                <movement>1</movement>
+                <onclick>Dialog.Close(12003)</onclick>
+                <onclick>PlayMedia($ESCINFO[Container(9802).ListItem.FileNameAndPath],playlist_type_hint=1)</onclick>
+                <include content="Animation_Reposition">
+                    <param name="id">9802</param>
+                    <param name="slide_y">-grid_x16</param>
+                </include>
+            </include>
+            <control type="group">
+                <left>540</left>
+                <right>-600</right>
+                <top>200</top>
+                <visible>!Container(9801).IsUpdating</visible>
+                <visible>Container(9802).IsUpdating</visible>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400" delay="600"/>
+                </animation>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse">main_fg</param>
+                </include>
+            </control>
+        </control>
+    </include>
+
     <!-- Additional Track Info -->
     <include name="DialogInfo_MusicTracks_ItemLayout">
         <include content="Object_InfoCircle">
@@ -235,8 +463,8 @@
             <control type="label">
                 <width>50</width>
                 <height>50</height>
-                <font>font_mini_bold</font>
-                <textcolor>main_bg_90</textcolor>
+                <font>font_tiny_black</font>
+                <textcolor>dialog_fg_90</textcolor>
                 <label>$INFO[ListItem.TrackNumber]</label>
                 <align>center</align>
                 <aligny>center</aligny>
@@ -252,8 +480,8 @@
             <control type="label">
                 <width>50</width>
                 <height>50</height>
-                <font>font_mini_bold</font>
-                <textcolor>main_bg_90</textcolor>
+                <font>font_tiny_black</font>
+                <textcolor>dialog_fg_90</textcolor>
                 <label>$INFO[ListItem.CurrentItem]</label>
                 <align>center</align>
                 <aligny>center</aligny>
@@ -397,27 +625,29 @@
         <param name="label">$INFO[ListItem.Tagline,[B]$LOCALIZE[202][/B][CR],[CR][CR]]$VAR[Label_Plot,[B]$LOCALIZE[31028][/B][CR],]$VAR[Label_OverlayCritics]$VAR[Label_OverlayAwardsWon]$VAR[Label_OverlayAwardsNominated]</param>
         <definition>
             <control type="group">
-                <include content="Info_Title">
-                    <param name="width">info_plot_w</param>
-                </include>
+                <include>Info_Title</include>
                 <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
                 <include content="Object_Control">
                     <param name="control" value="textbox" />
-                    <top>grid_x16</top>
+                    <top>grid_x14</top>
                     <align>left</align>
                     <textcolor>main_fg_70</textcolor>
-                    <font>font_overlay_plotbox</font>
+                    <font>font_huge_plot</font>
                     <label fallback="19055">$PARAM[label]$INFO[Window(Home).Property(ResetScroll)]</label>
                     <pagecontrol>61</pagecontrol>
-                    <autoscroll delay="8000" time="4000" repeat="12000">false</autoscroll>
+                    <autoscroll>false</autoscroll>
                 </include>
                 <control type="scrollbar" id="61">
                     <centerright>-grid_x04</centerright>
                     <width>8</width>
-                    <onleft>SetFocus(5000)</onleft>
-                    <onright>SetFocus(5000)</onright>
-                    <ondown>SetFocus(5000)</ondown>
-                    <onup>SetFocus(5000)</onup>
+                    <onleft condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onleft>
+                    <onright condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onright>
+                    <onup condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onup>
+                    <ondown condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</ondown>
+                    <onleft condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onleft>
+                    <onright condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onright>
+                    <onup condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onup>
+                    <ondown condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</ondown>
                     <visible allowhiddenfocus="true">false</visible>
                 </control>
             </control>
@@ -432,18 +662,13 @@
                 <include>Texture_Shadow_40</include>
                 <texture colordiffuse="black" border="12">common/box.png</texture>
             </control>
-            <control type="list" id="7003">
-                <orientation>horizontal</orientation>
+            <control type="wraplist" id="7003">
+                <orientation>vertical</orientation>
                 <scrolltime tween="quadratic">400</scrolltime>
-                <onright>-</onright>
-                <!-- <onright condition="!Integer.IsEqual(Container(9000).NumItems,0) + !Skin.HasSetting(KioskMode.Management)">AlarmClock(refocus,SetFocus(9000),00:01,silent)</onright> -->
-                <onleft>5000</onleft>
-                <onback>SetFocus(7003,0,absolute)</onback>
-                <onback>5000</onback>
-                <onup>SetFocus(7003,0,absolute)</onup>
-                <onup>5000</onup>
-                <ondown>SetFocus(7003,0,absolute)</ondown>
-                <ondown>5000</ondown>
+                <onright condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onright>
+                <onright condition="Skin.HasSetting(DialogInfo.FocusButtons)">4000</onright>
+                <onleft>4000</onleft>
+                <onback>4000</onback>
                 <itemlayout>
                     <control type="image">
                         <aspectratio scalediffuse="false">scale</aspectratio>
@@ -458,9 +683,60 @@
                 </focusedlayout>
                 <content>
                     <item>
+                        <icon>$INFO[Container(50).ListItem.Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItem.Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(1).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(1).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(2).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(2).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(3).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(3).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(4).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(4).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(5).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(5).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(6).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(6).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(7).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(7).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(8).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(8).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+                    <item>
+                        <icon>$INFO[Container(50).ListItemNoWrap(9).Icon]</icon>
+                        <visible>!String.IsEmpty(Container(50).ListItemNoWrap(9).Icon)</visible>
+                        <visible>Window.IsVisible(DialogAddonInfo.xml)</visible>
+                    </item>
+
+                    <item>
                         <icon>$INFO[ListItem.Art(thumb)]</icon>
                         <visible>!String.IsEmpty(ListItem.Art(thumb))</visible>
-                        <visible>!Window.IsVisible(DialogMusicInfo.xml)</visible>
+                        <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
                     </item>
                     <item>
                         <icon>$INFO[ListItem.Art(fanart)]</icon>
@@ -498,7 +774,10 @@
             <param name="id">7002</param>
             <onfocus condition="Skin.HasSetting(Recommendations.UseLocal)">SetFocus(50)</onfocus>
             <include content="Action_Recommendations_OnFocus" condition="!Skin.HasSetting(Recommendations.UseLocal)">
-                <onfocus>SetFocus(5000)</onfocus>
+                <onfocus>SetProperty(Recommendations.IsLoading,1,Home)</onfocus>
+                <onfocus>AlarmClock(ClearRecLoading,ClearProperty(Recommendations.IsLoading,Home),00:02,silent)</onfocus>
+                <onfocus condition="!Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(5000)</onfocus>
+                <onfocus condition="Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(4000)</onfocus>
             </include>
         </include>
     </include>
@@ -514,6 +793,7 @@
             <control type="group" id="6100">
                 <height>widget_tbump_h</height>
             </control>
+
             <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableCast)">
                 <param name="groupid" value="5050" />
                 <param name="id" value="50" />
@@ -527,10 +807,10 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!String.IsEmpty(ListItem.SetID) + !$EXP[Exp_IsPersonInfo] + [[!Skin.HasSetting(Info.DisableCollections) + !String.IsEqual(ListItem.DBType,tvshow)] | [!Skin.HasSetting(Info.DisableSeasons) + String.IsEqual(ListItem.DBType,tvshow)]]">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + [[!Skin.HasSetting(Info.DisableCollections) + [String.IsEqual(ListItem.DBType,movie) | ListItem.IsCollection]] | [!Skin.HasSetting(Info.DisableSeasons) + String.IsEqual(ListItem.DBType,tvshow) + !Integer.IsEqual(ListItem.Property(TotalSeasons),1)]]">
                 <param name="groupid" value="6300" />
                 <param name="id" value="6200" />
-                <param name="label" value="$LOCALIZE[31108]" />
+                <param name="label" value="$VAR[Label_Library_Collections]" />
                 <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                 <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
@@ -542,17 +822,19 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableYear)">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableSeasons) + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,tvshow)]">
                 <param name="groupid" value="6301" />
                 <param name="id" value="6201" />
-                <param name="label" value="$INFO[ListItem.Year,$LOCALIZE[31060] ,]" />
-                <param name="visible">!String.IsEmpty(ListItem.Year)</param>
+                <param name="label" value="$LOCALIZE[20360]" />
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                <param name="include" value="List_Landscape_Row" />
+                <param name="icon" value="$INFO[ListItem.Icon]" />
+                <param name="altvisible">!Container.IsUpdating(6200) + Container(6200).ListItem.IsFolder</param>
                 <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6201)</onfocus>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,6201)</onfocus>
                 <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-                <content target="videos">$VAR[Path_Library_FromYear]</content>
+                <content target="videos" sortby="episode" sordorder="ascending">$VAR[Path_Library_Episodes]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6201</param>
                 </include>
@@ -562,17 +844,17 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableGenre)">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableYear)">
                 <param name="groupid" value="6302" />
                 <param name="id" value="6202" />
-                <param name="label" value="$INFO[ListItem.Genre]" />
-                <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
+                <param name="label" value="$INFO[ListItem.Year,$LOCALIZE[31060] ,]" />
+                <param name="visible">!String.IsEmpty(ListItem.Year)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
                 <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6202)</onfocus>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,6202)</onfocus>
                 <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-                <content target="videos">$VAR[Path_Library_FromGenre]</content>
+                <content target="videos">$VAR[Path_Library_FromYear]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6202</param>
                 </include>
@@ -582,17 +864,17 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableStudio)">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableGenre)">
                 <param name="groupid" value="6303" />
                 <param name="id" value="6203" />
-                <param name="label" value="$INFO[ListItem.Studio]" />
-                <param name="visible">!String.IsEmpty(ListItem.Studio)</param>
+                <param name="label" value="$INFO[ListItem.Genre]" />
+                <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
                 <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6203)</onfocus>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,6203)</onfocus>
                 <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-                <content target="videos">$VAR[Path_Library_FromStudio]</content>
+                <content target="videos">$VAR[Path_Library_FromGenre]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6203</param>
                 </include>
@@ -602,17 +884,17 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableDirector)">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableStudio)">
                 <param name="groupid" value="6304" />
                 <param name="id" value="6204" />
-                <param name="label" value="$INFO[ListItem.Director,$LOCALIZE[31225] ,]" />
-                <param name="visible">!String.IsEmpty(ListItem.Director)</param>
+                <param name="label" value="$INFO[ListItem.Studio]" />
+                <param name="visible">!String.IsEmpty(ListItem.Studio)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
                 <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6204)</onfocus>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,6204)</onfocus>
                 <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-                <content target="videos">$VAR[Path_Library_FromDirector]</content>
+                <content target="videos">$VAR[Path_Library_FromStudio]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6204</param>
                 </include>
@@ -622,19 +904,39 @@
                 <onback>SetFocus(5000)</onback>
             </include>
 
-            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableWriter)">
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableDirector)">
                 <param name="groupid" value="6305" />
                 <param name="id" value="6205" />
-                <param name="label" value="$INFO[ListItem.Writer,$LOCALIZE[31224] ,]" />
-                <param name="visible">!String.IsEmpty(ListItem.Writer)</param>
+                <param name="label" value="$INFO[ListItem.Director,$LOCALIZE[31225] ,]" />
+                <param name="visible">!String.IsEmpty(ListItem.Director)</param>
                 <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
                 <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6205)</onfocus>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,6205)</onfocus>
                 <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
-                <content target="videos">$VAR[Path_Library_FromWriter]</content>
+                <content target="videos">$VAR[Path_Library_FromDirector]</content>
                 <include content="Action_LibraryInfoWidget_Click">
                     <param name="id">6205</param>
+                </include>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
+                <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
+                <onback>50</onback>
+                <onback>SetFocus(5000)</onback>
+            </include>
+
+            <include content="Widget_Poster" condition="!$EXP[Exp_IsPersonInfo] + !Skin.HasSetting(Info.DisableWriter)">
+                <param name="groupid" value="6306" />
+                <param name="id" value="6206" />
+                <param name="label" value="$INFO[ListItem.Writer,$LOCALIZE[31224] ,]" />
+                <param name="visible">!String.IsEmpty(ListItem.Writer)</param>
+                <param name="infowidget">Skin.HasSetting(Recommendations.ExpandPlot)</param>
+                <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">SetProperty(Slide.WidgetContainer,6206)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6206)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetInfoStyle,Plot)</onfocus>
+                <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
+                <content target="videos">$VAR[Path_Library_FromWriter]</content>
+                <include content="Action_LibraryInfoWidget_Click">
+                    <param name="id">6206</param>
                 </include>
                 <onfocus condition="Skin.HasSetting(Recommendations.ExpandPlot)">Skin.SetBool(TMDbHelper.ForceWidgetContainer)</onfocus>
                 <onunfocus>Skin.Reset(TMDbHelper.ForceWidgetContainer)</onunfocus>
@@ -702,7 +1004,8 @@
                     <texture background="true">$PARAM[discart_image]</texture>
                     <aspectratio>keep</aspectratio>
                     <bordersize>40</bordersize>
-                    <animation effect="rotate" condition="$PARAM[discart_spin]" start="0" end="360" loop="true" time="50000" center="auto">Conditional</animation>
+                    <animation effect="rotate" condition="true" start="0" end="180" center="auto">Conditional</animation>
+                    <!-- <animation effect="rotate" condition="$PARAM[discart_spin]" start="0" end="360" loop="true" time="50000" center="auto">Conditional</animation> -->
                     <fadetime>300</fadetime>
                 </control>
             </control>

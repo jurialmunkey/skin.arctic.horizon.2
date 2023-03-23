@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_Furniture_Wall_Bottom">
-        <include content="Object_Control" condition="$EXP[Exp_View_500_Include] | $EXP[Exp_View_510_Include] | $EXP[Exp_View_520_Include] | $EXP[Exp_View_540_Include] | $EXP[Exp_View_570_Include] | $EXP[Exp_View_580_Include] | $EXP[Exp_View_550_Include]">
+        <include content="Object_Control" condition="$EXP[Exp_View_500_Include] | $EXP[Exp_View_510_Include] | $EXP[Exp_View_520_Include] | $EXP[Exp_View_540_Include] | $EXP[Exp_View_570_Include] | $EXP[Exp_View_580_Include] | $EXP[Exp_View_550_Include] | $EXP[Exp_View_560_Include] | $EXP[Exp_View_54_Include]">
             <param name="control" value="group" />
             <visible>$EXP[Exp_WallViews]</visible>
             <include condition="$EXP[Exp_View_500_Include]">View_500_Wall_Square_Vertical</include>
             <include condition="$EXP[Exp_View_510_Include]">View_510_Wall_Landscape_Vertical</include>
             <include condition="$EXP[Exp_View_520_Include]">View_520_Wall_Poster_Vertical</include>
+            <include condition="$EXP[Exp_View_54_Include]">View_54_Wall_Submenu_Vertical</include>
             <include condition="$EXP[Exp_View_540_Include]">View_540_Wall_Tags_Vertical</include>
+            <include condition="$EXP[Exp_View_560_Include]">View_560_Wall_BigSquare_Vertical</include>
             <include condition="$EXP[Exp_View_570_Include]">View_570_Wall_BigLandscape_Vertical</include>
             <include condition="$EXP[Exp_View_580_Include]">View_580_Wall_BigPoster_Vertical</include>
             <include condition="$EXP[Exp_View_550_Include]">View_550_InfoWall_Poster_Vertical</include>
@@ -26,10 +28,8 @@
             <visible>$EXP[Exp_View_Special]</visible>
             <visible>$EXP[Exp_View_$PARAM[id]]</visible>
             <viewtype label="$PARAM[viewtype_label]">icon</viewtype>
-            <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">63</onleft>
-            <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">menu</onright>
-            <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">menu</onleft>
-            <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">63</onright>
+            <onleft>63</onleft>
+            <onright>menu</onright>
             <pagecontrol>63</pagecontrol>
             <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
         </include>
@@ -48,35 +48,41 @@
     </include>
 
     <include name="View_Wall_MediaInfo">
-        <control type="group">
-            <width>info_landscape_w</width>
-            <include content="Object_BigPoster">
-                <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
-                <param name="icon">$VAR[Image_Landscape]</param>
-                <height>info_landscape_h</height>
-            </include>
-            <control type="image">
-                <height>info_landscape_h</height>
-                <texture background="true">$INFO[Container(99950).ListItem.Art(cropimage)]</texture>
-                <aspectratio aligny="bottom" align="left">keep</aspectratio>
-                <width>50%</width>
-                <left>0</left>
-                <bordersize>40</bordersize>
-                <visible>String.IsEqual(ListItem.DBType,episode)</visible>
+        <param name="flipside">false</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <include content="Object_Right" condition="$PARAM[flipside]">
+                    <param name="right">view_pad</param>
+                </include>
+                <include content="Object_Left" condition="![$PARAM[flipside]]">
+                    <param name="left">view_pad</param>
+                </include>
+                <top>view_top</top>
+                <bottom>view_top</bottom>
+                <width>info_landscape_w</width>
+                <control type="group">
+                    <width>info_landscape_w</width>
+                    <include content="Object_BigPoster">
+                        <param name="diffuse" value="diffuse/landscape_w853_h480.png" />
+                        <param name="icon">$VAR[Image_Landscape]</param>
+                        <height>info_landscape_h</height>
+                    </include>
+                    <include content="Info_Panel">
+                        <param name="title">false</param>
+                        <param name="plotheight">info_plot_large_h</param>
+                        <param name="plotwidth">100%</param>
+                        <param name="shortline">true</param>
+                        <param name="line_id">$PARAM[line_id]</param>
+                        <top>info_landscape_details_t</top>
+                    </include>
+                </control>
             </control>
-            <include content="Info_Panel">
-                <param name="title">false</param>
-                <param name="plotheight">info_plot_large_h</param>
-                <param name="plotwidth">100%</param>
-                <param name="shortline">true</param>
-                <param name="line_id">$PARAM[line_id]</param>
-                <top>info_landscape_details_t</top>
-            </include>
-        </control>
+        </definition>
     </include>
 
     <include name="View_550_InfoWall_Poster_Vertical">
-        <param name="flipside">!Skin.HasSetting(Lists.MirrorAlignment)</param>
+        <param name="flipside">false</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible(550)</visible>
@@ -97,26 +103,16 @@
                         </include>
                     </include>
                 </control>
-                <control type="group">
-                    <include content="Object_Right" condition="$PARAM[flipside]">
-                        <param name="right">view_pad</param>
-                    </include>
-                    <include content="Object_Left" condition="![$PARAM[flipside]]">
-                        <param name="left">view_pad</param>
-                    </include>
-                    <top>view_top</top>
-                    <bottom>view_top</bottom>
-                    <width>info_landscape_w</width>
-                    <include content="View_Wall_MediaInfo">
-                        <param name="line_id">99550</param>
-                    </include>
-                </control>
+                <include content="View_Wall_MediaInfo">
+                    <param name="line_id">99550</param>
+                    <param name="flipside">$PARAM[flipside]</param>
+                </include>
             </control>
         </definition>
     </include>
 
     <include name="View_580_Wall_BigPoster_Vertical">
-        <param name="flipside">!Skin.HasSetting(Lists.MirrorAlignment)</param>
+        <param name="flipside">true</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible(580)</visible>
@@ -151,6 +147,18 @@
                 </include>
             </control>
         </definition>
+    </include>
+
+    <include name="View_560_Wall_BigSquare_Vertical">
+        <control type="group">
+            <visible>Control.IsVisible(560)</visible>
+            <include content="View_Wall_Vertical">
+                <param name="id" value="560" />
+                <param name="include" value="List_BigSquare_Wall" />
+                <param name="viewtype_label" value="$LOCALIZE[31352]" />
+                <param name="misc" value="20" />
+            </include>
+        </control>
     </include>
 
     <include name="View_570_Wall_BigLandscape_Vertical">
@@ -194,16 +202,38 @@
             <include content="List_Tags_Wall">
                 <param name="id" value="540" />
                 <preloaditems>0</preloaditems>
-                <height>540</height>
+                <height>500</height>
                 <bottom>180</bottom>
                 <visible>$EXP[Exp_View_Special]</visible>
                 <visible>$EXP[Exp_View_540]</visible>
                 <viewtype label="$LOCALIZE[20459]">list</viewtype>
                 <pagecontrol>64</pagecontrol>
-                <onleft condition="!Skin.HasSetting(Lists.MirrorAlignment)">64</onleft>
-                <onright condition="!Skin.HasSetting(Lists.MirrorAlignment)">menu</onright>
-                <onleft condition="Skin.HasSetting(Lists.MirrorAlignment)">menu</onleft>
-                <onright condition="Skin.HasSetting(Lists.MirrorAlignment)">64</onright>
+                <onleft>64</onleft>
+                <onright>menu</onright>
+            </include>
+        </control>
+    </include>
+
+    <include name="View_54_Wall_Submenu_Vertical">
+        <control type="group">
+            <visible>Control.IsVisible(54)</visible>
+            <include content="List_Button_Wall">
+                <param name="id" value="54" />
+                <param name="item_h">120</param>
+                <param name="itemlayout_h">160</param>
+                <param name="item_w">view_poster_item_w</param>
+                <param name="itemlayout_w">view_poster_itemlayout_w</param>
+                <param name="detailed">true</param>
+                <param name="offset_y">40</param>
+                <preloaditems>0</preloaditems>
+                <height>500</height>
+                <bottom>180</bottom>
+                <visible>$EXP[Exp_View_Special]</visible>
+                <visible>$EXP[Exp_View_54]</visible>
+                <viewtype label="$LOCALIZE[1034]">list</viewtype>
+                <pagecontrol>64</pagecontrol>
+                <onleft>64</onleft>
+                <onright>menu</onright>
             </include>
         </control>
     </include>

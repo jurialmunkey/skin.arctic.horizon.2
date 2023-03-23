@@ -17,13 +17,15 @@
             </include>
             <include>Animation_FadeOut</include>
             <include>Dimension_Context</include>
-            <include>Dialog_ContextMenu_Header</include>
+            <include content="Dialog_ContextMenu_Header">
+                <visible>$EXP[Exp_ContextMenu_HasQuickNav]</visible>
+            </include>
             <control type="group">
                 <!-- Slide Over if Square -->
-                <animation effect="slide" end="context_slide_no" condition="!$EXP[Exp_ContextMenu_HasPoster] + !$EXP[Exp_ContextMenu_HasIcon]">Conditional</animation>
+                <animation effect="slide" end="context_slide_no" condition="!$EXP[Exp_ContextMenu_HasQuickNav]">Conditional</animation>
                 <!-- Poster Image -->
                 <control type="group">
-                    <visible>$EXP[Exp_ContextMenu_HasPoster] | $EXP[Exp_ContextMenu_HasIcon]</visible>
+                    <visible>$EXP[Exp_ContextMenu_HasQuickNav]</visible>
                     <include content="Dialog_Background">
                         <param name="overlay" value="true" />
                         <param name="overlay_texture" value="$VAR[Image_ContextFanart]" />
@@ -43,9 +45,8 @@
                 <!-- No Image -->
                 <control type="group">
                     <left>context_icon_w</left>
-                    <bottom>20</bottom>
-                    <visible>!$EXP[Exp_ContextMenu_HasPoster]</visible>
-                    <visible>!$EXP[Exp_ContextMenu_HasIcon]</visible>
+                    <bottom>100</bottom>
+                    <visible>!$EXP[Exp_ContextMenu_HasQuickNav]</visible>
                     <control type="image" id="999">
                         <include>Texture_Shadow_20</include>
                         <include>Texture_Dialog</include>
@@ -62,6 +63,7 @@
                     <control type="button" id="2000">
                         <visible allowhiddenfocus="true">false</visible>
                         <height>1</height>
+                        <visible>$EXP[Exp_ContextMenu_HasQuickNav]</visible>
                         <onfocus condition="Control.IsVisible(1002)">SetFocus(1002)</onfocus>
                         <onfocus condition="Control.IsVisible(1003)">SetFocus(1003)</onfocus>
                         <onfocus condition="Control.IsVisible(1004)">SetFocus(1004)</onfocus>
@@ -84,11 +86,11 @@
                     </control>
 
                     <!-- Quick Nav -->
-                    <include content="Object_Control">
-                        <param name="control" value="grouplist" />
+                    <control type="grouplist">
                         <top>120</top>
                         <height>80</height>
                         <orientation>vertical</orientation>
+                        <visible>$EXP[Exp_ContextMenu_HasQuickNav]</visible>
                         <include content="Items_QuickNav">
                             <param name="itemgap" value="39" />
                             <param name="ondown" value="1001" />
@@ -96,12 +98,10 @@
                             <left>0</left>
                             <right>0</right>
                         </include>
-                    </include>
+                    </control>
 
                     <!-- Main Menu -->
-                    <include content="Object_Control">
-                        <param name="control" value="grouplist" />
-                        <param name="id" value="996" />
+                    <control type="grouplist" id="996">
                         <top>200</top>
                         <bottom>40</bottom>
                         <orientation>vertical</orientation>
@@ -111,7 +111,8 @@
                         <onup>8000</onup>
                         <ondown>SetFocus(1001)</ondown>
                         <ondown>SetFocus(8000)</ondown>
-                    </include>
+                        <animation effect="slide" end="0,-80" condition="!$EXP[Exp_ContextMenu_HasQuickNav]">Conditional</animation>
+                    </control>
                     <control type="image">
                         <top>-24</top>
                         <centerright>100%</centerright>

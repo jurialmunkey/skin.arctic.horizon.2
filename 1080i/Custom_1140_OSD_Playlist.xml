@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog" id="1140">
+    <defaultcontrol always="true">6401</defaultcontrol>
+    <onload>CancelAlarm(osd_timeout,true)</onload>
+    <include>Animation_WindowTransition_FadeInOut</include>
+    <controls>
+        <include content="OSD_CastInfo_ExpandGroup">
+
+            <visible>!Window.IsActive(pvrchannelguide)</visible>
+            <visible>!Window.IsActive(videobookmarks)</visible>
+            <include>Animation_VisibleTransition_FadeInOut</include>
+
+
+            <!-- Episodes List -->
+            <include content="List_Core">
+                <param name="orientation" value="horizontal" />
+                <param name="controltype" value="fixedlist" />
+                <param name="id" value="6401" />
+                <param name="item_w" value="427" />
+                <param name="item_h" value="240" />
+                <param name="itemlayout_w" value="467" />
+                <param name="itemlayout_h" value="280" />
+                <param name="itemlayout_include" value="OSD_Episodes_Layout" />
+                <param name="offset_y" value="40" />
+                <param name="offset_x">40</param>
+                <include content="Object_ContentDynamic" condition="VideoPlayer.Content(livetv)">
+                    <param name="sortby">lastplayed</param>
+                    <param name="sortorder">descending</param>
+                    <param name="content">pvr://channels/tv/*</param>
+                </include>
+                <include content="Object_ContentDynamic" condition="!VideoPlayer.Content(livetv)">
+                    <param name="content">$VAR[Path_OSD_Episodes]</param>
+                </include>
+                <focusposition>0</focusposition>
+                <movement>0</movement>
+                <height>360</height>
+                <top>-40</top>
+                <onup>Close</onup>
+                <ondown condition="!VideoPlayer.Content(livetv)">ActivateWindow(videobookmarks)</ondown>
+                <ondown condition="VideoPlayer.Content(livetv)">ActivateWindow(pvrchannelguide)</ondown>
+                <left>-40</left>
+                <width>1441</width>
+            </include>
+
+            <!-- Arrows and Busy -->
+            <include content="OSD_Episodes_Arrows">
+                <param name="id">6401</param>
+                <width>1361</width>
+                <height>240</height>
+                <include content="Object_BusySpinner">
+                    <param name="colordiffuse" value="panel_fg" />
+                    <visible>Container(6401).IsUpdating + Integer.IsEqual(Container(6401).NumItems,0)</visible>
+                </include>
+            </include>
+
+            <!-- Info Box -->
+            <control type="textbox">
+                <top>280</top>
+                <width>1080</width>
+                <label>[COLOR=panel_fg_100][B]$INFO[Container(6401).ListItem.Season,S,]$INFO[Container(6401).ListItem.Episode,E, ]$INFO[Container(6401).ListItem.Title,, ~ ][/B][/COLOR]$INFO[Container(6401).ListItem.Plot]</label>
+                <font>font_mini_plot</font>
+                <textcolor>panel_fg_70</textcolor>
+                <height>80</height>
+            </control>
+
+        </include>
+    </controls>
+</window>

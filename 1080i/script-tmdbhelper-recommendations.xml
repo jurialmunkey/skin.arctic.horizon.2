@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog">
     <defaultcontrol always="true">6000</defaultcontrol>
+    <onfocus>AlarmClock(ClearRecLoading,ClearProperty(Recommendations.IsLoading,Home),00:00,silent)</onfocus>
     <onload>SetProperty(Action_5095,info)</onload>
     <controls>
         <include>Defs_TMDbHelper_Loader</include>
@@ -149,8 +150,8 @@
                     <param name="altvisible">String.IsEmpty(Window.Property(List_Main_Visible))</param>
                     <param name="visible">!String.IsEmpty(Window.Property(Youtube))</param>
                     <content target="videos">$INFO[Window.Property(Youtube)]</content>
-                    <onclick>PlayMedia($INFO[Container(5020).ListItem.FolderPath],False,1)</onclick>
-                    <onclick>SetProperty(HasTrailer,$INFO[Container(5020).ListItem.FolderPath],Home)</onclick>
+                    <onclick>PlayMedia($ESCINFO[Container(5020).ListItem.FileNameAndPath],False,1,playlist_type_hint=1)</onclick>
+                    <onclick>SetProperty(HasTrailer,$INFO[Container(5020).ListItem.FileNameAndPath],Home)</onclick>
                     <onclick>SetFocus(7001)</onclick>
                     <include content="Widget_Recs_Basic"><param name="id">5020</param></include>
                 </include>
@@ -300,13 +301,15 @@
                 <height>120</height>
                 <width>info_panel_w</width>
                 <include content="Info_Title">
-                    <param name="mainlogo_visible">[!String.IsEmpty(Window.Property(clearlogo))]</param>
-                    <param name="mainlogo_texture">$INFO[Window.Property(clearlogo)]</param>
+                    <param name="mainlogo_visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.Recommendations.Logo))]</param>
+                    <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.Recommendations.Logo)]</param>
                 </include>
             </control>
         </control>
 
-        <include>Furniture_Top_Right</include>
+        <include content="Furniture_Top_Right">
+            <param name="icon">special://skin/extras/icons/info2.png</param>
+        </include>
 
         <include content="Object_Control">
             <param name="control">group</param>

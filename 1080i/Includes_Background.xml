@@ -6,7 +6,7 @@
             <param name="control">fadelabel</param>
             <param name="id">99998</param>
             <description>Randomizer for plugin-free multiple fanart</description>
-            <font>font_statusbar</font>
+            <font>font_tiny</font>
             <height>1</height>
             <width>1</width>
             <top>-1000</top>
@@ -45,7 +45,7 @@
             <animation effect="fade" start="0" end="100" time="5000" tween="cubic" easing="inout" reversible="true">Visible</animation>
             <animation effect="fade" start="100" end="0" time="1000" tween="cubic" easing="inout" reversible="true">Hidden</animation>
             <include content="Background_Image">
-                <param name="texture" value="background/blur2.png" />
+                <param name="texture" value="$VAR[Image_SimpleBackground]" />
             </include>
             <control type="multiimage">
                 <timeperimage>50</timeperimage>
@@ -138,7 +138,7 @@
                         <!-- Bottom -->
                         <control type="image">
                             <fadetime>600</fadetime>
-                            <bottom>0</bottom>
+                            <height>$PARAM[flixart_size_h]</height>
                             <top>$PARAM[flixart_size_h]</top>
                             <texture background="true" flipx="true" flipy="true">$VAR[Image_Background_Blur]</texture>
                         </control>
@@ -157,7 +157,7 @@
                         <!-- Bottom -->
                         <control type="image">
                             <fadetime>600</fadetime>
-                            <bottom>0</bottom>
+                            <height>$PARAM[flixart_size_h]</height>
                             <top>$PARAM[flixart_size_h]</top>
                             <texture background="true" flipx="false" flipy="true">$VAR[Image_Background_Blur]</texture>
                         </control>
@@ -190,7 +190,7 @@
     </include>
 
     <include name="Background_Image">
-        <param name="texture" default="background/blur2.png" />
+        <param name="texture" default="$VAR[Image_SimpleBackground]" />
         <definition>
             <control type="image">
                 <aspectratio>scale</aspectratio>
@@ -265,6 +265,11 @@
         </include>
     </include>
 
+    <variable name="Background_Main_ColorDiffuse">
+        <value condition="Skin.HasSetting(UseBackgroundVideo) + Player.HasVideo">black</value>
+        <value>main_bg_100</value>
+    </variable>
+
     <include name="Background_Main">
         <param name="plain_background">false</param>
         <definition>
@@ -286,16 +291,10 @@
                 <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
                 <nested />
             </include>
-            <include content="Object_Control" condition="Skin.String(BackgroundStyle,Fanart)">
-                <param name="control">image</param>
-                <texture colordiffuse="main_bg_100">background/combined_fanart.png</texture>
+            <control type="image">
+                <texture colordiffuse="$VAR[Background_Main_ColorDiffuse]">$VAR[Image_Background_Floor]</texture>
                 <include>Animation_Background_FadeInOut</include>
-            </include>
-            <include content="Object_Control" condition="!Skin.String(BackgroundStyle,Fanart)">
-                <param name="control">image</param>
-                <texture colordiffuse="main_bg_100">background/combined_flixart.png</texture>
-                <include>Animation_Background_FadeInOut</include>
-            </include>
+            </control>
         </definition>
     </include>
 

@@ -4,6 +4,8 @@
     <onload>SetProperty(TMDbHelper.ServicePause,1)</onload>
     <controls>
 
+        <include condition="Window.IsVisible(fullscreenvideo)">Background_Main</include>
+
         <control type="group">
             <include>Animation_Right_Delay</include>
             <include content="List_Button_Row">
@@ -16,7 +18,7 @@
                 <focusposition>1</focusposition>
                 <movement>5</movement>
                 <top>160</top>
-                <bottom>60</bottom>
+                <bottom>170</bottom>
                 <onright>61</onright>
                 <preloaditems>0</preloaditems>
             </include>
@@ -25,6 +27,15 @@
 
             <control type="group">
                 <include>Dimension_Info</include>
+                <control type="textbox" id="9904">
+                    <right>80</right>
+                    <align>left</align>
+                    <textcolor>main_fg_70</textcolor>
+                    <font>font_tiny</font>
+                    <bottom>-20</bottom>
+                    <height>80</height>
+                    <aligny>center</aligny>
+                </control>
                 <control type="group">
                     <left>440</left>
                     <!-- <left>624</left> -->
@@ -32,15 +43,17 @@
                         <aligny>center</aligny>
                         <height>80</height>
                         <textcolor>main_fg_100</textcolor>
-                        <font>font_weatherlabel</font>
+                        <font>font_huge_black</font>
                     </control>
                     <control type="textbox" id="9903">
                         <top>120</top>
                         <align>left</align>
                         <textcolor>main_fg_70</textcolor>
-                        <font>font_plotbox</font>
+                        <font>font_main_plot</font>
                         <pagecontrol>61</pagecontrol>
-                        <autoscroll delay="8000" time="4000" repeat="12000">!Control.HasFocus(61)</autoscroll>
+                        <include content="Defs_AutoScroll_TextBox">
+                            <param name="condition">!Control.HasFocus(61)</param>
+                        </include>
                         <bottom>120</bottom>
                         <right>400</right>
                     </control>
@@ -51,15 +64,7 @@
                         <right>0</right>
                         <aspectratio align="right">keep</aspectratio>
                     </control>
-                    <control type="textbox" id="9904">
-                        <right>80</right>
-                        <align>left</align>
-                        <textcolor>main_fg_70</textcolor>
-                        <font>font_statusbar</font>
-                        <bottom>0</bottom>
-                        <height>80</height>
-                        <aligny>center</aligny>
-                    </control>
+
                     <control type="group">
                         <bottom>view_pad</bottom>
                         <right>0</right>
@@ -77,7 +82,7 @@
                             <height>110</height>
                             <bottom>0</bottom>
                             <textcolor>main_fg_70</textcolor>
-                            <font>font_statusbar</font>
+                            <font>font_tiny</font>
                             <label>$INFO[Window.Property(ImageText)]</label>
                         </control>
                     </control>
@@ -88,7 +93,7 @@
                 <onleft>9902</onleft>
                 <onright>9902</onright>
                 <orientation>vertical</orientation>
-                <width>8</width>
+                <width>10</width>
                 <top>280</top>
                 <bottom>view_top</bottom>
                 <centerright>440</centerright>

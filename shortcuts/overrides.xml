@@ -7,11 +7,12 @@
     <backgroundBrowse>True</backgroundBrowse>
     <widgetRename>True</widgetRename>
 
+    <!-- Skin.String() reroute to property -->
+    <propertypattern group="mainmenu" property="widgetOnDownAction">$INFO[Skin.String(widgetEndRowAction-::LABELID::)]</propertypattern>
+    <propertypattern group="mainmenu" property="menuOnUpAction">$INFO[Skin.String(menuOnUpAction-::LABELID::)]</propertypattern>
+
     <!-- Warning to Remove Settings -->
     <warn heading="31078" message="31079">ActivateWindow(Settings)</warn>
-
-    <!-- For Power Menu -->
-    <groupoverride group="powermenu" condition="Window.IsActive(DialogButtonMenu.xml)">Close</groupoverride>
 
     <!-- Reboot From Nand -->
     <override action="RebootToAndroid">
@@ -19,16 +20,31 @@
         <action>Reboot()</action>
     </override>
 
+    <!-- Custom Hub Action -->
+    <override action="ActivateWindow(1132)">
+        <action>SetProperty(CustomHubHeader,$INFO[Container(300).ListItem.Label],Home)</action>
+        <action>SetProperty(submenuVisibility,$INFO[Container(300).ListItem.Property(submenuVisibility)],Home)</action>
+        <action>ActivateWindow(1132)</action>
+    </override>
+
     <!-- Additional Common Shortcuts -->
+    <!-- Next Aired Calendars Shortcuts -->
+    <shortcut label="$LOCALIZE[31162]" type="571" grouping="common" thumbnail="special://skin/extras/icons/tvguide.png" icon="special://skin/extras/icons/tvguide.png">ActivateWindow(1116)</shortcut>
+    <shortcut label="$LOCALIZE[31161]" type="571" grouping="common" thumbnail="special://skin/extras/icons/tvguide.png" icon="special://skin/extras/icons/tvguide.png">ActivateWindow(1117)</shortcut>
+    <!-- Commands Shortcuts -->
+    <shortcut label="$LOCALIZE[20183]" type="571" grouping="commands" thumbnail="special://skin/extras/icons/update.png" icon="special://skin/extras/icons/update.png">ReloadSkin()</shortcut>
+    <shortcut label="RebootFromNand" type="571" grouping="commands" thumbnail="special://skin/extras/icons/power.png" icon="special://skin/extras/icons/power.png" condition="System.Platform.Linux">RebootToAndroid</shortcut>
+    <shortcut label="$LOCALIZE[31178]" type="571" grouping="common" thumbnail="special://skin/extras/icons/sidemenu.png" icon="special://skin/extras/icons/sidemenu.png">SetFocus(302,0,absolute)</shortcut>
+    <!-- Favourites Shortcut -->
+    <shortcut label="$LOCALIZE[31375]" type="571" grouping="common" thumbnail="special://skin/extras/icons/favourites2.png" icon="special://skin/extras/icons/favourites2.png">ActivateWindow(favouritesbrowser)</shortcut>
+    <!-- Games Shortcut -->
+    <shortcut label="$LOCALIZE[10821]" type="571" grouping="common" thumbnail="special://skin/extras/icons/gamepad.png" icon="special://skin/extras/icons/gamepad.png">ActivateWindow(games)</shortcut>
+    <!-- Hubs Shortcuts -->
     <shortcut label="$LOCALIZE[31314]" type="571" grouping="common" thumbnail="special://skin/extras/icons/film.png" icon="special://skin/extras/icons/film.png">ActivateWindow(1120)</shortcut>
     <shortcut label="$LOCALIZE[31315]" type="571" grouping="common" thumbnail="special://skin/extras/icons/tv.png" icon="special://skin/extras/icons/tv.png">ActivateWindow(1121)</shortcut>
     <shortcut label="$LOCALIZE[31328]" type="571" grouping="common" thumbnail="special://skin/extras/icons/film.png" icon="special://skin/extras/icons/film.png">ActivateWindow(1130)</shortcut>
     <shortcut label="$LOCALIZE[31329]" type="571" grouping="common" thumbnail="special://skin/extras/icons/tv.png" icon="special://skin/extras/icons/tv.png">ActivateWindow(1131)</shortcut>
-    <shortcut label="$LOCALIZE[31178]" type="571" grouping="common" thumbnail="special://skin/extras/icons/sidemenu.png" icon="special://skin/extras/icons/sidemenu.png">SetFocus(302,0,absolute)</shortcut>
-    <shortcut label="$LOCALIZE[31162]" type="571" grouping="common" thumbnail="special://skin/extras/icons/tvguide.png" icon="special://skin/extras/icons/tvguide.png">ActivateWindow(1116)</shortcut>
-    <shortcut label="$LOCALIZE[31161]" type="571" grouping="common" thumbnail="special://skin/extras/icons/tvguide.png" icon="special://skin/extras/icons/tvguide.png">ActivateWindow(1117)</shortcut>
-    <shortcut label="$LOCALIZE[20183]" type="571" grouping="commands" thumbnail="special://skin/extras/icons/update.png" icon="special://skin/extras/icons/update.png">ReloadSkin()</shortcut>
-    <shortcut label="RebootFromNand" type="571" grouping="commands" thumbnail="special://skin/extras/icons/power.png" icon="special://skin/extras/icons/power.png" condition="System.Platform.Linux">RebootToAndroid</shortcut>
+    <shortcut label="$LOCALIZE[31367]" type="571" grouping="common" thumbnail="special://skin/extras/icons/gem.png" icon="special://skin/extras/icons/gem.png">ActivateWindow(1132)</shortcut>
 
     <!-- Default Submenu Bumpers -->
     <propertydefault labelID="movies" property="widgetPath.SubmenuBumper">Submenu</propertydefault>
@@ -69,10 +85,12 @@
     <property property="widgetAspect">Poster</property>
     <property property="widgetAspect">Square</property>
     <property property="widgetAspect">Landscape</property>
+    <property property="widgetAspect">Big Square</property>
     <property property="widgetAspect">Big Landscape</property>
     <property property="widgetAspect">Banner</property>
     <property property="widgetAspect">Feature Poster</property>
     <property property="widgetAspect">Feature Landscape</property>
+    <property property="widgetAspect">Feature Banner</property>
     <property property="widgetAspect">Lovefilm</property>
     <property property="widgetAspect">Button</property>
     <property property="widgetAspect">Apps</property>
@@ -84,6 +102,7 @@
     <property property="widgetStyle">Poster</property>
     <property property="widgetStyle">Square</property>
     <property property="widgetStyle">Landscape</property>
+    <property property="widgetStyle">Big Square</property>
     <property property="widgetStyle">Big Landscape</property>
     <property property="widgetStyle">Banner</property>
     <propertySettings property="widgetStyle" buttonID="9918" showNone="False" title="[CAPITALIZE]$LOCALIZE[31173] $LOCALIZE[736][/CAPITALIZE]" />
@@ -95,14 +114,6 @@
     <property property="widgetTarget">programs</property>
     <property property="widgetTarget">tvguide</property>
     <propertySettings property="widgetTarget" buttonID="9902" title="[CAPITALIZE]$LOCALIZE[31173] $LOCALIZE[31106][/CAPITALIZE]" />
-
-    <!-- Widget Target -->
-    <property property="widgetEndRowAction">$LOCALIZE[31314]</property>
-    <property property="widgetEndRowAction">$LOCALIZE[31315]</property>
-    <property property="widgetEndRowAction">$LOCALIZE[31331]</property>
-    <property property="widgetEndRowAction">$LOCALIZE[31328]</property>
-    <property property="widgetEndRowAction">$LOCALIZE[31329]</property>
-    <propertySettings property="widgetEndRowAction" buttonID="9915" title="$LOCALIZE[31330]" />
 
     <!-- Widget Sort -->
     <property property="widgetSortby">name</property>
@@ -161,6 +172,9 @@
     <onback to="9312">9918</onback>
     <onback to="9916">9906</onback>
     <onback to="9916">9961</onback>
+    <onback to="9920">9922</onback>
+    <onback to="9920">9921</onback>
+    <onback to="9920">407</onback>
 
     <!-- Icon Overrides -->
     <icon image="DefaultShortcut.png">special://skin/extras/icons/shortcut.png</icon>
@@ -272,9 +286,10 @@
                 <shortcut widget="VideoSources" label="$LOCALIZE[31099]" icon="DefaultVideo.png" widgetTarget="videos" type="videos">sources://video/</shortcut>
                 <shortcut widget="MusicSources" label="$LOCALIZE[31100]" icon="DefaultMusicSongs.png" widgetTarget="music" type="music">sources://music/</shortcut>
                 <shortcut widget="PictureSources" label="$LOCALIZE[31101]" icon="DefaultPicture.png" widgetTarget="pictures" type="pictures">sources://pictures/</shortcut>
+                <shortcut widget="Favourites" label="$LOCALIZE[1036]" widgetTarget="">favourites://</shortcut>
+                <shortcut widget="Submenu" label="$LOCALIZE[1034]">Submenu</shortcut>
+                <shortcut widget="Weather" label="$LOCALIZE[31381]">Weather</shortcut>
             </node>
-            <shortcut widget="Favourites" label="$LOCALIZE[1036]" widgetTarget="">favourites://</shortcut>
-            <shortcut widget="Submenu" label="$LOCALIZE[1034]">Submenu</shortcut>
             <shortcut widget="Fullscreen" label="$LOCALIZE[35232]">Fullscreen</shortcut>
         </node>
         <node label="$LOCALIZE[24001]">
@@ -326,8 +341,52 @@
         <node label="$LOCALIZE[1036]">
             <content>favourite</content>
         </node>
+        <shortcut widget="Stacked" label="$LOCALIZE[31371]">Stacked</shortcut>
     </widget-groupings>
 
+
+    <!-- Widget Grouping -->
+    <widgethub-groupings>
+        <shortcut widget="CustomNode1" label="Custom Node 1">CustomNode1</shortcut>
+        <shortcut widget="CustomNode2" label="Custom Node 2">CustomNode2</shortcut>
+        <shortcut widget="CustomNode3" label="Custom Node 3">CustomNode3</shortcut>
+        <node label="$LOCALIZE[24001]">
+            <node label="$LOCALIZE[1037]">
+                <content>addon-video</content>
+            </node>
+            <node label="$LOCALIZE[1038]">
+                <content>addon-audio</content>
+            </node>
+            <node label="$LOCALIZE[1039]">
+                <content>addon-image</content>
+            </node>
+        </node>
+        <node label="$LOCALIZE[3]">
+            <content>video</content>
+            <node label="$LOCALIZE[1037]">
+                <content>addon-video</content>
+            </node>
+            <node label="$LOCALIZE[31099]">
+                <content>videosources</content>
+            </node>
+        </node>
+        <node label="$LOCALIZE[2]">
+            <content>music</content>
+            <node label="$LOCALIZE[1038]">
+                <content>addon-audio</content>
+            </node>
+            <node label="$LOCALIZE[31100]">
+                <content>musicsources</content>
+            </node>
+        </node>
+        <node label="$LOCALIZE[31101]">
+            <content>picturesources</content>
+        </node>
+        <node label="$LOCALIZE[1036]">
+            <content>favourite</content>
+        </node>
+        <shortcut widget="Stacked" label="$LOCALIZE[31371]">Stacked</shortcut>
+    </widgethub-groupings>
 
     <!-- customsearch Grouping -->
     <customsearch-groupings>
@@ -362,6 +421,9 @@
         <shortcut label="Music Video Artists" type="571" icon="special://skin/extras/icons/musicvideo.png">DefaultSearch-MusicVideoArtists</shortcut>
         <shortcut label="Youtube" type="571" icon="special://skin/extras/icons/youtube.png">DefaultSearch-Youtube</shortcut>
         <shortcut label="Netflix" type="571" icon="special://skin/extras/icons/netflix.png">DefaultSearch-Netflix</shortcut>
+        <shortcut label="Hulu" type="571" icon="special://skin/extras/icons/hulu.png">DefaultSearch-Hulu</shortcut>
+        <shortcut label="Disney+" type="571" icon="special://skin/extras/icons/disneyplus.png">DefaultSearch-DisneyPlus</shortcut>
+        <shortcut label="HBO Max" type="571" icon="special://skin/extras/icons/hbomax.png">DefaultSearch-HBOMax</shortcut>
         <shortcut label="Spotify Artists" type="571" icon="special://skin/extras/icons/spotify.png">DefaultSearch-SpotifyArtists</shortcut>
         <shortcut label="Spotify Albums" type="571" icon="special://skin/extras/icons/spotify.png">DefaultSearch-SpotifyAlbums</shortcut>
         <shortcut label="Spotify Songs" type="571" icon="special://skin/extras/icons/spotify.png">DefaultSearch-SpotifySongs</shortcut>
