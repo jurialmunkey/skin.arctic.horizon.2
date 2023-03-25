@@ -1069,7 +1069,7 @@
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableMetacritic)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableMetacritic) | Skin.HasSetting(Ratings.EnableMetacritic.TVShows)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/metacritic.png</param>
                     <param name="label">Container(99950).ListItem.Property(MetaCritic_Rating)</param>
@@ -1077,30 +1077,44 @@
                     <param name="label_suffix">%   </param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[metacritic]</visible>
+                    <visible>[[String.IsEqual($PARAM[dbtype],movie)] + !Skin.HasSetting(Ratings.DisableMetacritic)] | [[String.IsEqual($PARAM[dbtype],tvshow) | String.IsEqual($PARAM[dbtype],season) | String.IsEqual($PARAM[dbtype],episode) | $EXP[Exp_PVRWindows]] + Skin.HasSetting(Ratings.EnableMetacritic.TVShows)]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableTrakt)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableTrakt) | !Skin.HasSetting(Ratings.DisableTrakt.TVShows)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/trakt.png</param>
                     <param name="label">Container(99950).ListItem.Property(Trakt_Rating)</param>
                     <param name="label_fallback">−.−</param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[trakt]</visible>
+                    <visible>[[String.IsEqual($PARAM[dbtype],movie)] + !Skin.HasSetting(Ratings.DisableTrakt)] | [[String.IsEqual($PARAM[dbtype],tvshow) | String.IsEqual($PARAM[dbtype],season) | String.IsEqual($PARAM[dbtype],episode) | $EXP[Exp_PVRWindows]] + !Skin.HasSetting(Ratings.DisableTrakt.TVShows)]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableTMDB)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableTMDB) | !Skin.HasSetting(Ratings.DisableTMDB.TVShows)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/tmdb.png</param>
                     <param name="label">Container(99950).ListItem.Property(TMDb_Rating)</param>
                     <param name="label_fallback">−.−</param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[tmdb]</visible>
+                    <visible>[[String.IsEqual($PARAM[dbtype],movie)] + !Skin.HasSetting(Ratings.DisableTMDB)] | [[String.IsEqual($PARAM[dbtype],tvshow) | String.IsEqual($PARAM[dbtype],season) | String.IsEqual($PARAM[dbtype],episode) | $EXP[Exp_PVRWindows]] + !Skin.HasSetting(Ratings.DisableTMDB.TVShows)]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesCritic)</param>
+                    <param name="include_condition">Skin.HasSetting(Ratings.EnableLetterBoxd)</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="icon">flags/$PARAM[directory]/ratings/letterboxd.png</param>
+                    <param name="label">Container(99950).ListItem.Property(letterboxd_rating)</param>
+                    <param name="label_fallback">−.−</param>
+                    <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
+                    <visible>$PARAM[rottentomatoes]</visible>
+                    <visible>[[String.IsEqual($PARAM[dbtype],movie)] + Skin.HasSetting(Ratings.EnableLetterBoxd)]</visible>
+                </include>
+
+                <include content="Info_Ratings_Item">
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesCritic) | Skin.HasSetting(Ratings.EnableRottenTomatoesCritic.TVShows)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes]</param>
                     <param name="label">Container(99950).ListItem.Property(RottenTomatoes_Rating)</param>
@@ -1108,10 +1122,11 @@
                     <param name="label_suffix">%   </param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[rottentomatoes]</visible>
+                    <visible>[[String.IsEqual($PARAM[dbtype],movie)] + !Skin.HasSetting(Ratings.DisableRottenTomatoesCritic)] | [[String.IsEqual($PARAM[dbtype],tvshow) | String.IsEqual($PARAM[dbtype],season) | String.IsEqual($PARAM[dbtype],episode) | $EXP[Exp_PVRWindows]] + Skin.HasSetting(Ratings.EnableRottenTomatoesCritic.TVShows)]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesUser)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableRottenTomatoesUser) | Skin.HasSetting(Ratings.EnableRottenTomatoesUser.TVShows)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/$VAR[Image_$PARAM[tmdbtype]_RottenTomatoes_UserMeter]</param>
                     <param name="label">Container(99950).ListItem.Property(RottenTomatoes_UserMeter)</param>
@@ -1119,10 +1134,11 @@
                     <param name="label_suffix">%   </param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[usermeter]</visible>
+                    <visible>[[String.IsEqual($PARAM[dbtype],movie)] + !Skin.HasSetting(Ratings.DisableRottenTomatoesUser)] | [[String.IsEqual($PARAM[dbtype],tvshow) | String.IsEqual($PARAM[dbtype],season) | String.IsEqual($PARAM[dbtype],episode) | $EXP[Exp_PVRWindows]] + Skin.HasSetting(Ratings.EnableRottenTomatoesUser.TVShows)]</visible>
                 </include>
 
                 <include content="Info_Ratings_Item">
-                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableIMDb)</param>
+                    <param name="include_condition">!Skin.HasSetting(Ratings.DisableIMDb) | !Skin.HasSetting(Ratings.DisableIMDb.TVShows)</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="icon">flags/$PARAM[directory]/ratings/imdb.png</param>
                     <param name="icon_top">1</param>
@@ -1131,6 +1147,7 @@
                     <param name="label_fallback">−.−</param>
                     <param name="is_autohide">Skin.HasSetting(Ratings.AutoHide)</param>
                     <visible>$PARAM[imdb]</visible>
+                    <visible>[[String.IsEqual($PARAM[dbtype],movie)] + !Skin.HasSetting(Ratings.DisableIMDb)] | [[String.IsEqual($PARAM[dbtype],tvshow) | String.IsEqual($PARAM[dbtype],season) | String.IsEqual($PARAM[dbtype],episode) | $EXP[Exp_PVRWindows]] + !Skin.HasSetting(Ratings.DisableIMDb.TVShows)]</visible>
                 </include>
                 <include content="Object_Control" condition="!Skin.HasSetting(DisableIMDBRating) + !Skin.HasSetting(Ratings.DisableIMDbTop250)">
                     <param name="control" value="label" />
@@ -1844,12 +1861,7 @@
                             <param name="userrating" value="$PARAM[container]ListItem.UserRating" />
                             <param name="starrating" value="$PARAM[container]ListItem.Rating" />
                             <param name="star">![$PARAM[shortline]] + !$EXP[Exp_PVRWindows]</param>
-                            <param name="rottentomatoes">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
-                            <param name="usermeter">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
-                            <param name="imdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
-                            <param name="tmdb">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
-                            <param name="trakt">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | $EXP[Exp_PVRWindows]]</param>
-                            <param name="metacritic">[String.IsEqual($PARAM[container]ListItem.DBType,movie) | $EXP[Exp_PVRWindows]]</param>
+                            <param name="dbtype">$PARAM[container]ListItem.DBType</param>
                             <param name="oscars">[![$PARAM[shortline]] | String.IsEqual($PARAM[container]ListItem.DBType,movie)]</param>
                             <param name="top250">[![$PARAM[shortline]] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | $EXP[Exp_PVRWindows]]]</param>
                             <param name="releasestatus">[[[![$PARAM[shortline]] + String.IsEqual($PARAM[container]ListItem.DBType,movie) + !Skin.HasSetting(Ratings.DisableMovieRelease)] | [[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode)] + !Skin.HasSetting(Ratings.DisableTvRelease)]]]</param>
