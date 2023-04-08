@@ -625,26 +625,6 @@
         <param name="itemgap" default="30" />
         <param name="onup" value="9001" />
         <definition>
-            <!-- <include content="Dialog_Menu_Button">
-                <param name="icon" value="special://skin/extras/icons/playlist.png" />
-                <param name="id" value="8086" />
-                <param name="groupid" value="8186" />
-                <param name="control" value="button" />
-                <onclick condition="!Integer.IsEqual(MusicPlayer.PlaylistLength,0)">ActivateWindow(musicplaylist)</onclick>
-                <onclick condition="!Integer.IsEqual(VideoPlayer.PlaylistLength,0)">ActivateWindow(videoplaylist)</onclick>
-                <label>$LOCALIZE[559]</label>
-                <visible>!Window.IsVisible(MyPlaylist.xml)</visible>
-                <visible>!Integer.IsEqual(MusicPlayer.PlaylistLength,0) | !Integer.IsEqual(VideoPlayer.PlaylistLength,0)</visible>
-            </include> -->
-            <!-- <include content="Dialog_Menu_Button">
-                <param name="icon" value="special://skin/extras/icons/fullscreen.png" />
-                <param name="id" value="8087" />
-                <param name="groupid" value="8187" />
-                <param name="control" value="button" />
-                <label>$LOCALIZE[35232]</label>
-                <onclick>fullscreen</onclick>
-                <visible>!Integer.IsEqual(MusicPlayer.PlaylistLength,0) | !Integer.IsEqual(VideoPlayer.PlaylistLength,0)</visible>
-            </include> -->
             <control type="grouplist" id="8080">
                 <nested />
                 <left>30</left>
@@ -687,13 +667,6 @@
                     <param name="visible" value="Window.IsVisible(MyPlaylist.xml)" />
                     <onclick>PlayerControl(Random)</onclick>
                 </include>
-                <!-- <include content="Items_QuickNav_Button">
-                    <param name="itemgap" value="$PARAM[itemgap]" />
-                    <param name="icon" value="$VAR[Image_OSD_Repeat]" />
-                    <param name="id" value="82" />
-                    <param name="bordersize" value="6" />
-                    <onclick>PlayerControl(Repeat)</onclick>
-                </include> -->
                 <include content="Items_QuickNav_Button">
                     <param name="itemgap" value="$PARAM[itemgap]" />
                     <param name="icon" value="special://skin/extras/icons/playlist.png" />
@@ -1626,7 +1599,15 @@
             <onclick>Skin.ToggleSetting(Ratings.DisableMetacritic)</onclick>
             <selected>!Skin.HasSetting(Ratings.DisableMetacritic)</selected>
             <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
-            <label>Metacritic</label>
+            <label>Metacritic [LOWERCASE]$LOCALIZE[20342][/LOWERCASE]</label>
+        </include>
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="8022" />
+            <param name="control" value="radiobutton" />
+            <onclick>Skin.ToggleSetting(Ratings.EnableMetacritic.TVShows)</onclick>
+            <selected>Skin.HasSetting(Ratings.EnableMetacritic.TVShows)</selected>
+            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
+            <label>Metacritic [LOWERCASE]$LOCALIZE[20343][/LOWERCASE]</label>
         </include>
         <include content="Dialog_Settings_Button">
             <param name="id" value="8003" />
@@ -1634,7 +1615,15 @@
             <onclick>Skin.ToggleSetting(Ratings.DisableTrakt)</onclick>
             <selected>!Skin.HasSetting(Ratings.DisableTrakt)</selected>
             <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
-            <label>Trakt</label>
+            <label>Trakt [LOWERCASE]$LOCALIZE[20342][/LOWERCASE]</label>
+        </include>
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="8023" />
+            <param name="control" value="radiobutton" />
+            <onclick>Skin.ToggleSetting(Ratings.DisableTrakt.TVShows)</onclick>
+            <selected>!Skin.HasSetting(Ratings.DisableTrakt.TVShows)</selected>
+            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
+            <label>Trakt [LOWERCASE]$LOCALIZE[20343][/LOWERCASE]</label>
         </include>
         <include content="Dialog_Settings_Button">
             <param name="id" value="8004" />
@@ -1642,7 +1631,23 @@
             <onclick>Skin.ToggleSetting(Ratings.DisableTMDB)</onclick>
             <selected>!Skin.HasSetting(Ratings.DisableTMDB)</selected>
             <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
-            <label>TMDB</label>
+            <label>TMDB [LOWERCASE]$LOCALIZE[20342][/LOWERCASE]</label>
+        </include>
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="8024" />
+            <param name="control" value="radiobutton" />
+            <onclick>Skin.ToggleSetting(Ratings.DisableTMDB.TVShows)</onclick>
+            <selected>!Skin.HasSetting(Ratings.DisableTMDB.TVShows)</selected>
+            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
+            <label>TMDB [LOWERCASE]$LOCALIZE[20343][/LOWERCASE]</label>
+        </include>
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="8030" />
+            <param name="control" value="radiobutton" />
+            <onclick>Skin.ToggleSetting(Ratings.EnableLetterBoxd)</onclick>
+            <selected>Skin.HasSetting(Ratings.EnableLetterBoxd)</selected>
+            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
+            <label>LetterBoxd [LOWERCASE]$LOCALIZE[20342][/LOWERCASE]</label>
         </include>
         <include content="Dialog_Settings_Button">
             <param name="id" value="8005" />
@@ -1650,7 +1655,15 @@
             <onclick>Skin.ToggleSetting(Ratings.DisableRottenTomatoesUser)</onclick>
             <selected>!Skin.HasSetting(Ratings.DisableRottenTomatoesUser)</selected>
             <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
-            <label>RottenTomatoes $LOCALIZE[31200]</label>
+            <label>RottenTomatoes $LOCALIZE[31200] [LOWERCASE]$LOCALIZE[20342][/LOWERCASE]</label>
+        </include>
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="8025" />
+            <param name="control" value="radiobutton" />
+            <onclick>Skin.ToggleSetting(Ratings.EnableRottenTomatoesUser.TVShows)</onclick>
+            <selected>Skin.HasSetting(Ratings.EnableRottenTomatoesUser.TVShows)</selected>
+            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
+            <label>RottenTomatoes $LOCALIZE[31200] [LOWERCASE]$LOCALIZE[20343][/LOWERCASE]</label>
         </include>
         <include content="Dialog_Settings_Button">
             <param name="id" value="8006" />
@@ -1658,7 +1671,15 @@
             <onclick>Skin.ToggleSetting(Ratings.DisableRottenTomatoesCritic)</onclick>
             <selected>!Skin.HasSetting(Ratings.DisableRottenTomatoesCritic)</selected>
             <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
-            <label>RottenTomatoes $LOCALIZE[31201]</label>
+            <label>RottenTomatoes $LOCALIZE[31201] [LOWERCASE]$LOCALIZE[20342][/LOWERCASE]</label>
+        </include>
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="8026" />
+            <param name="control" value="radiobutton" />
+            <onclick>Skin.ToggleSetting(Ratings.EnableRottenTomatoesCritic.TVShows)</onclick>
+            <selected>Skin.HasSetting(Ratings.EnableRottenTomatoesCritic.TVShows)</selected>
+            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
+            <label>RottenTomatoes $LOCALIZE[31201] [LOWERCASE]$LOCALIZE[20343][/LOWERCASE]</label>
         </include>
         <include content="Dialog_Settings_Button">
             <param name="id" value="8007" />
@@ -1666,7 +1687,15 @@
             <onclick>Skin.ToggleSetting(Ratings.DisableIMDb)</onclick>
             <selected>!Skin.HasSetting(Ratings.DisableIMDb)</selected>
             <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
-            <label>IMDb</label>
+            <label>IMDb [LOWERCASE]$LOCALIZE[20342][/LOWERCASE]</label>
+        </include>
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="8027" />
+            <param name="control" value="radiobutton" />
+            <onclick>Skin.ToggleSetting(Ratings.DisableIMDb.TVShows)</onclick>
+            <selected>!Skin.HasSetting(Ratings.DisableIMDb.TVShows)</selected>
+            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
+            <label>IMDb [LOWERCASE]$LOCALIZE[20343][/LOWERCASE]</label>
         </include>
         <include content="Dialog_Settings_Button">
             <param name="id" value="8008" />
@@ -1685,14 +1714,6 @@
             <label>$LOCALIZE[31064]</label>
         </include>
         <include content="Dialog_Settings_Button">
-            <param name="id" value="8011" />
-            <param name="control" value="radiobutton" />
-            <onclick>Skin.ToggleSetting(Ratings.DisableTvRelease)</onclick>
-            <selected>!Skin.HasSetting(Ratings.DisableTvRelease)</selected>
-            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
-            <label>$LOCALIZE[38081] [LOWERCASE]$LOCALIZE[20343][/LOWERCASE]</label>
-        </include>
-        <include content="Dialog_Settings_Button">
             <param name="id" value="8012" />
             <param name="control" value="radiobutton" />
             <onclick>Skin.ToggleSetting(Ratings.DisableMovieRelease)</onclick>
@@ -1700,6 +1721,15 @@
             <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
             <label>$LOCALIZE[38081] [LOWERCASE]$LOCALIZE[20342][/LOWERCASE]</label>
         </include>
+        <include content="Dialog_Settings_Button">
+            <param name="id" value="8011" />
+            <param name="control" value="radiobutton" />
+            <onclick>Skin.ToggleSetting(Ratings.DisableTvRelease)</onclick>
+            <selected>!Skin.HasSetting(Ratings.DisableTvRelease)</selected>
+            <enable>!Skin.HasSetting(Ratings.HideAll)</enable>
+            <label>$LOCALIZE[38081] [LOWERCASE]$LOCALIZE[20343][/LOWERCASE]</label>
+        </include>
+
     </include>
 
 
