@@ -4,7 +4,7 @@
 
 ### About
 
-Created by, and full credit to **jurialmonkey**.\
+Created by, and full credit to **jurialmunkey**.\
 This fork is an alternative twist on the Arctic Horizon 2 skin add-on for Kodi - includes tweaks, customisations and modifications by **DRAGOLIZER**.
 
 ### License
