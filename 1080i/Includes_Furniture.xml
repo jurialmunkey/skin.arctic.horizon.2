@@ -188,12 +188,60 @@
     </include>
 
     <include name="Furniture_Clock_Small">
-        <control type="label">
+        <control type="group">
+            <width>600</width>
             <nested />
-            <align>$PARAM[align]</align>
-            <font>font_main</font>
-            <textcolor>main_fg_100</textcolor>
-            <label>$INFO[System.Time]</label>
+            <control type="grouplist">
+                <height>50%</height>
+                <orientation>horizontal</orientation>
+                <align>$PARAM[align]</align>
+                <itemgap>10</itemgap>
+                <include content="Furniture_MenuLabel">
+                    <label>$INFO[System.Time]</label>
+                    <align>$PARAM[align]</align>
+                    <width>auto</width>
+                </include>
+            </control>
+            <control type="group">
+                <bottom>0</bottom>
+                <height>50%</height>
+                <control type="grouplist">
+                    <bottom>-10</bottom>
+                    <top>-10</top>
+                    <orientation>horizontal</orientation>
+                    <align>$PARAM[align]</align>
+                    <itemgap>10</itemgap>
+                    <visible>$EXP[Exp_HasPagesItems]</visible>
+                    <include content="Furniture_MiniLabel">
+                        <label>$INFO[Container.CurrentPage,, $LOCALIZE[1443] ]$INFO[Container.NumPages,, $LOCALIZE[31110]]</label>
+                        <align>$PARAM[align]</align>
+                        <width>auto</width>
+                    </include>
+                    <include content="Furniture_MiniLabel">
+                        <label>•</label>
+                        <align>$PARAM[align]</align>
+                        <width>auto</width>
+                    </include>
+                    <include content="Furniture_MiniLabel">
+                        <label>$INFO[Container.NumItems,, $LOCALIZE[31022]]</label>
+                        <align>$PARAM[align]</align>
+                        <width>auto</width>
+                    </include>
+                </control>
+                <control type="grouplist">
+                    <bottom>-10</bottom>
+                    <top>-10</top>
+                    <orientation>horizontal</orientation>
+                    <align>$PARAM[align]</align>
+                    <itemgap>10</itemgap>
+                    <visible>!$EXP[Exp_HasPagesItems]</visible>
+                    <include content="Furniture_MiniLabel">
+                        <label>$INFO[System.Date]</label>
+                        <align>$PARAM[align]</align>
+                        <width>auto</width>
+                    </include>
+                </control>
+            </control>
         </control>
     </include>
 
