@@ -173,7 +173,7 @@
                                     <oninfo condition="!Skin.HasSetting(Widgets.FullScreenContext)">Action(ContextMenu)</oninfo>
                                     <oninfo>SetFocus($PYTHON[int(mainmenuid) * 1000 + 501])</oninfo>
 
-                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
+                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
                                     <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
                                 </include>
                                 <include content="Object_Info_Button">
@@ -196,7 +196,7 @@
                                     <onclick condition="![Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(Info)</onclick>
                                     <onclick condition="[Skin.HasSetting(Widgets.FullScreenContext) | String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])]">Action(ContextMenu)</onclick>
                                     <onclick>SetFocus($PYTHON[int(mainmenuid) * 1000 + 503])</onclick>
-                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
+                                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
                                     <onfocus>SetProperty(FullscreenWidgetRefocus,$PYTHON[int(mainmenuid) * 1000 + 501],Home)</onfocus>
                                 </include>
                             </control>
@@ -263,8 +263,8 @@
                             <include content="Defs_AutoScroll" condition="$SKINSHORTCUTS[isFullscreenAutoScroll]">
                                 <param name="condition" value="!Control.HasFocus(301) + !System.ScreenSaverActive + String.IsEmpty(Window(Home).Property(Widgets.BlockAutoscroll))" />
                             </include>
-                            <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
-                            <onfocus>SetProperty(Slide.WidgetInfoStyle,Full)</onfocus>
+                            <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+                            <onfocus>SetProperty(Slide.WidgetInfoStyle,Full,Home)</onfocus>
                             <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
                             <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                             <onunfocus>ClearProperty(Slide.WidgetTitle,Home)</onunfocus>
@@ -296,8 +296,8 @@
                             <include content="Object_ContentInclude" condition="![$SKINSHORTCUTS[isSubmenuBumperCustom]]">
                                 <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</param>
                             </include>
-                            <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698])</onfocus>
-                            <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo])</onfocus>
+                            <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 698],Home)</onfocus>
+                            <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
                             <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
                             <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                             <onunfocus>ClearProperty(Slide.WidgetTitle,Home)</onunfocus>
@@ -562,13 +562,13 @@
                     <include content="Object_ContentInclude" condition="$SKINSHORTCUTS[isSubmenu]">
                         <param name="include">skinshortcuts-group-$SKINSHORTCUTS[submenuVisibility]</param>
                     </include>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])</onfocus>
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfoFull] + ![$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,$SKINSHORTCUTS[widgetName],Home)</onfocus>
                     <onfocus condition="$SKINSHORTCUTS[isInfoFull] + [$SKINSHORTCUTS[widgetLabelName]] + Skin.HasSetting(Widgets.ExpandedHeader)">SetProperty(Slide.WidgetTitle,[CAPITALIZE]$INFO[Container($PYTHON[int(mainmenuid) * 1000 + 600 + int(id)]).ListItem.Property(widget)][/CAPITALIZE],Home)</onfocus>
-                    <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)])</onfocus>
-                    <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo])</onfocus>
-                    <onunfocus>ClearProperty(Slide.WidgetInfoStyle)</onunfocus>
-                    <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
+                    <onfocus condition="$SKINSHORTCUTS[isInfo]">SetProperty(Slide.WidgetContainer,$PYTHON[int(mainmenuid) * 1000 + 600 + int(id)],Home)</onfocus>
+                    <onfocus>SetProperty(Slide.WidgetInfoStyle,$SKINSHORTCUTS[widgetInfo],Home)</onfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetInfoStyle,Home)</onunfocus>
+                    <onunfocus>ClearProperty(Slide.WidgetContainer,Home)</onunfocus>
                     <onunfocus>ClearProperty(Slide.WidgetTitle,Home)</onunfocus>
 
                     <onfocus condition="$SKINSHORTCUTS[isStacked]">SetProperty(Widgets.BlockAutoscroll,1,Home)</onfocus>
@@ -737,7 +737,7 @@
                 <param name="id">301</param>
                 <preloaditems>2</preloaditems>
                 <visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),$SKINSHORTCUTS[submenuVisibility])</visible>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
                 <onup>SetFocus(300)</onup>
                 <ondown>SetFocus(300)</ondown>
                 <onback>SetFocus(300)</onback>
