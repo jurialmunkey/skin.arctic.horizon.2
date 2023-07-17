@@ -119,4 +119,64 @@
         </control>
     </include>
 
+    <include name="OSD_Episodes_Info_Group">
+        <param name="label">$VAR[Label_OSD_Episodes_Title]</param>
+        <definition>
+            <control type="grouplist">
+                <top>310</top>
+                <orientation>horizontal</orientation>
+                <itemgap>30</itemgap>
+                <width>1380</width>
+                <height>grid_x08</height>
+                <nested />
+            </control>
+            <control type="label">
+                <top>270</top>
+                <width>1080</width>
+                <label>$PARAM[label]</label>
+                <font>font_mini_black</font>
+                <textcolor>panel_fg_100</textcolor>
+                <height>20</height>
+                <aligny>center</aligny>
+            </control>
+        </definition>
+    </include>
+
+    <include name="OSD_Episodes_Info_Basic">
+        <param name="icon">$VAR[Image_OSD_Episodes]</param>
+        <param name="label">[COLOR=panel_fg_100][B]$INFO[Container(6401).ListItem.Season,S,]$INFO[Container(6401).ListItem.Episode,E, ]$INFO[Container(6401).ListItem.Title,, ~ ][/B][/COLOR]$INFO[Container(6401).ListItem.Plot]</param>
+        <definition>
+            <control type="group">
+                <height>grid_x06</height>
+                <width>grid_x06</width>
+                <control type="image">
+                    <bordersize>2</bordersize>
+                    <bordertexture colordiffuse="panel_fg_100">common/circle.png</bordertexture>
+                    <texture colordiffuse="panel_bg">common/circle.png</texture>
+                </control>
+                <control type="image">
+                    <bordersize>2</bordersize>
+                    <include content="Object_AspectRatio" condition="VideoPlayer.Content(livetv)">
+                        <param name="scalediffuse">false</param>
+                        <param name="aspectratio">keep</param>
+                    </include>
+                    <include content="Object_AspectRatio" condition="!VideoPlayer.Content(livetv)">
+                        <param name="scalediffuse">false</param>
+                        <param name="aspectratio">scale</param>
+                    </include>
+                    <texture diffuse="common/circle.png" colordiffuse="panel_fg_100">$PARAM[icon]</texture>
+                </control>
+            </control>
+            <control type="textbox">
+                <left>-10</left>
+                <top>-3</top>
+                <width>1080</width>
+                <label>$PARAM[label]</label>
+                <font>font_mini</font>
+                <textcolor>panel_fg_70</textcolor>
+                <height>65</height>
+            </control>
+        </definition>
+    </include>
+
 </includes>

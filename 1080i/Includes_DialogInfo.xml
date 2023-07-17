@@ -101,6 +101,7 @@
             <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
             <onup>61</onup>
             <ondown>7002</ondown>
+            <onfocus condition="Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(4000)</onfocus>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5001)</onclick>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">Action(Select)</onclick>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5000)</onclick>
@@ -815,7 +816,10 @@
                 <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_Collections]</content>
-                <include content="Action_Widget_Play_Click">
+                <include content="Action_Widget_Play_Click" condition="String.IsEqual(ListItem.DBType,tvshow)">
+                    <param name="id">6200</param>
+                </include>
+                <include content="Action_LibraryInfoWidget_Click" condition="!String.IsEqual(ListItem.DBType,tvshow)">
                     <param name="id">6200</param>
                 </include>
                 <onback>50</onback>

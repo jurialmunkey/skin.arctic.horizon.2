@@ -52,10 +52,11 @@
                     <include content="OSD_Button" condition="!VideoPlayer.Content(livetv)">
                         <param name="autoclose" value="true" />
                         <param name="visible" value="true" />
-                        <param name="icon" value="osd/jump-back.png" />
+                        <param name="icon" value="$VAR[Image_OSD_Back]" />
                         <param name="id" value="6200" />
                         <param name="groupid" value="6299" />
-                        <onclick>Seek(-10)</onclick>
+                        <onclick condition="!Player.Paused">Seek(-10)</onclick>
+                        <onclick condition="Player.Paused">Seek(-1)</onclick>
                         <onup>8200</onup>
                     </include>
                     <include content="OSD_Button" condition="VideoPlayer.Content(livetv)">
@@ -73,10 +74,11 @@
                     <include content="OSD_Button" condition="!VideoPlayer.Content(livetv)">
                         <param name="autoclose" value="true" />
                         <param name="visible" value="true" />
-                        <param name="icon" value="osd/jump-forward.png" />
+                        <param name="icon" value="$VAR[Image_OSD_Forward]" />
                         <param name="id" value="6300" />
                         <param name="groupid" value="6399" />
-                        <onclick>Seek(10)</onclick>
+                        <onclick condition="!Player.Paused">Seek(10)</onclick>
+                        <onclick condition="Player.Paused">PlayerControl(FrameAdvance(1))</onclick>
                         <onup>8200</onup>
                     </include>
                     <include content="OSD_Button" condition="VideoPlayer.Content(livetv)">

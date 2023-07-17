@@ -73,7 +73,18 @@
                     <height>$PARAM[flixart_size_h]</height>
                     <width>$PARAM[flixart_size_w]</width>
                     <aspectratio scalediffuse="true">scale</aspectratio>
-                    <texture background="true" diffuse="diffuse/flixart.png">$VAR[Image_Foreground_FlixArt]</texture>
+
+                    <include content="Object_Texture" condition="[Skin.String(BackgroundStyle,Blur) | Skin.String(BackgroundStyle,Image)]">
+                        <param name="texture">$VAR[Image_Foreground_FlixArt]</param>
+                        <param name="background">true</param>
+                        <param name="diffuse">diffuse/flixart_hard.png</param>
+                    </include>
+
+                    <include content="Object_Texture" condition="![Skin.String(BackgroundStyle,Blur) | Skin.String(BackgroundStyle,Image)]">
+                        <param name="texture">$VAR[Image_Foreground_FlixArt]</param>
+                        <param name="background">true</param>
+                        <param name="diffuse">diffuse/flixart_soft.png</param>
+                    </include>
                 </include>
             </control>
         </definition>
@@ -86,7 +97,18 @@
             <width>50%</width>
             <fadetime>400</fadetime>
             <aspectratio scalediffuse="false" aligny="top">scale</aspectratio>
-            <texture background="true" diffuse="diffuse/flixart.png">$VAR[Image_Foreground_FlixArt]</texture>
+
+            <include content="Object_Texture" condition="[Skin.String(BackgroundStyle,Blur) | Skin.String(BackgroundStyle,Image)]">
+                <param name="texture">$VAR[Image_Foreground_FlixArt]</param>
+                <param name="background">true</param>
+                <param name="diffuse">diffuse/flixart_hard.png</param>
+            </include>
+
+            <include content="Object_Texture" condition="![Skin.String(BackgroundStyle,Blur) | Skin.String(BackgroundStyle,Image)]">
+                <param name="texture">$VAR[Image_Foreground_FlixArt]</param>
+                <param name="background">true</param>
+                <param name="diffuse">diffuse/flixart_soft.png</param>
+            </include>
         </include>
     </include>
 
@@ -191,10 +213,11 @@
 
     <include name="Background_Image">
         <param name="texture" default="$VAR[Image_SimpleBackground]" />
+        <param name="colordiffuse">main_flix</param>
         <definition>
             <control type="image">
                 <aspectratio>scale</aspectratio>
-                <texture background="true" colordiffuse="main_flix">$PARAM[texture]</texture>
+                <texture background="true" colordiffuse="$PARAM[colordiffuse]">$PARAM[texture]</texture>
                 <include>Background_NotVideo</include>
             </control>
         </definition>
@@ -217,6 +240,10 @@
 
     <include name="Background_None">
         <include condition="![Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)]">Background_Image</include>
+        <include condition="[Skin.String(ForegroundStyle,KeyArt) | Skin.String(ForegroundStyle,FlixArt)]" content="Background_Image">
+            <param name="texture">background/bg.jpg</param>
+            <param name="colordiffuse">$VAR[Background_Main_ColorDiffuse]</param>
+        </include>
     </include>
 
     <include name="Background_NotVideo">
@@ -269,7 +296,6 @@
         <value condition="Skin.HasSetting(UseBackgroundVideo) + Player.HasVideo">black</value>
         <value>main_bg_100</value>
     </variable>
-
     <include name="Background_Main">
         <param name="plain_background">false</param>
         <definition>

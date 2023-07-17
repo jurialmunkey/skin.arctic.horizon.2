@@ -24,10 +24,10 @@
                 <param name="orientation" value="horizontal" />
                 <param name="controltype" value="fixedlist" />
                 <param name="id" value="11" />
-                <param name="item_w" value="427" />
-                <param name="item_h" value="240" />
-                <param name="itemlayout_w" value="467" />
-                <param name="itemlayout_h" value="280" />
+                <param name="item_w" value="view_osd_landscape_item_w" />
+                <param name="item_h" value="view_osd_landscape_item_h" />
+                <param name="itemlayout_w" value="view_osd_landscape_itemlayout_w" />
+                <param name="itemlayout_h" value="view_osd_landscape_itemlayout_h" />
                 <param name="itemlayout_include" value="OSD_Episodes_Layout" />
                 <param name="offset_y" value="40" />
                 <param name="offset_x">40</param>
@@ -37,22 +37,19 @@
                 <top>-40</top>
                 <onup>6400</onup>
                 <left>-40</left>
-                <width>1441</width>
+                <width>view_osd_landscape_list_w</width>
                 <onup>Close</onup>
                 <ondown>2</ondown>
             </include>
 
             <include content="OSD_Episodes_Arrows">
                 <param name="id">11</param>
-                <width>1361</width>
-                <height>240</height>
+                <width>view_osd_landscape_arrows_w</width>
+                <height>view_osd_landscape_item_h</height>
             </include>
 
-            <control type="grouplist">
-                <height>grid_x06</height>
-                <bottom>-10</bottom>
-                <orientation>horizontal</orientation>
-                <itemgap>30</itemgap>
+            <include content="OSD_Episodes_Info_Group">
+                <param name="label">$LOCALIZE[298][COLOR=$VAR[ColorHighlight]]  •  [/COLOR]$INFO[Container(11).CurrentItem,, $LOCALIZE[1443] ]$INFO[Container(11).NumItems,, ]</param>
                 <onup>11</onup>
 
                 <include content="OSD_Button">
@@ -73,7 +70,12 @@
                     <param name="id" value="4" />
                     <param name="groupid" value="9004" />
                 </include>
-            </control>
+
+                <include content="OSD_Episodes_Info_Basic">
+                    <param name="icon">$VAR[Image_OSD_Bookmarks_Circle]</param>
+                    <param name="label">[COLOR=panel_fg_100][B]$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E, ]$INFO[VideoPlayer.Title,, ~ ][/B][/COLOR]$INFO[VideoPlayer.Plot]</param>
+                </include>
+            </include>
 
         </include>
     </controls>
