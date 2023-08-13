@@ -53,13 +53,16 @@
     </include>
 
     <include name="Animation_Foreground_SlideUp">
-        <animation type="WindowOpen" reversible="false">
-            <effect type="fade" start="0" end="100" time="400" delay="0" tween="sine" easing="out"/>
-            <effect type="slide" start="0,240" end="0" time="400" delay="0" tween="cubic" easing="out" />
-        </animation>
-        <animation type="WindowClose" reversible="false">
-            <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
-        </animation>
+        <param name="delay">0</param>
+        <definition>
+            <animation type="WindowOpen" reversible="false">
+                <effect type="fade" start="0" end="100" time="400" delay="$PARAM[delay]" tween="sine" easing="out"/>
+                <effect type="slide" start="0,240" end="0" time="400" delay="$PARAM[delay]" tween="cubic" easing="out" />
+            </animation>
+            <animation type="WindowClose" reversible="false">
+                <effect type="fade" start="100" end="0" time="400" delay="0" tween="sine" easing="out"/>
+            </animation>
+        </definition>
     </include>
     <include name="Animation_View_Switch">
         <animation type="Visible" reversible="false">
@@ -97,6 +100,9 @@
         <animation type="Conditional" reversible="false" condition="$PARAM[visible] + String.IsEqual(Window(Home).Property(AnimationDirection),Down)">
             <effect type="slide" start="0,320" end="0" delay="0" time="400" tween="cubic" easing="out" />
         </animation>
+        <animation type="Conditional" reversible="false" condition="$PARAM[visible] + String.IsEqual(Window(Home).Property(AnimationDirection),Up)">
+            <effect type="slide" start="0,-320" end="0" delay="0" time="400" tween="cubic" easing="out" />
+        </animation>
 
         <animation type="Hidden" reversible="false">
             <effect type="fade" start="100" end="0" delay="300" time="300" tween="sine" easing="out" />
@@ -111,6 +117,9 @@
             <effect type="slide" end="-320" start="0" time="400" tween="cubic" easing="out" />
         </animation>
         <animation type="Conditional" reversible="false" condition="!$PARAM[visible] + String.IsEqual(Window(Home).Property(AnimationDirection),Down)">
+            <effect type="slide" end="0,-320" start="0" time="400" tween="cubic" easing="out" />
+        </animation>
+        <animation type="Conditional" reversible="false" condition="!$PARAM[visible] + String.IsEqual(Window(Home).Property(AnimationDirection),Up)">
             <effect type="slide" end="0,320" start="0" time="400" tween="cubic" easing="out" />
         </animation>
     </include>
@@ -190,6 +199,23 @@
             <animation type="WindowOpen" reversible="false" condition="$PARAM[windowopen_condition]">
                 <effect type="fade" start="0" end="100" time="300" delay="$PARAM[windowopen_delay]"/>
                 <effect type="slide" start="0,-48" end="0" center="auto" tween="back" easing="out" time="400" delay="$PARAM[windowopen_delay]"/>
+            </animation>
+        </definition>
+    </include>
+
+    <include name="Animation_SlideIn_Dialog_Left">
+        <param name="visible_delay" default="150" />
+        <param name="visible_condition" default="true" />
+        <param name="windowopen_delay" default="400" />
+        <param name="windowopen_condition" default="true" />
+        <definition>
+            <animation type="Visible" reversible="false" condition="$PARAM[visible_condition]">
+                <effect type="fade" start="0" end="100" time="300" delay="$PARAM[visible_delay]"/>
+                <effect type="slide" start="-48" end="0" center="auto" tween="back" easing="out" time="400" delay="$PARAM[visible_delay]"/>
+            </animation>
+            <animation type="WindowOpen" reversible="false" condition="$PARAM[windowopen_condition]">
+                <effect type="fade" start="0" end="100" time="300" delay="$PARAM[windowopen_delay]"/>
+                <effect type="slide" start="-48" end="0" center="auto" tween="back" easing="out" time="400" delay="$PARAM[windowopen_delay]"/>
             </animation>
         </definition>
     </include>
@@ -367,11 +393,13 @@
         </definition>
     </include>
 
-    <include name="Animation_Reposition_MainList">
-        <animation effect="slide" end="0,-grid_x08" condition="Integer.IsLess(Container($PARAM[id]).NumItems,3)">Conditional</animation>
-    </include>
-    <include name="Animation_Reposition_PlayList">
-        <animation effect="slide" end="0,-grid_x12" condition="Integer.IsLess(Container($PARAM[id]).NumItems,3)">Conditional</animation>
+    <include name="Animation_Reposition">
+        <param name="slide_x">0</param>
+        <param name="slide_y">-grid_x08</param>
+        <param name="numitems">3</param>
+        <definition>
+            <animation effect="slide" end="$PARAM[slide_x],$PARAM[slide_y]" condition="!Container($PARAM[id]).IsUpdating + Integer.IsLess(Container($PARAM[id]).NumItems,$PARAM[numitems]) + !Integer.IsEqual(Container($PARAM[id]).NumItems,0)">Conditional</animation>
+        </definition>
     </include>
 
 </includes>

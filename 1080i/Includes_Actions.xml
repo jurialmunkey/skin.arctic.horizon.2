@@ -103,21 +103,14 @@
         <onclick condition="Window.IsVisible(MyVideoNav.xml)">AlarmClock(callinfo,RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_update=$INFO[Container($PARAM[id]).ListItem.FolderPath]),00:01,silent)</onclick>
     </include>
 
-    <include name="Action_Widget_TrailerPlay_Click">
-        <onclick>Close</onclick>
-        <onclick condition="$EXP[Exp_InfoDialogs]">PlayMedia($INFO[Container($PARAM[id]).ListItem.FolderPath],False,1)</onclick>
-        <onclick condition="!$EXP[Exp_InfoDialogs]">PlayMedia($INFO[Container($PARAM[id]).ListItem.FolderPath],False)</onclick>
-        <onclick condition="$EXP[Exp_InfoDialogs]">SetProperty(HasTrailer,$INFO[Container($PARAM[id]).ListItem.FolderPath],Home)</onclick>
-        <onclick condition="$EXP[Exp_InfoDialogs]">AlarmClock(Refocus,SetFocus(7001),00:01,silent)</onclick>
-    </include>
-
     <include name="Action_Recommendations_OnFocus">
         <nested />
+        <onfocus>SetProperty(TMDbHelper.Recommendations.Logo,$ESCINFO[Container(99950).ListItem.Art(cropimage)],Home)</onfocus>
         <onfocus>SetProperty(TMDbHelper.WinProp.Set,'"$VAR[Label_Set]"',Home)</onfocus>
         <onfocus>SetProperty(TMDbHelper.WinProp.Director,'"$VAR[Path_FromDirector_Name]"',Home)</onfocus>
         <onfocus>SetProperty(TMDbHelper.WinProp.Writer,'"$VAR[Path_FromWriter_Screenplay]"',Home)</onfocus>
         <onfocus>SetProperty(TMDbHelper.WinProp.Studio,'$ESCINFO[Container(99950).ListItem.Property(Studio.1.Name)]',Home)</onfocus>
-        <onfocus>SetProperty(TMDbHelper.WinProp.Genre,'$ESCINFO[ListItem.Genre]',Home)</onfocus>
+        <onfocus>SetProperty(TMDbHelper.WinProp.Genre,'$ESCINFO[Container(99950).ListItem.Property(Genre.1.Name)]',Home)</onfocus>
         <onfocus>SetProperty(TMDbHelper.WinProp.Year,'$ESCINFO[ListItem.Year]',Home)</onfocus>
         <onfocus>SetProperty(TMDbHelper.WinProp.Youtube,'"$VAR[Path_Youtube]"',Home)</onfocus>
         <onfocus>SetProperty(TMDbHelper.WinProp.Title,'"$VAR[Label_Title]"',Home)</onfocus>
@@ -141,25 +134,25 @@
         <param name="sourceimage">Art(fanart)</param>
         <definition>
             <onload>SetProperty(TMDbHelper.Blur.SourceImage,$PARAM[sourceimage],Home)</onload>
-            <onload>SetProperty(TMDbHelper.Blur.Fallback,background/blur2.png,Home)</onload>
+            <onload>SetProperty(TMDbHelper.Blur.Fallback,$VAR[Image_SimpleBackground],Home)</onload>
         </definition>
     </include>
     <include name="Action_Blur_Onload">
-        <include content="_Action_Blur_Onload">
+        <include content="_Action_Blur_Onload" condition="Skin.HasSetting(PVR.DisableEPGEventIconFanart)">
             <param name="sourceimage">Art(fanart)|Property(fanart)</param>
         </include>
-        <!-- <include content="_Action_Blur_Onload">
-            <param name="sourceimage">Art(keyart)|Art(fanart)</param>
-        </include> -->
+        <include content="_Action_Blur_Onload" condition="!Skin.HasSetting(PVR.DisableEPGEventIconFanart)">
+            <param name="sourceimage">Art(fanart)|Property(fanart)||EPGEventIcon</param>
+        </include>
     </include>
 
     <include name="Action_BuildTextures_Onload">
-        <onload>RunScript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,selectbox_inner+overlay=special://skin/extras/textures/selectbox_inner.png,selectbox_thin=special://skin/extras/textures/selectbox_thin.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menumain+overlay+slicing{240|80}=special://skin/extras/textures/menumain.png,main=special://skin/extras/textures/main.png,circlebutton+overlay=special://skin/extras/textures/circlebutton.png,glow=special://skin/extras/textures/glow.png,no_reload)</onload>
+        <onload>RunScript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,selectbox_thin=special://skin/extras/textures/selectbox_thin.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menumain+overlay+slicing{240|80}=special://skin/extras/textures/menumain.png,main=special://skin/extras/textures/main.png,circlebutton+overlay=special://skin/extras/textures/circlebutton.png,glow=special://skin/extras/textures/glow.png,no_reload)</onload>
     </include>
     <include name="Action_BuildTextures_Onclick">
-        <onclick condition="!String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,selectbox_inner+overlay=special://skin/extras/textures/selectbox_inner.png,selectbox_thin=special://skin/extras/textures/selectbox_thin.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menumain+overlay+slicing{240|80}=special://skin/extras/textures/menumain.png,main=special://skin/extras/textures/main.png,circlebutton+overlay=special://skin/extras/textures/circlebutton.png,glow=special://skin/extras/textures/glow.png,reload=1111)</onclick>
+        <onclick condition="!String.IsEqual(Window(Home).Property(ColorPicker_Type),Indicator)">runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,selectbox_thin=special://skin/extras/textures/selectbox_thin.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menumain+overlay+slicing{240|80}=special://skin/extras/textures/menumain.png,main=special://skin/extras/textures/main.png,circlebutton+overlay=special://skin/extras/textures/circlebutton.png,glow=special://skin/extras/textures/glow.png,reload=1111)</onclick>
     </include>
     <include name="Action_BuildTextures_Onclick_Preset">
-        <onclick>runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,selectbox_inner+overlay=special://skin/extras/textures/selectbox_inner.png,selectbox_thin=special://skin/extras/textures/selectbox_thin.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menumain+overlay+slicing{240|80}=special://skin/extras/textures/menumain.png,main=special://skin/extras/textures/main.png,circlebutton+overlay=special://skin/extras/textures/circlebutton.png,glow=special://skin/extras/textures/glow.png,reload=1115)</onclick>
+        <onclick>runscript(script.texturemaker,bg=$VAR[ColorHighlight],fg=$VAR[ColorGradient],alpha=1.0,folder=ArcticHorizon,selectbox=special://skin/extras/textures/selectbox.png,selectbox_thin=special://skin/extras/textures/selectbox_thin.png,scrollv=special://skin/extras/textures/scrollv.png,scrollh=special://skin/extras/textures/scrollh.png,box=special://skin/extras/textures/box.png,circle=special://skin/extras/textures/circle.png,menu=special://skin/extras/textures/menu.png,menumain+overlay+slicing{240|80}=special://skin/extras/textures/menumain.png,main=special://skin/extras/textures/main.png,circlebutton+overlay=special://skin/extras/textures/circlebutton.png,glow=special://skin/extras/textures/glow.png,reload=1115)</onclick>
     </include>
 </includes>

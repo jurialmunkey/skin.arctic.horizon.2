@@ -14,7 +14,9 @@
         <align>left</align>
         <font>font_main</font>
         <textcolor>dialog_fg_70</textcolor>
-        <autoscroll delay="6000" time="3000" repeat="10000">!Skin.HasSetting(Textboxes.DisableAutoscroll)</autoscroll>
+        <include content="Defs_AutoScroll_TextBox">
+            <param name="condition">!Skin.HasSetting(Textboxes.DisableAutoscroll)</param>
+        </include>
     </default>
 
     <default type="button">
@@ -26,6 +28,22 @@
         <focusedcolor>$VAR[ColorSelected]</focusedcolor>
         <disabledcolor>dialog_fg_30</disabledcolor>
         <include>Texture_Button</include>
+        <pulseonselect>false</pulseonselect>
+    </default>
+
+    <default type="colorbutton">
+        <align>center</align>
+        <aligny>center</aligny>
+        <font>font_mini</font>
+        <textoffsetx>30</textoffsetx>
+        <textcolor>dialog_fg_70</textcolor>
+        <focusedcolor>$VAR[ColorSelected]</focusedcolor>
+        <disabledcolor>dialog_fg_30</disabledcolor>
+        <include>Texture_Button</include>
+        <colorwidth>84</colorwidth>
+        <colorheight>24</colorheight>
+        <texturecolormask>buttons/colorpicker.png</texturecolormask>
+        <texturecolordisabledmask colordiffuse="dialog_fg_30">buttons/colorpicker.png</texturecolordisabledmask>
         <pulseonselect>false</pulseonselect>
     </default>
 
@@ -291,6 +309,20 @@
         <animation effect="fade" start="100" end="99" condition="Integer.IsEqual($PARAM[info],99)">Conditional</animation>
     </include>
 
+    <variable name="Defs_Progress_Rating">
+        <value condition="Integer.IsEqual(ListItem.Rating,10)">100</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,9)">90</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,8)">80</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,7)">70</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,6)">60</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,5)">50</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,4)">40</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,3)">30</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,2)">20</value>
+        <value condition="Integer.IsEqual(ListItem.Rating,1)">10</value>
+        <value>0</value>
+    </variable>
+
     <include name="Defs_Progress_Colorfade">
         <include content="Defs_Progress_Colorfader">
             <param name="info" value="Control.GetLabel($PARAM[id])" />
@@ -307,7 +339,7 @@
     </variable>
 
     <include name="Defs_Search_Button">
-        <texturefocus border="12">special://profile/addon_data/script.texturemaker/ArcticHorizon/box_h.png</texturefocus>
+        <include>Texture_Box_Highlight_Focus_H</include>
         <texturenofocus border="12" colordiffuse="main_fg_12">common/box.png</texturenofocus>
         <height>80</height>
         <textoffsetx>30</textoffsetx>
@@ -338,6 +370,16 @@
 
     <include name="Defs_AutoScroll_Value">
         <autoscroll time="$PARAM[time]">$PARAM[condition]</autoscroll>
+    </include>
+    <include name="Defs_AutoScroll_TextBox_Value">
+        <autoscroll delay="$PARAM[time]" repeat="$PARAM[time]" time="3000">$PARAM[condition]</autoscroll>
+    </include>
+
+    <include name="Defs_AutoScroll_TextBox">
+        <include content="Defs_AutoScroll">
+            <param name="include">Defs_AutoScroll_TextBox_Value</param>
+            <param name="condition">$PARAM[condition]</param>
+        </include>
     </include>
 
     <include name="Defs_AutoScroll">

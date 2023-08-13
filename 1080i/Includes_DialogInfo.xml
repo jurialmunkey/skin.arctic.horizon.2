@@ -85,13 +85,10 @@
             <onright condition="Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(9801)</onright>
             <onback condition="!Skin.HasSetting(DialogInfo.FocusButtons)">5000</onback>
             <onback condition="Skin.HasSetting(DialogInfo.FocusButtons)">Dialog.Close(movieinformation)</onback>
-            <onup condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
-            <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
-            <onup>61</onup>
-            <!-- <ondown condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</ondown>
-            <ondown condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</ondown>
-            <ondown>61</ondown> -->
-            <ondown>7002</ondown>
+            <onup condition="Skin.HasSetting(DialogInfo.FocusButtons) + String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onup>
+            <onup condition="Skin.HasSetting(DialogInfo.FocusButtons) + !String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
+            <onup condition="Skin.HasSetting(DialogInfo.FocusButtons)">61</onup>
+            <ondown condition="Skin.HasSetting(DialogInfo.FocusButtons)">7002</ondown>
             <include>$PARAM[include]</include>
         </control>
     </include>
@@ -104,6 +101,7 @@
             <onup condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onup>
             <onup>61</onup>
             <ondown>7002</ondown>
+            <onfocus condition="Skin.HasSetting(DialogInfo.FocusButtons)">SetFocus(4000)</onfocus>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5001)</onclick>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">Action(Select)</onclick>
             <onclick condition="!$EXP[Exp_IsPersonInfo]">SetFocus(5000)</onclick>
@@ -320,7 +318,10 @@
                 <preloaditems>0</preloaditems>
                 <focusposition>1</focusposition>
                 <movement>2</movement>
-                <animation effect="slide" start="0" end="0,-120" condition="Integer.IsLess(Container(9801).NumItems,3)">Conditional</animation>
+                <include content="Animation_Reposition">
+                    <param name="id">9801</param>
+                    <param name="slide_y">-grid_x12</param>
+                </include>
                 <animation effect="fade" start="100" end="0" condition="Container(9801).IsUpdating">Conditional</animation>
                 <content>
                     <item>
@@ -423,7 +424,7 @@
                 <content target="videos">$VAR[Path_CollectionNode_Content]</content>
                 <onleft>9801</onleft>
                 <left>520</left>
-                <right>-620</right>
+                <right>-600</right>
                 <top>220</top>
                 <bottom>-40</bottom>
                 <visible>!Container.IsUpdating(9801) + [Container(9801).ListItem.IsFolder | !String.IsEmpty(Container(9801).ListItem.Property(folderpath))]</visible>
@@ -431,8 +432,11 @@
                 <focusposition>1</focusposition>
                 <movement>1</movement>
                 <onclick>Dialog.Close(12003)</onclick>
-                <onclick>PlayMedia($INFO[Container(9802).ListItem.FileNameAndPath])</onclick>
-                <animation effect="slide" start="0" end="0,-160" condition="Integer.IsLess(Container(9802).NumItems,3)">Conditional</animation>
+                <onclick>PlayMedia($ESCINFO[Container(9802).ListItem.FileNameAndPath],playlist_type_hint=1)</onclick>
+                <include content="Animation_Reposition">
+                    <param name="id">9802</param>
+                    <param name="slide_y">-grid_x16</param>
+                </include>
             </include>
             <control type="group">
                 <left>540</left>
@@ -622,9 +626,7 @@
         <param name="label">$INFO[ListItem.Tagline,[B]$LOCALIZE[202][/B][CR],[CR][CR]]$VAR[Label_Plot,[B]$LOCALIZE[31028][/B][CR],]$VAR[Label_OverlayCritics]$VAR[Label_OverlayAwardsWon]$VAR[Label_OverlayAwardsNominated]</param>
         <definition>
             <control type="group">
-                <include content="Info_Title">
-                    <param name="width">info_plot_w</param>
-                </include>
+                <include>Info_Title</include>
                 <visible allowhiddenfocus="true">Control.HasFocus(61)</visible>
                 <include content="Object_Control">
                     <param name="control" value="textbox" />
@@ -634,7 +636,7 @@
                     <font>font_huge_plot</font>
                     <label fallback="19055">$PARAM[label]$INFO[Window(Home).Property(ResetScroll)]</label>
                     <pagecontrol>61</pagecontrol>
-                    <autoscroll delay="8000" time="4000" repeat="12000">false</autoscroll>
+                    <autoscroll>false</autoscroll>
                 </include>
                 <control type="scrollbar" id="61">
                     <centerright>-grid_x04</centerright>
@@ -814,7 +816,10 @@
                 <onfocus>ClearProperty(Slide.WidgetInfoStyle)</onfocus>
                 <onunfocus>ClearProperty(Slide.WidgetContainer)</onunfocus>
                 <content target="videos">$VAR[Path_Library_Collections]</content>
-                <include content="Action_Widget_Play_Click">
+                <include content="Action_Widget_Play_Click" condition="String.IsEqual(ListItem.DBType,tvshow)">
+                    <param name="id">6200</param>
+                </include>
+                <include content="Action_LibraryInfoWidget_Click" condition="!String.IsEqual(ListItem.DBType,tvshow)">
                     <param name="id">6200</param>
                 </include>
                 <onback>50</onback>

@@ -4,6 +4,7 @@
     <animation effect="fade" start="0" end="100" time="300">WindowOpen</animation>
     <animation effect="fade" end="0" start="100" time="300">WindowClose</animation>
     <onunload>ClearProperty(OSDArtistDetails,Home)</onunload>
+    <onunload>CancelAlarm(osd_timeout,true)</onunload>
     <controls>
 
         <control type="group" id="6002">
@@ -141,7 +142,9 @@
                     <font>font_midi_plot</font>
                     <textcolor>panel_fg_70</textcolor>
                     <label>$INFO[MusicPlayer.Property(Album_Description),,[CR]]$INFO[MusicPlayer.Property(Artist_Description)]$INFO[Window(Home).Property(ResetScroll)]</label>
-                    <autoscroll delay="6000" time="3000" repeat="10000">!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Control.HasFocus(9803)</autoscroll>
+                    <include content="Defs_AutoScroll_TextBox">
+                        <param name="condition">!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Control.HasFocus(9803)</param>
+                    </include>
                     <pagecontrol>9803</pagecontrol>
                     <bottom>-20</bottom>
                 </control>
@@ -167,17 +170,19 @@
             <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
         </include>
 
-        <control type="slider">
-            <left>view_pad</left>
+        <control type="progress">
+            <centerleft>50%</centerleft>
+            <width>1840</width>
+            <height>112</height>
             <centerbottom>166</centerbottom>
-            <height>60</height>
-            <width>1760</width>
-            <texturesliderbar/>
-            <textureslidernib/>
-            <textureslidernibfocus/>
             <info>Player.Progress</info>
-            <action>seek</action>
+            <texturebg colordiffuse="00ffffff">progress/slider_bg.png</texturebg>
+            <righttexture colordiffuse="panel_fg_100">progress/slider_nib.png</righttexture>
+            <lefttexture />
+            <midtexture />
+            <visible>Control.HasFocus(8200)</visible>
         </control>
+
         <control type="slider" id="8200">
             <centerleft>50%</centerleft>
             <width>1760</width>
@@ -185,9 +190,9 @@
             <centerbottom>166</centerbottom>
             <info>Player.Progress</info>
             <action>seek</action>
-            <texturesliderbar colordiffuse="00ffffff">progress/slider_bg.png</texturesliderbar>
+            <texturesliderbar />
             <textureslidernib />
-            <textureslidernibfocus colordiffuse="main_fg_100">progress/slider_nib.png</textureslidernibfocus>
+            <textureslidernibfocus />
             <onup>6002</onup>
             <ondown>6002</ondown>
         </control>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <defaultcontrol always="true">30001</defaultcontrol>
-    <onunload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=1&amp;group=mainmenu|powermenu|searchmenu)</onunload>
+    <onload>RunScript(plugin.video.themoviedb.helper,kodi_setting=myvideos.selectaction,property=KodiSetting.DefaultSelectAction)</onload>
+    <onunload>RunScript(script.skinshortcuts,type=buildxml&amp;mainmenuID=300&amp;levels=5&amp;group=mainmenu|powermenu|searchmenu)</onunload>
     <controls>
         <include content="Background_Main">
             <param name="plain_background">true</param>
@@ -108,37 +109,51 @@
                                 <selected>!Skin.HasSetting(Home.DisableSearchMenu)</selected>
                                 <onclick>Skin.ToggleSetting(Home.DisableSearchMenu)</onclick>
                             </include>
+                            <include content="Dialog_Settings_Button" description="Menu focus position">
+                                <param name="id">1012</param>
+                                <label>$LOCALIZE[31376]</label>
+                                <label2>$INFO[Skin.String(Home.MenuPosition)]</label2>
+                                <visible>Container(3).HasFocus(1)</visible>
+                                <onclick>Skin.SetNumeric(Home.MenuPosition)</onclick>
+                            </include>
                             <include content="Dialog_Settings_Button" description="Iconic Menu Toggle">
                                 <param name="id">1005</param>
-                                <param name="control">radiobutton</param>
-                                <label>$LOCALIZE[31297]</label>
+                                <param name="control">button</param>
+                                <label>$LOCALIZE[31175]</label>
+                                <label2>$VAR[Label_Setting_MenuStyle]</label2>
                                 <visible>Container(3).HasFocus(1)</visible>
-                                <selected>Skin.HasSetting(Home.IconicMenu)</selected>
-                                <onclick>Skin.ToggleSetting(Home.IconicMenu)</onclick>
-                                <onclick>ReloadSkin()</onclick>
+                                <onclick>SetProperty(CustomDialogPresetTitle,$LOCALIZE[31175],Home)</onclick>
+                                <onclick>SetProperty(CustomDialogPresetItems,Items_DialogPreset_MenuStyles,Home)</onclick>
+                                <onclick>ActivateWindow(1115)</onclick>
                             </include>
+
                             <include content="Dialog_Settings_Label" description="Home Label">
                                 <param name="id">1006</param>
                                 <label>$LOCALIZE[31103]</label>
                                 <visible>Container(3).HasFocus(1)</visible>
                             </include>
-                            <include content="Dialog_Settings_Button" description="Expanded widgets show header">
+                            <include content="Dialog_Settings_Button" description="Expanded widget style">
                                 <param name="id">1007</param>
-                                <param name="control" value="radiobutton" />
-                                <label>$LOCALIZE[31284]</label>
+                                <param name="control" value="button" />
+                                <label>$LOCALIZE[31356]</label>
+                                <label2>$VAR[Label_Setting_Expanded]</label2>
                                 <visible>Container(3).HasFocus(1)</visible>
-                                <onclick>Skin.ToggleSetting(Widgets.ExpandedHeader)</onclick>
-                                <selected>Skin.HasSetting(Widgets.ExpandedHeader)</selected>
+                                <onclick condition="Skin.HasSetting(Widgets.ExpandedHeader)">Skin.Reset(Widgets.ExpandedHeader)</onclick>
+                                <onclick condition="Skin.HasSetting(Widgets.ExpandedHeader)">Skin.Reset(Widgets.ExpandedFooter)</onclick>
+
+                                <onclick condition="!Skin.HasSetting(Widgets.ExpandedHeader)">Skin.SetBool(Widgets.ExpandedHeader)</onclick>
+                                <onclick condition="!Skin.HasSetting(Widgets.ExpandedHeader)">Skin.SetBool(Widgets.ExpandedFooter)</onclick>
                             </include>
-                            <include content="Dialog_Settings_Button" description="Expanded widgets show header">
-                                <param name="id">1008</param>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id">1013</param>
                                 <param name="control" value="radiobutton" />
-                                <label>$LOCALIZE[31283]</label>
+                                <label>$LOCALIZE[31377]</label>
                                 <visible>Container(3).HasFocus(1)</visible>
-                                <onclick>Skin.ToggleSetting(Widgets.ExpandedFooter)</onclick>
-                                <selected>Skin.HasSetting(Widgets.ExpandedFooter)</selected>
-                                <enable>!Skin.HasSetting(Furniture.DisableLeftFooter) + !Skin.HasSetting(Furniture.DisableRightFooter)</enable>
+                                <onclick>Skin.ToggleSetting(Home.CleanWidgets)</onclick>
+                                <selected>!Skin.HasSetting(Home.CleanWidgets)</selected>
                             </include>
+
                             <include content="Dialog_Settings_Button" description="Show more widget">
                                 <param name="id">1009</param>
                                 <param name="control">radiobutton</param>
@@ -147,6 +162,7 @@
                                 <selected>Skin.HasSetting(Home.EnableShowMoreWidget)</selected>
                                 <onclick>Skin.ToggleSetting(Home.EnableShowMoreWidget)</onclick>
                             </include>
+
                             <include content="Dialog_Settings_Button" description="PVR Widgets Focus">
                                 <param name="id">1010</param>
                                 <param name="control">radiobutton</param>
@@ -155,14 +171,23 @@
                                 <onclick>Skin.ToggleSetting(Widgets.OpaqueFocus)</onclick>
                                 <selected>Skin.HasSetting(Widgets.OpaqueFocus)</selected>
                             </include>
+                            <include content="Dialog_Settings_Button">
+                                <param name="id">1011</param>
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31349]</label>
+                                <visible>Container(3).HasFocus(1)</visible>
+                                <visible>!String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])</visible>
+                                <onclick>Skin.ToggleSetting(Widgets.FullScreenContext)</onclick>
+                                <selected>Skin.HasSetting(Widgets.FullScreenContext)</selected>
+                            </include>
 
                             <include content="Dialog_Settings_Label" description="Expert">
-                                <param name="id">1011</param>
+                                <param name="id">1090</param>
                                 <label>$LOCALIZE[10039]</label>
                                 <visible>Container(3).HasFocus(1)</visible>
                             </include>
                             <include content="Dialog_Settings_Button" description="Nuke Skinshortcuts">
-                                <param name="id">1012</param>
+                                <param name="id">1091</param>
                                 <label>$LOCALIZE[31230]</label>
                                 <visible>Container(3).HasFocus(1)</visible>
                                 <onclick>RunScript(script.skinshortcuts,type=resetall)</onclick>
@@ -173,12 +198,6 @@
                                 <param name="id">2000</param>
                                 <label>$LOCALIZE[24997]</label>
                                 <visible>Container(3).HasFocus(2)</visible>
-                            </include>
-                            <include content="Dialog_Settings_Button" description="Color Selector">
-                                <param name="id">2001</param>
-                                <label>$LOCALIZE[31227]</label>
-                                <visible>Container(3).HasFocus(2)</visible>
-                                <onclick>ActivateWindow(1115)</onclick>
                             </include>
                             <include content="Dialog_Settings_Button" description="SkinVariables ViewTypes">
                                 <param name="id">2002</param>
@@ -201,6 +220,19 @@
                                 <onclick>ActivateWindow(1118)</onclick>
                                 <label2>$INFO[Skin.String(Startup.ImageFolder)]</label2>
                             </include>
+                            <include content="Dialog_Settings_Label" description="Selectbox Label">
+                                <param name="id">2014</param>
+                                <label>$LOCALIZE[31336]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                            </include>
+                            <include content="Dialog_Settings_Button" description="Color Selector">
+                                <param name="id">2001</param>
+                                <label>$LOCALIZE[31227]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                                <onclick>SetProperty(CustomDialogPresetTitle,$LOCALIZE[14078],Home)</onclick>
+                                <onclick>SetProperty(CustomDialogPresetItems,Items_DialogPreset_Colors,Home)</onclick>
+                                <onclick>ActivateWindow(1115)</onclick>
+                            </include>
                             <include content="Dialog_Settings_Button">
                                 <param name="id">2005</param>
                                 <param name="control" value="button" />
@@ -208,18 +240,19 @@
                                 <label2>$VAR[Label_Setting_SelectboxStyle]</label2>
                                 <visible>Container(3).HasFocus(2)</visible>
                                 <onclick>Skin.ToggleSetting(SelectBox.Thin)</onclick>
-                                <!-- <onclick condition="!Skin.HasSetting(SelectBox.Thin)">Skin.SetBool(SelectBox.Thin)</onclick>
-                                <onclick condition="Skin.HasSetting(SelectBox.Thin) + !Skin.HasSetting(SelectBox.Inner)">Skin.SetBool(SelectBox.Inner)</onclick>
-                                <onclick condition="Skin.HasSetting(SelectBox.Inner)">Skin.Reset(SelectBox.Thin)</onclick>
-                                <onclick condition="Skin.HasSetting(SelectBox.Inner)">Skin.Reset(SelectBox.Inner)</onclick> -->
                             </include>
                             <include content="Dialog_Settings_Button">
                                 <param name="id">2010</param>
                                 <param name="control" value="button" />
-                                <label>Selectbox shadow</label>
+                                <label>$LOCALIZE[31357]</label>
                                 <label2>$VAR[Label_Setting_SelectboxShadow]</label2>
                                 <visible>Container(3).HasFocus(2)</visible>
                                 <onclick>Skin.ToggleSetting(SelectBox.Glow)</onclick>
+                            </include>
+                            <include content="Dialog_Settings_Label" description="Background Label">
+                                <param name="id">2013</param>
+                                <label>$LOCALIZE[31324]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
                             </include>
                             <include content="Dialog_Settings_Button" description="Background video">
                                 <param name="id">2006</param>
@@ -229,7 +262,19 @@
                                 <onclick>Skin.ToggleSetting(UseBackgroundVideo)</onclick>
                                 <selected>Skin.HasSetting(UseBackgroundVideo)</selected>
                             </include>
-
+                            <include content="Dialog_Settings_Button" description="Customise Background">
+                                <param name="id">2011</param>
+                                <label>$LOCALIZE[31361]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                                <onclick condition="!String.IsEmpty(Skin.String(Background.Image))">Skin.Reset(Background.Image)</onclick>
+                                <onclick condition="String.IsEmpty(Skin.String(Background.Image))">Skin.SetImage(Background.Image)</onclick>
+                                <label2>$INFO[Skin.String(Background.Image)]</label2>
+                            </include>
+                            <include content="Dialog_Settings_Label" description="PVR Label">
+                                <param name="id">2015</param>
+                                <label>$LOCALIZE[31000]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                            </include>
                             <include content="Dialog_Settings_Button" description="EPGEventIcon">
                                 <param name="id">2007</param>
                                 <param name="control" value="radiobutton" />
@@ -245,6 +290,28 @@
                                 <visible>Container(3).HasFocus(2)</visible>
                                 <onclick>Skin.ToggleSetting(PVR.InvertProgressColor)</onclick>
                                 <selected>Skin.HasSetting(PVR.InvertProgressColor)</selected>
+                            </include>
+                            <include content="Dialog_Settings_Label" description="Other Label">
+                                <param name="id">2012</param>
+                                <label>$LOCALIZE[29921]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                            </include>
+                            <include content="Dialog_Settings_Button">
+                                <param name="id">2017</param>
+                                <param name="control" value="button" />
+                                <label>$LOCALIZE[31385]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                                <onclick condition="!String.IsEmpty(Skin.String(CustomGenreIconLocation))">Skin.Reset(CustomGenreIconLocation)</onclick>
+                                <onclick condition="String.IsEmpty(Skin.String(CustomGenreIconLocation))">Skin.SetPath(CustomGenreIconLocation)</onclick>
+                                <label2>$VAR[Image_GenreIcon_Path]</label2>
+                            </include>
+                            <include content="Dialog_Settings_Button">
+                                <param name="id">2016</param>
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31383]</label>
+                                <visible>Container(3).HasFocus(2)</visible>
+                                <onclick>Skin.ToggleSetting(DisableLandscapeArt)</onclick>
+                                <selected>!Skin.HasSetting(DisableLandscapeArt)</selected>
                             </include>
                             <include content="Dialog_Settings_Button">
                                 <param name="id">2009</param>
@@ -275,7 +342,7 @@
                             <include content="Dialog_Settings_Button" description="Pressing Up from HomeMenu">
                                 <param name="id">3002</param>
                                 <param name="control" value="button" />
-                                <label>$LOCALIZE[31179]</label>
+                                <label>$VAR[Label_Setting_HomeMenuDirectionPress]</label>
                                 <label2>$VAR[Label_Setting_HomeMenuUp]</label2>
                                 <visible>Container(3).HasFocus(3)</visible>
                                 <onclick condition="String.IsEmpty(Skin.String(HomeMenu.OnUp))">Skin.SetString(HomeMenu.OnUp,PowerMenu)</onclick>
@@ -290,7 +357,8 @@
                                 <visible>Container(3).HasFocus(3)</visible>
                                 <onclick condition="String.IsEmpty(Skin.String(Rows.OnDown))">Skin.SetString(Rows.OnDown,Wall)</onclick>
                                 <onclick condition="String.IsEqual(Skin.String(Rows.OnDown),Wall)">Skin.SetString(Rows.OnDown,Plot)</onclick>
-                                <onclick condition="String.IsEqual(Skin.String(Rows.OnDown),Plot)">Skin.Reset(Rows.OnDown)</onclick>
+                                <onclick condition="String.IsEqual(Skin.String(Rows.OnDown),Plot)">Skin.SetString(Rows.OnDown,Trailer)</onclick>
+                                <onclick condition="String.IsEqual(Skin.String(Rows.OnDown),Trailer)">Skin.Reset(Rows.OnDown)</onclick>
                             </include>
                             <include content="Dialog_Settings_Button">
                                 <param name="id">3004</param>
@@ -307,14 +375,6 @@
                                 <visible>Container(3).HasFocus(3)</visible>
                                 <onclick>Skin.ToggleSetting(Hubs.DisableQuickSwitch)</onclick>
                                 <selected>!Skin.HasSetting(Hubs.DisableQuickSwitch)</selected>
-                            </include>
-                            <include content="Dialog_Settings_Button">
-                                <param name="id">3006</param>
-                                <param name="control" value="radiobutton" />
-                                <label>$LOCALIZE[31349]</label>
-                                <visible>Container(3).HasFocus(3)</visible>
-                                <onclick>Skin.ToggleSetting(Widgets.FullScreenContext)</onclick>
-                                <selected>Skin.HasSetting(Widgets.FullScreenContext)</selected>
                             </include>
                             <include content="Dialog_Settings_Label" description="Kiosk Mode">
                                 <param name="id">3007</param>
@@ -528,6 +588,14 @@
                                 <onclick>Skin.ToggleSetting(Views.DisableBigPosterRowAutoInfo)</onclick>
                                 <selected>!Skin.HasSetting(Views.DisableBigPosterRowAutoInfo)</selected>
                             </include>
+                            <include content="Dialog_Settings_Button" description="Plugin init">
+                                <param name="id">5011</param>
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31359]</label>
+                                <visible>Container(3).HasFocus(5)</visible>
+                                <onclick>Skin.ToggleSetting(Startup.PluginInit)</onclick>
+                                <selected>Skin.HasSetting(Startup.PluginInit)</selected>
+                            </include>
                             <!-- Playback -->
                             <include content="Dialog_Settings_Label" description="Playback">
                                 <param name="id">5005</param>
@@ -557,6 +625,14 @@
                                 <visible>Container(3).HasFocus(5)</visible>
                                 <onclick>Skin.ToggleSetting(OSD.AutoHideOnPause)</onclick>
                                 <selected>Skin.HasSetting(OSD.AutoHideOnPause)</selected>
+                            </include>
+                            <include content="Dialog_Settings_Button" description="Auto pop-up OSD dialogs">
+                                <param name="id">5012</param>
+                                <param name="control" value="radiobutton" />
+                                <label>$LOCALIZE[31378]</label>
+                                <visible>Container(3).HasFocus(5)</visible>
+                                <onclick>Skin.ToggleSetting(OSD.DisablePopUpDialogs)</onclick>
+                                <selected>!Skin.HasSetting(OSD.DisablePopUpDialogs)</selected>
                             </include>
                             <include content="Dialog_Settings_Button" description="Trailer button plays fullscreen">
                                 <param name="id">5009</param>
@@ -615,8 +691,6 @@
                                 <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31269],Home)</onclick>
                                 <onclick>ActivateWindow(1118)</onclick>
                             </include>
-
-
 
                             <include content="Dialog_Settings_Button" description="TMDbHelper for PVR">
                                 <param name="id">6005</param>
@@ -752,6 +826,30 @@
                             <include content="Dialog_Settings_Button">
                                 <param name="id">7010</param>
                                 <param name="control" value="radiobutton" />
+                                <label>resource.images.moviecountryicons.maps</label>
+                                <label2>$INFO[System.AddonVersion(resource.images.moviecountryicons.maps),v,       ]</label2>
+                                <visible>Container(3).HasFocus(7)</visible>
+                                <onclick condition="!System.HasAddon(resource.images.moviecountryicons.maps)">InstallAddon(resource.images.moviecountryicons.maps)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(resource.images.moviecountryicons.maps) + System.HasAddon(resource.images.moviecountryicons.maps)">EnableAddon(resource.images.moviecountryicons.maps)</onclick>
+                                <onclick condition="System.AddonIsEnabled(resource.images.moviecountryicons.maps) + System.HasAddon(resource.images.moviecountryicons.maps)">Addon.OpenSettings(resource.images.moviecountryicons.maps)</onclick>
+                                <selected>System.AddonIsEnabled(resource.images.moviecountryicons.maps) + System.HasAddon(resource.images.moviecountryicons.maps)</selected>
+                            </include>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id">7011</param>
+                                <param name="control" value="radiobutton" />
+                                <label>resource.images.studios.white</label>
+                                <label2>$INFO[System.AddonVersion(resource.images.studios.white),v,       ]</label2>
+                                <visible>Container(3).HasFocus(7)</visible>
+                                <onclick condition="!System.HasAddon(resource.images.studios.white)">InstallAddon(resource.images.studios.white)</onclick>
+                                <onclick condition="!System.AddonIsEnabled(resource.images.studios.white) + System.HasAddon(resource.images.studios.white)">EnableAddon(resource.images.studios.white)</onclick>
+                                <onclick condition="System.AddonIsEnabled(resource.images.studios.white) + System.HasAddon(resource.images.studios.white)">Addon.OpenSettings(resource.images.studios.white)</onclick>
+                                <selected>System.AddonIsEnabled(resource.images.studios.white) + System.HasAddon(resource.images.studios.white)</selected>
+                            </include>
+
+                            <include content="Dialog_Settings_Button">
+                                <param name="id">7030</param>
+                                <param name="control" value="radiobutton" />
                                 <label>service.upnext</label>
                                 <label2>$INFO[System.AddonVersion(service.upnext),v,       ]</label2>
                                 <visible>Container(3).HasFocus(7)</visible>
@@ -794,8 +892,7 @@
                                 <textcolor>dialog_fg_70</textcolor>
                                 <top>20</top>
                                 <height>500</height>
-                                <autoscroll delay="6000" time="3000" repeat="10000">true</autoscroll>
-                                <label>Thanks to everyone who has submitted a bug report or feature request. In particular, thank-you to those who have contributed PRs for language translations and bugfixes: peat80 Havokdan berkhornet jbelew kcook98765 MoojMidge showkubii peppernair skittles9823 krzysztofwinnik drdirty60 psp2111-ADSLGATE Zurg-97 r-figu alKODIque Kayzels ViewAfterReview ray2301 Dis90. Plus a huge shout-out to drinfernoo for helping setup my repo and all the support over the years.[CR][CR]To all my amazing supporters on Ko-fi, thank-you![CR]Blurayx Anthrax DanielSanchez Leo meesterexx roidy manfeed PizzaPino dolbel Tobby Kagz DrFireStarterBilly Qirat77 Darkmantom TomH richieNZ99 Brambo onlytanmoy reddituser aemstel mash2k3 chopp8 Homeslixe Rimma JacopoV ray2301 stelcodes eengert alKODIque Tee77 Ch3dd4rGoblin silentscreamiong Jshn Ian JP RZ daviddia5 Jathlon77 SteveF George sito1961 devolute[CR][CR]If I've forgotten anyone please let me know!</label>
+                                <label>Thanks to everyone who has submitted a bug report or feature request. In particular, thank-you to those who have contributed PRs for language translations and bugfixes: peat80 Havokdan berkhornet kcook98765 MoojMidge showkubii peppernair skittles9823 krzysztofwinnik drdirty60 psp2111-ADSLGATE Zurg-97 r-figu alKODIque Kayzels ViewAfterReview ray2301 Dis90. Plus a huge shout-out to drinfernoo for helping setup my repo and all the support over the years.[CR][CR]To all my amazing supporters on Ko-fi, thank-you![CR]Blurayx Anthrax DanielSanchez Leo meesterexx roidy manfeed PizzaPino dolbel Tobby Kagz DrFireStarterBilly Qirat77 Darkmantom TomH richieNZ99 Brambo onlytanmoy reddituser aemstel mash2k3 chopp8 Homeslixe Rimma JacopoV ray2301 stelcodes eengert alKODIque Tee77 Ch3dd4rGoblin silentscreamiong Jshn Ian JP RZ daviddia5 Jathlon77 SteveF George sito1961 devolute f39 nevermind Shone TechXXX c0ncr3t0 tim Tiago IG Spork lhimo DROIDsheild Blacky Bindou Velimir ronaldoA8ff Omar_alhajlh pferreira1906 Andrea1998 Mr-7mdan pakraider Nipius Nathan valleycake adamosborne83[CR][CR]If I've forgotten anyone please let me know!</label>
                                 <visible>Container(3).HasFocus(8)</visible>
                                 <left>grid_x04</left>
                                 <right>grid_x04</right>

@@ -20,16 +20,21 @@
     <onload>SetProperty(ReloadDone,1,Home)</onload>
 
     <controls>
+        <include content="Object_Hidden_List" condition="Skin.HasSetting(Startup.PluginInit)">
+            <param name="id">8000</param>
+            <content>plugin://plugin.video.themoviedb.helper/?info=popular&amp;tmdb_type=movie</content>
+        </include>
         <control type="button" id="9001">
             <texturefocus />
             <texturenofocus />
-            <onfocus>SetProperty(InitStatus,$LOCALIZE[31249])</onfocus>
+            <onfocus condition="[System.HasPVRAddon + !PVR.HasTVChannels + !Pvr.HasRadioChannels]">SetProperty(InitStatus,$LOCALIZE[31249])</onfocus>
+            <onfocus condition="![System.HasPVRAddon + !PVR.HasTVChannels + !Pvr.HasRadioChannels]">SetProperty(InitStatus,$LOCALIZE[31358])</onfocus>
             <onfocus>AlarmClock(RepWin,SetFocus(9002),00:01,silent)</onfocus>
         </control>
         <control type="button" id="9002">
             <texturefocus />
             <texturenofocus />
-            <onfocus condition="System.HasPVRAddon + !PVR.HasTVChannels + !Pvr.HasRadioChannels">AlarmClock(ReFocus,SetFocus(9001),00:00,silent)</onfocus>
+            <onfocus condition="[System.HasPVRAddon + !PVR.HasTVChannels + !Pvr.HasRadioChannels] | [Skin.HasSetting(Startup.PluginInit) + Container(8000).IsUpdating]">AlarmClock(ReFocus,SetFocus(9001),00:00,silent)</onfocus>
             <onfocus>AlarmClock(RepWin,ReplaceWindow($INFO[System.StartupWindow]),00:01,silent)</onfocus>
         </control>
         <control type="group">

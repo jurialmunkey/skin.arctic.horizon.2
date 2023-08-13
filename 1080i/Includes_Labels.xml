@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Label_OSD_Episodes_Title">
+        <value condition="VideoPlayer.Content(livetv)">$LOCALIZE[31085][COLOR=$VAR[ColorHighlight]]  •  [/COLOR]$INFO[Container(6401).CurrentItem,, $LOCALIZE[1443] ]$INFO[Container(6401).NumItems,, $LOCALIZE[10127]]</value>
+        <value condition="!Integer.IsEqual(VideoPlayer.PlaylistLength,1) + !Integer.IsEqual(VideoPlayer.PlaylistLength,0)">$LOCALIZE[559][COLOR=$VAR[ColorHighlight]]  •  [/COLOR]$INFO[Container(6401).CurrentItem,, $LOCALIZE[1443] ]$INFO[Container(6401).NumItems,, $LOCALIZE[36913]]</value>
+        <value condition="VideoPlayer.Content(episodes) + !String.IsEmpty(VideoPlayer.TvShowDBID) + !String.IsEmpty(VideoPlayer.Season)">$LOCALIZE[20373]$INFO[VideoPlayer.Season, ,][COLOR=$VAR[ColorHighlight]]  •  [/COLOR]$INFO[Container(6401).CurrentItem,, $LOCALIZE[1443] ]$INFO[Container(6401).NumItems,, $LOCALIZE[20453]]</value>
+        <value condition="VideoPlayer.Content(episodes)">$LOCALIZE[20373]$INFO[VideoPlayer.Season, ,][COLOR=$VAR[ColorHighlight]]  •  [/COLOR]$INFO[Container(6401).CurrentItem,, $LOCALIZE[1443] ]$INFO[Container(6401).NumItems,, $LOCALIZE[20453]]</value>
+    </variable>
+
+    <variable name="Label_WatchedCount">
+        <value condition="!System.Setting(hidewatched)">$LOCALIZE[20367] ($INFO[Container.TotalWatched,,]$INFO[Container.NumItems, $LOCALIZE[1443] ,])</value>
+        <value>$LOCALIZE[31386] ($INFO[Container.NumItems,,])</value>
+    </variable>
+
     <variable name="Label_OSD_HintText">
         <value condition="ControlGroup(6000).HasFocus() + !Window.IsVisible(1140) + !VideoPlayer.Content(livetv) + $EXP[Exp_OSD_HasPlaylist]">$LOCALIZE[31296]</value>
         <value condition="ControlGroup(6000).HasFocus() + !Window.IsVisible(1140) + $EXP[Exp_OSD_HasPlaylist]">$LOCALIZE[31295]</value>
         <value condition="ControlGroup(6000).HasFocus() + !VideoPlayer.Content(livetv)">$LOCALIZE[31294]</value>
         <value condition="ControlGroup(6000).HasFocus()">$LOCALIZE[31348]</value>
         <value condition="ControlGroup(6001).HasFocus()">$LOCALIZE[31293]</value>
+    </variable>
+
+    <variable name="Label_Setting_Expanded">
+        <value condition="Skin.HasSetting(Widgets.ExpandedHeader)">$LOCALIZE[35232]</value>
+        <value>$LOCALIZE[31107]</value>
+    </variable>
+
+    <variable name="Label_Setting_MenuStyle">
+        <value condition="Skin.HasSetting(Home.VerticalMenu)">$LOCALIZE[31163]</value>
+        <value condition="Skin.HasSetting(Home.TextMenu)">$LOCALIZE[31013]</value>
+        <value condition="Skin.HasSetting(Home.IconicMenu)">$LOCALIZE[536]</value>
+        <value>$LOCALIZE[31051]</value>
     </variable>
 
     <variable name="Label_Library_Collections">
@@ -109,6 +133,11 @@
         <value condition="!String.IsEmpty(ListItem.Premiered)">$INFO[ListItem.Premiered]</value>
     </variable>
 
+    <variable name="Label_Setting_HomeMenuDirectionPress">
+        <value condition="Skin.HasSetting(Home.VerticalMenu)">$LOCALIZE[31370]</value>
+        <value>$LOCALIZE[31179]</value>
+    </variable>
+
     <variable name="Label_Setting_HomeMenuUp">
         <value condition="String.IsEmpty(Skin.String(HomeMenu.OnUp))">$LOCALIZE[31290]</value>
         <value condition="Skin.String(HomeMenu.OnUp,PowerMenu)">$LOCALIZE[31291]</value>
@@ -124,15 +153,18 @@
     <variable name="Label_Setting_RowScrollBar">
         <value condition="Skin.String(Rows.OnDown,Wall)">$LOCALIZE[31184]</value>
         <value condition="Skin.String(Rows.OnDown,Plot)">$LOCALIZE[207]</value>
+        <value condition="Skin.String(Rows.OnDown,Trailer)">$LOCALIZE[20410]</value>
         <value>$LOCALIZE[31018]</value>
     </variable>
 
     <variable name="Label_FullscreenWidget_PlayButton">
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])">$LOCALIZE[31077]</value>
         <value condition="Container(301).ListItem.IsFolder">$LOCALIZE[1024]</value>
         <value>$LOCALIZE[208]</value>
     </variable>
 
     <variable name="Label_FullscreenWidget_InfoButton">
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])">$LOCALIZE[33063]</value>
         <value condition="Skin.HasSetting(Widgets.FullScreenContext)">$LOCALIZE[33063]</value>
         <value>$LOCALIZE[31077]</value>
     </variable>
@@ -326,6 +358,7 @@
         <value condition="Window.IsVisible(script-tmdbhelper-recommendations.xml)">$INFO[Window.Property(Title)]</value>
         <value condition="$EXP[Exp_InfoDialogs]">$VAR[Label_Title]</value>
         <value condition="Window.IsVisible(Home) + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + !$EXP[Exp_InfoDialogs]">$VAR[Label_Title_C301]</value>
+        <value condition="[Window.IsVisible(1120) | Window.IsVisible(1121) | Window.IsVisible(1130) | Window.IsVisible(1131) | Window.IsVisible(1132)] + !$EXP[Exp_InfoDialogs]">$VAR[Label_Title_C301]</value>
         <value>$VAR[Label_Title_Parent]</value>
     </variable>
 
@@ -393,7 +426,8 @@
         <value condition="$EXP[Exp_InfoDialogs] | [Window.IsVisible(1190) | Window.IsVisible(1191)] | !String.IsEmpty(Window(Home).Property(TMDbHelper.HideView))">$LOCALIZE[19033]</value>
         <value condition="$EXP[Exp_SettingsDialogs] | Window.IsVisible(AddonBrowser.xml) | Window.Isvisible(script-skinshortcuts.xml)">$VAR[Label_Header_Mini]</value>
 
-        <value condition="Window.IsVisible(weather) + !String.IsEmpty(Weather.Location)">$INFO[Weather.Location]</value>
+        <value condition="Window.IsVisible(weather) + !String.IsEmpty(Window(Weather).Property(WeatherProvider))">$INFO[Window(Weather).Property(WeatherProvider)]</value>
+        <!-- <value condition="Window.IsVisible(weather) + !String.IsEmpty(Weather.Location)">$INFO[Weather.Location]</value> -->
         <value condition="Window.IsVisible(weather)">$LOCALIZE[8]</value>
         <value condition="Window.IsVisible(filemanager)">$LOCALIZE[7]</value>
         <value condition="Window.IsVisible(MyMusicPlaylistEditor.xml)">$LOCALIZE[10503]</value>
@@ -413,9 +447,12 @@
 
         <value condition="!String.IsEmpty(Container.PluginCategory)">$INFO[Container.PluginCategory]</value>
         <value condition="!String.IsEmpty(Container.FolderName)">$INFO[Container.FolderName]</value>
+        <value condition="Window.IsVisible(MyPVRGuide.xml) + !String.IsEmpty(Container(11).LIstItem.Label)">$INFO[Container(11).LIstItem.Label]</value>
         <value condition="Window.IsVisible(MyPVRGuide.xml)">$LOCALIZE[19069]</value>
         <value condition="Window.IsVisible(10025)">$LOCALIZE[14236]</value>
         <value condition="Window.IsVisible(10502)">$LOCALIZE[14237]</value>
+        <value condition="Window.IsVisible(MyFavourites.xml)">$LOCALIZE[1036]</value>
+        <value condition="Window.IsVisible(MyGames.xml)">$LOCALIZE[10821]</value>
         <value>$LOCALIZE[10000]</value>
     </variable>
 

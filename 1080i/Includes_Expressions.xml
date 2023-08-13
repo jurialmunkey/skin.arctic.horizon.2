@@ -7,11 +7,13 @@
 
     <expression name="Exp_InfoDialog_IsFolder">[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListITem.DBType,artist)]</expression>
 
-    <expression name="Exp_OSD_ExpandInfo">[Window.IsVisible(videobookmarks) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(1140) | Window.IsVisible(1141) | Window.IsVisible(1142)]</expression>
+    <expression name="Exp_OSD_ExpandInfo">[Window.IsVisible(videobookmarks) | Window.IsVisible(pvrchannelguide) | Window.IsVisible(1140) | Window.IsVisible(1141) | Window.IsVisible(1142) | [Window.IsVisible(fullscreeninfo) + !VideoPlayer.Content(livetv)]]</expression>
 
     <expression name="Exp_OSD_HasPlaylist">[VideoPlayer.Content(episodes) | VideoPlayer.Content(livetv) | [VideoPlayer.Content(movies) + !Integer.IsEqual(VideoPlayer.PlaylistLength,1) + !Integer.IsEqual(VideoPlayer.PlaylistLength,0)]]</expression>
 
     <expression name="Exp_ShowBigPosterInfo">[Control.HasFocus(58) + System.IdleTime(3) + !Skin.HasSetting(Views.DisableBigPosterRowAutoInfo)]</expression>
+
+    <expression name="Exp_OSD_PVRChannelSwitch">[[VideoPlayer.Content(livetv) + !Window.Isvisible(videoosd)] + [!String.IsEmpty(PVR.ChannelNumberInput) | Player.ShowInfo | Window.IsVisible(DialogFullScreenInfo.xml)]]</expression>
 
     <expression name="Exp_HomeBarVisible">[Control.HasFocus(300) | Control.HasFocus(399) | ControlGroup(303).HasFocus() | Control.HasFocus(302) | ControlGroup(9000).HasFocus() | [Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + [String.IsEqual(Container(300).ListItem.Property(widgetStyle),Fullscreen) | String.IsEmpty(Container(300).ListItem.Property(widgetStyle))]]]</expression>
 
@@ -35,7 +37,7 @@
 
     <expression name="Exp_HasPagesItems">[[Control.HasFocus(60) | Control.HasFocus(63) | Control.HasFocus(64) | Control.HasFocus(65)]]</expression>
 
-    <expression name="Exp_HasBackgroundFanart">[[[$EXP[Exp_IsMediaWindow] | $EXP[Exp_HasBackgroundFanart_Widgets]] + !$EXP[Exp_InfoDialogs]] | $EXP[Exp_HasBackgroundFanart_InfoDialogs]]</expression>
+    <expression name="Exp_HasBackgroundFanart">[[[$EXP[Exp_IsMediaWindow] | $EXP[Exp_HasBackgroundFanart_Widgets]] + !$EXP[Exp_InfoDialogs] + !String.IsEqual(Window.Property(Slide.WidgetInfoStyle),Lovefilm)] | $EXP[Exp_HasBackgroundFanart_InfoDialogs]]</expression>
 
     <expression name="Exp_HasBackgroundFanart_InfoDialogs">[$EXP[Exp_InfoDialogs] + !Skin.HasSetting(Info.EnableSimpleBackground)]</expression>
 
@@ -99,11 +101,11 @@
 
     <expression name="Exp_CombinedViews">[Control.IsVisible(502) | Control.IsVisible(512) | Control.IsVisible(522) | Control.IsVisible(572)]</expression>
 
-    <expression name="Exp_WallViews">[Control.IsVisible(500) | Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(540) | Control.IsVisible(570) | Control.IsVisible(580) | Control.IsVisible(550) | Control.IsVisible(560)]</expression>
+    <expression name="Exp_WallViews">[Control.IsVisible(500) | Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(540) | Control.IsVisible(570) | Control.IsVisible(580) | Control.IsVisible(550) | Control.IsVisible(560) | Control.IsVisible(54)]</expression>
 
-    <expression name="Exp_ListViews">[Control.IsVisible(501) | Control.IsVisible(511) | Control.IsVisible(521) | Control.IsVisible(507) | Control.IsVisible(517) | Control.IsVisible(527)]</expression>
+    <expression name="Exp_ListViews">[Control.IsVisible(501) | Control.IsVisible(511) | Control.IsVisible(521) | Control.IsVisible(507) | Control.IsVisible(517) | Control.IsVisible(527) | Control.IsVisible(551)]</expression>
 
-    <expression name="Exp_BigListViews">[Control.IsVisible(508) | Control.IsVisible(558) | Control.IsVisible(581)]</expression>
+    <expression name="Exp_BigListViews">[Control.IsVisible(508) | Control.IsVisible(557) | Control.IsVisible(558) | Control.IsVisible(581)]</expression>
 
     <!-- <expression name="Exp_View_Special">[True]</expression> -->
     <expression name="Exp_View_Special">!String.IsEqual(Container.Property(param.info),user_discover)</expression>

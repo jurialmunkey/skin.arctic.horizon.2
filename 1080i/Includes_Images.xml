@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="Image_OSD_Bookmarks_Circle">
+        <value condition="!String.IsEmpty(VideoPlayer.Art(landscape))">$INFO[VideoPlayer.Art(landscape)]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.Art(tvshow.landscape))">$INFO[VideoPlayer.Art(tvshow.landscape)]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.Art(fanart))">$INFO[VideoPlayer.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.Art(tvshow.fanart))">$INFO[VideoPlayer.Art(tvshow.fanart)]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.Art(poster))">$INFO[VideoPlayer.Art(poster)]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.Art(tvshow.poster))">$INFO[VideoPlayer.Art(tvshow.poster)]</value>
+        <value>$INFO[Player.Icon]</value>
+    </variable>
+
+    <variable name="Image_OSD_Episodes">
+        <value condition="!String.IsEmpty(Container(6401).ListItem.Art(landscape))">$INFO[Container(6401).ListItem.Art(landscape)]</value>
+        <value condition="!String.IsEmpty(Container(6401).ListItem.Art(tvshow.landscape))">$INFO[Container(6401).ListItem.Art(tvshow.landscape)]</value>
+        <value condition="!String.IsEmpty(Container(6401).ListItem.Art(fanart))">$INFO[Container(6401).ListItem.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Container(6401).ListItem.Art(tvshow.fanart))">$INFO[Container(6401).ListItem.Art(tvshow.fanart)]</value>
+        <value condition="!String.IsEmpty(Container(6401).ListItem.Art(poster))">$INFO[Container(6401).ListItem.Art(poster)]</value>
+        <value condition="!String.IsEmpty(Container(6401).ListItem.Art(tvshow.poster))">$INFO[Container(6401).ListItem.Art(tvshow.poster)]</value>
+        <value condition="!String.IsEmpty(Container(6401).ListItem.Icon)">$INFO[Container(6401).ListItem.Icon]</value>
+        <value>$VAR[Image_OSD_Bookmarks_Circle]</value>
+    </variable>
+
+    <variable name="Image_HDR_Codec">
+        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision)">other/dolbyvision.png</value>
+        <value condition="String.IsEqual(ListItem.HdrType,hdr10)">other/hdr10.png</value>
+        <value condition="String.IsEqual(ListItem.HdrType,hlg)">other/hlg.png</value>
+        <value>other/HDR.png</value>
+    </variable>
+
+    <variable name="Image_OSD_HDR_Codec">
+        <value condition="String.IsEqual(VideoPlayer.HdrType,dolbyvision)">other/dolbyvision.png</value>
+        <value condition="String.IsEqual(VideoPlayer.HdrType,hdr10)">other/hdr10.png</value>
+        <value condition="String.IsEqual(VideoPlayer.HdrType,hlg)">other/hlg.png</value>
+        <value>other/HDR.png</value>
+    </variable>
+
+    <variable name="Image_Background_Floor">
+        <value condition="Skin.String(BackgroundStyle,Fanart)">background/combined_fanart.png</value>
+        <value condition="Skin.String(BackgroundStyle,Blur)">background/combined_flixart.png</value>
+        <value>background/combined_stretch.png</value>
+    </variable>
+
+    <variable name="Image_SimpleBackground">
+        <value condition="!String.IsEmpty(Skin.String(Background.Image))">$INFO[Skin.String(Background.Image)]</value>
+        <value>background/blur2.png</value>
+    </variable>
+
     <variable name="Image_CropLogo">
         <value condition="!String.IsEmpty(Container(99950).ListItem.Art(cropimage))">$INFO[Container(99950).ListItem.Art(cropimage)]</value>
         <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_clearlogo))">$INFO[Container(99950).ListItem.Property(base_clearlogo)]</value>
@@ -12,14 +58,14 @@
     </variable>
 
     <variable name="Image_Background_Blur">
-        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">background/blur2.png</value>
+        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">$VAR[Image_SimpleBackground]</value>
         <value condition="!String.IsEmpty(Container(99950).ListItem.Art(blurimage))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
         <value condition="!String.IsEmpty(Container(99950).ListItem.Art(blurimage))">$INFO[Container(99950).ListItem.Art(blurimage)]</value>
         <value>common/null.png</value>
     </variable>
 
     <variable name="Image_Background_Stretch">
-        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">background/blur2.png</value>
+        <value condition="!$EXP[Exp_IsMediaWindow] + !$EXP[Exp_HasBackgroundFanart_Widgets] + !$EXP[Exp_InfoDialogs]">$VAR[Image_SimpleBackground]</value>
         <value>$VAR[Image_Foreground_FlixArt_Quick]</value>
     </variable>
 
@@ -34,12 +80,13 @@
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_fanart))">$INFO[Container(99950).ListItem.Property(base_fanart)]</value>
         <value condition="!String.IsEmpty(Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(fanart)]</value>
     </variable>
 
     <variable name="Image_Background_Fanart">
         <value condition="Window.IsVisible(script-tmdbhelper-wikipedia.xml) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Wikipedia.Backdrop))">$INFO[Window(Home).Property(TMDbHelper.Wikipedia.Backdrop)]</value>
-        <value condition="$EXP[Exp_IsPersonInfo] | Window.IsVisible(script-tmdbhelper-wikipedia.xml)">background/blur2.png</value>
+        <value condition="$EXP[Exp_IsPersonInfo] | Window.IsVisible(script-tmdbhelper-wikipedia.xml)">$VAR[Image_SimpleBackground]</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + $EXP[Exp_HasExtraFanart] + !String.IsEmpty(Control.GetLabel(99998))">$INFO[Control.GetLabel(99998)]</value>
         <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(Container(300).ListItem.Property(widgetPath)) + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Container(301).ListItem.Art(fanart))">$INFO[Container(301).ListItem.Art(fanart)]</value>
@@ -48,8 +95,8 @@
         <value condition="Window.IsMedia + Control.IsVisible(502) + Control.HasFocus(503) + !String.IsEmpty(Container(503).ListItem.Art(fanart))">$INFO[Container(503).ListItem.Art(fanart)]</value>
         <value condition="Window.IsMedia + Control.IsVisible(512) + Control.HasFocus(513) + !String.IsEmpty(Container(513).ListItem.Art(fanart))">$INFO[Container(513).ListItem.Art(fanart)]</value>
         <value condition="Window.IsMedia + Control.IsVisible(522) + Control.HasFocus(523) + !String.IsEmpty(Container(523).ListItem.Art(fanart))">$INFO[Container(523).ListItem.Art(fanart)]</value>
-        <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Container(99950).ListItem.Art(fanart)) + [!$EXP[Exp_WidgetWindow] | String.IsEqual(Container.ListItem.Title,Container(99950).ListItem.Title)]">$INFO[Container(99950).ListItem.Art(fanart)]</value>
-        <value>background/blur2.png</value>
+        <value condition="$EXP[Exp_HasBackgroundFanart] + !String.IsEmpty(Container(99950).ListItem.Art(fanart))">$INFO[Container(99950).ListItem.Art(fanart)]</value>
+        <value>$VAR[Image_SimpleBackground]</value>
     </variable>
 
     <variable name="Image_OtherIcon">
@@ -74,18 +121,20 @@
     </variable>
 
     <variable name="Image_GenreIcon">
+        <value condition="!String.IsEmpty(Skin.String(CustomGenreIconLocation))">$INFO[Skin.String(CustomGenreIconLocation)]$INFO[ListItem.Label,,.png]</value>
         <value condition="System.HasAddon(resource.images.moviegenreicons.horizon)">$INFO[ListItem.Label,resource://resource.images.moviegenreicons.horizon/,.png]</value>
         <value condition="System.HasAddon(resource.images.moviegenreicons.transparent)">$INFO[ListItem.Label,resource://resource.images.moviegenreicons.transparent/,.png]</value>
     </variable>
 
-    <variable name="Image_GenreIconPath">
-        <value condition="System.HasAddon(resource.images.moviegenreicons.horizon)">resource://resource.images.moviegenreicons.horizon/</value>
-        <value condition="System.HasAddon(resource.images.moviegenreicons.transparent)">resource://resource.images.moviegenreicons.transparent/</value>
+    <variable name="Image_GenreIcon_Path">
+        <value condition="!String.IsEmpty(Skin.String(CustomGenreIconLocation))">$INFO[Skin.String(CustomGenreIconLocation)]</value>
+        <value condition="System.HasAddon(resource.images.moviegenreicons.horizon)">resource.images.moviegenreicons.horizon</value>
+        <value condition="System.HasAddon(resource.images.moviegenreicons.transparent)">resource.images.moviegenreicons.transparent</value>
     </variable>
 
     <variable name="Image_FullscreenWidget_Artwork">
-        <value condition="!$EXP[Exp_FullscreenWidgetStandard]" />
         <value condition="!String.IsEmpty(Container(301).ListItem.Art(fanart))">$INFO[Container(301).ListItem.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Container(301).ListItem.PicturePath)">$INFO[Container(301).ListItem.PicturePath]</value>
         <value condition="!String.IsEmpty(Container(301).ListItem.EPGEventIcon) + !Skin.HasSetting(PVR.DisableEPGEventIconFanart)">$INFO[Container(301).ListItem.EPGEventIcon]</value>
         <value condition="String.IsEqual(Container(301).ListItem.DBtype,movie) | String.IsEqual(Container(301).ListItem.DBtype,set)">special://skin/extras/backgrounds/fallbacks/film.jpg</value>
         <value condition="String.IsEqual(Container(301).ListItem.DBtype,artist) | String.IsEqual(Container(301).ListItem.DBtype,album) | String.IsEqual(Container(301).ListItem.DBtype,song) | String.IsEqual(Container(301).ListItem.DBtype,musicvideo)">special://skin/extras/backgrounds/fallbacks/music.jpg</value>
@@ -93,6 +142,7 @@
     </variable>
     <variable name="Image_FullscreenWidget_Artwork+1">
         <value condition="!String.IsEmpty(Container(301).ListItem(1).Art(fanart))">$INFO[Container(301).ListItem(1).Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Container(301).ListItem(1).PicturePath)">$INFO[Container(301).ListItem(1).PicturePath]</value>
         <value condition="!String.IsEmpty(Container(301).ListItem(1).EPGEventIcon) + !Skin.HasSetting(PVR.DisableEPGEventIconFanart)">$INFO[Container(301).ListItem(1).EPGEventIcon]</value>
         <value condition="String.IsEqual(Container(301).ListItem(1).DBtype,movie) | String.IsEqual(Container(301).ListItem(1).DBtype,set)">special://skin/extras/backgrounds/fallbacks/film.jpg</value>
         <value condition="String.IsEqual(Container(301).ListItem(1).DBtype,artist) | String.IsEqual(Container(301).ListItem(1).DBtype,album) | String.IsEqual(Container(301).ListItem(1).DBtype,song) | String.IsEqual(Container(301).ListItem(1).DBtype,musicvideo)">special://skin/extras/backgrounds/fallbacks/music.jpg</value>
@@ -100,6 +150,7 @@
     </variable>
     <variable name="Image_FullscreenWidget_Artwork-1">
         <value condition="!String.IsEmpty(Container(301).ListItem(-1).Art(fanart))">$INFO[Container(301).ListItem(-1).Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Container(301).ListItem(-1).PicturePath)">$INFO[Container(301).ListItem(-1).PicturePath]</value>
         <value condition="!String.IsEmpty(Container(301).ListItem(-1).EPGEventIcon) + !Skin.HasSetting(PVR.DisableEPGEventIconFanart)">$INFO[Container(301).ListItem(-1).EPGEventIcon]</value>
         <value condition="String.IsEqual(Container(301).ListItem(-1).DBtype,movie) | String.IsEqual(Container(301).ListItem(-1).DBtype,set)">special://skin/extras/backgrounds/fallbacks/film.jpg</value>
         <value condition="String.IsEqual(Container(301).ListItem(-1).DBtype,artist) | String.IsEqual(Container(301).ListItem(-1).DBtype,album) | String.IsEqual(Container(301).ListItem(-1).DBtype,song) | String.IsEqual(Container(301).ListItem(-1).DBtype,musicvideo)">special://skin/extras/backgrounds/fallbacks/music.jpg</value>
@@ -112,11 +163,13 @@
     </variable>
 
     <variable name="Image_FullscreenWidget_PlayButton">
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])">special://skin/extras/icons/info2.png</value>
         <value condition="Container(301).ListItem.IsFolder">special://skin/extras/icons/folder.png</value>
         <value>special://skin/extras/icons/play3.png</value>
     </variable>
 
     <variable name="Image_FullscreenWidget_InfoButton">
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.KodiSetting.DefaultSelectAction),$NUMBER[3])">special://skin/extras/icons/indent.png</value>
         <value condition="Skin.HasSetting(Widgets.FullScreenContext)">special://skin/extras/icons/indent.png</value>
         <value>special://skin/extras/icons/info2.png</value>
     </variable>
@@ -165,6 +218,16 @@
         <value condition="Integer.IsGreater(VideoPlayer.VideoResolution,719)">flags/quality/hd.png</value>
         <value condition="!String.IsEmpty(VideoPlayer.VideoResolution)">flags/quality/sd.png</value>
         <value condition="True">flags/quality/info.png</value>
+    </variable>
+
+    <variable name="Image_OSD_Forward">
+        <value condition="Player.Paused">osd/frame-forward.png</value>
+        <value>osd/jump-forward.png</value>
+    </variable>
+
+    <variable name="Image_OSD_Back">
+        <value condition="Player.Paused">osd/frame-back.png</value>
+        <value>osd/jump-back.png</value>
     </variable>
 
     <variable name="Image_OSD_PlayPause">

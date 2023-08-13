@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <defaultcontrol always="true">50</defaultcontrol>
+    <views>50,51,52</views>
+    <controls>
+
+        <include>Defs_TMDbHelper_Loader</include>
+        <include>Background_Main</include>
+
+
+        <include content="Dialog_Background">
+            <include>Dimension_Info</include>
+            <include content="Animation_WindowTransition_Settings">
+                <param name="windowopen" value="!Window.Previous(AddonBrowser.xml)" />
+                <param name="windowclose" value="!Window.Next(AddonBrowser.xml)" />
+            </include>
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <include>Animation_Common</include>
+
+            <control type="group">
+                <width>addonbrowser_category_w</width>
+                <top>grid_x04</top>
+                <bottom>grid_x04</bottom>
+                <control type="grouplist" id="6000">
+                    <onright>50</onright>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id">9004</param>
+                        <param name="groupid">9104</param>
+                        <param name="control">button</param>
+                        <param name="bordersize">10</param>
+                        <param name="icon" value="special://skin/extras/icons/viewmode.png" />
+                        <label>$INFO[Container.ViewMode,$LOCALIZE[31114]: ,]</label>
+                        <onclick>Container.NextViewMode</onclick>
+                    </include>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id">9002</param>
+                        <param name="groupid">9102</param>
+                        <param name="control">button</param>
+                        <param name="bordersize">10</param>
+                        <param name="icon" value="special://skin/extras/icons/sort.png" />
+                        <label>$INFO[Container.SortMethod,$LOCALIZE[31016]: ,]</label>
+                        <onclick>Container.NextSortMethod</onclick>
+                    </include>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id">4</param>
+                        <param name="groupid">9103</param>
+                        <param name="control">togglebutton</param>
+                        <param name="bordersize">10</param>
+                        <param name="icon" value="special://skin/extras/icons/sort2.png" />
+                        <label>$LOCALIZE[31015]: $LOCALIZE[584]</label>
+                        <altlabel>$LOCALIZE[31015]: $LOCALIZE[585]</altlabel>
+                        <usealttexture>Container.SortDirection(Descending)</usealttexture>
+                    </include>
+                    <include content="Dialog_Menu_Button">
+                        <param name="id">19</param>
+                        <param name="groupid">9101</param>
+                        <param name="control">edit</param>
+                        <param name="bordersize">10</param>
+                        <param name="icon">$VAR[Image_Filtered]</param>
+                        <label>$LOCALIZE[587]</label>
+                        <visible>Container.CanFilter + !Container.CanFilterAdvanced</visible>
+                    </include>
+                </control>
+            </control>
+
+            <control type="group">
+                <left>addonbrowser_category_w</left>
+                <include>Dialog_Overlay</include>
+                <include>Object_Separator</include>
+                <control type="group">
+                    <include content="List_AddonBrowser">
+                        <param name="id" value="50" />
+                        <onleft>6000</onleft>
+                        <onright>60</onright>
+                        <pagecontrol>60</pagecontrol>
+                    </include>
+                    <include content="List_DialogSelect">
+                        <param name="id" value="51" />
+                        <param name="detailed" value="True" />
+                        <param name="item_height" value="grid_x12" />
+                        <left>0</left>
+                        <onleft>6000</onleft>
+                        <onright>60</onright>
+                        <pagecontrol>60</pagecontrol>
+                        <top>grid_x04</top>
+                        <bottom>grid_x04</bottom>
+                    </include>
+                    <include content="List_DialogSelect">
+                        <param name="id" value="52" />
+                        <param name="detailed" value="True" />
+                        <param name="item_height" value="grid_x08" />
+                        <left>0</left>
+                        <onleft>6000</onleft>
+                        <onright>60</onright>
+                        <pagecontrol>60</pagecontrol>
+                        <top>grid_x04</top>
+                        <bottom>grid_x04</bottom>
+                    </include>
+                    <include content="Dialog_Scrollbar">
+                        <param name="id" value="60" />
+                        <right>0</right>
+                        <onleft>50</onleft>
+                        <onright>Setfocus(9000)</onright>
+                    </include>
+                </control>
+            </control>
+
+        </include>
+
+
+        <include>View_Furniture_Top</include>
+    </controls>
+</window>
