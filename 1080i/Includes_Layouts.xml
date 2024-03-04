@@ -2027,7 +2027,10 @@
                         <visible>$EXP[Exp_IsPVRItem]</visible>
                     </include>
                     <include content="Object_ItemIcon">
-                        <param name="icon">$INFO[ListItem.Icon]</param>
+                        <param name="icon">$VAR[Image_Square]</param>
+                        <param name="icon_keep">$VAR[Image_Square]</param>
+                        <param name="is_keep">String.IsEqual(ListItem.DBType,movie)</param>
+                        <param name="icon_keep_bordersize">0</param>
                         <param name="diffuse">$PARAM[diffuse]</param>
                     </include>
                     <include content="Object_Indicator" condition="!$PARAM[variation]">
@@ -2036,7 +2039,6 @@
                         <param name="gradient_fade">16</param>
                         <visible>!$EXP[Exp_IsPVRItem]</visible>
                     </include>
-                    <include condition="$PARAM[variation] + !$PARAM[selected]">Object_Indicator</include>
                 </control>
                 <include content="Object_Control" condition="!$PARAM[variation]">
                     <param name="control">group</param>
@@ -2050,10 +2052,42 @@
                         <align>center</align>
                     </control>
                 </include>
+                <include content="Object_Control" condition="$PARAM[variation] + !Skin.HasSetting(Views.DisableBigSquareText)">
+                    <param name="control">group</param>
+                    <visible>!String.IsEqual(ListItem.DBType,movie)</visible>
+                    <include content="Object_Control">
+                        <param name="control">image</param>
+                        <texture border="12" colordiffuse="bbffffff">diffuse/poster_fade.png</texture>
+                    </include>
+                    <include content="Object_Control">
+                        <param name="control">group</param>
+                        <bottom>0</bottom>
+                        <height>120</height>
+                        <control type="label">
+                            <textcolor>ffdedede</textcolor>
+                            <label>$VAR[Label_Landscape_Upper]</label>
+                            <textoffsetx>30</textoffsetx>
+                            <align>left</align>
+                            <font>font_mini_bold</font>
+                            <height>40</height>
+                            <bottom>50</bottom>
+                        </control>
+                        <control type="label">
+                            <textcolor>b3dedede</textcolor>
+                            <label>$VAR[Label_Landscape_Lower]</label>
+                            <textoffsetx>30</textoffsetx>
+                            <align>left</align>
+                            <font>font_mini</font>
+                            <height>20</height>
+                            <bottom>30</bottom>
+                        </control>
+                    </include>
+                </include>
                 <include content="Object_Control" condition="!$PARAM[selected] + Skin.HasSetting(Glass.BorderOutline)">
                     <param name="control">image</param>
                     <texture colordiffuse="overlay_line" border="12">common/box-outline.png</texture>
                 </include>
+                <include condition="$PARAM[variation] + !$PARAM[selected]">Object_Indicator</include>
                 <include content="Object_SelectBox" condition="$PARAM[selected]">
                     <param name="indicator">$PARAM[variation]</param>
                     <param name="focusbounce">true</param>
