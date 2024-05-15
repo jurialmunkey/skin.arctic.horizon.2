@@ -2226,4 +2226,78 @@
             </control>
         </definition>
     </include>
+
+    <include name="Layout_GameVideoFilterOrView">
+        <param name="detailed">false</param>
+        <param name="selected">false</param>
+        <param name="misc">ListItem.IsSelected</param>
+        <definition>
+            <include content="Object_Control" condition="$PARAM[selected]">
+                <param name="control">image</param>
+                <include>Texture_Highlight</include>
+            </include>
+            <control type="group">
+                <left>40</left>
+                <top>20</top>
+                <bottom>20</bottom>
+                <width>100</width>
+                <include content="Object_Control" condition="Window.IsVisible(ingamesaves) | Window.IsVisible(gamesaves)">
+                    <param name="control">image</param>
+                    <aspectratio>scale</aspectratio>
+                    <texture border="4">$INFO[ListItem.Icon]</texture>
+                    <bordersize>4</bordersize>
+                </include>
+                <include content="Object_Control" condition="Window.IsVisible(ingamesaves) | Window.IsVisible(gamesaves)">
+                    <param name="control">image</param>
+                    <aspectratio>scale</aspectratio>
+                    <texture border="4">$INFO[ListItem.Art(screenshot)]</texture>
+                    <bordersize>4</bordersize>
+                </include>
+                <include content="Object_Control" condition="Window.IsVisible(ingamesaves) | Window.IsVisible(gamesaves)">
+                    <param name="control">gamewindow</param>
+                    <pixels>$INFO[ListItem.FilenameAndPath]</pixels>
+                </include>
+                <include content="Object_Control" condition="!Window.IsVisible(ingamesaves)">
+                    <param name="control">gamewindow</param>
+                    <videofilter>$INFO[ListItem.Property(game.videofilter)]</videofilter>
+                    <stretchmode>$INFO[ListItem.Property(game.stretchmode)]</stretchmode>
+                    <rotation>$INFO[ListItem.Property(game.videorotation)]</rotation>
+                </include>
+            </control>
+            <control type="group">
+                <left>140</left>
+                <control type="label">
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <textoffsetx>40</textoffsetx>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <selectedcolor>dialog_fg_70</selectedcolor>
+                    <label>$INFO[ListItem.Label]</label>
+                    <visible>String.IsEmpty(ListItem.Label2)</visible>
+                </control>
+
+                <control type="label">
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <textoffsetx>40</textoffsetx>
+                    <font>font_main_bold</font>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <selectedcolor>dialog_fg_70</selectedcolor>
+                    <label>$INFO[ListItem.Label]</label>
+                    <visible>!String.IsEmpty(ListItem.Label2)</visible>
+                    <top>20</top>
+                    <height>30</height>
+                </control>
+                <control type="label">
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <textoffsetx>40</textoffsetx>
+                    <font>font_tiny</font>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <selectedcolor>dialog_fg_70</selectedcolor>
+                    <label>$INFO[ListItem.Label2]</label>
+                    <visible>!String.IsEmpty(ListItem.Label2)</visible>
+                    <bottom>20</bottom>
+                    <height>30</height>
+                </control>
+            </control>
+        </definition>
+    </include>
 </includes>

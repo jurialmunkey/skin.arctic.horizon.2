@@ -3,7 +3,7 @@
     <defaultcontrol>3</defaultcontrol>
     <onunload>ClearProperty(DialogSelectType,Home)</onunload>
     <controls>
-        <include content="Object_Options_Menu" condition="String.IsEqual(Window(Home).Property(DialogSelectType),Menu) + String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive))">
+        <include content="Object_Options_Menu" condition="String.IsEqual(Window(Home).Property(DialogSelectType),Menu) + String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive)) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideorotation) + !Window.IsActive(gamesaves) + !Window.IsActive(ingamesaves)">
             <param name="id" value="3" />
             <param name="header" value="$INFO[Control.GetLabel(1)]" />
             <param name="usegrouplist" value="false" />
@@ -19,8 +19,9 @@
             </include>
         </include>
 
-        <include condition="String.IsEmpty(Window(Home).Property(DialogSelectType))">Object_Overlay</include>
-        <include content="Dialog_Background" condition="String.IsEmpty(Window(Home).Property(DialogSelectType)) + String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive))">
+        <!-- Skip overlay for the gamevideo settings, as we want to see the effect of the option we're choosing next to the dialog -->
+        <include condition="String.IsEmpty(Window(Home).Property(DialogSelectType)) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideorotation) + !Window.IsActive(gamesaves) + !Window.IsActive(ingamesaves)">Object_Overlay</include>
+        <include content="Dialog_Background" condition="String.IsEmpty(Window(Home).Property(DialogSelectType)) + String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive)) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideorotation) + !Window.IsActive(gamesaves) + !Window.IsActive(ingamesaves)">
             <include>Animation_SlideIn_Dialog</include>
             <include>Dimension_DialogSelect</include>
             <include content="Object_Control" condition="Window.IsVisible(script-skinshortcuts.xml)">
@@ -123,8 +124,7 @@
             </include>
         </include>
 
-
-        <include content="Dialog_Background" condition="!String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive))">
+        <include content="Dialog_Background" condition="!String.IsEmpty(Window(Home).Property(SkinViewtypes.DialogIsActive)) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideorotation) + !Window.IsActive(gamesaves) + !Window.IsActive(ingamesaves)">
             <include>Animation_SlideIn_Dialog</include>
             <centerleft>50%</centerleft>
             <width>1702</width>
@@ -177,6 +177,58 @@
                     <param name="misc">String.IsEqual(Container.ViewMode,ListItem.Label)</param>
                 </include>
             </control>
+        </include>
+
+        <include content="Dialog_Background" condition="Window.IsActive(gamevideofilter) | Window.IsActive(gamestretchmode) | Window.IsActive(gamevideorotation) | Window.IsActive(gamesaves) | Window.IsActive(ingamesaves)">
+            <include>Animation_SlideIn_Dialog</include>
+            <include>Dimension_DialogSelectGame</include>
+
+            <include content="Dialog_Nib">
+                <param name="use_side_nib">False</param>
+            </include>
+            <include content="Object_MenuHeader">
+                <param name="label" value="$LOCALIZE[5]" />
+            </include>
+
+            <include content="Dialog_Group">
+                <top>120</top>
+                <control type="group">
+                    <control type="group">
+                        <include content="List_DialogSelect">
+                            <param name="id" value="3" />
+                            <param name="itemlayout_include">Layout_GameVideoFilterOrView</param>
+                            <param name="item_height">grid_x12</param>
+                            <left>-grid_x04</left>
+                            <right>-grid_x04</right>
+                            <pagecontrol>61</pagecontrol>
+                            <onright>61</onright>
+                        </include>
+                        <include content="List_DialogSelect">
+                            <param name="id" value="6" />
+                            <param name="detailed" value="True" />
+                            <param name="item_height" value="grid_x16" />
+                            <left>-grid_x04</left>
+                            <right>-grid_x04</right>
+                            <pagecontrol>62</pagecontrol>
+                            <onright>62</onright>
+                        </include>
+                        <include content="List_DialogSelect">
+                            <param name="id" value="10811" />
+                            <param name="itemlayout_include">Layout_GameVideoFilterOrView</param>
+                            <param name="item_height">grid_x12</param>
+                            <left>-grid_x04</left>
+                            <right>-grid_x04</right>
+                            <pagecontrol>61</pagecontrol>
+                            <onright>61</onright>
+                            <preloaditems>0</preloaditems>
+                        </include>
+                        <include content="Dialog_Scrollbar">
+                            <onleft>10811</onleft>
+                            <visible>Control.IsVisible(10811)</visible>
+                        </include>
+                    </control>
+                </control>
+            </include>
         </include>
     </controls>
 </window>
